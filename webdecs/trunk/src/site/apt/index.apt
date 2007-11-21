@@ -1,0 +1,30 @@
+				----------------
+				databene webdecs
+				----------------
+
+about databene webdecs
+
+  <<databene webdecs>> is an open source component library concerned with WEB Data Extraction, Conversion and Scripting.
+
+  It is released under a {{{license.html}dual license}}.
+  
+version history
+
+*-------------+-------------------+-------------------------------------------------+
+| <<release>> | <<release date>>  | <<features>>                                    |
+*-------------+-------------------+-------------------------------------------------+
+| 0.2.02      | 2007-11-20        | supporting file encodings in I/O                |
+*-------------+-------------------+-------------------------------------------------+
+| 0.2.01      | 2007-11-03        | minor changes for dependent projects            |
+*-------------+-------------------+-------------------------------------------------+
+| 0.2         | 2007-10-14        | extensions, changes and fixes for benerator 0.3 |
+*-------------+-------------------+-------------------------------------------------+
+| 0.1         | 2007-07-22        | HTML Parser                                     |
+|             |                   | Scripting Framework                             |          
+|             |                   | CSV Document Writers                            |          
+|             |                   | Flat Document Writers                           |          
+|             |                   | Properties Document Writers                     |          
+|             |                   | Text Processing                                 |          
+|             |                   | XSLT Processing                                 |          
+|             |                   | Regular expression parsing                      |          
+*-------------+-------------------+-------------------------------------------------+

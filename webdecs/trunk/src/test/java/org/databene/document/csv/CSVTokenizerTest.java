@@ -1,0 +1,147 @@
+/*
+ * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, is permitted under the terms of the
+ * GNU General Public License.
+ *
+ * For redistributing this software or a derivative work under a license other
+ * than the GPL-compatible Free Software License as defined by the Free
+ * Software Foundation or approved by OSI, you must first obtain a commercial
+ * license to this software product from Volker Bergmann.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * WITHOUT A WARRANTY OF ANY KIND. ALL EXPRESS OR IMPLIED CONDITIONS,
+ * REPRESENTATIONS AND WARRANTIES, INCLUDING ANY IMPLIED WARRANTY OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE OR NON-INFRINGEMENT, ARE
+ * HEREBY EXCLUDED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package org.databene.document.csv;
+
+import junit.framework.TestCase;
+
+import java.io.StringReader;
+import java.io.IOException;
+import static org.databene.document.csv.CSVTokenType.*;
+
+/**
+ * (c) Copyright 2006 by Volker Bergmann
+ * Created: 26.08.2006 17:51:14
+ */
+public class CSVTokenizerTest extends TestCase {
+
+    public void testA() throws IOException {
+        StringReader reader = new StringReader("A");
+        CSVTokenizer tokenizer = new CSVTokenizer(reader);
+        assertNextToken(tokenizer, CELL, "A");
+        assertNextToken(tokenizer, EOF, null);
+        assertNextToken(tokenizer, EOF, null);
+    }
+
+    public void testAB() throws IOException {
+        StringReader reader = new StringReader("A,B");
+        CSVTokenizer tokenizer = new CSVTokenizer(reader);
+        assertNextToken(tokenizer, CELL, "A");
+        assertNextToken(tokenizer, CELL, "B");
+        assertNextToken(tokenizer, EOF, null);
+        assertNextToken(tokenizer, EOF, null);
+    }
+
+    public void testABL() throws IOException {
+        StringReader reader = new StringReader("A,B\r\n");
+        CSVTokenizer tokenizer = new CSVTokenizer(reader);
+        assertNextToken(tokenizer, CELL, "A");
+        assertNextToken(tokenizer, CELL, "B");
+        assertNextToken(tokenizer, EOL, null);
+        assertNextToken(tokenizer, EOF, null);
+        assertNextToken(tokenizer, EOF, null);
+    }
+
+    public void testABLC() throws IOException {
+        StringReader reader = new StringReader("A,B\r\nC");
+        CSVTokenizer tokenizer = new CSVTokenizer(reader);
+        assertNextToken(tokenizer, CELL, "A");
+        assertNextToken(tokenizer, CELL, "B");
+        assertNextToken(tokenizer, EOL, null);
+        assertNextToken(tokenizer, CELL, "C");
+        assertNextToken(tokenizer, EOF, null);
+        assertNextToken(tokenizer, EOF, null);
+    }
+
+    public void testABLCL() throws IOException {
+        StringReader reader = new StringReader("A,B\r\nC\r\n");
+        CSVTokenizer tokenizer = new CSVTokenizer(reader);
+        assertNextToken(tokenizer, CELL, "A");
+        assertNextToken(tokenizer, CELL, "B");
+        assertNextToken(tokenizer, EOL, null);
+        assertNextToken(tokenizer, CELL, "C");
+        assertNextToken(tokenizer, EOL, null);
+        assertNextToken(tokenizer, EOF, null);
+        assertNextToken(tokenizer, EOF, null);
+    }
+
+    public void testQuotes() throws IOException {
+        StringReader reader = new StringReader("\"A\",B\r\n\"C\"\r\n");
+        CSVTokenizer tokenizer = new CSVTokenizer(reader);
+        assertNextToken(tokenizer, CELL, "A");
+        assertNextToken(tokenizer, CELL, "B");
+        assertNextToken(tokenizer, EOL, null);
+        assertNextToken(tokenizer, CELL, "C");
+        assertNextToken(tokenizer, EOL, null);
+        assertNextToken(tokenizer, EOF, null);
+        assertNextToken(tokenizer, EOF, null);
+    }
+
+    public void testQuoteEscaping() throws IOException {
+        StringReader reader = new StringReader("\"A\"\"A\",\"\"\"B\"\" is B\"\r\n" +
+                "\"C was \"\"C\"\"\",\"\"\"D\"\" is \"\"D\"\"\"\r\n");
+        CSVTokenizer tokenizer = new CSVTokenizer(reader);
+        assertNextToken(tokenizer, CELL, "A\"A");
+        assertNextToken(tokenizer, CELL, "\"B\" is B");
+        assertNextToken(tokenizer, EOL, null);
+        assertNextToken(tokenizer, CELL, "C was \"C\"");
+        assertNextToken(tokenizer, CELL, "\"D\" is \"D\"");
+        assertNextToken(tokenizer, EOL, null);
+        assertNextToken(tokenizer, EOF, null);
+        assertNextToken(tokenizer, EOF, null);
+    }
+
+    public void testLFInQuote() throws IOException {
+        StringReader reader = new StringReader("\"A\r\nB\"");
+        CSVTokenizer tokenizer = new CSVTokenizer(reader);
+        assertNextToken(tokenizer, CELL, "A\r\nB");
+        assertNextToken(tokenizer, EOF, null);
+        assertNextToken(tokenizer, EOF, null);
+    }
+
+    public void testFile() throws IOException {
+        CSVTokenizer tokenizer = new CSVTokenizer("file://org/databene/csv/names.csv", ',');
+        assertNextToken(tokenizer, CELL, "Alice");
+        assertNextToken(tokenizer, CELL, "Bob");
+        assertNextToken(tokenizer, EOL, null);
+        assertNextToken(tokenizer, CELL, "Charly");
+        assertNextToken(tokenizer, EOL, null);
+        assertNextToken(tokenizer, CELL, "Dieter");
+        assertNextToken(tokenizer, CELL, "Indiana\r\nJones");
+        assertNextToken(tokenizer, EOL, null);
+        assertNextToken(tokenizer, EOF, null);
+        assertNextToken(tokenizer, EOF, null);
+    }
+
+    // helpers ---------------------------------------------------------------------------------------------------------
+
+    private void assertNextToken(CSVTokenizer tokenizer, CSVTokenType tokenType, String cell) throws IOException {
+        CSVTokenType found = tokenizer.next();
+        assertEquals(tokenType, found);
+        assertEquals(tokenType, tokenizer.ttype);
+        assertEquals(cell, tokenizer.cell);
+    }
+}
