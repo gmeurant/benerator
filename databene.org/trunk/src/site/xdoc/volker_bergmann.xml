@@ -1,0 +1,50 @@
+<document>
+
+  <properties>
+    <title>volker bergmann</title>
+  </properties>
+
+  <body>
+
+    <section name="volker bergmann">
+      <table>
+        <tr>
+        </tr>
+        <tr>
+
+          <td>
+            <b>Volker Bergmann</b> (dipl. phys.) is freelancing IT Consultant 
+            for software architecture and design. <br/><br/>
+            
+            His focus is the design, analysis and optimization of 
+            Java Enterprise Applications with particular design and 
+            performance requirements. 
+            The platforms of choice are Weblogic and JBoss and he 
+            is <b>JBoss Certified Consultant</b>.
+			<br/><br/>
+			
+            He promoted major projects (<b>Deutsche Telekom, Postbank, 
+            Interhyp, Payback, O2</b>) and now utilizes his expertise 
+            in software design and architecture for the development of 
+            methods and tools 
+            for the improvement of software quality and performance. 
+            <br/><br/>
+            
+            Currently he is working on <b>databene benerator</b>, an 
+            open source tool for the generation of load test data.
+          </td>
+
+          <td>
+            <img src="images/volker_bergmann.jpg"/>
+          </td>
+        </tr>
+      </table>
+
+      For more information about Volker Bergmann, see his web site: <a href="http://www.bergmann-it.de">http://www.bergmann-it.de</a>
+    </section>
+
+  </body>
+</document>
+
+
+

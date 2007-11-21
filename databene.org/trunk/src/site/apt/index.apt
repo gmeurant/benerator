@@ -1,0 +1,35 @@
+					--------------
+					about databene
+					--------------
+
+about databene
+
+  <<databene>> hosts a collection of open source libraries and tools
+  developed and hosted by {{{./volker_bergmann.html}Volker Bergmann}}. 
+  
+  Main project is the <<benerator>>, the leading open source test data 
+  generator.
+  
+  
+  Core topics of current and future projects are 
+  
+  * data processing
+  
+  * software and data quality
+  
+  * productivity of the development process
+  
+  * software performance
+  
+  
+ The following libraries and tools are available:
+  
+*--------------------------------------------------+--------------------------------------------------------------+
+| {{{./databene-benerator/index.html}benerator}}   | a test data generator.                                       |
+*--------------------------------------------------+--------------------------------------------------------------+
+| {{{./databene-webdecs/index.html}webdecs}}       | a library for web data extraction, conversion and scripting. |
+*--------------------------------------------------+--------------------------------------------------------------+
+| {{{./databene-commons/index.html}commons}}       | a library of common utilities and abstractions.              |
+*--------------------------------------------------+--------------------------------------------------------------+
+
+  For information about Volker Bergmann see {{http://www.bergmann-it.de}}

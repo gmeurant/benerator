@@ -1,0 +1,20 @@
+<document>
+
+  <properties>
+    <title>impressum</title>
+  </properties>
+
+  <body>
+    <section name="impressum">
+      Volker Bergmann<br/>
+      Hauptstr. 18<br/>
+      D-82008 Unterhaching<br/>
+      Germany<br/>
+      <br/>
+      E-Mail: volker@databene.org<br/>
+      Web Site: <a href="http://www.bergmann-it.de">www.bergmann-it.de</a><br/>
+      <br/>
+      USt-Nr: 144/140/60359, Finanzamt München I
+    </section>
+  </body>
+</document>

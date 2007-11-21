@@ -1,0 +1,52 @@
+				-------------
+				databene news
+				-------------
+
+
+news
+
+  <<2007-11-20 release 0.3.02:>> Several new Generators, Sequences and methods provide for generating unique data.
+  All file I/O now supports file encodings (e.g. UTF-8 or ISO-8859-1). Generators can now be chained in descriptor file setup.
+  While extending generator tests, several bugs in life cycle handling were found and fixed.
+
+  <<2007-11-12 databene community goes online:>> benerator users now are supported with forums,
+  RSS feed and mailing list. For evolving benerator according to the users' needs,
+  the 'feature requests' forum provides proposal of and voting for new features. 
+
+~~<<2007-11-04 listed on opensourcetesting.org:>>
+
+  <<2007-11-04 initial announcement on freshmeat:>> Hello World, benerator is ready for you!
+
+  <<2007-11-03 release 0.3.01:>>
+  With benerator release 0.3.01, database metadata import and database usage was improved.
+  benerator now supports Oracle, DB2, MS SQL Server, MySQL, PostgreSQL, HSQL, and Derby.
+
+  <<2007-10-18 session 'Sisyphos has done' on 'mathema campus':>>
+  The circle is complete: The first end-user version of benerator is presented at the same place,
+  where the project was initially announced.
+
+  <<2007-10-14 release 0.3:>>
+  The first benerator version suitable for an end-user: benerator can be configured by a setup file and
+  invoked from the command line
+
+  <<2007-07-22 release 0.2:>>
+  File I/O has been added, providing I/O of CSV files and /FreeMarker) script based file export.
+
+  <<2007-07-12 first public reference:>> Wow, somebody found me! In a Java forum somebody recommends
+  benerator for generating string that comply to a regular expression.
+
+  <<2007-07-16 the first major project uses benerator:>> My primary customer supports usage of the benerator
+  for testing its new loyalty management product.
+
+  <<2006-12-31 release 0.1:>>
+  The first public release. It provides an API for generators and converters and is targeted at developers:
+  Workflow and I/O needs to be programmed in Java.
+
+  <<2007-10-18 session 'Sisyphos reloaded' on 'mathema campus':>>
+  The first announcement and outline of the ideas took place at the mathema campus.
+
+  <<2006-06-06 birth of benerator:>>
+  While playing with some product ideas form months, I visited an "Advanced Hibernate" training with Christian Bauer.
+  He affirmed one of my ideas by stating a need independently: Any large-scale application needs to create test data
+  for load tests and has no useful open source product available. After some research I realized that even the
+  commercial products have their flaws when compared to my requirements. Time to get going...

@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>databene</groupId>
+  <artifactId>databene.org</artifactId>
+  <version>1.0</version>
+
+  <name>databene.org</name>
+
+  <packaging>pom</packaging>
+  <url>http://databene.org</url>
+
+  <parent>
+    <groupId>databene</groupId>
+    <artifactId>databene</artifactId>
+    <version>1.0</version>
+    <!--relativePath>../pom.xml</relativePath-->
+  </parent>
+
+  <description>
+    databene is a collection of Open Source Projects 
+    developed and hosted by Volker Bergmann
+  </description>
+<!--
+  <modules>
+    <module>../commons</module>
+    <module>../webdecs</module>
+    <module>../benerator</module>
+  </modules>
+-->
+  <distributionManagement>
+    <site>
+       <id>databene-org</id>
+       <name>databene.org Web Site</name>
+       <url>http://databene.org</url>
+    </site>
+  </distributionManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <configuration>
+         <locales>en,de</locales>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

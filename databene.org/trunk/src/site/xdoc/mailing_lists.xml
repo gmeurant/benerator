@@ -1,0 +1,49 @@
+<document>
+
+  <properties>
+    <title>rss + mailing list</title>
+  </properties>
+
+  <body>
+      <section name="rss">
+          <a href="http://databene.org/tinc?key=8BW6MdWi" target="_blank">Get the <img src="images/rss.gif"/> Feed here.</a><br/><br/>
+      </section>
+
+      <section name="mailing list">
+          Subscribe to benerator-announce by filling out the form below.
+          You will be sent an email requesting confirmation, to prevent others from gratuitously subscribing you.
+          This is a hidden list, which means that the list of members is available only to the list administrator.<br/><br/>
+          <form action="http://kundenserver.de/cgi-bin/mailinglist.cgi" method="POST" target="_BLANK">
+              <input checked="" name="subscribe_r" type="HIDDEN" value="subscribe"/>
+              <table>
+                  <tr/>
+                  <tr>
+                      <td>my email address:</td>
+                      <td><INPUT MAXLENGTH="51" NAME="mailaccount_r" SIZE="51" TYPE="TEXT"/></td>
+                  </tr>
+                  <tr/>
+                  <tr>
+                      <td>repetition of my email address: </td>
+                      <td><INPUT MAXLENGTH="51" NAME="mailaccount2_r" SIZE="51" TYPE="TEXT"/></td>
+                  </tr>
+                  <tr/>
+                  <tr>
+                      <td></td>
+                      <td align="left"><INPUT TYPE="SUBMIT" VALUE="subscribe"/><INPUT TYPE="RESET" VALUE="reset"/></td>
+                  </tr>
+              </table>
+
+              <INPUT NAME="FBMLNAME" TYPE="HIDDEN" VALUE="benerator-announce@databene.org"/>
+              <INPUT NAME="FBLANG" TYPE="HIDDEN" VALUE="en"/>
+              <INPUT NAME="FBURLERROR_L" TYPE="HIDDEN" VALUE="http://kundenserver.de/mailinglist/error.en.html"/>
+              <INPUT NAME="FBURLSUBSCRIBE_L" TYPE="HIDDEN" VALUE="http://kundenserver.de/mailinglist/subscribe.en.html"/>
+              <INPUT NAME="FBURLUNSUBSCRIBE_L" TYPE="HIDDEN" VALUE="http://kundenserver.de/mailinglist/unsubscribe.en.html"/>
+              <INPUT NAME="FBURLINVALID_L" TYPE="HIDDEN" VALUE="http://kundenserver.de/mailinglist/invalid.en.html"/>
+          </form>
+
+          A confirmation mail will be sent to your email account. You need to confirm registration by a .
+
+
+      </section>
+  </body>
+</document>
