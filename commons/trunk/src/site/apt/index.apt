@@ -1,0 +1,16 @@
+				----------------
+				databene commons
+				----------------
+
+about databene commons
+
+  <<databene commons>> is an open source Java library. It provides Java core library extensions:
+
+  * basic utility classes that are not provided by the JDK libraries,
+
+  * definitions and implementations for many common concepts (Accessor, Mutator, Comparator, Converter, Iterator, Tree, Visitor, TreeIterator, Validator) and
+  
+  * implementations of some of these concepts for JavaBeans and files (BeanComparator, PropertyAccessor, PropertyMutator, FileTreeModel)
+
+
+  It is released under a {{{license.html}dual license}}.

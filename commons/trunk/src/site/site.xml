@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="databene commons">
+
+    <skin>
+        <groupId>databene</groupId>
+        <artifactId>databene-skin</artifactId>
+        <version>1.0</version>
+    </skin>
+
+    <!--bannerLeft>
+      <name>databene</name>
+      <src>images/databene.gif</src>
+      <href>http://databene.org/</href>
+    </bannerLeft-->
+
+    <!--bannerRight>
+      <src>http://maven.apache.org/images/maven-small.gif</src>
+    </bannerRight-->
+
+    <body>
+
+        <head>
+            <meta name="Description" content="Open Source developer software"/>
+            <meta name="Keywords" content="open source, software quality, performance"/>
+            <meta name="Author" content="Volker Bergmann"/>
+            <meta name="Publisher" content="Volker Bergmann (databene)"/>
+            <meta name="Copyright" content="Volker Bergmann"/>
+            <meta name="Content-language" content="en"/>
+            <!-- benerator -->
+            <link rel="alternate" type="application/rss+xml" title="databene benerator news" href="http://databene.org/tinc?key=8BW6MdWi"/>
+            <!-- blog -->
+            <link rel="alternate" type="application/rss+xml" title="databene blog RSS Feed" href="http://databene.org/blog/feed/" />
+            <link rel="pingback" href="http://databene.org/blog/xmlrpc.php" />
+            <link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://databene.org/blog/xmlrpc.php?rsd" />
+        </head>
+
+        <menu name="databene.org" inherit="top">
+            <item name="about" href="../index.html"/>
+            <item name="volker bergmann" href="../volker_bergmann.html"/>
+            <item name="contact" href="../contact.html" />
+        </menu>
+
+        <menu name="all products">
+            <item name="databene commons" href="../databene-commons"/>
+            <item name="databene webdecs" href="../databene-webdecs"/>
+            <item name="databene benerator" href="../databene-benerator"/>
+        </menu>
+
+        <menu name="databene-commons">
+            <item name="about" href="index.html"/>
+            <item name="features" href="features.html"/>
+            <item name="download" href="download.html"/>
+        </menu>
+
+        <menu name="commons reports" ref="reports" />
+
+    </body>
+</project>

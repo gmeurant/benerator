@@ -1,0 +1,5 @@
+org.databene.model.converter.String2LocaleConverter
+org.databene.model.converter.String2ClassConverter
+org.databene.model.converter.Date2CalendarConverter
+org.databene.model.converter.Date2LongConverter
+org.databene.model.converter.UtilDate2SqlDateConverter

@@ -1,0 +1,68 @@
+/*
+ * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, is permitted under the terms of the
+ * GNU General Public License.
+ *
+ * For redistributing this software or a derivative work under a license other
+ * than the GPL-compatible Free Software License as defined by the Free
+ * Software Foundation or approved by OSI, you must first obtain a commercial
+ * license to this software product from Volker Bergmann.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * WITHOUT A WARRANTY OF ANY KIND. ALL EXPRESS OR IMPLIED CONDITIONS,
+ * REPRESENTATIONS AND WARRANTIES, INCLUDING ANY IMPLIED WARRANTY OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE OR NON-INFRINGEMENT, ARE
+ * HEREBY EXCLUDED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package org.databene.model.converter;
+
+import org.databene.model.Converter;
+import org.databene.model.ConversionException;
+
+/**
+ * Converts Numbers to other types.<br/>
+ * <br/>
+ * Created: 16.06.2007 11:31:43
+ */
+public class NumberConverter<T> implements Converter<Number, T> {
+
+    private Class<T> targetType;
+
+    public NumberConverter(Class<T> targetType) {
+        this.targetType = targetType;
+    }
+
+    public Class<T> getTargetType() {
+        return targetType;
+    }
+
+    public T convert(Number sourceValue) throws ConversionException {
+        return convert(sourceValue, targetType);
+    }
+
+    /**
+     * Converts a number object to a target type.
+     * @param src the number to convert
+     * @param targetType the target type of the conversion
+     * @return an object of the target type
+     */
+    public static <TT> TT convert(Number src, Class<TT> targetType) {
+        if (String.class.equals(targetType))
+            return (TT) ToStringConverter.convert(src, null);
+        else if (Number.class.isAssignableFrom(targetType) || targetType.isPrimitive())
+            return (TT) NumberToNumberConverter.convert(src, (Class<Number>) targetType);
+        else
+            throw new UnsupportedOperationException("Don't know how to convert " + src.getClass() + " to " + targetType);
+    }
+
+}
