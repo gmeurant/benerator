@@ -50,7 +50,7 @@ public class ArrayFormatTest extends TestCase {
     }
 
     public void testFormatWithSeparator() {
-        assertEquals("de_DE_BY", ArrayFormat.format("_", "de", "DE", "BY"));
+        assertEquals("de_DE_BY", ArrayFormat.formatStrings("_", "de", "DE", "BY"));
     }
 
     public void testFormatWithFormatAndSeparator() {
@@ -70,6 +70,6 @@ public class ArrayFormatTest extends TestCase {
     }
 
     public void testFormatIntArray() {
-        assertEquals("1.2.3", ArrayFormat.formatIntArray(".", 1, 2, 3));
+        assertEquals("1.2.3", ArrayFormat.formatInts(".", 1, 2, 3));
     }
 }

@@ -129,7 +129,7 @@ public class ArrayFormat extends Format {
         }
     }
 
-    public static String formatIntArray(String separator, int ... items) {
+    public static String formatInts(String separator, int ... items) {
         if (items.length == 0)
             return "";
         StringBuilder builder = new StringBuilder();
@@ -139,7 +139,7 @@ public class ArrayFormat extends Format {
         return builder.toString();
     }
 
-    public static String formatCharArray(String separator, char ... items) {
+    public static String formatChars(String separator, char ... items) {
         if (items.length == 0)
             return "";
         StringBuilder builder = new StringBuilder();
@@ -147,6 +147,12 @@ public class ArrayFormat extends Format {
         for (int i = 1; i < items.length; i++)
             builder.append(separator).append(items[i]);
         return builder.toString();
+    }
+
+    public static String formatStrings(String separator, String ... items) {
+        if (items == null)
+            return "";
+        return formatPart(null, separator, 0, items.length, items);
     }
 
 }
