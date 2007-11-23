@@ -46,4 +46,9 @@ public class UniqueValidator<E> implements Validator<E> {
         instances.add(object);
         return true;
     }
+    
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
 }
