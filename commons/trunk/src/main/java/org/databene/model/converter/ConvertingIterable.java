@@ -54,4 +54,9 @@ public class ConvertingIterable<S, T> implements TypedIterable<T> {
     public Iterator<T> iterator() {
         return new ConvertingIterator(this.iterable.iterator(), converter);
     }
+    
+    @Override
+    public String toString() {
+    	return getClass().getSimpleName() + '[' + iterable + " -> " + converter + ']';
+    }
 }
