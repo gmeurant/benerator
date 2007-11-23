@@ -67,6 +67,16 @@ public class DBUtil {
         }
     }
 
+    public static void close(ResultSet resultSet) {
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                throw new ConfigurationError("Closing statement failed", e);
+            }
+        }
+    }
+
     /** TODO define a converter for this ? */
     public static String[][] parseResultSet(ResultSet resultSet) throws SQLException {
         List<String[]> rows = new ArrayList<String[]>();
