@@ -86,6 +86,8 @@ public class String2DateConverter<E extends Date> implements Converter<String, E
                 return simpleDate;
             else if (targetType == java.sql.Date.class)
                 return new java.sql.Date(simpleDate.getTime());
+            else if (targetType == java.sql.Timestamp.class)
+                return new java.sql.Timestamp(simpleDate.getTime());
             else
                 throw new UnsupportedOperationException("Not a supported target type: " + targetType);
         } catch (ParseException e) {
