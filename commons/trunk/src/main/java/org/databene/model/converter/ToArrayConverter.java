@@ -28,8 +28,10 @@ package org.databene.model.converter;
 
 import org.databene.model.Converter;
 import org.databene.commons.ArrayUtil;
+import org.databene.commons.BeanUtil;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Method;
 import java.util.Collection;
 
 /**
@@ -67,6 +69,12 @@ public class ToArrayConverter implements Converter {
             for (Object item : col)
                 array[count++] = item;
             return array;
+        } else if (componentType == byte.class) {
+            Method method = BeanUtil.getMethod(sourceValue.getClass(), "getBytes");
+            if (method != null)
+                return BeanUtil.invoke(sourceValue, method);
+            else
+                throw new UnsupportedOperationException("Conversion not supported: " + sourceValue.getClass() + " -> " + componentType + "[]");
         } else
             return ArrayUtil.toArray(componentType, sourceValue);
     }
