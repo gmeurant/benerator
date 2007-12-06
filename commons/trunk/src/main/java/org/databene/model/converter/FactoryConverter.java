@@ -26,6 +26,7 @@
 
 package org.databene.model.converter;
 
+import org.databene.commons.StringUtil;
 import org.databene.model.Converter;
 import org.databene.model.ConversionException;
 import org.apache.commons.logging.Log;
@@ -69,6 +70,8 @@ public class FactoryConverter<S, T> implements Converter<S, T> {
             result = tryToConstructByGetInstanceMethod(src, targetType);
         if (result == null)
             result = tryToConstructWithSourceParameter(src, targetType);
+        if (result == null)
+            result = tryToConstructByTypeValueMethod(src, targetType);
         if (result == null)
             throw new UnsupportedOperationException("Don't know how to convert '" + src + "' to " + targetType);
         return result;
@@ -116,6 +119,22 @@ public class FactoryConverter<S, T> implements Converter<S, T> {
             if ((valueOfMethod.getModifiers() & Modifier.STATIC) == 0)
                 return null;
             return (T) valueOfMethod.invoke(null, src);
+        } catch (NoSuchMethodException e) {
+            return null;
+        } catch (IllegalAccessException e) {
+            return null;
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static <T> T tryToConstructByTypeValueMethod(Object src, Class<T> targetType) {
+        try {
+            String methodName = StringUtil.uncapitalize(targetType.getSimpleName()) + "Value";
+            Method typeValueMethod = src.getClass().getMethod(methodName);
+            if ((typeValueMethod.getModifiers() & Modifier.STATIC) == Modifier.STATIC)
+                return null;
+            return (T) typeValueMethod.invoke(src);
         } catch (NoSuchMethodException e) {
             return null;
         } catch (IllegalAccessException e) {
