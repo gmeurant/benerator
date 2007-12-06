@@ -386,7 +386,22 @@ public final class StringUtil {
         return word.charAt(word.length() - 1);
     }
 
+    /**
+     * Makes the first character of a String uppercase.
+     * @param text the text to convert
+     * @return a text that starts with a uppercase letter
+     */
     public static String capitalize(String text) {
         return text.substring(0, 1).toUpperCase() + text.substring(1);
+    }
+
+    /**
+     * Makes the first character of a String lowercase.
+     * @param text the text to convert
+     * @return a text that starts with a lowercase letter
+     * @since 0.2.04
+     */
+    public static String uncapitalize(String text) {
+        return text.substring(0, 1).toLowerCase() + text.substring(1);
     }
 }
