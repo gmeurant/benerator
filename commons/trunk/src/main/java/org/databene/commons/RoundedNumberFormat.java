@@ -27,6 +27,7 @@
 package org.databene.commons;
 
 import java.text.*;
+import java.util.Locale;
 
 /**
  * TODO documentation.<br/>
@@ -40,7 +41,7 @@ public class RoundedNumberFormat extends Format {
     }
 
     public static String format(Number number, int fractionDigits) {
-        NumberFormat nf = new DecimalFormat();
+        NumberFormat nf = DecimalFormat.getInstance(Locale.US);
         nf.setMinimumFractionDigits(fractionDigits);
         nf.setMaximumFractionDigits(fractionDigits);
         StringBuffer buffer = nf.format(number, new StringBuffer(), new FieldPosition(0));
