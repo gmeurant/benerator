@@ -29,7 +29,7 @@ package org.databene.commons;
 import java.util.Arrays;
 
 /**
- * TODO documentation.<br/>
+ * Counts with an arbitrary radix.<br/>
  * <br/>
  * Created: 15.11.2007 16:05:34
  */

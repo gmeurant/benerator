@@ -30,7 +30,7 @@ import java.text.*;
 import java.util.Locale;
 
 /**
- * TODO documentation.<br/>
+ * Rounds large numbers to the four most significant digits.<br/>
  * <br/>
  * Created: 01.09.2007 16:19:14
  */
