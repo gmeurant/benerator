@@ -36,11 +36,11 @@ import junit.framework.TestCase;
 public class RoundedNumberFormatTest extends TestCase {
 
     public void test() {
-        assertEquals("1.234", RoundedNumberFormat.format(1234, 0));
-        assertEquals("1.234", RoundedNumberFormat.format(1234.45, 0));
-        assertEquals("1.235", RoundedNumberFormat.format(1234.567, 0));
-        assertEquals("1.234,00", RoundedNumberFormat.format(1234.567, 2));
-        assertEquals("1.234.000", RoundedNumberFormat.format(1234567, 0));
-        assertEquals("1.234.000,00", RoundedNumberFormat.format(1234567, 2));
+        assertEquals("1,234", RoundedNumberFormat.format(1234, 0));
+        assertEquals("1,234", RoundedNumberFormat.format(1234.45, 0));
+        assertEquals("1,235", RoundedNumberFormat.format(1234.567, 0));
+        assertEquals("1,234.00", RoundedNumberFormat.format(1234.567, 2));
+        assertEquals("1,234,000", RoundedNumberFormat.format(1234567, 0));
+        assertEquals("1,234,000.00", RoundedNumberFormat.format(1234567, 2));
     }
 }
