@@ -31,13 +31,13 @@ import org.databene.model.ConversionException;
 import org.databene.commons.StringUtil;
 
 /**
- * TODO<br/>
+ * Splits a String by a separator character<br/>
  * <br/>
  * Created: 19.06.2007 07:33:03
  */
 public class SplitStringConverter implements Converter<String, String[]> {
 
-    char separator;
+    private char separator;
 
     public SplitStringConverter(char separator) {
         this.separator = separator;
