@@ -4,7 +4,7 @@
 
     <groupId>databene</groupId>
     <artifactId>databene-webdecs</artifactId>
-    <version>0.2.03</version>
+    <version>0.2.04</version>
 
     <parent>
         <groupId>databene</groupId>
@@ -48,7 +48,7 @@
         <dependency>
             <groupId>databene</groupId>
             <artifactId>databene-commons</artifactId>
-            <version>0.2.03</version>
+            <version>0.2.04</version>
         </dependency>
 
         <dependency>
@@ -64,13 +64,6 @@
             <version>1.0.4</version>
         </dependency>
 
-<!--
-        <dependency>
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
-            <version>3.0.1</version>
-        </dependency>
--->
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
