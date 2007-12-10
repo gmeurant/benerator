@@ -139,6 +139,16 @@ public class ArrayFormat extends Format {
         return builder.toString();
     }
 
+    public static String formatBytes(String separator, byte ... items) {
+        if (items.length == 0)
+            return "";
+        StringBuilder builder = new StringBuilder();
+        builder.append(items[0]);
+        for (int i = 1; i < items.length; i++)
+            builder.append(separator).append(items[i]);
+        return builder.toString();
+    }
+
     public static String formatChars(String separator, char ... items) {
         if (items.length == 0)
             return "";
