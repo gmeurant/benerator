@@ -37,7 +37,7 @@ import java.lang.reflect.Modifier;
  */
 public final class CollectionUtil {
 
-    public static boolean isEmpty(Collection collection) {
+    public static boolean isEmpty(Collection<? extends Object> collection) {
         return (collection == null || collection.size() == 0);
     }
 
@@ -52,8 +52,8 @@ public final class CollectionUtil {
         return target;
     }
 
-    public static List copy(List src, int offset, int length) {
-        List items = new ArrayList(length);
+    public static <T> List<T> copy(List<T> src, int offset, int length) {
+        List<T> items = new ArrayList<T>(length);
         for (int i = 0; i < length; i++)
             items.add(src.get(offset + i));
         return items;
@@ -82,6 +82,17 @@ public final class CollectionUtil {
         return map;
     }
 
+    public static Map buildOrderedMap(Object ... keyValuePairs) {
+        Map map = new OrderedMap();
+        if (keyValuePairs.length % 2 != 0)
+            throw new IllegalArgumentException("Invalid numer of arguments. " +
+                    "It must be even to represent key-value-pairs");
+        for (int i = 0; i < keyValuePairs.length; i += 2)
+            map.put(keyValuePairs[i], keyValuePairs[i + 1]);
+        return map;
+    }
+
+    /** Creates a new instance of a Collection. Abstract interfaces are mapped to a default implementation class. */ 
     public static <T extends Collection> T newInstance(Class<T> collectionType) {
         if ((collectionType.getModifiers() & Modifier.ABSTRACT) == 0)
             return BeanUtil.newInstance(collectionType);
@@ -95,6 +106,7 @@ public final class CollectionUtil {
             throw new UnsupportedOperationException("Not a supported collection type: " + collectionType.getName());
     }
 
+    /** Compares two lists for identical content, accepting different order. */
     public static boolean equalsIgnoreOrder(List a1, List a2) {
         if (a1 == a2)
             return true;
