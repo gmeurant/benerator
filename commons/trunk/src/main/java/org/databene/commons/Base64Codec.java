@@ -28,6 +28,11 @@ package org.databene.commons;
 
 import java.util.Arrays;
 
+/**
+ * Codes/Decodes Base64 strings.
+ * @author Volker Bergmann
+ * @since 0.2.04
+ */
 public class Base64Codec {
 
     private static final char[] DIGITS  = createDigits();

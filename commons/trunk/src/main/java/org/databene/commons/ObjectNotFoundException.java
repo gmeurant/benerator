@@ -26,6 +26,11 @@
 
 package org.databene.commons;
 
+/**
+ * Signals that an object was not found.
+ * @author Volker Bergmann
+ * @since 0.2.04
+ */
 public class ObjectNotFoundException extends RuntimeException {
 
     public ObjectNotFoundException() {
