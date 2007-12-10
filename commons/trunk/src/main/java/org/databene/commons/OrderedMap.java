@@ -188,6 +188,23 @@ public class OrderedMap<K,V> implements Map<K,V> {
     public <T>T[] toArray(T[] a) {
         return values.toArray(a);
     }
+    
+    // specific interface ----------------------------------------------------------------------------------------------
+    
+    public boolean equalsIgnoreOrder(Map<K, V> that) {
+        if (this == that)
+            return true;
+        if (that == null || getClass() != that.getClass())
+            return false;
+        for (Map.Entry<K, V> entry : that.entrySet()) {
+            K key = entry.getKey();
+            if (!this.containsKey(key))
+                return false;
+            if (!NullSafeComparator.equals(this.get(key), that.get(key)))
+                return false;
+        }
+        return true;
+    }
 
     // java.lang.Object overrides --------------------------------------------------------------------------------------
 
