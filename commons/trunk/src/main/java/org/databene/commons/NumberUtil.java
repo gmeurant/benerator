@@ -95,9 +95,6 @@ public class NumberUtil {
         return defaultNumberFormat.format(number);
     }
 
-    /**
-     * @deprecated
-     */
     public static String format(double number, int digits) {
         NumberFormat nf;
         nf = NumberFormat.getInstance(Locale.US);
