@@ -29,7 +29,7 @@ package org.databene.model;
 import java.io.IOException;
 
 /**
- * TODO.<br/>
+ * Abstraction of a document writer.<br/>
  * <br/>
  * Created: 06.06.2007 19:25:43
  */
