@@ -199,4 +199,13 @@ public final class ArrayUtil {
         }
         return array;
     }
+    
+    public static <T> Class<T[]> arrayType(Class<T> componentType) {
+        return (Class<T[]>) ArrayUtil.toArray(componentType).getClass();
+    }
+
+    public static <T> T[] newInstance(Class<T> componentType, int length) {
+        return (T[])Array.newInstance(componentType, length);
+    }
+
 }
