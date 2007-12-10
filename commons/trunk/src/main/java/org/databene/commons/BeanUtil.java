@@ -35,6 +35,7 @@ import java.math.BigInteger;
 import java.util.*;
 import java.beans.Introspector;
 import java.beans.BeanInfo;
+import java.beans.MethodDescriptor;
 import java.beans.PropertyDescriptor;
 import java.beans.IntrospectionException;
 import java.io.PrintWriter;
@@ -346,6 +347,16 @@ public final class BeanUtil {
         return invoke(target, method, args);
     }
 
+    public static Object invokeStatic(Class<? extends Object> targetClass, String methodName, Object ... args) {
+        if (targetClass == null)
+            throw new IllegalArgumentException("target is null");
+        Class<? extends Object>[] argClasses = new Class[args.length];
+        for (int i = 0; i < args.length; i++)
+            argClasses[i] = (args[i] != null ? args[i].getClass() : null);
+        Method method = getMethod(targetClass, methodName, argClasses);
+        return invoke(null, method, args);
+    }
+
     /**
      * Invokes a method on a bean
      * @param target
@@ -451,11 +462,7 @@ public final class BeanUtil {
     public static String writeMethodName(String propertyName) {
         return "set" + Character.toUpperCase(propertyName.charAt(0)) + propertyName.substring(1);
     }
-/*
-    public static String nullsafeClassName(Object value) {
-        return (value != null ? value.getClass().getName() : null);
-    }
-*/
+
     /**
      * Copies a Map's values to the properties of a JavaBean,
      * using the Map entries' key values as bean property names.
@@ -649,4 +656,5 @@ public final class BeanUtil {
             this.wrapperType = wrapperType;
         }
     }
+
 }
