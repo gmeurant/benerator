@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * TODO.<br/>
+ * Uses an accessor which is stored in a Map for accessing the target object.<br/>
  * <br/>
  * Created: 11.03.2006 12:45:26
  */
@@ -55,11 +55,11 @@ public class AccessorMapAccessor implements DependentAccessor {
         return key;
     }
 
-    public Object getValue(Object item) {
+    public Object getValue(Object target) {
         Accessor accessor = getAccessor();
         if (accessor == null)
             throw new IllegalStateException("Key not found: " + key);
-        return accessor.getValue(item);
+        return accessor.getValue(target);
     }
 
     public List getDependencies() {
