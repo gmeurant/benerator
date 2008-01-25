@@ -31,11 +31,14 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Attr;
 
 /**
- * TODO documentation.<br/>
+ * Provides XML Utility methods.<br/>
  * <br/>
  * Created: 25.08.2007 22:09:26
+ * @author Volker Bergmann
  */
 public class XMLUtil {
+    
+    private XMLUtil() {}
 
     public static String format(Element element) {
         StringBuilder builder = new StringBuilder();

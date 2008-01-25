@@ -46,9 +46,10 @@ import java.util.ArrayList;
 import java.beans.PropertyDescriptor;
 
 /**
- * TODO documentation.<br/>
+ * Instantiates a JavaBean from a description in Spring-like XML format.<br/>
  * <br/>
  * Created: 19.08.2007 15:12:40
+ * @author Volker Bergmann
  */
 public class XMLElement2BeanConverter implements Converter<Element, Object> {
 

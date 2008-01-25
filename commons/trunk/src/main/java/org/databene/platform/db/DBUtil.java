@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * TODO.<br/>
+ * Provides database related utility methods.<br/>
  * <br/>
  * Created: 06.01.2007 19:27:02
  */
@@ -45,6 +45,9 @@ public class DBUtil {
 
     /** The class' logger */
     private static final Log logger = LogFactory.getLog(DBUtil.class);
+    
+    /** private constructor for preventing instantiation. */
+    private DBUtil() {}
 
     /** Closes a database connection silently */
     public static void close(Connection connection) {
