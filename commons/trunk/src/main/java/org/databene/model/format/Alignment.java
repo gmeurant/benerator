@@ -27,7 +27,7 @@
 package org.databene.model.format;
 
 /**
- * TODO.<br/>
+ * Provides constants for horizontal aligning.<br/>
  * <br/>
  * Created: 29.06.2007 18:20:45
  */
