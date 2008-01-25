@@ -29,7 +29,8 @@ package org.databene.model.validator;
 import org.databene.model.Validator;
 
 /**
- * TODO documentation.<br/>
+ * Composite validator that requires all component to return true. 
+ * If no components exists, true is returned.<br/>
  * <br/>
  * Created: 20.11.2007 09:50:13
  */

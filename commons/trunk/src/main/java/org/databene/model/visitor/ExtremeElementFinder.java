@@ -33,7 +33,8 @@ import org.databene.model.Element;
 import java.util.Comparator;
 
 /**
- * TODO.<br/>
+ * Utility that navigates Elements with the Visitor Pattern and 
+ * uses a Comparator for determining a minimum or maximum value in the graph.<br/>
  * <br/>
  * Created: 04.02.2007 08:50:13
  */

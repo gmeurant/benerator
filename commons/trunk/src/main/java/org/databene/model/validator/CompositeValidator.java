@@ -30,7 +30,7 @@ import org.databene.model.Validator;
 import org.databene.commons.ArrayFormat;
 
 /**
- * TODO documentation.<br/>
+ * Abstract Validator implementation that combines the evaluation results of other Validators.<br/>
  * <br/>
  * Created: 20.11.2007 09:50:13
  */

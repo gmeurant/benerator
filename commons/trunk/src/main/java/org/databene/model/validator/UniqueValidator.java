@@ -32,7 +32,8 @@ import java.util.Set;
 import java.util.HashSet;
 
 /**
- * TODO documentation.<br/>
+ * Validator implementation that requires each argument 
+ * of consecutive calls to the valid() method to be unique.<br/>
  * <br/>
  * Created: 20.11.2007 09:55:16
  */

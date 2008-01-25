@@ -29,7 +29,7 @@ package org.databene.model.visitor;
 import org.databene.model.Visitor;
 
 /**
- * TODO.<br/>
+ * Element implementation that serves as proxy for another Element.<br/>
  * <br/>
  * Created: 04.02.2007 08:17:20
  */

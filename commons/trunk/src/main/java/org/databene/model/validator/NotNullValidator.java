@@ -29,7 +29,7 @@ package org.databene.model.validator;
 import org.databene.model.Validator;
 
 /**
- * TODO documentation.<br/>
+ * Validator implementation that checks if a value is not null.<br/>
  * <br/>
  * Created: 01.09.2007 08:53:07
  */

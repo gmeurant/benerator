@@ -32,7 +32,7 @@ import org.databene.model.Element;
 import java.util.Collection;
 
 /**
- * TODO.<br/>
+ * Element implementation that wraps a Java collection.<br/>
  * <br/>
  * Created: 04.02.2007 09:27:19
  */

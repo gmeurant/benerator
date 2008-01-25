@@ -32,7 +32,7 @@ import org.databene.model.Element;
 import java.util.Collection;
 
 /**
- * TODO.<br/>
+ * Implementation of the Element interface that supports navigating through sub elements.<br/>
  * <br/>
  * Created: 04.02.2007 07:53:23
  */
