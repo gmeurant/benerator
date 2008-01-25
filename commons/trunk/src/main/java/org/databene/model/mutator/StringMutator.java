@@ -30,11 +30,12 @@ import org.databene.model.Mutator;
 import org.databene.model.UpdateFailedException;
 
 /**
- * TODO.<br/>
+ * Mutator proxy that converts the 'value' argument to a String before calling the real proxy.<br/>
  * <br/>
  * Created: 18.12.2005 21:05:59
  * @deprecated 
  */
+@Deprecated
 public class StringMutator extends MutatorProxy {
 
     public StringMutator(Mutator realMutator) {
