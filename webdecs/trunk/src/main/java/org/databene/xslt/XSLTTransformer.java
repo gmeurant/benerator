@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 /**
- * TODO.<br/>
+ * Performs XSL transformations on XML strings and streams.<br/>
  * <br/>
  * Created: 26.01.2007 08:31:09
  */
