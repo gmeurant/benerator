@@ -31,7 +31,8 @@ import org.databene.model.Filter;
 import java.util.Iterator;
 
 /**
- * TODO.<br/>
+ * Filters elements of another {@link Iterator} or {@link BidirectionalIterator} 
+ * by a {@link Filter} element.<br/>
  * <br/>
  * Created: 08.05.2007 19:37:33
  */

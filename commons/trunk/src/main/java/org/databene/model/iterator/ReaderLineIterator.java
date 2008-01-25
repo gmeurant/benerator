@@ -34,7 +34,7 @@ import java.io.Reader;
 import java.io.IOException;
 
 /**
- * TODO.<br/>
+ * Iterator implementation that returns text lines provided by a reader.<br/>
  * <br/>
  * Created: 01.05.2007 08:06:46
  */

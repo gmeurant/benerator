@@ -27,15 +27,16 @@
 package org.databene.model.iterator;
 
 /**
- * TODO.<br/>
+ * Iterates through another BidirectionalIterator repeatedly. 
+ * This is supported forward as well as backward.<br/>
  * <br/>
  * Created: 12.05.2007 23:21:48
  */
-public class CyclicIterator extends IteratorProxy {
+public class CyclicIterator<E> extends IteratorProxy<E> {
 
     private boolean cyclic;
 
-    public CyclicIterator(BidirectionalIterator realIterator) {
+    public CyclicIterator(BidirectionalIterator<E> realIterator) {
         super(realIterator);
         this.cyclic = true;
     }
@@ -59,7 +60,7 @@ public class CyclicIterator extends IteratorProxy {
     }
 
     @Override
-    public Object previous() {
+    public E previous() {
         if (super.hasPrevious())
             return super.previous();
         else if (cyclic)
@@ -69,7 +70,7 @@ public class CyclicIterator extends IteratorProxy {
     }
 
     @Override
-    public Object next() {
+    public E next() {
         if (super.hasNext())
             return super.next();
         else if (cyclic)

@@ -29,7 +29,7 @@ package org.databene.model.iterator;
 import java.util.Iterator;
 
 /**
- * TODO.<br/>
+ * Iterator that may iterate forward and backward.<br/>
  * <br/>
  * Created: 08.05.2007 18:03:52
  */

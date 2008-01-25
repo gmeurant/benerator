@@ -29,7 +29,8 @@ package org.databene.model.iterator;
 import java.util.Iterator;
 
 /**
- * TODO.<br/>
+ * Wraps a JDK {@link Iterator} into a {@link BidirectionalIterator}, 
+ * making the unsupported operations throw an {@link UnsupportedOperationException}.<br/>
  * <br/>
  * Created: 12.06.2007 19:51:44
  */

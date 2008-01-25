@@ -33,7 +33,7 @@ import org.databene.model.Heavyweight;
 import java.util.Iterator;
 
 /**
- * TODO documentation.<br/>
+ * Iterator proxy that converts iterated objects before providing them to the caller.<br/>
  * <br/>
  * Created: 16.08.2007 06:34:59
  */

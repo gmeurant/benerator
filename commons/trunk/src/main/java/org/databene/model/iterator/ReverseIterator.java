@@ -27,7 +27,7 @@
 package org.databene.model.iterator;
 
 /**
- * TODO.<br/>
+ * Iterates through a {@link BidirectionalIterator} in reverse order.<br/>
  * <br/>
  * Created: 12.05.2007 23:18:08
  */
