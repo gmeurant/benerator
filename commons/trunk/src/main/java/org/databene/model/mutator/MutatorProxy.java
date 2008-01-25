@@ -27,18 +27,24 @@
 package org.databene.model.mutator;
 
 import org.databene.model.Mutator;
+import org.databene.model.UpdateFailedException;
 
 /**
  * Proxy for a Mutator.<br/>
  * <br/>
  * Created: 12.05.2005 18:54:36
  */
-public abstract class MutatorProxy<C, V> implements Mutator<C, V> {
+public abstract class MutatorProxy<C, V> extends MutatorWrapper<C, V> implements Mutator<C, V> {
 
-    protected Mutator<C, V> realMutator;
+    public MutatorProxy(Mutator<C, V> realMutator) {
+        super(realMutator);
+    }
 
-    public MutatorProxy(Mutator<C, V> realUpdater) {
-        this.realMutator = realUpdater;
+    /**
+     * @see org.databene.model.Mutator#setValue(java.lang.Object, java.lang.Object)
+     */
+    public void setValue(C target, V value) throws UpdateFailedException {
+        realMutator.setValue(target, value);
     }
 
 }

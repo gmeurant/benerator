@@ -32,23 +32,23 @@ import org.databene.model.ConversionException;
 import org.databene.model.UpdateFailedException;
 
 /**
- * TODO.<br/>
+ * Converts its input by a Converter object and forwards the result to another Mutator.<br/>
  * <br/>
  * Created: 12.05.2005 19:08:30
  */
-public class ConvertingMutator extends MutatorProxy {
+public class ConvertingMutator<C, VI, VO> extends MutatorWrapper<C, VO> implements Mutator<C, VI> {
 
-    private TypedConverter converter;
+    private TypedConverter<VI, VO> converter;
 
-    public ConvertingMutator(Mutator realMutator, TypedConverter converter) {
+    public ConvertingMutator(Mutator<C, VO> realMutator, TypedConverter<VI, VO> converter) {
         super(realMutator);
         this.converter = converter;
     }
 
-    public void setValue(Object target, Object value) throws UpdateFailedException {
+    public void setValue(C target, VI value) throws UpdateFailedException {
         try {
-            value = converter.convert(value);
-            realMutator.setValue(target, value);
+            VO vo = converter.convert(value);
+            realMutator.setValue(target, vo);
         } catch (ConversionException e) {
             throw new UpdateFailedException(e);
         }
