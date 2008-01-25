@@ -32,9 +32,11 @@ import org.databene.commons.BeanUtil;
 import java.util.Map;
 
 /**
- * TODO documentation.<br/>
+ * Instantiates JavaBeans from class name and a Properties object 
+ * that contains the text representation of the bean property values.<br/>
  * <br/>
  * Created: 04.09.2007 21:13:06
+ * @author Volker Bergmann
  */
 public class BeanFactory {
     /**
