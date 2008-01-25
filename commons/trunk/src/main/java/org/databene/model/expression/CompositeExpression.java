@@ -29,7 +29,7 @@ package org.databene.model.expression;
 import org.databene.model.Expression;
 
 /**
- * TODO.<br/>
+ * Expression that evaluates the results of other Expressions.<br/>
  * <br/>
  * Created: 18.06.2007 17:02:17
  */

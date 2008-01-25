@@ -30,7 +30,7 @@ import org.databene.model.Expression;
 import org.databene.model.converter.NumberConverter;
 
 /**
- * TODO.<br/>
+ * Expression that calculates the sum of other Expressions.<br/>
  * <br/>
  * Created: 18.06.2007 17:04:43
  */

@@ -29,7 +29,7 @@ package org.databene.model.expression;
 import org.databene.model.Expression;
 
 /**
- * TODO.<br/>
+ * Expression that represents and returns a constant value.<br/>
  * <br/>
  * Created: 18.06.2007 17:38:58
  */
