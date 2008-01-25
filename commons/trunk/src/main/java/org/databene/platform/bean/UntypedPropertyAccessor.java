@@ -32,7 +32,7 @@ import org.databene.commons.ConfigurationError;
 import java.beans.PropertyDescriptor;
 
 /**
- * TODO.<br/>
+ * Retrieves values of a JavaBean property without knowing the property type.<br/>
  * <br/>
  * Created: 21.07.2007 10:18:09
  */

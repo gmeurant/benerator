@@ -35,7 +35,9 @@ import java.util.Properties;
 import java.util.Map;
 
 /**
- * TODO documentation.<br/>
+ * Converter implementation that takes a Properties object as argument, 
+ * instantiates a class of predefined name and sets all properties 
+ * according to the entries of the Properties object.<br/>
  * <br/>
  * Created: 09.08.2007 19:28:36
  */

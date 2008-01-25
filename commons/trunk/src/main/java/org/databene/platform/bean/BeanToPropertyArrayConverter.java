@@ -30,7 +30,7 @@ import org.databene.model.Converter;
 import org.databene.model.ConversionException;
 
 /**
- * TODO.<br/>
+ * Converter implementation that extracts all property values of a JavaBean to a Properties object.<br/>
  * <br/>
  * Created: 07.06.2007 14:11:58
  */

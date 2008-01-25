@@ -30,7 +30,7 @@ import org.databene.model.Converter;
 import org.databene.model.ConversionException;
 
 /**
- * TODO.<br/>
+ * Wraps an Accessor with a Converter interface implementation.<br/>
  * <br/>
  * Created: 25.06.2007 08:04:22
  */
@@ -38,6 +38,8 @@ public class PropertyAccessConverter implements Converter {
 
     private Class propertyType;
     private PropertyAccessor accessor;
+    
+    // constructors ----------------------------------------------------------------------------------------------------
 
     public PropertyAccessConverter(String propertyName) {
         this(propertyName, null, true);
@@ -51,6 +53,8 @@ public class PropertyAccessConverter implements Converter {
         this.accessor = PropertyAccessorFactory.getAccessor(propertyName, strict);
         this.propertyType = propertyType;
     }
+    
+    // Converter interface implementation ------------------------------------------------------------------------------
 
     public Class getTargetType() {
         return propertyType;

@@ -35,7 +35,7 @@ import org.databene.commons.ConfigurationError;
 import java.lang.reflect.Method;
 
 /**
- * TODO.<br/>
+ * Mutates the value of a property on a JavaBean target object.<br/>
  * <br/>
  * Created: 21.07.2007 09:01:19
  */

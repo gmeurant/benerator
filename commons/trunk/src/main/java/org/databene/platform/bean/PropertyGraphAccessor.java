@@ -31,7 +31,7 @@ import org.databene.model.accessor.TypedAccessor;
 import org.databene.commons.StringUtil;
 
 /**
- * TODO.<br/>
+ * Accesses JavaBean object graphs.<br/>
  * <br/>
  * Created: 21.07.2007 10:18:17
  */

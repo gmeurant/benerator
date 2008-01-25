@@ -27,7 +27,7 @@
 package org.databene.platform.bean;
 
 /**
- * TODO.<br/>
+ * Partial implementation of the {@link PropertyMutator} interface holding a property name.<br/>
  * <br/>
  * Created: 21.07.2007 08:58:59
  */

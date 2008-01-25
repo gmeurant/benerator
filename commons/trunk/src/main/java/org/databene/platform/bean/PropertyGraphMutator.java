@@ -33,7 +33,7 @@ import org.databene.commons.BeanUtil;
 import org.databene.commons.StringUtil;
 
 /**
- * TODO.<br/>
+ * Mutates JavaBean object graphs.<br/>
  * <br/>
  * Created: 08.05.2005 06:24:41
  */

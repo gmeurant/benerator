@@ -29,7 +29,7 @@ package org.databene.platform.bean;
 import org.databene.model.Mutator;
 
 /**
- * TODO.<br/>
+ * Mutates the value of a named (e.g. JavaBean) property.<br/>
  * <br/>
  * Created: 21.07.2007 08:20:13
  */

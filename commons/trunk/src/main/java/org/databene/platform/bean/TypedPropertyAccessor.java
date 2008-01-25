@@ -33,7 +33,7 @@ import java.lang.reflect.Method;
 import java.beans.PropertyDescriptor;
 
 /**
- * TODO.<br/>
+ * Retrieves the value of a JavaBean property with knowledge of the property type.<br/>
  * <br/>
  * Created: 21.07.2007 10:18:00
  */

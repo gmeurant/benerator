@@ -29,7 +29,7 @@ package org.databene.platform.bean;
 import org.databene.model.accessor.TypedAccessor;
 
 /**
- * TODO.<br/>
+ * Accesses a named (e.g. JavaBean) property.<br/>
  * <br/>
  * Created: 11.03.2006 22:17:33
  */
