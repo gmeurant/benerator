@@ -29,11 +29,11 @@ package org.databene.model.comparator;
 import java.util.Comparator;
 
 /**
- * TODO.<br/>
+ * Abstract Comparator proxy.<br/>
  * <br/>
  * Created: 22.05.2007 07:53:56
  */
-public class ComparatorProxy<E> implements Comparator<E> {
+public abstract class ComparatorProxy<E> implements Comparator<E> {
 
     private Comparator<E> realComparator;
 

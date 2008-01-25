@@ -31,7 +31,8 @@ import java.util.Locale;
 import java.util.Comparator;
 
 /**
- * TODO.<br/>
+ * Compares two Strings with a Collator. If no Collator is specified, 
+ * it uses the default Collator of the default Locale.<br/>
  * <br/>
  * Created: 03.06.2005 16:13:15
  */

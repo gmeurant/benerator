@@ -29,7 +29,7 @@ package org.databene.model.comparator;
 import java.util.Comparator;
 
 /**
- * TODO.<br/>
+ * Compares values of type Integer or int.<br/>
  * <br/>
  * Created: 05.04.2005 19:25:25
  */

@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 /**
- * TODO.<br/>
+ * Comparator that compares objects by its Java type with a predefined order.<br/>
  * <br/>
  * Created: 22.05.2007 18:19:54
  */

@@ -29,7 +29,11 @@ package org.databene.model.comparator;
 import java.util.Comparator;
 
 /**
- * TODO.<br/>
+ * Delegates comparation to a chain of comparators. 
+ * They are evaluated consecutively and the first result that is not zero is returned. 
+ * If all used Comparators return zero, zero is returned as the comparation result.
+ * You can use this, e.g. for ordering objects by attributes of different priority, 
+ * e.g. country, city.<br/>
  * <br/>
  * Created: 22.05.2007 18:16:15
  */

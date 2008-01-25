@@ -35,7 +35,7 @@ import java.util.Map;
 import java.text.Collator;
 
 /**
- * TODO.<br/>
+ * Creates comparators by the type of the objects to be compared.<br/>
  * <br/>
  * Created: 22.10.2005 21:29:08
  */

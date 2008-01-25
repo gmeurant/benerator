@@ -30,7 +30,8 @@ import java.util.Comparator;
 
 /**
  * Reverts the result of another Comparator.
- * Use this for sorting in descending order.
+ * Use this for sorting in descending order.<br/>
+ * <br/>
  * Created: 19.06.2005 18:26:47
  */
 public class ReverseComparator<E> implements Comparator<E> {
