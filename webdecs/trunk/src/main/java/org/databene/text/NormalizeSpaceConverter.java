@@ -31,7 +31,7 @@ import org.databene.model.ConversionException;
 import org.databene.commons.StringUtil;
 
 /**
- * TODO.<br/>
+ * Converter that normalizes white space on strings.<br/>
  * <br/>
  * Created: 19.06.2007 07:36:32
  */
