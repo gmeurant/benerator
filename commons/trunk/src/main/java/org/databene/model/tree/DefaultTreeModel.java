@@ -29,7 +29,7 @@ package org.databene.model.tree;
 import org.databene.model.TreeModel;
 
 /**
- * TODO.<br/>
+ * Default implementation of a {@link TreeModel}. It uses DefaultTreeNodes.<br/>
  * <br/>
  * Created: 08.05.2007 19:05:14
  */

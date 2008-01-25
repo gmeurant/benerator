@@ -30,6 +30,7 @@ package org.databene.model.tree;
  * Defines a contract of mapping arbitrary objects to a parent/child structure.<br/>
  * <br/>
  * Created: 31.07.2007 06:32:11
+ * @author Volker Bergmann
  */
 public interface ChildModel<I, V> {
     I getId(V element);

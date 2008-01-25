@@ -30,6 +30,7 @@ package org.databene.model.tree;
  * Represents an identifiable Object that knows the identifier of its parent.<br/>
  * <br/>
  * Created: 31.07.2007 06:54:28
+ * @author Volker Bergmann
  */
 public interface Child<I> {
     I getId();

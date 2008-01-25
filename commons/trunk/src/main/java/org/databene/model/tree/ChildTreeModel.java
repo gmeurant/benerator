@@ -35,6 +35,7 @@ import java.util.HashMap;
  * Adapts a ChildModel to a TreeModel.<br/>
  * <br/>
  * Created: 31.07.2007 06:32:41
+ * @author Volker Bergmann
  */
 public class ChildTreeModel<I, V> implements TreeModel<V> {
 

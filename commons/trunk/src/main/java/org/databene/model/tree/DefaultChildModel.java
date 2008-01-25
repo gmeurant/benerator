@@ -31,6 +31,7 @@ package org.databene.model.tree;
  * which expects its elements to implement the Child interface.<br/>
  * <br/>
  * Created: 31.07.2007 06:55:23
+ * @author Volker Bergmann
  */
 public class DefaultChildModel<I, V extends Child<I>> implements ChildModel<I, V> {
 

@@ -30,9 +30,10 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * TODO.<br/>
+ * Default implementation of a tree node.<br/>
  * <br/>
  * Created: 08.05.2007 19:06:49
+ * @author Volker Bergmann
  */
 public class DefaultTreeNode<E> {
 

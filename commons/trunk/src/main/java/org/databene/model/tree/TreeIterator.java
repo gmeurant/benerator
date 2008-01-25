@@ -31,9 +31,10 @@ import org.databene.commons.NullSafeComparator;
 import org.databene.model.TreeModel;
 
 /**
- * TODO.<br/>
+ * Iterates a tree forward and backward.<br/>
  * <br/>
  * Created: 08.05.2007 18:05:24
+ * @author Volker Bergmann
  */
 public class TreeIterator<E> implements BidirectionalIterator<E> {
 
