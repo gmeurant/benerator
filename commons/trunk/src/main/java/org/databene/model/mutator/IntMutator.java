@@ -30,18 +30,18 @@ import org.databene.model.Mutator;
 import org.databene.model.UpdateFailedException;
 
 /**
- * TODO.<br/>
+ * Mutator Proxy that converts non-int value to integer and passes them to the real Mutator.<br/>
  * <br/>
  * Created: 18.12.2005 21:05:59
  * @deprecated 
  */
-public class IntMutator extends MutatorProxy {
+public class IntMutator<C, V extends Object> extends MutatorProxy<C, V> {
 
-    public IntMutator(Mutator realMutator) {
+    public IntMutator(Mutator<C, V> realMutator) {
         super(realMutator);
     }
 
-    public void setValue(Object target, Object value) throws UpdateFailedException {
+    public void setValue(C target, V value) throws UpdateFailedException {
         Integer i;
         if (value == null)
             i = null;
@@ -51,6 +51,6 @@ public class IntMutator extends MutatorProxy {
             i = new Integer((String)value);
         else
             throw new IllegalArgumentException("Cannot convert " + value.getClass());
-        realMutator.setValue(target, i);
+        realMutator.setValue(target, (V)i);
     }
 }

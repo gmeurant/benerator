@@ -29,15 +29,15 @@ package org.databene.model.mutator;
 import org.databene.model.Mutator;
 
 /**
- * TODO.<br/>
+ * Proxy for a Mutator.<br/>
  * <br/>
  * Created: 12.05.2005 18:54:36
  */
-public abstract class MutatorProxy implements Mutator {
+public abstract class MutatorProxy<C, V> implements Mutator<C, V> {
 
-    protected Mutator realMutator;
+    protected Mutator<C, V> realMutator;
 
-    public MutatorProxy(Mutator realUpdater) {
+    public MutatorProxy(Mutator<C, V> realUpdater) {
         this.realMutator = realUpdater;
     }
 

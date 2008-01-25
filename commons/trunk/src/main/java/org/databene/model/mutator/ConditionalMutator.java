@@ -38,7 +38,7 @@ import org.apache.commons.logging.LogFactory;
 import java.util.Comparator;
 
 /**
- * TODO.<br/>
+ * Mutator that is only applied if a condition is true.<br/>
  * <br/>
  * Created: 08.05.2005 06:47:17
  */

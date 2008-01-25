@@ -29,12 +29,12 @@ package org.databene.model.mutator;
 import org.databene.model.Mutator;
 
 /**
- * TODO.<br/>
+ * Empty implementation of the Mutator interface.<br/>
  * <br/>
  * Created: 11.05.2005 20:14:02
  */
-public class EmptyMutator implements Mutator {
+public class EmptyMutator<C, V> implements Mutator<C, V> {
 
-    public void setValue(Object target, Object value) {
+    public void setValue(C target, V value) {
     }
 }
