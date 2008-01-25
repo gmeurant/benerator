@@ -30,15 +30,15 @@ import org.databene.model.Condition;
 import org.databene.model.Filter;
 
 /**
- * TODO.<br/>
+ * Filter that evaluates a Condition on each candidate.<br/>
  * <br/>
  * Created: 16.06.2007 12:30:26
  */
 public class ConditionalFilter<E> implements Filter<E> {
 
-    private Condition condition;
+    private Condition<E> condition;
 
-    public ConditionalFilter(Condition condition) {
+    public ConditionalFilter(Condition<E> condition) {
         this.condition = condition;
     }
 

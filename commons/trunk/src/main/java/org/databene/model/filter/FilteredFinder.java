@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * TODO.<br/>
+ * Iterates through a tree for searching items that maz´tch a filter.<br/>
  * <br/>
  * Created: 04.02.2007 11:59:03
  */

@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * TODO.<br/>
+ * Applies a filter to a List for extracting a subset of items.<br/>
  * <br/>
  * Created: 10.04.2007 08:07:12
  */

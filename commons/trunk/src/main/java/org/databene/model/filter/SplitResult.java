@@ -29,7 +29,9 @@ package org.databene.model.filter;
 import java.util.List;
 
 /**
- * TODO.<br/>
+ * The items of a splitted list: 
+ * <code>matches</code> contains the List items that matched the filter, 
+ * <code>mismatches</code> contains the other ones.<br/>
  * <br/>
  * Created: 10.04.2007 08:09:06
  */

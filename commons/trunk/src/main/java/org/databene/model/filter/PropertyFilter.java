@@ -35,7 +35,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * TODO.<br/>
+ * Filter that matches a JavaBean by checking a Condition for one of its property values.<br/>
  * <br/>
  * Created: 04.02.2007 00:47:13
  */
