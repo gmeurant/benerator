@@ -29,7 +29,7 @@ package org.databene.model.condition;
 import org.databene.model.Condition;
 
 /**
- * TODO.<br/>
+ * Condition that is composed of Condition components.<br/>
  * <br/>
  * Created: 04.02.2007 00:41:28
  */

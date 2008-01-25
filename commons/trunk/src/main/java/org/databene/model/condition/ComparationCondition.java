@@ -32,7 +32,8 @@ import org.databene.model.Condition;
 import java.util.Comparator;
 
 /**
- * TODO.<br/>
+ * Condition implementation that compares an arbitrary number of arguments 
+ * with one of different available operators.<br/>
  * <br/>
  * Created: 06.03.2006 17:49:06
  */

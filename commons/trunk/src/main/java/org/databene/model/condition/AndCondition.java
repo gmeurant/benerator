@@ -29,7 +29,8 @@ package org.databene.model.condition;
 import org.databene.model.Condition;
 
 /**
- * TODO.<br/>
+ * Composite condition that requires each sub condition to be true. 
+ * If no sub conditions exist, true is returned by default.<br/>
  * <br/>
  * Created: 04.02.2007 00:42:31
  */

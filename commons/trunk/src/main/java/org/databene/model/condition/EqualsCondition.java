@@ -30,7 +30,7 @@ import org.databene.commons.NullSafeComparator;
 import org.databene.model.Condition;
 
 /**
- * TODO.<br/>
+ * Condition that requires to be the checked argument to be equal to a prototype.<br/>
  * <br/>
  * Created: 16.06.2007 12:46:03
  */
