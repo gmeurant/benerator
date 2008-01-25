@@ -32,7 +32,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * TODO.<br/>
+ * Accessor implementation that caches the value it retrieves first 
+ * until it is manually invalidated.<br/>
  * <br/>
  * Created: 11.03.2006 17:02:27
  */
