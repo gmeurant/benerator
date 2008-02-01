@@ -203,7 +203,7 @@ public class RegexParser {
         }
         // parse ranges
         while (parseRange(tokenizer, set, additive)) {
-            // isEmpty loop
+            // empty loop
         }
 
         type = tokenizer.next();
