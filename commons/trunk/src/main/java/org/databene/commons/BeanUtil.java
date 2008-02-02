@@ -29,25 +29,27 @@ package org.databene.commons;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 import java.beans.Introspector;
 import java.beans.BeanInfo;
-import java.beans.MethodDescriptor;
 import java.beans.PropertyDescriptor;
 import java.beans.IntrospectionException;
 import java.io.PrintWriter;
 
 /**
- * Bundles reflection and introspection related operations.
- *
+ * Bundles reflection and introspection related operations.<br/><br/>
  * Created: 01.07.2006 08:44:33
+ * @author Volker Bergmann
  */
 public final class BeanUtil {
 
     private static final Log logger = LogFactory.getLog(BeanUtil.class);
+    
+    private static Escalator escalator = new LoggerEscalator();
 
     // (static) attributes ---------------------------------------------------------------------------------------------
 
@@ -255,8 +257,14 @@ public final class BeanUtil {
         }
     }
 
-    public static Object newInstance(String className) {
-        return newInstance(BeanUtil.forName(className));
+    /**
+     * Instantiates a class by the default constructor.
+     * @param className the name of the class to instantiate
+     * @return an instance of the class
+     */
+    public static <T> T newInstance(String className) {
+        Class<T> type = (Class<T>) BeanUtil.forName(className);
+        return newInstanceFromDefaultConstructor(type);
     }
 
     /**
@@ -266,29 +274,29 @@ public final class BeanUtil {
      * @return an object of the specified class
      */
     public static <T> T newInstance(Class<T> type, Object ... params) {
+        if (params.length == 0)
+            return newInstanceFromDefaultConstructor(type);
+        Constructor<T> constructor = null;
         try {
-            if (params.length == 0)
-                return type.newInstance();
             Constructor<T>[] constructors = (Constructor<T>[]) type.getConstructors();
-            if (constructors.length == 1)
-                return newInstance(constructors[0], params);
-            else {
-                Class[] paramTypes = new Class[params.length];
+            if (constructors.length == 1) {
+                constructor = constructors[0];
+                return newInstance(constructor, params);
+            } else {
+                Class<? extends Object>[] paramTypes = new Class[params.length];
                 for (int i = 0; i < params.length; i++)
                     paramTypes[i] = params[i].getClass();
-                for (Constructor constructor : type.getConstructors()) {
-                    if (typesMatch(constructor.getParameterTypes(), paramTypes))
-                        return (T)constructor.newInstance(params);
+                for (Constructor<T> c : type.getConstructors()) {
+                    if (typesMatch(c.getParameterTypes(), paramTypes)) {
+                        constructor = c;
+                        return newInstance(constructor, params);
+                    }
                 }
                 throw new NoSuchMethodException("No appropriate constructor found: " + type + '(' + ArrayFormat.format(", ", paramTypes) + ')');
             }
-        } catch (InstantiationException e) {
-            throw ExceptionMapper.configurationException(e, type);
-        } catch (IllegalAccessException e) {
-            throw ExceptionMapper.configurationException(e, type);
+        } catch (SecurityException e) {
+            throw ExceptionMapper.configurationException(e, constructor);
         } catch (NoSuchMethodException e) {
-            throw ExceptionMapper.configurationException(e, type);
-        } catch (InvocationTargetException e) {
             throw ExceptionMapper.configurationException(e, type);
         }
     }
@@ -567,6 +575,13 @@ public final class BeanUtil {
             throw ExceptionMapper.configurationException(e, writeMethod);
         }
     }
+    
+    public static <BEAN, PROPTYPE> List<PROPTYPE> extractProperties(Collection<BEAN> beans, String propertyName) {
+        List<PROPTYPE> result = new ArrayList<PROPTYPE>(beans.size());
+        for (BEAN bean : beans)
+            result.add((PROPTYPE)getPropertyValue(bean, propertyName));
+        return result;
+    }
 
     // class operations ------------------------------------------------------------------------------------------------
 
@@ -614,20 +629,59 @@ public final class BeanUtil {
         }
     }
 
+    /**
+     * Tells if a class is deprecated.
+     * @param type the class to check for deprecation
+     * @return true if the class is deprecated, else false
+     * @since 0.2.05
+     */
+    public static boolean deprecated(Class<? extends Object> type) {
+        Annotation[] annotations = type.getDeclaredAnnotations();
+        for (Annotation annotation : annotations)
+            if (annotation instanceof Deprecated)
+                return true;
+        return false;
+    }
+    
     // invisible helpers -----------------------------------------------------------------------------------------------
+
+    /**
+     * Creates an instance of the class using the default constructor.
+     * @since 0.2.06
+     */
+    private static <T> T newInstanceFromDefaultConstructor(Class<T> type) {
+        if (logger.isDebugEnabled())
+            logger.debug("Instantiating " + type.getSimpleName());
+        if (deprecated(type))
+            escalator.escalate("Instantiating a deprecated class: " + type.getName(), BeanUtil.class, null);
+        try {
+            return (T)type.newInstance();
+        } catch (InstantiationException e) {
+            throw ExceptionMapper.configurationException(e, type);
+        } catch (IllegalAccessException e) {
+            throw ExceptionMapper.configurationException(e, type);
+        }
+    }
 
     /**
      * Creates a new instance of a Class.
      * @param constructor
      * @param params
      * @return
-     * @throws IllegalAccessException
-     * @throws InvocationTargetException
-     * @throws InstantiationException
      */
-    private static <T> T newInstance(Constructor<T> constructor, Object[] params)
-            throws IllegalAccessException, InvocationTargetException, InstantiationException {
-        return constructor.newInstance(params);
+    public static <T> T newInstance(Constructor<T> constructor, Object ... params) {
+        Class<T> type = constructor.getDeclaringClass();
+        if (deprecated(type))
+            escalator.escalate("Instantiating a deprecated class: " + type.getName(), BeanUtil.class, null);
+        try {
+            return (T)constructor.newInstance(params);
+        } catch (InstantiationException e) {
+            throw ExceptionMapper.configurationException(e, type);
+        } catch (IllegalAccessException e) {
+            throw ExceptionMapper.configurationException(e, type);
+        } catch (InvocationTargetException e) {
+            throw ExceptionMapper.configurationException(e, type);
+        }
     }
 
     /**
