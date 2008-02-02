@@ -39,6 +39,7 @@ import java.math.BigInteger;
 /**
  * Provides methods for parsing PushbackReaders and Strings.
  * Created: 20.03.2005 16:32:00
+ * @author Volker Bergmann
  */
 public final class ParseUtil {
 
@@ -229,6 +230,16 @@ public final class ParseUtil {
 
     public static boolean isHex(char c) {
         return ('0' <= c && c <= '9') || ('a' <= c && c <= 'f') || ('A' <= c && c <= 'F');
+    }
+
+    public static String[] parseAssignment(String line, String operator) {
+        int sep = line.indexOf(operator);
+        if (sep <= 0)
+            return null;
+        return new String[] {
+                line.substring(0, sep).trim(),
+                (sep < line.length() - 1 ? line.substring(sep + 1).trim() : null)
+        };
     }
 
     // private helpers -------------------------------------------------------------------------------------------------
