@@ -35,6 +35,7 @@ import java.io.IOException;
  * java.lang.text.Format implementation for formatting arrays.<br/>
  * <br/>
  * Created: 20.06.2007 07:04:37
+ * @author Volker Bergmann
  */
 public class ArrayFormat extends Format {
 
@@ -75,7 +76,7 @@ public class ArrayFormat extends Format {
     }
 
     public Object parseObject(String source, ParsePosition pos) {
-        throw new UnsupportedOperationException("Not implemented"); // TODO v0.3 implement
+        throw new UnsupportedOperationException("Not implemented"); // TODO v0.3.1 implement
     }
 
     // publicly available utility methods ------------------------------------------------------------------------------

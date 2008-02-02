@@ -28,6 +28,8 @@ package org.databene.commons;
 
 import java.util.*;
 
+import org.databene.commons.collection.ListBasedSet;
+
 /**
  * Map implementation that tracks the order in which elements where added
  * and returns them in that order by the <i>values()</i> method. <br/>
@@ -36,6 +38,7 @@ import java.util.*;
  * and processed but need to be stored in the original order.<br/>
  * <br/>
  * Created: 06.01.2007 09:04:17
+ * @author Volker Bergmann
  */
 public class OrderedMap<K,V> implements Map<K,V> {
 

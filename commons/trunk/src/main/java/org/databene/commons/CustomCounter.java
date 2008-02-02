@@ -32,8 +32,9 @@ import java.util.Arrays;
  * Counts with an arbitrary radix.<br/>
  * <br/>
  * Created: 15.11.2007 16:05:34
+ * @author Volker Bergmann
  */
-public class CustomCounter { // TODO assign an appropriate name and move to commons
+public class CustomCounter {
 
     private int radix;
     private int[] digits;
