@@ -31,7 +31,7 @@ import org.databene.commons.Accessor;
 /**
  * Accessor that consecutively queries a chain of accessors 
  * until one provides the requested value.<br/>
- * @since 0.4.0
+ * @since 0.3.0
  * @author Volker Bergmann
  */
 public class FallbackAccessor<C, V> implements Accessor<C, V> {
