@@ -32,6 +32,7 @@ import java.util.*;
  * Provides String related utility operations.<br/>
  * <br/>
  * Created: 05.07.2006 22:45:12
+ * @author Volker Bergmann
  */
 public final class StringUtil {
 
@@ -187,6 +188,16 @@ public final class StringUtil {
         return s.substring(beginIndex, endIndex + 1);
     }
 
+    /**
+     * Trims all String in the array.
+     * @param array an array of the Strings to trim
+     * @since 0.2.05
+     */
+    public static void trimAll(String[] array) {
+        for (int i = 0; i < array.length; i++)
+            array[i] = trim(array[i]);
+    }
+
     /** Returns the platform dependent line separator */
     public static String lineSeparator() {
         return System.getProperty("line.separator");
@@ -333,7 +344,7 @@ public final class StringUtil {
             throw new IllegalArgumentException("Negative pad length: " + length);
         char[] chars = new char[length];
         Arrays.fill(chars, 0, length, c);
-        return new String(chars); // TODO v0.3 cache
+        return new String(chars);
     }
 
     public static String trimRight(String source, char padChar) {
@@ -404,4 +415,5 @@ public final class StringUtil {
     public static String uncapitalize(String text) {
         return text.substring(0, 1).toLowerCase() + text.substring(1);
     }
+
 }
