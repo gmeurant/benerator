@@ -28,6 +28,7 @@ package org.databene.commons;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.databene.commons.collection.MapEntry;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -38,12 +39,15 @@ import java.io.*;
 import java.net.URL;
 import java.net.MalformedURLException;
 import java.net.URLConnection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 /**
  * Provides stream operations.<br/>
  * <br/>
  * Created: 17.07.2006 22:17:42
+ * @author Volker Bergmann
  */
 public final class IOUtil {
 
@@ -257,37 +261,75 @@ public final class IOUtil {
     public static void copy(String srcUri, String targetUri) throws IOException {
         logger.info("downloading " + srcUri + " --> " + targetUri);
         InputStream in = IOUtil.getInputStreamForURI(srcUri);
-        OutputStream out = new FileOutputStream(targetUri); // TODO support other protocols, e.g. FTP upload
+        OutputStream out = new FileOutputStream(targetUri); // TODO v0.3 support other protocols, e.g. FTP upload
         IOUtil.transfer(in, out);
         out.close();
         in.close();
     }
 
-    // properties file im/export ---------------------------------------------------------------------------------------
+    // Properties I/O --------------------------------------------------------------------------------------------------
 
     public static Properties readProperties(String filename) throws IOException {
-        // TODO support file encodings that abviate from system default
-        Properties properties = new Properties();
-        InputStream stream = null;
+        return readProperties(filename, SystemInfo.fileEncoding());
+    }
+    
+    public static Properties readProperties(String filename, String encoding) throws IOException {
+        return readProperties(new Properties(), filename, null, encoding);
+    }
+    
+    public static <V> Map<String, V> readProperties(
+            String filename, Converter<Map.Entry, Map.Entry> converter) throws IOException {
+        return readProperties(filename, converter, SystemInfo.fileEncoding());
+    }
+    
+    public static <V> Map<String, V> readProperties(
+            String filename, Converter<Map.Entry, Map.Entry> converter, String encoding) throws IOException {
+        return readProperties(new HashMap<String, V>(), filename, converter, encoding);
+    }
+
+    private static <M extends Map> M readProperties(M target, String filename, 
+            Converter<Map.Entry, Map.Entry> converter, String encoding) throws IOException {
+        Reader reader = null;
+        ReaderLineIterator iterator = null;
         try {
-            stream = getFileOrResourceAsStream(filename);
-            properties.load(stream);
+            reader = IOUtil.getReaderForURI(filename, encoding);
+            iterator = new ReaderLineIterator(reader);
+            while (iterator.hasNext()) { // TODO v0.3.1 support line wrapping with '\', see java/util/Properties.html#load(java.io.InputStream)
+                String line = iterator.next();
+                if (line.trim().startsWith("#"))
+                    continue;
+                String[] assignment = ParseUtil.parseAssignment(line, "=");
+                if (assignment != null && assignment[1] != null) {
+                    Map.Entry entry = new MapEntry(assignment[0], assignment[1]);
+                    if (converter != null)
+                        entry = converter.convert(entry);
+                    target.put(entry.getKey(), entry.getValue());
+                }
+            }
         } finally {
-            close(stream);
+            if (iterator != null)
+                iterator.close();
+            else
+                IOUtil.close(reader);
         }
-        return properties;
+        return target;
     }
 
     public static void writeProperties(Properties properties, String filename) throws IOException {
-        // TODO support file encodings that abviate from system default
-        OutputStream stream = null;
+        writeProperties(properties, filename, SystemInfo.fileEncoding());
+    }
+
+    public static void writeProperties(Properties properties, String filename, String encoding) throws IOException {
+        PrintWriter stream = null;
         try {
-            stream = new FileOutputStream(filename);
-            properties.store(stream, "");
+            stream = IOUtil.getPrinterForURI(filename, encoding);
+            properties.list(stream);
         } finally {
-            close(stream);
+            IOUtil.close(stream);
         }
     }
+
+    // XML operations --------------------------------------------------------------------------------------------------
 
     public static Document parseXML(String uri) throws IOException {
         InputStream stream = null;
