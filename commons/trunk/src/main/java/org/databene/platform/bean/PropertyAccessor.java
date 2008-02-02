@@ -26,12 +26,13 @@
 
 package org.databene.platform.bean;
 
-import org.databene.model.accessor.TypedAccessor;
+import org.databene.commons.accessor.TypedAccessor;
 
 /**
  * Accesses a named (e.g. JavaBean) property.<br/>
  * <br/>
  * Created: 11.03.2006 22:17:33
+ * @author Volker Bergmann
  */
 public interface PropertyAccessor<C, V> extends TypedAccessor<C, V> {
     String getPropertyName();

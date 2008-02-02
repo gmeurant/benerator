@@ -30,6 +30,7 @@ package org.databene.platform.bean;
  * Partial implementation of the {@link PropertyMutator} interface holding a property name.<br/>
  * <br/>
  * Created: 21.07.2007 08:58:59
+ * @author Volker Bergmann
  */
 abstract class AbstractPropertyMutator implements PropertyMutator {
 

@@ -26,8 +26,8 @@
 
 package org.databene.platform.bean;
 
-import org.databene.model.comparator.ComparatorFactory;
 import org.databene.commons.ComparableComparator;
+import org.databene.commons.comparator.ComparatorFactory;
 
 import java.util.Comparator;
 
@@ -38,6 +38,7 @@ import java.util.Comparator;
  * @see ComparatorFactory<br/>
  * <br/>
  * Created: 06.01.2005 20:04:36
+ * @author Volker Bergmann
  */
 public class BeanComparator<C, V> implements Comparator<C> {
 

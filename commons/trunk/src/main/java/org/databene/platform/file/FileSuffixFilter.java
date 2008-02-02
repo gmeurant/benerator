@@ -34,6 +34,7 @@ import java.io.File;
  * Filters files matching their suffix with a required suffix.<br/>
  * <br/>
  * Created: 10.04.2007 08:19:03
+ * @author Volker Bergmann
  */
 public class FileSuffixFilter implements FileFilter {
 

@@ -27,7 +27,7 @@
 package org.databene.platform.file;
 
 import org.databene.commons.ArrayUtil;
-import org.databene.model.TreeModel;
+import org.databene.commons.TreeModel;
 
 import java.io.File;
 import java.util.Arrays;
@@ -37,6 +37,7 @@ import java.util.Comparator;
  * databene TreeModel implementation for files.<br/>
  * <br/>
  * Created: 08.05.2007 17:55:54
+ * @author Volker Bergmann
  */
 public class FileTreeModel implements TreeModel<File> {
 

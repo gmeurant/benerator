@@ -40,6 +40,7 @@ import java.util.ArrayList;
  * Provides database related utility methods.<br/>
  * <br/>
  * Created: 06.01.2007 19:27:02
+ * @author Volker Bergmann
  */
 public class DBUtil {
 
@@ -80,7 +81,6 @@ public class DBUtil {
         }
     }
 
-    /** TODO define a converter for this ? */
     public static String[][] parseResultSet(ResultSet resultSet) throws SQLException {
         List<String[]> rows = new ArrayList<String[]>();
         while (resultSet.next()) {
@@ -110,7 +110,7 @@ public class DBUtil {
         return cells;
     }
 
-    // TODO v0.3 replace this by ResultSetFormat
+    // TODO v0.3.1 replace this by ResultSetFormat
     public static String format(ResultSet resultSet) throws SQLException {
         StringBuilder builder = new StringBuilder();
         // format column names
@@ -124,6 +124,21 @@ public class DBUtil {
             builder.append(ArrayFormat.format(", ", row)).append(SystemInfo.lineSeparator());
         }
         return builder.toString();
+    }
+
+    public static String queryWithOneCellResult(PreparedStatement statement) {
+        try {
+            ResultSet resultSet = statement.executeQuery();
+            if (!resultSet.next())
+                throw new RuntimeException("Expected a row.");
+            String value = resultSet.getString(1);
+            if (resultSet.next())
+                throw new RuntimeException("Expected exactly one row, found more.");
+            resultSet.close();
+            return value;
+        } catch (SQLException e) {
+            throw new RuntimeException("Database query failed: ", e);
+        }
     }
 
 }

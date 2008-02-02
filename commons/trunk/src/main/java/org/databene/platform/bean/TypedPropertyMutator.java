@@ -28,9 +28,9 @@ package org.databene.platform.bean;
 
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
-import org.databene.model.UpdateFailedException;
-import org.databene.model.ConversionException;
-import org.databene.model.converter.AnyConverter;
+import org.databene.commons.ConversionException;
+import org.databene.commons.UpdateFailedException;
+import org.databene.commons.converter.AnyConverter;
 
 import java.lang.reflect.Method;
 import java.beans.PropertyDescriptor;
@@ -39,6 +39,7 @@ import java.beans.PropertyDescriptor;
  * Mutates the value of a JavaBean property with knowledge of the property type.<br/>
  * <br/>
  * Created: 21.07.2007 08:58:49
+ * @author Volker Bergmann
  */
 class TypedPropertyMutator extends AbstractPropertyMutator {
 

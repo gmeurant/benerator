@@ -26,7 +26,7 @@
 
 package org.databene.platform.file;
 
-import org.databene.model.comparator.CompositeTextComparator;
+import org.databene.commons.comparator.CompositeTextComparator;
 
 import java.io.File;
 import java.util.Comparator;
@@ -36,6 +36,7 @@ import java.util.Comparator;
  * supporting different comparation strategies by a user-definable Comparator.<br/>
  * <br/>
  * Created: 11.05.2007 18:24:45
+ * @author Volker Bergmann
  */
 public class FilenameComparator implements Comparator<File> {
 

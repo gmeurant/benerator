@@ -26,10 +26,10 @@
 
 package org.databene.platform.bean;
 
-import org.databene.model.Converter;
-import org.databene.model.ConversionException;
-import org.databene.model.converter.AnyConverter;
 import org.databene.commons.ArrayUtil;
+import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
+import org.databene.commons.converter.AnyConverter;
 
 import java.lang.reflect.Array;
 
@@ -38,6 +38,7 @@ import java.lang.reflect.Array;
  * processing n beans results in an array of n elements with the property values.<br/>
  * <br/>
  * Created: 02.08.2007 20:47:35
+ * @author Volker Bergmann
  */
 public class ArrayPropertyExtractor<E> implements Converter<Object[], E[]> {
 

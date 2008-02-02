@@ -35,6 +35,7 @@ import java.beans.PropertyDescriptor;
  * Retrieves values of a JavaBean property without knowing the property type.<br/>
  * <br/>
  * Created: 21.07.2007 10:18:09
+ * @author Volker Bergmann
  */
 class UntypedPropertyAccessor implements PropertyAccessor {
 

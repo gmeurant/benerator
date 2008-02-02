@@ -26,7 +26,7 @@
 
 package org.databene.platform.file;
 
-import org.databene.model.Filter;
+import org.databene.commons.Filter;
 
 import java.io.File;
 
@@ -34,6 +34,7 @@ import java.io.File;
  * Wraps another FileFilter.<br/>
  * <br/>
  * Created: 08.05.2007 00:01:45
+ * @author Volker Bergmann
  * @deprecated does not seem to be used or at least useful
  */
 public class FileFilterWrapper implements FileFilter {

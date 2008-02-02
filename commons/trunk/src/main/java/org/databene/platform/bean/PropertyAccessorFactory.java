@@ -39,6 +39,7 @@ import java.beans.PropertyDescriptor;
  * and behaves quietly, if it doesn not find the specified property<br/>
  * <br/>
  * Created: 06.01.2005 20:04:36
+ * @author Volker Bergmann
  */
 public class PropertyAccessorFactory {
 

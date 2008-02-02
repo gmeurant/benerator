@@ -26,8 +26,8 @@
 
 package org.databene.platform.bean;
 
-import org.databene.model.UpdateFailedException;
 import org.databene.commons.BeanUtil;
+import org.databene.commons.UpdateFailedException;
 
 import java.util.Map;
 

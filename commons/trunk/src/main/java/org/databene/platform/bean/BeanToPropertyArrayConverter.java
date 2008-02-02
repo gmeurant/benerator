@@ -26,24 +26,24 @@
 
 package org.databene.platform.bean;
 
-import org.databene.model.Converter;
-import org.databene.model.ConversionException;
+import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
 
 /**
  * Converter implementation that extracts all property values of a JavaBean to a Properties object.<br/>
  * <br/>
  * Created: 07.06.2007 14:11:58
+ * @author Volker Bergmann
  */
 public class BeanToPropertyArrayConverter<E> implements Converter<E, Object[]> {
 
-    private PropertyAccessor[] accessors;
+    private PropertyAccessor<E, ? extends Object>[] accessors;
 
     public BeanToPropertyArrayConverter(String ... propertyNames) {
         this(null, propertyNames);
     }
 
     public BeanToPropertyArrayConverter(Class<E> beanClass, String ... propertyNames) {
-        // TODO v0.3 if no propertyNames are provided, create them by introspection
         this.accessors = new PropertyAccessor[propertyNames.length];
         for (int i = 0; i < propertyNames.length; i++)
             this.accessors[i] = PropertyAccessorFactory.getAccessor(beanClass, propertyNames[i]);

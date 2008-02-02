@@ -35,6 +35,7 @@ import java.io.File;
  * Formats file names as local names or absolute path.<br/>
  * <br/>
  * Created: 13.05.2007 07:41:51
+ * @author Volker Bergmann
  */
 public class FilenameFormat extends Format {
 

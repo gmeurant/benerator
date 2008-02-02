@@ -26,12 +26,13 @@
 
 package org.databene.platform.xml;
 
-import org.databene.model.Converter;
-import org.databene.model.ConversionException;
-import org.databene.model.Context;
-import org.databene.model.converter.AnyConverter;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
+import org.databene.commons.Context;
+import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
+import org.databene.commons.converter.AnyConverter;
+import org.databene.commons.converter.NoOpConverter;
 import org.databene.platform.bean.BeanFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -56,24 +57,34 @@ public class XMLElement2BeanConverter implements Converter<Element, Object> {
     private static final Log logger = LogFactory.getLog(XMLElement2BeanConverter.class);
 
     private Context context;
+    private Converter<String, String> preprocessor;
 
     public XMLElement2BeanConverter() {
         this(null);
     }
 
     public XMLElement2BeanConverter(Context context) {
-        this.context = context;
+        this(context, new NoOpConverter<String>());
     }
+
+    public XMLElement2BeanConverter(Context context, Converter<String, String> preprocessor) {
+        this.context = context;
+        this.preprocessor = preprocessor;
+    }
+    
+    // Converter interface ---------------------------------------------------------------------------------------------
 
     public Class<Object> getTargetType() {
         return Object.class;
     }
 
     public Object convert(Element element) throws ConversionException {
-        return convert(element, context);
+        return convert(element, context, preprocessor);
     }
+    
+    // utility methods -------------------------------------------------------------------------------------------------
 
-    public static Object convert(Element element, Context context) throws ConversionException {
+    public static Object convert(Element element, Context context, Converter<String, String> preprocessor) throws ConversionException {
         if ("idref".equals(element.getNodeName())) {
             if (context != null) {
                 String id = element.getAttribute("bean");
@@ -84,10 +95,12 @@ public class XMLElement2BeanConverter implements Converter<Element, Object> {
             } else
                 throw new IllegalArgumentException("'idref' without a Context");
         } else
-            return convertBean(element, context);
+            return convertBean(element, context, preprocessor);
     }
 
-    private static Object convertBean(Element element, Context context) throws ConversionException {
+    // private helpers -------------------------------------------------------------------------------------------------
+    
+    private static Object convertBean(Element element, Context context, Converter<String, String> preprocessor) throws ConversionException {
         String className = element.getAttribute("class");
         logger.debug("instantiating class '" + className + "'");
         Class beanClass = BeanUtil.forName(className);
@@ -97,11 +110,12 @@ public class XMLElement2BeanConverter implements Converter<Element, Object> {
             Element propertyElement = (Element)propertyElements.item(i);
             String propertyName = propertyElement.getAttribute("name");
             Object propertyValue;
-            if (propertyElement.hasAttribute("value"))
-                propertyValue = propertyElement.getAttribute("value");
-            else if (propertyElement.hasAttribute("ref"))
-                propertyValue = context.get(propertyElement.getAttribute("ref"));
-            else {
+            if (propertyElement.hasAttribute("value")) {
+                propertyValue = preprocessor.convert(propertyElement.getAttribute("value"));
+            } else if (propertyElement.hasAttribute("ref")) {
+                String ref = preprocessor.convert(propertyElement.getAttribute("ref"));
+                propertyValue = context.get(ref);
+            } else {
                 NodeList childNodes = propertyElement.getChildNodes();
                 List subElements = new ArrayList();
                 for (int j = 0; j < childNodes.getLength(); j++) {
@@ -109,7 +123,7 @@ public class XMLElement2BeanConverter implements Converter<Element, Object> {
                     if (!(node instanceof Element))
                         continue;
                     Element childElement = (Element) node;
-                    subElements.add(convert(childElement, context));
+                    subElements.add(convert(childElement, context, preprocessor));
                 }
                 if (subElements.size() == 0)
                     throw new ConfigurationError("No valid property spec in: " + XMLUtil.format(element));
@@ -121,4 +135,5 @@ public class XMLElement2BeanConverter implements Converter<Element, Object> {
         }
         return BeanFactory.newBean(className, props);
     }
+    
 }

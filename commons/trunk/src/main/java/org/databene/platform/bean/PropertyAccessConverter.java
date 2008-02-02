@@ -26,13 +26,14 @@
 
 package org.databene.platform.bean;
 
-import org.databene.model.Converter;
-import org.databene.model.ConversionException;
+import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
 
 /**
  * Wraps an Accessor with a Converter interface implementation.<br/>
  * <br/>
  * Created: 25.06.2007 08:04:22
+ * @author Volker Bergmann
  */
 public class PropertyAccessConverter implements Converter {
 

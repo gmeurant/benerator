@@ -26,9 +26,9 @@
 
 package org.databene.platform.file;
 
-import org.databene.model.visitor.WrapperElement;
-import org.databene.model.Element;
-import org.databene.model.Visitor;
+import org.databene.commons.Element;
+import org.databene.commons.Visitor;
+import org.databene.commons.visitor.WrapperElement;
 
 import java.util.Collection;
 import java.util.ArrayList;
@@ -39,6 +39,7 @@ import java.io.File;
  * Element implementation (of the Visitor Design Pattern) for a File.<br/>
  * <br/>
  * Created: 04.02.2007 08:10:05
+ * @author Volker Bergmann
  */
 public class FileElement extends WrapperElement<File> {
 

@@ -48,7 +48,7 @@ public class XMLUtil {
             Attr attribute = (Attr) attributes.item(i);
             builder.append(' ').append(attribute.getName()).append('=').append(attribute.getValue());
         }
-        builder.append("..."); // v0.4 TODO complete this
+        builder.append("..."); // TODO v0.5 complete this
         return builder.toString();
     }
 }

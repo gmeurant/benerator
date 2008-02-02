@@ -26,12 +26,13 @@
 
 package org.databene.platform.bean;
 
-import org.databene.model.Mutator;
+import org.databene.commons.Mutator;
 
 /**
  * Mutates the value of a named (e.g. JavaBean) property.<br/>
  * <br/>
  * Created: 21.07.2007 08:20:13
+ * @author Volker Bergmann
  */
 public interface PropertyMutator extends Mutator {
     String getPropertyName();

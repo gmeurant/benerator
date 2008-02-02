@@ -26,10 +26,10 @@
 
 package org.databene.platform.bean;
 
-import org.databene.model.Converter;
-import org.databene.model.ConversionException;
-import org.databene.model.UpdateFailedException;
 import org.databene.commons.BeanUtil;
+import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
+import org.databene.commons.UpdateFailedException;
 
 import java.util.Properties;
 import java.util.Map;
@@ -40,6 +40,7 @@ import java.util.Map;
  * according to the entries of the Properties object.<br/>
  * <br/>
  * Created: 09.08.2007 19:28:36
+ * @author Volker Bergmann
  */
 public class Properties2BeanConverter<E> implements Converter<Properties, E> {
 

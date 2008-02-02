@@ -28,14 +28,15 @@ package org.databene.platform.bean;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.databene.model.UpdateFailedException;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.StringUtil;
+import org.databene.commons.UpdateFailedException;
 
 /**
  * Mutates JavaBean object graphs.<br/>
  * <br/>
  * Created: 08.05.2005 06:24:41
+ * @author Volker Bergmann
  */
 class PropertyGraphMutator implements PropertyMutator {
 

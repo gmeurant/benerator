@@ -31,6 +31,7 @@ package org.databene.platform.bean;
  * bean class name and/or property name and/or property type.<br/>
  * <br/>
  * Created: 13.05.2005 09:26:14
+ * @author Volker Bergmann
  */
 public class PropertyMutatorFactory {
 

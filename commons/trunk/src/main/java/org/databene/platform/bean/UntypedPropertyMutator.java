@@ -26,11 +26,11 @@
 
 package org.databene.platform.bean;
 
-import org.databene.model.UpdateFailedException;
-import org.databene.model.ConversionException;
-import org.databene.model.converter.AnyConverter;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
+import org.databene.commons.ConversionException;
+import org.databene.commons.UpdateFailedException;
+import org.databene.commons.converter.AnyConverter;
 
 import java.lang.reflect.Method;
 
@@ -38,6 +38,7 @@ import java.lang.reflect.Method;
  * Mutates the value of a property on a JavaBean target object.<br/>
  * <br/>
  * Created: 21.07.2007 09:01:19
+ * @author Volker Bergmann
  */
 class UntypedPropertyMutator extends AbstractPropertyMutator{
 

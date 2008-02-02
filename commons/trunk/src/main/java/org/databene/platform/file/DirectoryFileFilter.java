@@ -32,6 +32,7 @@ import java.io.File;
  * FileFilter implementation that accepts only directories.<br/>
  * <br/>
  * Created: 07.05.2007 23:57:46
+ * @author Volker Bergmann
  */
 public class DirectoryFileFilter implements FileFilter {
     public boolean accept(File file) {
