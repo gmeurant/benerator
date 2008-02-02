@@ -26,9 +26,10 @@
 
 package org.databene.document.csv;
 
-import org.databene.model.Mutator;
-import org.databene.model.UpdateFailedException;
 import org.databene.commons.BeanUtil;
+import org.databene.commons.ConfigurationError;
+import org.databene.commons.UpdateFailedException;
+import org.databene.platform.bean.PropertyMutator;
 import org.databene.platform.bean.PropertyMutatorFactory;
 
 import java.io.*;
@@ -44,7 +45,7 @@ public class CSVToJavaBeanMapper<E> implements Iterator<E> {
     private CSVLineIterator iterator;
     private Class<E> type;
     private String emptyValue;
-    private Mutator[] mutators;
+    private PropertyMutator[] mutators;
 
     public CSVToJavaBeanMapper(Reader reader, Class<E> type) throws IOException {
         this(reader, type, ',', null);
@@ -55,7 +56,7 @@ public class CSVToJavaBeanMapper<E> implements Iterator<E> {
         this.type = type;
         this.emptyValue = emptyValue;
         String[] attributeNames = this.iterator.next();
-        this.mutators = new Mutator[attributeNames.length];
+        this.mutators = new PropertyMutator[attributeNames.length];
         for (int i = 0; i < attributeNames.length; i++) {
             String attributeName = attributeNames[i];
             mutators[i] = PropertyMutatorFactory.getPropertyMutator(type, attributeName, false);
@@ -67,11 +68,12 @@ public class CSVToJavaBeanMapper<E> implements Iterator<E> {
     }
 
     public E next() {
+        int i = 0;
         try {
             String[] line = iterator.next();
             E bean = BeanUtil.newInstance(type);
             int columns = Math.min(line.length, mutators. length);
-            for (Integer i = 0; i < columns; i++) {
+            for (i = 0; i < columns; i++) {
                 String value = line[i];
                 if (value.length() == 0)
                     value = emptyValue;
@@ -79,7 +81,8 @@ public class CSVToJavaBeanMapper<E> implements Iterator<E> {
             }
             return bean;
         } catch (UpdateFailedException e) {
-            throw new RuntimeException(e); // TODO handle exception
+            throw new ConfigurationError("Failed to set property '" + 
+                    mutators[i].getPropertyName() + "' on class " + type);
         }
     }
 

@@ -28,14 +28,16 @@ package org.databene.document.flat;
 
 import org.databene.script.Script;
 import org.databene.script.ScriptException;
+import org.databene.script.ScriptUtil;
 import org.databene.script.ScriptedDocumentWriter;
-import org.databene.model.Converter;
-import org.databene.model.ConversionException;
-import org.databene.model.format.PadFormat;
-import org.databene.model.converter.ToStringConverter;
-import org.databene.model.converter.ConverterChain;
-import org.databene.model.converter.FormatFormatConverter;
+import org.databene.commons.Context;
+import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
 import org.databene.commons.SystemInfo;
+import org.databene.commons.converter.ConverterChain;
+import org.databene.commons.converter.FormatFormatConverter;
+import org.databene.commons.converter.ToStringConverter;
+import org.databene.commons.format.PadFormat;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -55,8 +57,8 @@ public class ArrayFlatFileWriter<E> extends ScriptedDocumentWriter<E[]> {
             throws IOException {
         this(
             out,
-            (headerScriptUrl != null ? Script.getInstance(headerScriptUrl) : null),
-            (footerScriptUrl != null ? Script.getInstance(footerScriptUrl) : null),
+            (headerScriptUrl != null ? ScriptUtil.readFile(headerScriptUrl) : null),
+            (footerScriptUrl != null ? ScriptUtil.readFile(footerScriptUrl) : null),
             descriptors
         );
     }
@@ -72,10 +74,9 @@ public class ArrayFlatFileWriter<E> extends ScriptedDocumentWriter<E[]> {
 
     // ArrayFlatFileScript ---------------------------------------------------------------------------------------------
 
-    private static class ArrayFlatFileScript extends Script {
+    private static class ArrayFlatFileScript implements Script {
 
         private Converter<Object, String>[] converters;
-        private Object[] cellsOfCurrentRow;
 
         public ArrayFlatFileScript(FlatFileColumnDescriptor[] descriptors) {
             this.converters = new Converter[descriptors.length];
@@ -88,16 +89,11 @@ public class ArrayFlatFileWriter<E> extends ScriptedDocumentWriter<E[]> {
                                 )
                 );
             }
-            this.cellsOfCurrentRow = null;
         }
 
-        public void setVariable(String variableName, Object variableValue) {
-            if ("part".equals(variableName))
-                cellsOfCurrentRow = (Object[]) variableValue;
-        }
-
-        public void execute(Writer out) throws IOException, ScriptException {
+        public void execute(Context context, Writer out) throws IOException, ScriptException {
             try {
+                Object[] cellsOfCurrentRow = (Object[]) context.get("part");
                 for (int i = 0; i < cellsOfCurrentRow.length; i++)
                     out.write(converters[i].convert(cellsOfCurrentRow[i]));
                 out.write(SystemInfo.lineSeparator());

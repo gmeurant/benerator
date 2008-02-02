@@ -26,12 +26,12 @@
 
 package org.databene.document.flat;
 
-import org.databene.model.HeavyweightIterator;
-import org.databene.model.format.PadFormat;
-import org.databene.model.iterator.ReaderLineIterator;
+import org.databene.commons.HeavyweightIterator;
 import org.databene.commons.IOUtil;
+import org.databene.commons.ReaderLineIterator;
 import org.databene.commons.StringUtil;
 import org.databene.commons.SystemInfo;
+import org.databene.commons.format.PadFormat;
 
 import java.io.IOException;
 import java.io.Reader;

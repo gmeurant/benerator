@@ -28,16 +28,18 @@ package org.databene.document.flat;
 
 import org.databene.script.Script;
 import org.databene.script.ScriptException;
+import org.databene.script.ScriptUtil;
 import org.databene.script.ScriptedDocumentWriter;
-import org.databene.model.Converter;
-import org.databene.model.ConversionException;
-import org.databene.model.format.PadFormat;
-import org.databene.model.converter.ToStringConverter;
-import org.databene.model.converter.ConverterChain;
-import org.databene.model.converter.ArrayConverter;
-import org.databene.model.converter.FormatFormatConverter;
 import org.databene.platform.bean.BeanToPropertyArrayConverter;
+import org.databene.commons.Context;
+import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
 import org.databene.commons.SystemInfo;
+import org.databene.commons.converter.ArrayConverter;
+import org.databene.commons.converter.ConverterChain;
+import org.databene.commons.converter.FormatFormatConverter;
+import org.databene.commons.converter.ToStringConverter;
+import org.databene.commons.format.PadFormat;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -58,8 +60,8 @@ public class BeanFlatFileWriter<E> extends ScriptedDocumentWriter<E> {
             throws IOException {
         this(
             out,
-            (headerScriptUrl != null ? Script.getInstance(headerScriptUrl) : null),
-            (footerScriptUrl != null ? Script.getInstance(footerScriptUrl) : null),
+            (headerScriptUrl != null ? ScriptUtil.readFile(headerScriptUrl) : null),
+            (footerScriptUrl != null ? ScriptUtil.readFile(footerScriptUrl) : null),
             descriptors
         );
     }
@@ -71,10 +73,9 @@ public class BeanFlatFileWriter<E> extends ScriptedDocumentWriter<E> {
 
     // BeanFlatFileScript ----------------------------------------------------------------------------------------------
 
-    private static class BeanFlatFileScript extends Script {
+    private static class BeanFlatFileScript implements Script {
 
         private Converter<Object, String[]> converter;
-        private Object part;
 
         public BeanFlatFileScript(FlatFileColumnDescriptor[] descriptors) {
             int length = descriptors.length;
@@ -94,18 +95,11 @@ public class BeanFlatFileWriter<E> extends ScriptedDocumentWriter<E> {
                 new BeanToPropertyArrayConverter(propertyNames),
                 new ArrayConverter(String.class, propertyConverters)
             );
-
-            this.part = null;
         }
 
-        public void setVariable(String variableName, Object variableValue) {
-            if ("part".equals(variableName))
-                part = variableValue;
-        }
-
-        public void execute(Writer out) throws IOException, ScriptException {
+        public void execute(Context context, Writer out) throws IOException, ScriptException {
             try {
-                String[] cells = converter.convert(part);
+                String[] cells = converter.convert(context.get("part"));
                 for (int i = 0; i < cells.length; i++)
                     out.write(cells[i]);
                 out.write(SystemInfo.lineSeparator());

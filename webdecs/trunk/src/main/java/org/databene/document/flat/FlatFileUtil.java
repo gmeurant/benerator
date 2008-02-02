@@ -28,7 +28,7 @@ package org.databene.document.flat;
 
 import org.databene.commons.StringUtil;
 import org.databene.commons.ConfigurationError;
-import org.databene.model.format.Alignment;
+import org.databene.commons.format.Alignment;
 
 import java.text.ParsePosition;
 import java.text.NumberFormat;

@@ -27,13 +27,14 @@
 package org.databene.document.csv;
 
 import org.databene.script.*;
-import org.databene.model.Converter;
-import org.databene.model.ConversionException;
-import org.databene.model.converter.ArrayConverter;
-import org.databene.model.converter.ToStringConverter;
-import org.databene.model.converter.ConverterChain;
 import org.databene.platform.bean.BeanToPropertyArrayConverter;
+import org.databene.commons.Context;
+import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
 import org.databene.commons.SystemInfo;
+import org.databene.commons.converter.ArrayConverter;
+import org.databene.commons.converter.ConverterChain;
+import org.databene.commons.converter.ToStringConverter;
 
 import java.io.Writer;
 import java.io.IOException;
@@ -64,11 +65,10 @@ public class BeanCSVWriter<E> extends ScriptedDocumentWriter<E> {
 
     // BeanCSVScript ---------------------------------------------------------------------------------------------------
 
-    private static class BeanCSVScript extends Script {
+    private static class BeanCSVScript implements Script {
 
         private char separator;
         private Converter<Object, String[]> converter;
-        private Object part;
 
         public BeanCSVScript(String[] propertyNames, char separator) {
             this.separator = separator;
@@ -80,17 +80,11 @@ public class BeanCSVWriter<E> extends ScriptedDocumentWriter<E> {
                 new BeanToPropertyArrayConverter(propertyNames),
                 new ArrayConverter(String.class, propertyConverters)
             );
-            this.part = null;
         }
 
-        public void setVariable(String variableName, Object variableValue) {
-            if ("part".equals(variableName))
-                part = variableValue;
-        }
-
-        public void execute(Writer out) throws IOException, ScriptException {
+        public void execute(Context context, Writer out) throws IOException, ScriptException {
             try {
-                String[] cells = converter.convert(part);
+                String[] cells = converter.convert(context.get("part"));
                 if (cells.length > 0)
                     out.write(cells[0]);
                 for (int i = 1; i < cells.length; i++) {

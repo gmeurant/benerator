@@ -28,12 +28,14 @@ package org.databene.document.csv;
 
 import org.databene.script.Script;
 import org.databene.script.ScriptException;
+import org.databene.script.ScriptUtil;
 import org.databene.script.ScriptedDocumentWriter;
 import org.databene.script.ConstantScript;
-import org.databene.model.converter.ToStringConverter;
-import org.databene.model.Converter;
-import org.databene.model.ConversionException;
+import org.databene.commons.Context;
+import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
 import org.databene.commons.SystemInfo;
+import org.databene.commons.converter.ToStringConverter;
 
 import java.io.Writer;
 import java.io.IOException;
@@ -42,6 +44,7 @@ import java.io.IOException;
  * Writes arrays as CSV rows.<br/>
  * <br/>
  * Created: 06.06.2007 19:35:29
+ * @author Volker Bergmann
  */
 public class ArrayCSVWriter<E> extends ScriptedDocumentWriter<E[]> {
 
@@ -49,7 +52,6 @@ public class ArrayCSVWriter<E> extends ScriptedDocumentWriter<E[]> {
         this(out, separator, (Script)null, (Script)null);
     }
 
-    // TODO test header generation
     public ArrayCSVWriter(Writer out, char separator, String ... columnHeads) {
         this(
                 out,
@@ -63,8 +65,8 @@ public class ArrayCSVWriter<E> extends ScriptedDocumentWriter<E[]> {
         this(
             out,
             separator,
-            (headerScriptUrl != null ? Script.getInstance(headerScriptUrl) : null),
-            (footerScriptUrl != null ? Script.getInstance(footerScriptUrl) : null)
+            (headerScriptUrl != null ? ScriptUtil.readFile(headerScriptUrl) : null),
+            (footerScriptUrl != null ? ScriptUtil.readFile(footerScriptUrl) : null)
         );
     }
 
@@ -74,25 +76,19 @@ public class ArrayCSVWriter<E> extends ScriptedDocumentWriter<E[]> {
 
     // ArrayCSVScript ---------------------------------------------------------------------------------------------
 
-    private static class ArrayCSVScript extends Script {
+    private static class ArrayCSVScript implements Script {
 
-        private Object[] cellsOfCurrentRow;
         private Converter<Object, String> converter;
         private char separator;
 
         public ArrayCSVScript(char separator) {
             this.separator = separator;
-            this.cellsOfCurrentRow = null;
             this.converter = new ToStringConverter<Object>();
         }
 
-        public void setVariable(String variableName, Object variableValue) {
-            if ("part".equals(variableName))
-                cellsOfCurrentRow = (Object[]) variableValue;
-        }
-
-        public void execute(Writer out) throws IOException, ScriptException {
+        public void execute(Context context, Writer out) throws IOException, ScriptException {
             try {
+                Object[] cellsOfCurrentRow = (Object[]) context.get("part");
                 String text = converter.convert(cellsOfCurrentRow[0]);
                 out.write(CSVUtil.renderCell(text, separator));
                 for (int i = 1; i < cellsOfCurrentRow.length; i++) {

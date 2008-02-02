@@ -27,7 +27,7 @@
 package org.databene.document.csv;
 
 import org.databene.commons.ConfigurationError;
-import org.databene.model.TypedIterable;
+import org.databene.commons.TypedIterable;
 
 import java.util.Iterator;
 import java.io.IOException;

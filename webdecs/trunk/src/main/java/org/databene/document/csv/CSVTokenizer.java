@@ -27,9 +27,10 @@
 package org.databene.document.csv;
 
 import static org.databene.document.csv.CSVTokenType.*;
+
+import org.databene.commons.Heavyweight;
 import org.databene.commons.IOUtil;
 import org.databene.commons.SystemInfo;
-import org.databene.model.Heavyweight;
 
 import java.io.*;
 

@@ -26,10 +26,10 @@
 
 package org.databene.document.csv;
 
+import org.databene.commons.HeavyweightIterator;
 import org.databene.commons.IOUtil;
 import org.databene.commons.CollectionUtil;
 import org.databene.commons.SystemInfo;
-import org.databene.model.HeavyweightIterator;
 
 import java.io.*;
 import java.util.List;
@@ -39,7 +39,7 @@ import java.util.ArrayList;
  * Gives accesses to content of a CSV file by String arrays
  * that represent the CSV rows as specified in RFC 4180.<br/>
  * <br/>
- * TODO use CSVTokenizer for proper quote support
+ * TODO v0.2.06 use CSVTokenizer for proper quote support
  */
 public class CSVLineIterator implements HeavyweightIterator<String[]> {
 

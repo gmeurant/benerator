@@ -26,8 +26,8 @@
 
 package org.databene.document.flat;
 
-import org.databene.model.format.PadFormat;
-import org.databene.model.TypedIterable;
+import org.databene.commons.TypedIterable;
+import org.databene.commons.format.PadFormat;
 
 import java.util.Iterator;
 import java.io.IOException;

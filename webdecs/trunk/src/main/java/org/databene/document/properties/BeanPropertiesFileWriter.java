@@ -28,14 +28,16 @@ package org.databene.document.properties;
 
 import org.databene.script.Script;
 import org.databene.script.ScriptException;
+import org.databene.script.ScriptUtil;
 import org.databene.script.ScriptedDocumentWriter;
-import org.databene.model.Converter;
-import org.databene.model.ConversionException;
-import org.databene.model.converter.ArrayConverter;
-import org.databene.model.converter.ToStringConverter;
-import org.databene.model.converter.ConverterChain;
+import org.databene.commons.Context;
+import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
 import org.databene.commons.SystemInfo;
 import org.databene.commons.BeanUtil;
+import org.databene.commons.converter.ArrayConverter;
+import org.databene.commons.converter.ConverterChain;
+import org.databene.commons.converter.ToStringConverter;
 import org.databene.platform.bean.BeanToPropertyArrayConverter;
 
 import java.io.IOException;
@@ -49,6 +51,7 @@ import java.beans.PropertyDescriptor;
  * Writes JavaBeans to property files.<br/>
  * <br/>
  * Created: 07.06.2007 13:05:38
+ * @author Volker Bergmann
  */
 public class BeanPropertiesFileWriter<E> extends ScriptedDocumentWriter<E> {
 
@@ -63,8 +66,8 @@ public class BeanPropertiesFileWriter<E> extends ScriptedDocumentWriter<E> {
         this(
             out,
             prefixPattern,
-            (headerScriptUrl != null ? Script.getInstance(headerScriptUrl) : null),
-            (footerScriptUrl != null ? Script.getInstance(footerScriptUrl) : null),
+            (headerScriptUrl != null ? ScriptUtil.readFile(headerScriptUrl) : null),
+            (footerScriptUrl != null ? ScriptUtil.readFile(footerScriptUrl) : null),
             propertyNames
         );
     }
@@ -77,7 +80,7 @@ public class BeanPropertiesFileWriter<E> extends ScriptedDocumentWriter<E> {
     public static <T> void persist(T bean, String filename) throws IOException {
         FileWriter out = new FileWriter(filename);
         BeanPropertiesFileWriter<T> writer = new BeanPropertiesFileWriter<T>(out, getPropertyNames(bean.getClass()));
-        //writer.writeHeader(); /// TODO needed?
+        writer.writeHeader();
         writer.writeElement(bean);
         writer.close();
         out.close();
@@ -93,7 +96,7 @@ public class BeanPropertiesFileWriter<E> extends ScriptedDocumentWriter<E> {
 
     // scripts ---------------------------------------------------------------------------------------------------------
 
-    private static class PartScript extends Script {
+    private static class PartScript implements Script {
 
         private static final String LINE_SEPARATOR = SystemInfo.lineSeparator();
 
@@ -102,7 +105,6 @@ public class BeanPropertiesFileWriter<E> extends ScriptedDocumentWriter<E> {
         private Converter<Object, String[]> converter;
 
         private int elementCount;
-        private Object part;
         private StringBuffer buffer;
         FieldPosition pos0 = new FieldPosition(0);
 
@@ -118,19 +120,13 @@ public class BeanPropertiesFileWriter<E> extends ScriptedDocumentWriter<E> {
                 new ArrayConverter(String.class, propertyConverters)
             );
             this.elementCount = 0;
-            this.part = null;
             this.buffer = new StringBuffer();
         }
 
-        public void setVariable(String variableName, Object variableValue) {
-            if ("part".equals(variableName))
-                part = variableValue;
-        }
-
-        public void execute(Writer out) throws IOException, ScriptException {
+        public void execute(Context context, Writer out) throws IOException, ScriptException {
             try {
                 elementCount++;
-                String[] cells = converter.convert(part);
+                String[] cells = converter.convert(context.get("part"));
                 String prefix = "";
                 if (prefixFormat != null) {
                     prefixFormat.format(new Integer[] {elementCount}, buffer, pos0);
