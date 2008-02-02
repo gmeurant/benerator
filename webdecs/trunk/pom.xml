@@ -4,7 +4,7 @@
 
     <groupId>databene</groupId>
     <artifactId>databene-webdecs</artifactId>
-    <version>0.2.04</version>
+    <version>0.3.0</version>
 
     <parent>
         <groupId>databene</groupId>
@@ -15,7 +15,7 @@
 
     <packaging>jar</packaging>
     <name>databene webdecs</name>
-    <url>http://databene.org</url>
+    <url>http://databene.org/databene-webdecs</url>
     <description>'databene webdecs' is an open source software library for
         WEB Data Extraction, Conversion and Scripting, written by Volker Bergmann.</description>
 
@@ -48,7 +48,7 @@
         <dependency>
             <groupId>databene</groupId>
             <artifactId>databene-commons</artifactId>
-            <version>0.2.04</version>
+            <version>0.3.0</version>
         </dependency>
 
         <dependency>
