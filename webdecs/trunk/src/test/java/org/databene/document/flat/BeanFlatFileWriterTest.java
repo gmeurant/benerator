@@ -29,9 +29,9 @@ package org.databene.document.flat;
 import junit.framework.TestCase;
 import org.databene.script.ConstantScript;
 import org.databene.bean.TP;
+import org.databene.commons.DocumentWriter;
 import org.databene.commons.SystemInfo;
-import org.databene.model.format.Alignment;
-import org.databene.model.DocumentWriter;
+import org.databene.commons.format.Alignment;
 
 import java.io.IOException;
 import java.io.StringWriter;

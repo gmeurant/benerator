@@ -33,11 +33,14 @@ import java.io.StringWriter;
 
 import org.databene.script.ConstantScript;
 import org.databene.bean.TP;
+import org.databene.commons.DocumentWriter;
 import org.databene.commons.SystemInfo;
-import org.databene.model.DocumentWriter;
 
 /**
+ * Tests the BeanPropertiesFileWriter.<br/>
+ * <br/>
  * Created: 16.06.2007 06:07:52
+ * @author Volker Bergmann
  */
 public class BeanPropertiesFileWriterTest extends TestCase {
 

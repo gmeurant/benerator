@@ -33,7 +33,7 @@ import java.io.IOException;
 
 import org.databene.script.ConstantScript;
 import org.databene.commons.SystemInfo;
-import org.databene.model.format.Alignment;
+import org.databene.commons.format.Alignment;
 
 /**
  * Created: 16.06.2007 06:07:52

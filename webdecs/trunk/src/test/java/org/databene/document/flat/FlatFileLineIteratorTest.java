@@ -33,8 +33,8 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import org.databene.commons.SystemInfo;
-import org.databene.model.format.Alignment;
-import org.databene.model.format.PadFormat;
+import org.databene.commons.format.Alignment;
+import org.databene.commons.format.PadFormat;
 
 /**
  * Tests the FlatFileLineIterator.<br/>
