@@ -34,6 +34,7 @@ import java.util.Iterator;
  * since it encapsules the cursor index.<br/>
  * <br/>
  * Created: 18.08.2006 19:21:45
+ * @author Volker Bergmann
  */
 public class StringCharacterIterator implements Iterator<Character> {
 
@@ -105,6 +106,22 @@ public class StringCharacterIterator implements Iterator<Character> {
      */
     public int index() {
         return index;
+    }
+
+    public void skipWhitespace() {
+        while (index < source.length() && Character.isWhitespace(source.charAt(index)))
+            index++;
+    }
+
+    public String parseLetters() {
+        StringBuilder builder = new StringBuilder();
+        while (index < source.length() && Character.isLetter(source.charAt(index)))
+            builder.append(source.charAt(index++));
+        return builder.toString();
+    }
+
+    public String remainingText() {
+        return source.substring(index);
     }
 
     // java.lang.Object overrides --------------------------------------------------------------------------------------
