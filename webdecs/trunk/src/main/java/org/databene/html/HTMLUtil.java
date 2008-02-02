@@ -31,9 +31,10 @@ import org.databene.commons.ArrayUtil;
 import java.util.Set;
 
 /**
- * TODO.<br/>
+ * Provides utility methods for HTML processing.<br/>
  * <br/>
  * Created: 15.06.2007 19:42:19
+ * @author Volker Bergmann
  */
 public class HTMLUtil {
 

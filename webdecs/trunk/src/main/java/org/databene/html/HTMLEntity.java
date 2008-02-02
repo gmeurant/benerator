@@ -27,9 +27,10 @@
 package org.databene.html;
 
 /**
- * TODO.<br/>
+ * Entity enumeration.<br/>
  * <br/>
  * Created: 26.01.2007 10:04:35
+ * @author Volker Bergmann
  */
 public class HTMLEntity {
 /*

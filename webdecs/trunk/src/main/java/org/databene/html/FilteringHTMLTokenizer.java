@@ -26,16 +26,17 @@
 
 package org.databene.html;
 
-import org.databene.model.Filter;
+import org.databene.commons.Filter;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Map;
 
 /**
- * TODO.<br/>
+ * {@link HTMLTokenizer} proxy that returns only the tokens that match a {@link Filter}.<br/>
  * <br/>
  * Created: 16.06.2007 05:50:50
+ * @author Volker Bergmann
  */
 public class FilteringHTMLTokenizer implements HTMLTokenizer{
 

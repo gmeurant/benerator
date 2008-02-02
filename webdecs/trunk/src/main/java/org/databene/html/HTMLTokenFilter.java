@@ -26,12 +26,13 @@
 
 package org.databene.html;
 
-import org.databene.model.Filter;
+import org.databene.commons.Filter;
 
 /**
- * TODO.<br/>
+ * {@link Filter} that accepts HTML tokens by type and name.<br/>
  * <br/>
  * Created: 16.06.2007 05:54:38
+ * @author Volker Bergmann
  */
 public class HTMLTokenFilter implements Filter<HTMLTokenizer> {
 

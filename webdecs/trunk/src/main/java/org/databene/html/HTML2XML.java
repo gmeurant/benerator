@@ -35,9 +35,10 @@ import java.util.Stack;
 import java.util.Map;
 
 /**
- * TODO.<br/>
+ * Frovides utility methods for converting HTML to XML.<br/>
  * <br/>
  * Created: 25.01.2007 17:10:37
+ * @author Volker Bergmann
  */
 public class HTML2XML {
 
@@ -48,7 +49,7 @@ public class HTML2XML {
             convert(reader, writer);
             return writer.getBuffer().toString();
         } catch (IOException e) {
-            throw new RuntimeException(e); // TODO handle exception
+            throw new RuntimeException(e); // this is not supposed to happen
         } finally {
             IOUtil.close(reader);
         }
@@ -107,7 +108,7 @@ public class HTML2XML {
                     writeText(writer, tokenizer.text());
                     break;
                 case HTMLTokenizer.DOCUMENT_TYPE:
-                    // leave out doc type // TODO
+                    // leave out doc type // TODO v0.2.06 implement
                     break;
                 case HTMLTokenizer.PROCESSING_INSTRUCTION:
                     writeText(writer, tokenizer.text());

@@ -63,9 +63,10 @@ import java.io.IOException;
 import java.text.ParseException;
 
 /**
- * TODO.<br/>
+ * Default implementation of an {@link HTMLTokenizer}.<br/>
  * <br/>
  * Created: 15.06.2007 05:56:21
+ * @author Volker Bergmann
  */
 public class DefaultHTMLTokenizer implements HTMLTokenizer {
 
@@ -366,7 +367,6 @@ public class DefaultHTMLTokenizer implements HTMLTokenizer {
         do {
             int c;
             while((c = reader.read()) != -1 && (caseSensitive ? c : Character.toUpperCase(c)) != endChars[0]) {
-//                System.out.print((char)Character.toUpperCase(c));
                 textBuffer[cursor++] = (char)c;
             }
             if (c == -1)

@@ -31,9 +31,10 @@ import java.io.IOException;
 import java.text.ParseException;
 
 /**
- * TODO.<br/>
+ * Abstraction of an HTML tokenizer.<br/>
  * <br/>
  * Created: 15.06.2007 05:53:19
+ * @author Volker Bergmann
  */
 public interface HTMLTokenizer {
 
