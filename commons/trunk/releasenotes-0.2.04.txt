@@ -1,4 +1,4 @@
-release notes databene-commons 0.2.03
+release notes databene-commons 0.2.04
 -------------------------------------
 
 Summary: Most enhancements are related to conversions of timestamps and arrays. 
