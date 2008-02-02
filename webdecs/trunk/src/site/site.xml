@@ -7,16 +7,22 @@
         <version>1.0</version>
     </skin>
 
-    <!--bannerLeft>
+    <bannerLeft>
       <name>databene</name>
-      <src>images/databene.gif</src>
-      <href>http://databene.org/</href>
-    </bannerLeft-->
+      <src>images/logos/webdecs.png</src>
+      <href>./</href>
+    </bannerLeft>
 
     <!--bannerRight>
       <src>http://maven.apache.org/images/maven-small.gif</src>
     </bannerRight-->
 
+    <poweredBy>
+        <logo name="Maven" href="http://maven.apache.org/"
+              img="images/logos/maven-button-2.png"/>
+    </poweredBy>
+  
+  
     <body>
 
         <head>
@@ -35,15 +41,21 @@
         </head>
 
         <menu name="databene.org" inherit="top">
-            <item name="about" href="../index.html"/>
+            <item name="about" href="http://databene.org"/>
             <item name="volker bergmann" href="../volker_bergmann.html"/>
+            <item name="news" href="../news.html"/>
+            <item name="forum" href="../phpBB2"/>
+            <item name="mailing lists" href="../mailing_lists.html"/>
+            <item name="support" href="../support.html"/>
+            <item name="training" href="../training.html"/>
+            <item name="blog" href="../blog"/>
             <item name="contact" href="../contact.html" />
         </menu>
 
         <menu name="all products">
-            <item name="databene commons" href="../databene-commons"/>
-            <item name="databene webdecs" href="../databene-webdecs"/>
             <item name="databene benerator" href="../databene-benerator"/>
+            <item name="databene webdecs" href="../databene-webdecs"/>
+            <item name="databene commons" href="../databene-commons"/>
         </menu>
 
         <menu name="databene webdecs">
