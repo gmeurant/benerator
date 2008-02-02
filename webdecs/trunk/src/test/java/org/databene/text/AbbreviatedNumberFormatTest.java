@@ -59,18 +59,18 @@ public class AbbreviatedNumberFormatTest extends TestCase {
         checkParse("1,234 Tsd", 1234, Locale.GERMANY);
         checkParse("1.234,56 Mio", 1234560000, Locale.GERMANY);
     }
-/* TODO check this
+
     public void testFormat() throws Exception {
         checkFormat(1, "1.00", Locale.US);
         checkFormat(1000, "1.00 Tsd", Locale.US);
         checkFormat(1234, "1.23 Tsd", Locale.US);
-        checkFormat(1234560000, "1,234.56 Mio", Locale.US);
+        checkFormatFixed(1234560000, "1,234.56 Mio", 1000000, Locale.US);
         checkFormat(1, "1,00", Locale.GERMANY);
         checkFormat(1000, "1,00 Tsd", Locale.GERMANY);
         checkFormat(1234, "1,23 Tsd", Locale.GERMANY);
-        checkFormat(1234560000, "1.234,56 Mio", Locale.GERMANY);
+        checkFormatFixed(1234560000, "1.234,56 Mio", 1000000, Locale.GERMANY);
     }
-TODO check this
+
     public void testFormatFixed() throws Exception {
         checkFormatFixed(1, "1.00", 1, Locale.US);
         checkFormatFixed(123, "0.12 Tsd", 1000, Locale.US);
@@ -83,7 +83,7 @@ TODO check this
         checkFormatFixed(1234, "1,23 Tsd", 1000, Locale.GERMANY);
         checkFormatFixed(1234560000, "1.234,56 Mio", 1000000, Locale.GERMANY);
     }
-*/
+
     private void checkParse(String source, double target, Locale locale) throws ParseException {
         AbbreviatedNumberFormat format = new AbbreviatedNumberFormat(locale);
         assertEquals(target, format.parse(source).doubleValue(), DELTA);
