@@ -32,9 +32,9 @@ import java.io.IOException;
 /**
  * Provides locale operations like determining the parent of a locale,
  * finding a locale by code, providing the characters of a locale
- * and a so-called 'fallback locale'.
- *
+ * and a so-called 'fallback locale'.<br/><br/>
  * Created: 26.09.2006 23:34:41
+ * @author Volker Bergmann
  */
 public final class LocaleUtil {
 
@@ -121,12 +121,15 @@ public final class LocaleUtil {
         if (locale == null)
             return null;
         Set<Character> set = specialLetters.get(locale);
-        if (set == null) {
-            Locale parent = parent(locale);
-            if (parent != null)
-                return nullTolerantLetters(parent);
+        if (set != null)
+            return set;
+        Locale parent = locale;
+        while ((parent = parent(parent)) != null) {
+            set = specialLetters.get(parent);
+            if (set != null)
+                return set;
         }
-        return set;
+        return latinSet();
     }
 
     /**
@@ -140,7 +143,7 @@ public final class LocaleUtil {
             for (Map.Entry<Object, Object> entry : properties.entrySet()) {
                 Locale locale = getLocale(String.valueOf(entry.getKey()));
                 String specialChars = String.valueOf(entry.getValue());
-                Set<Character> charSet = new CharSet('A', 'Z').addRange('a', 'z').getSet();
+                Set<Character> charSet = latinSet();
                 for (int i = 0; i < specialChars.length(); i++)
                     charSet.add(specialChars.charAt(i));
                 specialLetters.put(locale, charSet);
@@ -148,6 +151,10 @@ public final class LocaleUtil {
         } catch (IOException e) {
             throw new ConfigurationError("Setup file for locale-specific letters is missing", e);
         }
+    }
+
+    private static Set<Character> latinSet() {
+        return new CharSet('A', 'Z').addRange('a', 'z').getSet();
     }
 
 }
