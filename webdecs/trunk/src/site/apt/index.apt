@@ -8,10 +8,12 @@ about databene webdecs
 
   It is released under a {{{license.html}dual license}}.
   
-version history
+release history
 
 *-------------+-------------------+-------------------------------------------------+
 | <<release>> | <<release date>>  | <<features>>                                    |
+*-------------+-------------------+-------------------------------------------------+
+| 0.3.0       | 2008-02-03        | redesign of script functionality                |
 *-------------+-------------------+-------------------------------------------------+
 | 0.2.04      | 2007-12-10        | updated to newest version of databene-commons   |
 *-------------+-------------------+-------------------------------------------------+
