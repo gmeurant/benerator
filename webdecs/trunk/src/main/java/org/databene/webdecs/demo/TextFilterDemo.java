@@ -26,16 +26,17 @@
 
 package org.databene.webdecs.demo;
 
-import org.databene.model.iterator.FilteringIterator;
-import org.databene.model.iterator.ReaderLineIterator;
-import org.databene.model.Filter;
+import org.databene.commons.Filter;
+import org.databene.commons.ReaderLineIterator;
+import org.databene.commons.iterator.FilteringIterator;
 
 import java.io.*;
 
 /**
- * TODO.<br/>
+ * Parses the lines of a text file and extracts the lines that match a {@link Filter} to a target file.<br/>
  * <br/>
  * Created: 12.06.2007 19:32:31
+ * @author Volker Bergmann
  */
 public class TextFilterDemo {
     private static final String FILE_NAME = "test.dat";

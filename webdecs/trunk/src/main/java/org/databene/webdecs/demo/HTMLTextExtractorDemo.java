@@ -28,9 +28,9 @@ package org.databene.webdecs.demo;
 
 import org.databene.html.HTML2XML;
 import org.databene.xslt.XSLTTransformer;
+import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
 import org.databene.commons.IOUtil;
-import org.databene.model.ConversionException;
-import org.databene.model.Converter;
 import org.databene.text.SplitStringConverter;
 
 import javax.xml.transform.TransformerException;
@@ -42,6 +42,7 @@ import java.text.ParseException;
  * for extracting data from a web page.<br/>
  * <br/>
  * Created: 16.06.2007 10:08:41
+ * @author Volker Bergmann
  */
 public class HTMLTextExtractorDemo {
     private static final String XSLT_FILENAME = "org/databene/webdecs/demo/HTMLTextExtractorDemo.xsl";

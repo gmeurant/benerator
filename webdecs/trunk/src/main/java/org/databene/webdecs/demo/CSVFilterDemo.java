@@ -26,18 +26,19 @@
 
 package org.databene.webdecs.demo;
 
+import org.databene.commons.DocumentWriter;
+import org.databene.commons.Filter;
+import org.databene.commons.iterator.FilteringIterator;
 import org.databene.document.csv.CSVLineIterator;
 import org.databene.document.csv.ArrayCSVWriter;
-import org.databene.model.Filter;
-import org.databene.model.DocumentWriter;
-import org.databene.model.iterator.FilteringIterator;
 
 import java.io.*;
 
 /**
- * TODO.<br/>
+ * Parses the rows of a csv file and extracts the lines that match a {@link Filter} to a target file.<br/>
  * <br/>
  * Created: 12.06.2007 19:32:31
+ * @author Volker Bergmann
  */
 public class CSVFilterDemo {
     private static final String FILE_NAME = "test.dat";
@@ -64,7 +65,6 @@ public class CSVFilterDemo {
         // iterate the entries
         while (iterator.hasNext()) {
             String[] cells = iterator.next();
-//            System.out.println(ArrayUtil.format(cells));
             csvWriter.writeElement(cells);
             matchCount++;
         }
@@ -82,7 +82,6 @@ public class CSVFilterDemo {
     private static final class RowFilter implements Filter<String[]> {
         public boolean accept(String[] candidate) {
             return candidate.length > 2 && "3023293310905".equals(candidate[1]);
-            //return true;
         }
     }
 }
