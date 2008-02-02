@@ -26,20 +26,24 @@
 
 package org.databene.script;
 
-import java.util.Map;
-import java.util.HashMap;
+import org.databene.commons.Context;
+import org.databene.commons.context.DefaultContext;
 
 /**
- * TODO.<br/>
+ * Abstract implementation of the Script class.<br/>
  * <br/>
  * Created: 29.06.2007 17:38:41
+ * @author Volker Bergmann
+ * @deprecated As of release 0.4.0, use the parent class {@link Script} instead. This class will be removed with v0.5
  */
-public abstract class AbstractScript extends Script {
-
-    private Map<String, Object> variables = new HashMap<String, Object>();
+// TODO v0.4.0 remove this
+@Deprecated
+public abstract class AbstractScript implements Script {
+    
+    private Context variables = new DefaultContext();
 
     public void setVariable(String variableName, Object variableValue) {
-        variables.put(variableName, variableValue);
+        variables.set(variableName, variableValue);
     }
 
     public Object getVariable(String variableName) {

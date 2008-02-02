@@ -27,9 +27,10 @@
 package org.databene.script;
 
 /**
- * TODO.<br/>
+ * Name-value-pair that represents a variable in a Script.<br/>
  * <br/>
  * Created: 07.06.2007 11:43:01
+ * @author Volker Bergmann
  */
 public class ScriptVariable {
 

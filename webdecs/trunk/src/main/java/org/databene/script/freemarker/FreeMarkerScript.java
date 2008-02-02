@@ -31,46 +31,84 @@ import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
+import java.io.StringReader;
 import java.io.Writer;
 import java.io.IOException;
-import java.util.Map;
-import java.util.HashMap;
 
+import org.databene.commons.Context;
 import org.databene.script.Script;
 import org.databene.script.ScriptException;
 
 /**
- * TODO.<br/>
+ * {@link Script} implementation that uses the FreeMarker engine.<br/>
  * <br/>
  * Created: 31.01.2007 19:56:20
+ * @author Volker Bergmann
  */
-public class FreeMarkerScript extends Script {
-
+public class FreeMarkerScript implements Script {
+    
     private static Configuration cfg;
 
     static {
         cfg = new Configuration();
         cfg.setClassForTemplateLoading(FreeMarkerScript.class, "/");
         cfg.setObjectWrapper(new DefaultObjectWrapper());
+        cfg.setNumberFormat("0.##");
     }
 
     private Template template;
-    private Map<String, Object> root;
 
+    // constructors ----------------------------------------------------------------------------------------------------
+    
     public FreeMarkerScript(String filename) throws IOException {
-        template = cfg.getTemplate(filename);
-        root = new HashMap<String, Object>();
+        this(cfg.getTemplate(filename));
     }
 
-    public void setVariable(String variableName, Object value) {
-        root.put(variableName, value);
+    public FreeMarkerScript(Template template) throws IOException {
+        this.template = template;
     }
-
-    public void execute(Writer out) throws IOException, ScriptException {
+    
+    // factory methods -------------------------------------------------------------------------------------------------
+    
+    public static FreeMarkerScript createFromText(String text) {
         try {
-            template.process(root, out);
+            StringReader reader = new StringReader(text);
+            Template template = new Template(text, reader, cfg, null);
+            return new FreeMarkerScript(template);
+        } catch (IOException e) {
+            throw new RuntimeException(e); // This is not supposed to happen
+        }
+    }
+    
+    // Script interface implementation ---------------------------------------------------------------------------------
+
+    public void execute(Context context, Writer out) throws IOException, ScriptException {
+        try {
+            template.process(context, out);
         } catch (TemplateException e) {
             throw new ScriptException(e);
         }
     }
+    
+    // java.lang.Object overrides --------------------------------------------------------------------------------------
+    
+    @Override
+    public String toString() {
+        return template.toString();
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        return template.hashCode();
+    }
+    
+    /**
+     * @see java.lang.Object#equals(Object)
+     */
+    public boolean equals(Object obj) {
+        return template.equals(obj);
+    }
+    
 }

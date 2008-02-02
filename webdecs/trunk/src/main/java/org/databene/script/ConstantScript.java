@@ -29,12 +29,15 @@ package org.databene.script;
 import java.io.Writer;
 import java.io.IOException;
 
+import org.databene.commons.Context;
+
 /**
- * TODO.<br/>
+ * Script implementation that evaluates to a String constant.<br/>
  * <br/>
  * Created: 16.06.2007 06:15:32
+ * @author Volker Bergmann
  */
-public class ConstantScript extends Script {
+public class ConstantScript implements Script {
 
     private String text;
 
@@ -46,7 +49,7 @@ public class ConstantScript extends Script {
         // nothing to do
     }
 
-    public void execute(Writer out) throws IOException, ScriptException {
+    public void execute(Context context, Writer out) throws IOException, ScriptException {
         out.write(text);
     }
 }

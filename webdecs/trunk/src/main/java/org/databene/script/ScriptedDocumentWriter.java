@@ -26,7 +26,9 @@
 
 package org.databene.script;
 
-import org.databene.model.DocumentWriter;
+import org.databene.commons.Context;
+import org.databene.commons.DocumentWriter;
+import org.databene.commons.context.DefaultContext;
 
 import java.io.Writer;
 import java.io.IOException;
@@ -34,9 +36,10 @@ import java.util.Map;
 import java.util.HashMap;
 
 /**
- * TODO.<br/>
+ * A DocumentWriter that uses {@link Script}s for rendering head, body parts and footer.<br/>
  * <br/>
  * Created: 07.06.2007 11:32:09
+ * @author Volker Bergmann
  */
 public class ScriptedDocumentWriter<E> implements DocumentWriter<E> {
 
@@ -52,9 +55,9 @@ public class ScriptedDocumentWriter<E> implements DocumentWriter<E> {
     public ScriptedDocumentWriter(Writer out, String headerScriptUrl, String bodyPartScriptUrl, String footerScriptUrl)
             throws IOException {
         this(   out,
-                (headerScriptUrl != null ? Script.getInstance(headerScriptUrl) : null),
-                (bodyPartScriptUrl != null ? Script.getInstance(bodyPartScriptUrl) : null),
-                (footerScriptUrl != null ? Script.getInstance(footerScriptUrl) : null)
+                (headerScriptUrl != null ? ScriptUtil.readFile(headerScriptUrl) : null),
+                (bodyPartScriptUrl != null ? ScriptUtil.readFile(bodyPartScriptUrl) : null),
+                (footerScriptUrl != null ? ScriptUtil.readFile(footerScriptUrl) : null)
         );
     }
 
@@ -95,13 +98,10 @@ public class ScriptedDocumentWriter<E> implements DocumentWriter<E> {
             headerWritten = true;
         }
         if (bodyPartScript != null) {
-            try {
-                bodyPartScript.setVariable("var", vars);
-                bodyPartScript.setVariable("part", part);
-                bodyPartScript.execute(out);
-            } catch (ScriptException e) {
-                throw new RuntimeException(e); // TODO handle exception
-            }
+            Context context = new DefaultContext();
+            context.set("var", vars);
+            context.set("part", part);
+            bodyPartScript.execute(context, out);
         }
     }
 
@@ -114,23 +114,17 @@ public class ScriptedDocumentWriter<E> implements DocumentWriter<E> {
 
     protected void writeHeader() throws IOException {
         if (headerScript != null) {
-            try {
-                headerScript.setVariable("var", vars);
-                headerScript.execute(out);
-            } catch (ScriptException e) {
-                throw new RuntimeException(e); // TODO handle exception
-            }
+            Context context = new DefaultContext();
+            context.set("var", vars);
+            headerScript.execute(context, out);
         }
     }
 
     protected void writeFooter() throws IOException {
         if (footerScript != null) {
-            try {
-                headerScript.setVariable("var", vars);
-                footerScript.execute(out);
-            } catch (ScriptException e) {
-                throw new RuntimeException(e); // TODO handle exception
-            }
+            Context context = new DefaultContext();
+            context.set("var", vars);
+            footerScript.execute(context, out);
         }
     }
 }

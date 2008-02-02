@@ -27,11 +27,13 @@
 package org.databene.script;
 
 /**
- * TODO.<br/>
+ * Indicates the failure of a {@link Script} execution.<br/>
  * <br/>
  * Created: 03.02.2007 12:19:00
+ * @author Volker Bergmann
  */
-public class ScriptException extends Exception {
+public class ScriptException extends RuntimeException {
+    
     public ScriptException() {
     }
 
