@@ -27,7 +27,8 @@
 package org.databene.platform.bean;
 
 import junit.framework.TestCase;
-import org.databene.model.ConversionException;
+
+import org.databene.commons.ConversionException;
 
 /**
  * Created: 21.07.2007 16:35:28

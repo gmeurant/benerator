@@ -24,7 +24,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.model.validator;
+package org.databene.commons.validator;
+
+import org.databene.commons.validator.StringLengthValidator;
 
 import junit.framework.TestCase;
 

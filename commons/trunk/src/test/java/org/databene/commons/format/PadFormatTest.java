@@ -24,11 +24,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.model.format;
+package org.databene.commons.format;
 
 import junit.framework.TestCase;
 
 import java.text.ParseException;
+
+import org.databene.commons.format.Alignment;
+import org.databene.commons.format.PadFormat;
 
 /**
  * Created: 29.06.2007 19:44:11

@@ -27,8 +27,10 @@
 package org.databene.platform.xml;
 
 import junit.framework.TestCase;
+
+import org.databene.commons.ConversionException;
 import org.databene.commons.IOUtil;
-import org.databene.model.ConversionException;
+import org.databene.commons.converter.NoOpConverter;
 import org.databene.SomeBean;
 //import org.databene.SomeBean;
 import org.w3c.dom.Element;
@@ -38,7 +40,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 /**
- * TODO documentation.<br/>
+ * Tests the XMLElement2BeanConverter.<br/>
  * <br/>
  * Created: 19.08.2007 15:19:25
  */
@@ -52,7 +54,7 @@ public class XMLElement2BeanConverterTest extends TestCase {
         InputStream stream = new ByteArrayInputStream(xml.getBytes());
         try {
             Element element = IOUtil.parseXML(stream).getDocumentElement();
-            SomeBean bean = (SomeBean) XMLElement2BeanConverter.convert(element, null);
+            SomeBean bean = (SomeBean) XMLElement2BeanConverter.convert(element, null, new NoOpConverter<String>());
             assertEquals(10, bean.getNum());
             assertEquals("blabla", bean.getText());
             stream.close();

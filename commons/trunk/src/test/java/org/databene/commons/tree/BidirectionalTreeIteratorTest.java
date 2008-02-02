@@ -24,58 +24,36 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.model.iterator;
+package org.databene.commons.tree;
 
-import org.databene.model.iterator.BidirectionalIterator;
+import junit.framework.TestCase;
 
-import java.util.List;
+import org.databene.commons.TreeModel;
+import org.databene.commons.tree.DefaultTreeNode;
+import org.databene.commons.tree.TreeIterator;
 
 /**
- * Created: 08.05.2007 19:50:20
+ * Created: 08.05.2007 19:03:28
  */
-public class BidirectionalListIterator<E> implements BidirectionalIterator {
+public class BidirectionalTreeIteratorTest extends TestCase {
 
-    private List<E> list;
-    private int index;
-
-    public BidirectionalListIterator(List<E> list) {
-        this.list = list;
-        this.index = -1;
+    public void testNext() {
+        TreeModel<DefaultTreeNode<String>> model = TreeCreator.createTreeModel();
+        TreeIterator<DefaultTreeNode<String>> iterator = new TreeIterator<DefaultTreeNode<String>>(model);
+        assertTrue(iterator.hasNext());
+        assertEquals("root", iterator.next().getObject());
+        assertTrue(iterator.hasNext());
+        assertEquals("a1l", iterator.next().getObject());
+        assertTrue(iterator.hasNext());
+        assertEquals("a2f", iterator.next().getObject());
+        assertTrue(iterator.hasNext());
+        assertEquals("b1f", iterator.next().getObject());
+        assertTrue(iterator.hasNext());
+        assertEquals("c1l", iterator.next().getObject());
+        assertTrue(iterator.hasNext());
+        assertEquals("a3l", iterator.next().getObject());
+        assertFalse(iterator.hasNext());
+        assertFalse(iterator.hasNext());
     }
 
-    public E first() {
-        index = 0;
-        return list.get(index);
-    }
-
-    public boolean hasPrevious() {
-        return (index > 0);
-    }
-
-    public E previous() {
-        if (!hasPrevious())
-            throw new IllegalStateException("No previous object exists");
-        index--;
-        return list.get(index);
-    }
-
-    public E last() {
-        index = list.size() - 1;
-        return list.get(index);
-    }
-
-    public boolean hasNext() {
-        return (index < list.size() - 1);
-    }
-
-    public E next() {
-        if (!hasNext())
-            throw new IllegalStateException("No next object exists");
-        index++;
-        return list.get(index);
-    }
-
-    public void remove() {
-        throw new UnsupportedOperationException("Not implemented");
-    }
 }

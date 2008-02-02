@@ -30,11 +30,10 @@ import junit.framework.TestCase;
 
 import java.util.*;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.io.PrintWriter;
-
-import org.databene.platform.bean.BeanFactory;
 
 /**
  * Created: 05.04.2007 07:51:00
@@ -42,7 +41,7 @@ import org.databene.platform.bean.BeanFactory;
 public class BeanUtilTest extends TestCase {
 
     // type info tests -------------------------------------------------------------------------------------------------
-/*
+
     public void testIsSimpleTypeByName() {
         assertTrue(BeanUtil.isSimpleType("int"));
         assertTrue(BeanUtil.isSimpleType("java.lang.Integer"));
@@ -98,7 +97,13 @@ public class BeanUtilTest extends TestCase {
     }
 
     public void testGetGenericTypes() throws NoSuchFieldException {
-        // TODO v0.3 find out meaning and usage of this method
+        Object o = new Object() {
+            public List<Integer> list;
+        };
+        Class c = o.getClass();
+        Field f = c.getField("list");
+        assertTrue("Test for generic type failed", 
+                Arrays.deepEquals(new Class[] { Integer.class }, BeanUtil.getGenericTypes(f)));
     }
 
     // instantiation tests ---------------------------------------------------------------------------------------------
@@ -109,7 +114,7 @@ public class BeanUtilTest extends TestCase {
         b = BeanUtil.newInstance(B.class, 2);
         assertEquals(2, b.val);
     }
-*/
+
     public void testForName() {
         Class type = BeanUtil.forName("org.databene.commons.BeanUtilTest$B");
         assertEquals(B.class, type);
@@ -195,6 +200,11 @@ public class BeanUtilTest extends TestCase {
     public void testCheckJavaBean() {
         BeanUtil.checkJavaBean(B.class);
     }
+    
+    public void testDeprecated() {
+        assertFalse(BeanUtil.deprecated(Object.class));
+        assertTrue(BeanUtil.deprecated(Dep.class));
+    }
 
     // Test classes ----------------------------------------------------------------------------------------------------
 
@@ -242,5 +252,10 @@ public class BeanUtilTest extends TestCase {
     }
 
     public static class C extends B {
+    }
+    
+    @Deprecated
+    public static class Dep {
+        
     }
 }

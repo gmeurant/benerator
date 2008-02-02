@@ -24,32 +24,58 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.model.converter;
+package org.databene.commons.iterator;
 
-import junit.framework.TestCase;
+import org.databene.commons.iterator.BidirectionalIterator;
 
-import org.databene.commons.TimeUtil;
+import java.util.List;
 
 /**
- * Tests the String2DateConverter.<br/>
- * <br/>
- * Created: 07.09.2007 18:00:32
+ * Created: 08.05.2007 19:50:20
  */
-public class String2DateConverterTest extends TestCase {
+public class BidirectionalListIterator<E> implements BidirectionalIterator {
 
-    public void testStandardDates() {
-        assertEquals(TimeUtil.date(2007, 8, 6), new String2DateConverter().convert("2007-09-06"));
-        assertEquals(TimeUtil.date(2007, 8, 6, 13, 28, 0, 0), new String2DateConverter().convert("2007-09-06T13:28"));
-        assertEquals(TimeUtil.date(2007, 8, 6, 13, 28, 56, 0), new String2DateConverter().convert("2007-09-06T13:28:56"));
-        assertEquals(TimeUtil.date(2007, 8, 6, 13, 28, 56, 123), new String2DateConverter().convert("2007-09-06T13:28:56.123"));
+    private List<E> list;
+    private int index;
+
+    public BidirectionalListIterator(List<E> list) {
+        this.list = list;
+        this.index = -1;
     }
 
-    public void testStrangeDates() {
-        String2DateConverter converter = new String2DateConverter();
-        assertEquals(null, converter.convert(null));
-        assertEquals(null, converter.convert(""));
-        assertEquals(TimeUtil.date(1234, 2, 5), converter.convert("1234-3-5"));
-        assertEquals(TimeUtil.date(12345, 11, 1), converter.convert("12345-12-1"));
-        assertEquals(TimeUtil.date(-10000, 3, 1), converter.convert("-10000-4-1"));
+    public E first() {
+        index = 0;
+        return list.get(index);
+    }
+
+    public boolean hasPrevious() {
+        return (index > 0);
+    }
+
+    public E previous() {
+        if (!hasPrevious())
+            throw new IllegalStateException("No previous object exists");
+        index--;
+        return list.get(index);
+    }
+
+    public E last() {
+        index = list.size() - 1;
+        return list.get(index);
+    }
+
+    public boolean hasNext() {
+        return (index < list.size() - 1);
+    }
+
+    public E next() {
+        if (!hasNext())
+            throw new IllegalStateException("No next object exists");
+        index++;
+        return list.get(index);
+    }
+
+    public void remove() {
+        throw new UnsupportedOperationException("Not implemented");
     }
 }

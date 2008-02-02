@@ -30,12 +30,13 @@ import junit.framework.TestCase;
 
 import java.util.Properties;
 
-import org.databene.model.ConversionException;
+import org.databene.commons.ConversionException;
 
 /**
- * TODO documentation.<br/>
+ * Tests the Properties2BeanConverter.<br/>
  * <br/>
  * Created: 09.08.2007 19:33:00
+ * @author Volker Bergmann
  */
 public class Properties2BeanConverterTest extends TestCase {
 

@@ -32,7 +32,7 @@ import java.util.Arrays;
 import junit.framework.TestCase;
 import org.databene.commons.SystemInfo;
 import org.databene.commons.FileUtil;
-import org.databene.model.Visitor;
+import org.databene.commons.Visitor;
 
 /**
  * Created: 04.02.2007 08:20:57
@@ -41,7 +41,6 @@ public class FileElementTest extends TestCase {
 
     public void test() {
         File root = new File(SystemInfo.tempDir());
-        //System.out.println(root);
         File alpha = new File(root, "alpha");
         File beta = new File(alpha, "beta");
         FileUtil.ensureDirectoryExists(beta);

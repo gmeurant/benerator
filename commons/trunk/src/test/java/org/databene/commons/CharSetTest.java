@@ -34,6 +34,6 @@ import junit.framework.TestCase;
 public class CharSetTest extends TestCase {
 
     public void test() {
-        // TODO v0.3 implement 
+        // TODO v0.3.1 implement 
     }
 }

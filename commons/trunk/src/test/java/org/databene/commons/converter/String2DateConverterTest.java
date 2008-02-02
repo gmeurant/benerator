@@ -24,36 +24,33 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.model.converter;
+package org.databene.commons.converter;
 
 import junit.framework.TestCase;
 
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.databene.commons.TimeUtil;
-import org.databene.model.ConversionException;
+import org.databene.commons.converter.String2DateConverter;
 
 /**
- * Created: 29.09.2006 15:55:35
+ * Tests the String2DateConverter.<br/>
+ * <br/>
+ * Created: 07.09.2007 18:00:32
  */
-public class ParseFormatConverterTest extends TestCase {
+public class String2DateConverterTest extends TestCase {
 
-    public void testIntegerConversion() throws ConversionException {
-        ParseFormatConverter<Long> converter = new ParseFormatConverter<Long>(Long.class, NumberFormat.getInstance());
-        assertNull(converter.convert(null));
-        assertEquals( 1L, (long)converter.convert( "1"));
-        assertEquals( 0L, (long)converter.convert( "0"));
-        assertEquals(-1L, (long)converter.convert("-1"));
+    public void testStandardDates() {
+        assertEquals(TimeUtil.date(2007, 8, 6), new String2DateConverter().convert("2007-09-06"));
+        assertEquals(TimeUtil.date(2007, 8, 6, 13, 28, 0, 0), new String2DateConverter().convert("2007-09-06T13:28"));
+        assertEquals(TimeUtil.date(2007, 8, 6, 13, 28, 56, 0), new String2DateConverter().convert("2007-09-06T13:28:56"));
+        assertEquals(TimeUtil.date(2007, 8, 6, 13, 28, 56, 123), new String2DateConverter().convert("2007-09-06T13:28:56.123"));
     }
 
-    public void testDateConversion() throws ConversionException {
-        ParseFormatConverter<Date> converter = new ParseFormatConverter<Date>(Date.class, new SimpleDateFormat("yyyy-MM-dd"));
-        assertNull(converter.convert(null));
-        assertEquals(TimeUtil.date(1969,  5, 24), converter.convert("1969-06-24"));
-        assertEquals(TimeUtil.date(1970,  0,  1), converter.convert("1970-01-01"));
-        assertEquals(TimeUtil.date(2000, 11, 31), converter.convert("2000-12-31"));
-        assertEquals(TimeUtil.date(2006,  8, 29), converter.convert("2006-09-29"));
+    public void testStrangeDates() {
+        String2DateConverter converter = new String2DateConverter();
+        assertEquals(null, converter.convert(null));
+        assertEquals(null, converter.convert(""));
+        assertEquals(TimeUtil.date(1234, 2, 5), converter.convert("1234-3-5"));
+        assertEquals(TimeUtil.date(12345, 11, 1), converter.convert("12345-12-1"));
+        assertEquals(TimeUtil.date(-10000, 3, 1), converter.convert("-10000-4-1"));
     }
 }

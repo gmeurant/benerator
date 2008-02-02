@@ -24,36 +24,42 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.model.converter;
+package org.databene.commons.iterator;
 
 import junit.framework.TestCase;
 
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
+import java.util.Arrays;
 
-import org.databene.commons.TimeUtil;
-import org.databene.model.ConversionException;
+import org.databene.commons.Filter;
+import org.databene.commons.iterator.BidirectionalIterator;
+import org.databene.commons.iterator.BidirectionalListIterator;
+import org.databene.commons.iterator.FilteringIterator;
 
 /**
- * Created: 29.09.2006 15:55:35
+ * Created: 08.05.2007 19:03:28
  */
-public class FormatFormatConverterTest extends TestCase {
+public class FilteringBidirectionalIteratorTest extends TestCase {
 
-    public void testIntegerConversion() throws ConversionException {
-        FormatFormatConverter<Integer> converter = new FormatFormatConverter<Integer>(NumberFormat.getInstance());
-        assertNull(converter.convert(null));
-        assertEquals("1", converter.convert(1));
-        assertEquals("0", converter.convert(0));
-        assertEquals("-1", converter.convert(-1));
+    public void testNext() {
+        List<Character> list = Arrays.asList('1', 'a', '2', 'b', '3');
+        BidirectionalIterator<Character> realIterator
+                = new BidirectionalListIterator<Character>(list);
+        Filter<Character> filter = new Filter<Character>() {
+
+            public boolean accept(Character c) {
+                return Character.isDigit(c);
+            }
+        };
+        BidirectionalIterator iterator = new FilteringIterator(realIterator, filter);
+        assertTrue(iterator.hasNext());
+        assertEquals('1', iterator.next());
+        assertTrue(iterator.hasNext());
+        assertEquals('2', iterator.next());
+        assertTrue(iterator.hasNext());
+        assertEquals('3', iterator.next());
+        assertFalse(iterator.hasNext());
+        assertFalse(iterator.hasNext());
     }
 
-    public void testDateConversion() throws ConversionException {
-        FormatFormatConverter<Date> converter = new FormatFormatConverter<Date>(new SimpleDateFormat("yyyy-MM-dd"));
-        assertNull(converter.convert(null));
-        assertEquals("1969-06-24", converter.convert(TimeUtil.date(1969, 5, 24)));
-        assertEquals("1970-01-01", converter.convert(TimeUtil.date(1970, 0, 1)));
-        assertEquals("2000-12-31", converter.convert(TimeUtil.date(2000, 11, 31)));
-        assertEquals("2006-09-29", converter.convert(TimeUtil.date(2006, 8, 29)));
-    }
 }

@@ -24,32 +24,36 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.model.converter;
+package org.databene.commons.tree;
 
-import junit.framework.TestCase;
-import org.databene.model.Converter;
-import org.databene.model.ConversionException;
-
-import java.util.Locale;
+import org.databene.commons.TreeModel;
+import org.databene.commons.tree.DefaultTreeModel;
+import org.databene.commons.tree.DefaultTreeNode;
 
 /**
- * Tests the String2LocaleConverter.<br/>
- * <br/>
- * Created: 05.08.2007 06:32:38
+ * Created: 08.05.2007 19:47:45
  */
-public class String2LocaleConverterTest extends TestCase {
+public class TreeCreator {
 
-    public void testConvert() throws ConversionException {
-        Converter<String, Locale> converter = new String2LocaleConverter();
-        assertEquals(Locale.GERMAN, converter.convert("de"));
-        assertEquals(Locale.GERMANY, converter.convert("de_DE"));
-        assertEquals(new Locale("de", "DE", "BY"), converter.convert("de_DE_BY"));
+    public static TreeModel<DefaultTreeNode<String>> createTreeModel() {
+        DefaultTreeNode<String> root = new DefaultTreeNode<String>(null, "root", false);
+        TreeModel<DefaultTreeNode<String>> model = new DefaultTreeModel<String>(root);
+
+        // create 1st level sub nodes
+        root.addChild(DefaultTreeNode.createLeaf(root, "a1l"));
+        DefaultTreeNode<String> a2f = DefaultTreeNode.createFolder(root, "a2f");
+        root.addChild(a2f);
+        root.addChild(DefaultTreeNode.createLeaf(root, "a3l"));
+
+        // create 2nd level sub nodes
+        DefaultTreeNode<String> b1f = DefaultTreeNode.createFolder(a2f, "b1f");
+        a2f.addChild(b1f);
+
+        // create 3nd level sub nodes
+        DefaultTreeNode<String> c1l = DefaultTreeNode.createLeaf(b1f, "c1l");
+        b1f.addChild(c1l);
+
+        return model;
     }
 
-    public void testRevert() throws ConversionException {
-        TypedConverter<String, Locale> converter = new String2LocaleConverter();
-        assertEquals("de", converter.revert(Locale.GERMAN));
-        assertEquals("de_DE", converter.revert(Locale.GERMANY));
-        assertEquals(converter.convert("de_DE_BY"), new Locale("de", "DE", "BY"));
-    }
 }

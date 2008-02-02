@@ -28,7 +28,6 @@ package org.databene.commons;
 
 import junit.framework.TestCase;
 import org.databene.commons.SystemInfo;
-import org.databene.model.iterator.ReaderLineIterator;
 
 import java.io.StringReader;
 import java.io.Reader;

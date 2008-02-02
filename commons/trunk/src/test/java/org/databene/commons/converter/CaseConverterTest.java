@@ -24,13 +24,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.model.converter;
+package org.databene.commons.converter;
 
 import junit.framework.TestCase;
 
 import java.util.Locale;
 
-import org.databene.model.ConversionException;
+import org.databene.commons.ConversionException;
+import org.databene.commons.converter.CaseConverter;
 
 /**
  * Created: 29.09.2006 15:50:03

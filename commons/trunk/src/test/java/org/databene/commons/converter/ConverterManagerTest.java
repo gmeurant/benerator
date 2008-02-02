@@ -24,44 +24,24 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.model.converter;
+package org.databene.commons.converter;
 
 import junit.framework.TestCase;
-import org.databene.SomeEnum;
-import org.databene.model.ConversionException;
+
+import java.util.Locale;
+
+import org.databene.commons.converter.ConverterManager;
+import org.databene.commons.converter.String2LocaleConverter;
 
 /**
- * Tests the String2EnumConverter.<br/>
+ * Tests the ConverterManager.<br/>
  * <br/>
- * Created: 20.08.2007 07:14:04
+ * Created: 05.08.2007 07:07:26
  */
-public class String2EnumConverterTest extends TestCase {
+public class ConverterManagerTest extends TestCase {
 
-    public void testNull() throws ConversionException {
-        assertNull(String2EnumConverter.convert(null, SomeEnum.class));
-    }
-
-    public void testNormal() throws ConversionException {
-        for (SomeEnum instance : SomeEnum.values()) {
-            check(instance);
-        }
-    }
-
-    public void testIllegalArgument() {
-        try {
-            String2EnumConverter.convert("0", SomeEnum.class);
-            fail("ConversionException expected");
-        } catch (ConversionException e) {
-            // this is the required result
-        }
-    }
-
-    // private helpers -------------------------------------------------------------------------------------------------
-
-    private void check(SomeEnum instance) throws ConversionException {
-        String2EnumConverter converter = new String2EnumConverter(instance.getClass());
-        String name = instance.name();
-        assertEquals(instance, converter.convert(name));
-        assertEquals(name, converter.revert(instance));
+    public void test() {
+        ConverterManager mgr = ConverterManager.getInstance();
+        assertEquals(String2LocaleConverter.class, mgr.getConverter(String.class, Locale.class).getClass());
     }
 }

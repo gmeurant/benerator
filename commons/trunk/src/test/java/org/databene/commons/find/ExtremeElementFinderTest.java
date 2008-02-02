@@ -24,33 +24,27 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.model.tree;
+package org.databene.commons.find;
 
 import junit.framework.TestCase;
-import org.databene.model.TreeModel;
+
+import java.util.Collection;
+import java.util.Arrays;
+
+import org.databene.commons.Element;
+import org.databene.commons.visitor.CollectionElement;
+import org.databene.commons.visitor.ExtremeElementFinder;
 
 /**
- * Created: 08.05.2007 19:03:28
+ * Created: 04.02.2007 09:33:01
  */
-public class BidirectionalTreeIteratorTest extends TestCase {
+public class ExtremeElementFinderTest extends TestCase {
 
-    public void testNext() {
-        TreeModel<DefaultTreeNode<String>> model = TreeCreator.createTreeModel();
-        TreeIterator<DefaultTreeNode<String>> iterator = new TreeIterator<DefaultTreeNode<String>>(model);
-        assertTrue(iterator.hasNext());
-        assertEquals("root", iterator.next().getObject());
-        assertTrue(iterator.hasNext());
-        assertEquals("a1l", iterator.next().getObject());
-        assertTrue(iterator.hasNext());
-        assertEquals("a2f", iterator.next().getObject());
-        assertTrue(iterator.hasNext());
-        assertEquals("b1f", iterator.next().getObject());
-        assertTrue(iterator.hasNext());
-        assertEquals("c1l", iterator.next().getObject());
-        assertTrue(iterator.hasNext());
-        assertEquals("a3l", iterator.next().getObject());
-        assertFalse(iterator.hasNext());
-        assertFalse(iterator.hasNext());
+    public void test() {
+        Collection collection = Arrays.asList("Alpha", "Bravo");
+        Element<String> wrapper = new CollectionElement<String>(collection);
+        String min = ExtremeElementFinder.findMin(wrapper);
+        assertEquals("Alpha", min);
+        assertEquals("Bravo", ExtremeElementFinder.findMax(wrapper));
     }
-
 }

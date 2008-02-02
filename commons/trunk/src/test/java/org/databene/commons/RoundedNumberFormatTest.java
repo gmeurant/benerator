@@ -29,7 +29,7 @@ package org.databene.commons;
 import junit.framework.TestCase;
 
 /**
- * TODO documentation.<br/>
+ * Tests the RoundedNumberFormat class.<br/>
  * <br/>
  * Created: 01.09.2007 16:30:06
  */

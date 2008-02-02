@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.model.converter;
+package org.databene.commons.converter;
 
 import junit.framework.TestCase;
 
@@ -32,8 +32,9 @@ import java.util.*;
 
 import org.databene.commons.ArrayUtil;
 import org.databene.commons.CollectionUtil;
-import org.databene.model.Converter;
-import org.databene.model.ConversionException;
+import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
+import org.databene.commons.converter.ToCollectionConverter;
 
 /**
  * Tests the ToCollectionConverter.<br/>

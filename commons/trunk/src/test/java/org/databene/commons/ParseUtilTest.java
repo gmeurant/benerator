@@ -10,11 +10,16 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.math.BigInteger;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * (c) Copyright 2004 by Volker Bergmann
  * Created: 20.03.2005 16:32:47
  */
 public class ParseUtilTest extends TestCase {
+
+    private static final Log logger = LogFactory.getLog(ParseUtilTest.class);
 
     private static final double DELTA = 1e-4;
 
@@ -81,7 +86,7 @@ public class ParseUtilTest extends TestCase {
 
     private void checkParseEmptyLineSeparatedFile(String[][] expectedOutput, String ... input) throws IOException {
         String[][] output = ParseUtil.parseEmptyLineSeparatedFile(createReader(input));
-        //System.out.println(Arrays.deepToString(expectedOutput) + " <-> " + Arrays.deepToString(output));
+        logger.debug(Arrays.deepToString(expectedOutput) + " <-> " + Arrays.deepToString(output));
         assertTrue(Arrays.deepEquals(expectedOutput, output));
     }
 

@@ -24,29 +24,35 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.model.converter;
+package org.databene.commons.converter;
 
 import junit.framework.TestCase;
-import org.databene.SomeEnum;
-import org.databene.model.ConversionException;
 
-import java.math.BigDecimal;
+import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
+import org.databene.commons.converter.String2LocaleConverter;
+import org.databene.commons.converter.TypedConverter;
+
+import java.util.Locale;
 
 /**
- * Tests the StringConverter.<br/>
+ * Tests the String2LocaleConverter.<br/>
  * <br/>
- * Created: 20.08.2007 07:52:38
+ * Created: 05.08.2007 06:32:38
  */
-public class StringConverterTest extends TestCase {
+public class String2LocaleConverterTest extends TestCase {
 
-    // TODO v0.3 add tests
-
-    public void testString2Enum() {
-        assertEquals(SomeEnum.ONE, StringConverter.convert("ONE", SomeEnum.class));
+    public void testConvert() throws ConversionException {
+        Converter<String, Locale> converter = new String2LocaleConverter();
+        assertEquals(Locale.GERMAN, converter.convert("de"));
+        assertEquals(Locale.GERMANY, converter.convert("de_DE"));
+        assertEquals(new Locale("de", "DE", "BY"), converter.convert("de_DE_BY"));
     }
 
-    public void testString2Number() {
-        assertEquals(new BigDecimal("1"), StringConverter.convert("1", BigDecimal.class));
-
+    public void testRevert() throws ConversionException {
+        TypedConverter<String, Locale> converter = new String2LocaleConverter();
+        assertEquals("de", converter.revert(Locale.GERMAN));
+        assertEquals("de_DE", converter.revert(Locale.GERMANY));
+        assertEquals(converter.convert("de_DE_BY"), new Locale("de", "DE", "BY"));
     }
 }

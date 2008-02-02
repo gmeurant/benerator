@@ -24,42 +24,45 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.model.iterator;
+package org.databene.commons.converter;
 
 import junit.framework.TestCase;
-
-import java.util.List;
-import java.util.Arrays;
-
-import org.databene.model.iterator.BidirectionalIterator;
-import org.databene.model.iterator.FilteringIterator;
-import org.databene.model.iterator.BidirectionalListIterator;
-import org.databene.model.Filter;
+import org.databene.SomeEnum;
+import org.databene.commons.ConversionException;
+import org.databene.commons.converter.String2EnumConverter;
 
 /**
- * Created: 08.05.2007 19:03:28
+ * Tests the String2EnumConverter.<br/>
+ * <br/>
+ * Created: 20.08.2007 07:14:04
  */
-public class FilteringBidirectionalIteratorTest extends TestCase {
+public class String2EnumConverterTest extends TestCase {
 
-    public void testNext() {
-        List<Character> list = Arrays.asList('1', 'a', '2', 'b', '3');
-        BidirectionalIterator<Character> realIterator
-                = new BidirectionalListIterator<Character>(list);
-        Filter<Character> filter = new Filter<Character>() {
-
-            public boolean accept(Character c) {
-                return Character.isDigit(c);
-            }
-        };
-        BidirectionalIterator iterator = new FilteringIterator(realIterator, filter);
-        assertTrue(iterator.hasNext());
-        assertEquals('1', iterator.next());
-        assertTrue(iterator.hasNext());
-        assertEquals('2', iterator.next());
-        assertTrue(iterator.hasNext());
-        assertEquals('3', iterator.next());
-        assertFalse(iterator.hasNext());
-        assertFalse(iterator.hasNext());
+    public void testNull() throws ConversionException {
+        assertNull(String2EnumConverter.convert(null, SomeEnum.class));
     }
 
+    public void testNormal() throws ConversionException {
+        for (SomeEnum instance : SomeEnum.values()) {
+            check(instance);
+        }
+    }
+
+    public void testIllegalArgument() {
+        try {
+            String2EnumConverter.convert("0", SomeEnum.class);
+            fail("ConversionException expected");
+        } catch (ConversionException e) {
+            // this is the required result
+        }
+    }
+
+    // private helpers -------------------------------------------------------------------------------------------------
+
+    private void check(SomeEnum instance) throws ConversionException {
+        String2EnumConverter converter = new String2EnumConverter(instance.getClass());
+        String name = instance.name();
+        assertEquals(instance, converter.convert(name));
+        assertEquals(name, converter.revert(instance));
+    }
 }

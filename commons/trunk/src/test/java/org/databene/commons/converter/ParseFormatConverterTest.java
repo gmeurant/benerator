@@ -24,27 +24,37 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.model.find;
+package org.databene.commons.converter;
 
 import junit.framework.TestCase;
 
-import java.util.Collection;
-import java.util.Arrays;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import org.databene.model.visitor.CollectionElement;
-import org.databene.model.Element;
-import org.databene.model.visitor.ExtremeElementFinder;
+import org.databene.commons.ConversionException;
+import org.databene.commons.TimeUtil;
+import org.databene.commons.converter.ParseFormatConverter;
 
 /**
- * Created: 04.02.2007 09:33:01
+ * Created: 29.09.2006 15:55:35
  */
-public class ExtremeElementFinderTest extends TestCase {
+public class ParseFormatConverterTest extends TestCase {
 
-    public void test() {
-        Collection collection = Arrays.asList("Alpha", "Bravo");
-        Element<String> wrapper = new CollectionElement<String>(collection);
-        String min = ExtremeElementFinder.findMin(wrapper);
-        assertEquals("Alpha", min);
-        assertEquals("Bravo", ExtremeElementFinder.findMax(wrapper));
+    public void testIntegerConversion() throws ConversionException {
+        ParseFormatConverter<Long> converter = new ParseFormatConverter<Long>(Long.class, NumberFormat.getInstance());
+        assertNull(converter.convert(null));
+        assertEquals( 1L, (long)converter.convert( "1"));
+        assertEquals( 0L, (long)converter.convert( "0"));
+        assertEquals(-1L, (long)converter.convert("-1"));
+    }
+
+    public void testDateConversion() throws ConversionException {
+        ParseFormatConverter<Date> converter = new ParseFormatConverter<Date>(Date.class, new SimpleDateFormat("yyyy-MM-dd"));
+        assertNull(converter.convert(null));
+        assertEquals(TimeUtil.date(1969,  5, 24), converter.convert("1969-06-24"));
+        assertEquals(TimeUtil.date(1970,  0,  1), converter.convert("1970-01-01"));
+        assertEquals(TimeUtil.date(2000, 11, 31), converter.convert("2000-12-31"));
+        assertEquals(TimeUtil.date(2006,  8, 29), converter.convert("2006-09-29"));
     }
 }

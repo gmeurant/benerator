@@ -24,24 +24,27 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.model.converter;
+package org.databene.commons.converter;
 
 import junit.framework.TestCase;
-
-import java.util.Locale;
-
 import org.databene.SomeEnum;
+import org.databene.commons.converter.StringConverter;
+
+import java.math.BigDecimal;
 
 /**
- * Tests the ConverterManager.<br/>
+ * Tests the StringConverter.<br/>
  * <br/>
- * Created: 05.08.2007 07:07:26
+ * Created: 20.08.2007 07:52:38
  */
-public class ConverterManagerTest extends TestCase {
+public class StringConverterTest extends TestCase {
 
-    public void test() {
-        ConverterManager mgr = ConverterManager.getInstance();
-        assertEquals(String2LocaleConverter.class, mgr.getConverter(String.class, Locale.class).getClass());
-        // TODO v0.3 add tests
+    public void testString2Enum() {
+        assertEquals(SomeEnum.ONE, StringConverter.convert("ONE", SomeEnum.class));
+    }
+
+    public void testString2Number() {
+        assertEquals(new BigDecimal("1"), StringConverter.convert("1", BigDecimal.class));
+
     }
 }

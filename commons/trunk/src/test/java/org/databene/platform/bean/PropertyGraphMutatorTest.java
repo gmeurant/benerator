@@ -29,7 +29,7 @@ package org.databene.platform.bean;
 import junit.framework.TestCase;
 import org.databene.platform.bean.PropertyGraphMutator;
 import org.databene.platform.bean.A;
-import org.databene.model.UpdateFailedException;
+import org.databene.commons.UpdateFailedException;
 
 /**
  * Created: 20.02.2007 08:52:49

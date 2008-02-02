@@ -24,35 +24,37 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.model.tree;
+package org.databene.commons.converter;
 
-import org.databene.model.tree.DefaultTreeModel;
-import org.databene.model.TreeModel;
+import junit.framework.TestCase;
+
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.databene.commons.ConversionException;
+import org.databene.commons.TimeUtil;
+import org.databene.commons.converter.FormatFormatConverter;
 
 /**
- * Created: 08.05.2007 19:47:45
+ * Created: 29.09.2006 15:55:35
  */
-public class TreeCreator {
+public class FormatFormatConverterTest extends TestCase {
 
-    public static TreeModel<DefaultTreeNode<String>> createTreeModel() {
-        DefaultTreeNode<String> root = new DefaultTreeNode<String>(null, "root", false);
-        TreeModel<DefaultTreeNode<String>> model = new DefaultTreeModel<String>(root);
-
-        // create 1st level sub nodes
-        root.addChild(DefaultTreeNode.createLeaf(root, "a1l"));
-        DefaultTreeNode<String> a2f = DefaultTreeNode.createFolder(root, "a2f");
-        root.addChild(a2f);
-        root.addChild(DefaultTreeNode.createLeaf(root, "a3l"));
-
-        // create 2nd level sub nodes
-        DefaultTreeNode<String> b1f = DefaultTreeNode.createFolder(a2f, "b1f");
-        a2f.addChild(b1f);
-
-        // create 3nd level sub nodes
-        DefaultTreeNode<String> c1l = DefaultTreeNode.createLeaf(b1f, "c1l");
-        b1f.addChild(c1l);
-
-        return model;
+    public void testIntegerConversion() throws ConversionException {
+        FormatFormatConverter<Integer> converter = new FormatFormatConverter<Integer>(NumberFormat.getInstance());
+        assertNull(converter.convert(null));
+        assertEquals("1", converter.convert(1));
+        assertEquals("0", converter.convert(0));
+        assertEquals("-1", converter.convert(-1));
     }
 
+    public void testDateConversion() throws ConversionException {
+        FormatFormatConverter<Date> converter = new FormatFormatConverter<Date>(new SimpleDateFormat("yyyy-MM-dd"));
+        assertNull(converter.convert(null));
+        assertEquals("1969-06-24", converter.convert(TimeUtil.date(1969, 5, 24)));
+        assertEquals("1970-01-01", converter.convert(TimeUtil.date(1970, 0, 1)));
+        assertEquals("2000-12-31", converter.convert(TimeUtil.date(2000, 11, 31)));
+        assertEquals("2006-09-29", converter.convert(TimeUtil.date(2006, 8, 29)));
+    }
 }
