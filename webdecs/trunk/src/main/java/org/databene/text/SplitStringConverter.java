@@ -26,8 +26,8 @@
 
 package org.databene.text;
 
-import org.databene.model.Converter;
-import org.databene.model.ConversionException;
+import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
 import org.databene.commons.StringUtil;
 
 /**

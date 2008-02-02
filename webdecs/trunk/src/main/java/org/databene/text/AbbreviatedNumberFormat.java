@@ -73,8 +73,10 @@ public class AbbreviatedNumberFormat extends NumberFormat {
         defaultScale = scale;
         defaultScaleId = "";
         for (int i = 0; i < availableScales.length; i++) {
-            if (((Double) availableScales[i][1]).doubleValue() == scale)
+            if (((Double) availableScales[i][1]).doubleValue() == scale) {
                 defaultScaleId = (String)availableScales[i][0];
+                break;
+            }
         }
         snf = NumberFormat.getInstance(locale);
         snf.setMinimumFractionDigits(2);

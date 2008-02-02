@@ -27,8 +27,8 @@
 package org.databene.text;
 
 import org.databene.document.csv.CSVLineIterator;
-import org.databene.model.Converter;
 import org.databene.commons.ConfigurationError;
+import org.databene.commons.Converter;
 
 import java.io.IOException;
 import java.util.Map;
