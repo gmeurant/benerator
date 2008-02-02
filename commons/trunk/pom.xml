@@ -4,7 +4,7 @@
 
     <groupId>databene</groupId>
     <artifactId>databene-commons</artifactId>
-    <version>0.2.04</version>
+    <version>0.3.0</version>
 
     <parent>
         <groupId>databene</groupId>
@@ -15,7 +15,7 @@
 
     <packaging>jar</packaging>
     <name>databene commons</name>
-    <url>http://databene.org</url>
+    <url>http://databene.org/databene-commons</url>
     <description>'databene commons' is an open source Java library by Volker Bergmann.
         It provides extensions to the Java core library by utility classes, abstract concepts
         and concrete implementations.</description>
