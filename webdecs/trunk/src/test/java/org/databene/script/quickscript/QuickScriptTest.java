@@ -24,12 +24,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.script.freemarker;
+package org.databene.script.quickscript;
 
 import junit.framework.TestCase;
 
 import java.io.StringWriter;
 import java.io.IOException;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.databene.commons.Context;
 import org.databene.commons.context.DefaultContext;
@@ -39,14 +41,54 @@ import org.databene.script.Script;
 /**
  * Created: 12.06.2007 17:36:30
  */
-public class FreemarkerScriptTest extends TestCase {
+public class QuickScriptTest extends TestCase {
+    
+    private Context context;
+    
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        context = new DefaultContext();
+        context.set("var", "XYZ");
+    }
+
+    public void testPlainText() throws IOException, ScriptException {
+        QuickScript script = QuickScript.parseText("Test");
+        StringWriter writer = new StringWriter();
+        script.execute(context, writer);
+        assertEquals("Test", writer.toString());
+    }
+
+    public void testSimpleVariable() throws IOException, ScriptException {
+        QuickScript script = QuickScript.parseText("Test${var}Test");
+        StringWriter writer = new StringWriter();
+        script.execute(context, writer);
+        assertEquals("TestXYZTest", writer.toString());
+    }
+
+    public void testGraphVariable() throws IOException, ScriptException {
+        QuickScript script = QuickScript.parseText("Test${var.class.simpleName}Test");
+        StringWriter writer = new StringWriter();
+        script.execute(context, writer);
+        assertEquals("TestStringTest", writer.toString());
+    }
+
+    public void testMapVariable() throws IOException, ScriptException {
+        QuickScript script = QuickScript.parseText("Test${map.dings}Test");
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("dings", "XYZ");
+        context.set("map", map);
+        StringWriter writer = new StringWriter();
+        script.execute(context, writer);
+        assertEquals("TestXYZTest", writer.toString());
+    }
 
     public void testScriptGetInstance() throws IOException, ScriptException {
-        Script script = new FreeMarkerScript("org/databene/script/freemarker/test.ftl");
-        Context context = new DefaultContext();
+        Script script = new QuickScriptFactory().readFile("org/databene/script/quickscript/test.qsc");
         context.set("var_dings", "XYZ");
         StringWriter writer = new StringWriter();
         script.execute(context, writer);
         assertEquals("TestXYZTest", writer.toString());
     }
+  
 }
