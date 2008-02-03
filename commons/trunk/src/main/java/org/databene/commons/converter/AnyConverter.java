@@ -76,7 +76,7 @@ public class AnyConverter<T> implements Converter<Object, T> {
             return (TT) source;
 
         // search for exact converters
-        TypedConverter converter = ConverterManager.getInstance().getConverter(source.getClass(), targetType);
+        BidirectionalConverter converter = ConverterManager.getInstance().getConverter(source.getClass(), targetType);
         if (converter != null)
                 return (TT)converter.convert(source);
 

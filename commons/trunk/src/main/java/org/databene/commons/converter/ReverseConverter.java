@@ -33,11 +33,11 @@ import org.databene.commons.ConversionException;
  * <br/>
  * Created: 04.08.2007 19:45:18
  */
-public class ReverseConverter<S, T> implements TypedConverter<S, T> {
+public class ReverseConverter<S, T> implements BidirectionalConverter<S, T> {
 
-    private TypedConverter<T, S> realConverter;
+    private BidirectionalConverter<T, S> realConverter;
 
-    public ReverseConverter(TypedConverter<T, S> realConverter) {
+    public ReverseConverter(BidirectionalConverter<T, S> realConverter) {
         this.realConverter = realConverter;
     }
 

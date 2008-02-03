@@ -36,7 +36,7 @@ import java.util.Date;
  * Created: 09.09.2007 12:51:17
  * @author Volker Bergmann
  */
-public class UtilDate2SqlDateConverter implements TypedConverter<Date, java.sql.Date> {
+public class UtilDate2SqlDateConverter implements BidirectionalConverter<Date, java.sql.Date> {
 
     public Class<java.sql.Date> getTargetType() {
         return java.sql.Date.class;

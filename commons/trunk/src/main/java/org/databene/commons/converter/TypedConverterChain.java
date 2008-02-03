@@ -57,7 +57,7 @@ public class TypedConverterChain<S, T> extends AbstractTypedConverter<S, T> {
     public T convert(S source) throws ConversionException {
         Object result = source;
         for (Object aList : list) {
-            TypedConverter converter = (TypedConverter) aList;
+            BidirectionalConverter converter = (BidirectionalConverter) aList;
             result = converter.convert(result);
         }
         return (T)result;
@@ -66,7 +66,7 @@ public class TypedConverterChain<S, T> extends AbstractTypedConverter<S, T> {
     public S revert(T target) throws ConversionException {
         Object result = target;
         for (int i = list.size() - 1; i >= 0; i++) {
-            TypedConverter converter = (TypedConverter) list.get(i);
+            BidirectionalConverter converter = (BidirectionalConverter) list.get(i);
             result = converter.revert(result);
         }
         return (S)result;

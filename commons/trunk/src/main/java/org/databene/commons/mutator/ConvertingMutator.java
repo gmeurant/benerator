@@ -29,7 +29,7 @@ package org.databene.commons.mutator;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Mutator;
 import org.databene.commons.UpdateFailedException;
-import org.databene.commons.converter.TypedConverter;
+import org.databene.commons.converter.BidirectionalConverter;
 
 /**
  * Converts its input by a Converter object and forwards the result to another Mutator.<br/>
@@ -38,9 +38,9 @@ import org.databene.commons.converter.TypedConverter;
  */
 public class ConvertingMutator<C, VI, VO> extends MutatorWrapper<C, VO> implements Mutator<C, VI> {
 
-    private TypedConverter<VI, VO> converter;
+    private BidirectionalConverter<VI, VO> converter;
 
-    public ConvertingMutator(Mutator<C, VO> realMutator, TypedConverter<VI, VO> converter) {
+    public ConvertingMutator(Mutator<C, VO> realMutator, BidirectionalConverter<VI, VO> converter) {
         super(realMutator);
         this.converter = converter;
     }

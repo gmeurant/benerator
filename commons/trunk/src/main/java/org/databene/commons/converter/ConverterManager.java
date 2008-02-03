@@ -52,7 +52,7 @@ public class ConverterManager {
 
     private static ConverterManager instance;
 
-    private List<TypedConverter> converters;
+    private List<BidirectionalConverter> converters;
     private static final String DEFAULT_SETUP_FILENAME = "org/databene/commons/converter/converters.txt";
     private static final String CUSTOM_SETUP_FILENAME = "converters.txt";
 
@@ -62,10 +62,10 @@ public class ConverterManager {
         return instance;
     }
 
-    public TypedConverter getConverter(Class srcType, Class dstType) {
+    public BidirectionalConverter getConverter(Class srcType, Class dstType) {
         if (srcType == dstType || (dstType.isAssignableFrom(srcType) && !dstType.isPrimitive()))
             return new NoOpConverter();
-        for (TypedConverter converter : converters) {
+        for (BidirectionalConverter converter : converters) {
             if (converter.getSourceType() == srcType && converter.getTargetType() == dstType)
                 return converter;
             else if (converter.getSourceType() == dstType && converter.getTargetType() == srcType)
@@ -74,14 +74,14 @@ public class ConverterManager {
         return null;
     }
 
-    public void register(TypedConverter converter) {
+    public void register(BidirectionalConverter converter) {
         converters.add(converter);
     }
 
     // private helpers -------------------------------------------------------------------------------------------------
 
     private ConverterManager() {
-        this.converters = new ArrayList<TypedConverter>();
+        this.converters = new ArrayList<BidirectionalConverter>();
         try {
             if (IOUtil.isURIAvailable(CUSTOM_SETUP_FILENAME))
                 readConfigFile(CUSTOM_SETUP_FILENAME);
@@ -97,7 +97,7 @@ public class ConverterManager {
         ReaderLineIterator iterator = new ReaderLineIterator(IOUtil.getReaderForURI(filename));
         while (iterator.hasNext()) {
             String className = iterator.next();
-            TypedConverter converter = (TypedConverter) BeanUtil.newInstance(className);
+            BidirectionalConverter converter = (BidirectionalConverter) BeanUtil.newInstance(className);
             register(converter);
         }
         iterator.close();
