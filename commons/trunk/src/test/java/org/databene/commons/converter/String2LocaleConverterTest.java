@@ -31,7 +31,7 @@ import junit.framework.TestCase;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 import org.databene.commons.converter.String2LocaleConverter;
-import org.databene.commons.converter.TypedConverter;
+import org.databene.commons.converter.BidirectionalConverter;
 
 import java.util.Locale;
 
@@ -50,7 +50,7 @@ public class String2LocaleConverterTest extends TestCase {
     }
 
     public void testRevert() throws ConversionException {
-        TypedConverter<String, Locale> converter = new String2LocaleConverter();
+        BidirectionalConverter<String, Locale> converter = new String2LocaleConverter();
         assertEquals("de", converter.revert(Locale.GERMAN));
         assertEquals("de_DE", converter.revert(Locale.GERMANY));
         assertEquals(converter.convert("de_DE_BY"), new Locale("de", "DE", "BY"));
