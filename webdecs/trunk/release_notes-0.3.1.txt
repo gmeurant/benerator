@@ -1,0 +1,4 @@
+release notes databene webdecs 0.3.1
+------------------------------------
+
+updated to use databene commons 0.3.1

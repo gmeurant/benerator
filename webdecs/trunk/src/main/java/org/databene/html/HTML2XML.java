@@ -108,7 +108,7 @@ public class HTML2XML {
                     writeText(writer, tokenizer.text());
                     break;
                 case HTMLTokenizer.DOCUMENT_TYPE:
-                    // leave out doc type // TODO v0.2.06 implement
+                    // leave out doc type // TODO v0.3.2 implement
                     break;
                 case HTMLTokenizer.PROCESSING_INSTRUCTION:
                     writeText(writer, tokenizer.text());

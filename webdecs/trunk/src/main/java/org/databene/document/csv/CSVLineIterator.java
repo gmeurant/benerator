@@ -39,7 +39,7 @@ import java.util.ArrayList;
  * Gives accesses to content of a CSV file by String arrays
  * that represent the CSV rows as specified in RFC 4180.<br/>
  * <br/>
- * TODO v0.2.06 use CSVTokenizer for proper quote support
+ * TODO v0.3.2 use CSVTokenizer for proper quote support
  */
 public class CSVLineIterator implements HeavyweightIterator<String[]> {
 
