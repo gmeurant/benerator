@@ -43,6 +43,7 @@ import java.io.PrintWriter;
 /**
  * Bundles reflection and introspection related operations.<br/><br/>
  * Created: 01.07.2006 08:44:33
+ * @since 0.1
  * @author Volker Bergmann
  */
 public final class BeanUtil {
@@ -88,26 +89,26 @@ public final class BeanUtil {
     /**
      * Map of simple Java types
      */
-    private static Map<String, Class> simpleTypeMap;
+    private static Map<String, Class<? extends Object>> simpleTypeMap;
 
     /**
      * Map of primitive Java types
      */
-    private static Map<String, Class> primitiveTypeMap;
+    private static Map<String, Class<? extends Object>> primitiveTypeMap;
 
     /**
      * Map of primitive Java number types
      */
-    private static Map<String, Class> primitiveNumberTypeMap;
+    private static Map<String, Class<? extends Object>> primitiveNumberTypeMap;
 
     // initialization --------------------------------------------------------------------------------------------------
 
     static {
-        simpleTypeMap = new HashMap<String, Class>();
-        for (Class type : simpleTypes)
+        simpleTypeMap = new HashMap<String, Class<? extends Object>>();
+        for (Class<? extends Object> type : simpleTypes)
             simpleTypeMap.put(type.getName(), type);
-        primitiveNumberTypeMap = new HashMap<String, Class>();
-        primitiveTypeMap = new HashMap<String, Class>();
+        primitiveNumberTypeMap = new HashMap<String, Class<? extends Object>>();
+        primitiveTypeMap = new HashMap<String, Class<? extends Object>>();
         for (PrimitiveTypeMapping mapping : primitiveNumberTypes) {
             primitiveNumberTypeMap.put(mapping.primitiveType.getName(), mapping.wrapperType);
             primitiveTypeMap.put(mapping.primitiveType.getName(), mapping.wrapperType);
@@ -116,6 +117,7 @@ public final class BeanUtil {
             primitiveTypeMap.put(mapping.primitiveType.getName(), mapping.wrapperType);
     }
 
+    /** Prevents instantiation of a BeanUtil object. */
     private BeanUtil() {
     }
 
@@ -138,7 +140,7 @@ public final class BeanUtil {
         return primitiveNumberTypeMap.containsKey(className);
     }
 
-    public static Class getWrapper(String primitiveClassName) {
+    public static Class<? extends Object> getWrapper(String primitiveClassName) {
         return primitiveTypeMap.get(primitiveClassName);
     }
 
@@ -171,21 +173,6 @@ public final class BeanUtil {
     }
 
     /**
-     * Returns a class' static attribute value
-     * @param objectType the class to query
-     * @param attributeName the name of the attribute
-     * @return the attribute value
-     */
-    public static Object getStaticAttributeValue(Class objectType, String attributeName) {
-        Field field = getField(objectType, attributeName);
-        try {
-            return field.get(null);
-        } catch (IllegalAccessException e) {
-            throw ExceptionMapper.configurationException(e, field);
-        }
-    }
-
-    /**
      * Sets an attribute value of an object.
      * @param obj the object to modify
      * @param fieldName the name of the attribute to set
@@ -197,12 +184,27 @@ public final class BeanUtil {
     }
 
     /**
+     * Returns a class' static attribute value
+     * @param objectType the class to query
+     * @param attributeName the name of the attribute
+     * @return the attribute value
+     */
+    public static Object getStaticAttributeValue(Class<? extends Object> objectType, String attributeName) {
+        Field field = getField(objectType, attributeName);
+        try {
+            return field.get(null);
+        } catch (IllegalAccessException e) {
+            throw ExceptionMapper.configurationException(e, field);
+        }
+    }
+
+    /**
      * Sets a static attribute value of a class.
      * @param objectType the class to modify
      * @param fieldName the name of the attribute to set
      * @param value the value to assign to the field
      */
-    public static void setStaticAttributeValue(Class objectType, String fieldName, Object value) {
+    public static void setStaticAttributeValue(Class<? extends Object> objectType, String fieldName, Object value) {
         Field field = getField(objectType, fieldName);
         setAttributeValue(null, field, value);
     }
@@ -226,13 +228,13 @@ public final class BeanUtil {
      * @param field the field representation of the attribute.
      * @return an array of types that are used to parameterize the attribute.
      */
-    public static Class[] getGenericTypes(Field field) {
+    public static Class<? extends Object>[] getGenericTypes(Field field) {
         Type genericFieldType = field.getGenericType();
         if (!(genericFieldType instanceof ParameterizedType))
             return null; // type is not generic
         ParameterizedType pType = (ParameterizedType) genericFieldType;
         Type[] args = pType.getActualTypeArguments();
-        Class[] types = new Class[args.length];
+        Class<? extends Object>[] types = new Class[args.length];
         System.arraycopy(args, 0, types, 0, args.length);
         return types;
     }
@@ -244,13 +246,13 @@ public final class BeanUtil {
      * @param name the name of the class to instantiate
      * @return the Class instance
      */
-    public static Class<?> forName(String name) {
+    public static <T> Class<T> forName(String name) {
         Class type = simpleTypeMap.get(name);
         if (type != null)
             return type;
         else {
             try {
-                 return Class.forName(name);
+                 return (Class<T>) Class.forName(name);
             } catch (ClassNotFoundException e) {
                 throw ExceptionMapper.configurationException(e, name);
             }
@@ -301,6 +303,27 @@ public final class BeanUtil {
         }
     }
 
+    /**
+     * Creates a new instance of a Class.
+     * @param constructor
+     * @param params
+     * @return
+     */
+    public static <T> T newInstance(Constructor<T> constructor, Object ... params) {
+        Class<T> type = constructor.getDeclaringClass();
+        if (deprecated(type))
+            escalator.escalate("Instantiating a deprecated class: " + type.getName(), BeanUtil.class, null);
+        try {
+            return (T)constructor.newInstance(params);
+        } catch (InstantiationException e) {
+            throw ExceptionMapper.configurationException(e, type);
+        } catch (IllegalAccessException e) {
+            throw ExceptionMapper.configurationException(e, type);
+        } catch (InvocationTargetException e) {
+            throw ExceptionMapper.configurationException(e, type);
+        }
+    }
+
     // method operations -----------------------------------------------------------------------------------------------
 
     /**
@@ -312,7 +335,7 @@ public final class BeanUtil {
      * @param paramTypes
      * @return a method with matching names and parameters
      */
-    public static Method getMethod(Class type, String methodName, Class ... paramTypes) {
+    public static Method getMethod(Class<? extends Object> type, String methodName, Class<? extends Object> ... paramTypes) {
         Method method = findMethod(type, methodName, paramTypes);
         if (method == null)
             throw new ConfigurationError("no method '" + methodName + "' found" +
@@ -329,7 +352,7 @@ public final class BeanUtil {
      * @param paramTypes
      * @return a method with matching names and parameters
      */
-    public static Method findMethod(Class type, String methodName, Class ... paramTypes) {
+    public static Method findMethod(Class<? extends Object> type, String methodName, Class<? extends Object> ... paramTypes) {
         Method[] methods = type.getMethods();
         for (Method method : methods) {
             if (methodName.equals(method.getName()) && typesMatch(paramTypes, method.getParameterTypes()))
@@ -355,14 +378,14 @@ public final class BeanUtil {
         return invoke(target, method, args);
     }
 
-    public static Object invokeStatic(Class<? extends Object> targetClass, String methodName, Object ... args) {
+    public static <T> T invokeStatic(Class<? extends Object> targetClass, String methodName, Object ... args) {
         if (targetClass == null)
             throw new IllegalArgumentException("target is null");
         Class<? extends Object>[] argClasses = new Class[args.length];
         for (int i = 0; i < args.length; i++)
             argClasses[i] = (args[i] != null ? args[i].getClass() : null);
         Method method = getMethod(targetClass, methodName, argClasses);
-        return invoke(null, method, args);
+        return (T) invoke(null, method, args);
     }
 
     /**
@@ -382,14 +405,14 @@ public final class BeanUtil {
         }
     }
 
-    public static boolean typesMatch(Class[] foundTypes, Class[] expectedTypes) {
+    public static boolean typesMatch(Class<? extends Object>[] foundTypes, Class<? extends Object>[] expectedTypes) {
         if (foundTypes.length != expectedTypes.length)
             return false;
         if (expectedTypes.length == 0)
             return true;
         for (int i = 0; i < foundTypes.length; i++) {
-            Class expectedType = expectedTypes[i];
-            Class foundType = foundTypes[i];
+            Class<? extends Object> expectedType = expectedTypes[i];
+            Class<? extends Object> foundType = foundTypes[i];
             if (expectedType.isAssignableFrom(foundType))
                 return true;
             if (isPrimitive(expectedType.getName()) &&
@@ -411,7 +434,7 @@ public final class BeanUtil {
      * @param propertyName the name of the property
      * @return the attribute's property descriptor
      */
-    public static PropertyDescriptor getPropertyDescriptor(Class beanClass, String propertyName) {
+    public static PropertyDescriptor getPropertyDescriptor(Class<? extends Object> beanClass, String propertyName) {
         if (beanClass == null)
             throw new IllegalArgumentException("beanClass is null");
         String propertyId = beanClass.getName() + '#' + propertyName;
@@ -424,7 +447,7 @@ public final class BeanUtil {
         if (separatorIndex >= 0) {
             String localProperty = propertyName.substring(0, separatorIndex);
             String remoteProperty = propertyName.substring(separatorIndex + 1);
-            Class localPropertyType = getPropertyDescriptor(beanClass, localProperty).getPropertyType();
+            Class<? extends Object> localPropertyType = getPropertyDescriptor(beanClass, localProperty).getPropertyType();
             result = getPropertyDescriptor(localPropertyType, remoteProperty);
         } else {
             try {
@@ -445,7 +468,7 @@ public final class BeanUtil {
         return result;
     }
 
-    public static boolean hasProperty(Class beanClass, String propertyName) {
+    public static boolean hasProperty(Class<? extends Object> beanClass, String propertyName) {
         return (getPropertyDescriptor(beanClass, propertyName) != null);
     }
 
@@ -455,7 +478,7 @@ public final class BeanUtil {
      * @param propertyType the type of the property
      * @return the name of the property read method
      */
-    public static String readMethodName(String propertyName, Class propertyType) {
+    public static String readMethodName(String propertyName, Class<? extends Object> propertyType) {
         if (boolean.class.equals(propertyType) || Boolean.class.equals(propertyType))
             return "is" + Character.toUpperCase(propertyName.charAt(0)) + propertyName.substring(1);
         else
@@ -515,7 +538,7 @@ public final class BeanUtil {
      * @param type the class to check
      * @return all found property descriptors
      */
-    public static PropertyDescriptor[] getPropertyDescriptors(Class type) {
+    public static PropertyDescriptor[] getPropertyDescriptors(Class<? extends Object> type) {
         try {
             return Introspector.getBeanInfo(type).getPropertyDescriptors();
         } catch (IntrospectionException e) {
@@ -576,10 +599,10 @@ public final class BeanUtil {
         }
     }
     
-    public static <BEAN, PROPTYPE> List<PROPTYPE> extractProperties(Collection<BEAN> beans, String propertyName) {
-        List<PROPTYPE> result = new ArrayList<PROPTYPE>(beans.size());
+    public static <BEAN, PROP_TYPE> List<PROP_TYPE> extractProperties(Collection<BEAN> beans, String propertyName) {
+        List<PROP_TYPE> result = new ArrayList<PROP_TYPE>(beans.size());
         for (BEAN bean : beans)
-            result.add((PROPTYPE)getPropertyValue(bean, propertyName));
+            result.add((PROP_TYPE)getPropertyValue(bean, propertyName));
         return result;
     }
 
@@ -610,9 +633,9 @@ public final class BeanUtil {
      * Checks if a class fulfills the JavaBeans contract.
      * @param cls the class to check
      */
-    public static void checkJavaBean(Class cls) {
+    public static void checkJavaBean(Class<? extends Object> cls) {
         try {
-            Constructor constructor = cls.getDeclaredConstructor();
+            Constructor<? extends Object> constructor = cls.getDeclaredConstructor();
             int classModifiers = cls.getModifiers();
             if (Modifier.isInterface(classModifiers))
                 throw new RuntimeException(cls.getName() + " is an interface");
@@ -664,33 +687,12 @@ public final class BeanUtil {
     }
 
     /**
-     * Creates a new instance of a Class.
-     * @param constructor
-     * @param params
-     * @return
-     */
-    public static <T> T newInstance(Constructor<T> constructor, Object ... params) {
-        Class<T> type = constructor.getDeclaringClass();
-        if (deprecated(type))
-            escalator.escalate("Instantiating a deprecated class: " + type.getName(), BeanUtil.class, null);
-        try {
-            return (T)constructor.newInstance(params);
-        } catch (InstantiationException e) {
-            throw ExceptionMapper.configurationException(e, type);
-        } catch (IllegalAccessException e) {
-            throw ExceptionMapper.configurationException(e, type);
-        } catch (InvocationTargetException e) {
-            throw ExceptionMapper.configurationException(e, type);
-        }
-    }
-
-    /**
      * Returns a Field object that represents an attribute of a class
      * @param type the class that holds the attribute
      * @param name the name of the attribute
      * @return a Field object that represents the attribute
      */
-    private static Field getField(Class type, String name) {
+    private static Field getField(Class<? extends Object> type, String name) {
         try {
             return type.getField(name);
         } catch (NoSuchFieldException e) {
@@ -702,10 +704,10 @@ public final class BeanUtil {
      * Represents a primitive-to-wrapper mapping.
      */
     private static final class PrimitiveTypeMapping {
-        public Class primitiveType;
-        public Class wrapperType;
+        public Class<? extends Object> primitiveType;
+        public Class<? extends Object> wrapperType;
 
-        public PrimitiveTypeMapping(Class primitiveType, Class wrapperType) {
+        public PrimitiveTypeMapping(Class<? extends Object> primitiveType, Class<? extends Object> wrapperType) {
             this.primitiveType = primitiveType;
             this.wrapperType = wrapperType;
         }

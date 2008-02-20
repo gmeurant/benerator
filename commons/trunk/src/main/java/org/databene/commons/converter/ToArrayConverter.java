@@ -50,7 +50,7 @@ public class ToArrayConverter implements Converter {
 
     public ToArrayConverter(Class componentType) {
         this.componentType = componentType;
-        this.arrayType = ArrayUtil.arrayTypeOfComponent(componentType);
+        this.arrayType = ArrayUtil.arrayType(componentType);
     }
 
     public Class getTargetType() {

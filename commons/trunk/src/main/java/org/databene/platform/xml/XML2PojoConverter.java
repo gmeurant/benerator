@@ -44,7 +44,7 @@ import org.w3c.dom.NamedNodeMap;
  */
 public class XML2PojoConverter implements Converter<Element, Object> {
 
-    // TODO v0.3.1 test
+    // TODO v0.3.2 test
     private Map<String, Class<? extends Object>> types;
     
     public XML2PojoConverter() {

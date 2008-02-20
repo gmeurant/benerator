@@ -49,7 +49,7 @@ public class ArrayPropertyExtractor<E> implements Converter<Object[], E[]> {
     public ArrayPropertyExtractor(String propertyName, Class<E> propertyType) {
         this.propertyName = propertyName;
         this.propertyType = propertyType;
-        this.arrayType = ArrayUtil.arrayTypeOfComponent(propertyType);
+        this.arrayType = ArrayUtil.arrayType(propertyType);
     }
 
     public Class<E[]> getTargetType() {

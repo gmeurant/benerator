@@ -100,7 +100,7 @@ public class IOUtilTest  extends TestCase {
         assertEquals("z", properties.getProperty("x.y"));
     }
 
-    // TODO v0.3.1 implement missing tests
+    // TODO v0.3.2 implement missing tests
 
     public void testWriteProperties() {
     }

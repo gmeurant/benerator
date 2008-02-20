@@ -47,7 +47,7 @@ public class ComparatorFactory {
     static {
         comparators = new HashMap();
         addComparator(String.class, Collator.getInstance());
-        // TODO v0.3.1 configure by file
+        // TODO v0.3.2 configure by file
         
         // this is the fallback if no specific Comparator was found
         addComparator(Comparable.class, new ComparableComparator());

@@ -90,7 +90,7 @@ public class FactoryConverter<S, T> implements Converter<S, T> {
      */
     private static <T> T tryToConstructWithSourceParameter(Object src, Class<T> targetType) {
         try {
-            // TODO v0.3.1 iterate through the existing constructors
+            // TODO v0.3.2 iterate through the existing constructors
             Constructor<T> constructor = targetType.getConstructor(src.getClass());
             return constructor.newInstance(src);
         } catch (NoSuchMethodException e) {

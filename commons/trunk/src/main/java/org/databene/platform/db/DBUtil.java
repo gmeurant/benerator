@@ -110,7 +110,7 @@ public class DBUtil {
         return cells;
     }
 
-    // TODO v0.3.1 replace this by ResultSetFormat
+    // TODO v0.3.2 replace this by ResultSetFormat
     public static String format(ResultSet resultSet) throws SQLException {
         StringBuilder builder = new StringBuilder();
         // format column names

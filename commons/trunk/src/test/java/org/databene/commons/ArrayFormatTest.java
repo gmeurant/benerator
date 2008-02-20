@@ -42,7 +42,7 @@ public class ArrayFormatTest extends TestCase {
     }
 
     public void testParseObject() {
-        // TODO v0.3.1 implement
+        // TODO v0.3.2 implement
     }
 
     public void testFormatSimple() {

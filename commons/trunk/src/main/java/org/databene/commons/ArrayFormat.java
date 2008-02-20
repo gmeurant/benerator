@@ -76,7 +76,7 @@ public class ArrayFormat extends Format {
     }
 
     public Object parseObject(String source, ParsePosition pos) {
-        throw new UnsupportedOperationException("Not implemented"); // TODO v0.3.1 implement
+        throw new UnsupportedOperationException("Not implemented"); // TODO v0.3.2 implement
     }
 
     // publicly available utility methods ------------------------------------------------------------------------------

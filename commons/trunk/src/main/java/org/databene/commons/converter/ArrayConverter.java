@@ -45,7 +45,7 @@ public class ArrayConverter<S, T> implements Converter<S[], T[]> {
 
     public ArrayConverter(Class<T> targetClass, Converter<S, T> ... converters) {
         this.componentType = targetClass;
-        this.arrayType = ArrayUtil.arrayTypeOfComponent(componentType);
+        this.arrayType = ArrayUtil.arrayType(componentType);
         this.converters = converters;
     }
 

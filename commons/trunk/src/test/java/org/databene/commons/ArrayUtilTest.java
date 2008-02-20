@@ -42,7 +42,7 @@ public class ArrayUtilTest extends TestCase {
     private Integer[] ONE_TO_FOUR  = { 1, 2, 3, 4 };
     private Integer[] FOUR_TO_ONE  = { 4, 3, 2, 1 };
 
-    public void testAsList() {
+    public void testToList() {
         List<Integer> expectedList = new ArrayList<Integer>();
         expectedList.add(1);
         expectedList.add(2);
@@ -50,12 +50,37 @@ public class ArrayUtilTest extends TestCase {
         assertEquals(expectedList, ArrayUtil.toList(1, 2, 3));
     }
 
-    public void testAsSet() {
+    public void testToSet() {
         Set<Integer> expectedSet = new HashSet<Integer>();
         expectedSet.add(1);
         expectedSet.add(2);
         expectedSet.add(3);
         assertEquals(expectedSet, ArrayUtil.toSet(1, 2, 3));
+    }
+
+    public void testToSortedSet() {
+        Set<Integer> expectedSet = new TreeSet<Integer>();
+        expectedSet.add(1);
+        expectedSet.add(2);
+        expectedSet.add(3);
+        assertEquals(expectedSet, ArrayUtil.toSortedSet(3, 2, 1));
+    }
+
+    public void testCopyOfRange() {
+        Integer[] array = new Integer[] { 0, 1, 2 };
+        assertTrue(Arrays.equals(new Integer[0], ArrayUtil.copyOfRange(array, 0, 0)));
+        assertTrue(Arrays.equals(new Integer[] { 0 }, ArrayUtil.copyOfRange(array, 0, 1)));
+        assertTrue(Arrays.equals(new Integer[] { 1 }, ArrayUtil.copyOfRange(array, 1, 1)));
+        assertTrue(Arrays.equals(new Integer[] { 2 }, ArrayUtil.copyOfRange(array, 2, 1)));
+        assertTrue(Arrays.equals(new Integer[] { 0, 1 }, ArrayUtil.copyOfRange(array, 0, 2)));
+        assertTrue(Arrays.equals(new Integer[] { 1, 2 }, ArrayUtil.copyOfRange(array, 1, 2)));
+        assertTrue(Arrays.equals(new Integer[] { 0, 1, 2 }, ArrayUtil.copyOfRange(array, 0, 3)));
+    }
+
+    public void testRemove() {
+        assertTrue(Arrays.equals(new Integer[] { 2, 3 }, ArrayUtil.remove(ONE_TO_THREE, 0)));
+        assertTrue(Arrays.equals(new Integer[] { 1, 3 }, ArrayUtil.remove(ONE_TO_THREE, 1)));
+        assertTrue(Arrays.equals(new Integer[] { 1, 2 }, ArrayUtil.remove(ONE_TO_THREE, 2)));
     }
 
     public void testContains() {
@@ -102,16 +127,30 @@ public class ArrayUtilTest extends TestCase {
         assertEquals( 2, ArrayUtil.indexOf(3, ONE_TO_THREE));
         assertEquals(-1, ArrayUtil.indexOf(4, ONE_TO_THREE));
     }
-
-    public void testRemove() {
-        assertTrue(Arrays.equals(new Integer[] { 2, 3 }, ArrayUtil.remove(ONE_TO_THREE, 0)));
-        assertTrue(Arrays.equals(new Integer[] { 1, 3 }, ArrayUtil.remove(ONE_TO_THREE, 1)));
-        assertTrue(Arrays.equals(new Integer[] { 1, 2 }, ArrayUtil.remove(ONE_TO_THREE, 2)));
+    
+    public void testToArray() {
+        assertTrue(Arrays.equals(ONE_TO_THREE, ArrayUtil.toArray(Integer.class, 1, 2, 3)));
     }
-
-    public void testRevert() {
+    
+    public void testRevertObjects() {
         assertTrue(Arrays.equals(TWO_ONE, ArrayUtil.revert(ONE_TWO)));
         assertTrue(Arrays.equals(THREE_TO_ONE, ArrayUtil.revert(ONE_TO_THREE)));
         assertTrue(Arrays.equals(FOUR_TO_ONE, ArrayUtil.revert(ONE_TO_FOUR)));
     }
+    
+    public void testRevertChars() {
+        assertTrue(Arrays.equals(new char[] {'c', 'b', 'a'}, ArrayUtil.revert(new char[] {'a', 'b', 'c'})));
+        assertTrue(Arrays.equals(new char[] {'a'}, ArrayUtil.revert(new char[] {'a'})));
+        assertTrue(Arrays.equals(new char[0], ArrayUtil.revert(new char[0])));
+    }
+    
+    public void testArrayType() {
+        assertEquals(String[].class, ArrayUtil.arrayType(String.class));
+    }
+
+    public void testNewInstance() {
+        Integer[] instance = ArrayUtil.newInstance(Integer.class, 3);
+        assertTrue(Arrays.equals(new Integer[3], instance));
+    }
+
 }

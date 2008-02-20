@@ -30,13 +30,17 @@ import junit.framework.TestCase;
 
 import java.util.*;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.io.PrintWriter;
 
 /**
+ * Tests the BeanUtil class.<br/><br/>
  * Created: 05.04.2007 07:51:00
+ * @since 0.1
+ * @author Volker Bergmann
  */
 public class BeanUtilTest extends TestCase {
 
@@ -48,6 +52,7 @@ public class BeanUtilTest extends TestCase {
         assertTrue(BeanUtil.isSimpleType("java.lang.String"));
         assertFalse(BeanUtil.isSimpleType("java.lang.StringBuffer"));
         assertFalse(BeanUtil.isSimpleType("org.databene.commons.BeanUtil"));
+        assertFalse(BeanUtil.isSimpleType(null));
     }
 
     public void testIsPrimitive() {
@@ -58,6 +63,18 @@ public class BeanUtilTest extends TestCase {
         assertFalse(BeanUtil.isPrimitive(String.class.getName()));
         assertFalse(BeanUtil.isPrimitive(StringBuffer.class.getName()));
         assertFalse(BeanUtil.isPrimitive(BeanUtil.class.getName()));
+        assertFalse(BeanUtil.isPrimitive(null));
+    }
+
+    public void testIsPrimitiveNumber() {
+        assertTrue(BeanUtil.isPrimitive(int.class.getName()));
+        assertFalse(BeanUtil.isPrimitive(Integer.class.getName()));
+        assertTrue(BeanUtil.isPrimitive(char.class.getName()));
+        assertFalse(BeanUtil.isPrimitive(Character.class.getName()));
+        assertFalse(BeanUtil.isPrimitive(String.class.getName()));
+        assertFalse(BeanUtil.isPrimitive(StringBuffer.class.getName()));
+        assertFalse(BeanUtil.isPrimitive(BeanUtil.class.getName()));
+        assertFalse(BeanUtil.isPrimitive(null));
     }
 
     public void testGetWrapper() {
@@ -76,22 +93,23 @@ public class BeanUtilTest extends TestCase {
 
     // field tests -----------------------------------------------------------------------------------------------------
 
-    public void testGetAttributeValueByName() {
-        B b = new B();
-        assertEquals(1, BeanUtil.getAttributeValue(b, "val"));
+    public void testGetAttributeValue() {
+        P p = new P();
+        assertEquals(1, BeanUtil.getAttributeValue(p, "val"));
     }
 
-    public void testGetStaticAttributeValueByName() {
+    public void testSetAttribute() {
+        P p = new P();
+        BeanUtil.setAttributeValue(p, "val", 2);
+        assertEquals(2, p.val);
+    }
+
+    public void testGetStaticAttributeValue() {
+        B.stat = "x";
         assertEquals("x", BeanUtil.getStaticAttributeValue(B.class, "stat"));
     }
 
-    public void testSetAttributeByName() {
-        B b = new B();
-        BeanUtil.setAttributeValue(b, "val", 2);
-        assertEquals(2, b.val);
-    }
-
-    public void testSetStaticAttributeByName() {
+    public void testSetStaticAttribute() {
         BeanUtil.setStaticAttributeValue(B.class, "stat", "y");
         assertEquals("y", B.stat);
     }
@@ -108,34 +126,67 @@ public class BeanUtilTest extends TestCase {
 
     // instantiation tests ---------------------------------------------------------------------------------------------
 
-    public void testNewInstance() {
-        B b = BeanUtil.newInstance(B.class);
-        assertEquals(1, b.val);
-        b = BeanUtil.newInstance(B.class, 2);
-        assertEquals(2, b.val);
+    public void testForName() {
+        Class<P> type = BeanUtil.forName("org.databene.commons.BeanUtilTest$P");
+        assertEquals(P.class, type);
     }
 
-    public void testForName() {
-        Class type = BeanUtil.forName("org.databene.commons.BeanUtilTest$B");
-        assertEquals(B.class, type);
+    public void testNewInstanceWithConstructorParams() {
+        P p = BeanUtil.newInstance(P.class);
+        assertEquals(1, p.val);
+        p = BeanUtil.newInstance(P.class, 2);
+        assertEquals(2, p.val);
+    }
+
+    public void testNewInstanceFromClassName() {
+        P p = BeanUtil.newInstance(P.class.getName());
+        assertEquals(1, p.val);
+    }
+
+    public void testNewInstanceFromConstructor() throws SecurityException, NoSuchMethodException {
+        Constructor<P> constructor = P.class.getDeclaredConstructor(int.class);
+        P p = BeanUtil.newInstance(constructor, 1000);
+        assertEquals(1000, p.val);
     }
 
     // method tests ----------------------------------------------------------------------------------------------------
 
     public void testGetMethod() throws IllegalAccessException, InvocationTargetException {
-        Method method = BeanUtil.getMethod(B.class, "getVal");
-        B b = new B();
-        assertEquals(1, method.invoke(b));
-        method = BeanUtil.getMethod(B.class, "setVal", Integer.class);
-        method.invoke(b, 2);
-        assertEquals(2, b.val);
+        Method method = BeanUtil.getMethod(P.class, "getVal");
+        P p = new P();
+        assertEquals(1, method.invoke(p));
+        method = BeanUtil.getMethod(P.class, "setVal", Integer.class);
+        method.invoke(p, 2);
+        assertEquals(2, p.val);
+        try {
+            BeanUtil.findMethod(P.class, "setBlaBla", Integer.class);
+        } catch (ConfigurationError e) {
+            // desired behavior
+        }
+    }
+
+    public void testFindMethod() throws IllegalAccessException, InvocationTargetException {
+        Method method = BeanUtil.findMethod(P.class, "getVal");
+        P p = new P();
+        assertEquals(1, method.invoke(p));
+        method = BeanUtil.findMethod(P.class, "setVal", Integer.class);
+        method.invoke(p, 2);
+        assertEquals(2, p.val);
+        assertNull(BeanUtil.findMethod(P.class, "setBlaBla", Integer.class));
     }
 
     public void testInvoke() {
-        B b = new B();
-        assertEquals(1, BeanUtil.invoke(b, "getVal"));
-        BeanUtil.invoke(b, "setVal", 2);
-        assertEquals(2, b.val);
+        P p = new P();
+        assertEquals(1, BeanUtil.invoke(p, "getVal"));
+        BeanUtil.invoke(p, "setVal", 2);
+        assertEquals(2, p.val);
+    }
+
+    public void testInvokeStatic() {
+        B.setStat("x");
+        assertEquals("x", BeanUtil.invokeStatic(B.class, "getStat"));
+        BeanUtil.invokeStatic(B.class, "setStat", "u");
+        assertEquals("u", B.stat);
     }
 
     public void testTypesMatch() {
@@ -152,11 +203,16 @@ public class BeanUtilTest extends TestCase {
     // property tests --------------------------------------------------------------------------------------------------
 
     public void testGetPropertyDescriptor() throws IllegalAccessException, InvocationTargetException {
-        PropertyDescriptor desc = BeanUtil.getPropertyDescriptor(B.class, "val");
+        PropertyDescriptor desc = BeanUtil.getPropertyDescriptor(P.class, "val");
         assertEquals("val", desc.getName());
-        B b = new B();
-        desc.getWriteMethod().invoke(b, 2);
-        assertEquals(2, b.val);
+        P p = new P();
+        desc.getWriteMethod().invoke(p, 2);
+        assertEquals(2, p.val);
+    }
+
+    public void testHasProperty() throws IllegalAccessException, InvocationTargetException {
+        assertTrue(BeanUtil.hasProperty(B.class, "val"));
+        assertFalse(BeanUtil.hasProperty(B.class, "blaBla"));
     }
 
     public void testReadMethodName() {
@@ -181,14 +237,14 @@ public class BeanUtilTest extends TestCase {
     }
 
     public void testGetPropertyValue() {
-        B b = new B();
-        assertEquals(b.getVal(), BeanUtil.getPropertyValue(b, "val"));
+        P p = new P();
+        assertEquals(p.getVal(), BeanUtil.getPropertyValue(p, "val"));
     }
 
     public void testSetPropertyValue() {
-        B b = new B();
-        BeanUtil.setPropertyValue(b, "val", 2);
-        assertEquals(2, b.getVal());
+        P p = new P();
+        BeanUtil.setPropertyValue(p, "val", 2);
+        assertEquals(2, p.getVal());
     }
 
     // class tests -----------------------------------------------------------------------------------------------------
@@ -212,15 +268,15 @@ public class BeanUtilTest extends TestCase {
     }
 
     public static class A implements I {
-        B b = new B();
-
-        public B getB() {
+        P b = new P();
+        
+        public P getP() {
             return b;
         }
 
     }
 
-    public static class B<E extends Collection> {
+    public static class B<E extends Collection<Integer>> {
 
         public int val;
         public static String stat = "x";
@@ -256,6 +312,29 @@ public class BeanUtilTest extends TestCase {
     
     @Deprecated
     public static class Dep {
+        
+    }
+    
+    public static class P {
+        
+        public int val;
+        
+        public P() {
+            this(1);
+        }
+        
+        public P(int val) {
+            this.val = val;
+        }
+
+        public int getVal() {
+            return val;
+        }
+
+        public void setVal(int val) {
+            this.val = val;
+        }
+        
         
     }
 }

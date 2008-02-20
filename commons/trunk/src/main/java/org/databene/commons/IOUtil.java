@@ -294,7 +294,7 @@ public final class IOUtil {
         try {
             reader = IOUtil.getReaderForURI(filename, encoding);
             iterator = new ReaderLineIterator(reader);
-            while (iterator.hasNext()) { // TODO v0.3.1 support line wrapping with '\', see java/util/Properties.html#load(java.io.InputStream)
+            while (iterator.hasNext()) { // TODO v0.3.2 support line wrapping with '\', see java/util/Properties.html#load(java.io.InputStream)
                 String line = iterator.next();
                 if (line.trim().startsWith("#"))
                     continue;

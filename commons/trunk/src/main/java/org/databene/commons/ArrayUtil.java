@@ -178,10 +178,6 @@ public final class ArrayUtil {
         return array;
     }
 
-    public static <T> Class<T[]> arrayTypeOfComponent(Class<T> componentType) {
-        return (Class<T[]>) toArray(componentType).getClass().getComponentType();
-    }
-
     public static <T> T[] revert(T[] array) {
         for (int i = (array.length >> 1) - 1 ; i >= 0; i--) {
             T tmp = array[i];
@@ -201,7 +197,7 @@ public final class ArrayUtil {
     }
     
     public static <T> Class<T[]> arrayType(Class<T> componentType) {
-        return (Class<T[]>) ArrayUtil.toArray(componentType).getClass();
+        return (Class<T[]>) toArray(componentType).getClass();
     }
 
     public static <T> T[] newInstance(Class<T> componentType, int length) {
