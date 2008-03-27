@@ -298,6 +298,10 @@ public class CharSet {
         return set.contains(c);
     }
 
+    public int size() {
+        return set.size();
+    }
+
     // java.lang.Object overrides --------------------------------------------------------------------------------------
 
     /**
