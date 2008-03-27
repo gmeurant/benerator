@@ -46,4 +46,9 @@ public class ArrayTypeConverter<T> extends ArrayConverter<Object, T> {
             converters[i] = new AnyConverter(elementTypes[i]);
         return converters;
     }
+    
+    public static Object[] convert(Object[] args, Class<?>[] parameterTypes) {
+        return new ArrayTypeConverter<Object>(Object.class, parameterTypes).convert(args);
+    }
+
 }
