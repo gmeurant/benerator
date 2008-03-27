@@ -29,8 +29,8 @@ package org.databene.document.csv;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.UpdateFailedException;
-import org.databene.platform.bean.PropertyMutator;
-import org.databene.platform.bean.PropertyMutatorFactory;
+import org.databene.commons.bean.PropertyMutator;
+import org.databene.commons.bean.PropertyMutatorFactory;
 
 import java.io.*;
 import java.util.Iterator;
