@@ -66,6 +66,8 @@ public class NullSafeComparator<E> implements Comparator<E> {
     // interface -------------------------------------------------------------------------------------------------------
 
     public int compare(E o1, E o2) {
+        if (o1 == o2)
+            return 0;
         if (o1 == null)
             return (o2 == null ? 0 : nullComparation);
         else if (o2 == null)
