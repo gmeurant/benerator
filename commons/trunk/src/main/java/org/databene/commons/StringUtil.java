@@ -416,4 +416,25 @@ public final class StringUtil {
         return text.substring(0, 1).toLowerCase() + text.substring(1);
     }
 
+    public static String[] splitOnLastSeparator(String path, char separator) {
+        if (path == null)
+            return new String[] { null, null };
+        int sepIndex = path.lastIndexOf(separator);
+        if (sepIndex < 0)
+            return new String[] { null, path };
+        else if (sepIndex == 0)
+            return new String[] { "", path };
+        else if (sepIndex == path.length() - 1)
+            return new String[] { path, null };
+        else
+            return new String[] { path.substring(0, sepIndex), path.substring(sepIndex + 1) };
+            
+    }
+
+    public static boolean containsIgnoreCase(Collection<String> names, String searched) {
+        for (String name : names)
+            if (name.equalsIgnoreCase(searched))
+                return true;
+        return false;
+    }
 }
