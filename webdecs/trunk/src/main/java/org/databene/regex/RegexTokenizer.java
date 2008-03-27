@@ -73,6 +73,7 @@ public class RegexTokenizer {
                 case 'S' : setState(PREDEFINED_CLASS, c2); break;
 
                 case '+':
+                case '-':
                 case '\\':
                 case '.':
                 case 't':
@@ -158,5 +159,10 @@ public class RegexTokenizer {
         RegexTokenType type = next();
         if (type != expectedType)
             throw new ParseException("Expected " + expectedType + " found: " + type, iterator.index());
+    }
+    
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + '[' + iterator + ']';
     }
 }
