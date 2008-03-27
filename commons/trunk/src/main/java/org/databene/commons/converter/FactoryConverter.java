@@ -90,15 +90,18 @@ public class FactoryConverter<S, T> implements Converter<S, T> {
      */
     private static <T> T tryToConstructWithSourceParameter(Object src, Class<T> targetType) {
         try {
-            // TODO v0.3.2 iterate through the existing constructors
             Constructor<T> constructor = targetType.getConstructor(src.getClass());
             return constructor.newInstance(src);
         } catch (NoSuchMethodException e) {
             // no such constructor exists
+            if (logger.isDebugEnabled())
+                logger.debug("No appropriate constructor found in " + src.getClass());
         } catch (InstantiationException e) {
             logger.debug("Failed to instantiate " + targetType + " by constructor " + targetType.getSimpleName() + '(' + src.getClass().getName() + ')' + e);
         } catch (IllegalAccessException e) {
             // obviously, the constructor is not intended to be invoked from foreign classes/packages
+            if (logger.isDebugEnabled())
+                logger.debug("Constructor not visible");
         } catch (InvocationTargetException e) {
             logger.debug("Failed to instantiate " + targetType + " by constructor " + targetType.getSimpleName() + '(' + src.getClass().getName() + ')' + e);
         }
