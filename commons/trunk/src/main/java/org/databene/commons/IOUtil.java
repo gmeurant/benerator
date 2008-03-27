@@ -29,12 +29,7 @@ package org.databene.commons;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.databene.commons.collection.MapEntry;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.net.URL;
 import java.net.MalformedURLException;
@@ -152,13 +147,9 @@ public final class IOUtil {
             if (!uri.contains("://"))
                 uri = "file://" + uri;
             if (uri.startsWith("file://"))
-                stream = getFileOrResourceAsStream(uri.substring("file://".length()));
-            else
-                throw new ConfigurationError("Don't know how to handle URL " + uri);
+                stream = getFileOrResourceAsStream(uri.substring("file://".length()), false);
             return stream != null;
         } catch (FileNotFoundException e) {
-            return false;
-        } catch (ConfigurationError e) { // TODO v0.3 this is necessary 'cause otherwise we'd get return exception when a file is not found
             return false;
         } finally {
             close(stream);
@@ -200,8 +191,44 @@ public final class IOUtil {
         } else {
             if (defaultEncoding == null)
                 defaultEncoding = SystemInfo.fileEncoding();
-            return new BufferedReader(new InputStreamReader(getInputStreamForURI(uri), defaultEncoding));
+            InputStream is = getInputStreamForURI(uri);
+            PushbackInputStream in = new PushbackInputStream(is, 4);
+            defaultEncoding = bomEncoding(in, defaultEncoding);
+            return new BufferedReader(new InputStreamReader(in, defaultEncoding));
         }
+    }
+
+    private static String bomEncoding(PushbackInputStream in, String defaultEncoding) throws IOException {
+        int b1 = in.read();
+        if (b1 == -1)
+            return defaultEncoding;
+        if (b1 != 0xEF) {
+            in.unread(b1);
+            return defaultEncoding;
+        }
+        int b2 = in.read();
+        if (b2 == -1) {
+            in.unread(b1);
+            return defaultEncoding;
+        }
+        if (b2 != 0xBB) {
+            in.unread(b2);
+            in.unread(b1);
+            return defaultEncoding;
+        }
+        int b3 = in.read();
+        if (b3 == -1) {
+            in.unread(b2);
+            in.unread(b1);
+            return defaultEncoding;
+        }
+        if (b3 != 0xBF) {
+            in.unread(b3);
+            in.unread(b2);
+            in.unread(b1);
+            return defaultEncoding;
+        }
+        return "UTF-8";
     }
 
     /**
@@ -222,7 +249,7 @@ public final class IOUtil {
         if (!uri.contains("://"))
             uri = "file://" + uri;
         if (uri.startsWith("file://"))
-            return getFileOrResourceAsStream(uri.substring("file://".length()));
+            return getFileOrResourceAsStream(uri.substring("file://".length()), true);
         else
             throw new ConfigurationError("Don't know how to handle URL " + uri);
     }
@@ -261,7 +288,7 @@ public final class IOUtil {
     public static void copy(String srcUri, String targetUri) throws IOException {
         logger.info("downloading " + srcUri + " --> " + targetUri);
         InputStream in = IOUtil.getInputStreamForURI(srcUri);
-        OutputStream out = new FileOutputStream(targetUri); // TODO v0.3 support other protocols, e.g. FTP upload
+        OutputStream out = new FileOutputStream(targetUri); // TODO v0.4.1 support other protocols, e.g. FTP upload
         IOUtil.transfer(in, out);
         out.close();
         in.close();
@@ -269,12 +296,12 @@ public final class IOUtil {
 
     // Properties I/O --------------------------------------------------------------------------------------------------
 
-    public static Properties readProperties(String filename) throws IOException {
+    public static Map<String, String> readProperties(String filename) throws IOException {
         return readProperties(filename, SystemInfo.fileEncoding());
     }
     
-    public static Properties readProperties(String filename, String encoding) throws IOException {
-        return readProperties(new Properties(), filename, null, encoding);
+    public static Map<String, String> readProperties(String filename, String encoding) throws IOException {
+        return readProperties(new HashMap(), filename, null, encoding);
     }
     
     public static <V> Map<String, V> readProperties(
@@ -294,16 +321,32 @@ public final class IOUtil {
         try {
             reader = IOUtil.getReaderForURI(filename, encoding);
             iterator = new ReaderLineIterator(reader);
-            while (iterator.hasNext()) { // TODO v0.3.2 support line wrapping with '\', see java/util/Properties.html#load(java.io.InputStream)
+            String key = null;
+            String value = "";
+            while (iterator.hasNext()) {
                 String line = iterator.next();
-                if (line.trim().startsWith("#"))
+                line = line.trim();
+                if (line.startsWith("#"))
                     continue;
-                String[] assignment = ParseUtil.parseAssignment(line, "=");
-                if (assignment != null && assignment[1] != null) {
-                    Map.Entry entry = new MapEntry(assignment[0], assignment[1]);
-                    if (converter != null)
+                if (key != null) {
+                    value += normalizeLine(line);
+                } else {
+                    String[] assignment = ParseUtil.parseAssignment(line, "=");
+                    if (assignment != null && assignment[1] != null) {
+                        key = assignment[0];
+                        value = normalizeLine(assignment[1]);
+                    } else
+                        continue;
+                }
+                if (!line.endsWith("\\")) {
+                    if (converter != null) {
+                        Map.Entry entry = new MapEntry(key, value);
                         entry = converter.convert(entry);
-                    target.put(entry.getKey(), entry.getValue());
+                        target.put(entry.getKey(), entry.getValue());
+                    } else
+                        target.put(key, value);
+                    key = null;
+                    value = "";
                 }
             }
         } finally {
@@ -315,6 +358,10 @@ public final class IOUtil {
         return target;
     }
 
+    private static String normalizeLine(String line) {
+        return (line.endsWith("\\") ? line.substring(0, line.length() - 1) : line);
+    }
+
     public static void writeProperties(Properties properties, String filename) throws IOException {
         writeProperties(properties, filename, SystemInfo.fileEncoding());
     }
@@ -323,36 +370,12 @@ public final class IOUtil {
         PrintWriter stream = null;
         try {
             stream = IOUtil.getPrinterForURI(filename, encoding);
-            properties.list(stream);
+            for (Map.Entry<Object, Object> entry : properties.entrySet())
+                stream.println(entry.getKey() + "=" + entry.getValue());
         } finally {
             IOUtil.close(stream);
         }
     }
-
-    // XML operations --------------------------------------------------------------------------------------------------
-
-    public static Document parseXML(String uri) throws IOException {
-        InputStream stream = null;
-        try {
-            stream = getInputStreamForURI(uri);
-            return parseXML(stream);
-        } finally {
-            IOUtil.close(stream);
-        }
-    }
-
-    public static Document parseXML(InputStream stream) throws IOException {
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            return builder.parse(stream);
-        } catch (ParserConfigurationException e) {
-            throw new ConfigurationError(e);
-        } catch (SAXException e) {
-            throw new ConfigurationError(e);
-        }
-    }
-
 
     // text file im/export ---------------------------------------------------------------------------------------------
 /*
@@ -392,12 +415,12 @@ public final class IOUtil {
      * @return an InputStream that accesses the file.
      * @throws FileNotFoundException if the file cannot be found.
      */
-    private static InputStream getFileOrResourceAsStream(String filename) throws FileNotFoundException {
+    private static InputStream getFileOrResourceAsStream(String filename, boolean required) throws FileNotFoundException {
         File file = new File(filename);
         if (file.exists()) {
             return new FileInputStream(filename);
         } else
-            return getResourceAsStream(filename);
+            return getResourceAsStream(filename, required);
     }
 
     /**
@@ -405,11 +428,11 @@ public final class IOUtil {
      * @param name the file's name
      * @return an InputStream to the resource
      */
-    private static InputStream getResourceAsStream(String name) {
+    private static InputStream getResourceAsStream(String name, boolean required) {
         if (!name.startsWith("/"))
             name = "/" + name;
         InputStream stream = IOUtil.class.getResourceAsStream(name);
-        if (stream == null)
+        if (required && stream == null)
             throw new ConfigurationError("Resource not found: " + name);
         return stream;
     }
@@ -432,4 +455,10 @@ public final class IOUtil {
         return connection;
     }
 
+    public static byte[] getBinaryContentOfUri(String uri) throws IOException {
+        InputStream in = getInputStreamForURI(uri);
+        ByteArrayOutputStream out = new ByteArrayOutputStream(25000);
+        transfer(in, out);
+        return out.toByteArray();
+    }
 }
