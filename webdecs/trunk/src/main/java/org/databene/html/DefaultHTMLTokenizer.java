@@ -225,7 +225,7 @@ public class DefaultHTMLTokenizer implements HTMLTokenizer {
             case '/' :
                 assertChar('/');
                 parseElementName();
-                assertChar('>');
+                expectChar('>');
                 this.tokenType = END_TAG;
                 break;
             case '?' : // processing instruction
@@ -246,7 +246,7 @@ public class DefaultHTMLTokenizer implements HTMLTokenizer {
                 } else {
                     this.tokenType = START_TAG;
                 }
-                assertChar('>');
+                expectChar('>');
                 if ("SCRIPT".equalsIgnoreCase(name())) // if it's a script start tag,
                                                         // set a marker to parse the following stuff specially
                     script = true;
@@ -431,6 +431,16 @@ public class DefaultHTMLTokenizer implements HTMLTokenizer {
         int c = reader.read();
         if (c != expectedChar)
             throw new ParseException("Expected: '" + expectedChar + "', found: '" + (char)c + "'", 0);
+        textBuffer[cursor++] = expectedChar;
+    }
+
+    private void expectChar(char expectedChar) throws ParseException, IOException {
+        int c = reader.read();
+        if (c != expectedChar) {
+            String message = "Expected: '" + expectedChar + "', found: '" + (char)c + "'";
+            logger.error(message, new ParseException(message, -1));
+            reader.unread(c);
+        }
         textBuffer[cursor++] = expectedChar;
     }
 
