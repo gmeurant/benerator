@@ -31,8 +31,10 @@ import java.text.FieldPosition;
 import java.text.ParsePosition;
 import java.io.IOException;
 
+import org.databene.commons.converter.AnyConverter;
+
 /**
- * java.lang.text.Format implementation for formatting arrays.<br/>
+ * java.lang.text.Format implementation for formatting and parsing arrays.<br/>
  * <br/>
  * Created: 20.06.2007 07:04:37
  * @author Volker Bergmann
@@ -76,7 +78,7 @@ public class ArrayFormat extends Format {
     }
 
     public Object parseObject(String source, ParsePosition pos) {
-        throw new UnsupportedOperationException("Not implemented"); // TODO v0.3.2 implement
+        return parse(source, separator, String.class);
     }
 
     // publicly available utility methods ------------------------------------------------------------------------------
@@ -164,6 +166,21 @@ public class ArrayFormat extends Format {
         if (items == null)
             return "";
         return formatPart(null, separator, 0, items.length, items);
+    }
+    
+    // parse methods ---------------------------------------------------------------------------------------------------
+
+    public static <T> T[] parse(String source, String separator, Class<T> componentType) {
+        ArrayBuilder<T> builder = new ArrayBuilder<T>(componentType);
+        int i = 0;
+        int sepIndex;
+        while ((sepIndex = source.indexOf(separator, i)) >= 0) {
+            String token = source.substring(i, sepIndex);
+            builder.append(AnyConverter.convert(token, componentType));
+            i = sepIndex + separator.length();
+        }
+        builder.append(AnyConverter.convert(source.substring(i, source.length()), componentType));
+        return builder.toArray();
     }
 
 }
