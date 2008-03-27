@@ -14,7 +14,7 @@ public class ArrayBuilder<E> {
     
     private Class<E> componentType;
     private E[] buffer;
-    private int itemCount;
+    private int elementCount;
 
     public ArrayBuilder(Class<E> componentType) {
         this(componentType, DEFAULT_INITIAL_CAPACITY);
@@ -25,21 +25,22 @@ public class ArrayBuilder<E> {
         this.buffer = createBuffer(initialCapacity);
     }
 
-    public ArrayBuilder<E> append(E item) {
+    public ArrayBuilder<E> append(E element) {
         if (buffer == null)
             throw new UnsupportedOperationException("ArrayBuilder cannot be reused after invoking toArray()");
-        if (itemCount >= buffer.length - 1) {
+        if (elementCount >= buffer.length - 1) {
             E[] newBuffer = createBuffer(buffer.length * 2);
             System.arraycopy(buffer, 0, newBuffer, 0, buffer.length);
+            buffer = newBuffer;
         }
-        buffer[itemCount++] = item;
+        buffer[elementCount++] = element;
         return this;
     }
     
     public E[] toArray() {
-        E[] result = ArrayUtil.newInstance(componentType, itemCount);
-        System.arraycopy(buffer, 0, result, 0, itemCount);
-        itemCount = 0;
+        E[] result = ArrayUtil.newInstance(componentType, elementCount);
+        System.arraycopy(buffer, 0, result, 0, elementCount);
+        elementCount = 0;
         buffer = null;
         return result;
     }
