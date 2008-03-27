@@ -29,6 +29,7 @@ package org.databene.commons;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Calendar;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -157,4 +158,17 @@ public final class TimeUtil {
             years--;
         return years;
     }
+
+    public static Time time(int hour, int minute) {
+        return time(hour, minute, 0, 0);
+    }
+    
+    public static Time time(int hour, int minute, int second) {
+        return time(hour, minute, second, 0);
+    }
+    
+    public static Time time(int hour, int minute, int second, int millisecond) {
+        return new Time((((hour * 60L) + minute) * 60L + second) * 1000L);
+    }
+
 }
