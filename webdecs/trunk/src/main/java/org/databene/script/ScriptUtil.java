@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.WeakHashMap;
 
 import org.apache.commons.logging.Log;
@@ -159,8 +158,8 @@ public class ScriptUtil {
         try {
             factories = new HashMap<String, ScriptFactory>();
             logger.info("Initializing Script mapping from file " + SETUP_FILE_NAME);
-            Properties properties = IOUtil.readProperties(SETUP_FILE_NAME);
-            for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+            Map<String, String> properties = IOUtil.readProperties(SETUP_FILE_NAME);
+            for (Map.Entry<String, String> entry : properties.entrySet()) {
                 className = entry.getValue().toString();
                 ScriptFactory factory = BeanUtil.newInstance(className);
                 factories.put(entry.getKey().toString(), factory);
