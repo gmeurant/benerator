@@ -38,7 +38,7 @@ import java.util.Collection;
  * <br/>
  * Created: 16.06.2007 11:34:42
  */
-public class AnyConverter<T> implements Converter<Object, T> {
+public class AnyConverter<S, T> implements Converter<S, T> {
 
     private static final Log logger = LogFactory.getLog(AnyConverter.class);
 
