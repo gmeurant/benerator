@@ -1,0 +1,33 @@
+package org.databene.commons;
+
+import junit.framework.TestCase;
+
+public class MathUtilTest extends TestCase {
+
+    public void testPrefixDigits() {
+        assertEquals(1, MathUtil.prefixDigits(1));
+        assertEquals(1, MathUtil.prefixDigits(0));
+        assertEquals(1, MathUtil.prefixDigits(-1));
+        assertEquals(1, MathUtil.prefixDigits(0.001));
+        assertEquals(1, MathUtil.prefixDigits(0.1));
+        assertEquals(1, MathUtil.prefixDigits(0.9));
+        assertEquals(1, MathUtil.prefixDigits(9.9));
+        assertEquals(2, MathUtil.prefixDigits(10));
+        assertEquals(2, MathUtil.prefixDigits(-10));
+        assertEquals(8, MathUtil.prefixDigits(99999999));
+        assertEquals(9, MathUtil.prefixDigits(100000000));
+    }
+
+    public void testFractionDigits() {
+        assertEquals(0, MathUtil.fractionDigits(0));
+        assertEquals(0, MathUtil.fractionDigits(1));
+        assertEquals(0, MathUtil.fractionDigits(-1));
+        assertEquals(1, MathUtil.fractionDigits(0.5));
+        assertEquals(1, MathUtil.fractionDigits(0.1));
+        assertEquals(1, MathUtil.fractionDigits(-0.1));
+        assertEquals(1, MathUtil.fractionDigits(0.9));
+        assertEquals(7, MathUtil.fractionDigits(0.9999999));
+        assertEquals(7, MathUtil.fractionDigits(0.0000001));
+        assertEquals(7, MathUtil.fractionDigits(0.0000009));
+    }
+}

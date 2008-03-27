@@ -24,23 +24,28 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.commons.converter;
-
-import junit.framework.TestCase;
-
-import java.util.Locale;
-
-import org.databene.commons.converter.String2LocaleConverter;
+package org.databene.commons.bean;
 
 /**
- * Tests the ConverterManager.<br/>
- * <br/>
- * Created: 05.08.2007 07:07:26
+ * Created: 21.07.2007 09:14:00
  */
-public class ConverterManagerTest extends TestCase {
+public class C {
+    public String name;
+    public int n;
 
-    public void test() {
-        ConverterManager mgr = ConverterManager.getInstance();
-        assertEquals(String2LocaleConverter.class, mgr.getConverter(String.class, Locale.class).getClass());
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getN() {
+        return n;
+    }
+
+    public void setN(int n) {
+        this.n = n;
     }
 }

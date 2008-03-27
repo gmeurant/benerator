@@ -24,23 +24,24 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.commons.converter;
+package org.databene.commons.bean;
 
 import junit.framework.TestCase;
 
-import java.util.Locale;
+import org.databene.commons.ConversionException;
+import org.databene.commons.bean.BeanToPropertyArrayConverter;
 
-import org.databene.commons.converter.String2LocaleConverter;
+import java.util.Arrays;
 
 /**
- * Tests the ConverterManager.<br/>
- * <br/>
- * Created: 05.08.2007 07:07:26
+ * Created: 21.07.2007 16:29:23
  */
-public class ConverterManagerTest extends TestCase {
+public class BeanToPropertyArrayConverterTest extends TestCase {
 
-    public void test() {
-        ConverterManager mgr = ConverterManager.getInstance();
-        assertEquals(String2LocaleConverter.class, mgr.getConverter(String.class, Locale.class).getClass());
+    public void test() throws ConversionException {
+        Bean bean = new Bean(42, "foobar");
+        BeanToPropertyArrayConverter converter = new BeanToPropertyArrayConverter(Bean.class, "number", "text");
+        Object[] expectedResult = new Object[]{42, "foobar"};
+        assertTrue(Arrays.equals(expectedResult, converter.convert(bean)));
     }
 }

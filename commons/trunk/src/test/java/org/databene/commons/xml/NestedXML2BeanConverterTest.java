@@ -24,23 +24,44 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.commons.converter;
+package org.databene.commons.xml;
 
 import junit.framework.TestCase;
 
-import java.util.Locale;
+import org.databene.commons.ConversionException;
+import org.databene.commons.IOUtil;
+import org.databene.commons.converter.NoOpConverter;
+import org.databene.commons.xml.XMLElement2BeanConverter;
+import org.databene.SomeBean;
+//import org.databene.SomeBean;
+import org.w3c.dom.Element;
 
-import org.databene.commons.converter.String2LocaleConverter;
+import java.io.InputStream;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 /**
- * Tests the ConverterManager.<br/>
+ * Tests the XMLElement2BeanConverter.<br/>
  * <br/>
- * Created: 05.08.2007 07:07:26
+ * Created: 19.08.2007 15:19:25
  */
-public class ConverterManagerTest extends TestCase {
+public class NestedXML2BeanConverterTest extends TestCase {
 
-    public void test() {
-        ConverterManager mgr = ConverterManager.getInstance();
-        assertEquals(String2LocaleConverter.class, mgr.getConverter(String.class, Locale.class).getClass());
+    public void test() throws IOException, ConversionException {
+        String xml = "<?xml version=\"1.0\"?><bean class=\"org.databene.SomeBean\">\r\n" +
+                "<property name=\"num\" value=\"10\"/>" +
+                "<property name=\"text\" value=\"blabla\"/>" +
+            "</bean>";
+        InputStream stream = new ByteArrayInputStream(xml.getBytes());
+        try {
+            Element element = XMLUtil.parse(stream).getDocumentElement();
+            SomeBean bean = (SomeBean) XMLElement2BeanConverter.convert(element, null, new NoOpConverter<String>());
+            assertEquals(10, bean.getNum());
+            assertEquals("blabla", bean.getText());
+            stream.close();
+        } finally {
+            IOUtil.close(stream);
+        }
     }
+
 }

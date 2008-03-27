@@ -35,36 +35,14 @@ import java.util.*;
  */
 public class ArrayUtilTest extends TestCase {
 
+    private Integer[] NONE         = {            };
+    private Integer[] ONE          = { 1          };
     private Integer[] ONE_TWO      = { 1, 2       };
     private Integer[] TWO_ONE      = { 2, 1       };
     private Integer[] ONE_TO_THREE = { 1, 2, 3    };
     private Integer[] THREE_TO_ONE = { 3, 2, 1    };
     private Integer[] ONE_TO_FOUR  = { 1, 2, 3, 4 };
     private Integer[] FOUR_TO_ONE  = { 4, 3, 2, 1 };
-
-    public void testToList() {
-        List<Integer> expectedList = new ArrayList<Integer>();
-        expectedList.add(1);
-        expectedList.add(2);
-        expectedList.add(3);
-        assertEquals(expectedList, ArrayUtil.toList(1, 2, 3));
-    }
-
-    public void testToSet() {
-        Set<Integer> expectedSet = new HashSet<Integer>();
-        expectedSet.add(1);
-        expectedSet.add(2);
-        expectedSet.add(3);
-        assertEquals(expectedSet, ArrayUtil.toSet(1, 2, 3));
-    }
-
-    public void testToSortedSet() {
-        Set<Integer> expectedSet = new TreeSet<Integer>();
-        expectedSet.add(1);
-        expectedSet.add(2);
-        expectedSet.add(3);
-        assertEquals(expectedSet, ArrayUtil.toSortedSet(3, 2, 1));
-    }
 
     public void testCopyOfRange() {
         Integer[] array = new Integer[] { 0, 1, 2 };
@@ -84,11 +62,11 @@ public class ArrayUtilTest extends TestCase {
     }
 
     public void testContains() {
-        assertTrue(ArrayUtil.contains(1, ONE_TO_THREE));
-        assertTrue(ArrayUtil.contains(2, ONE_TO_THREE));
-        assertTrue(ArrayUtil.contains(3, ONE_TO_THREE));
-        assertFalse(ArrayUtil.contains(0, ONE_TO_THREE));
-        assertFalse(ArrayUtil.contains(4, ONE_TO_THREE));
+        assertTrue( ArrayUtil.contains(ONE_TO_THREE, 1));
+        assertTrue( ArrayUtil.contains(ONE_TO_THREE, 2));
+        assertTrue( ArrayUtil.contains(ONE_TO_THREE, 3));
+        assertFalse(ArrayUtil.contains(ONE_TO_THREE, 0));
+        assertFalse(ArrayUtil.contains(ONE_TO_THREE, 4));
     }
 
     public void testEndsWithSequence() {
@@ -101,17 +79,10 @@ public class ArrayUtilTest extends TestCase {
     }
 
     public void testCommonElements() {
-        List<Integer> expectedList = new ArrayList<Integer>();
-        expectedList.add(1);
-        expectedList.add(2);
-        expectedList.add(3);
-        assertEquals(expectedList, ArrayUtil.commonElements(ONE_TO_THREE, ONE_TO_THREE));
-        expectedList.clear();
-        expectedList.add(1);
-        assertEquals(expectedList, ArrayUtil.commonElements(new Integer[] {0, 1}, ONE_TO_THREE));
-        expectedList.clear();
-        assertEquals(expectedList, ArrayUtil.commonElements(new Integer[] {8}, ONE_TO_THREE));
-        assertEquals(expectedList, ArrayUtil.commonElements(new Integer[0], ONE_TO_THREE));
+        assertTrue(ArrayUtil.equals(ONE_TO_THREE, ArrayUtil.commonElements(ONE_TO_THREE, ONE_TO_THREE)));
+        assertTrue(ArrayUtil.equals(ONE, ArrayUtil.commonElements(new Integer[] {0, 1}, ONE_TO_THREE)));
+        assertTrue(ArrayUtil.equals(NONE, ArrayUtil.commonElements(new Integer[] {8}, ONE_TO_THREE)));
+        assertTrue(ArrayUtil.equals(NONE, ArrayUtil.commonElements(new Integer[0], ONE_TO_THREE)));
     }
 
     public void testEqualsIgnoreOrder() {
@@ -153,4 +124,8 @@ public class ArrayUtilTest extends TestCase {
         assertTrue(Arrays.equals(new Integer[3], instance));
     }
 
+    public void testEquals() {
+        assertTrue(ArrayUtil.equals(new String[] { null }, new String[] { null }));
+        assertTrue(ArrayUtil.equals(new String[] {"a", "b", "c"}, new String[] {"a", "b", "c"}));
+    }
 }

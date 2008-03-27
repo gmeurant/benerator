@@ -24,23 +24,53 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.commons.converter;
+package org.databene.commons.file;
+
+import java.io.File;
+import java.util.Arrays;
 
 import junit.framework.TestCase;
-
-import java.util.Locale;
-
-import org.databene.commons.converter.String2LocaleConverter;
+import org.databene.commons.SystemInfo;
+import org.databene.commons.FileUtil;
+import org.databene.commons.Visitor;
+import org.databene.commons.file.FileElement;
 
 /**
- * Tests the ConverterManager.<br/>
- * <br/>
- * Created: 05.08.2007 07:07:26
+ * Created: 04.02.2007 08:20:57
  */
-public class ConverterManagerTest extends TestCase {
+public class FileElementTest extends TestCase {
 
     public void test() {
-        ConverterManager mgr = ConverterManager.getInstance();
-        assertEquals(String2LocaleConverter.class, mgr.getConverter(String.class, Locale.class).getClass());
+        File root = new File(SystemInfo.tempDir());
+        File alpha = new File(root, "alpha");
+        File beta = new File(alpha, "beta");
+        FileUtil.ensureDirectoryExists(beta);
+        Visitor visitor = new CheckVisitor(alpha, beta);
+        new FileElement(root).accept(visitor);
+    }
+
+    class CheckVisitor implements Visitor<File> {
+
+        private File[] files;
+        private boolean[] filesFound;
+
+        public CheckVisitor(File ... expectedFiles) {
+            this.files = expectedFiles;
+            Arrays.sort(this.files);
+            this.filesFound = new boolean[expectedFiles.length];
+        }
+
+        public void visit(File file) {
+            int index = Arrays.binarySearch(files, file);
+            if (index > 0)
+                filesFound[index] = true;
+        }
+
+        public boolean allFound() {
+            for (boolean b : filesFound)
+                if (!b)
+                    return false;
+            return true;
+        }
     }
 }

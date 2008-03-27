@@ -24,23 +24,44 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.commons.converter;
+package org.databene.commons.bean;
 
 import junit.framework.TestCase;
-
-import java.util.Locale;
-
-import org.databene.commons.converter.String2LocaleConverter;
+import org.databene.commons.UpdateFailedException;
+import org.databene.commons.bean.A;
+import org.databene.commons.bean.PropertyGraphMutator;
 
 /**
- * Tests the ConverterManager.<br/>
- * <br/>
- * Created: 05.08.2007 07:07:26
+ * Created: 20.02.2007 08:52:49
  */
-public class ConverterManagerTest extends TestCase {
+public class PropertyGraphMutatorTest extends TestCase {
 
-    public void test() {
-        ConverterManager mgr = ConverterManager.getInstance();
-        assertEquals(String2LocaleConverter.class, mgr.getConverter(String.class, Locale.class).getClass());
+    public void testLocalProperty() throws UpdateFailedException {
+        PropertyGraphMutator aNameMutator = new PropertyGraphMutator(A.class, "name", true);
+        A a = new A();
+        aNameMutator.setValue(a, "aName");
+        assertEquals("aName", a.name);
+        aNameMutator.setValue(a, null);
+        assertEquals(null, a.name);
     }
+
+    public void testNavigatedProperty() throws UpdateFailedException {
+        PropertyGraphMutator bNameMutator = new PropertyGraphMutator(A.class, "b.name", true);
+        A a = new A();
+        bNameMutator.setValue(a, "bName");
+        assertEquals("bName", a.b.name);
+        bNameMutator.setValue(a, null);
+        assertEquals(null, a.b.name);
+    }
+
+    public void testNavigatedGraph() throws UpdateFailedException {
+        PropertyGraphMutator bNameMutator = new PropertyGraphMutator(A.class, "b.c.name", true);
+        A a = new A();
+        bNameMutator.setValue(a, "cName");
+        assertEquals("cName", a.b.c.name);
+        bNameMutator.setValue(a, null);
+        assertEquals(null, a.b.c.name);
+    }
+
+
 }

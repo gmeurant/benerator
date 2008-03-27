@@ -24,23 +24,25 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.commons.converter;
+package org.databene.commons.bean;
 
 import junit.framework.TestCase;
 
-import java.util.Locale;
-
-import org.databene.commons.converter.String2LocaleConverter;
+import org.databene.commons.UpdateFailedException;
+import org.databene.commons.bean.UntypedPropertyMutator;
 
 /**
- * Tests the ConverterManager.<br/>
- * <br/>
- * Created: 05.08.2007 07:07:26
+ * Created: 20.02.2007 08:52:49
  */
-public class ConverterManagerTest extends TestCase {
+public class UntypedPropertyMutatorTest extends TestCase {
 
-    public void test() {
-        ConverterManager mgr = ConverterManager.getInstance();
-        assertEquals(String2LocaleConverter.class, mgr.getConverter(String.class, Locale.class).getClass());
+    public void testLocalProperty() throws UpdateFailedException {
+        UntypedPropertyMutator aNameMutator = new UntypedPropertyMutator("name", true);
+        A a = new A();
+        aNameMutator.setValue(a, "aName");
+        assertEquals("aName", a.name);
+        aNameMutator.setValue(a, null);
+        assertEquals(null, a.name);
     }
+
 }

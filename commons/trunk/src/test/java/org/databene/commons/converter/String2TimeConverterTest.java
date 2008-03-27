@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,23 +24,41 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 package org.databene.commons.converter;
 
 import junit.framework.TestCase;
 
-import java.util.Locale;
-
-import org.databene.commons.converter.String2LocaleConverter;
-
 /**
- * Tests the ConverterManager.<br/>
- * <br/>
- * Created: 05.08.2007 07:07:26
+ * Tests the String2TimeConverter.<br/><br/>
+ * Created: 14.03.2008 22:23:51
+ * @author Volker Bergmann
  */
-public class ConverterManagerTest extends TestCase {
+public class String2TimeConverterTest extends TestCase {
 
-    public void test() {
-        ConverterManager mgr = ConverterManager.getInstance();
-        assertEquals(String2LocaleConverter.class, mgr.getConverter(String.class, Locale.class).getClass());
+    public void testMillis() {
+        check("00:00:00.000", 0);
+        check("00:00:00.001", 1);
+        check("00:00:00.123", 123);
+        check("00:00:01.001", 1001);
+        check("00:01:00.001", 60001);
+        check("01:00:00.001", 3600001);
+    }
+
+    public void testSeconds() {
+        check("00:00:00", 0);
+        check("00:00:01", 1000);
+        check("00:01:00", 60000);
+        check("01:01:01", 3661000);
+    }
+
+    public void testMinutes() {
+        check("00:00", 0);
+        check("00:01", 60000);
+        check("01:00", 3600000);
+    }
+
+    private void check(String timeString, long expectedMillis) {
+        assertEquals(expectedMillis, new String2TimeConverter().convert(timeString).getTime());
     }
 }

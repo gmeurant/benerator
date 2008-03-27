@@ -41,8 +41,9 @@ public class ArrayFormatTest extends TestCase {
         assertEquals("1, 2, 3", new ArrayFormat().format(new Integer[] {1, 2, 3}));
     }
 
-    public void testParseObject() {
-        // TODO v0.3.2 implement
+    public void testParse() {
+        String[] tokens = ArrayFormat.parse("a, b, c", ", ", String.class);
+        assertTrue(ArrayUtil.equals(new String[] {"a", "b", "c"}, tokens));
     }
 
     public void testFormatSimple() {

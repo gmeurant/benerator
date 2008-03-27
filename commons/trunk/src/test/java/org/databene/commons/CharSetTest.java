@@ -26,14 +26,49 @@
 
 package org.databene.commons;
 
+import java.util.Locale;
+
 import junit.framework.TestCase;
 
 /**
+ * Tests the CharSet.<br/><br/>
  * Created: 21.06.2007 08:28:50
+ * @author Volker Bergmann
  */
 public class CharSetTest extends TestCase {
 
-    public void test() {
-        // TODO v0.3.2 implement 
+    public void testDefaultConstructor() {
+        CharSet set = new CharSet();
+        assertEquals("Set is expected to be empty after default construction.", 0, set.size());
+    }
+    
+    public void testGerman() {
+        CharSet set = new CharSet(Locale.GERMAN);
+        assertEquals("Set is expected to be empty after construction with Locale.", 0, set.size());
+        set.addWordChars();
+        assertEquals(70, set.size());
+        assertTrue(set.contains('a'));
+        assertTrue(set.contains('Ö'));
+        assertTrue(set.contains('ß'));
+        assertTrue(set.contains('9'));
+        set.removeDigits();
+        assertEquals(60, set.size());
+        assertFalse(set.contains('9'));
+        set.removeAll();
+        assertEquals(0, set.size());
+    }
+    
+    public void testEqualsAndHashCode() {
+        CharSet sg = new CharSet(Locale.GERMAN);
+        CharSet se = new CharSet(Locale.ENGLISH);
+        assertTrue(sg.equals(se));
+        assertEquals(sg.hashCode(), se.hashCode());
+        sg.add('a');
+        se.add('a');
+        assertTrue(sg.equals(se));
+        assertEquals(sg.hashCode(), se.hashCode());
+        sg.add('ä');
+        assertFalse(sg.equals(se));
+        assertTrue(sg.hashCode() != se.hashCode());
     }
 }

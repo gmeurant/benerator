@@ -24,23 +24,23 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.commons.converter;
+package org.databene.commons.bean;
 
 import junit.framework.TestCase;
 
-import java.util.Locale;
-
-import org.databene.commons.converter.String2LocaleConverter;
+import org.databene.commons.ConversionException;
+import org.databene.commons.bean.PropertyAccessConverter;
 
 /**
- * Tests the ConverterManager.<br/>
- * <br/>
- * Created: 05.08.2007 07:07:26
+ * Created: 21.07.2007 16:35:28
  */
-public class ConverterManagerTest extends TestCase {
+public class PropertyAccessConverterTest extends TestCase {
 
-    public void test() {
-        ConverterManager mgr = ConverterManager.getInstance();
-        assertEquals(String2LocaleConverter.class, mgr.getConverter(String.class, Locale.class).getClass());
+    public void test() throws ConversionException {
+        Bean bean = new Bean(42, "foobar");
+        PropertyAccessConverter numberExtractor = new PropertyAccessConverter("number");
+        assertEquals(42, numberExtractor.convert(bean));
+        PropertyAccessConverter textExtractor = new PropertyAccessConverter("text");
+        assertEquals("foobar", textExtractor.convert(bean));
     }
 }

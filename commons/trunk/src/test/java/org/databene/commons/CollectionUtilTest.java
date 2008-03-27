@@ -32,11 +32,37 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created: 21.06.2007 08:29:32
  */
 public class CollectionUtilTest extends TestCase {
+
+    public void testToList() {
+        List<Integer> expectedList = new ArrayList<Integer>();
+        expectedList.add(1);
+        expectedList.add(2);
+        expectedList.add(3);
+        assertEquals(expectedList, CollectionUtil.toList(1, 2, 3));
+    }
+
+    public void testToSet() {
+        Set<Integer> expectedSet = new HashSet<Integer>();
+        expectedSet.add(1);
+        expectedSet.add(2);
+        expectedSet.add(3);
+        assertEquals(expectedSet, CollectionUtil.toSet(1, 2, 3));
+    }
+
+    public void testToSortedSet() {
+        Set<Integer> expectedSet = new TreeSet<Integer>();
+        expectedSet.add(1);
+        expectedSet.add(2);
+        expectedSet.add(3);
+        assertEquals(expectedSet, CollectionUtil.toSortedSet(3, 2, 1));
+    }
 
     public void testAdd() {
         List<Integer> list = new ArrayList<Integer>();

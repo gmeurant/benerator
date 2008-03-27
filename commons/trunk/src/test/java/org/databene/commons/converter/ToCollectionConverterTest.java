@@ -108,11 +108,11 @@ public class ToCollectionConverterTest extends TestCase {
     }
 
     private List<Integer> createList() {
-        return ArrayUtil.toList(1, 2, 3);
+        return CollectionUtil.toList(1, 2, 3);
     }
 
     private Set<Integer> createSet() {
-        return ArrayUtil.toSet(1, 2, 3);
+        return CollectionUtil.toSet(1, 2, 3);
     }
 
     private Set<Integer> createSortedSet() {

@@ -30,6 +30,7 @@ import junit.framework.TestCase;
 
 import java.io.*;
 import java.net.MalformedURLException;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Arrays;
 
@@ -55,6 +56,7 @@ public class IOUtilTest  extends TestCase {
 
     public void testIsURIAvaliable() throws IOException, UnsupportedEncodingException {
         assertTrue(IOUtil.isURIAvailable("org/databene/commons/names.csv"));
+        assertFalse(IOUtil.isURIAvailable("org/databene/commons/not.an.existing.file"));
     }
 
     public void testGetContentOfURI() throws IOException {
@@ -79,6 +81,12 @@ public class IOUtilTest  extends TestCase {
         reader.close();
     }
 
+    public void testGetReaderForURIOfEmptyFile() throws IOException, UnsupportedEncodingException {
+        BufferedReader reader = IOUtil.getReaderForURI("org/databene/commons/empty.txt");
+        assertEquals(-1, reader.read());
+        reader.close();
+    }
+
     public void testTransferStream() throws IOException {
         ByteArrayInputStream in = new ByteArrayInputStream("abcdefg".getBytes());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -94,20 +102,30 @@ public class IOUtilTest  extends TestCase {
     }
 
     public void testReadProperties() throws IOException {
-        Properties properties = IOUtil.readProperties("org/databene/commons/test.properties");
-        assertEquals(2, properties.size());
-        assertEquals("b", properties.getProperty("a"));
-        assertEquals("z", properties.getProperty("x.y"));
+        Map<String, String> properties = IOUtil.readProperties("org/databene/commons/test.properties");
+        assertEquals(4, properties.size());
+        assertEquals("b", properties.get("a"));
+        assertEquals("z", properties.get("x.y"));
+        assertEquals("ab", properties.get("z"));
+        assertEquals("a bc", properties.get("q"));
     }
 
-    // TODO v0.3.2 implement missing tests
-
-    public void testWriteProperties() {
-    }
-
-    public void testWriteTestFile() {
-    }
-
-    public void testParseXML() {
+    public void testWriteProperties() throws IOException {
+        File file = File.createTempFile("IOUtilTest", "properties");
+        try {
+            Properties properties = new Properties();
+            properties.setProperty("a", "1");
+            properties.setProperty("b", "2");
+            IOUtil.writeProperties(properties, file.getAbsolutePath());
+            Properties check = new Properties();
+            InputStream stream = new FileInputStream(file);
+            check.load(stream);
+            assertEquals(2, check.size());
+            assertEquals("1", check.getProperty("a"));
+            assertEquals("2", check.getProperty("b"));
+            stream.close();
+        } finally {
+            file.delete();
+        }
     }
 }
