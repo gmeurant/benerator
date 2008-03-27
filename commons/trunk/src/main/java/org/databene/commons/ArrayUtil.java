@@ -26,46 +26,16 @@
 
 package org.databene.commons;
 
-import java.util.*;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Provides array-related operations.
- * 
  * Created: 09.06.2006 21:31:49
+ * @author Volker Bergmann
  */
 public final class ArrayUtil {
-
-    /**
-     * Converts an array into a list.
-     * @param array the array to convert into a list.
-     * @return a list containing all elements of the given array.
-     */
-    public static <T> List<T> toList(T ... array) {
-        List<T> result = new ArrayList<T>(array.length);
-        for (T item : array)
-            result.add(item);
-        return result;
-    }
-
-    /**
-     * Creates a HashSet filled with the specified elements
-     * @param elements the content of the Set
-     * @return a HashSet with the elements
-     */
-    public static <T> Set<T> toSet(T ... elements) {
-        HashSet<T> set = new HashSet<T>();
-        for (T element : elements)
-            set.add(element);
-        return set;
-    }
-
-    public static <T> SortedSet<T> toSortedSet(T ... elements) {
-        TreeSet<T> set = new TreeSet<T>();
-        for (T element : elements)
-            set.add(element);
-        return set;
-    }
 
     public static <T> T[] copyOfRange(T[] array, int offset, int length) {
         Class<T[]> resultType = (Class<T[]>) array.getClass();
@@ -93,7 +63,7 @@ public final class ArrayUtil {
      * @param array the array to scan
      * @return true if the element was found, else false
      */
-    public static <T> boolean contains(T element, T[] array) {
+    public static <T> boolean contains(T[] array, T element) {
         for (T o : array)
             if (NullSafeComparator.equals(o, element))
                 return true;
@@ -122,7 +92,7 @@ public final class ArrayUtil {
      * @param a2 the first array to compare
      * @return the elements that are contained in both array.
      */
-
+/*
     public static <T> List<T> commonElements(T[] a1, T[] a2) {
         List<T> commonElements = new ArrayList<T>();
         for (T element : a1)
@@ -130,6 +100,35 @@ public final class ArrayUtil {
                 commonElements.add(element);
         return commonElements;
     }
+*/    
+
+    public static <T> T[] commonElements(T[]... sources) {
+        Class<T> componentType = null;
+        for (int arrayNumber = 0; arrayNumber < sources.length && componentType == null; arrayNumber++) {
+            T[] source = sources[arrayNumber];
+            for (int index = 0; index < source.length && componentType == null; index++)
+                if (source[index] != null)
+                    componentType = (Class<T>) source[index].getClass();
+        }
+        return commonElements(componentType, sources);
+    }
+
+    public static <T> T[] commonElements(Class<T> componentType, T[]... sources) {
+        ArrayBuilder<T> builder = new ArrayBuilder<T>(componentType);
+        T[] firstArray = sources[0];
+        for (T element : firstArray) {
+            boolean common = true;
+            for (int i = 1; i < sources.length; i++)
+                if (!ArrayUtil.contains(sources[i], element)) {
+                    common = false;
+                    break;
+                }
+            if (common)
+                builder.append(element);
+        }
+        return builder.toArray();
+    }
+
 
     // identity checks -------------------------------------------------------------------------------------------------
 
@@ -150,7 +149,7 @@ public final class ArrayUtil {
         for (T item : a1)
             l1.add(item);
         for (int i = a1.length - 1; i >= 0; i--)
-            if (contains(a1[i], a2))
+            if (contains(a2, a1[i]))
                 l1.remove(i);
             else
                 return false;
@@ -202,6 +201,49 @@ public final class ArrayUtil {
 
     public static <T> T[] newInstance(Class<T> componentType, int length) {
         return (T[])Array.newInstance(componentType, length);
+    }
+
+    public static <T> T[] append(T[] array, T value) {
+        if (array == null) {
+            return toArray((Class<T>) value.getClass(), value);
+        } else {
+            Class<T> componentType = (Class<T>) array.getClass().getComponentType();
+            T[] newArray = newInstance(componentType, array.length + 1);
+            System.arraycopy(array, 0, newArray, 0, array.length);
+            newArray[array.length] = value;
+            return newArray;
+        }
+    }
+
+    public static boolean isEmpty(String[] values) {
+        return (values == null || values.length == 0);
+    }
+
+    public static boolean equals(Object[] a1, Object[] a2) {
+        if (a1 == a2)
+            return true;
+        if (a1 == null)
+            return a2 == null;
+        if (a2 == null)
+            return false;
+        if (a1.length != a2.length)
+            return false;
+        for (int i = 0; i < a1.length; i++) {
+            if (a1[i] == a2[i])
+                continue;
+            if (a1[i] == null)
+                return false;
+            if (a1[i].getClass().isArray()) {
+                if (!a2[i].getClass().isArray())
+                    return false;
+                if (!equals((Object[]) a1[i], (Object[]) a2[i]))
+                    return false;
+            } else
+                if (!a1[i].equals(a2[i]))
+                    return false;
+                
+        }
+        return true;
     }
 
 }
