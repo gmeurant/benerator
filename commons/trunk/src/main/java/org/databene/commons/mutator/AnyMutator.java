@@ -84,7 +84,7 @@ public class AnyMutator<C, V> implements Mutator<C, V>{
         else if (target instanceof Map)
             ((Map)target).put(featureName, value);
         else if (BeanUtil.hasProperty(target.getClass(), featureName))
-            BeanUtil.setPropertyValue(target, featureName, value);
+            BeanUtil.setPropertyValue(target, featureName, value, false);
         else {
             String message = "No feature '" + featureName + "' found in " + target;
             if (strict)
