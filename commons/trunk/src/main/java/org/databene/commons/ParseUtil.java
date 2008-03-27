@@ -113,8 +113,9 @@ public final class ParseUtil {
 
     public static void skipWhitespace(PushbackReader reader) throws IOException {
         int c;
-        while ((c = reader.read()) != -1 && Character.isWhitespace((char)c))
-            ;
+        do {
+            c = reader.read();
+        } while (c != -1 && Character.isWhitespace((char)c));
         if (c != -1)
             reader.unread(c);
     }
