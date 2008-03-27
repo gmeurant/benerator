@@ -241,6 +241,20 @@ public final class ParseUtil {
                 (sep < line.length() - 1 ? line.substring(sep + 1).trim() : null)
         };
     }
+    
+    public static boolean isNMToken(String testName) {
+        if (testName == null || testName.length() == 0)
+            return false;
+        char c = testName.charAt(0);
+        if (!Character.isLetter(c) && c != '_' && c != ':')
+            return false;
+        for (int i = 1; i < testName.length(); i++) {
+            c = testName.charAt(i);
+            if (!Character.isLetter(c) && c != '.' && c != '-' && c != '_' && c != ':') 
+                return false;
+        }
+        return true;
+    }
 
     // private helpers -------------------------------------------------------------------------------------------------
 
