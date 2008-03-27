@@ -26,12 +26,15 @@
 
 package org.databene.commons;
 
+import java.util.Map;
+
 /**
  * Models an Object that is composed of other objects.<br/>
  * <br/>
  * Created: 26.08.2007 08:08:02
  */
-public interface Composite {
-    Object getComponent(String key);
-    void setComponent(String key, Object value);
+public interface Composite<E> {
+    E getComponent(String key);
+    void setComponentValue(String key, E value);
+    Map<String, E> getComponents();
 }
