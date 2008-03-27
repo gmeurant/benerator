@@ -84,9 +84,10 @@ public class DelocalizingConverter implements Converter<String, String> {
         replacements = new HashMap<Character, String>();
         CSVLineIterator iterator = new CSVLineIterator("org/databene/text/DelocalizingConverter.csv");
 
-        String[] tokens;
-        while ((tokens = iterator.next()) != null) {
-            addReplacements(tokens);
+        while (iterator.hasNext()) {
+            String[] tokens = iterator.next();
+            if (tokens != null)
+                addReplacements(tokens);
         }
     }
 
