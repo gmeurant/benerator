@@ -39,7 +39,6 @@ import java.util.ArrayList;
  * Gives accesses to content of a CSV file by String arrays
  * that represent the CSV rows as specified in RFC 4180.<br/>
  * <br/>
- * TODO v0.3.2 use CSVTokenizer for proper quote support
  */
 public class CSVLineIterator implements HeavyweightIterator<String[]> {
 
@@ -125,6 +124,8 @@ public class CSVLineIterator implements HeavyweightIterator<String[]> {
      * @return an array of Strings that represents a CSV row
      */
     public String[] next() {
+        if (!hasNext())
+            throw new IllegalStateException(getClass().getName() + " is not available any more. Check hasNext() for availability before calling next()");
         try {
             String[] result = nextLine;
             if (tokenizer != null) {
