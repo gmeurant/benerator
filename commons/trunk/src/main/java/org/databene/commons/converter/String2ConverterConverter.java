@@ -24,7 +24,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 package org.databene.commons.converter;
 
 import java.text.Format;
@@ -38,7 +37,7 @@ import org.databene.commons.StringUtil;
 /**
  * Converts Strings to Converters and vice versa.<br/><br/>
  * Created: 15.03.2008 12:49:10
- * @since 0.5.0
+ * @since 0.4.0
  * @author Volker Bergmann
  */
 public class String2ConverterConverter extends AbstractBidirectionalConverter<String, Converter> {
