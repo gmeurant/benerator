@@ -26,9 +26,32 @@
 
 package org.databene.commons.xml;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringBufferInputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.databene.commons.ArrayBuilder;
+import org.databene.commons.ConfigurationError;
+import org.databene.commons.IOUtil;
+import org.databene.commons.StringUtil;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Attr;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * Provides XML Utility methods.<br/>
@@ -37,6 +60,8 @@ import org.w3c.dom.Attr;
  * @author Volker Bergmann
  */
 public class XMLUtil {
+    
+    private static final Log logger = LogFactory.getLog(XMLUtil.class);
     
     private XMLUtil() {}
 
@@ -48,7 +73,167 @@ public class XMLUtil {
             Attr attribute = (Attr) attributes.item(i);
             builder.append(' ').append(attribute.getName()).append('=').append(attribute.getValue());
         }
-        builder.append("..."); // TODO v0.5 complete this
+        builder.append("...");
         return builder.toString();
     }
+ 
+    public static String localName(Element element) {
+        return localName(element.getNodeName());
+    }
+
+    public static String localName(String elementName) {
+        if (elementName == null)
+            return null;
+        String[] tokens = StringUtil.tokenize(elementName, ':');
+        String nodeName = tokens[tokens.length - 1];
+        return nodeName;
+    }
+
+    public static Element[] getChildElements(Element parent) {
+        ArrayBuilder<Element> builder = new ArrayBuilder<Element>(Element.class);
+        NodeList childNodes = parent.getChildNodes();
+        int n = childNodes.getLength();
+        for (int i = 0; i < n; i++) {
+            Node item = childNodes.item(i);
+            if (item instanceof Element)
+                builder.append((Element) item);
+        }
+        return builder.toArray();
+    }
+    
+    public static Element[] getChildElements(Element parent, boolean namespaceAware, String name) {
+        ArrayBuilder<Element> builder = new ArrayBuilder<Element>(Element.class);
+        NodeList childNodes = parent.getChildNodes();
+        int n = childNodes.getLength();
+        for (int i = 0; i < n; i++) {
+            Node item = childNodes.item(i);
+            if (!(item instanceof Element))
+                continue;
+            String fqName = item.getNodeName();
+            if (namespaceAware) {
+                if (fqName.equals(name))
+                    builder.append((Element) item);
+            } else {
+                String[] tokens = StringUtil.tokenize(fqName, ':');
+                if (tokens[tokens.length - 1].equals(name))
+                    builder.append((Element) item);
+            }
+        }
+        return builder.toArray();
+    }
+
+    public static Element getChildElement(Element parent, boolean namespaceAware, boolean required, String name) {
+        Element[] elements = getChildElements(parent, namespaceAware, name);
+        if (required && elements.length == 0)
+            throw new IllegalArgumentException("No element found with name: " + name);
+        if (elements.length > 1)
+            throw new IllegalArgumentException("More that one element found with name: " + name);
+        return (elements.length > 0 ? elements[0] : null);
+    }
+
+    public static String getText(Element element) {
+        if (element == null)
+            return null;
+        String text = element.getNodeValue();
+        System.out.println("..." + text);
+        return text;
+    }
+
+    public static Integer getIntegerAttribute(Element element, String name, Integer defaultValue) {
+        if (logger.isDebugEnabled())
+            logger.debug("getIntegerAttribute(" + element.getNodeName() + ", " + name + ')');
+        String stringValue = element.getAttribute(name);
+        if (StringUtil.isEmpty(stringValue))
+            return defaultValue;
+        return Integer.parseInt(stringValue);
+    }
+
+    public static Long getLongAttribute(Element element, String name, long defaultValue) {
+        if (logger.isDebugEnabled())
+            logger.debug("getLongAttribute(" + element.getNodeName() + ", " + name + ')');
+        String stringValue = element.getAttribute(name);
+        if (StringUtil.isEmpty(stringValue))
+            return defaultValue;
+        return Long.parseLong(stringValue);
+    }
+
+    public static Map<String, String> getAttributes(Element element) {
+        NamedNodeMap attributes = element.getAttributes();
+        Map<String, String> result = new HashMap<String, String>();
+        int n = attributes.getLength();
+        for (int i = 0; i < n; i++) {
+            Attr attribute = (Attr) attributes.item(i);
+            result.put(attribute.getName(), attribute.getValue());
+        }
+        return result;
+    }
+
+    public static PrintWriter createXMLFile(String uri, String encoding) 
+        throws FileNotFoundException, UnsupportedEncodingException {
+        PrintWriter printer = IOUtil.getPrinterForURI(uri, encoding);
+        printer.println("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>");
+        return printer;
+    }
+
+    public static String normalizedAttributeValue(Element element, String attributeName) {
+        String value = element.getAttribute(attributeName);
+        if (StringUtil.isEmpty(value))
+            value = null;
+        return value;
+    }
+
+    // XML operations --------------------------------------------------------------------------------------------------
+
+    public static Document parse(String uri) throws IOException {
+        return parse(uri, false);
+    }
+
+    public static Document parse(String uri, boolean validate) throws IOException {
+        InputStream stream = null;
+        try {
+            stream = IOUtil.getInputStreamForURI(uri);
+            return parse(stream, validate);
+        } finally {
+            IOUtil.close(stream);
+        }
+    }
+
+    public static Document parseString(String text) throws IOException {
+        return parseString(text, false);
+    }
+        
+    public static Document parseString(String text, boolean validate) throws IOException {
+        if (logger.isDebugEnabled())
+            logger.debug(text);
+        return parse(new StringBufferInputStream(text), validate);
+    }
+
+    public static Document parse(InputStream stream) throws IOException {
+        return parse(stream, false);
+    }
+
+    public static Document parse(InputStream stream, boolean validate) throws IOException {
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setValidating(validate);
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            return builder.parse(stream);
+        } catch (ParserConfigurationException e) {
+            throw new ConfigurationError(e);
+        } catch (SAXException e) {
+            throw new ConfigurationError(e);
+        }
+    }
+
+    public static NamespaceAlias namespaceAlias(Document document, String namespaceUri) {
+        Map<String, String> attributes = XMLUtil.getAttributes(document.getDocumentElement());
+        for (Map.Entry<String, String> entry : attributes.entrySet()) {
+            String namespaceName = entry.getValue();
+            if (namespaceUri.equals(namespaceName))
+                return new NamespaceAlias(StringUtil.lastToken(entry.getKey(), ':'), namespaceName);
+        }
+        return new NamespaceAlias("", namespaceUri);
+    }
+
+
 }
