@@ -111,6 +111,29 @@ public final class LocaleUtil {
         }
     }
 
+    public static String availableLocaleUrl(String baseName, Locale locale, String suffix) {
+        String localeString = locale.toString();
+        do {
+            String url = baseName;
+            if (localeString != null && localeString.length() > 0)
+                url += "_" + localeString;
+            url += suffix;
+            if (IOUtil.isURIAvailable(url))
+                return url;
+            localeString = reduceLocaleString(localeString);
+        } while (localeString != null);
+        return null;
+    }
+
+    private static String reduceLocaleString(String localeString) {
+        if (localeString == null || localeString.length() == 0)
+            return null;
+        int separatorIndex = localeString.indexOf('_');
+        if (separatorIndex < 0)
+            return "";
+        return localeString.substring(0, separatorIndex);
+    }
+    
     // private helpers -------------------------------------------------------------------------------------------------
 
     /**
@@ -139,8 +162,8 @@ public final class LocaleUtil {
     private static void readConfigFile() {
         try {
             specialLetters = new HashMap<Locale, Set<Character>>();
-            Properties properties = IOUtil.readProperties("org/databene/commons/special-letters.properties");
-            for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+            Map<String, String> properties = IOUtil.readProperties("org/databene/commons/special-letters.properties");
+            for (Map.Entry<String, String> entry : properties.entrySet()) {
                 Locale locale = getLocale(String.valueOf(entry.getKey()));
                 String specialChars = String.valueOf(entry.getValue());
                 Set<Character> charSet = latinSet();
