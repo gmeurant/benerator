@@ -54,6 +54,8 @@ public class ArrayConverter<S, T> implements Converter<S[], T[]> {
     }
 
     public T[] convert(S[] sourceValues) throws ConversionException {
+        if (sourceValues == null)
+            return null;
         if (converters.length == 1) {
             T[] result = (T[]) Array.newInstance(componentType, sourceValues.length);
             for (int i = 0; i < sourceValues.length; i++)
