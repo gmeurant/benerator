@@ -27,11 +27,11 @@
 package org.databene.document.csv;
 
 import org.databene.script.*;
-import org.databene.platform.bean.BeanToPropertyArrayConverter;
 import org.databene.commons.Context;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 import org.databene.commons.SystemInfo;
+import org.databene.commons.bean.BeanToPropertyArrayConverter;
 import org.databene.commons.converter.ArrayConverter;
 import org.databene.commons.converter.ConverterChain;
 import org.databene.commons.converter.ToStringConverter;

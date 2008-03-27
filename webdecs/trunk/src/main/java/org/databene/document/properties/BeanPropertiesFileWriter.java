@@ -35,10 +35,10 @@ import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 import org.databene.commons.SystemInfo;
 import org.databene.commons.BeanUtil;
+import org.databene.commons.bean.BeanToPropertyArrayConverter;
 import org.databene.commons.converter.ArrayConverter;
 import org.databene.commons.converter.ConverterChain;
 import org.databene.commons.converter.ToStringConverter;
-import org.databene.platform.bean.BeanToPropertyArrayConverter;
 
 import java.io.IOException;
 import java.io.Writer;
