@@ -42,6 +42,37 @@ public final class CollectionUtil {
     }
 
     /**
+     * Converts an array into a list.
+     * @param array the array to convert into a list.
+     * @return a list containing all elements of the given array.
+     */
+    public static <T> List<T> toList(T ... array) {
+        List<T> result = new ArrayList<T>(array.length);
+        for (T item : array)
+            result.add(item);
+        return result;
+    }
+
+    /**
+     * Creates a HashSet filled with the specified elements
+     * @param elements the content of the Set
+     * @return a HashSet with the elements
+     */
+    public static <T> Set<T> toSet(T ... elements) {
+        HashSet<T> set = new HashSet<T>();
+        for (T element : elements)
+            set.add(element);
+        return set;
+    }
+
+    public static <T> SortedSet<T> toSortedSet(T ... elements) {
+        TreeSet<T> set = new TreeSet<T>();
+        for (T element : elements)
+            set.add(element);
+        return set;
+    }
+
+    /**
      * Adds the content of an array to a collection
      * @param target the collection to be extended
      * @param values the values to add
@@ -59,7 +90,15 @@ public final class CollectionUtil {
         return items;
     }
 
-    public static <T> T[] toArray(Collection<T> source, Class<T> componentType) {
+    public static <T> T[] toArray(Collection<? extends T> source) {
+        if (source.size() == 0)
+            throw new IllegalArgumentException("For empty collections, a componentType needs to be specified.");
+        Class<T> componentType = (Class<T>) source.iterator().next().getClass();
+        T[] array = (T[]) Array.newInstance(componentType, source.size());
+        return source.toArray(array);
+    }
+
+    public static <T> T[] toArray(Collection<? extends T> source, Class<T> componentType) {
         T[] array = (T[]) Array.newInstance(componentType, source.size());
         return source.toArray(array);
     }
