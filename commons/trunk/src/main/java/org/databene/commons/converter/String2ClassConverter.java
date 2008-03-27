@@ -34,7 +34,7 @@ import org.databene.commons.ConversionException;
  * <br/>
  * Created: 05.08.2007 06:38:38
  */
-public class String2ClassConverter extends AbstractTypedConverter<String, Class> {
+public class String2ClassConverter extends AbstractBidirectionalConverter<String, Class> {
 
     public String2ClassConverter() {
         super(String.class, Class.class);

@@ -35,7 +35,7 @@ import java.util.Date;
  * <br/>
  * Created: 05.08.2007 07:10:25
  */
-public class Date2LongConverter extends AbstractTypedConverter<Date, Long>{
+public class Date2LongConverter extends AbstractBidirectionalConverter<Date, Long>{
 
     public Date2LongConverter() {
         super(Date.class, Long.class);

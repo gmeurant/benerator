@@ -27,37 +27,48 @@
 package org.databene.commons.converter;
 
 import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
+
+import java.util.ArrayList;
 
 /**
- * Instantiates enum instances by their name.<br/>
+ * Chains typed converters in a way that the output of each converter is the input of the next converter in the chain.<br/>
  * <br/>
- * Created: 20.08.2007 07:11:16
+ * Created: 13.05.2005 17:43:04
  */
-public class String2EnumConverter<E extends Enum> extends AbstractBidirectionalConverter<String, E> {
+public class BidirectionalConverterChain<S, T> extends AbstractBidirectionalConverter<S, T> {
 
-    private Class<E> enumClass;
+    private ArrayList<Converter> list;
 
-    public String2EnumConverter(Class<E> enumClass) {
-        super(String.class, enumClass);
-        this.enumClass = enumClass;
+    public BidirectionalConverterChain(AbstractBidirectionalConverter converter1, AbstractBidirectionalConverter converter2) {
+        super(converter1.getSourceType(), converter2.getTargetType());
+        this.list = new ArrayList<Converter>();
+        add(converter1);
+        add(converter2);
     }
 
-    public E convert(String sourceValue) throws ConversionException {
-        return convert(sourceValue, enumClass);
+    public void add(AbstractBidirectionalConverter converter) {
+        list.add(converter);
+        if (list.size() == 1)
+            setSourceType(converter.getSourceType());
+        setTargetType(converter.getTargetType());
     }
 
-    public String revert(E target) throws ConversionException {
-        return String.valueOf(target);
+    public T convert(S source) throws ConversionException {
+        Object result = source;
+        for (Object aList : list) {
+            BidirectionalConverter converter = (BidirectionalConverter) aList;
+            result = converter.convert(result);
+        }
+        return (T)result;
     }
 
-    public static <T extends Enum> T convert(String sourceValue, Class<T> enumClass) throws ConversionException {
-        if (sourceValue == null)
-            return null;
-        T[] enumConstants = enumClass.getEnumConstants();
-        for (T enumConstant : enumConstants)
-            if (enumConstant.toString().equals(sourceValue))
-                return enumConstant;
-        throw new ConversionException(enumClass + " does not have an instance of name " + sourceValue);
+    public S revert(T target) throws ConversionException {
+        Object result = target;
+        for (int i = list.size() - 1; i >= 0; i++) {
+            BidirectionalConverter converter = (BidirectionalConverter) list.get(i);
+            result = converter.revert(result);
+        }
+        return (S)result;
     }
-
 }

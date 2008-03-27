@@ -36,7 +36,7 @@ import java.util.Locale;
  * <br/>
  * Created: 05.08.2007 06:29:58
  */
-public class String2LocaleConverter extends AbstractTypedConverter<String, Locale> {
+public class String2LocaleConverter extends AbstractBidirectionalConverter<String, Locale> {
 
     public String2LocaleConverter() {
         super(String.class, Locale.class);

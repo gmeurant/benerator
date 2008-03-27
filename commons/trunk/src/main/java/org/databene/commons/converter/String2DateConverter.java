@@ -39,8 +39,11 @@ import java.text.DateFormat;
  * Converts Strings of standard date(time) format (yyyy-MM-dd[Thh:mm[:ss[.SSS]]]) to dates.<br/>
  * <br/>
  * Created: 07.09.2007 09:07:12
+ * @author Volker Bergmann
  */
 public class String2DateConverter<E extends Date> implements Converter<String, E> {
+    
+    // TODO v0.4.1 support time zones (like 'Z', '+01:00' or '-01:30')
 
     private Class<E> targetType;
 

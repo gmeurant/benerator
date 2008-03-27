@@ -26,38 +26,34 @@
 
 package org.databene.commons.converter;
 
-import org.databene.commons.ConversionException;
-
 /**
- * Instantiates enum instances by their name.<br/>
+ * Provides an abstract implementation of the TypedConverter interface for inheriting.<br/>
  * <br/>
- * Created: 20.08.2007 07:11:16
+ * Created: 13.05.2005 10:01:30
  */
-public class String2EnumConverter<E extends Enum> extends AbstractBidirectionalConverter<String, E> {
+public abstract class AbstractBidirectionalConverter<S, T> implements BidirectionalConverter<S, T> {
 
-    private Class<E> enumClass;
+    private Class<S> sourceType;
+    private Class<T> targetType;
 
-    public String2EnumConverter(Class<E> enumClass) {
-        super(String.class, enumClass);
-        this.enumClass = enumClass;
+    public AbstractBidirectionalConverter(Class<S> sourceType, Class<T> targetType) {
+        this.sourceType = sourceType;
+        this.targetType = targetType;
     }
 
-    public E convert(String sourceValue) throws ConversionException {
-        return convert(sourceValue, enumClass);
+    public Class<S> getSourceType() {
+        return sourceType;
     }
 
-    public String revert(E target) throws ConversionException {
-        return String.valueOf(target);
+    protected void setSourceType(Class<S> sourceType) {
+        this.sourceType = sourceType;
     }
 
-    public static <T extends Enum> T convert(String sourceValue, Class<T> enumClass) throws ConversionException {
-        if (sourceValue == null)
-            return null;
-        T[] enumConstants = enumClass.getEnumConstants();
-        for (T enumConstant : enumConstants)
-            if (enumConstant.toString().equals(sourceValue))
-                return enumConstant;
-        throw new ConversionException(enumClass + " does not have an instance of name " + sourceValue);
+    public Class<T> getTargetType() {
+        return targetType;
     }
 
+    protected void setTargetType(Class<T> targetType) {
+        this.targetType = targetType;
+    }
 }

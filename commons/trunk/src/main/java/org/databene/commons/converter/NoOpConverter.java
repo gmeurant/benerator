@@ -33,7 +33,7 @@ import org.databene.commons.ConversionException;
  * <br/>
  * Created: 27.09.2006 23:26:25
  */
-public class NoOpConverter<E> extends AbstractTypedConverter<E,E> {
+public class NoOpConverter<E> extends AbstractBidirectionalConverter<E,E> {
 
     private static NoOpConverter instance = new NoOpConverter();
 
