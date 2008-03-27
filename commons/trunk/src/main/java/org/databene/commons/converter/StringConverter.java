@@ -26,6 +26,7 @@
 
 package org.databene.commons.converter;
 
+import org.databene.commons.ArrayFormat;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 
@@ -35,6 +36,7 @@ import java.util.Date;
  * Converts Strings to anything else.<br/>
  * <br/>
  * Created: 16.06.2007 11:24:08
+ * @author Volker Bergmann
  */
 public class StringConverter<T> implements Converter<String, T> {
 
@@ -67,6 +69,8 @@ public class StringConverter<T> implements Converter<String, T> {
             return (T) String2EnumConverter.convert(src, (Class<Enum>) targetType);
         if (Date.class.isAssignableFrom(targetType))
             return (T) String2DateConverter.convert(src, (Class<? extends Date>) targetType);
+        if (targetType.isArray())
+            return (T) ArrayFormat.parse(src, ",", targetType.getComponentType());
         // Try to convert to wrapper class
         Class<? extends Number> wrapperClass = JavaType.getWrapperClass(targetType);
         T result = null;
