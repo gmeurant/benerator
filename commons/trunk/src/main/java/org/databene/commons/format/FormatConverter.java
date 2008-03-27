@@ -27,7 +27,7 @@
 package org.databene.commons.format;
 
 import org.databene.commons.ConversionException;
-import org.databene.commons.converter.AbstractTypedConverter;
+import org.databene.commons.converter.AbstractBidirectionalConverter;
 
 import java.text.Format;
 import java.text.ParseException;
@@ -40,7 +40,7 @@ import java.text.ParseException;
  * Created: 13.05.2005 13:06:42
  * @author Volker Bergmann
  */
-public class FormatConverter<E> extends AbstractTypedConverter<E, String> {
+public class FormatConverter<E> extends AbstractBidirectionalConverter<E, String> {
 
     private Format format;
 
