@@ -28,6 +28,8 @@ package org.databene.commons;
 
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
+import org.databene.commons.converter.AnyConverter;
+import org.databene.commons.converter.ArrayTypeConverter;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
@@ -338,8 +340,8 @@ public final class BeanUtil {
     public static Method getMethod(Class<? extends Object> type, String methodName, Class<? extends Object> ... paramTypes) {
         Method method = findMethod(type, methodName, paramTypes);
         if (method == null)
-            throw new ConfigurationError("no method '" + methodName + "' found" +
-                " for parameter types (" + ArrayFormat.format(paramTypes) + ')');
+            throw new ConfigurationError("method not found: " + methodName 
+                    + '(' + ArrayFormat.format(paramTypes) + ')');
         return method;
     }
 
@@ -359,6 +361,15 @@ public final class BeanUtil {
                 return method;
         }
         return null;
+    }
+
+    public static Method[] findMethodsByName(Class<? extends Object> type, String methodName) {
+        ArrayBuilder<Method> builder = new ArrayBuilder<Method>(Method.class);
+        for (Method method : type.getMethods()) {
+            if (methodName.equals(method.getName()))
+                builder.append(method);
+        }
+        return builder.toArray();
     }
 
     /**
@@ -396,8 +407,13 @@ public final class BeanUtil {
      * @return the invoked method's return value.
      */
     public static Object invoke(Object target, Method method, Object ... args) {
+        return invoke(target, method, true, args);
+    }
+
+    public static <T> T invoke(Object target, Method method, boolean strict, Object ... args) {
         try {
-            return method.invoke(target, args);
+            Object[] params = (strict ? args : ArrayTypeConverter.convert(args, method.getParameterTypes()));
+            return (T)method.invoke(target, (Object[])params);
         } catch (IllegalAccessException e) {
             throw ExceptionMapper.configurationException(e, method);
         } catch (InvocationTargetException e) {
@@ -591,6 +607,14 @@ public final class BeanUtil {
                 else
                     return;
             writeMethod = propertyDescriptor.getWriteMethod();
+            Class<?> propertyType = propertyDescriptor.getPropertyType();
+            if (propertyValue != null && !propertyType.isAssignableFrom(propertyValue.getClass()) && !(isPrimitiveNumber(propertyType.getName()) && getWrapper(propertyType.getName()) == propertyValue.getClass()))
+                if (strict)
+                    throw new IllegalArgumentException("ArgumentType mismatch: expected " 
+                            + propertyType.getName() + ", found " + propertyValue.getClass().getName());
+                else
+                    propertyValue = AnyConverter.convert(propertyValue, propertyType);
+                    
             writeMethod.invoke(bean, propertyValue);
         } catch (IllegalAccessException e) {
             throw ExceptionMapper.configurationException(e, writeMethod);
@@ -673,6 +697,8 @@ public final class BeanUtil {
      * @since 0.2.06
      */
     private static <T> T newInstanceFromDefaultConstructor(Class<T> type) {
+        if (type == null)
+            return null;
         if (logger.isDebugEnabled())
             logger.debug("Instantiating " + type.getSimpleName());
         if (deprecated(type))
@@ -711,6 +737,29 @@ public final class BeanUtil {
             this.primitiveType = primitiveType;
             this.wrapperType = wrapperType;
         }
+    }
+
+    public static Method[] findMethodsByAnnotation(
+            Class<? extends Object> owner, Class<? extends Annotation> annotationClass) {
+        Method[] methods = owner.getMethods();
+        ArrayBuilder<Method> builder = new ArrayBuilder<Method>(Method.class);
+        for (Method method : methods)
+            if (method.getAnnotation(annotationClass) != null)
+                builder.append(method);
+        return builder.toArray();
+    }
+    
+    public static <C, I> Type[] getGenericInterfaceParams(Class<C> checkedClass, Class<I> searchedInterface) {
+        for (Type type : checkedClass.getGenericInterfaces()) {
+            ParameterizedType pt = (ParameterizedType) type;
+            if (searchedInterface.equals(pt.getRawType())) {
+                ParameterizedType pType = ((ParameterizedType) type);
+                return pType.getActualTypeArguments();
+            }
+        }
+        if (!Object.class.equals(checkedClass.getSuperclass()))
+            return getGenericInterfaceParams(checkedClass.getSuperclass(), searchedInterface);
+        throw new ConfigurationError(checkedClass + " does not implement interface with generic parameters: " + searchedInterface);
     }
 
 }
