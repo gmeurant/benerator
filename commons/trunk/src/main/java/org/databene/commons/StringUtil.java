@@ -437,4 +437,8 @@ public final class StringUtil {
                 return true;
         return false;
     }
+
+    public static boolean startsWithIgnoreCase(String selector, String prefix) {
+        return selector.toLowerCase().startsWith(prefix.toLowerCase());
+    }
 }
