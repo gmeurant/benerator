@@ -35,7 +35,6 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
 import org.databene.commons.StringUtil;
 
 /**
@@ -43,11 +42,15 @@ import org.databene.commons.StringUtil;
  * Created: 14.03.2008 22:15:58
  * @author Volker Bergmann
  */
-public class String2TimeConverter implements Converter<String, Time>{
+public class String2TimeConverter extends AbstractBidirectionalConverter<String, Time>{
 
     private static final String MILLIS  = "hh:mm:ss.SSS";
     private static final String SECONDS = "hh:mm:ss";
     private static final String MINUTES = "hh:mm";
+
+    public String2TimeConverter() {
+        super(String.class, Time.class);
+    }
 
     public Class<Time> getTargetType() {
         return Time.class;
@@ -75,6 +78,10 @@ public class String2TimeConverter implements Converter<String, Time>{
         } catch (ParseException e) {
             throw new ConversionException(e);
         }
+    }
+
+    public String revert(Time target) throws ConversionException {
+        return new SimpleDateFormat(MILLIS).format(new Date(target.getTime()));
     }
 
 }
