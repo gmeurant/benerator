@@ -42,14 +42,14 @@ public class RoundedNumberFormat extends Format {
 
     public static String format(Number number, int fractionDigits) {
         NumberFormat nf = DecimalFormat.getInstance(Locale.US);
-        nf.setMinimumFractionDigits(fractionDigits);
+        //nf.setMinimumFractionDigits(fractionDigits);
         nf.setMaximumFractionDigits(fractionDigits);
         StringBuffer buffer = nf.format(number, new StringBuffer(), new FieldPosition(0));
         int nonNullDigits = 0;
         for (int i = 0; i < buffer.length(); i++) {
             char c = buffer.charAt(i);
             if (Character.isDigit(c)) {
-                if (nonNullDigits >= 4)
+                if (nonNullDigits >= 2)
                     buffer.setCharAt(i, '0');
                 nonNullDigits++;
             }
