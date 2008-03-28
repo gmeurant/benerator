@@ -1,4 +1,4 @@
-release notes databene commons 0.3.1
+release notes databene commons 0.4.0
 ------------------------------------
 
 Changes
@@ -10,8 +10,10 @@ Changes
 - Added generic type for source to AnyConverter
 
 Enhancements
-- new method StringUtil.splitOnLastSeparator()
-- new method StringUtil.containsIgnoreCase()
+- new methods in StringUtil
+  - splitOnLastSeparator()
+  - containsIgnoreCase()
+  - startsWithIgnoreCase()
 - new Time creation methods in TimeUtil
 - Added configuration from file for the ComparatorFactory
 - new method ParseUtil.isNMToken()
