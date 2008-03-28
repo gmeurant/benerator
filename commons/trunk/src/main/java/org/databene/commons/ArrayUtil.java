@@ -215,7 +215,7 @@ public final class ArrayUtil {
         }
     }
 
-    public static boolean isEmpty(String[] values) {
+    public static boolean isEmpty(Object[] values) {
         return (values == null || values.length == 0);
     }
 
