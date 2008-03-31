@@ -86,10 +86,6 @@ public class XMLUtilTest extends TestCase {
         assertTrue(ArrayUtil.equals(expectedChildren, actualChildren));
     }
 
-    public void testGetText() {
-        assertEquals("myText", XMLUtil.getText(createTextElement("myText")));
-    }
-
     public void testGetIntegerAttribute() {
         Element element = createElement("test", CollectionUtil.buildMap("value", "1"));
         assertEquals(1, (int) XMLUtil.getIntegerAttribute(element, "value", 2));
