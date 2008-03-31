@@ -51,7 +51,10 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
+
+import com.sun.org.apache.xml.internal.dtm.ref.DTMDefaultBaseIterators.ChildrenIterator;
 
 /**
  * Provides XML Utility methods.<br/>
@@ -134,9 +137,13 @@ public class XMLUtil {
     public static String getText(Element element) {
         if (element == null)
             return null;
-        String text = element.getNodeValue();
-        System.out.println("..." + text);
-        return text;
+        if (element instanceof Text)
+            return element.getNodeValue();
+        NodeList children = element.getChildNodes();
+        for (int i = 0; i < children.getLength(); i++)
+            if (children.item(i) instanceof Text)
+                return children.item(i).getNodeValue();
+        return null;
     }
 
     public static Integer getIntegerAttribute(Element element, String name, Integer defaultValue) {
