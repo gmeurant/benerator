@@ -5,6 +5,54 @@
 
 news
 
+  <<2008-03-31 benerator release 0.5.0:>> benerator now can generate XML files directly from XML schema files. 
+  Custom generator configuration can be added in XML schema annotations.
+  The region concept has been finally abstracted to a dataset concept.
+  The core data model has been completely redesigned for supporting a 
+  type definition concept. With improved QA, several bugs were found and fixed. 
+  New generator classes and name packages have been added for India, Brazil, 
+  Canada, Spain, Australia, Austria, Japan, Slovenia and Israel.
+  
+  <<2008-03-15 1,000 downloads>> databene is proud to count the 1,000th download of benerator.
+  Having taken the first steps towards publicity just four months ago, this is quite a success. 
+  Most users are located in the USA, the top 5 countries are
+  USA (24%), Germany (15%), India (8%), UK (7%), France (6%).
+   
+  <<2008-02-19 benerator release 0.4.1:>> This is a bugfix release. 
+  It addresses bugs in the shell files and documentation that prevented proper evaluation 
+  and use of benerator 0.4.0.
+  
+  <<2008-02-02 benerator release 0.4.0:>> benerator now incorporates mature and comfortable 
+  generation capabilities for relational data, providing convenient database configuration 
+  and primary key generation, script support in generators and all import file formats, 
+  as well as a staging concept. Especially the script feature is a great improvement in 
+  generating randomized data with multi-field constraints. 
+  
+  Furthermore, central concepts were extended for generation of hierarchical data, like dependent 
+  data in databases or nested data structures like XML. After having left behind all open source 
+  alternatives with release 0.3, benerator competes with all commercial generation products.
+  
+  <<2008-01-15 500 benerator downloads:>> databene welcomes the 500th download of a benerator 
+  distribution. It is interesting to observe that benerator users primarily are (in descending orders) 
+  in California, Germany, India and Eastern Europe.
+  
+  <<2008-01-06 Web site relaunch completed:>> 
+  The databene web site now integrates blog, forums and social bookmarking under a common design. 
+
+  <<2007-12-10 benerator release 0.3.04:>> JDBC performance was optimized for bulk operation and LAN access: 
+  Oracle performance on dev hardware now is 15,000 rows/sec (for local access) or 5,000 rows/sec 
+  (via LAN). 
+  A new tool allows for creating a database snapshot in (DbUnit) XML format. 
+  With adding support for CLOB, BLOB, and Oracle timezone types, all common SQL column types are available. 
+  New DB key generator classes provide for efficient multi-client-data generation.
+
+  <<2007-12-12 300 downloads>> databene welcomes the 300th benerator download. 
+  The current user base is an estimated 100 with a growth rate of 30% per month.
+
+  <<2007-11-24 release 0.3.03:>> This release gives a major performance boost 
+  by supporting multithreaded data generation. 
+  Two bugs concerning unique EAN codes and non-unique regex-based generation were fixed.
+
   <<2007-11-20 release 0.3.02:>> Several new Generators, Sequences and methods provide for generating unique data.
   All file I/O now supports file encodings (e.g. UTF-8 or ISO-8859-1). Generators can now be chained in descriptor file setup.
   While extending generator tests, several bugs in life cycle handling were found and fixed.

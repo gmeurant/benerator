@@ -7,17 +7,22 @@
     <version>1.0</version>
   </skin>
 
-  <!--bannerLeft>
+  <bannerLeft>
     <name>databene</name>
-    <src>images/databene.gif</src>
-    <href>http://databene.org/</href>
-  </bannerLeft-->
+    <src>images/logos/databene.png</src>
+    <href>./</href>
+  </bannerLeft>
 
   <!--bannerRight>
     <src>http://maven.apache.org/images/maven-small.gif</src>
   </bannerRight-->
 
   <publishDate position="left" format="yyyy-MMM-dd"/>
+  
+  <poweredBy>
+    <logo name="Maven" href="http://maven.apache.org/"
+          img="images/logos/maven-button-2.png"/>
+  </poweredBy>
 
   <body>
 

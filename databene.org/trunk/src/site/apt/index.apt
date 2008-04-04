@@ -1,17 +1,29 @@
-					--------------
-					about databene
-					--------------
+					--------
+					databene
+					--------
+					
+benerator
 
-about databene
+  <<welcome to the home of {{{http://databene.org/databene-benerator}benerator}}, 
+  the world's leading open source test data generator.>>
+  
+  <<{{{http://databene.org/databene-benerator/download.html}download}} the latest benerator release!>>
 
-  <<databene>> hosts a collection of open source libraries and tools
-  developed and hosted by {{{./volker_bergmann.html}Volker Bergmann}}. 
+news
+
+  <<2008-03-31 benerator release 0.5.0:>> benerator now can generate XML files directly from XML schema files. 
+  Custom generator configuration can be added in XML schema annotations.
+  The region concept has been finally abstracted to a dataset concept.
+  The core data model has been completely redesigned for supporting a 
+  type definition concept. With improved QA, several bugs were found and fixed. 
+  New generator classes and name packages have been added for India, Brazil, 
+  Canada, Spain, Australia, Austria, Japan, Slovenia and Israel.
   
-  Main project is the <<benerator>>, the leading open source test data 
-  generator.
+  {{{http://databene.org/databene-benerator/download.html}download benerator}}
   
-  
-  Core topics of current and future projects are 
+projects
+
+  core topics of current and future projects are 
   
   * data processing
   
@@ -22,14 +34,16 @@ about databene
   * software performance
   
   
- The following libraries and tools are available:
+ the following libraries and tools are available:
   
-*--------------------------------------------------+--------------------------------------------------------------+
-| {{{./databene-benerator/index.html}benerator}}   | a test data generator.                                       |
-*--------------------------------------------------+--------------------------------------------------------------+
-| {{{./databene-webdecs/index.html}webdecs}}       | a library for web data extraction, conversion and scripting. |
-*--------------------------------------------------+--------------------------------------------------------------+
-| {{{./databene-commons/index.html}commons}}       | a library of common utilities and abstractions.              |
-*--------------------------------------------------+--------------------------------------------------------------+
+*----------------------------------------+----------------------------------------------------------+
+| {{{./databene-benerator/}benerator}}   | the world's leading open source test data generator      |
+*----------------------------------------+----------------------------------------------------------+
+| {{{./databene-webdecs/}webdecs}}       | a library for data extraction, conversion and scripting. |
+*----------------------------------------+----------------------------------------------------------+
+| {{{./databene-commons/}commons}}       | a library of common utilities and abstractions.          |
+*----------------------------------------+----------------------------------------------------------+
 
-  For information about Volker Bergmann see {{http://www.bergmann-it.de}}
+volker bergmann
+
+  for information about Volker Bergmann see {{http://www.bergmann-it.de}}

@@ -1,16 +1,20 @@
 <document>
 
-  <properties>
-    <title>rss + mailing list</title>
-  </properties>
+	<properties>
+		<title>rss + mailing list</title>
+	</properties>
 
-  <body>
-      <section name="rss">
-          <a href="http://databene.org/tinc?key=8BW6MdWi" target="_blank">Get the <img src="images/rss.gif"/> Feed here.</a><br/><br/>
-      </section>
+	<body>
+		<section name="rss">
+			<a href="http://databene.org/tinc?key=8BW6MdWi" target="_blank">Get the <img src="images/rss.gif"/> Feed here.</a><br/><br/>
+		</section>
+		
+		<section name="freshmeat project updates">
+			For updates on new releases you are welcome to register at the {{{http://freshmeat.net/projects/benerator/}freshmeat benerator product page}}.
+		</section>
 
-      <section name="mailing list">
-          Subscribe to benerator-announce by filling out the form below.
+		<section name="mailing list">
+          Subscribe to <strong>benerator-announce</strong> by filling out the form below.
           You will be sent an email requesting confirmation, to prevent others from gratuitously subscribing you.
           This is a hidden list, which means that the list of members is available only to the list administrator.<br/><br/>
           <form action="http://kundenserver.de/cgi-bin/mailinglist.cgi" method="POST" target="_BLANK">
@@ -41,9 +45,9 @@
               <INPUT NAME="FBURLINVALID_L" TYPE="HIDDEN" VALUE="http://kundenserver.de/mailinglist/invalid.en.html"/>
           </form>
 
-          A confirmation mail will be sent to your email account. You need to confirm registration by a .
+          A confirmation mail will be sent to your email account. 
+          You need to confirm your registration by a link provided with that mail.
 
-
-      </section>
-  </body>
+		</section>
+	</body>
 </document>
