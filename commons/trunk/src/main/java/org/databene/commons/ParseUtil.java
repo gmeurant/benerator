@@ -234,6 +234,8 @@ public final class ParseUtil {
     }
 
     public static String[] parseAssignment(String line, String operator) {
+    	if (line == null)
+    		return null;
         int sep = line.indexOf(operator);
         if (sep <= 0)
             return null;
