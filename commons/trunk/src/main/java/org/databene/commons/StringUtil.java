@@ -36,6 +36,10 @@ import java.util.*;
  */
 public final class StringUtil {
 
+	private static final String CR = String.valueOf('\r');
+	private static final String LF = String.valueOf('\n');
+	private static final String TAB = String.valueOf('\t');
+	
     /**
      * Tells if a String is null or isEmpty.
      * @param s the string argument to check
@@ -438,7 +442,59 @@ public final class StringUtil {
         return false;
     }
 
+    // TODO test
     public static boolean startsWithIgnoreCase(String selector, String prefix) {
         return selector.toLowerCase().startsWith(prefix.toLowerCase());
     }
+
+    // TODO test
+    public static boolean endsWithIgnoreCase(String selector, String suffix) {
+        return selector.toLowerCase().endsWith(suffix.toLowerCase());
+    }
+
+	public static String normalizeName(final String name) {
+		final int NONE = -1;
+		final int WS = 0;
+		final int INITIAL = 1;
+		final int SUBSEQUENT = 2;
+		StringBuilder builder = new StringBuilder(name.length());
+		StringCharacterIterator iterator = new StringCharacterIterator(name);
+		iterator.skipWhitespace();
+		int prevType = NONE;
+		while (iterator.hasNext()) {
+			char c = iterator.next();
+			int type;
+			if (Character.isWhitespace(c))
+				type = WS;
+			else if (prevType == INITIAL)
+				type = SUBSEQUENT;
+			else if (prevType == NONE || prevType == WS)
+				type = INITIAL;
+			else
+				type = prevType;
+			if (prevType == WS && type == INITIAL)
+				builder.append(' ');
+			switch (type) {
+				case INITIAL:
+					builder.append(Character.toUpperCase(c));
+					break;
+				case SUBSEQUENT: 
+					builder.append(Character.toLowerCase(c));
+					break;
+				case WS:
+					break;
+				default: throw new RuntimeException("Internal error");
+			}
+			prevType = type;
+		}
+		return builder.toString();
+	}
+
+	public static String unescape(String line) {
+		line = line.replace("\\r", CR);
+		line = line.replace("\\n", LF);
+		line = line.replace("\\t", TAB);
+		line = line.replace("\\", "\\");
+		return line;
+	}
 }
