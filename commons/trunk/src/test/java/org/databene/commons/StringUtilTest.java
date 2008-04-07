@@ -179,4 +179,16 @@ public class StringUtilTest extends TestCase {
         assertEquals("1", StringUtil.trim("100", '0'));
         assertEquals("1", StringUtil.trim("00100", '0'));
     }
+    
+    public void testNormalizeName() {
+    	assertEquals("Alice", StringUtil.normalizeName("Alice"));
+    	assertEquals("Alice", StringUtil.normalizeName("ALICE"));
+    	assertEquals("Alice", StringUtil.normalizeName("alice"));
+    	assertEquals("Alice", StringUtil.normalizeName("aLICE"));
+    	assertEquals("Alice", StringUtil.normalizeName(" \r\n\tAlice"));
+    	assertEquals("Alice", StringUtil.normalizeName(" \r\n\tALICE"));
+    	assertEquals("Alice", StringUtil.normalizeName(" \r\n\talice"));
+    	assertEquals("Alice", StringUtil.normalizeName(" \r\n\taLICE"));
+    	assertEquals("Alice Smith", StringUtil.normalizeName(" \r\n\taLICE \r sMITH \n\t "));
+    }
 }
