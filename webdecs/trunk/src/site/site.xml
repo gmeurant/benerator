@@ -50,6 +50,7 @@
             <item name="training" href="../training.html"/>
             <item name="blog" href="../blog"/>
             <item name="contact" href="../contact.html" />
+			<item name="downloads" href="http://sourceforge.net/project/showfiles.php?group_id=222964" />
         </menu>
 
         <menu name="all products">
@@ -61,7 +62,6 @@
         <menu name="databene webdecs">
             <item name="about" href="index.html"/>
             <item name="getting started" href="getting_started.html"/>
-            <item name="download" href="download.html"/>
         </menu>
 
         <menu name="webdecs reports" ref="reports" />
