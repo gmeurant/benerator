@@ -328,6 +328,7 @@ public final class IOUtil {
                 line = line.trim();
                 if (line.startsWith("#"))
                     continue;
+                line = StringUtil.unescape(line);
                 if (key != null) {
                     value += normalizeLine(line);
                 } else {
