@@ -31,14 +31,13 @@ package org.databene.commons.converter;
  * <br/>
  * Created: 13.05.2005 10:01:30
  */
-public abstract class AbstractBidirectionalConverter<S, T> implements BidirectionalConverter<S, T> {
+public abstract class AbstractBidirectionalConverter<S, T> extends AbstractConverter<S, T> implements BidirectionalConverter<S, T> {
 
     private Class<S> sourceType;
-    private Class<T> targetType;
 
     public AbstractBidirectionalConverter(Class<S> sourceType, Class<T> targetType) {
+    	super(targetType);
         this.sourceType = sourceType;
-        this.targetType = targetType;
     }
 
     public Class<S> getSourceType() {
@@ -47,13 +46,5 @@ public abstract class AbstractBidirectionalConverter<S, T> implements Bidirectio
 
     protected void setSourceType(Class<S> sourceType) {
         this.sourceType = sourceType;
-    }
-
-    public Class<T> getTargetType() {
-        return targetType;
-    }
-
-    protected void setTargetType(Class<T> targetType) {
-        this.targetType = targetType;
     }
 }
