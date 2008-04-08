@@ -180,6 +180,34 @@ public class StringUtilTest extends TestCase {
         assertEquals("1", StringUtil.trim("00100", '0'));
     }
     
+    public void testStartsWithIgnoreCase() {
+    	assertFalse(StringUtil.startsWithIgnoreCase("", null));
+    	assertTrue(StringUtil.startsWithIgnoreCase(null, null));
+    	assertFalse(StringUtil.startsWithIgnoreCase(null, ""));
+    	assertTrue(StringUtil.startsWithIgnoreCase("", ""));
+    	assertTrue(StringUtil.startsWithIgnoreCase("A", ""));
+    	assertTrue(StringUtil.startsWithIgnoreCase("Alice", "Alice"));
+    	assertTrue(StringUtil.startsWithIgnoreCase("Alice", "aLICE"));
+    	assertTrue(StringUtil.startsWithIgnoreCase("Alice", "Ali"));
+    	assertTrue(StringUtil.startsWithIgnoreCase("Alice", "aLI"));
+    	assertTrue(StringUtil.startsWithIgnoreCase("aLICE", "Ali"));
+    	assertFalse(StringUtil.startsWithIgnoreCase("Ali", "Alice"));
+    }
+    
+    public void testEndsWithIgnoreCase() {
+    	assertFalse(StringUtil.endsWithIgnoreCase("", null));
+    	assertTrue(StringUtil.endsWithIgnoreCase(null, null));
+    	assertFalse(StringUtil.endsWithIgnoreCase(null, ""));
+    	assertTrue(StringUtil.endsWithIgnoreCase("", ""));
+    	assertTrue(StringUtil.endsWithIgnoreCase("A", ""));
+    	assertTrue(StringUtil.endsWithIgnoreCase("Alice", "Alice"));
+    	assertTrue(StringUtil.endsWithIgnoreCase("Alice", "aLICE"));
+    	assertTrue(StringUtil.endsWithIgnoreCase("Alice", "ice"));
+    	assertTrue(StringUtil.endsWithIgnoreCase("Alice", "ICE"));
+    	assertTrue(StringUtil.endsWithIgnoreCase("aLICE", "ice"));
+    	assertFalse(StringUtil.endsWithIgnoreCase("ice", "Alice"));
+    }
+    
     public void testNormalizeName() {
     	assertEquals("Alice", StringUtil.normalizeName("Alice"));
     	assertEquals("Alice", StringUtil.normalizeName("ALICE"));

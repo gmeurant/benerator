@@ -39,6 +39,8 @@ import junit.framework.TestCase;
  * @author Volker Bergmann
  */
 public class LiteralParserTest extends TestCase {
+	
+	// TODO link to tracker in databene.org
     
     public void testNull() {
         assertEquals(null, LiteralParser.parse(null));
@@ -60,7 +62,11 @@ public class LiteralParserTest extends TestCase {
         checkText("True");
         checkText("TRUE");
         checkText("1.2.3.4");
+        checkText("01.02.");
+        checkText("2000-00-");
+        checkText("2000-01-");
         checkText("1 2 3 4");
+        checkText("01234");
     }
     
     public void testInteger() {
@@ -85,6 +91,7 @@ public class LiteralParserTest extends TestCase {
     }
     
     public void testDate() throws ParseException {
+        checkDate("1970-3-2", "yyyy-MM-dd");
         checkDate("1970-01-01", "yyyy-MM-dd");
         checkDate("1970-01-02", "yyyy-MM-dd");
         checkDate("1969-12-31", "yyyy-MM-dd");
@@ -97,6 +104,7 @@ public class LiteralParserTest extends TestCase {
         checkDate("1970-01-01T00:01:01.123", "yyyy-MM-dd'T'HH:mm:ss.SSS");
         checkDate("1970-01-02T00:01:01.123", "yyyy-MM-dd'T'HH:mm:ss.SSS");
         checkDate("1969-12-31T23:59:59.123", "yyyy-MM-dd'T'HH:mm:ss.SSS");
+        checkDate("1969-3-2T1:3:4.123", "yyyy-MM-dd'T'HH:mm:ss.SSS");
     }
 
     // private helper methods ------------------------------------------------------------------------------------------
