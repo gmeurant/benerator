@@ -26,6 +26,10 @@
 
 package org.databene.commons.converter;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.databene.commons.ArrayFormat;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
@@ -40,18 +44,25 @@ public class ToStringConverter<S> implements Converter<S, String> {
 
     /** The String used to replace null values */
     private String nullResult;
+    
+    private String datePattern;
 
-    /** Default canstructor that uses an isEmpty String as null representation */
+    /** Default constructor that uses an isEmpty String as null representation */
     public ToStringConverter() {
         this("");
     }
 
     /**
-     * Constructor that initialises the null replacement to the specified parameter.
+     * Constructor that initializes the null replacement to the specified parameter.
      * @param nullString the String to use for replacing null values.
      */
     public ToStringConverter(String nullString) {
+        this(nullString, null);
+    }
+
+    public ToStringConverter(String nullString, String datePattern) {
         this.nullResult = nullString;
+        this.datePattern = datePattern;
     }
 
     /** Returns the nullResult attribute */
@@ -72,17 +83,28 @@ public class ToStringConverter<S> implements Converter<S, String> {
      * @see org.databene.commons.Converter
      */
     public String convert(S source) throws ConversionException {
-        return convert(source, nullResult);
+        return convert(source, nullResult, datePattern);
     }
 
     public static <TT> String convert(TT source, String nullString) {
+    	return convert(source, nullString, null);
+    }
+
+    public static <TT> String convert(TT source, String nullString, String datePattern) {
         if (source == null)
             return nullString;
         else if (source.getClass().isArray())
             return ArrayFormat.format((Object[])source);
         else if (source instanceof Class)
             return ((Class)source).getName();
-        else
+        else if (source instanceof Date) {
+        	if (datePattern != null)
+        		return new SimpleDateFormat(datePattern).format((Date) source);
+        	else
+        		return new SimpleDateFormat().format((Date) source);
+        } else if (source instanceof Number && datePattern != null) {
+        	return new DecimalFormat(datePattern).format(source);
+        } else
             return source.toString();
     }
 }

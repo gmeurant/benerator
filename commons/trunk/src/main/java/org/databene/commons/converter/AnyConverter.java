@@ -43,26 +43,41 @@ public class AnyConverter<S, T> implements Converter<S, T> {
     private static final Log logger = LogFactory.getLog(AnyConverter.class);
 
     private Class<T> targetType;
+    
+    private String datePattern;
 
     public AnyConverter(Class<T> targetType) {
+        this(targetType, "yyyyMMdd");
+    }
+
+    public AnyConverter(Class<T> targetType, String pattern) {
         this.targetType = targetType;
+        this.datePattern = pattern;
     }
 
     public Class<T> getTargetType() {
         return targetType;
     }
+    
+    public String getDatePattern() {
+		return datePattern;
+	}
 
-    public T convert(Object sourceValue) throws ConversionException {
-        return convert(sourceValue, targetType);
+	public T convert(Object sourceValue) throws ConversionException {
+        return convert(sourceValue, targetType, datePattern);
     }
 
+    public static <TT> TT convert(Object source, Class<TT> targetType) throws ConversionException {
+        return convert(source, targetType, null);
+    }
+    
     /**
      * Converts an object of a given type to an object of the target type.
      * @param source the object to convert
      * @param targetType the target type of the conversion
      * @return an object of the target type
      */
-    public static <TT> TT convert(Object source, Class<TT> targetType) throws ConversionException {
+    public static <TT> TT convert(Object source, Class<TT> targetType, String datePattern) throws ConversionException {
         if (logger.isDebugEnabled())
             logger.debug("Converting " + source + (source != null ? " (" + source.getClass().getName() + ")" : "") + " to " + targetType);
         // check preconditions
@@ -82,7 +97,7 @@ public class AnyConverter<S, T> implements Converter<S, T> {
 
         // to string conversion
         if (String.class.equals(targetType))
-            return (TT) ToStringConverter.convert(source, null);
+            return (TT) ToStringConverter.convert(source, null, datePattern);
 
         // from string conversion
         if (String.class.equals(source.getClass()))
