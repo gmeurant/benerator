@@ -83,10 +83,10 @@ public class LiteralParser implements Converter<String, Object> {
         StringCharacterIterator iterator = new StringCharacterIterator(trimmed);
         char c = iterator.next();
         if (c == '-')
-            return parseNonNegativeNumber(iterator, true);
+            return parseNonNegativeNumber(iterator, true, false);
         else if (c >= '0' && c <= '9') {
             iterator.pushBack();
-            Object tmp = parseNonNegativeNumber(iterator, false);
+            Object tmp = parseNonNegativeNumber(iterator, false, false);
             if (tmp != null)
                 return tmp;
             tmp = parseDate(trimmed);
@@ -99,36 +99,43 @@ public class LiteralParser implements Converter<String, Object> {
     private static Object parseDate(String trimmed) {
         StringCharacterIterator iterator = new StringCharacterIterator(trimmed);
         // parse day
-        int year = (int) parseNonNegativeIntegerPart(iterator);
-        if (!iterator.hasNext() || iterator.next() != '-')
+        Long year = parseNonNegativeIntegerPart(iterator, true);
+        if (year == null || !iterator.hasNext() || iterator.next() != '-')
             return null;
-        int month = (int) parseNonNegativeIntegerPart(iterator) - 1;
-        if (!iterator.hasNext() || iterator.next() != '-')
+        Long month = parseNonNegativeIntegerPart(iterator, true);
+        if (month == null || !iterator.hasNext() || iterator.next() != '-')
             return null;
-        int day = (int) parseNonNegativeIntegerPart(iterator);
+        month = month - 1;
+        Long day = parseNonNegativeIntegerPart(iterator, true);
+        if (day == null)
+        	return null;
         if (!iterator.hasNext())
-            return TimeUtil.date(year, month, day);
+            return TimeUtil.date(year.intValue(), month.intValue(), day.intValue());
         if (iterator.next() != 'T')
             return null;
         // parse hours:minutes
-        int hours = (int) parseNonNegativeIntegerPart(iterator);
-        if (!iterator.hasNext() || iterator.next() != ':')
+        Long hours = parseNonNegativeIntegerPart(iterator, true);
+        if (hours == null || !iterator.hasNext() || iterator.next() != ':')
             return null;
-        int minutes = (int) parseNonNegativeIntegerPart(iterator);
+        Long minutes = parseNonNegativeIntegerPart(iterator, true);
+        if (minutes == null)
+        	return null;
         if (!iterator.hasNext())
-            return TimeUtil.date(year, month, day, hours, minutes, 0, 0);
+            return TimeUtil.date(year.intValue(), month.intValue(), day.intValue(), hours.intValue(), minutes.intValue(), 0, 0);
         // parse seconds
         if (iterator.next() != ':')
             return trimmed;
-        int seconds = (int) parseNonNegativeIntegerPart(iterator);
+        Long seconds = parseNonNegativeIntegerPart(iterator, true);
+        if (seconds == null)
+        	return null;
         if (!iterator.hasNext())
-            return TimeUtil.date(year, month, day, hours, minutes, seconds, 0);
+            return TimeUtil.date(year.intValue(), month.intValue(), day.intValue(), hours.intValue(), minutes.intValue(), seconds.intValue(), 0);
         // parse second fractions
         if (iterator.next() != '.')
             return trimmed;
         double f = parseFraction(iterator);
         if (!iterator.hasNext())
-            return TimeUtil.date(year, month, day, hours, minutes, seconds, (int)(f * 1000));
+            return TimeUtil.date(year.intValue(), month.intValue(), day.intValue(), hours.intValue(), minutes.intValue(), seconds.intValue(), (int)(f * 1000));
         else
             return trimmed;
     }
@@ -149,11 +156,16 @@ public class LiteralParser implements Converter<String, Object> {
         return p;
     }
     
-    private static long parseNonNegativeIntegerPart(StringCharacterIterator iterator) {
+    private static Long parseNonNegativeIntegerPart(StringCharacterIterator iterator, boolean leadingZeros) {
         long n = 0;
         int c = '0';
+        int digitCount = 0;
         while (iterator.hasNext() && Character.isDigit(c = iterator.next())) {
-            n = n * 10 + (c - '0');
+        	digitCount++;
+            int d = (c - '0');
+            if (!leadingZeros && digitCount == 2 && n == 0)
+            	return null; //
+			n = n * 10 + d;
             c = -1;
         }
         if (c != -1)
@@ -161,15 +173,17 @@ public class LiteralParser implements Converter<String, Object> {
         return n;
     }
 
-    private static Object parseNonNegativeNumber(StringCharacterIterator iterator, boolean negative) {
+    private static Object parseNonNegativeNumber(StringCharacterIterator iterator, boolean negative, boolean leadingZeros) {
         // parse integral number (part)
-        long n = parseNonNegativeIntegerPart(iterator);
+        Long n = parseNonNegativeIntegerPart(iterator, leadingZeros);
+        if (n == null)
+        	return null;
         // handle numbers without fraction digits
         if (!iterator.hasNext()) {
             if (n > (long) Integer.MAX_VALUE)
                 return (negative ? -n : n);
             else
-                return (negative ? - (int) n : (int) n);
+                return (negative ? - n.intValue() : n.intValue());
         } else {
             if (iterator.next() == '.')  {
                 if (!iterator.hasNext())
