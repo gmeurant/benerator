@@ -442,14 +442,20 @@ public final class StringUtil {
         return false;
     }
 
-    // TODO test
-    public static boolean startsWithIgnoreCase(String selector, String prefix) {
-        return selector.toLowerCase().startsWith(prefix.toLowerCase());
+    public static boolean startsWithIgnoreCase(String text, String prefix) {
+    	if (text == null)
+    		return (prefix == null);
+    	if (prefix == null)
+    		return false;
+        return text.toLowerCase().startsWith(prefix.toLowerCase());
     }
 
-    // TODO test
-    public static boolean endsWithIgnoreCase(String selector, String suffix) {
-        return selector.toLowerCase().endsWith(suffix.toLowerCase());
+    public static boolean endsWithIgnoreCase(String text, String suffix) {
+    	if (text == null)
+    		return (suffix == null);
+    	if (suffix == null)
+    		return false;
+        return text.toLowerCase().endsWith(suffix.toLowerCase());
     }
 
 	public static String normalizeName(final String name) {
