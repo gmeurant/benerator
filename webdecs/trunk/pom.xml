@@ -4,7 +4,7 @@
 
     <groupId>org.databene</groupId>
     <artifactId>databene-webdecs</artifactId>
-    <version>0.4.0</version>
+    <version>0.4.1</version>
 
     <parent>
         <groupId>databene</groupId>
@@ -48,7 +48,7 @@
         <dependency>
             <groupId>org.databene</groupId>
             <artifactId>databene-commons</artifactId>
-            <version>0.4.0</version>
+            <version>0.4.1</version>
         </dependency>
 
         <dependency>
