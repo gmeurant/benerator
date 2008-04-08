@@ -40,8 +40,6 @@ import junit.framework.TestCase;
  */
 public class LiteralParserTest extends TestCase {
 	
-	// TODO link to tracker in databene.org
-    
     public void testNull() {
         assertEquals(null, LiteralParser.parse(null));
         assertEquals(null, LiteralParser.parse(""));
