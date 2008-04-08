@@ -39,55 +39,91 @@ import java.util.TimeZone;
  */
 public class CompositeFormatter {
     
-    private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-    private static SimpleDateFormat DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    private static final String DEFAULT_TIMESTAMP_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
+	private static final String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
 
-    private static final String INDENT_DELTA = "    ";
+	private static final String INDENT_DELTA = "    ";
+    
+	boolean flat;
+	boolean renderNames;
+    private String datePattern;
+    private String timestampPattern;
+
+    public CompositeFormatter() {
+    	this(true, true);
+    }
+    
+    public CompositeFormatter(boolean flat, boolean renderNames) {
+    	this(flat, renderNames, DEFAULT_DATE_PATTERN, DEFAULT_TIMESTAMP_PATTERN);
+    }
+    
+    public CompositeFormatter(boolean flat, boolean renderNames, String datePattern, String timestampPattern) {
+    	this.flat = flat;
+    	this.renderNames = renderNames;
+    	this.datePattern = datePattern;
+    	this.timestampPattern = timestampPattern;
+    }
     
     // interface -------------------------------------------------------------------------------------------------------
 
-    public static <T> String render(String head, Composite composite, String tail, boolean flat, boolean renderNames) {
+   	public <T> String render(String head, Composite<T> composite, String tail) {
         if (flat)
-            return renderFlat(head, composite, tail, renderNames);
+            return renderFlat(head, composite, tail);
         else
-            return renderHierarchical(head, composite, tail, renderNames);
+            return renderHierarchical(head, composite, tail);
     }
     
-    public static String renderHierarchical(String head, Composite composite, String tail, String indent, boolean renderNames) {
-        return head + renderComponentsHierarchical(composite, indent, renderNames) + tail;
+    public <T> String renderHierarchical(String head, Composite<T> composite, String tail, String indent) {
+        return head + renderComponentsHierarchical(composite, indent) + tail;
     }
     
+    public String getDatePattern() {
+		return datePattern;
+	}
+
+	public void setDatePattern(String datePattern) {
+		this.datePattern = datePattern;
+	}
+
+	public String getTimestampPattern() {
+		return timestampPattern;
+	}
+
+	public void setTimestampPattern(String timestampPattern) {
+		this.timestampPattern = timestampPattern;
+	}
+
     // private helpers -------------------------------------------------------------------------------------------------
     
-    private static String renderFlat(String head, Composite composite, String tail, boolean renderNames) {
-        return head + renderComponentsFlat(composite, renderNames) + tail;
+	private <T> String renderFlat(String head, Composite<T> composite, String tail) {
+        return head + renderComponentsFlat(composite) + tail;
     }
     
-    private static String renderHierarchical(String head, Composite composite, String tail, boolean renderNames) {
-        return renderHierarchical(head, composite, tail, "", renderNames);
+    private <T> String renderHierarchical(String head, Composite<T> composite, String tail) {
+        return renderHierarchical(head, composite, tail, "");
     }
     
-    private static <T> String renderComponentsFlat(Composite composite, boolean renderNames) {
+    private <T> String renderComponentsFlat(Composite<T> composite) {
         StringBuilder builder = new StringBuilder();
         Map<String, T> components = composite.getComponents();
         Iterator<Map.Entry<String, T>> iterator = components.entrySet().iterator();
         if (iterator.hasNext())
-            renderComponent(builder, true, "", renderNames, iterator.next());
+            renderComponent(builder, "", iterator.next());
         while (iterator.hasNext()) {
             builder.append(", ");
-            renderComponent(builder, true, "", renderNames, iterator.next());
+            renderComponent(builder, "", iterator.next());
         }
         return builder.toString();
     }
 
-    private static <T> String renderComponentsHierarchical(Composite composite, String indent, boolean renderNames) {
+    private <T> String renderComponentsHierarchical(Composite<T> composite, String indent) {
         StringBuilder builder = new StringBuilder();
         indent += INDENT_DELTA;
         Map<String, T> components = composite.getComponents();
         Iterator<Map.Entry<String, T>> iterator = components.entrySet().iterator();
         while (iterator.hasNext()) {
             builder.append(SystemInfo.lineSeparator());
-            renderComponent(builder, false, indent, renderNames, iterator.next());
+            renderComponent(builder, indent, iterator.next());
         }
         indent = indent.substring(0, indent.length() - INDENT_DELTA.length());
         if (builder.length() > 1)
@@ -95,29 +131,32 @@ public class CompositeFormatter {
         return builder.toString();
     }
 
-    private static void renderComponent(StringBuilder builder, boolean flat, String indent, boolean renderName, Map.Entry<String, ? extends Object> component) {
+    private void renderComponent(StringBuilder builder, String indent, Map.Entry<String, ? extends Object> component) {
         builder.append(indent);
-        if (renderName)
+        if (renderNames)
             builder.append(component.getKey()).append('=');
         Object value = component.getValue();
         if (value == null) {
             value = "[null]";
         } else if (value instanceof Date) {
-            Date date = (Date) value;
-            TimeZone timeZone = TimeZone.getDefault();
-            long timeInMillis = date.getTime();
-            timeInMillis += timeZone.getRawOffset();
-            if (timeInMillis % 86400000L == 0L)
-                value = DATE_FORMAT.format((Date) value);
-            else
-                value = DATETIME_FORMAT.format((Date) value);
+        	if (datePattern != null) {
+        		value = new SimpleDateFormat(datePattern).format((Date) value);
+        	} else {
+	            Date date = (Date) value;
+	            TimeZone timeZone = TimeZone.getDefault();
+	            long timeInMillis = date.getTime();
+	            timeInMillis += timeZone.getRawOffset();
+	            if (timeInMillis % 86400000L == 0L)
+	                value = new SimpleDateFormat(datePattern).format((Date) value);
+	            else
+	                value = new SimpleDateFormat(timestampPattern).format((Date) value);
+        	}
         } else if (value.getClass().isArray()) {
             value = ArrayFormat.format(", ", (Object[]) value);
         } else if (value instanceof Composite) {
-            value = render("[", (Composite) value, "]", flat, renderName) ;
+            value = render("[", (Composite) value, "]") ;
         }
         builder.append(value);
     }
-
 
 }
