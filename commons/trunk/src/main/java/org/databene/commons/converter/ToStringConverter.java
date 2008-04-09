@@ -26,7 +26,6 @@
 
 package org.databene.commons.converter;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -102,8 +101,6 @@ public class ToStringConverter<S> implements Converter<S, String> {
         		return new SimpleDateFormat(datePattern).format((Date) source);
         	else
         		return new SimpleDateFormat().format((Date) source);
-        } else if (source instanceof Number && datePattern != null) {
-        	return new DecimalFormat(datePattern).format(source);
         } else
             return source.toString();
     }
