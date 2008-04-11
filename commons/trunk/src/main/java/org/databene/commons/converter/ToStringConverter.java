@@ -26,6 +26,7 @@
 
 package org.databene.commons.converter;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -46,6 +47,8 @@ public class ToStringConverter<S> implements Converter<S, String> {
     
     private String datePattern;
 
+    private String timestampPattern;
+
     /** Default constructor that uses an isEmpty String as null representation */
     public ToStringConverter() {
         this("");
@@ -56,12 +59,13 @@ public class ToStringConverter<S> implements Converter<S, String> {
      * @param nullString the String to use for replacing null values.
      */
     public ToStringConverter(String nullString) {
-        this(nullString, null);
+        this(nullString, null, null);
     }
 
-    public ToStringConverter(String nullString, String datePattern) {
+    public ToStringConverter(String nullString, String datePattern, String timestampPattern) {
         this.nullResult = nullString;
         this.datePattern = datePattern;
+        this.timestampPattern = timestampPattern;
     }
 
     /** Returns the nullResult attribute */
@@ -82,21 +86,26 @@ public class ToStringConverter<S> implements Converter<S, String> {
      * @see org.databene.commons.Converter
      */
     public String convert(S source) throws ConversionException {
-        return convert(source, nullResult, datePattern);
+        return convert(source, nullResult, datePattern, timestampPattern);
     }
 
     public static <TT> String convert(TT source, String nullString) {
-    	return convert(source, nullString, null);
+    	return convert(source, nullString, null, null);
     }
 
-    public static <TT> String convert(TT source, String nullString, String datePattern) {
+    public static <TT> String convert(TT source, String nullString, String datePattern, String timestampPattern) {
         if (source == null)
             return nullString;
         else if (source.getClass().isArray())
             return ArrayFormat.format((Object[])source);
         else if (source instanceof Class)
             return ((Class)source).getName();
-        else if (source instanceof Date) {
+        else if (source instanceof Timestamp) {
+        	if (timestampPattern != null)
+        		return new SimpleDateFormat(timestampPattern).format((Date) source);
+        	else
+        		return new SimpleDateFormat().format((Date) source);
+        } else if (source instanceof Date) {
         	if (datePattern != null)
         		return new SimpleDateFormat(datePattern).format((Date) source);
         	else

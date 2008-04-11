@@ -46,13 +46,15 @@ public class AnyConverter<S, T> implements Converter<S, T> {
     
     private String datePattern;
 
+    private String timestampPattern;
+
     public AnyConverter(Class<T> targetType) {
         this(targetType, "yyyyMMdd");
     }
 
-    public AnyConverter(Class<T> targetType, String pattern) {
+    public AnyConverter(Class<T> targetType, String datePattern) {
         this.targetType = targetType;
-        this.datePattern = pattern;
+        this.datePattern = datePattern;
     }
 
     public Class<T> getTargetType() {
@@ -64,11 +66,11 @@ public class AnyConverter<S, T> implements Converter<S, T> {
 	}
 
 	public T convert(Object sourceValue) throws ConversionException {
-        return convert(sourceValue, targetType, datePattern);
+        return convert(sourceValue, targetType, datePattern, timestampPattern);
     }
 
     public static <TT> TT convert(Object source, Class<TT> targetType) throws ConversionException {
-        return convert(source, targetType, null);
+        return convert(source, targetType, null, null);
     }
     
     /**
@@ -77,7 +79,7 @@ public class AnyConverter<S, T> implements Converter<S, T> {
      * @param targetType the target type of the conversion
      * @return an object of the target type
      */
-    public static <TT> TT convert(Object source, Class<TT> targetType, String datePattern) throws ConversionException {
+    public static <TT> TT convert(Object source, Class<TT> targetType, String datePattern, String timestampPattern) throws ConversionException {
         if (logger.isDebugEnabled())
             logger.debug("Converting " + source + (source != null ? " (" + source.getClass().getName() + ")" : "") + " to " + targetType);
         // check preconditions
@@ -97,7 +99,7 @@ public class AnyConverter<S, T> implements Converter<S, T> {
 
         // to string conversion
         if (String.class.equals(targetType))
-            return (TT) ToStringConverter.convert(source, null, datePattern);
+            return (TT) ToStringConverter.convert(source, null, datePattern, timestampPattern);
 
         // from string conversion
         if (String.class.equals(source.getClass()))
