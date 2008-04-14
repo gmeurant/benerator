@@ -35,6 +35,6 @@ import java.util.Map;
  */
 public interface Composite<E> {
     E getComponent(String key);
-    void setComponentValue(String key, E value);
+    void setComponent(String key, E value);
     Map<String, E> getComponents();
 }
