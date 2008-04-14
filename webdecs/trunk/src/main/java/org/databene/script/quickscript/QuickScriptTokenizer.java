@@ -74,7 +74,7 @@ class QuickScriptTokenizer {
     }
 
     private static Accessor parseText(StringCharacterIterator iterator) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         char c = ' ';
         while (iterator.hasNext() && (c = iterator.next()) != '$')
             buffer.append(c);
@@ -84,7 +84,7 @@ class QuickScriptTokenizer {
     }
 
     private static Accessor parseVariable(StringCharacterIterator iterator) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         char c = ' ';
         while (iterator.hasNext() && (c = iterator.next()) != '}')
             buffer.append(c);

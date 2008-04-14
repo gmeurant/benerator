@@ -72,7 +72,7 @@ public class Regex {
      * @see java.lang.Object#equals(Object)
      */
     public String toString() {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         for (RegexPart part : parts)
             buffer.append(part);
         return buffer.toString();
