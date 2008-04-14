@@ -121,7 +121,7 @@ public final class ParseUtil {
     }
 
     public static String parseUnit(PushbackReader reader) throws IOException {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         int c;
         while ((c = reader.read()) != -1 && Character.isUpperCase((char)c))
             result.append((char)c);

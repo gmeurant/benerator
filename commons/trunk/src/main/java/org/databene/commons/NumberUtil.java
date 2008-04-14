@@ -80,7 +80,7 @@ public class NumberUtil {
         defaultNumberFormat.setMinimumFractionDigits(2);
         defaultNumberFormat.setMaximumFractionDigits(2);
         fixWidthFormats = new HashMap();
-        StringBuffer buffer = new StringBuffer("0");
+        StringBuilder buffer = new StringBuilder("0");
         for (int i = 1; i < MAX_WIDTH; i++) {
             NumberFormat format = new DecimalFormat(buffer.toString());
             fixWidthFormats.put(new Integer(i), format);

@@ -214,7 +214,7 @@ public final class StringUtil {
     public static String remove(String s, String chars) {
         if (s == null)
             return s;
-        StringBuffer result = new StringBuffer(s.length());
+        StringBuilder result = new StringBuilder(s.length());
         for (int i = 0; i < s.length(); i++) {
             if (!(contains(chars, s.charAt(i))))
                 result.append(s.charAt(i));
@@ -229,7 +229,7 @@ public final class StringUtil {
         if (s.length() == 0)
             return s;
         char lastChar = s.charAt(0);
-        StringBuffer result = new StringBuffer().append(lastChar);
+        StringBuilder result = new StringBuilder().append(lastChar);
         for (int i = 1; i < s.length(); i++) {
             char c = s.charAt(i);
             if (!(Character.isWhitespace(lastChar) && Character.isWhitespace(c)))
