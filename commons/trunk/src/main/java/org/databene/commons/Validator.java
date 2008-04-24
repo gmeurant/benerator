@@ -31,7 +31,7 @@ package org.databene.commons;
  * <br/>
  * Created: 29.08.2006 08:31:19
  */
-public interface Validator<E> { // TODO v0.5.0 improve according to JSR 303
+public interface Validator<E> { // TODO v0.6.0 improve according to JSR 303
 
     /** return true if the specified object is valid, otherwise false */
     boolean valid(E object);
