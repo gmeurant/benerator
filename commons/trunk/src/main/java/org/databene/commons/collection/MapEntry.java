@@ -61,4 +61,7 @@ public class MapEntry<K, V> implements Map.Entry<K, V> {
         return old;
     }
 
+    public String toString() {
+        return String.valueOf(key) + '=' + value;
+    }
 }
