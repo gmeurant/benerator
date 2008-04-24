@@ -56,7 +56,7 @@ public class OrderedNameMap<E> extends OrderedMap<String, E> {
     }
 
     public E put(String key, E value) {
-        return super.put(key, value);
+        return super.put(normalizeKey(key), value);
     }
 
     public E remove(String key) {
@@ -64,7 +64,7 @@ public class OrderedNameMap<E> extends OrderedMap<String, E> {
     }
 
     private String normalizeKey(String key) {
-		return (caseSensitive || key != null ? key : key.toLowerCase());
+		return (caseSensitive || key == null ? key : key.toLowerCase());
 	}
 
 }
