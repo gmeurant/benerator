@@ -29,6 +29,7 @@ package org.databene.commons;
 import java.util.*;
 
 import org.databene.commons.collection.ListBasedSet;
+import org.databene.commons.collection.MapEntry;
 
 /**
  * Map implementation that tracks the order in which elements where added
@@ -98,15 +99,13 @@ public class OrderedMap<K,V> implements Map<K,V> {
 
     public V put(K key, V value) {
         Integer index = keyIndices.get(key);
-        V oldValue = null;
-        if (index != null) {
-            oldValue = values.get(index);
-            values.set(index, value);
-        } else {
+        if (index != null)
+            return values.set(index, value);
+        else {
             keyIndices.put(key, values.size());
             values.add(value);
+            return null;
         }
-        return oldValue;
     }
 
     @SuppressWarnings({"SuspiciousMethodCalls"})
@@ -151,15 +150,10 @@ public class OrderedMap<K,V> implements Map<K,V> {
     }
 
     public Set<Map.Entry<K, V>> entrySet() {
-        List<Entry<K, V>> tmp = new ArrayList<Entry<K, V>>(values.size());
-        // set the used array size by adding nulls
-        for (int i = 0; i < values.size(); i++)
-            tmp.add(null);
-        // set the array elements themselves
+    	Map.Entry<K, V>[] tmp = new Map.Entry[values.size()];
         for (Map.Entry<K, Integer> entry : keyIndices.entrySet()) {
             Integer index = entry.getValue();
-            MyEntry<K, V> newEntry = new MyEntry<K, V>(entry.getKey(), values.get(index));
-            tmp.set(index, newEntry);
+            tmp[index] = new MapEntry<K, V>(entry.getKey(), values.get(index));
         }
         return new ListBasedSet<Map.Entry<K, V>>(tmp);
     }
@@ -233,34 +227,5 @@ public class OrderedMap<K,V> implements Map<K,V> {
             buffer.append(", ").append(entries.get(i));
         buffer.append('}');
         return buffer.toString();
-    }
-
-    public static class MyEntry<K, V> implements Map.Entry<K, V> {
-
-        private K key;
-        private V value;
-
-        public MyEntry(K key, V value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        public K getKey() {
-            return key;
-        }
-
-        public V getValue() {
-            return value;
-        }
-
-        public V setValue(V value) {
-            V oldValue = this.value;
-            this.value = value;
-            return oldValue;
-        }
-
-        public String toString() {
-            return String.valueOf(key) + '=' + value;
-        }
     }
 }
