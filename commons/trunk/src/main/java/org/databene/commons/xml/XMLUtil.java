@@ -87,9 +87,10 @@ public class XMLUtil {
     public static String localName(String elementName) {
         if (elementName == null)
             return null;
-        String[] tokens = StringUtil.tokenize(elementName, ':');
-        String nodeName = tokens[tokens.length - 1];
-        return nodeName;
+        int sep = elementName.indexOf(':');
+        if (sep < 0)
+        	return elementName;
+        return elementName.substring(sep + 1);
     }
 
     public static Element[] getChildElements(Element parent) {
