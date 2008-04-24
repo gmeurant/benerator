@@ -71,4 +71,8 @@ public class ParseFormatConverter<S> extends NullsafeConverter<String, S> {
         }
     }
 
+    @Override
+    public String toString() {
+    	return getClass().getSimpleName() + '[' + format + ']';
+    }
 }
