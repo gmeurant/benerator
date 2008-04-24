@@ -27,6 +27,7 @@
 package org.databene.commons.converter;
 
 import org.databene.commons.Converter;
+import org.databene.commons.LocaleUtil;
 
 import java.util.Locale;
 
@@ -37,6 +38,14 @@ import java.util.Locale;
  */
 public class CaseConverter extends NullsafeConverterProxy<String, String> {
 
+    public CaseConverter() {
+        this(true);
+    }
+
+    public CaseConverter(boolean toUpper) {
+        this(toUpper, LocaleUtil.getFallbackLocale(), null);
+    }
+
     public CaseConverter(boolean toUpper, Locale locale) {
         this(toUpper, locale, null);
     }
@@ -44,6 +53,10 @@ public class CaseConverter extends NullsafeConverterProxy<String, String> {
     public CaseConverter(boolean toUpper, Locale locale, String nullResult) {
         super(new ConverterImpl(toUpper, locale), nullResult);
     }
+
+	public void setLocale(Locale locale) {
+		((ConverterImpl) realConverter).setLocale(locale);
+	}
 
     private static final class ConverterImpl implements Converter<String, String> {
         /** Mode flag for the Converter. If set to true, it converts to upper case, else to lower case */
@@ -59,7 +72,15 @@ public class CaseConverter extends NullsafeConverterProxy<String, String> {
             this.locale = locale;
         }
 
-        public Class<String> getTargetType() {
+		/**
+		 * Sets the locale of the CaseConverter.ConverterImpl.
+		 * @param locale the locale to set
+		 */
+		public void setLocale(Locale locale) {
+			this.locale = locale;
+		}
+
+		public Class<String> getTargetType() {
             return String.class;
         }
 
