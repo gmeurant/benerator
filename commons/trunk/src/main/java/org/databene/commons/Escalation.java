@@ -26,6 +26,8 @@
 
 package org.databene.commons;
 
+import org.databene.commons.converter.ToStringConverter;
+
 /**
  * Helper class for managing escalations.
  * @author Volker Bergmann
@@ -51,7 +53,7 @@ public class Escalation {
             builder.append(originator).append(": ");
         builder.append(message);
         if (cause != null)
-            builder.append(": ").append(cause);
+            builder.append(": ").append(ToStringConverter.convert(cause, ""));
         return builder.toString();
     }
 
