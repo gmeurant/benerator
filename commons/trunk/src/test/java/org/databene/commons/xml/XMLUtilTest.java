@@ -72,7 +72,7 @@ public class XMLUtilTest extends TestCase {
         Element child1 = createElementWithChildren("c1");
         Element child2 = createElementWithChildren("c2");
         Element parent = createElementWithChildren("p", child1, child2);
-        Element[] expectedChildren = ArrayUtil.toArray(Element.class, child1, child2);
+        Element[] expectedChildren = ArrayUtil.toArray(child1, child2);
         Element[] actualChildren = XMLUtil.getChildElements(parent);
         assertTrue(ArrayUtil.equals(expectedChildren, actualChildren));
     }
@@ -81,7 +81,7 @@ public class XMLUtilTest extends TestCase {
         Element child1 = createElementWithChildren("c1");
         Element child2 = createElementWithChildren("c2");
         Element parent = createElementWithChildren("p", child1, child2);
-        Element[] expectedChildren = ArrayUtil.toArray(Element.class, child2);
+        Element[] expectedChildren = ArrayUtil.toArray(child2);
         Element[] actualChildren = XMLUtil.getChildElements(parent, true, "c2");
         assertTrue(ArrayUtil.equals(expectedChildren, actualChildren));
     }
