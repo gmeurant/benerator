@@ -76,7 +76,7 @@ public class ToArrayConverter implements Converter {
             else
                 throw new UnsupportedOperationException("Conversion not supported: " + sourceValue.getClass() + " -> " + componentType + "[]");
         } else
-            return ArrayUtil.toArray(componentType, sourceValue);
+            return ArrayUtil.buildArrayOfType(componentType, sourceValue);
     }
 
 }
