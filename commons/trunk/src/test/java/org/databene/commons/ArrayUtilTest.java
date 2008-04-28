@@ -100,7 +100,7 @@ public class ArrayUtilTest extends TestCase {
     }
     
     public void testToArray() {
-        assertTrue(Arrays.equals(ONE_TO_THREE, ArrayUtil.toArray(Integer.class, 1, 2, 3)));
+        assertTrue(Arrays.equals(ONE_TO_THREE, ArrayUtil.toArray(1, 2, 3)));
     }
     
     public void testRevertObjects() {
