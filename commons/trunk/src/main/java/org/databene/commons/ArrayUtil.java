@@ -171,7 +171,17 @@ public final class ArrayUtil {
         return -1;
     }
 
+    public static <T> T[] toArray(T ... values) {
+    	Class<T> componentType = (Class<T>) (values.length > 0 ? values[0].getClass() : Object.class);
+    	return buildArrayOfType(componentType, values);
+    }
+/*
+    @Deprecated
     public static <T> T[] toArray(Class<T> componentType, T ... values) {
+        return buildArrayOfType(componentType, values);
+    }
+*/
+    public static <T> T[] buildArrayOfType(Class<T> componentType, T ... values) {
         T[] array = (T[]) Array.newInstance(componentType, values.length);
         System.arraycopy(values, 0, array, 0, values.length);
         return array;
@@ -196,7 +206,8 @@ public final class ArrayUtil {
     }
     
     public static <T> Class<T[]> arrayType(Class<T> componentType) {
-        return (Class<T[]>) toArray(componentType).getClass();
+        T[] array = (T[]) Array.newInstance(componentType, 0);
+        return (Class<T[]>) array.getClass();
     }
 
     public static <T> T[] newInstance(Class<T> componentType, int length) {
@@ -205,7 +216,7 @@ public final class ArrayUtil {
 
     public static <T> T[] append(T[] array, T value) {
         if (array == null) {
-            return toArray((Class<T>) value.getClass(), value);
+            return toArray(value);
         } else {
             Class<T> componentType = (Class<T>) array.getClass().getComponentType();
             T[] newArray = newInstance(componentType, array.length + 1);
