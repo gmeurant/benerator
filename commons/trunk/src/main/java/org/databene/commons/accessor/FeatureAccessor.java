@@ -65,9 +65,17 @@ public class FeatureAccessor<C, V> implements Accessor<C, V> {
         this.featureName = featureName;
     }
     
+	public String getFeatureName() {
+		return featureName;
+	}
+
+	public void setFeatureName(String featureName) {
+		this.featureName = featureName;
+	}
+
     // Accessor interface implementation -------------------------------------------------------------------------------
 
-    public V getValue(C target) {
+	public V getValue(C target) {
         return (V) getValue(target, featureName);
     }
 
