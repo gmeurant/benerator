@@ -30,8 +30,6 @@ import org.databene.commons.ArrayUtil;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 
-import java.lang.reflect.Array;
-
 /**
  * Converts arrays from one component type to arrays of another component type.<br/>
  * <br/>
@@ -56,16 +54,20 @@ public class ArrayConverter<S, T> implements Converter<S[], T[]> {
     public T[] convert(S[] sourceValues) throws ConversionException {
         if (sourceValues == null)
             return null;
-        if (converters.length == 1) {
-            T[] result = (T[]) Array.newInstance(componentType, sourceValues.length);
-            for (int i = 0; i < sourceValues.length; i++)
-                result[i] = converters[0].convert(sourceValues[i]);
-            return result;
-        } else {
-            T[] result = (T[]) Array.newInstance(componentType, converters.length);
+        if (converters.length == 1)
+        	return convert(sourceValues, converters[0], componentType);
+        else {
+            T[] result = ArrayUtil.newInstance(componentType, converters.length);
             for (int i = 0; i < converters.length; i++)
                 result[i] = converters[i].convert(sourceValues[i]);
             return result;
         }
+    }
+
+    public static <S, T> T[] convert(S[] sourceValues, Converter<S, T> converter, Class<T> componentType) throws ConversionException {
+        T[] result = ArrayUtil.newInstance(componentType, sourceValues.length);
+        for (int i = 0; i < sourceValues.length; i++)
+            result[i] = converter.convert(sourceValues[i]);
+        return result;
     }
 }
