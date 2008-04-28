@@ -1,0 +1,8 @@
+release notes databene webdecs 0.4.2
+------------------------------------
+
+- Updated dependency to commons 0.4.2
+- Performance improvements
+
+Enhancements
+- new class ConvertingCSVParser
