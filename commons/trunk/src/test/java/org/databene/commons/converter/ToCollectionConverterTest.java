@@ -104,7 +104,7 @@ public class ToCollectionConverterTest extends TestCase {
     // private helpers -------------------------------------------------------------------------------------------------
 
     private Integer[] createArray() {
-        return ArrayUtil.toArray(Integer.class, 1, 2, 3);
+        return ArrayUtil.toArray(1, 2, 3);
     }
 
     private List<Integer> createList() {
