@@ -39,16 +39,14 @@ import static org.databene.document.csv.CSVTokenType.*;
 public class CSVTokenizerTest extends TestCase {
 
     public void testA() throws IOException {
-        StringReader reader = new StringReader("A");
-        CSVTokenizer tokenizer = new CSVTokenizer(reader);
+    	CSVTokenizer tokenizer = createTokenizer("A");
         assertNextToken(tokenizer, CELL, "A");
         assertNextToken(tokenizer, EOF, null);
         assertNextToken(tokenizer, EOF, null);
     }
 
     public void testAB() throws IOException {
-        StringReader reader = new StringReader("A,B");
-        CSVTokenizer tokenizer = new CSVTokenizer(reader);
+    	CSVTokenizer tokenizer = createTokenizer("A,B");
         assertNextToken(tokenizer, CELL, "A");
         assertNextToken(tokenizer, CELL, "B");
         assertNextToken(tokenizer, EOF, null);
@@ -56,8 +54,7 @@ public class CSVTokenizerTest extends TestCase {
     }
 
     public void testABL() throws IOException {
-        StringReader reader = new StringReader("A,B\r\n");
-        CSVTokenizer tokenizer = new CSVTokenizer(reader);
+    	CSVTokenizer tokenizer = createTokenizer("A,B\r\n");
         assertNextToken(tokenizer, CELL, "A");
         assertNextToken(tokenizer, CELL, "B");
         assertNextToken(tokenizer, EOL, null);
@@ -66,8 +63,7 @@ public class CSVTokenizerTest extends TestCase {
     }
 
     public void testABLC() throws IOException {
-        StringReader reader = new StringReader("A,B\r\nC");
-        CSVTokenizer tokenizer = new CSVTokenizer(reader);
+    	CSVTokenizer tokenizer = createTokenizer("A,B\r\nC");
         assertNextToken(tokenizer, CELL, "A");
         assertNextToken(tokenizer, CELL, "B");
         assertNextToken(tokenizer, EOL, null);
@@ -77,8 +73,7 @@ public class CSVTokenizerTest extends TestCase {
     }
 
     public void testABLCL() throws IOException {
-        StringReader reader = new StringReader("A,B\r\nC\r\n");
-        CSVTokenizer tokenizer = new CSVTokenizer(reader);
+    	CSVTokenizer tokenizer = createTokenizer("A,B\r\nC\r\n");
         assertNextToken(tokenizer, CELL, "A");
         assertNextToken(tokenizer, CELL, "B");
         assertNextToken(tokenizer, EOL, null);
@@ -89,8 +84,7 @@ public class CSVTokenizerTest extends TestCase {
     }
 
     public void testQuotes() throws IOException {
-        StringReader reader = new StringReader("\"A\",B\r\n\"C\"\r\n");
-        CSVTokenizer tokenizer = new CSVTokenizer(reader);
+    	CSVTokenizer tokenizer = createTokenizer("\"A\",B\r\n\"C\"\r\n");
         assertNextToken(tokenizer, CELL, "A");
         assertNextToken(tokenizer, CELL, "B");
         assertNextToken(tokenizer, EOL, null);
@@ -101,9 +95,8 @@ public class CSVTokenizerTest extends TestCase {
     }
 
     public void testQuoteEscaping() throws IOException {
-        StringReader reader = new StringReader("\"A\"\"A\",\"\"\"B\"\" is B\"\r\n" +
+    	CSVTokenizer tokenizer = createTokenizer("\"A\"\"A\",\"\"\"B\"\" is B\"\r\n" +
                 "\"C was \"\"C\"\"\",\"\"\"D\"\" is \"\"D\"\"\"\r\n");
-        CSVTokenizer tokenizer = new CSVTokenizer(reader);
         assertNextToken(tokenizer, CELL, "A\"A");
         assertNextToken(tokenizer, CELL, "\"B\" is B");
         assertNextToken(tokenizer, EOL, null);
@@ -115,8 +108,7 @@ public class CSVTokenizerTest extends TestCase {
     }
 
     public void testLFInQuote() throws IOException {
-        StringReader reader = new StringReader("\"A\r\nB\"");
-        CSVTokenizer tokenizer = new CSVTokenizer(reader);
+        CSVTokenizer tokenizer = createTokenizer("\"A\r\nB\"");
         assertNextToken(tokenizer, CELL, "A\r\nB");
         assertNextToken(tokenizer, EOF, null);
         assertNextToken(tokenizer, EOF, null);
@@ -135,8 +127,31 @@ public class CSVTokenizerTest extends TestCase {
         assertNextToken(tokenizer, EOF, null);
         assertNextToken(tokenizer, EOF, null);
     }
+    
+    public void testSkipLine() throws IOException {
+    	// testing \r
+    	CSVTokenizer tokenizer = createTokenizer("1\r2");
+        tokenizer.skipLine();
+        assertNextToken(tokenizer, CELL, "2");
+        assertNextToken(tokenizer, EOF, null);
+    	// testing \n
+    	tokenizer = createTokenizer("1\r\n2");
+        tokenizer.skipLine();
+        assertNextToken(tokenizer, CELL, "2");
+        assertNextToken(tokenizer, EOF, null);
+    	// testing \r\n
+    	tokenizer = createTokenizer("1\n2");
+        tokenizer.skipLine();
+        assertNextToken(tokenizer, CELL, "2");
+        assertNextToken(tokenizer, EOF, null);
+    }
 
     // helpers ---------------------------------------------------------------------------------------------------------
+
+	private CSVTokenizer createTokenizer(String content) throws IOException {
+		StringReader reader = new StringReader(content);
+		return new CSVTokenizer(reader, ',');
+	}
 
     private void assertNextToken(CSVTokenizer tokenizer, CSVTokenType tokenType, String cell) throws IOException {
         CSVTokenType found = tokenizer.next();
