@@ -36,7 +36,7 @@ public class Assert {
 	
 	private Assert() {}
 	
-	public  void assertEnd(String text, String end) {
+	public  void end(String text, String end) {
 		if (text == null) {
 			if (end != null)
 				throw new AssertionError("String is supposed to end with '" + end + ", but is null.");
@@ -44,12 +44,17 @@ public class Assert {
 			throw new AssertionError("String is supposed to end with '" + end + ", but is: " + text);
 	}
 
-	public static void assertEndIgnoreCase(String text, String end) {
+	public static void endIgnoreCase(String text, String end) {
 		if (text == null) {
 			if (end != null)
 				throw new AssertionError("String is supposed to end with '" + end + ", but is null.");
 		} else if (!text.endsWith(end))
 			throw new AssertionError("String is supposed to case-insensitively end with '" + end 
 					+ ", but is: " + text);
+	}
+
+	public static void notNull(String name, Object object) {
+		if (object == null)
+			throw new IllegalArgumentException(name + " is not supposed to be null");
 	}
 }
