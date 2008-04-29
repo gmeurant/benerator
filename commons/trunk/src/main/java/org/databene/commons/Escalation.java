@@ -41,6 +41,7 @@ public class Escalation {
     
     public Escalation(String message, Object originator, Object cause) {
         super();
+        Assert.notNull("message", message);
         this.message = message;
         this.originator = originator;
         this.cause = cause;
@@ -67,6 +68,9 @@ public class Escalation {
         return result;
     }
 
+    /**
+     * Two Escalations are considered equal if originator and message are the same.
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
