@@ -36,7 +36,9 @@ import java.util.Locale;
  */
 public class RoundedNumberFormat extends Format {
 
-    public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
+    private static final long serialVersionUID = 6188839664275513505L;
+
+	public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
         return toAppendTo.append(format((Number)obj, 2));
     }
 

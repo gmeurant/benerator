@@ -40,7 +40,9 @@ import java.text.ParsePosition;
  */
 public class NullsafeFormat<S> extends TypedFormat<S> {
 
-    private Format format;
+    private static final long serialVersionUID = -5865183253163042108L;
+    
+	private Format format;
     private Class<S> sourceType;
     private String nullString;
 

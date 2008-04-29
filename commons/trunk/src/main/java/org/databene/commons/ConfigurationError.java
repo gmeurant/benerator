@@ -33,7 +33,9 @@ package org.databene.commons;
  */
 public class ConfigurationError extends RuntimeException {
     
-    public ConfigurationError() {
+	private static final long serialVersionUID = -4777501483672273557L;
+
+	public ConfigurationError() {
     }
 
     public ConfigurationError(String message) {

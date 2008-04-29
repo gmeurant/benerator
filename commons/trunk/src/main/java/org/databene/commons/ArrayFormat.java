@@ -43,7 +43,9 @@ public class ArrayFormat extends Format {
 
     // defaults --------------------------------------------------------------------------------------------------------
 
-    private static final String DEFAULT_SEPARATOR = ", ";
+    private static final long serialVersionUID = 290320869220307493L;
+    
+	private static final String DEFAULT_SEPARATOR = ", ";
     private static final Format DEFAULT_ITEM_FORMAT = ToStringFormat.getDefault();
 
     // attributes ------------------------------------------------------------------------------------------------------

@@ -33,7 +33,9 @@ package org.databene.commons;
  */
 public class ConversionException extends RuntimeException {
     
-    public ConversionException() {
+	private static final long serialVersionUID = -932701445466221255L;
+
+	public ConversionException() {
     }
 
     public ConversionException(String message) {

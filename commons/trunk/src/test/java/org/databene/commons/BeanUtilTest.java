@@ -116,7 +116,8 @@ public class BeanUtilTest extends TestCase {
 
     public void testGetGenericTypes() throws NoSuchFieldException {
         Object o = new Object() {
-            public List<Integer> list;
+            @SuppressWarnings("unused")
+			public List<Integer> list;
         };
         Class c = o.getClass();
         Field f = c.getField("list");

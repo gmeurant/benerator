@@ -38,7 +38,7 @@ public class ArrayFormatTest extends TestCase {
     private static final Locale[] LOCALES = { Locale.GERMAN, Locale.ENGLISH, Locale.FRENCH };
 
     public void testInstanceFormat() {
-        assertEquals("1, 2, 3", new ArrayFormat().format(new Integer[] {1, 2, 3}));
+        assertEquals("1, 2, 3", ArrayFormat.format(new Integer[] {1, 2, 3}));
     }
 
     public void testParse() {

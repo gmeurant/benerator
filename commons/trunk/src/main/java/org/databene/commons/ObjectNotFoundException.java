@@ -33,7 +33,9 @@ package org.databene.commons;
  */
 public class ObjectNotFoundException extends RuntimeException {
 
-    public ObjectNotFoundException() {
+	private static final long serialVersionUID = 5285468652879008340L;
+
+	public ObjectNotFoundException() {
         super();
     }
 

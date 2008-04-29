@@ -31,7 +31,9 @@ package org.databene.commons;
  */
 public class ImportFailedException extends Exception {
     
-    public ImportFailedException() {
+	private static final long serialVersionUID = -4839998961258420313L;
+
+	public ImportFailedException() {
     }
 
     public ImportFailedException(String message) {

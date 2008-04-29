@@ -108,7 +108,6 @@ public class OrderedMap<K,V> implements Map<K,V> {
         }
     }
 
-    @SuppressWarnings({"SuspiciousMethodCalls"})
     public V remove(Object key) {
         Integer index = keyIndices.remove(key);
         if (index != null) {

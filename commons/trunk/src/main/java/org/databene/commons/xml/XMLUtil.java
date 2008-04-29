@@ -54,8 +54,6 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
-import com.sun.org.apache.xml.internal.dtm.ref.DTMDefaultBaseIterators.ChildrenIterator;
-
 /**
  * Provides XML Utility methods.<br/>
  * <br/>

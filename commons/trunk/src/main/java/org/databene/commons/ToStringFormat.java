@@ -36,7 +36,8 @@ import java.text.ParsePosition;
  */
 public class ToStringFormat extends Format {
 
-    private static ToStringFormat defaultInstance;
+	private static final long serialVersionUID = -5895275536501416859L;
+	private static ToStringFormat defaultInstance;
 
     public static ToStringFormat getDefault() {
         if (defaultInstance == null)

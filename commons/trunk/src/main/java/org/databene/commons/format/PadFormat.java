@@ -40,7 +40,9 @@ import java.text.*;
  */
 public class PadFormat extends Format {
 
-    private int length;
+    private static final long serialVersionUID = 609871662377339019L;
+    
+	private int length;
     private int minimumFractionDigits;
     private int maximumFractionDigits;
     private Alignment alignment;

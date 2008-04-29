@@ -142,7 +142,7 @@ public class XMLUtilTest extends TestCase {
     }
     
     private Element createElementWithAttributes(String name, String... attKeysAndValues) {
-        Map attMap = CollectionUtil.buildMap(attKeysAndValues);
+        Map attMap = CollectionUtil.buildMap((Object[]) attKeysAndValues);
         return createElement(name, attMap);
     }
     
@@ -180,12 +180,12 @@ public class XMLUtilTest extends TestCase {
         replay(element);
         return element;
     }
-
-    private Element createTextElement(String text) {
+/*
+    private Element createTextElementMock(String text) {
         Element element = createMock(Element.class);
         expect(element.getNodeValue()).andReturn(text);
         replay(element);
         return element;
     }
-
+*/
 }

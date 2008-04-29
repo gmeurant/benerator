@@ -39,7 +39,9 @@ import java.io.File;
  */
 public class FilenameFormat extends Format {
 
-    private boolean fullPathUsed;
+	private static final long serialVersionUID = 8865264142496144195L;
+
+	private boolean fullPathUsed;
 
     public FilenameFormat() {
         this(true);
