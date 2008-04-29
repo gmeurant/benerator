@@ -33,5 +33,18 @@ package org.databene.commons.format;
  * @author Volker Bergmann
  */
 public enum Alignment {
-    LEFT, RIGHT, CENTER
+	
+    LEFT('l'), 
+    RIGHT('r'), 
+    CENTER('c');
+    
+    private char id;
+    
+    private Alignment(char id) {
+    	this.id = id;
+    }
+    
+    public char getId() {
+    	return id;
+    }
 }
