@@ -68,8 +68,10 @@ public class FlatFileUtil {
                 pos.setIndex(pos.getIndex() + 1);
             }
             char padChar = ' ';
-            if (pos.getIndex() < rbIndex)
+            if (pos.getIndex() < rbIndex) {
                 padChar = propertyFormat.charAt(pos.getIndex());
+                pos.setIndex(pos.getIndex() + 1);
+            }
             assert pos.getIndex() == rbIndex;
             descriptors[i] = new FlatFileColumnDescriptor(propertyName, width, alignment, padChar);
         }
