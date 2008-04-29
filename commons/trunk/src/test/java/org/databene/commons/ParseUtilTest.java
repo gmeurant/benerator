@@ -77,6 +77,17 @@ public class ParseUtilTest extends TestCase {
         assertEqualArrays(ParseUtil.splitNumbers("abc12xyz"), "abc", new BigInteger("12"), "xyz");
     }
 
+    public void testIsNMToken() {
+    	assertFalse(ParseUtil.isNMToken(null));
+    	assertFalse(ParseUtil.isNMToken(""));
+    	assertFalse(ParseUtil.isNMToken("1"));
+    	assertFalse(ParseUtil.isNMToken("?bla"));
+    	assertTrue(ParseUtil.isNMToken("x"));
+    	assertTrue(ParseUtil.isNMToken("_"));
+    	assertTrue(ParseUtil.isNMToken(":"));
+    	assertTrue(ParseUtil.isNMToken("_.-:"));
+    }
+    
     // implementation --------------------------------------------------------------------------------------------------
 
     private <T> void assertEqualArrays(T[] found, T ... expected) {
