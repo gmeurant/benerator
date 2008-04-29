@@ -26,33 +26,68 @@
 
 package org.databene.commons.collection;
 
+import java.util.Map;
+
+import org.databene.commons.NullSafeComparator;
 import org.databene.commons.OrderedMap;
 
 /**
- * A OrderedNameMap.<br/><br/>
+ * A map that assigns names to Objects and keeps entries 
+ * in the order in which they were inserted.<br/><br/>
  * Created at 14.04.2008 09:49:34
  * @since 0.5.2
  * @author Volker Bergmann
- *
  */
 public class OrderedNameMap<E> extends OrderedMap<String, E> {
 	
-	private boolean caseSensitive;
+	private static final int SENSITIVE = 0;
+	private static final int INSENSITIVE = 1;
+	private static final int IGNORANT = 2;
+	
+	private int caseSupport;
+	
+	// constructors / factory methods ----------------------------------------------------------------------------------
 	
     public OrderedNameMap() {
-		this(true);
+		this(SENSITIVE);
+	}
+    
+    public static <T> OrderedNameMap<T> createCaseSensitiveMap() {
+    	return new OrderedNameMap<T>();
+    }
+
+    public static <T> OrderedNameMap<T> createCaseInsensitiveMap() {
+    	return new OrderedNameMap<T>(INSENSITIVE);
+    }
+
+    public static <T> OrderedNameMap<T> createCaseIgnorantMap() {
+    	return new OrderedNameMap<T>(IGNORANT);
+    }
+
+    private OrderedNameMap(int caseSupport) {
+		this.caseSupport = caseSupport;
 	}
 
-    public OrderedNameMap(boolean caseSensitive) {
-		this.caseSensitive = caseSensitive;
-	}
-
+    // Map interface implementation ------------------------------------------------------------------------------------
+    
 	public boolean containsKey(String key) {
-        return super.containsKey(normalizeKey(key));
+        boolean result = super.containsKey(normalizeKey(key));
+        if (result || caseSupport != INSENSITIVE)
+        	return true;
+        for (String tmp : super.keySet())
+        	if (NullSafeComparator.equals(tmp, key))
+        		return true;
+		return result;
     }
 
 	public E get(String key) {
-        return super.get(normalizeKey(key));
+        E result = super.get(normalizeKey(key));
+        if (result != null || caseSupport != INSENSITIVE)
+        	return result;
+        for (Map.Entry<String, E> entry : super.entrySet())
+        	if (NullSafeComparator.equals(entry.getKey(), key))
+        		return entry.getValue();
+		return result;
     }
 
     public E put(String key, E value) {
@@ -60,11 +95,18 @@ public class OrderedNameMap<E> extends OrderedMap<String, E> {
     }
 
     public E remove(String key) {
-        return super.remove(normalizeKey(key));
+        E result = super.remove(normalizeKey(key));
+        if (result != null || caseSupport != INSENSITIVE)
+        	return result;
+        for (Map.Entry<String, E> entry : super.entrySet())
+        	if (NullSafeComparator.equals(entry.getKey(), key))
+        		return super.remove(entry.getKey());
+        return null;
     }
 
+    // private helpers -------------------------------------------------------------------------------------------------
+    
     private String normalizeKey(String key) {
-		return (caseSensitive || key == null ? key : key.toLowerCase());
+		return (caseSupport == IGNORANT && key != null ? key.toLowerCase() : key);
 	}
-
 }
