@@ -116,4 +116,48 @@ public class PadFormat extends Format {
         return padChar;
     }
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((alignment == null) ? 0 : alignment.hashCode());
+		result = prime * result + length;
+		result = prime * result + maximumFractionDigits;
+		result = prime * result + minimumFractionDigits;
+		result = prime * result + padChar;
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final PadFormat other = (PadFormat) obj;
+		if (alignment == null) {
+			if (other.alignment != null)
+				return false;
+		} else if (!alignment.equals(other.alignment))
+			return false;
+		if (length != other.length)
+			return false;
+		if (maximumFractionDigits != other.maximumFractionDigits)
+			return false;
+		if (minimumFractionDigits != other.minimumFractionDigits)
+			return false;
+		if (padChar != other.padChar)
+			return false;
+		return true;
+	}
+
 }
