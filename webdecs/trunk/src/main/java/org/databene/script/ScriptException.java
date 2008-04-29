@@ -34,7 +34,9 @@ package org.databene.script;
  */
 public class ScriptException extends RuntimeException {
     
-    public ScriptException() {
+	private static final long serialVersionUID = 837802417051369136L;
+
+	public ScriptException() {
     }
 
     public ScriptException(String message) {

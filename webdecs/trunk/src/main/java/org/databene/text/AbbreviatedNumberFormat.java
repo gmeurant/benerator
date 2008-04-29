@@ -41,7 +41,9 @@ import java.util.Locale;
  */
 public class AbbreviatedNumberFormat extends NumberFormat {
 
-    private Object [][] availableScales = new Object[][] {
+	private static final long serialVersionUID = -3938256314974549704L;
+
+	private Object [][] availableScales = new Object[][] {
         {"Mrd", new Double(1E9)},
         {"Mrd.", new Double(1E9)},
 
