@@ -85,7 +85,7 @@ public class OrderedNameMap<E> extends OrderedMap<String, E> {
         if (result != null || caseSupport != INSENSITIVE)
         	return result;
         for (Map.Entry<String, E> entry : super.entrySet())
-        	if (NullSafeComparator.equals(entry.getKey(), key))
+        	if (entry.getKey().equalsIgnoreCase(key))
         		return entry.getValue();
 		return result;
     }
