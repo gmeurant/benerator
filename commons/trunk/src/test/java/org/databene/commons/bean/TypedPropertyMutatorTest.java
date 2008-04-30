@@ -37,8 +37,8 @@ import org.databene.commons.bean.TypedPropertyMutator;
 public class TypedPropertyMutatorTest extends TestCase {
 
     public void testLocalProperty() throws UpdateFailedException {
-        TypedPropertyMutator aNameMutator = new TypedPropertyMutator(A.class, "name", true);
-        A a = new A();
+        TypedPropertyMutator aNameMutator = new TypedPropertyMutator(ABean.class, "name", true);
+        ABean a = new ABean();
         aNameMutator.setValue(a, "aName");
         assertEquals("aName", a.name);
         aNameMutator.setValue(a, null);

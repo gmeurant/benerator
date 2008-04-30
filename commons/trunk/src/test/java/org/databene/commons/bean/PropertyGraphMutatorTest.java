@@ -28,7 +28,7 @@ package org.databene.commons.bean;
 
 import junit.framework.TestCase;
 import org.databene.commons.UpdateFailedException;
-import org.databene.commons.bean.A;
+import org.databene.commons.bean.ABean;
 import org.databene.commons.bean.PropertyGraphMutator;
 
 /**
@@ -37,8 +37,8 @@ import org.databene.commons.bean.PropertyGraphMutator;
 public class PropertyGraphMutatorTest extends TestCase {
 
     public void testLocalProperty() throws UpdateFailedException {
-        PropertyGraphMutator aNameMutator = new PropertyGraphMutator(A.class, "name", true);
-        A a = new A();
+        PropertyGraphMutator aNameMutator = new PropertyGraphMutator(ABean.class, "name", true);
+        ABean a = new ABean();
         aNameMutator.setValue(a, "aName");
         assertEquals("aName", a.name);
         aNameMutator.setValue(a, null);
@@ -46,8 +46,8 @@ public class PropertyGraphMutatorTest extends TestCase {
     }
 
     public void testNavigatedProperty() throws UpdateFailedException {
-        PropertyGraphMutator bNameMutator = new PropertyGraphMutator(A.class, "b.name", true);
-        A a = new A();
+        PropertyGraphMutator bNameMutator = new PropertyGraphMutator(ABean.class, "b.name", true);
+        ABean a = new ABean();
         bNameMutator.setValue(a, "bName");
         assertEquals("bName", a.b.name);
         bNameMutator.setValue(a, null);
@@ -55,8 +55,8 @@ public class PropertyGraphMutatorTest extends TestCase {
     }
 
     public void testNavigatedGraph() throws UpdateFailedException {
-        PropertyGraphMutator bNameMutator = new PropertyGraphMutator(A.class, "b.c.name", true);
-        A a = new A();
+        PropertyGraphMutator bNameMutator = new PropertyGraphMutator(ABean.class, "b.c.name", true);
+        ABean a = new ABean();
         bNameMutator.setValue(a, "cName");
         assertEquals("cName", a.b.c.name);
         bNameMutator.setValue(a, null);

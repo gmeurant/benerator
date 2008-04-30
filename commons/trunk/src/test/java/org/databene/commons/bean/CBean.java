@@ -29,7 +29,8 @@ package org.databene.commons.bean;
 /**
  * Created: 21.07.2007 09:14:00
  */
-public class C {
+public class CBean {
+	
     public String name;
     public int n;
 

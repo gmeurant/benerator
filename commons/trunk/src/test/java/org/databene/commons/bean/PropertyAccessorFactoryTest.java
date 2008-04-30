@@ -36,32 +36,32 @@ import junit.framework.TestCase;
 public class PropertyAccessorFactoryTest extends TestCase {
 
     public void test() {
-        A a = new A();
+        ABean a = new ABean();
         a.name = "aName";
-        a.b = new B();
+        a.b = new BBean();
         a.b.name = "bName";
-        a.b.c = new C();
+        a.b.c = new CBean();
         a.b.c.name = "cName";
         // test simple properties
         assertEquals("aName", PropertyAccessorFactory.getAccessor("name").getValue(a));
         assertEquals(null, PropertyAccessorFactory.getAccessor("doesntExist", false).getValue(a));
         assertEquals(null, PropertyAccessorFactory.getAccessor("doesntExist", false).getValue(null));
-        assertEquals("aName", PropertyAccessorFactory.getAccessor(A.class, "name").getValue(a));
-        assertEquals(null, PropertyAccessorFactory.getAccessor(A.class, "doesntExist", false).getValue(a));
-        assertEquals(null, PropertyAccessorFactory.getAccessor(A.class, "doesntExist", false).getValue(null));
+        assertEquals("aName", PropertyAccessorFactory.getAccessor(ABean.class, "name").getValue(a));
+        assertEquals(null, PropertyAccessorFactory.getAccessor(ABean.class, "doesntExist", false).getValue(a));
+        assertEquals(null, PropertyAccessorFactory.getAccessor(ABean.class, "doesntExist", false).getValue(null));
         // test navigated properties
         assertEquals("bName", PropertyAccessorFactory.getAccessor("b.name").getValue(a));
         assertEquals(null, PropertyAccessorFactory.getAccessor("b.doesntExist", false).getValue(a));
         assertEquals(null, PropertyAccessorFactory.getAccessor("b.doesntExist", false).getValue(null));
-        assertEquals("bName", PropertyAccessorFactory.getAccessor(A.class, "b.name").getValue(a));
-        assertEquals(null, PropertyAccessorFactory.getAccessor(A.class, "b.doesntExist", false).getValue(a));
-        assertEquals(null, PropertyAccessorFactory.getAccessor(A.class, "b.doesntExist", false).getValue(null));
+        assertEquals("bName", PropertyAccessorFactory.getAccessor(ABean.class, "b.name").getValue(a));
+        assertEquals(null, PropertyAccessorFactory.getAccessor(ABean.class, "b.doesntExist", false).getValue(a));
+        assertEquals(null, PropertyAccessorFactory.getAccessor(ABean.class, "b.doesntExist", false).getValue(null));
         // test twofold navigated properties
         assertEquals("cName", PropertyAccessorFactory.getAccessor("b.c.name").getValue(a));
         assertEquals(null, PropertyAccessorFactory.getAccessor("b.c.doesntExist", false).getValue(a));
         assertEquals(null, PropertyAccessorFactory.getAccessor("b.c.doesntExist", false).getValue(null));
-        assertEquals("cName", PropertyAccessorFactory.getAccessor(A.class, "b.c.name").getValue(a));
-        assertEquals(null, PropertyAccessorFactory.getAccessor(A.class, "b.c.doesntExist", false).getValue(a));
-        assertEquals(null, PropertyAccessorFactory.getAccessor(A.class, "b.c.doesntExist", false).getValue(null));
+        assertEquals("cName", PropertyAccessorFactory.getAccessor(ABean.class, "b.c.name").getValue(a));
+        assertEquals(null, PropertyAccessorFactory.getAccessor(ABean.class, "b.c.doesntExist", false).getValue(a));
+        assertEquals(null, PropertyAccessorFactory.getAccessor(ABean.class, "b.c.doesntExist", false).getValue(null));
     }
 }

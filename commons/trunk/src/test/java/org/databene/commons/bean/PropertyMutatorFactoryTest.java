@@ -40,10 +40,10 @@ import org.databene.commons.bean.UntypedPropertyMutator;
 public class PropertyMutatorFactoryTest extends TestCase {
 
     public void testSimpleProperty() {
-        assertEquals(TypedPropertyMutator.class, PropertyMutatorFactory.getPropertyMutator(A.class, "name", true).getClass());
-        assertEquals(TypedPropertyMutator.class, PropertyMutatorFactory.getPropertyMutator(A.class, "doesntExsist", false).getClass());
+        assertEquals(TypedPropertyMutator.class, PropertyMutatorFactory.getPropertyMutator(ABean.class, "name", true).getClass());
+        assertEquals(TypedPropertyMutator.class, PropertyMutatorFactory.getPropertyMutator(ABean.class, "doesntExsist", false).getClass());
         try {
-            PropertyMutatorFactory.getPropertyMutator(A.class, "doesntExsist");
+            PropertyMutatorFactory.getPropertyMutator(ABean.class, "doesntExsist");
             fail("ConfigurationError expected");
         } catch (ConfigurationError e) {
             // this is the desired behaviour
@@ -52,11 +52,11 @@ public class PropertyMutatorFactoryTest extends TestCase {
     }
 
     public void testNavigatedProperty() throws UpdateFailedException {
-        assertEquals(PropertyGraphMutator.class, PropertyMutatorFactory.getPropertyMutator(A.class, "b.name").getClass());
+        assertEquals(PropertyGraphMutator.class, PropertyMutatorFactory.getPropertyMutator(ABean.class, "b.name").getClass());
         assertEquals(PropertyGraphMutator.class, PropertyMutatorFactory.getPropertyMutator("b.name").getClass());
-        assertEquals(PropertyGraphMutator.class, PropertyMutatorFactory.getPropertyMutator(A.class, "doesnt.exist", false).getClass());
+        assertEquals(PropertyGraphMutator.class, PropertyMutatorFactory.getPropertyMutator(ABean.class, "doesnt.exist", false).getClass());
         try {
-            PropertyMutatorFactory.getPropertyMutator(A.class, "doesnt.exist", true);
+            PropertyMutatorFactory.getPropertyMutator(ABean.class, "doesnt.exist", true);
             fail("ConfigurationError expected");
         } catch(ConfigurationError e) {
             // this is the desired behaviour

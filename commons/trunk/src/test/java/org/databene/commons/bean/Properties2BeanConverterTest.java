@@ -45,7 +45,7 @@ public class Properties2BeanConverterTest extends TestCase {
         Properties props = new Properties();
         props.put("name", "cName");
         props.put("n", "42");
-        C bean = Properties2BeanConverter.convert(props, C.class);
+        CBean bean = Properties2BeanConverter.convert(props, CBean.class);
         assertEquals("cName", bean.getName());
         assertEquals(42, bean.getN());
     }

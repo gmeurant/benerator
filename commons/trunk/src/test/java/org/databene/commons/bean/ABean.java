@@ -29,9 +29,9 @@ package org.databene.commons.bean;
 /**
  * Created: 21.07.2007 09:13:38
  */
-public class A {
+public class ABean {
     public String name;
-    public B b;
+    public BBean b;
 
     public String getName() {
         return name;
@@ -41,11 +41,11 @@ public class A {
         this.name = name;
     }
 
-    public B getB() {
+    public BBean getB() {
         return b;
     }
 
-    public void setB(B b) {
+    public void setB(BBean b) {
         this.b = b;
     }
 }

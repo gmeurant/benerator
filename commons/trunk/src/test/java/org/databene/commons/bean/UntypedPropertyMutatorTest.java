@@ -38,7 +38,7 @@ public class UntypedPropertyMutatorTest extends TestCase {
 
     public void testLocalProperty() throws UpdateFailedException {
         UntypedPropertyMutator aNameMutator = new UntypedPropertyMutator("name", true);
-        A a = new A();
+        ABean a = new ABean();
         aNameMutator.setValue(a, "aName");
         assertEquals("aName", a.name);
         aNameMutator.setValue(a, null);
