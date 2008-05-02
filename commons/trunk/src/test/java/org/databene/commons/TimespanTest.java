@@ -93,5 +93,33 @@ public class TimespanTest extends TestCase {
         assertFalse(s1.overlaps(s3));
         assertFalse(s3.overlaps(s1));
     }
+    
+    public void testUnite() {
+        Date d1 = TimeUtil.date(2005, 0, 1);
+        Date d2 = TimeUtil.date(2005, 0, 2);
+        Date d3 = TimeUtil.date(2005, 0, 3);
+        Date d4 = TimeUtil.date(2005, 0, 4);
+        Timespan t12 = new Timespan(d1, d2);
+        Timespan t34 = new Timespan(d3, d4);
+        Timespan t14 = new Timespan(d1, d4);
+        assertEquals(t14, Timespan.unite(t14, t14));
+        assertEquals(t14, Timespan.unite(t12, t34));
+        Date now = new Date();
+        Timespan future = new Timespan(now, null);
+        Timespan past = new Timespan(null, now);
+        Timespan always = new Timespan(null, null);
+        assertEquals(always, Timespan.unite(past, future));
+    }
+    
+    public void testEquals() {
+    	Timespan always = new Timespan(null, null);
+    	assertFalse(always.equals(null));
+    	assertFalse(always.equals(""));
+    	assertTrue(always.equals(always));
+    	Date now = new Date();
+    	Timespan future = new Timespan(now, null);
+    	assertFalse(always.equals(future));
+    	assertFalse(future.equals(always));
+    }
 }
 

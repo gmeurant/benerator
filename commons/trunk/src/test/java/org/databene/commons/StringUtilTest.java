@@ -219,4 +219,17 @@ public class StringUtilTest extends TestCase {
     	assertEquals("Alice", StringUtil.normalizeName(" \r\n\taLICE"));
     	assertEquals("Alice Smith", StringUtil.normalizeName(" \r\n\taLICE \r sMITH \n\t "));
     }
+    
+    public void testSplitOnLastSeparator() {
+    	checkSplit(null , null, null   );
+    	checkSplit(null , "c" , "c"    );
+    	checkSplit("b"  , ""  , "b."  );
+    	checkSplit(""   , "c" , ".c"  );
+    	checkSplit("b"  , "c" , "b.c"  );
+    	checkSplit("a.b", "c" , "a.b.c");
+    }
+
+	private void checkSplit(String parent, String child, String path) {
+		assertTrue(Arrays.equals(ArrayUtil.buildArrayOfType(String.class, parent, child), StringUtil.splitOnLastSeparator(path, '.')));
+	}
 }

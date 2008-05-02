@@ -36,12 +36,12 @@ import java.util.*;
 public class OrderedMapTest extends TestCase {
 
     public void testDefaultConstructor() {
-        OrderedMap<Integer, Integer> map = createMap();
+        OrderedMap<Integer, Integer> map = createMap123();
         check(map, 1, 11, 2, 22, 3, 33);
     }
 
     public void testCopyConstructor() {
-        OrderedMap<Integer, Integer> map = createMap();
+        OrderedMap<Integer, Integer> map = createMap123();
         OrderedMap<Integer, Integer> copy = new OrderedMap<Integer, Integer>(map);
         check(copy, 1, 11, 2, 22, 3, 33);
     }
@@ -52,43 +52,43 @@ public class OrderedMapTest extends TestCase {
     }
 
     public void testClear() {
-        OrderedMap<Integer, Integer> map = createMap();
+        OrderedMap<Integer, Integer> map = createMap123();
         map.clear();
         check(map);
     }
 
     public void testAppend() {
-        OrderedMap<Integer, Integer> map = createMap();
+        OrderedMap<Integer, Integer> map = createMap123();
         map.put(4, 44);
         check(map, 1, 11, 2, 22, 3, 33, 4, 44);
     }
 
     public void testOverwrite() {
-        OrderedMap<Integer, Integer> map = createMap();
+        OrderedMap<Integer, Integer> map = createMap123();
         map.put(2, 222);
         check(map, 1, 11, 2, 222, 3, 33);
     }
 
     public void testRemoveAtStart() {
-        OrderedMap<Integer, Integer> map = createMap();
+        OrderedMap<Integer, Integer> map = createMap123();
         map.remove(1);
         check(map, 2, 22, 3, 33);
     }
 
     public void testRemoveInMiddle() {
-        OrderedMap<Integer, Integer> map = createMap();
+        OrderedMap<Integer, Integer> map = createMap123();
         map.remove(2);
         check(map, 1, 11, 3, 33);
     }
 
     public void testRemoveAtEnd() {
-        OrderedMap<Integer, Integer> map = createMap();
+        OrderedMap<Integer, Integer> map = createMap123();
         map.remove(3);
         check(map, 1, 11, 2, 22);
     }
 
     public void testPutAll() {
-        OrderedMap<Integer, Integer> map = createMap();
+        OrderedMap<Integer, Integer> map = createMap123();
         OrderedMap<Integer, Integer> map2 = new OrderedMap<Integer, Integer>();
         map2.put(0, 0);
         map2.put(4, 44);
@@ -98,8 +98,8 @@ public class OrderedMapTest extends TestCase {
 
     public void testEquals() {
         assertTrue(new OrderedMap<Integer, Integer>().equals(new OrderedMap<Integer, Integer>()));
-        OrderedMap<Integer, Integer> map1 = createMap();
-        OrderedMap<Integer, Integer> map2 = createMap();
+        OrderedMap<Integer, Integer> map1 = createMap123();
+        OrderedMap<Integer, Integer> map2 = createMap123();
         assertTrue(map1.equals(map2));
         map2.put(4, 44);
         assertFalse(map1.equals(map2));
@@ -108,8 +108,8 @@ public class OrderedMapTest extends TestCase {
 
     public void testHashCode() {
         assertEquals(new OrderedMap<Integer, Integer>().hashCode(), new OrderedMap<Integer, Integer>().hashCode());
-        OrderedMap<Integer, Integer> map1 = createMap();
-        OrderedMap<Integer, Integer> map2 = createMap();
+        OrderedMap<Integer, Integer> map1 = createMap123();
+        OrderedMap<Integer, Integer> map2 = createMap123();
         assertEquals(map1.hashCode(), map2.hashCode());
         map2.put(4, 44);
         assertTrue(map1.hashCode() != map2.hashCode());
@@ -117,7 +117,19 @@ public class OrderedMapTest extends TestCase {
     }
 
     public void testToString() {
-        assertEquals("{1=11, 2=22, 3=33}", createMap().toString());
+        assertEquals("{1=11, 2=22, 3=33}", createMap123().toString());
+    }
+    
+    public void testEqualsIgnoreOrder() {
+    	OrderedMap<Integer, Integer> map123 = createMap123();
+    	OrderedMap<Integer, Integer> map321 = new OrderedMap<Integer, Integer>();
+    	map321.put(3, 33);
+    	map321.put(2, 22);
+    	assertFalse(map123.equalsIgnoreOrder(map321));
+    	assertFalse(map321.equalsIgnoreOrder(map123));
+    	map321.put(1, 11);
+    	assertTrue(map123.equalsIgnoreOrder(map321));
+    	assertTrue(map321.equalsIgnoreOrder(map123));
     }
 
     // private helpers -------------------------------------------------------------------------------------------------
@@ -156,7 +168,7 @@ public class OrderedMapTest extends TestCase {
         }
     }
 
-    private OrderedMap<Integer, Integer> createMap() {
+    private OrderedMap<Integer, Integer> createMap123() {
         OrderedMap<Integer, Integer> map = new OrderedMap<Integer, Integer>();
         map.put(1, 11);
         map.put(2, 22);

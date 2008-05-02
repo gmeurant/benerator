@@ -33,17 +33,17 @@ import java.io.StringBufferInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.databene.commons.ArrayUtil;
 import org.databene.commons.CollectionUtil;
-import org.w3c.dom.Attr;
+import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 
 import junit.framework.TestCase;
-
-import static org.easymock.EasyMock.*;
 
 /**
  * Tests the XMLUtil class.<br/><br/>
@@ -55,7 +55,8 @@ public class XMLUtilTest extends TestCase {
     private static final String XML_TEXT = "<?xml version=\"1.0\"?><root att=\"1\"/>";
 
     public void testFormat() {
-        String output = XMLUtil.format(createElementWithChildren("ns:test"));
+    	Document document = createDocument();
+        String output = XMLUtil.format(createElementWithChildren(document, "ns:test"));
         assertTrue(output.startsWith("<ns:test"));
     }
  
@@ -64,47 +65,63 @@ public class XMLUtilTest extends TestCase {
     }
 
     public void testLocalNameElement() {
-        Element element = createElementWithChildren("ns:test");
+    	Document document = createDocument();
+        Element element = createElementWithChildren(document, "ns:test");
         assertEquals("test", XMLUtil.localName(element));
     }
 
     public void testGetChildElements() {
-        Element child1 = createElementWithChildren("c1");
-        Element child2 = createElementWithChildren("c2");
-        Element parent = createElementWithChildren("p", child1, child2);
+    	Document document = createDocument();
+        Element child1 = createElementWithChildren(document, "c1");
+        Element child2 = createElementWithChildren(document, "c2");
+        Element parent = createElementWithChildren(document, "p", child1, child2);
         Element[] expectedChildren = ArrayUtil.toArray(child1, child2);
         Element[] actualChildren = XMLUtil.getChildElements(parent);
         assertTrue(ArrayUtil.equals(expectedChildren, actualChildren));
     }
     
     public void testGetChildElementsByName() {
-        Element child1 = createElementWithChildren("c1");
-        Element child2 = createElementWithChildren("c2");
-        Element parent = createElementWithChildren("p", child1, child2);
+    	Document document = createDocument();
+        Element child1 = createElementWithChildren(document, "c1");
+        Element child2 = createElementWithChildren(document, "c2");
+        Element parent = createElementWithChildren(document, "p", child1, child2);
         Element[] expectedChildren = ArrayUtil.toArray(child2);
         Element[] actualChildren = XMLUtil.getChildElements(parent, true, "c2");
         assertTrue(ArrayUtil.equals(expectedChildren, actualChildren));
     }
 
+    public void testGetChildElementByName() {
+    	Document document = createDocument();
+        Element child1 = createElementWithChildren(document, "c1");
+        Element child2 = createElementWithChildren(document, "c2");
+        Element parent = createElementWithChildren(document, "p", child1, child2);
+        Element foundChild = XMLUtil.getChildElement(parent, true, true, "c2");
+        assertEquals(child2, foundChild);
+    }
+
     public void testGetIntegerAttribute() {
-        Element element = createElement("test", CollectionUtil.buildMap("value", "1"));
+    	Document document = createDocument();
+        Element element = createElement(document, "test", CollectionUtil.buildMap("value", "1"));
         assertEquals(1, (int) XMLUtil.getIntegerAttribute(element, "value", 2));
     }
 
     public void testGetLongAttribute() {
-        Element element = createElement("test", CollectionUtil.buildMap("value", "1"));
+    	Document document = createDocument();
+        Element element = createElement(document, "test", CollectionUtil.buildMap("value", "1"));
         assertEquals(1, (long) XMLUtil.getIntegerAttribute(element, "value", 2));
     }
 
     public void testGetAttributes() {
-        Element element = createElementWithAttributes("test", "name1", "value1", "name2", "");
+    	Document document = createDocument();
+        Element element = createElementWithAttributes(document, "test", "name1", "value1", "name2", "");
         Map<String, String> actualAttributes = XMLUtil.getAttributes(element);
         Map<String, String> expectedAttributes = CollectionUtil.buildMap("name1", "value1", "name2", "");
         assertEquals(expectedAttributes, actualAttributes);
     }
 
     public void testNormalizedAttributeValue() {
-        Element element = createElementWithAttributes("test", "name1", "value1", "name2", "");
+    	Document document = createDocument();
+        Element element = createElementWithAttributes(document, "test", "name1", "value1", "name2", "");
         assertEquals("value1", XMLUtil.normalizedAttributeValue(element, "name1"));
         assertEquals(null, XMLUtil.normalizedAttributeValue(element, "name2"));
     }
@@ -131,6 +148,12 @@ public class XMLUtilTest extends TestCase {
         Document document = XMLUtil.parseString(XML_TEXT);
         checkXML(document);
     }
+    
+    public void testGetText() {
+    	Document document = createDocument();
+    	Text node = document.createTextNode("my text");
+    	assertEquals("my text", XMLUtil.getText(node));
+    }
 
     // private helpers -------------------------------------------------------------------------------------------------
 
@@ -141,51 +164,33 @@ public class XMLUtilTest extends TestCase {
         assertEquals(1, root.getAttributes().getLength());
     }
     
-    private Element createElementWithAttributes(String name, String... attKeysAndValues) {
+    private Element createElementWithAttributes(Document document, String name, String... attKeysAndValues) {
         Map attMap = CollectionUtil.buildMap((Object[]) attKeysAndValues);
-        return createElement(name, attMap);
+        return createElement(document, name, attMap);
     }
     
-    private Element createElementWithChildren(String name, Element... children) {
-        return createElement(name, new HashMap<String, String>(), children);
+    private Element createElementWithChildren(Document document, String name, Element... children) {
+        return createElement(document, name, new HashMap<String, String>(), children);
     }
-    
-    private Element createElement(String name, Map<String, String> attributes, Element... children) {
-        Element element = createMock(Element.class);
-        expect(element.getNodeName()).andReturn(name);
 
-        // set up attributes
-        NamedNodeMap attributeNodeMap = createMock(NamedNodeMap.class);
-        expect(attributeNodeMap.getLength()).andReturn(attributes.size());
-        int i = 0; 
-        for (Map.Entry<String, String> entry : attributes.entrySet()) {
-            Attr attr = createMock(Attr.class);
-            expect(attr.getName()).andReturn(entry.getKey());
-            expect(attr.getValue()).andReturn(entry.getValue());
-            expect(attributeNodeMap.item(i)).andReturn(attr);
-            expect(element.getAttribute(entry.getKey())).andReturn(entry.getValue());
-            replay(attr);
-            i++;
-        }
-        replay(attributeNodeMap);
-        expect(element.getAttributes()).andReturn(attributeNodeMap);
-        
-        // set up child nodes
-        NodeList childNodeList = createMock(NodeList.class);
-        expect(childNodeList.getLength()).andReturn(children.length);
-        for (i = 0; i < children.length; i++)
-            expect(childNodeList.item(i)).andReturn(children[i]);
-        replay(childNodeList);
-        expect(element.getChildNodes()).andReturn(childNodeList);
-        replay(element);
-        return element;
+    private Element createElement(Document document, String name, Map<String, String> attributes, Element... children) {
+		Element element = document.createElement(name);
+		for (Map.Entry<String, String> attribute : attributes.entrySet())
+			element.setAttribute(attribute.getKey(), attribute.getValue());
+		for (Element child : children)
+			element.appendChild(child);
+		return element;
     }
-/*
-    private Element createTextElementMock(String text) {
-        Element element = createMock(Element.class);
-        expect(element.getNodeValue()).andReturn(text);
-        replay(element);
-        return element;
-    }
-*/
+
+	private Document createDocument() {
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			DOMImplementation impl = builder.getDOMImplementation();
+			Document document = impl.createDocument(null, "document", null);
+			return document;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

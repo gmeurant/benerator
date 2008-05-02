@@ -88,7 +88,12 @@ public class ParseUtilTest extends TestCase {
     	assertTrue(ParseUtil.isNMToken("_.-:"));
     }
     
-    // implementation --------------------------------------------------------------------------------------------------
+    public void testIsHex() {
+    	checkHexChars("0123456789abcdefABCDEF");
+    	checkNonHexChars("gG!%-.");
+    }
+    
+	// implementation --------------------------------------------------------------------------------------------------
 
     private <T> void assertEqualArrays(T[] found, T ... expected) {
         if (!Arrays.deepEquals(expected, found))
@@ -113,5 +118,13 @@ public class ParseUtilTest extends TestCase {
         return new PushbackReader(reader);
     }
 
+    private void checkHexChars(String chars) {
+    	for (int i = 0; i < chars.length(); i++)
+    		assertTrue(ParseUtil.isHex(chars.charAt(i)));	
+    }
 
+    private void checkNonHexChars(String chars) {
+    	for (int i = 0; i < chars.length(); i++)
+    		assertFalse(ParseUtil.isHex(chars.charAt(i)));	
+    }
 }

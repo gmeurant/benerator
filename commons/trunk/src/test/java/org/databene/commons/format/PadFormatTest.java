@@ -73,7 +73,6 @@ public class PadFormatTest extends TestCase {
         assertEquals("00001", format.format(1.));
     }
 
-
     public void testParseLeftAligned() throws ParseException {
         PadFormat format = new PadFormat(3, Alignment.LEFT, '0');
         assertEquals(null, format.parseObject(null));
@@ -101,4 +100,19 @@ public class PadFormatTest extends TestCase {
         assertEquals("1", format.parseObject("00100"));
     }
 
+    public void testEquals() {
+    	PadFormat p10ls = new PadFormat(1, 0, Alignment.LEFT, ' ');
+       	PadFormat p20ls = new PadFormat(2, 0, Alignment.LEFT, ' ');
+    	PadFormat p11ls = new PadFormat(1, 1, Alignment.LEFT, ' ');
+    	PadFormat p10rs = new PadFormat(1, 0, Alignment.RIGHT, ' ');
+        PadFormat p10l0 = new PadFormat(1, 0, Alignment.LEFT, '0');
+        assertFalse(p10ls.equals(null));
+        assertFalse(p10ls.equals("Test"));
+        assertTrue(p10ls.equals(p10ls));
+        assertTrue(p10ls.equals(new PadFormat(1, 0, Alignment.LEFT, ' ')));
+        assertFalse(p10ls.equals(p20ls));
+        assertFalse(p10ls.equals(p11ls));
+        assertFalse(p10ls.equals(p10rs));
+        assertFalse(p10ls.equals(p10l0));
+    }
 }
