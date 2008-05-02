@@ -56,8 +56,8 @@ public class ConditionalMutator extends MutatorProxy {
 
     private static Log logger = LogFactory.getLog(ConditionalMutator.class);
 
-    public ConditionalMutator(Mutator realUpdater, Accessor accessor, int mode) {
-        super(realUpdater);
+    public ConditionalMutator(Mutator realMutator, Accessor accessor, int mode) {
+        super(realMutator);
         this.accessor = accessor;
         this.mode = mode;
         comparator = new ComparableComparator();
@@ -73,7 +73,7 @@ public class ConditionalMutator extends MutatorProxy {
                 if (isEmpty(oldValue)) {
                     realMutator.setValue(target, value);
                 } else if (!NullSafeComparator.equals(oldValue, value))
-                    throw new RuntimeException("Mutator " + realMutator + " expected '" + oldValue + "', "
+                    throw new UpdateFailedException("Mutator " + realMutator + " expected '" + oldValue + "', "
                             + "but found '" + value + "'");
                 else
                     logger.debug("no update needed by " + realMutator);
