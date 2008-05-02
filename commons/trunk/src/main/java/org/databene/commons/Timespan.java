@@ -108,4 +108,32 @@ public class Timespan {
             else
                 return "ever";
     }
+
+	@Override
+	public int hashCode() {
+		int result = ((endDate == null) ? 0 : endDate.hashCode());
+		return result * 31 + ((startDate == null) ? 0 : startDate.hashCode());
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
+		final Timespan that = (Timespan) obj;
+		if (endDate == null) {
+			if (that.endDate != null)
+				return false;
+		} else if (!endDate.equals(that.endDate))
+			return false;
+		if (startDate == null) {
+			if (that.startDate != null)
+				return false;
+		} else 
+			return (startDate.equals(that.startDate));
+		return true;
+	}
+    
+    
 }
