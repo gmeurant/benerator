@@ -133,12 +133,12 @@ public class XMLUtil {
         return (elements.length > 0 ? elements[0] : null);
     }
 
-    public static String getText(Element element) {
-        if (element == null)
+    public static String getText(Node node) {
+        if (node == null)
             return null;
-        if (element instanceof Text)
-            return element.getNodeValue();
-        NodeList children = element.getChildNodes();
+        if (node instanceof Text)
+            return node.getNodeValue();
+        NodeList children = node.getChildNodes();
         for (int i = 0; i < children.getLength(); i++)
             if (children.item(i) instanceof Text)
                 return children.item(i).getNodeValue();
