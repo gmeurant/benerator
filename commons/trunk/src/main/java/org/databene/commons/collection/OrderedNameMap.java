@@ -72,17 +72,17 @@ public class OrderedNameMap<E> extends OrderedMap<String, E> {
     
 	public boolean containsKey(String key) {
         boolean result = super.containsKey(normalizeKey(key));
-        if (result || caseSupport != INSENSITIVE)
-        	return true;
+        if (result || caseSupport == SENSITIVE)
+        	return result;
         for (String tmp : super.keySet())
-        	if (NullSafeComparator.equals(tmp, key))
+        	if (tmp.equalsIgnoreCase(key))
         		return true;
 		return result;
     }
 
 	public E get(String key) {
         E result = super.get(normalizeKey(key));
-        if (result != null || caseSupport != INSENSITIVE)
+        if (result != null || caseSupport == SENSITIVE)
         	return result;
         for (Map.Entry<String, E> entry : super.entrySet())
         	if (entry.getKey().equalsIgnoreCase(key))
