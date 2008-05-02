@@ -87,6 +87,14 @@ public class CharSet {
         return remove(getDigits());
     }
 
+    public CharSet addHexDigits() {
+        return add(getHexDigits());
+    }
+
+    public CharSet removeHexDigits() {
+        return remove(getHexDigits());
+    }
+
     public CharSet addNonDigits() {
         return add(getNonDigits());
     }
@@ -97,6 +105,10 @@ public class CharSet {
 
     public static Set<Character> getDigits() {
         return new CharSet('0', '9').getSet();
+    }
+
+    public static Set<Character> getHexDigits() {
+        return new CharSet('0', '9').addRange('a', 'f').addRange('A', 'F').getSet();
     }
 
     public static Set<Character> getNonDigits() {
