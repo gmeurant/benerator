@@ -57,6 +57,11 @@ public class PadFormat extends Format {
     }
 
     public PadFormat(int length, int minimumFractionDigits, int maximumFractionDigits, Alignment alignment, char padChar) {
+    	assert length >= 1;
+    	assert minimumFractionDigits >= 0;
+    	assert maximumFractionDigits >= 0;
+    	assert alignment != null;
+    	assert padChar != 0;
         this.length = length;
         this.minimumFractionDigits = minimumFractionDigits;
         this.maximumFractionDigits = maximumFractionDigits;
@@ -121,15 +126,9 @@ public class PadFormat extends Format {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((alignment == null) ? 0 : alignment.hashCode());
-		result = prime * result + length;
-		result = prime * result + maximumFractionDigits;
-		result = prime * result + minimumFractionDigits;
-		result = prime * result + padChar;
-		return result;
+		return ((((alignment.hashCode() * 31) +  length) * 31 
+				+ minimumFractionDigits) * 31 + maximumFractionDigits) * 31 
+				+ padChar;
 	}
 
 	/* (non-Javadoc)
@@ -143,21 +142,12 @@ public class PadFormat extends Format {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final PadFormat other = (PadFormat) obj;
-		if (alignment == null) {
-			if (other.alignment != null)
-				return false;
-		} else if (!alignment.equals(other.alignment))
-			return false;
-		if (length != other.length)
-			return false;
-		if (maximumFractionDigits != other.maximumFractionDigits)
-			return false;
-		if (minimumFractionDigits != other.minimumFractionDigits)
-			return false;
-		if (padChar != other.padChar)
-			return false;
-		return true;
+		final PadFormat that = (PadFormat) obj;
+		return (this.alignment.equals(that.alignment) 
+				&& this.length == that.length 
+				&& this.minimumFractionDigits == that.minimumFractionDigits
+				&& this.maximumFractionDigits == that.maximumFractionDigits
+				&& padChar == that.padChar);
 	}
 
 }
