@@ -48,6 +48,30 @@ public class RegexParserTest extends TestCase {
         check("",      new RegexPart(new CharSet().getSet(), new Quantifier(0, 0)));
     }
 
+    public void testSpecialCharacters() throws ParseException {
+        checkSpecialCharacter("\\+", '+');
+        checkSpecialCharacter("\\-", '-');
+        checkSpecialCharacter("\\\\", '\\');
+        checkSpecialCharacter("\\.", '.');
+        checkSpecialCharacter("\\t", '\t');
+        checkSpecialCharacter("\\n", '\n');
+        checkSpecialCharacter("\\r", '\r');
+        checkSpecialCharacter("\\f", '\u000C');
+        checkSpecialCharacter("\\a", '\u0007');
+        checkSpecialCharacter("\\e", '\u001B');
+    }
+
+    public void testSpecialCharacterFormats() throws ParseException {
+        checkSpecialCharacter("\\x1", (char) 0x1);
+        checkSpecialCharacter("\\u11", (char) 0x11);
+        checkSpecialCharacter("\\01", (char) 1);
+        checkSpecialCharacter("\\cB", (char) 1);
+    }
+
+	private void checkSpecialCharacter(String pattern, char c) throws ParseException {
+		check(pattern, new RegexPart(new CharSet(c, c).getSet(), new Quantifier(1, 1)));
+	}
+
     public void testCustomClasses() throws ParseException {
         check("[a-c]", new RegexPart(new CharSet('a', 'c').getSet(), new Quantifier(1, 1)));
         check("[a-cA-C]", new RegexPart(new CharSet('a', 'c').addRange('A', 'C').getSet(), new Quantifier(1, 1)));
@@ -59,6 +83,15 @@ public class RegexParserTest extends TestCase {
         check("\\s", new RegexPart(new CharSet().addWhitespaces().getSet(), new Quantifier(1, 1)));
         check("\\w", new RegexPart(new CharSet().addWordChars().getSet(), new Quantifier(1, 1)));
         check("[^\\w]", new RegexPart(new CharSet().addAnyCharacters().removeWordChars().getSet(), new Quantifier(1, 1)));
+    }
+
+    public void testInvalidClass() throws ParseException {
+        try {
+			new RegexParser().parse("\\/");
+			fail("ParseException expected");
+		} catch (ParseException e) {
+			// this is expected
+		}
     }
 
     public void testClassAndQuantifierCombinations() throws ParseException {

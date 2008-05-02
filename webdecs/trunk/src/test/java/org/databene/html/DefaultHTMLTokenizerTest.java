@@ -243,7 +243,7 @@ public class DefaultHTMLTokenizerTest extends TestCase {
             }
             return map;
         }
-
+/* These are never used
         public boolean equals(Object o) {
             if (this == o)
                 return true;
@@ -265,5 +265,6 @@ public class DefaultHTMLTokenizerTest extends TestCase {
             result = 29 * result + name.hashCode();
             return result;
         }
+*/
     }
 }
