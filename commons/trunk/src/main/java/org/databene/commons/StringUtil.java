@@ -427,9 +427,9 @@ public final class StringUtil {
         if (sepIndex < 0)
             return new String[] { null, path };
         else if (sepIndex == 0)
-            return new String[] { "", path };
+            return new String[] { "", path.substring(1) };
         else if (sepIndex == path.length() - 1)
-            return new String[] { path, null };
+            return new String[] { path.substring(0, path.length() - 1), "" };
         else
             return new String[] { path.substring(0, sepIndex), path.substring(sepIndex + 1) };
             
