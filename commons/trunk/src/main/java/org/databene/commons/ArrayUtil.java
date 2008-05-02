@@ -28,6 +28,7 @@ package org.databene.commons;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -231,10 +232,12 @@ public final class ArrayUtil {
     }
 
     public static boolean equals(Object[] a1, Object[] a2) {
+    	return Arrays.deepEquals(a1, a2);
+/* TODO remove
         if (a1 == a2)
             return true;
         if (a1 == null)
-            return a2 == null;
+            return (a2 == null);
         if (a2 == null)
             return false;
         if (a1.length != a2.length)
@@ -255,6 +258,6 @@ public final class ArrayUtil {
                 
         }
         return true;
+*/
     }
-
 }
