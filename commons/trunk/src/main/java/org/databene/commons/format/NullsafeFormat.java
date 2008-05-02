@@ -26,10 +26,13 @@
 
 package org.databene.commons.format;
 
+import org.databene.commons.Converter;
 import org.databene.commons.StringUtil;
+import org.databene.commons.converter.NumberConverter;
 
 import java.text.Format;
 import java.text.FieldPosition;
+import java.text.ParseException;
 import java.text.ParsePosition;
 
 /**
@@ -45,6 +48,7 @@ public class NullsafeFormat<S> extends TypedFormat<S> {
 	private Format format;
     private Class<S> sourceType;
     private String nullString;
+    private Converter<Number, S> reconverter;
 
     public NullsafeFormat(TypedFormat<S> format, String nullString) {
         this(format,  format.getSourceType(), nullString);
@@ -54,6 +58,7 @@ public class NullsafeFormat<S> extends TypedFormat<S> {
         this.format = format;
         this.sourceType = sourceType;
         this.nullString = nullString;
+        this.reconverter = new NumberConverter<S>(sourceType);
     }
 
     public Class<S> getSourceType() {
@@ -67,6 +72,10 @@ public class NullsafeFormat<S> extends TypedFormat<S> {
             return format(obj, toAppendTo, pos);
     }
 
+    public Object parseObject(String source) throws ParseException {
+    	return (source != null ? super.parseObject(source) : null);
+    }
+    
     public Object parseObject(String source, ParsePosition pos) {
         if (source == null)
             return null;
@@ -77,6 +86,7 @@ public class NullsafeFormat<S> extends TypedFormat<S> {
             pos.setIndex(i + nullString.length());
             return null;
         }
-        return format.parseObject(source, pos);
+        Number number = (Number) format.parseObject(source, pos);
+		return reconverter.convert(number);
     }
 }
