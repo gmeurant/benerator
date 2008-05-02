@@ -29,6 +29,9 @@ package org.databene.regex;
 import static org.databene.regex.RegexTokenType.*;
 
 import java.text.ParseException;
+import java.util.Map;
+
+import org.databene.commons.CollectionUtil;
 import org.databene.commons.StringCharacterIterator;
 
 /**
@@ -38,7 +41,28 @@ import org.databene.commons.StringCharacterIterator;
  */
 public class RegexTokenizer {
 
-    private final static String QUANTIFIERS = "?*+";
+    private static final String QUANTIFIERS = "?*+";
+    
+    private static final Map<Character, State> escapedTokens = CollectionUtil.buildMap(
+    		'd',  new State(PREDEFINED_CLASS, 'd'),
+    		'D',  new State(PREDEFINED_CLASS, 'D'),
+    		'W',  new State(PREDEFINED_CLASS, 'W'),
+    		'w',  new State(PREDEFINED_CLASS, 'w'),
+    		's',  new State(PREDEFINED_CLASS, 's'),
+    		'S',  new State(PREDEFINED_CLASS, 'S'),
+
+    		'+',  new State(CHARACTER, '+'),
+    		'-',  new State(CHARACTER, '-'),
+    		'\\', new State(CHARACTER, '\\'),
+    		'.',  new State(CHARACTER, '.'),
+    
+    		't', new State(CHARACTER, '\t'),
+    		'n', new State(CHARACTER, '\n'),
+    		'r', new State(CHARACTER, '\r'),
+    		'f', new State(CHARACTER, '\u000C'),
+    		'a', new State(CHARACTER, '\u0007'),
+    		'e', new State(CHARACTER, '\u001B')
+   		);
 
     private final StringCharacterIterator iterator;
 
@@ -63,32 +87,19 @@ public class RegexTokenizer {
         if (c == '.')
             setState(PREDEFINED_CLASS, '.');
         else if (c == '\\') {
+        	// parse escaped character
             char c2 = iterator.next();
-            switch (c2) {
-                case 'd':
-                case 'D':
-                case 'w':
-                case 'W':
-                case 's':
-                case 'S' : setState(PREDEFINED_CLASS, c2); break;
-
-                case '+':
-                case '-':
-                case '\\':
-                case '.':
-                case 't':
-                case 'n':
-                case 'r':
-                case 'f':
-                case 'a':
-                case 'e': setState(CHARACTER, c2); break;
-
-                case 'x': parseHexCharacter(1); break;
-                case 'u': parseHexCharacter(2); break;
-                case '0': parseOctalCharacter(); break;
-                case 'c': setState(CHARACTER, (char)(Character.toUpperCase(iterator.next()) - 'A')); break;
-
-                default : throw new ParseException("unknown token: \\" + c2, iterator.index());
+            State state = escapedTokens.get(c2);
+            if (state != null)
+            	setState(state.ttype, state.cval);
+            else {
+	            switch (c2) {
+	                case 'x': parseHexCharacter(1); break;
+	                case 'u': parseHexCharacter(2); break;
+	                case '0': parseOctalCharacters(); break;
+	                case 'c': setState(CHARACTER, (char)(Character.toUpperCase(iterator.next()) - 'A')); break;
+	                default : throw new ParseException("unknown token: \\" + c2, iterator.index());
+	            }
             }
         } else if (QUANTIFIERS.indexOf(c) >= 0)
             setState(QUANTIFIER, c);
@@ -117,11 +128,11 @@ public class RegexTokenizer {
         setState(CHARACTER, (char)result);
     }
 
-    private void parseOctalCharacter() {
+    private void parseOctalCharacters() {
         int result = 0;
         char c;
-        for (int i = 0; i < 3 && ((c = iterator.next()) >= '0') && c <='7'; i++)
-            result = result * 8 +  - '0';
+        for (int i = 0; i < 3 && iterator.hasNext() && ((c = iterator.next()) >= '0') && c <='7'; i++)
+            result = result * 8 + c - '0';
         setState(CHARACTER, (char)result);
     }
 
@@ -164,5 +175,15 @@ public class RegexTokenizer {
     @Override
     public String toString() {
         return getClass().getSimpleName() + '[' + iterator + ']';
+    }
+    
+    private static final class State {
+    	RegexTokenType ttype; 
+    	char cval;
+		public State(RegexTokenType ttype, char cval) {
+			super();
+			this.ttype = ttype;
+			this.cval = cval;
+		}
     }
 }
