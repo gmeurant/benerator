@@ -48,6 +48,7 @@ public class CompositeFormatter {
 	boolean renderNames;
     private String datePattern;
     private String timestampPattern;
+    private String nullValue;
 
     public CompositeFormatter() {
     	this(true, true);
@@ -62,6 +63,7 @@ public class CompositeFormatter {
     	this.renderNames = renderNames;
     	this.datePattern = datePattern;
     	this.timestampPattern = timestampPattern;
+    	this.nullValue = "[null]";
     }
     
     // interface -------------------------------------------------------------------------------------------------------
@@ -131,28 +133,24 @@ public class CompositeFormatter {
         return builder.toString();
     }
 
-    private void renderComponent(StringBuilder builder, String indent, Map.Entry<String, ? extends Object> component) {
+    void renderComponent(StringBuilder builder, String indent, Map.Entry<String, ? extends Object> component) {
         builder.append(indent);
         if (renderNames)
             builder.append(component.getKey()).append('=');
         Object value = component.getValue();
         if (value == null) {
-            value = "[null]";
+            value = nullValue;
         } else if (value instanceof Date) {
-        	if (datePattern != null) {
-        		value = new SimpleDateFormat(datePattern).format((Date) value);
-        	} else {
-	            Date date = (Date) value;
-	            TimeZone timeZone = TimeZone.getDefault();
-	            long timeInMillis = date.getTime();
-	            timeInMillis += timeZone.getRawOffset();
-	            if (timeInMillis % 86400000L == 0L)
-	                value = new SimpleDateFormat(datePattern).format((Date) value);
-	            else
-	                value = new SimpleDateFormat(timestampPattern).format((Date) value);
-        	}
+            Date date = (Date) value;
+            TimeZone timeZone = TimeZone.getDefault();
+            long timeInMillis = date.getTime();
+            timeInMillis += timeZone.getRawOffset();
+            if (timeInMillis % 86400000L == 0L)
+                value = new SimpleDateFormat(datePattern).format((Date) value);
+            else
+                value = new SimpleDateFormat(timestampPattern).format((Date) value);
         } else if (value.getClass().isArray()) {
-            value = ArrayFormat.format(", ", (Object[]) value);
+            value = '[' + ArrayFormat.format(", ", (Object[]) value) + ']';
         } else if (value instanceof Composite) {
             value = render("[", (Composite) value, "]") ;
         }
