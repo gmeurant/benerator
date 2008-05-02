@@ -190,8 +190,10 @@ public class OrderedMap<K,V> implements Map<K,V> {
     public boolean equalsIgnoreOrder(Map<K, V> that) {
         if (this == that)
             return true;
-        if (that == null || getClass() != that.getClass())
+        if (that == null || this.getClass() != that.getClass())
             return false;
+        if (this.size() != that.size())
+        	return false;
         for (Map.Entry<K, V> entry : that.entrySet()) {
             K key = entry.getKey();
             if (!this.containsKey(key))
