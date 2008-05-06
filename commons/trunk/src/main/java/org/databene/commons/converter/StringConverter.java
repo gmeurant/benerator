@@ -58,13 +58,19 @@ public class StringConverter<T> implements Converter<String, T> {
      * Converts a String to an arbitrary type.
      */
     public static <T> T convert(String src, Class<T> targetType) throws ConversionException{
-        if (src.length() == 0 && Number.class.isAssignableFrom(targetType))
-            return null; // map empty Strings to null Numbers
+    	if (src == null)
+    		return null;
+        if (src.length() == 0) {
+        	if (Number.class.isAssignableFrom(targetType) 
+        			|| JavaType.getWrapperClass(targetType) != null)
+        		return null; // map empty Strings to null Numbers
+        }
         if (targetType == char.class || targetType == Character.class)
-            if (src.length() == 1)
-                return (T) Character.valueOf(src.charAt(0));
-            else
-                throw new ConversionException("'" + src + "' cannot be converted to a character");
+        	switch (src.length()) {
+        		case 0 : return null; 
+        		case 1 : return (T) Character.valueOf(src.charAt(0));
+        		default: throw new ConversionException("'" + src + "' cannot be converted to a character");
+        	}
         if (targetType.getEnumConstants() != null)
             return (T) String2EnumConverter.convert(src, (Class<Enum>) targetType);
         if (Date.class.isAssignableFrom(targetType))
@@ -72,8 +78,8 @@ public class StringConverter<T> implements Converter<String, T> {
         if (targetType.isArray())
             return (T) ArrayFormat.parse(src, ",", targetType.getComponentType());
         // Try to convert to wrapper class
-        Class<? extends Number> wrapperClass = JavaType.getWrapperClass(targetType);
         T result = null;
+        Class<? extends Number> wrapperClass = JavaType.getWrapperClass(targetType);
         if (wrapperClass != null)
             result = (T) FactoryConverter.convert(src, wrapperClass);
         if (result != null)
