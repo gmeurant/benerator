@@ -168,9 +168,9 @@ public class DBUtil {
     public static void runScript(String scriptUri, Connection connection, boolean haltOnError, boolean ignoreComments) throws IOException, SQLException {
         SQLException exception = null;
 
+		BufferedReader reader = IOUtil.getReaderForURI(scriptUri);
+		ReaderLineIterator iterator = new ReaderLineIterator(reader);
         try {
-			BufferedReader reader = IOUtil.getReaderForURI(scriptUri);
-			ReaderLineIterator iterator = new ReaderLineIterator(reader);
 			StringBuilder cmd = new StringBuilder();
 			while (iterator.hasNext()) {
 			    String line = iterator.next();
@@ -183,18 +183,22 @@ public class DBUtil {
 			        // delete the trailing ';'
 			        cmd.delete(cmd.length() - 1, cmd.length());
 			        String sql = cmd.toString();
-			        if (!ignoreComments || !StringUtil.startsWithIgnoreCase(sql.trim(), "COMMENT"))
-			        	executeUpdate(sql, connection);
+			        if (!ignoreComments || !StringUtil.startsWithIgnoreCase(sql.trim(), "COMMENT")) {
+			        	try {
+				        	executeUpdate(sql, connection);
+						} catch (SQLException e) {
+							if (haltOnError)
+								throw new RuntimeException("Error in execution of script " + scriptUri, e);
+							else if (exception != null) // only the first exception is saved
+								exception = e;
+						}
+				    }
 			        cmd.delete(0, cmd.length());
 			    }
 			}
+        } finally {
 			iterator.close();
-		} catch (SQLException e) {
-			if (haltOnError)
-				throw new RuntimeException("Error in execution of script " + scriptUri, e);
-			else if (exception != null) // only the first exception is saved
-				exception = e;
-		}
+        }
         if (exception != null)
             throw new RuntimeException(exception); // if an exception occured and execution was continued, raise it now
     }
