@@ -162,7 +162,7 @@ public final class LocaleUtil {
     private static void readConfigFile() {
         try {
             specialLetters = new HashMap<Locale, Set<Character>>();
-            Map<String, String> properties = IOUtil.readProperties("org/databene/commons/special-letters.properties");
+            Map<String, String> properties = IOUtil.readProperties("org/databene/commons/special-letters.properties", "UTF-8");
             for (Map.Entry<String, String> entry : properties.entrySet()) {
                 Locale locale = getLocale(String.valueOf(entry.getKey()));
                 String specialChars = String.valueOf(entry.getValue());
