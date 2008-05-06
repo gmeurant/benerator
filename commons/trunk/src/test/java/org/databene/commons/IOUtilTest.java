@@ -30,6 +30,8 @@ import junit.framework.TestCase;
 
 import java.io.*;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Arrays;
@@ -127,5 +129,48 @@ public class IOUtilTest  extends TestCase {
         } finally {
             file.delete();
         }
+    }
+    
+    public void testEncoding() throws MalformedURLException {
+    	URL URL = new URL("http://databene.org/");
+    	String ENCODING = "iso-8859-15";
+    	URLConnection c1 = new URLConnectionMock(URL, ENCODING, null);
+    	assertEquals(ENCODING, IOUtil.encoding(c1, ""));
+    	URLConnection c2 = new URLConnectionMock(URL, null, "charset:" + ENCODING);
+    	assertEquals(ENCODING, IOUtil.encoding(c2, ""));
+    	URLConnection c3 = new URLConnectionMock(URL, null, null);
+    	assertEquals(ENCODING, IOUtil.encoding(c3, ENCODING));
+    	URLConnection c4 = new URLConnectionMock(URL, null, null);
+    	assertEquals(SystemInfo.fileEncoding(), IOUtil.encoding(c4, null));
+    }
+    
+    private class URLConnectionMock extends URLConnection {
+    	
+    	String encoding;
+    	String contentTypeHeader;
+
+		protected URLConnectionMock(URL url, String encoding, String contentTypeHeader) {
+			super(url);
+			this.encoding = encoding;
+			this.contentTypeHeader = contentTypeHeader;
+		}
+
+		@Override
+		public void connect() throws IOException {
+			throw new UnsupportedOperationException("connect() not implemented");
+		}
+    	
+		@Override
+		public String getContentEncoding() {
+			return encoding;
+		}
+		
+		@Override
+		public String getHeaderField(String name) {
+			if ("Content-Type".equals(name))
+				return contentTypeHeader;
+			else
+				return null;
+		}
     }
 }

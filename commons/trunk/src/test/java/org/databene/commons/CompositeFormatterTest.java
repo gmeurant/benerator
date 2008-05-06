@@ -26,14 +26,12 @@
 
 package org.databene.commons;
 
-import java.util.Date;
-
 import org.databene.commons.collection.MapEntry;
 
 import junit.framework.TestCase;
 
 /**
- * TODO documentation.<br/><br/>
+ * Tests the {@link CompositeFormatter}.<br/><br/>
  * Created at 02.05.2008 12:08:43
  * @since 0.4.3
  * @author Volker Bergmann

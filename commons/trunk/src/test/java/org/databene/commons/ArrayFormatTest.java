@@ -28,6 +28,7 @@ package org.databene.commons;
 
 import junit.framework.TestCase;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 /**
@@ -43,7 +44,7 @@ public class ArrayFormatTest extends TestCase {
 
     public void testParse() {
         String[] tokens = ArrayFormat.parse("a, b, c", ", ", String.class);
-        assertTrue(ArrayUtil.equals(new String[] {"a", "b", "c"}, tokens));
+        assertTrue(Arrays.equals(new String[] {"a", "b", "c"}, tokens));
     }
 
     public void testFormatSimple() {

@@ -7,6 +7,7 @@ import junit.framework.AssertionFailedError;
 import java.io.PushbackReader;
 import java.io.StringReader;
 import java.io.IOException;
+import java.text.ParsePosition;
 import java.util.Arrays;
 import java.math.BigInteger;
 
@@ -27,10 +28,16 @@ public class ParseUtilTest extends TestCase {
         return new TestSuite(ParseUtilTest.class);
     }
 
-    public void testParseNonNegativeInteger() throws Exception {
+    public void testParseNonNegativeIntegerReader() throws Exception {
         assertEquals(0, ParseUtil.parseNonNegativeInteger(createReader("0")));
         assertEquals(1, ParseUtil.parseNonNegativeInteger(createReader("1")));
         assertEquals(123, ParseUtil.parseNonNegativeInteger(createReader("123")));
+    }
+
+    public void testParseNonNegativeIntegerString() throws Exception {
+        assertEquals(0, ParseUtil.parseNonNegativeInteger("0", new ParsePosition(0)));
+        assertEquals(1, ParseUtil.parseNonNegativeInteger("1", new ParsePosition(0)));
+        assertEquals(123, ParseUtil.parseNonNegativeInteger("123", new ParsePosition(0)));
     }
 
     public void testParseInteger() throws Exception {

@@ -28,9 +28,15 @@ package org.databene.commons.converter;
 
 import junit.framework.TestCase;
 import org.databene.SomeEnum;
+import org.databene.commons.ArrayUtil;
+import org.databene.commons.ConversionException;
 import org.databene.commons.converter.StringConverter;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * Tests the StringConverter.<br/>
@@ -39,12 +45,83 @@ import java.math.BigDecimal;
  */
 public class StringConverterTest extends TestCase {
 
+	public void testConvertNull() {
+        assertEquals(null, StringConverter.convert(null, Object.class));
+	}
+	
+	public void testConvertEmptyToNumber() {
+        assertEquals(null, StringConverter.convert("", Integer.class));
+        assertEquals(null, StringConverter.convert("", Byte.class));
+        assertEquals(null, StringConverter.convert("", BigDecimal.class));
+	}
+	
+	public void testConvertEmptyToPrimitive() {
+        assertEquals(null, StringConverter.convert("", int.class));
+        assertEquals(null, StringConverter.convert("", byte.class));
+        assertEquals(null, StringConverter.convert("", char.class));
+        assertEquals(null, StringConverter.convert("", boolean.class));
+	}
+	
+	public void testConvertValidToCharacter() {
+        assertEquals('A', (char)StringConverter.convert("A", Character.class));
+        assertEquals(null, StringConverter.convert("", Character.class));
+	}
+	
+	public void testConvertInvalidToCharacter() {
+		try {
+			StringConverter.convert("ABC", Character.class);
+			fail(ConversionException.class.getSimpleName() + " expected");
+		} catch (ConversionException e) {
+			// expected
+		}
+	}
+	
     public void testString2Enum() {
         assertEquals(SomeEnum.ONE, StringConverter.convert("ONE", SomeEnum.class));
     }
 
     public void testString2Number() {
         assertEquals(new BigDecimal("1"), StringConverter.convert("1", BigDecimal.class));
-
     }
+    
+    public void testString2Date() {
+        assertEquals(new GregorianCalendar(1970, 0, 1).getTimeInMillis(), StringConverter.convert("1970-01-01", Date.class).getTime());
+    }
+    
+    public void testString2StringArray() {
+        assertTrue(Arrays.equals(
+        		ArrayUtil.toArray("A", "B", "C"), 
+        		StringConverter.convert("A,B,C", String[].class)));
+    }
+    
+    public void testString2CharArray() {
+        assertTrue(Arrays.equals(
+        		ArrayUtil.toArray('A', 'B', 'C'), 
+        		StringConverter.convert("A,B,C", Character[].class)));
+    }
+
+    public void testString2IntegerArray() {
+        assertTrue(Arrays.equals(
+        		ArrayUtil.toArray(1, 2, 3), 
+        		StringConverter.convert("1,2,3", Integer[].class)));
+    }
+    
+    public void testString2PrimitiveNumber() {
+        assertEquals(1, (int)StringConverter.convert("1", int.class));
+        assertEquals((byte)1, (byte)StringConverter.convert("1", byte.class));
+    }
+    
+    public void testString2Locale() {
+        assertEquals(Locale.GERMAN, StringConverter.convert("de", Locale.class));
+    }
+    
+    public void testString2StringConverterTest() {
+    	try {
+    		StringConverter.convert("Bla", StringConverterTest.class);
+    		fail(ConversionException.class.getSimpleName() + " expected");
+    	} catch (ConversionException e) {
+    		// expected
+    	}
+    }
+    
 }

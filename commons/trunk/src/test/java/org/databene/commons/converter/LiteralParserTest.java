@@ -61,8 +61,26 @@ public class LiteralParserTest extends TestCase {
         checkText("TRUE");
         checkText("1.2.3.4");
         checkText("01.02.");
+        checkText("2000:");
+        checkText("2000-");
+        checkText("2000-00");
         checkText("2000-00-");
+        checkText("2000-01");
+        checkText("2000-01:");
         checkText("2000-01-");
+        checkText("2000-01-00");
+        checkText("2000-01-01-");
+        checkText("2000-01-01T");
+        checkText("2000-01-01TT");
+        checkText("2000-01-01T00");
+        checkText("2000-01-01T00-");
+        checkText("2000-01-01T00:T");
+        checkText("2000-01-01T00:00-");
+        checkText("2000-01-01T00:00:-");
+        checkText("2000-01-01T00:00:00T");
+        checkText("2000-01-01T00:00:00.");
+        checkText("2000-01-01T00:00:00.T");
+        checkText("2000-01-01T00:00:00.123T");
         checkText("1 2 3 4");
         checkText("01234");
     }

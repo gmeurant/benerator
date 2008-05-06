@@ -35,11 +35,10 @@ import org.databene.commons.Visitor;
 import junit.framework.TestCase;
 
 /**
- * TODO documentation.<br/><br/>
+ * Tests the {@link WrapperElement} class.<br/><br/>
  * Created at 02.05.2008 12:29:30
  * @since 0.4.3
  * @author Volker Bergmann
- *
  */
 public class WrapperElementTest extends TestCase {
 	

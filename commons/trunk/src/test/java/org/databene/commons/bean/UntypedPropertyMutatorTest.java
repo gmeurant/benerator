@@ -44,5 +44,42 @@ public class UntypedPropertyMutatorTest extends TestCase {
         aNameMutator.setValue(a, null);
         assertEquals(null, a.name);
     }
+    
+    public void testNonStrict() {
+	    UntypedPropertyMutator mutator = new UntypedPropertyMutator("bla", false);
+		mutator.setValue(null, null);
+		mutator.setValue(new ABean(), null);
+	    UntypedPropertyMutator readOnly = new UntypedPropertyMutator("readOnly", false);
+	    readOnly.setValue(new ABean(), "bla");
+    }
 
+    public void testStrictSetOnNull() {
+    	try {
+	    	UntypedPropertyMutator mutator = new UntypedPropertyMutator("bla", true);
+	    	mutator.setValue(null, null);
+	    	fail(UpdateFailedException.class.getSimpleName() + " expected");
+    	} catch (UpdateFailedException e) {
+    		// expected
+    	}
+    }
+
+    public void testStrictMissingProperty() {
+    	try {
+	    	UntypedPropertyMutator mutator = new UntypedPropertyMutator("bla", true);
+	    	mutator.setValue(new ABean(), null);
+	    	fail(UpdateFailedException.class.getSimpleName() + " expected");
+    	} catch (UpdateFailedException e) {
+    		// expected
+    	}
+    }
+
+    public void testStrictReadOnlyProperty() {
+    	try {
+	    	UntypedPropertyMutator mutator = new UntypedPropertyMutator("readOnly", true);
+	    	mutator.setValue(new ABean(), null);
+	    	fail(UpdateFailedException.class.getSimpleName() + " expected");
+    	} catch (UpdateFailedException e) {
+    		// expected
+    	}
+    }
 }

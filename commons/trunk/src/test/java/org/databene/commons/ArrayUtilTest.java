@@ -79,10 +79,10 @@ public class ArrayUtilTest extends TestCase {
     }
 
     public void testCommonElements() {
-        assertTrue(ArrayUtil.equals(ONE_TO_THREE, ArrayUtil.commonElements(ONE_TO_THREE, ONE_TO_THREE)));
-        assertTrue(ArrayUtil.equals(ONE, ArrayUtil.commonElements(new Integer[] {0, 1}, ONE_TO_THREE)));
-        assertTrue(ArrayUtil.equals(NONE, ArrayUtil.commonElements(new Integer[] {8}, ONE_TO_THREE)));
-        assertTrue(ArrayUtil.equals(NONE, ArrayUtil.commonElements(new Integer[0], ONE_TO_THREE)));
+        assertTrue(Arrays.equals(ONE_TO_THREE, ArrayUtil.commonElements(ONE_TO_THREE, ONE_TO_THREE)));
+        assertTrue(Arrays.equals(ONE, ArrayUtil.commonElements(new Integer[] {0, 1}, ONE_TO_THREE)));
+        assertTrue(Arrays.equals(NONE, ArrayUtil.commonElements(new Integer[] {8}, ONE_TO_THREE)));
+        assertTrue(Arrays.equals(NONE, ArrayUtil.commonElements(new Integer[0], ONE_TO_THREE)));
     }
 
     public void testEqualsIgnoreOrder() {
@@ -124,8 +124,4 @@ public class ArrayUtilTest extends TestCase {
         assertTrue(Arrays.equals(new Integer[3], instance));
     }
 
-    public void testEquals() {
-        assertTrue(ArrayUtil.equals(new String[] { null }, new String[] { null }));
-        assertTrue(ArrayUtil.equals(new String[] {"a", "b", "c"}, new String[] {"a", "b", "c"}));
-    }
 }

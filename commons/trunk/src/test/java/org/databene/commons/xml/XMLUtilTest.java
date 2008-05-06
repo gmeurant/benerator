@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringBufferInputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,7 +78,7 @@ public class XMLUtilTest extends TestCase {
         Element parent = createElementWithChildren(document, "p", child1, child2);
         Element[] expectedChildren = ArrayUtil.toArray(child1, child2);
         Element[] actualChildren = XMLUtil.getChildElements(parent);
-        assertTrue(ArrayUtil.equals(expectedChildren, actualChildren));
+        assertTrue(Arrays.equals(expectedChildren, actualChildren));
     }
     
     public void testGetChildElementsByName() {
@@ -87,7 +88,7 @@ public class XMLUtilTest extends TestCase {
         Element parent = createElementWithChildren(document, "p", child1, child2);
         Element[] expectedChildren = ArrayUtil.toArray(child2);
         Element[] actualChildren = XMLUtil.getChildElements(parent, true, "c2");
-        assertTrue(ArrayUtil.equals(expectedChildren, actualChildren));
+        assertTrue(Arrays.equals(expectedChildren, actualChildren));
     }
 
     public void testGetChildElementByName() {

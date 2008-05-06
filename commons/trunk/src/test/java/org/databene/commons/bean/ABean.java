@@ -48,4 +48,8 @@ public class ABean {
     public void setB(BBean b) {
         this.b = b;
     }
+    
+    public String readOnly() {
+    	return "read-only";
+    }
 }
