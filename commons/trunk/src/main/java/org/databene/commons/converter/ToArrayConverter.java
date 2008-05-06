@@ -35,7 +35,8 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 
 /**
- * Converts arrays and collections to arrays and other object to an array of size 1.<br/>
+ * Converts arrays and collections to arrays and other object to an array of size 1.
+ * Note: The target type is not declared Object[], since we also want to create byte[].<br/>
  * <br/>
  * Created: 26.08.2007 16:01:38
  */
@@ -43,25 +44,50 @@ public class ToArrayConverter implements Converter {
 
     private Class componentType;
     private Class arrayType;
+    private boolean nullToEmpty;
 
+    // constructors ----------------------------------------------------------------------------------------------------
+    
     public ToArrayConverter() {
         this(Object.class);
+        this.nullToEmpty = false;
     }
 
     public ToArrayConverter(Class componentType) {
+        this(componentType, false);
+    }
+
+    public ToArrayConverter(Class componentType, boolean nullToEmpty) {
         this.componentType = componentType;
         this.arrayType = ArrayUtil.arrayType(componentType);
+        this.nullToEmpty = nullToEmpty;
     }
+    
+    // properties ------------------------------------------------------------------------------------------------------
+
+    public void setNullToEmpty(boolean nullToEmpty) {
+    	this.nullToEmpty = nullToEmpty;
+    }
+
+    // Converter interface implementation ------------------------------------------------------------------------------
 
     public Class getTargetType() {
         return arrayType;
     }
-
+    
     public Object convert(Object sourceValue) {
-        return convert(sourceValue, componentType);
+        return convert(sourceValue, componentType, nullToEmpty);
     }
+    
+    // static utility methods ------------------------------------------------------------------------------------------
 
     public static Object convert(Object sourceValue, Class componentType) {
+    	return convert(sourceValue, componentType, false);
+    }
+
+    public static Object convert(Object sourceValue, Class componentType, boolean nullToEmpty) {
+    	if (sourceValue == null)
+    		return (nullToEmpty ? ArrayUtil.buildArrayOfType(componentType) : null);
         if (sourceValue instanceof Collection) {
             Collection col = (Collection) sourceValue;
             Object[] array = (Object[]) Array.newInstance(componentType, col.size());
@@ -72,11 +98,13 @@ public class ToArrayConverter implements Converter {
         } else if (componentType == byte.class) {
             Method method = BeanUtil.getMethod(sourceValue.getClass(), "getBytes");
             if (method != null)
-                return BeanUtil.invoke(sourceValue, method);
+                return (byte[]) BeanUtil.invoke(sourceValue, method);
             else
                 throw new UnsupportedOperationException("Conversion not supported: " + sourceValue.getClass() + " -> " + componentType + "[]");
-        } else
-            return ArrayUtil.buildArrayOfType(componentType, sourceValue);
+        } else if (sourceValue.getClass().isArray())
+            return ArrayUtil.buildArrayOfType(componentType, (Object[]) sourceValue);
+	    else 
+	        return ArrayUtil.buildArrayOfType(componentType, sourceValue);
     }
 
 }
