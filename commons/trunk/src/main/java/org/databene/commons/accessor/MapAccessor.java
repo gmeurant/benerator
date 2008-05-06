@@ -27,6 +27,7 @@
 package org.databene.commons.accessor;
 
 import org.databene.commons.Accessor;
+import org.databene.commons.NullSafeComparator;
 
 import java.util.Map;
 
@@ -61,7 +62,7 @@ public class MapAccessor<C extends Map<K, V>, K, V extends Object> implements Ac
         if (o == null || getClass() != o.getClass())
             return false;
         final MapAccessor that = (MapAccessor) o;
-        return (this.key != null ? this.key.equals(that.key) : that.key == null);
+        return NullSafeComparator.equals(this.key, that.key);
     }
 
     public int hashCode() {
