@@ -55,63 +55,76 @@ public class HTML2XML {
         }
     }
 
+    private static class ConversionContext {
+    	
+    	private Writer writer;
+    	private HTMLTokenizer tokenizer;
+    	private Stack<String> path;
+    	private boolean rootCreated;
+    	
+    	private ConversionContext(Reader reader, Writer writer) {
+    		this.tokenizer = new DefaultHTMLTokenizer(reader);
+    		this.path = new Stack<String>();
+    		this.rootCreated = false;
+    		this.writer = writer;
+    	}
+    }
+
     public static void convert(Reader reader, Writer writer) throws IOException, ParseException {
+    	// TODO 0.4.4 use XML serializer
         writeHeader(writer);
-        HTMLTokenizer tokenizer = new DefaultHTMLTokenizer(reader);
-        Stack<String> path = new Stack<String>();
+    	ConversionContext context = new ConversionContext(reader, writer);
         int token;
-        boolean rootCreated = false;
-        while ((token = tokenizer.nextToken()) != HTMLTokenizer.END) {
+        while ((token = context.tokenizer.nextToken()) != HTMLTokenizer.END) {
             switch (token) {
                 case (HTMLTokenizer.START_TAG) :
-                    if ("script".equalsIgnoreCase(tokenizer.name()))
+                    if ("script".equalsIgnoreCase(context.tokenizer.name())) // TODO v0.4.4 test script handling
                         continue;
-                    if (!rootCreated && !"html".equals(tokenizer.name())) {
-                        // ensure that there is an html root tag
-                        writeStartTag(writer, tokenizer);
-                        path.push(tokenizer.name());
-                        rootCreated = true;
-                    } else {
-                        if (path.size() > 0) {
-                            String lastTagName = path.peek();
-                            if (HTMLUtil.isEmptyTag(lastTagName) && !tokenizer.name().equals(lastTagName)) {
-                                writer.write("</" + lastTagName + '>');
-                                path.pop();
+                    if (!context.rootCreated && !"html".equals(context.tokenizer.name()))
+                        ensureRootElement(context);
+                    else {
+                        if (context.path.size() > 0) {
+                            String lastTagName = context.path.peek();
+                            if (HTMLUtil.isEmptyTag(lastTagName) && !context.tokenizer.name().equals(lastTagName)) {
+                                context.writer.write("</" + lastTagName + '>');
+                                context.path.pop();
                             }
                         }
                     }
-                    writeStartTag(writer, tokenizer);
-                    rootCreated = true;
-                    path.push(tokenizer.name());
+                    writeStartTag(context.writer, context.tokenizer);
+                    context.rootCreated = true;
+                    context.path.push(context.tokenizer.name());
                     break;
                 case (HTMLTokenizer.CLOSED_TAG):
-                    writeEmptyTag(writer, tokenizer);
+                    writeEmptyTag(context.writer, context.tokenizer);
                 case (HTMLTokenizer.END_TAG):
-                    if ("script".equalsIgnoreCase(tokenizer.name()))
+                    if ("script".equalsIgnoreCase(context.tokenizer.name()))
                         continue;
                     boolean done = false;
-                    if (contains(path, tokenizer.name())) {
+                    if (contains(context.path, context.tokenizer.name())) {
                         do {
-                            String pathTagName = path.pop();
-                            writer.write("</" + pathTagName + '>');
-                            if (pathTagName.equals(tokenizer.name()))
+                            String pathTagName = context.path.pop();
+                            context.writer.write("</" + pathTagName + '>');
+                            if (pathTagName.equals(context.tokenizer.name()))
                                 done = true;
                         } while (!done);
                     }
-                    if ("html".equalsIgnoreCase(tokenizer.name()))
+                    if ("html".equalsIgnoreCase(context.tokenizer.name()))
                         return;
                     break;
                 case HTMLTokenizer.TEXT:
-                    writeText(writer, tokenizer.text());
+                	ensureRootElement(context);
+                    writeText(context.writer, context.tokenizer.text());
                     break;
                 case HTMLTokenizer.COMMENT:
-                    writeText(writer, tokenizer.text());
+                	ensureRootElement(context);
+                    writeText(context.writer, context.tokenizer.text());
                     break;
                 case HTMLTokenizer.DOCUMENT_TYPE:
                     // leave out doc type
                     break;
                 case HTMLTokenizer.PROCESSING_INSTRUCTION:
-                    writeText(writer, tokenizer.text());
+                    writeText(context.writer, context.tokenizer.text());
                     break;
                 case HTMLTokenizer.SCRIPT:
                     // ignore this
@@ -120,11 +133,20 @@ public class HTML2XML {
                     throw new UnsupportedOperationException("Unsupported token type: " + token);
             }
         }
-        while (path.size() > 0) {
-            String tagName = path.pop();
-            writer.write("</" + tagName + '>');
+        while (context.path.size() > 0) {
+            String tagName = context.path.pop();
+            context.writer.write("</" + tagName + '>');
         }
     }
+
+	private static void ensureRootElement(ConversionContext context) throws IOException {
+		// ensure that there is an html root tag
+		if (!context.rootCreated && !"html".equals(context.tokenizer.name())) {
+			writeStartTag(context.writer, "html");
+			context.path.push("html");
+			context.rootCreated = true;
+		}
+	}
 
     private static boolean contains(Stack<String> path, String name) {
         for (String tagName : path)
@@ -147,6 +169,10 @@ public class HTML2XML {
         writer.write('<' + tokenizer.name());
         writeAttributes(writer, tokenizer);
         writer.write('>');
+    }
+
+    private static void writeStartTag(Writer writer, String name) throws IOException {
+        writer.write('<' + name + '>');
     }
 
     private static void writeAttributes(Writer writer, HTMLTokenizer tokenizer) throws IOException {
