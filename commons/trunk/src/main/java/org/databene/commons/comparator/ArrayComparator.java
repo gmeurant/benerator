@@ -49,6 +49,10 @@ public class ArrayComparator<E> implements Comparator<E[]> {
     }
 
     public int compare(E[] array1, E[] array2) {
+    	if (array1 == null)
+    		return (array2 == null ? 0 : -1);
+    	if (array2 == null)
+    		return 1;
         // iterate through the elements and compara them one by one
         int minLength = Math.min(array1.length, array2.length);
         for (int i = 0; i < minLength; i++) {
