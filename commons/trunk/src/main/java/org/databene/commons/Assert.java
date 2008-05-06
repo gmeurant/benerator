@@ -61,7 +61,9 @@ public class Assert {
 	}
 	
 	public static <T> void equals(T[] a1, T[] a2) {
-		if ((a1 == null && a2 != null) || (a1 == null && a2 != null))
+		if (a1 == null && a2 == null)
+			return;
+		if ((a1 == null && a2 != null) || (a1 != null && a2 == null))
 			throw new AssertionError("Arrays are not equal, one of them is null");
 		if (a1.length != a2.length)
 			throw new AssertionError("Arrays are not equal, the size differs: [" + 
@@ -72,7 +74,9 @@ public class Assert {
 	}
 	
 	public static void equals(byte[] a1, byte[] a2) {
-		if ((a1 == null && a2 != null) || (a1 == null && a2 != null))
+		if (a1 == null && a2 == null)
+			return;
+		if ((a1 == null && a2 != null) || (a1 != null && a2 == null))
 			throw new AssertionError("Arrays are not equal, one of them is null");
 		if (a1.length != a2.length)
 			throw new AssertionError("Arrays are not equal, the size differs: [" + 
