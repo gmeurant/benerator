@@ -231,9 +231,12 @@ public final class ArrayUtil {
         return (values == null || values.length == 0);
     }
 
-    public static boolean equals(Object[] a1, Object[] a2) {
+    /** @deprecated use Arrays.deepEquals()*/
+    @Deprecated
+    public static boolean equals(Object[] a1, Object[] a2) { // TODO v0.6.0 remove
     	return Arrays.deepEquals(a1, a2);
-/* TODO remove
+
+/* 
         if (a1 == a2)
             return true;
         if (a1 == null)
@@ -259,5 +262,11 @@ public final class ArrayUtil {
         }
         return true;
 */
+    }
+    
+    public static <T> T lastElement(T[] array) {
+    	if (isEmpty(array))
+    		return null;
+    	return array[array.length - 1];
     }
 }
