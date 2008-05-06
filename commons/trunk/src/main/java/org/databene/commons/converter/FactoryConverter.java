@@ -81,7 +81,7 @@ public class FactoryConverter<S, T> implements Converter<S, T> {
         if (result == null)
             result = tryToConstructByTypeValueMethod(src, targetType);
         if (result == null)
-            throw new UnsupportedOperationException("Don't know how to convert '" + src + "' to " + targetType);
+            throw new ConversionException("Don't know how to convert '" + src + "' to " + targetType);
         return result;
     }
 
