@@ -120,7 +120,8 @@ public final class ParseUtil {
             reader.unread(c);
     }
     
-/* TODO v0.5.3 obsolete ?
+    // TODO v0.5.0 remove
+    @Deprecated
     public static String parseUnit(PushbackReader reader) throws IOException {
         StringBuilder result = new StringBuilder();
         int c;
@@ -130,7 +131,6 @@ public final class ParseUtil {
             reader.unread(c);
         return (result.length() > 0 ? result.toString() : null);
     }
-*/
     
     public static boolean parseEstimated(PushbackReader reader) throws IOException {
         int c = reader.read();
