@@ -115,7 +115,7 @@ public final class LocaleUtil {
         String localeString = locale.toString();
         do {
             String url = baseName;
-            if (localeString != null && localeString.length() > 0)
+            if (!StringUtil.isEmpty(localeString))
                 url += "_" + localeString;
             url += suffix;
             if (IOUtil.isURIAvailable(url))
@@ -128,7 +128,7 @@ public final class LocaleUtil {
     private static String reduceLocaleString(String localeString) {
         if (localeString == null || localeString.length() == 0)
             return null;
-        int separatorIndex = localeString.indexOf('_');
+        int separatorIndex = localeString.lastIndexOf('_');
         if (separatorIndex < 0)
             return "";
         return localeString.substring(0, separatorIndex);
