@@ -31,7 +31,7 @@ package org.databene.commons;
  * <br/>
  * Created: 18.01.2007 20:35:12
  */
-public class UpdateFailedException extends Exception {
+public class UpdateFailedException extends RuntimeException {
 
 	private static final long serialVersionUID = 1301603724337727327L;
 
