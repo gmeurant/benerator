@@ -168,67 +168,10 @@ public final class IOUtil {
     }
 
     public static BufferedReader getReaderForURI(String uri, String defaultEncoding) throws IOException {
-        if (uri.startsWith("http://")) {
-            try {
-                URLConnection connection = getConnection(uri);
-                connection.connect();
-                String encoding = connection.getContentEncoding();
-                if (encoding == null) {
-                    String ct = connection.getHeaderField("Content-Type");
-                    int i = ct.indexOf("charset");
-                    if (i >= 0)
-                        encoding = ct.substring(i + "charset".length() + 1);
-                }
-                if (encoding == null)
-                    encoding = defaultEncoding;
-                if (encoding == null)
-                    encoding = SystemInfo.fileEncoding();
-                InputStream inputStream = connection.getInputStream();
-                return new BufferedReader(new InputStreamReader(inputStream, encoding));
-            } catch (MalformedURLException e) {
-                throw new IllegalArgumentException(e);
-            }
-        } else {
-            if (defaultEncoding == null)
-                defaultEncoding = SystemInfo.fileEncoding();
-            InputStream is = getInputStreamForURI(uri);
-            PushbackInputStream in = new PushbackInputStream(is, 4);
-            defaultEncoding = bomEncoding(in, defaultEncoding);
-            return new BufferedReader(new InputStreamReader(in, defaultEncoding));
-        }
-    }
-
-    private static String bomEncoding(PushbackInputStream in, String defaultEncoding) throws IOException {
-        int b1 = in.read();
-        if (b1 == -1)
-            return defaultEncoding;
-        if (b1 != 0xEF) {
-            in.unread(b1);
-            return defaultEncoding;
-        }
-        int b2 = in.read();
-        if (b2 == -1) {
-            in.unread(b1);
-            return defaultEncoding;
-        }
-        if (b2 != 0xBB) {
-            in.unread(b2);
-            in.unread(b1);
-            return defaultEncoding;
-        }
-        int b3 = in.read();
-        if (b3 == -1) {
-            in.unread(b2);
-            in.unread(b1);
-            return defaultEncoding;
-        }
-        if (b3 != 0xBF) {
-            in.unread(b3);
-            in.unread(b2);
-            in.unread(b1);
-            return defaultEncoding;
-        }
-        return "UTF-8";
+        if (uri.startsWith("http://"))
+            return getHttpReader(uri, defaultEncoding);
+        else
+            return getFileReader(uri, defaultEncoding);
     }
 
     /**
@@ -462,4 +405,78 @@ public final class IOUtil {
         transfer(in, out);
         return out.toByteArray();
     }
+
+    private static BufferedReader getFileReader(String filename, String defaultEncoding) 
+    		throws IOException, UnsupportedEncodingException {
+		if (defaultEncoding == null)
+		    defaultEncoding = SystemInfo.fileEncoding();
+		InputStream is = getInputStreamForURI(filename);
+		PushbackInputStream in = new PushbackInputStream(is, 4);
+		defaultEncoding = bomEncoding(in, defaultEncoding);
+		return new BufferedReader(new InputStreamReader(in, defaultEncoding));
+	}
+
+	private static BufferedReader getHttpReader(String url, String defaultEncoding) 
+			throws IOException, UnsupportedEncodingException {
+		try {
+		    URLConnection connection = getConnection(url);
+		    connection.connect();
+		    String encoding = encoding(connection, defaultEncoding);
+		    InputStream inputStream = connection.getInputStream();
+		    return new BufferedReader(new InputStreamReader(inputStream, encoding));
+		} catch (MalformedURLException e) {
+		    throw new IllegalArgumentException(e);
+		}
+	}
+
+	static String encoding(URLConnection connection, String defaultEncoding) {
+		String encoding = connection.getContentEncoding();
+		if (StringUtil.isEmpty(encoding)) {
+		    String ct = connection.getHeaderField("Content-Type");
+		    if (!StringUtil.isEmpty(ct)) {
+			    int i = ct.indexOf("charset");
+			    if (i >= 0)
+			        encoding = ct.substring(i + "charset".length() + 1).trim();
+		    }
+		}
+		if (StringUtil.isEmpty(encoding))
+		    encoding = defaultEncoding;
+		if (StringUtil.isEmpty(encoding))
+			encoding = SystemInfo.fileEncoding();
+		return encoding;
+	}
+
+    private static String bomEncoding(PushbackInputStream in, String defaultEncoding) throws IOException {
+        int b1 = in.read();
+        if (b1 == -1)
+            return defaultEncoding;
+        if (b1 != 0xEF) {
+            in.unread(b1);
+            return defaultEncoding;
+        }
+        int b2 = in.read();
+        if (b2 == -1) {
+            in.unread(b1);
+            return defaultEncoding;
+        }
+        if (b2 != 0xBB) {
+            in.unread(b2);
+            in.unread(b1);
+            return defaultEncoding;
+        }
+        int b3 = in.read();
+        if (b3 == -1) {
+            in.unread(b2);
+            in.unread(b1);
+            return defaultEncoding;
+        }
+        if (b3 != 0xBF) {
+            in.unread(b3);
+            in.unread(b2);
+            in.unread(b1);
+            return defaultEncoding;
+        }
+        return "UTF-8";
+    }
+
 }
