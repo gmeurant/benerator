@@ -55,26 +55,53 @@ public class HTML2XMLTest extends TestCase {
             "</html>";
 
     private static final String XML1 =
-            "<?xml version=\"1.0\"?>" + SEP +
-            "<html>" + SEP +
-            "\t<?XXX level=\"3\"?>" + SEP +
-            "\t<!-- some comment -->" + SEP +
-            "\t<tr>" + SEP +
-            "\t\t<td>" + SEP +
-            "\t\t\t<a></a></td>" + SEP +
-            "\t\t<td>" + SEP +
-            "\t\t\t<img src=\"http://databene.org\"></img></td>" + SEP +
-            "\t\t<td>" + SEP +
-            "\t\t\t<img></img></td>" + SEP +
-            "\t</tr>" + SEP +
-            "</html>";
+        "<?xml version=\"1.0\"?>" + SEP +
+        "<html>" + SEP +
+        "\t<?XXX level=\"3\"?>" + SEP +
+        "\t<!-- some comment -->" + SEP +
+        "\t<tr>" + SEP +
+        "\t\t<td>" + SEP +
+        "\t\t\t<a></a></td>" + SEP +
+        "\t\t<td>" + SEP +
+        "\t\t\t<img src=\"http://databene.org\"></img></td>" + SEP +
+        "\t\t<td>" + SEP +
+        "\t\t\t<img></img></td>" + SEP +
+        "\t</tr>" + SEP +
+        "</html>";
 
-    public void test1() throws IOException, ParseException {
-        StringReader in = new StringReader(HTML1);
+    private static final String HTML2 = 
+    	"<a><img src=\"http://databene.org\"><br></a>";
+
+    private static final String XML2 =
+        "<?xml version=\"1.0\"?>" + SEP +
+        "<html><a><img src=\"http://databene.org\"></img><br></br></a></html>";
+
+    private static final String HTML3 = 
+    	"R&B";
+
+    private static final String XML3 =
+        "<?xml version=\"1.0\"?>" + SEP +
+        "<html>R&amp;B</html>";
+
+    public void testNormal() throws IOException, ParseException {
+		check(HTML1, XML1);
+    }
+
+    public void testMissingHtml() throws IOException, ParseException {
+		check(HTML2, XML2);
+    }
+
+    public void testAmpersand() throws IOException, ParseException {
+		check(HTML3, XML3);
+    }
+
+	private void check(String source, String result) throws IOException,
+			ParseException {
+		StringReader in = new StringReader(source);
         StringWriter out = new StringWriter();
         HTML2XML.convert(in, out);
         in.close();
         out.close();
-        assertEquals(XML1, out.toString());
-    }
+		assertEquals(result, out.toString());
+	}
 }
