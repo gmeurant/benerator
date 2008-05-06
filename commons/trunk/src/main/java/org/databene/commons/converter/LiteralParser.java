@@ -102,12 +102,16 @@ public class LiteralParser implements Converter<String, Object> {
         Long year = parseNonNegativeIntegerPart(iterator, true);
         if (year == null || !iterator.hasNext() || iterator.next() != '-')
             return null;
+        if (!iterator.hasNext())
+        	return null;
         Long month = parseNonNegativeIntegerPart(iterator, true);
         if (month == null || !iterator.hasNext() || iterator.next() != '-')
             return null;
+        if (!iterator.hasNext())
+        	return null;
         month = month - 1;
         Long day = parseNonNegativeIntegerPart(iterator, true);
-        if (day == null)
+        if (day == null || day == 0)
         	return null;
         if (!iterator.hasNext())
             return TimeUtil.date(year.intValue(), month.intValue(), day.intValue());
@@ -124,7 +128,7 @@ public class LiteralParser implements Converter<String, Object> {
             return TimeUtil.date(year.intValue(), month.intValue(), day.intValue(), hours.intValue(), minutes.intValue(), 0, 0);
         // parse seconds
         if (iterator.next() != ':')
-            return trimmed;
+            return null;
         Long seconds = parseNonNegativeIntegerPart(iterator, true);
         if (seconds == null)
         	return null;
@@ -132,22 +136,26 @@ public class LiteralParser implements Converter<String, Object> {
             return TimeUtil.date(year.intValue(), month.intValue(), day.intValue(), hours.intValue(), minutes.intValue(), seconds.intValue(), 0);
         // parse second fractions
         if (iterator.next() != '.')
-            return trimmed;
-        double f = parseFraction(iterator);
+            return null;
+        Double f = parseFraction(iterator);
+        if (f == null)
+        	return null;
         if (!iterator.hasNext())
             return TimeUtil.date(year.intValue(), month.intValue(), day.intValue(), hours.intValue(), minutes.intValue(), seconds.intValue(), (int)(f * 1000));
         else
             return trimmed;
     }
     
-    private static double parseFraction(StringCharacterIterator iterator) {
-        double p = 0.;
-        double base = 0.1;
+    private static Double parseFraction(StringCharacterIterator iterator) {
+        Double p = null;
+        Double base = 0.1;
         while (iterator.hasNext()) {
             char c = iterator.next();
-            if (c >= '0' && c <= '9')
+            if (c >= '0' && c <= '9') {
+            	if (p == null)
+            		p = 0.;
                 p += base * (c - '0');
-            else {
+            } else {
                 iterator.pushBack();
                 return p;
             }
@@ -157,11 +165,13 @@ public class LiteralParser implements Converter<String, Object> {
     }
     
     private static Long parseNonNegativeIntegerPart(StringCharacterIterator iterator, boolean leadingZeros) {
-        long n = 0;
+        Long n = null;
         int c = '0';
         int digitCount = 0;
         while (iterator.hasNext() && Character.isDigit(c = iterator.next())) {
         	digitCount++;
+        	if (n == null)
+        		n = 0L;
             int d = (c - '0');
             if (!leadingZeros && digitCount == 2 && n == 0)
             	return null; //
