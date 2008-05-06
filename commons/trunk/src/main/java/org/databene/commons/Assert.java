@@ -26,6 +26,8 @@
 
 package org.databene.commons;
 
+import java.util.Arrays;
+
 /**
  * An assertion utility.<br/><br/>
  * Created at 25.04.2008 17:59:43
@@ -53,8 +55,30 @@ public class Assert {
 					+ ", but is: " + text);
 	}
 
-	public static void notNull(String name, Object object) {
+	public static void notNull(Object object, String objectRole) {
 		if (object == null)
-			throw new IllegalArgumentException(name + " is not supposed to be null");
+			throw new AssertionError(objectRole + " is not supposed to be null");
+	}
+	
+	public static <T> void equals(T[] a1, T[] a2) {
+		if ((a1 == null && a2 != null) || (a1 == null && a2 != null))
+			throw new AssertionError("Arrays are not equal, one of them is null");
+		if (a1.length != a2.length)
+			throw new AssertionError("Arrays are not equal, the size differs: [" + 
+					ArrayFormat.format(a1) + "] vs. [" + ArrayFormat.format(a2) + ']');
+		if (!Arrays.deepEquals(a1, a2))
+			throw new AssertionError("Arrays are not equal, content differs: [" + 
+					ArrayFormat.format(a1) + "] vs. [" + ArrayFormat.format(a2) + ']');
+	}
+	
+	public static void equals(byte[] a1, byte[] a2) {
+		if ((a1 == null && a2 != null) || (a1 == null && a2 != null))
+			throw new AssertionError("Arrays are not equal, one of them is null");
+		if (a1.length != a2.length)
+			throw new AssertionError("Arrays are not equal, the size differs: [" + 
+					ArrayFormat.formatBytes(",", a1) + "] vs. [" + ArrayFormat.formatBytes(",", a2) + ']');
+		if (!Arrays.equals(a1, a2))
+			throw new AssertionError("Arrays are not equal, content differs: [" + 
+					ArrayFormat.formatBytes(",", a1) + "] vs. [" + ArrayFormat.formatBytes(",", a2) + ']');
 	}
 }
