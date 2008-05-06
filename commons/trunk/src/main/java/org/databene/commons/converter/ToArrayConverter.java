@@ -50,11 +50,10 @@ public class ToArrayConverter implements Converter {
     
     public ToArrayConverter() {
         this(Object.class);
-        this.nullToEmpty = false;
     }
 
     public ToArrayConverter(Class componentType) {
-        this(componentType, false);
+        this(componentType, true);
     }
 
     public ToArrayConverter(Class componentType, boolean nullToEmpty) {
@@ -82,7 +81,7 @@ public class ToArrayConverter implements Converter {
     // static utility methods ------------------------------------------------------------------------------------------
 
     public static Object convert(Object sourceValue, Class componentType) {
-    	return convert(sourceValue, componentType, false);
+    	return convert(sourceValue, componentType, true);
     }
 
     public static Object convert(Object sourceValue, Class componentType, boolean nullToEmpty) {
