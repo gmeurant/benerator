@@ -41,7 +41,7 @@ public class Escalation {
     
     public Escalation(String message, Object originator, Object cause) {
         super();
-        Assert.notNull("message", message);
+        Assert.notNull(message, "message");
         this.message = message;
         this.originator = originator;
         this.cause = cause;
