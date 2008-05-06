@@ -45,6 +45,8 @@ public class TreeIterator<E> implements BidirectionalIterator<E> {
     private E next;
     private Boolean hasPrevious;
     private E previous;
+    
+    // constructors ----------------------------------------------------------------------------------------------------
 
     public TreeIterator(TreeModel<E> treeModel) {
         this.treeModel = treeModel;
@@ -54,6 +56,8 @@ public class TreeIterator<E> implements BidirectionalIterator<E> {
         this.hasPrevious = null;
         this.previous = null;
     }
+    
+    // BidirectionalIterator interface implementation ------------------------------------------------------------------
 
     public E first() {
         this.cursor = treeModel.getRoot();
@@ -70,45 +74,6 @@ public class TreeIterator<E> implements BidirectionalIterator<E> {
             hasPrevious = (previous != null);
         }
         return hasPrevious;
-    }
-
-    private static <T> T nodeBefore(T cursor, TreeModel<T> treeModel) {
-        // find previous
-        if (cursor == treeModel.getRoot())
-            return null;
-        T parent = treeModel.getParent(cursor);
-        for (int i = treeModel.getIndexOfChild(parent, cursor); i > 0; i--) {
-            T tmp = treeModel.getChild(parent, i - 1);
-            if (treeModel.isLeaf(tmp))
-                return tmp;
-            else {
-                T candidate = lastSubNode(tmp, treeModel);
-                if (candidate != null)
-                    return candidate;
-            }
-        }
-        if (!treeModel.getRoot().equals(parent))
-            return nodeBefore(parent, treeModel);
-        return null;
-    }
-
-    private static <T> T lastChild(T node, TreeModel<T> treeModel) {
-        int childCount = treeModel.getChildCount(node);
-        if (childCount > 0)
-            return treeModel.getChild(node, childCount - 1);
-        else
-            return null;
-    }
-
-    private static <T> T lastSubNode(T node, TreeModel<T> treeModel) {
-        T candidate = lastChild(node, treeModel);
-        while (candidate != null) {
-            if (treeModel.isLeaf(candidate))
-                return candidate;
-            else
-                candidate = lastChild(candidate, treeModel);
-        }
-        return null;
     }
 
     public E previous() {
@@ -128,7 +93,7 @@ public class TreeIterator<E> implements BidirectionalIterator<E> {
         hasPrevious = null;
         previous = null;
         E tmp = lastChild(treeModel.getRoot(), treeModel);
-        while (!treeModel.isLeaf(tmp)) {
+        while (treeModel.getChildCount(tmp) > 0) {
             E candidate = lastChild(tmp, treeModel);
             if (candidate == null) {// empty directory
                 cursor = tmp;
@@ -148,10 +113,72 @@ public class TreeIterator<E> implements BidirectionalIterator<E> {
         return hasNext;
     }
 
+    public E next() {
+        if (!hasNext())
+            throw new IllegalStateException("No object available for next()");
+        hasPrevious = true;
+        previous = cursor;
+        cursor = next;
+        hasNext = null;
+        next = null;
+        return cursor;
+    }
+
+    public void remove() {
+        throw new UnsupportedOperationException("remove() is not supported on " + getClass());
+    }
+    
+    // private helpers -------------------------------------------------------------------------------------------------
+    
+    private static <T> T nodeBefore(T cursor, TreeModel<T> treeModel) {
+        // root is the very first node
+        if (cursor == treeModel.getRoot())
+            return null;
+        // check previous siblings
+        T parent = treeModel.getParent(cursor);
+        for (int i = treeModel.getIndexOfChild(parent, cursor); i > 0; i--) {
+            T tmp = treeModel.getChild(parent, i - 1);
+            if (treeModel.getChildCount(tmp) == 0)
+                return tmp;
+            else {
+                T candidate = lastSubNode(tmp, treeModel);
+                if (candidate != null)
+                    return candidate;
+            }
+        }
+        /*
+        // check sibling of parent
+        if (!treeModel.getRoot().equals(parent))
+            return nodeBefore(parent, treeModel);
+        else // return root
+        	return treeModel.getRoot();
+        */
+        return parent;
+    }
+
+    private static <T> T lastChild(T node, TreeModel<T> treeModel) {
+        int childCount = treeModel.getChildCount(node);
+        if (childCount > 0)
+            return treeModel.getChild(node, childCount - 1);
+        else
+            return null;
+    }
+
+    private static <T> T lastSubNode(T node, TreeModel<T> treeModel) {
+        T candidate = lastChild(node, treeModel);
+        while (candidate != null) {
+            if (treeModel.getChildCount(candidate) == 0)
+                return candidate;
+            else
+                candidate = lastChild(candidate, treeModel);
+        }
+        return null;
+    }
+
     private static <T> T nodeAfter(T cursor, TreeModel<T> treeModel) {
         // find next
         T tmp = null;
-        if (!treeModel.isLeaf(cursor) && treeModel.getChildCount(cursor) > 0)
+        if (treeModel.getChildCount(cursor) > 0)
                 tmp = treeModel.getChild(cursor, 0);
         T parent = treeModel.getParent(cursor);
         if (tmp == null && parent != null) {
@@ -168,21 +195,6 @@ public class TreeIterator<E> implements BidirectionalIterator<E> {
             parent = parentsParent;
         }
         return tmp;
-    }
-
-    public E next() {
-        if (!hasNext())
-            throw new IllegalStateException("No object available for next()");
-        hasPrevious = true;
-        previous = cursor;
-        cursor = next;
-        hasNext = null;
-        next = null;
-        return cursor;
-    }
-
-    public void remove() {
-        throw new UnsupportedOperationException("remove() is not supported on " + getClass());
     }
 
 }
