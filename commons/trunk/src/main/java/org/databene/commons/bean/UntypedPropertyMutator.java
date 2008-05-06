@@ -32,6 +32,7 @@ import org.databene.commons.ConversionException;
 import org.databene.commons.UpdateFailedException;
 import org.databene.commons.converter.AnyConverter;
 
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 
 /**
@@ -53,16 +54,22 @@ class UntypedPropertyMutator extends AbstractPropertyMutator{
         setValue(target, value, this.strict);
     }
 
-    public void setValue(Object bean, Object propertyValue, boolean strict) {
+    public void setValue(Object bean, Object propertyValue, boolean strict) throws UpdateFailedException {
         if (bean == null)
             if (strict)
-                throw new IllegalArgumentException("Cannot set a property on null");
+                throw new UpdateFailedException("Cannot set a property on a null pointer");
             else
                 return;
-        Method writeMethod = BeanUtil.getPropertyDescriptor(bean.getClass(), propertyName).getWriteMethod();
+        PropertyDescriptor propertyDescriptor = BeanUtil.getPropertyDescriptor(bean.getClass(), propertyName);
+        if (propertyDescriptor == null)
+            if (strict)
+                throw new UpdateFailedException("property '" + propertyName + "' not found in class " + bean.getClass());
+            else
+                return;
+		Method writeMethod = propertyDescriptor.getWriteMethod();
         if (writeMethod == null) {
             if (strict)
-                throw new ConfigurationError("No write method found for property '" + propertyName + "' in class " + bean.getClass());
+                throw new UpdateFailedException("No write method found for property '" + propertyName + "' in class " + bean.getClass());
             else
                 return;
         }
