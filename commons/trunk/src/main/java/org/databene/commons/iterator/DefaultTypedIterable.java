@@ -53,4 +53,9 @@ public class DefaultTypedIterable<E> implements TypedIterable<E> {
     public Iterator<E> iterator() {
         return iterable.iterator();
     }
+    
+    @Override
+    public String toString() {
+    	return getClass().getSimpleName() + '[' + iterable + " -> " + type.getSimpleName() + ']';
+    }
 }
