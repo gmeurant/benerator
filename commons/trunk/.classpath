@@ -13,5 +13,8 @@
 	<classpathentry kind="lib" path="C:/Dokumente und Einstellungen/vbergmann/.m2/repository/junit/junit/3.8.2/junit-3.8.2.jar"/>
 	<classpathentry kind="lib" path="C:/dev/jdk1.5.0_09/jre/lib/rt.jar"/>
 	<classpathentry kind="lib" path="C:/Dokumente und Einstellungen/vbergmann/.m2/repository/org/easymock/easymock/2.0/easymock-2.0.jar"/>
+	<classpathentry kind="var" path="AGITAR_MOCK_OBJECTS5"/>
+	<classpathentry kind="var" path="AGITAR_TEST_LIB"/>
+	<classpathentry kind="lib" path="C:/dev/hsqldb/lib/hsqldb.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
