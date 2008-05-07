@@ -51,6 +51,5 @@ public class DBUtilTest extends TestCase {
 		String[][] rows = DBUtil.query("select * from T1;", connection);
 		assertEquals(1, rows.length);
 		assertTrue(Arrays.equals(ArrayUtil.toArray("1", "R&B"), rows[0]));
-		System.out.println(rows);
 	}
 }
