@@ -7,19 +7,21 @@ benerator
   <<welcome to the home of {{{http://databene.org/databene-benerator}benerator}}, 
   the world's leading open source test data generator.>>
   
-  <<{{{http://databene.org/databene-benerator/download.html}download}} the latest benerator release!>>
+  <<{{{http://sourceforge.net/project/showfiles.php?group_id=222964}download}} the latest benerator release!>>
 
 news
 
-  <<2008-03-31 benerator release 0.5.0:>> benerator now can generate XML files directly from XML schema files. 
-  Custom generator configuration can be added in XML schema annotations.
-  The region concept has been finally abstracted to a dataset concept.
-  The core data model has been completely redesigned for supporting a 
-  type definition concept. With improved QA, several bugs were found and fixed. 
-  New generator classes and name packages have been added for India, Brazil, 
-  Canada, Spain, Australia, Austria, Japan, Slovenia and Israel.
-  
-  {{{http://databene.org/databene-benerator/download.html}download benerator}}
+ <<2008-05-07 benerator release 0.5.3>> fixes all known bugs and adds an Excel Sheet Exporter.
+
+ <<2008-04-30 benerator release 0.5.2:>> This release fixes all known bugs 
+ and improves XML file generation performance by 100%, DB snapshot creation 
+ by 20%. 
+ Support for individual weighting for CSV-imported data, rendering of date 
+ values and several generators have been improved.
+
+  {{{http://sourceforge.net/project/showfiles.php?group_id=222964}download benerator}}
+
+ <<2008-04-26 2,000 downloads:>> databene proudly counts the 2,000th download of benerator.
   
 projects
 

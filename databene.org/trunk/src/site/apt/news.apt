@@ -5,6 +5,27 @@
 
 news
 
+  <<2008-05-07 benerator release 0.5.3>> fixes all known bugs and adds an Excel Sheet Exporter.
+
+ <<2008-05-02 Old releases on sourceforge:>> Driven by popular demand, I 
+ moved the older versions of benerator to sourceforge, too: 
+ {{https://sourceforge.net/project/showfiles.php?group_id=222964&package_id=269483}}
+
+ <<2008-04-30 benerator release 0.5.2:>> This release fixes all known bugs 
+ and improves XML file generation performance by 100%, DB snapshot creation 
+ by 20%. 
+ Support for individual weighting for CSV-imported data, rendering of date 
+ values and several generators have been improved.
+
+ <<2008-04-26 2,000 downloads:>> databene proudly counts the 2,000th download of benerator.
+
+ <<2008-04-09 benerator release 0.5.1:>> release 0.5.1 fixes some major bugs and 
+ adds domain support for the United States in 
+ generating US addresses and company names. From now on, benerator will be available 
+ on the public maven repository (groupId 'org.databene', artifactId 'databene-benerator'. 
+ Users please note the new tracking on sourceforge.net: 
+ http://sourceforge.net/tracker/?group_id=222964&atid=1057386.
+
   <<2008-03-31 benerator release 0.5.0:>> benerator now can generate XML files directly from XML schema files. 
   Custom generator configuration can be added in XML schema annotations.
   The region concept has been finally abstracted to a dataset concept.
