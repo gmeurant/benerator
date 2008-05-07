@@ -49,9 +49,7 @@ public class TreeIteratorTest extends BidirectionalIteratorTest {
 		root.addChild(c3);
 		TreeModel<DefaultTreeNode<Integer>> model = new DefaultTreeModel<Integer>(root);
 		TreeIterator<DefaultTreeNode<Integer>> iterator = new TreeIterator<DefaultTreeNode<Integer>>(model);
-		//while (iterator.hasNext()) System.out.println(iterator.next());
 		expectNextElements(iterator, root, c1, c11, c2, c3).withNoNext();
-		//while (iterator.hasPrevious()) System.out.println(iterator.previous());
 		expectPreviousElements(iterator, c2, c11, c1, root).withNoPrevious();
 	}
 }
