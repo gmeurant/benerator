@@ -43,7 +43,7 @@ import java.text.DateFormat;
  */
 public class String2DateConverter<E extends Date> implements Converter<String, E> {
     
-    // TODO v0.4.1 support time zones (like 'Z', '+01:00' or '-01:30')
+    // TODO v0.5.0 support time zones (like 'Z', '+01:00' or '-01:30')
 
     private Class<E> targetType;
 

@@ -120,7 +120,7 @@ public final class ParseUtil {
             reader.unread(c);
     }
     
-/* TODO v0.5.3 obsolete ?
+/* TODO v0.5.4 obsolete ?
     public static String parseUnit(PushbackReader reader) throws IOException {
         StringBuilder result = new StringBuilder();
         int c;

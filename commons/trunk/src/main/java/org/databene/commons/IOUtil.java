@@ -231,7 +231,7 @@ public final class IOUtil {
     public static void copy(String srcUri, String targetUri) throws IOException {
         logger.info("downloading " + srcUri + " --> " + targetUri);
         InputStream in = IOUtil.getInputStreamForURI(srcUri);
-        OutputStream out = new FileOutputStream(targetUri); // TODO v0.4.1 support other protocols, e.g. FTP upload
+        OutputStream out = new FileOutputStream(targetUri); // TODO v0.5.0 support other protocols, e.g. FTP upload
         IOUtil.transfer(in, out);
         out.close();
         in.close();
