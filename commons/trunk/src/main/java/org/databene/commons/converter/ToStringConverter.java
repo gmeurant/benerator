@@ -42,16 +42,24 @@ import org.databene.commons.Converter;
  */
 public class ToStringConverter<S> implements Converter<S, String> {
 
-    /** The String used to replace null values */
-    private String nullResult;
-    
-    private String datePattern;
+    private static final String DEFAULT_TIMESTAMP_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
-    private String timestampPattern;
+	private static final String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
+
+	private static final String DEFAULT_NULL_STRING = "";
+
+	/** The String used to replace null values */
+    private String nullString = DEFAULT_NULL_STRING;
+    
+    private String datePattern = DEFAULT_DATE_PATTERN;
+
+    private String timestampPattern = DEFAULT_TIMESTAMP_PATTERN;
+    
+    // constructors ----------------------------------------------------------------------------------------------------
 
     /** Default constructor that uses an isEmpty String as null representation */
     public ToStringConverter() {
-        this("");
+        this(DEFAULT_NULL_STRING);
     }
 
     /**
@@ -59,36 +67,66 @@ public class ToStringConverter<S> implements Converter<S, String> {
      * @param nullString the String to use for replacing null values.
      */
     public ToStringConverter(String nullString) {
-        this(nullString, null, null);
+        this(nullString, DEFAULT_DATE_PATTERN, DEFAULT_TIMESTAMP_PATTERN);
     }
 
     public ToStringConverter(String nullString, String datePattern, String timestampPattern) {
-        this.nullResult = nullString;
+        this.nullString = nullString;
         this.datePattern = datePattern;
         this.timestampPattern = timestampPattern;
     }
+    
+    // properties ------------------------------------------------------------------------------------------------------
 
-    /** Returns the nullResult attribute */
+    /** @deprecated replaced by {@link #getNullString()} */
+    @Deprecated
     public String getNullResult() {
-        return nullResult;
+        return getNullString();
     }
 
-    /** Sets the nullResult attribute */
+    /** @deprecated replaced by {@link #setNullString(String)} */
+    @Deprecated
     public void setNullResult(String nullResult) {
-        this.nullResult = nullResult;
+        setNullString(nullResult);
     }
 
-    public Class<String> getTargetType() {
+    public String getNullString() {
+        return nullString;
+    }
+
+    public void setNullString(String nullResult) {
+        this.nullString = nullResult;
+    }
+
+    
+    public String getDatePattern() {
+		return datePattern;
+	}
+
+	public void setDatePattern(String datePattern) {
+		this.datePattern = datePattern;
+	}
+
+	public String getTimestampPattern() {
+		return timestampPattern;
+	}
+
+	public void setTimestampPattern(String timestampPattern) {
+		this.timestampPattern = timestampPattern;
+	}
+
+	// Converter interface implementation ------------------------------------------------------------------------------
+
+	public Class<String> getTargetType() {
         return String.class;
     }
 
-    /**
-     * @see org.databene.commons.Converter
-     */
-    public String convert(S source) throws ConversionException {
-        return convert(source, nullResult, datePattern, timestampPattern);
+	public String convert(S source) throws ConversionException {
+        return convert(source, nullString, datePattern, timestampPattern);
     }
 
+	// utility methods -------------------------------------------------------------------------------------------------
+	
     public static <TT> String convert(TT source, String nullString) {
     	return convert(source, nullString, null, null);
     }
