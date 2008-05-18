@@ -235,10 +235,30 @@ public class XMLUtil {
         Map<String, String> attributes = XMLUtil.getAttributes(document.getDocumentElement());
         for (Map.Entry<String, String> entry : attributes.entrySet()) {
             String namespaceName = entry.getValue();
-            if (namespaceUri.equals(namespaceName))
-                return new NamespaceAlias(StringUtil.lastToken(entry.getKey(), ':'), namespaceName);
+            if (namespaceUri.equals(namespaceName)) {
+                String def = entry.getKey();
+                String alias = (def.contains(":") ? StringUtil.lastToken(def, ':') : "");
+				return new NamespaceAlias(alias, namespaceName);
+            }
         }
         return new NamespaceAlias("", namespaceUri);
+    }
+
+    public static Map<String, String> getNamespaces(Document document) {
+    	Map<String, String> namespaces = new HashMap<String, String>();
+        Map<String, String> attributes = XMLUtil.getAttributes(document.getDocumentElement());
+        for (Map.Entry<String, String> entry : attributes.entrySet()) {
+            String attributeName = entry.getKey();
+            if (attributeName.startsWith("xmlns")) {
+                String alias = (attributeName.contains(":") ? StringUtil.lastToken(attributeName, ':') : "");
+				namespaces.put(alias, entry.getValue());
+            }
+        }
+        return namespaces;
+    }
+
+    public static String getTargetNamespace(Document xsdDocument) {
+    	return xsdDocument.getDocumentElement().getAttribute("targetNamespace");
     }
 
 
