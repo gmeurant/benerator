@@ -334,16 +334,22 @@ public final class StringUtil {
         }
     }
 
-    public static void getChars(int srcBegin, int srcEnd, String text, char[] chars, int dstBegin) {
+    public static char[] getChars(int srcBegin, int srcEnd, String text, char[] chars, int dstBegin) {
         int textLength = text.length();
         if (textLength >= 6)
             text.getChars(srcBegin, srcEnd, chars, dstBegin);
         else
             for (int i = 0; i < textLength; i++)
                 chars[i + dstBegin] = text.charAt(i);
+        return chars;
     }
 
-    public static String padString(char c, int length) {
+	public static char[] getChars(String s) {
+		char[] chars  = new char[s.length()];
+		return getChars(0, chars.length, s, chars, 0);
+	}
+
+	public static String padString(char c, int length) {
         if (length < 0)
             throw new IllegalArgumentException("Negative pad length: " + length);
         char[] chars = new char[length];
@@ -434,6 +440,10 @@ public final class StringUtil {
             return new String[] { path.substring(0, sepIndex), path.substring(sepIndex + 1) };
             
     }
+
+	public static boolean equalsIgnoreCase(String s1, String s2) {
+        return (s1 != null ? s1.equalsIgnoreCase(s2) : s2 == null);
+	}
 
     public static boolean containsIgnoreCase(Collection<String> names, String searched) {
         for (String name : names)
