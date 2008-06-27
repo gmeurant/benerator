@@ -51,6 +51,8 @@ public class FileElement extends WrapperElement<File> {
         if (wrappedObject.isFile())
             return new ArrayList<Element<File>>();
         File[] content = wrappedObject.listFiles();
+        if (content == null)
+        	content = new File[0];
         List<Element<File>> children = new ArrayList<Element<File>>(content.length);
         for (File file : content)
             children.add(new FileElement(file));
