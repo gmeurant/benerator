@@ -85,4 +85,9 @@ public class Assert {
 			throw new AssertionError("Arrays are not equal, content differs: [" + 
 					ArrayFormat.formatBytes(",", a1) + "] vs. [" + ArrayFormat.formatBytes(",", a2) + ']');
 	}
+
+	public static void length(String string, int length) {
+		if (string == null || string.length() != length)
+			throw new AssertionError("Unexpected string length: Expected " + length + ", found: " + string.length());
+	}
 }
