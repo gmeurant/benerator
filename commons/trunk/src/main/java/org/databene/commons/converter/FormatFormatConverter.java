@@ -28,6 +28,8 @@ package org.databene.commons.converter;
 
 import java.text.Format;
 
+import org.databene.commons.ConversionException;
+
 /**
  * Converts an object to a String by using a java.lang.Format object's format() method.<br/>
  * <br/>
@@ -60,13 +62,16 @@ public class FormatFormatConverter<S> extends NullsafeConverter<S, String> {
 
     /**
      * Converts an object to a String by using the format's format() method.
-     *
      * @see org.databene.commons.Converter
      */
     public String convertImpl(S source) {
         if (source == null)
             return null;
-        return format.format(source);
+        try {
+        	return format.format(source);
+        } catch (Exception e) {
+        	throw new ConversionException("Conversion failed for value: " + source);
+        }
     }
 
 }
