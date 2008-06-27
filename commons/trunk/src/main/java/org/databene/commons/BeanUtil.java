@@ -290,7 +290,7 @@ public final class BeanUtil {
                 Class<? extends Object>[] paramTypes = new Class[params.length];
                 for (int i = 0; i < params.length; i++)
                     paramTypes[i] = params[i].getClass();
-                for (Constructor<T> c : type.getConstructors()) {
+                for (Constructor c : type.getConstructors()) {
                     if (typesMatch(c.getParameterTypes(), paramTypes)) {
                         constructor = c;
                         return newInstance(constructor, params);
