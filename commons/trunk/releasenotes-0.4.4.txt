@@ -11,5 +11,6 @@ Enhancements
 - improved StringUtil.getChars()
 - improved namespace support in XMLUtil
 - new class NamedValueList for name-value-assignmments with non-unique names
+- new class NumberFormatConverter
 
 Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
