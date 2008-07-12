@@ -47,7 +47,7 @@ public class DBUtilTest extends TestCase {
 
 	public void testRunScript() throws SQLException, IOException {
 		Connection connection = HSQLUtil.connectInMemoryDB(getClass().getSimpleName());
-		DBUtil.runScript("org/databene/commons/create_tables.hsql.sql", connection, true, false);
+		DBUtil.runScript("org/databene/commons/create_tables.hsql.sql", "iso-8859-1", connection, true, false);
 		String[][] rows = DBUtil.query("select * from T1;", connection);
 		assertEquals(1, rows.length);
 		assertTrue(Arrays.equals(ArrayUtil.toArray("1", "R&B"), rows[0]));
