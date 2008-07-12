@@ -91,4 +91,8 @@ public class AnyConverterTest extends TestCase {
         assertEquals(1, (int) AnyConverter.convert("1", Integer.class));
         assertEquals(1, (int) AnyConverter.convert("1", int.class));
     }
+    
+    public void testStringToCharConversion() {
+    	assertEquals('1', (char) AnyConverter.convert("1", char.class));
+    }
 }
