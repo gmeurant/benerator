@@ -41,7 +41,7 @@ import org.databene.commons.file.FileElement;
 public class FileElementTest extends TestCase {
 
     public void test() {
-        File root = new File(SystemInfo.tempDir());
+        File root = new File("target/classes/test");
         File alpha = new File(root, "alpha");
         File beta = new File(alpha, "beta");
         FileUtil.ensureDirectoryExists(beta);
@@ -51,17 +51,17 @@ public class FileElementTest extends TestCase {
 
     class CheckVisitor implements Visitor<File> {
 
-        private File[] files;
+        private File[] expectedFiles;
         private boolean[] filesFound;
 
         public CheckVisitor(File ... expectedFiles) {
-            this.files = expectedFiles;
-            Arrays.sort(this.files);
+            this.expectedFiles = expectedFiles;
+            Arrays.sort(this.expectedFiles);
             this.filesFound = new boolean[expectedFiles.length];
         }
 
         public void visit(File file) {
-            int index = Arrays.binarySearch(files, file);
+            int index = Arrays.binarySearch(expectedFiles, file);
             if (index > 0)
                 filesFound[index] = true;
         }
