@@ -82,7 +82,7 @@ public class DelocalizingConverter implements Converter<String, String> {
      */
     private void init() throws IOException {
         replacements = new HashMap<Character, String>();
-        CSVLineIterator iterator = new CSVLineIterator("org/databene/text/DelocalizingConverter.csv");
+        CSVLineIterator iterator = new CSVLineIterator("org/databene/text/DelocalizingConverter.csv", ',', "iso-8859-1");
 
         while (iterator.hasNext()) {
             String[] tokens = iterator.next();
