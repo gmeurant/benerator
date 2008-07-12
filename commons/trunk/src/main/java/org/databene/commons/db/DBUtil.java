@@ -59,6 +59,7 @@ public class DBUtil {
     private static final Log logger = LogFactory.getLog(DBUtil.class);
 
     private static final Log sqlLogger = LogFactory.getLog("org.databene.SQL"); 
+    private static final Log jdbcLogger = LogFactory.getLog("org.databene.JDBC"); 
     
     /** private constructor for preventing instantiation. */
     private DBUtil() {}
@@ -165,10 +166,10 @@ public class DBUtil {
         }
     }
 
-    public static void runScript(String scriptUri, Connection connection, boolean haltOnError, boolean ignoreComments) throws IOException, SQLException {
+    public static void runScript(String scriptUri, String encoding, Connection connection, boolean haltOnError, boolean ignoreComments) throws IOException, SQLException {
         SQLException exception = null;
 
-		BufferedReader reader = IOUtil.getReaderForURI(scriptUri);
+		BufferedReader reader = IOUtil.getReaderForURI(scriptUri, encoding);
 		ReaderLineIterator iterator = new ReaderLineIterator(reader);
         try {
 			StringBuilder cmd = new StringBuilder();
@@ -188,7 +189,7 @@ public class DBUtil {
 				        	executeUpdate(sql, connection);
 						} catch (SQLException e) {
 							if (haltOnError)
-								throw new RuntimeException("Error in execution of script " + scriptUri, e);
+								throw new RuntimeException(formatErrorMessage(scriptUri, iterator), e);
 							else if (exception != null) // only the first exception is saved
 								exception = e;
 						}
@@ -200,8 +201,13 @@ public class DBUtil {
 			iterator.close();
         }
         if (exception != null)
-            throw new RuntimeException(exception); // if an exception occured and execution was continued, raise it now
+            throw new RuntimeException(formatErrorMessage(scriptUri, iterator), exception); // if an exception occured and execution was continued, raise it now
     }
+
+	private static String formatErrorMessage(String scriptUri,
+			ReaderLineIterator iterator) {
+		return "Error in execution of script " + scriptUri + " line " + iterator.lineCount();
+	}
 
     public static int executeUpdate(String sql, Connection connection) throws SQLException {
         if (sqlLogger.isDebugEnabled())
@@ -230,4 +236,14 @@ public class DBUtil {
 	    	DBUtil.close(statement);
     	}
     }
+
+	public static PreparedStatement prepareStatement(Connection connection, String sql) throws SQLException {
+		jdbcLogger.debug("preparing statement: " + sql);
+		return new LoggingPreparedStatement(connection, sql);
+	}
+
+	public static String escape(String text) {
+		return text.replace("'", "''");
+	}
+
 }
