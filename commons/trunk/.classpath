@@ -8,13 +8,12 @@
 	<classpathentry kind="src" path="src/site/resources"/>
 	<classpathentry kind="src" path="src/site/fml"/>
 	<classpathentry kind="src" path="src/test/resources"/>
-	<classpathentry kind="lib" path="C:/Dokumente und Einstellungen/vbergmann/.m2/repository/commons-logging/commons-logging/1.1/commons-logging-1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Dokumente und Einstellungen/vbergmann/.m2/repository/log4j/log4j/1.2.14/log4j-1.2.14.jar"/>
-	<classpathentry kind="lib" path="C:/Dokumente und Einstellungen/vbergmann/.m2/repository/junit/junit/3.8.2/junit-3.8.2.jar"/>
-	<classpathentry kind="lib" path="C:/dev/jdk1.5.0_09/jre/lib/rt.jar"/>
-	<classpathentry kind="lib" path="C:/Dokumente und Einstellungen/vbergmann/.m2/repository/org/easymock/easymock/2.0/easymock-2.0.jar"/>
 	<classpathentry kind="var" path="AGITAR_MOCK_OBJECTS5"/>
 	<classpathentry kind="var" path="AGITAR_TEST_LIB"/>
-	<classpathentry kind="lib" path="C:/dev/hsqldb/lib/hsqldb.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/hsqldb/hsqldb/1.8.0.4/hsqldb-1.8.0.4.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/junit/junit/3.8.2/junit-3.8.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="MAVEN_REPO/log4j/log4j/1.2.13/log4j-1.2.13.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
