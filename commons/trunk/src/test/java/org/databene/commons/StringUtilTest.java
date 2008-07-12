@@ -228,6 +228,10 @@ public class StringUtilTest extends TestCase {
     	checkSplit("b"  , "c" , "b.c"  );
     	checkSplit("a.b", "c" , "a.b.c");
     }
+    
+    public void testReplaceTokens() {
+    	assertEquals("A(alpha,bravo)", StringUtil.replaceTokens("A(XX,XX)", "XX", "alpha", "bravo"));
+    }
 
 	private void checkSplit(String parent, String child, String path) {
 		assertTrue(Arrays.equals(ArrayUtil.buildArrayOfType(String.class, parent, child), StringUtil.splitOnLastSeparator(path, '.')));
