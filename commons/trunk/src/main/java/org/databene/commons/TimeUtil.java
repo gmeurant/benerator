@@ -39,7 +39,9 @@ import java.text.SimpleDateFormat;
  */
 public final class TimeUtil {
 
-    public static int currentYear() {
+    public static final String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
+
+	public static int currentYear() {
         return new GregorianCalendar().get(Calendar.YEAR);
     }
 
@@ -170,5 +172,9 @@ public final class TimeUtil {
     public static Time time(int hour, int minute, int second, int millisecond) {
         return new Time((((hour * 60L) + minute) * 60L + second) * 1000L);
     }
+
+	public static DateFormat createDefaultDateFormat() {
+		return new SimpleDateFormat(DEFAULT_DATE_PATTERN);
+	}
 
 }
