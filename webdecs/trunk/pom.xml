@@ -6,6 +6,10 @@
     <artifactId>databene-webdecs</artifactId>
     <version>0.4.4</version>
 
+    <properties>
+	    <commons_version>0.4.4</commons_version>
+    </properties>
+
 <!--
     <parent>
         <groupId>databene</groupId>
@@ -48,7 +52,7 @@
         <dependency>
             <groupId>org.databene</groupId>
             <artifactId>databene-commons</artifactId>
-            <version>0.4.4</version>
+            <version>${commons_version}</version>
         </dependency>
 
         <dependency>
@@ -74,6 +78,14 @@
 
     <build>
 
+	    <extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ftp</artifactId>
+				<version>1.0-alpha-6</version>
+			</extension>
+	    </extensions>
+	    
         <resources>
             <resource>
                 <filtering>false</filtering>
