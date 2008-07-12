@@ -513,4 +513,22 @@ public final class StringUtil {
 		line = line.replace("\\", "\\");
 		return line;
 	}
+
+	public static String replaceTokens(String src, String token, String ... values) {
+		StringBuilder builder = new StringBuilder();
+		int paramIndex = 0;
+		int srcIndex = 0;
+		while (srcIndex < src.length()) {
+			int i = src.indexOf(token, srcIndex);
+			if (i >= 0) {
+				builder.append(src.substring(srcIndex, i));
+				builder.append(values[paramIndex++]);
+				srcIndex = i + token.length();
+			} else {
+				builder.append(src.substring(srcIndex));
+				break;
+			}
+		}
+		return builder.toString();
+	}
 }
