@@ -71,14 +71,14 @@ public class HTML2XML {
     }
 
     public static void convert(Reader reader, Writer writer) throws IOException, ParseException {
-    	// TODO v0.4.4 use XML serializer
+    	// TODO v0.5.x use XML serializer
         writeHeader(writer);
     	ConversionContext context = new ConversionContext(reader, writer);
         int token;
         while ((token = context.tokenizer.nextToken()) != HTMLTokenizer.END) {
             switch (token) {
                 case (HTMLTokenizer.START_TAG) :
-                    if ("script".equalsIgnoreCase(context.tokenizer.name())) // TODO v0.4.4 test script handling
+                    if ("script".equalsIgnoreCase(context.tokenizer.name())) // TODO v0.5.x test script handling
                         continue;
                     if (!context.rootCreated && !"html".equals(context.tokenizer.name()))
                         ensureRootElement(context);
