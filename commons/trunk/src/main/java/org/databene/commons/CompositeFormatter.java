@@ -153,6 +153,8 @@ public class CompositeFormatter {
                 value = new SimpleDateFormat(timestampPattern).format((Date) value);
         } else if (value instanceof Composite) {
             value = render("[", (Composite) value, "]") ;
+        } else if (value.getClass().isArray()) {
+        	value = "[" + ToStringConverter.convert(value, "null") + "]";
         } else {
             value = ToStringConverter.convert(value, "null");
         }

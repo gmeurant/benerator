@@ -53,7 +53,9 @@ public class ScriptUtil {
 
     // extension mapping -----------------------------------------------------------------------------------------------
     
-    private static Map<String, ScriptFactory> factories;
+	private static String defaultScriptEngine = "ftl";
+
+	private static Map<String, ScriptFactory> factories;
 
     private static final String SETUP_FILE_NAME = "org/databene/script/script.properties";
 
@@ -97,9 +99,9 @@ public class ScriptUtil {
         script.execute(context, out);
     }
 */
-    public static String render(String text, Context context, String defaultEngine) {
+    public static String render(String text, Context context) {
         if (text.startsWith("{") && text.endsWith("}")) {
-            Script script = parseUnspecificText(text, defaultEngine);
+            Script script = parseUnspecificText(text);
             return execute(script, context);
         }
         return text;
@@ -130,7 +132,7 @@ public class ScriptUtil {
             return new ConstantScript(text);
     }
     
-    public static Script parseUnspecificText(String text, String defaultEngineId) {
+    public static Script parseUnspecificText(String text) {
         if (text.startsWith("{") && text.endsWith("}")) {
             text = text.substring(1, text.length() - 1);
             Script script = null;
@@ -142,9 +144,9 @@ public class ScriptUtil {
                     String scriptText = iterator.remainingText();
                     script = parseSpecificText(scriptText, engineId);
                 } else
-                    script = parseSpecificText(text, defaultEngineId);
+                    script = parseSpecificText(text, ScriptUtil.getDefaultScriptEngine());
             } else
-                script = parseSpecificText(text, defaultEngineId);
+                script = parseSpecificText(text, ScriptUtil.getDefaultScriptEngine());
             return script;
         }
         return new ConstantScript(text);
@@ -170,5 +172,13 @@ public class ScriptUtil {
             throw new ConfigurationError("I/O Error while reading file: " + SETUP_FILE_NAME, e);
         }
     }
+
+	public static String getDefaultScriptEngine() {
+		return defaultScriptEngine;
+	}
+
+	public static void setDefaultScriptEngine(String defaultScriptEngine) {
+		ScriptUtil.defaultScriptEngine = defaultScriptEngine;
+	}
 
 }

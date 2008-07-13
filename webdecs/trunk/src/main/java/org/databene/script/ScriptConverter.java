@@ -38,12 +38,9 @@ import org.databene.commons.Converter;
 public class ScriptConverter implements Converter<String, String>{
     
     private Context context;
-    private String defaultEngineId;
     
-    public ScriptConverter(Context context, String defaultEngineId) {
-        super();
+    public ScriptConverter(Context context) {
         this.context = context;
-        this.defaultEngineId = defaultEngineId;
     }
 
     public Class<String> getTargetType() {
@@ -51,7 +48,7 @@ public class ScriptConverter implements Converter<String, String>{
     }
 
     public String convert(String sourceValue) throws ConversionException {
-        return ScriptUtil.render(sourceValue, context, defaultEngineId);
+        return ScriptUtil.render(sourceValue, context);
     }
 
 }

@@ -40,11 +40,11 @@ import junit.framework.TestCase;
 public class ScriptSupportTest extends TestCase {
 
     public void testRender() {
-        assertEquals("xyz", ScriptUtil.render("xyz", null, "ftl"));
-        assertEquals("xyz${var}xyz", ScriptUtil.render("xyz${var}xyz", null, "ftl"));
+        assertEquals("xyz", ScriptUtil.render("xyz", null));
+        assertEquals("xyz${var}xyz", ScriptUtil.render("xyz${var}xyz", null));
         Context context = new DefaultContext();
         context.set("var", "!!!");
-        assertEquals("xyz!!!xyz", ScriptUtil.render("{xyz${var}xyz}", context, "ftl"));
-        assertEquals("xyz!!!xyz", ScriptUtil.render("{ftl:xyz${var}xyz}", context, "ftl"));
+        assertEquals("xyz!!!xyz", ScriptUtil.render("{xyz${var}xyz}", context));
+        assertEquals("xyz!!!xyz", ScriptUtil.render("{ftl:xyz${var}xyz}", context));
     }
 }
