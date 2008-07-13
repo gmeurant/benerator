@@ -60,6 +60,11 @@ public class Assert {
 			throw new AssertionError(objectRole + " is not supposed to be null");
 	}
 	
+	public static void notEmpty(String text, String message) {
+		if (text == null || text.length() == 0)
+			throw new AssertionError(message);
+	}
+
 	public static <T> void equals(T[] a1, T[] a2) {
 		if (a1 == null && a2 == null)
 			return;
@@ -90,4 +95,5 @@ public class Assert {
 		if (string == null || string.length() != length)
 			throw new AssertionError("Unexpected string length: Expected " + length + ", found: " + string.length());
 	}
+
 }
