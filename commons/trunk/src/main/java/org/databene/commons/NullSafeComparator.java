@@ -82,4 +82,8 @@ public class NullSafeComparator<E> implements Comparator<E> {
         else
             return o1.equals(o2);
     }
+
+	public static int hashCode(Object o) {
+		return (o != null ? o.hashCode() : 0);
+	}
 }
