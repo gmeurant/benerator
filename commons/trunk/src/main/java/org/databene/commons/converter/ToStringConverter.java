@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.databene.commons.ArrayFormat;
+import org.databene.commons.Base64Codec;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 
@@ -132,13 +133,19 @@ public class ToStringConverter<S> implements Converter<S, String> {
     }
 
     public static <TT> String convert(TT source, String nullString, String datePattern, String timestampPattern) {
-        if (source == null)
+        if (source == null) {
             return nullString;
-        else if (source.getClass().isArray())
-            return ArrayFormat.format((Object[])source);
-        else if (source instanceof Class)
+        } else if (source.getClass().isArray()) {
+        	Class<?> componentType = source.getClass().getComponentType();
+			if (componentType == byte.class)
+        		return Base64Codec.encode((byte[]) source);
+        	else if (componentType == char.class)
+        		return String.valueOf((char[])source);
+        	else
+        		return ArrayFormat.format((Object[])source);
+        } else if (source instanceof Class) {
             return ((Class)source).getName();
-        else if (source instanceof Timestamp) {
+        } else if (source instanceof Timestamp) {
         	if (timestampPattern != null)
         		return new SimpleDateFormat(timestampPattern).format((Date) source);
         	else
