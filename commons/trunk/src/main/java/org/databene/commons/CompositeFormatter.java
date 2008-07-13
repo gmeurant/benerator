@@ -32,6 +32,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.databene.commons.converter.ToStringConverter;
+
 /**
  * Formats a Composite as a String.<br/><br/>
  * Created: 14.03.2008 22:47:57
@@ -149,10 +151,10 @@ public class CompositeFormatter {
                 value = new SimpleDateFormat(datePattern).format((Date) value);
             else
                 value = new SimpleDateFormat(timestampPattern).format((Date) value);
-        } else if (value.getClass().isArray()) {
-            value = '[' + ArrayFormat.format(", ", (Object[]) value) + ']';
         } else if (value instanceof Composite) {
             value = render("[", (Composite) value, "]") ;
+        } else {
+            value = ToStringConverter.convert(value, "null");
         }
         builder.append(value);
     }
