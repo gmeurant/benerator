@@ -62,6 +62,7 @@
     
     <menu name="products">
         <item name="databene benerator" href="http://databene.org/databene-benerator"/>
+        <item name="maven benerator plugin" href="../maven-benerator-plugin"/>
         <item name="databene webdecs" href="http://databene.org/databene-webdecs"/>
         <item name="databene commons" href="http://databene.org/databene-commons"/>
     </menu>
