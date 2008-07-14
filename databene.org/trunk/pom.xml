@@ -10,14 +10,13 @@
 
   <packaging>pom</packaging>
   <url>http://databene.org</url>
-
+<!-- 
   <parent>
     <groupId>databene</groupId>
     <artifactId>databene</artifactId>
     <version>1.0</version>
-    <!--relativePath>../pom.xml</relativePath-->
   </parent>
-
+-->
   <description>
     databene is a collection of Open Source Projects 
     developed and hosted by Volker Bergmann
