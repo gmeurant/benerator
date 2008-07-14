@@ -1,12 +1,8 @@
 release notes databene commons 0.4.4
 ------------------------------------
 
-Summary
--------
-
-Changes
-
 Enhancements
+------------
 - new StringUtil methods
   - equalsIgnoreCase()
   - replaceTokens()
@@ -19,4 +15,5 @@ Enhancements
 - new method NullSafeComparator.hashCode()
 
 Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
+---------
 - ToStringConverter and CompositeFormatter fail on byte[] and char[]
