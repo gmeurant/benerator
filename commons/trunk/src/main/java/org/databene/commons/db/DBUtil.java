@@ -31,6 +31,7 @@ import org.apache.commons.logging.Log;
 import org.databene.commons.ArrayFormat;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.ConnectFailedException;
+import org.databene.commons.ErrorHandler;
 import org.databene.commons.IOUtil;
 import org.databene.commons.ReaderLineIterator;
 import org.databene.commons.StringUtil;
@@ -38,6 +39,8 @@ import org.databene.commons.SystemInfo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -166,12 +169,25 @@ public class DBUtil {
         }
     }
 
-    public static void runScript(String scriptUri, String encoding, Connection connection, boolean haltOnError, boolean ignoreComments) throws IOException, SQLException {
-        SQLException exception = null;
-
+    public static void runScript(String scriptUri, String encoding, Connection connection, boolean ignoreComments, ErrorHandler errorHandler) throws IOException, SQLScriptException {
 		BufferedReader reader = IOUtil.getReaderForURI(scriptUri, encoding);
+		try {
+			 runScript(reader, connection, ignoreComments, errorHandler);
+		} catch (SQLScriptException e) {
+            throw e.withUri(scriptUri); // add URI information to the exception
+		}
+    }
+
+    public static void runScript(String scriptText, Connection connection, boolean ignoreComments, ErrorHandler errorHandler) throws IOException, SQLScriptException {
+    	StringReader reader = new StringReader(scriptText);
+		runScript(reader, connection, ignoreComments, errorHandler);
+    }
+
+	private static SQLScriptException runScript(Reader reader, Connection connection, boolean ignoreComments, ErrorHandler errorHandler)
+			throws SQLScriptException {
 		ReaderLineIterator iterator = new ReaderLineIterator(reader);
-        try {
+		SQLScriptException exception = null;
+		try {
 			StringBuilder cmd = new StringBuilder();
 			while (iterator.hasNext()) {
 			    String line = iterator.next();
@@ -179,7 +195,8 @@ public class DBUtil {
 			        continue;
 			    if (cmd.length() > 0)
 			        cmd.append('\r');
-			    cmd.append(line.trim());
+			    line = line.trim();
+			    cmd.append(line);
 			    if (line.endsWith(";")) {
 			        // delete the trailing ';'
 			        cmd.delete(cmd.length() - 1, cmd.length());
@@ -188,25 +205,20 @@ public class DBUtil {
 			        	try {
 				        	executeUpdate(sql, connection);
 						} catch (SQLException e) {
-							if (haltOnError)
-								throw new RuntimeException(formatErrorMessage(scriptUri, iterator), e);
-							else if (exception != null) // only the first exception is saved
-								exception = e;
+							errorHandler.handleError("Error in executing SQL: " + SystemInfo.lineSeparator() + cmd, e);
+							// if we arrive here, the ErrorHandler decided not to throw an exception
+							// so we save the exception and line number and continue execution
+							if (exception != null) // only the first exception is saved
+								exception = new SQLScriptException(e, iterator.lineCount());
 						}
 				    }
 			        cmd.delete(0, cmd.length());
 			    }
 			}
+			return exception;
         } finally {
 			iterator.close();
         }
-        if (exception != null)
-            throw new RuntimeException(formatErrorMessage(scriptUri, iterator), exception); // if an exception occured and execution was continued, raise it now
-    }
-
-	private static String formatErrorMessage(String scriptUri,
-			ReaderLineIterator iterator) {
-		return "Error in execution of script " + scriptUri + " line " + iterator.lineCount();
 	}
 
     public static int executeUpdate(String sql, Connection connection) throws SQLException {
