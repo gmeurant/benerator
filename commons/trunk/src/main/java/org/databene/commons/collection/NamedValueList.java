@@ -98,7 +98,7 @@ public class NamedValueList<E> {
 		return values.get(index);
 	}
 
-	public void put(String name, E value) {
+	public void set(String name, E value) {
 		if (StringUtil.isEmpty(name))
 			add(name, value);
 		if (caseHandling == IGNORANT)
