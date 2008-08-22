@@ -70,7 +70,7 @@ public class FormatFormatConverter<S> extends NullsafeConverter<S, String> {
         try {
         	return format.format(source);
         } catch (Exception e) {
-        	throw new ConversionException("Conversion failed for value: " + source);
+        	throw new ConversionException("Conversion failed for value: " + source, e);
         }
     }
 
