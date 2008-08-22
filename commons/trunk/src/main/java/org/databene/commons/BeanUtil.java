@@ -30,6 +30,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
 import org.databene.commons.converter.AnyConverter;
 import org.databene.commons.converter.ArrayTypeConverter;
+import org.databene.commons.converter.ToStringConverter;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
@@ -422,6 +423,8 @@ public final class BeanUtil {
     }
 
     public static boolean typesMatch(Class<? extends Object>[] foundTypes, Class<? extends Object>[] expectedTypes) {
+    	if (foundTypes == null)
+    		return (expectedTypes == null || expectedTypes.length == 0);
         if (foundTypes.length != expectedTypes.length)
             return false;
         if (expectedTypes.length == 0)
@@ -575,9 +578,16 @@ public final class BeanUtil {
      * @return the property value
      */
     public static Object getPropertyValue(Object bean, String propertyName) {
+        return getPropertyValue(bean, propertyName, true);
+    }
+
+    public static Object getPropertyValue(Object bean, String propertyName, boolean strict) {
         Method readMethod = null;
         try {
-            readMethod = getPropertyDescriptor(bean.getClass(), propertyName).getReadMethod();
+            PropertyDescriptor descriptor = getPropertyDescriptor(bean.getClass(), propertyName);
+            if (descriptor == null && strict)
+            	throw new ConfigurationError("Property '" + propertyName + "' not found in class " + bean.getClass());
+			readMethod = descriptor.getReadMethod();
             return readMethod.invoke(bean);
         } catch (IllegalAccessException e) {
             throw ExceptionMapper.configurationException(e, readMethod);
@@ -761,5 +771,30 @@ public final class BeanUtil {
             return getGenericInterfaceParams(checkedClass.getSuperclass(), searchedInterface);
         throw new ConfigurationError(checkedClass + " does not implement interface with generic parameters: " + searchedInterface);
     }
+
+	public static String toString(Object bean) {
+		if (bean == null)
+			return null;
+		StringBuilder builder = new StringBuilder(bean.getClass().getName());
+		PropertyDescriptor[] descriptors = getPropertyDescriptors(bean.getClass());
+		boolean first = true;
+		for (PropertyDescriptor descriptor : descriptors) {
+			String propertyName = descriptor.getName();
+			if (!"class".equals(propertyName)) {
+				if (first)
+					builder.append('[');
+				else
+					builder.append(", ");
+				
+				Object value = getPropertyValue(bean, propertyName);
+				String valueString = ToStringConverter.convert(value, "null");
+				builder.append(propertyName).append("=").append(valueString);
+				first = false;
+			}
+		}
+		if (!first)
+			builder.append(']');
+		return builder.toString();
+	}
 
 }
