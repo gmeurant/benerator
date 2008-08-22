@@ -60,4 +60,14 @@ public class MathUtil {
             return 1;
         return 1 + (int) Math.log10(number);
     }
+
+	public static int sumOfDigits(int i) {
+		int tmp = i;
+		int result = 0;
+		while (tmp > 0) {
+			result += tmp % 10;
+			tmp /= 10;
+		}
+		return result;
+	}
 }
