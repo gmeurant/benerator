@@ -100,14 +100,16 @@ public class ScriptUtil {
     }
 */
     public static String render(String text, Context context) {
-        if (text.startsWith("{") && text.endsWith("}")) {
+		if (text.startsWith("{{") && text.endsWith("}}"))
+            return text.substring(1, text.length() - 1);
+        else if (text.startsWith("{") && text.endsWith("}")) {
             Script script = parseUnspecificText(text);
             return execute(script, context);
-        }
-        return text;
+        } else
+        	return text;
     }
     
-    // static factory methods ------------------------------------------------------------------------------------------
+	// static factory methods ------------------------------------------------------------------------------------------
 
     private static Map<String, Script> scriptsByName = new WeakHashMap<String, Script>();
 
