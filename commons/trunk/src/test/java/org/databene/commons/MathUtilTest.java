@@ -30,4 +30,11 @@ public class MathUtilTest extends TestCase {
         assertEquals(7, MathUtil.fractionDigits(0.0000001));
         assertEquals(7, MathUtil.fractionDigits(0.0000009));
     }
+    
+    public void testSumOfDigits() {
+    	assertEquals(0, MathUtil.sumOfDigits(0));
+    	assertEquals(1, MathUtil.sumOfDigits(1));
+    	assertEquals(1, MathUtil.sumOfDigits(10));
+    	assertEquals(6, MathUtil.sumOfDigits(123));
+    }
 }
