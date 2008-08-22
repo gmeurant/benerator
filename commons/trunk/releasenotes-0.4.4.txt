@@ -1,19 +1,11 @@
-release notes databene commons 0.4.4
+toStringrelease notes databene commons 0.4.4
 ------------------------------------
 
 Enhancements
 ------------
-- new StringUtil methods
-  - equalsIgnoreCase()
-  - replaceTokens()
-- new method Assert.notEmpty(String)
-- improved StringUtil.getChars()
-- improved namespace support in XMLUtil
-- new class NamedValueList for name-value-assignmments with non-unique names
-- new class NumberFormatConverter
-- added TimeUtil.createDefaultDateFormat()
-- new method NullSafeComparator.hashCode()
+- BeanUtil
+  - new method toString(bean)
+  - explicit strictness in proprty getters
 
 Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
 ---------
-- ToStringConverter and CompositeFormatter fail on byte[] and char[]
