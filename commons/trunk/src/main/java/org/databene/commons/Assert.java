@@ -55,9 +55,10 @@ public class Assert {
 					+ ", but is: " + text);
 	}
 
-	public static void notNull(Object object, String objectRole) {
+	public static <T> T notNull(T object, String objectRole) {
 		if (object == null)
 			throw new AssertionError(objectRole + " is not supposed to be null");
+		return object;
 	}
 	
 	public static void notEmpty(String text, String message) {
@@ -94,6 +95,23 @@ public class Assert {
 	public static void length(String string, int length) {
 		if (string == null || string.length() != length)
 			throw new AssertionError("Unexpected string length: Expected " + length + ", found: " + string.length());
+	}
+
+	public static void instanceOf(Object object, Class type, String name) {
+		 if (object == null)
+			 throw new AssertionError("Object is not supposed to be null");
+		 if (!type.isAssignableFrom(object.getClass()))
+			 throw new AssertionError(name + " is expected to be of type " + type.getName() + ", but is " + object.getClass());
+	}
+
+	public static void isTrue(boolean expression, String message) {
+		if (!expression)
+			throw new AssertionError(message);
+	}
+
+	public static void found(Object object, String name) {
+		 if (object == null)
+			 throw new AssertionError(name + " not found");
 	}
 
 }
