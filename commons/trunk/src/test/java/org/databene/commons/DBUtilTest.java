@@ -26,9 +26,7 @@
 
 package org.databene.commons;
 
-import java.io.IOException;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Arrays;
 
 import org.databene.commons.db.DBUtil;
@@ -45,9 +43,9 @@ import junit.framework.TestCase;
  */
 public class DBUtilTest extends TestCase {
 
-	public void testRunScript() throws SQLException, IOException {
+	public void testRunScript() throws Exception {
 		Connection connection = HSQLUtil.connectInMemoryDB(getClass().getSimpleName());
-		DBUtil.runScript("org/databene/commons/create_tables.hsql.sql", "iso-8859-1", connection, true, false);
+		DBUtil.runScript("org/databene/commons/create_tables.hsql.sql", "iso-8859-1", connection, true, new ErrorHandler(getClass()));
 		String[][] rows = DBUtil.query("select * from T1;", connection);
 		assertEquals(1, rows.length);
 		assertTrue(Arrays.equals(ArrayUtil.toArray("1", "R&B"), rows[0]));
