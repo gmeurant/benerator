@@ -381,12 +381,16 @@ public final class BeanUtil {
      * @return the invoked method's return value.
      */
     public static Object invoke(Object target, String methodName, Object ... args) {
-        if (target == null)
+
+    	if (target == null)
             throw new IllegalArgumentException("target is null");
-        Class[] argClasses = new Class[args.length];
-        for (int i = 0; i < args.length; i++)
-            argClasses[i] = (args[i] != null ? args[i].getClass() : null);
-        Method method = getMethod(target.getClass(), methodName, argClasses);
+        Class[] argTypes = null;
+        if (args != null) {
+        	argTypes = new Class[args.length];
+            for (int i = 0; i < args.length; i++)
+                argTypes[i] = (args[i] != null ? args[i].getClass() : null);
+        }
+        Method method = getMethod(target.getClass(), methodName, argTypes);
         return invoke(target, method, args);
     }
 
