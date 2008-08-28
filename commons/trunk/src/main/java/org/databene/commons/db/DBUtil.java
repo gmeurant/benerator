@@ -255,7 +255,7 @@ public class DBUtil {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		return (PreparedStatement) Proxy.newProxyInstance(classLoader, 
 				new Class[] { PreparedStatement.class }, 
-				new PreparedStatementHandler(connection, sql));
+				new LoggingPreparedStatementHandler(connection, sql));
 	}
 
 	public static String escape(String text) {

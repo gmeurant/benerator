@@ -48,7 +48,7 @@ import org.databene.commons.converter.ToStringConverter;
  * Created: 28.06.2007 12:30:02
  * @author Volker Bergmann
  */
-public class PreparedStatementHandler implements InvocationHandler {
+public class LoggingPreparedStatementHandler implements InvocationHandler {
 	
     private static final Log sqlLogger = LogFactory.getLog(LogCategories.SQL); 
     private static final Log jdbcLogger = LogFactory.getLog(LogCategories.JDBC);
@@ -59,7 +59,7 @@ public class PreparedStatementHandler implements InvocationHandler {
 	private PreparedStatement realStatement;
 	Object[] params;
 	
-	public PreparedStatementHandler(Connection connection, String sql) throws SQLException {
+	public LoggingPreparedStatementHandler(Connection connection, String sql) throws SQLException {
 		this.sql = sql;
 		this.realStatement = connection.prepareStatement(sql);
 		int paramCount = StringUtil.countChars(sql, '?');
