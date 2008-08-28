@@ -41,6 +41,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -251,7 +252,10 @@ public class DBUtil {
 
 	public static PreparedStatement prepareStatement(Connection connection, String sql) throws SQLException {
 		jdbcLogger.debug("preparing statement: " + sql);
-		return new LoggingPreparedStatement(connection, sql);
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		return (PreparedStatement) Proxy.newProxyInstance(classLoader, 
+				new Class[] { PreparedStatement.class }, 
+				new PreparedStatementHandler(connection, sql));
 	}
 
 	public static String escape(String text) {
