@@ -98,7 +98,6 @@ public class ObservableFactory {
 					return false;
 				if (!proxy.getClass().equals(other.getClass()))
 					return false;
-				E that = (E) other;
 				ObservableBeanInvocationHandler otherHandler = (ObservableBeanInvocationHandler) Proxy.getInvocationHandler(proxy);
 				return (this.propertyValues.equals(otherHandler.propertyValues));
 			} else if ("hashCode".equals(methodName)) {
