@@ -27,6 +27,7 @@
 package org.databene.commons.db;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,6 +38,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.databene.LogCategories;
 import org.databene.commons.BeanUtil;
+import org.databene.commons.ConfigurationError;
 import org.databene.commons.Converter;
 import org.databene.commons.StringUtil;
 import org.databene.commons.converter.ArrayConverter;
@@ -68,14 +70,21 @@ public class LoggingPreparedStatementHandler implements InvocationHandler {
 
 	public Object invoke(Object proxy, Method method, Object[] args)
 			throws Throwable {
-		String methodName = method.getName();
-		Method localMethod = BeanUtil.findMethod(this.getClass(), methodName, method.getParameterTypes());
-		if (localMethod != null)
-			return BeanUtil.invoke(this, localMethod, args);
-		else {
-			if (methodName.startsWith("set") && args != null && args.length >= 2 && args[0] instanceof Integer)
-				params[(Integer) args[0] - 1] = args[1];
-			return BeanUtil.invoke(realStatement, method, args);
+		try {
+			String methodName = method.getName();
+			Method localMethod = BeanUtil.findMethod(this.getClass(), methodName, method.getParameterTypes());
+			if (localMethod != null)
+				return BeanUtil.invoke(this, localMethod, args);
+			else {
+				if (methodName.startsWith("set") && args != null && args.length >= 2 && args[0] instanceof Integer)
+					params[(Integer) args[0] - 1] = args[1];
+				return BeanUtil.invoke(realStatement, method, args);
+			}
+		} catch (ConfigurationError e) {
+			if (e.getCause() instanceof InvocationTargetException && e.getCause().getCause() instanceof SQLException)
+				throw e.getCause().getCause();
+			else
+				throw e;
 		}
 	}
 
