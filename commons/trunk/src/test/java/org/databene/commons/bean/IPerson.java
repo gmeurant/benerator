@@ -27,7 +27,7 @@
 package org.databene.commons.bean;
 
 /**
- * TODO documentation.<br/>
+ * Interface for testing the {@link ObservableFactory}.<br/>
  * <br/>
  * Created at 17.07.2008 20:35:45
  * @since 0.4.5

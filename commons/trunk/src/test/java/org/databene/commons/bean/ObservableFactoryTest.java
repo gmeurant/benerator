@@ -24,7 +24,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 package org.databene.commons.bean;
 
 import java.beans.PropertyChangeEvent;
@@ -33,7 +32,7 @@ import java.beans.PropertyChangeListener;
 import junit.framework.TestCase;
 
 /**
- * TODO documentation.<br/>
+ * Tests the {@link ObservableFactory}.<br/>
  * <br/>
  * Created at 17.07.2008 20:33:51
  * @since 0.4.5
