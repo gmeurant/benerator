@@ -30,7 +30,6 @@ import java.io.File;
 import java.util.Arrays;
 
 import junit.framework.TestCase;
-import org.databene.commons.SystemInfo;
 import org.databene.commons.FileUtil;
 import org.databene.commons.Visitor;
 import org.databene.commons.file.FileElement;
