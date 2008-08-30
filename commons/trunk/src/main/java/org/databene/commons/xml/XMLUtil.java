@@ -43,6 +43,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.databene.commons.ArrayBuilder;
 import org.databene.commons.ConfigurationError;
+import org.databene.commons.ErrorHandler;
 import org.databene.commons.IOUtil;
 import org.databene.commons.StringUtil;
 import org.w3c.dom.Document;
@@ -53,6 +54,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 /**
  * Provides XML Utility methods.<br/>
@@ -62,7 +64,8 @@ import org.xml.sax.SAXException;
  */
 public class XMLUtil {
     
-    private static final Log logger = LogFactory.getLog(XMLUtil.class);
+    private static final ErrorHandler DEFAULT_ERROR_HANDLER = new ErrorHandler(XMLUtil.class.getSimpleName(), ErrorHandler.Level.fatal);
+	private static final Log logger = LogFactory.getLog(XMLUtil.class);
     
     private XMLUtil() {}
 
@@ -191,14 +194,14 @@ public class XMLUtil {
     // XML operations --------------------------------------------------------------------------------------------------
 
     public static Document parse(String uri) throws IOException {
-        return parse(uri, false);
+        return parse(uri, false); // TODO 0.4.6 validate XML
     }
 
     public static Document parse(String uri, boolean validate) throws IOException {
         InputStream stream = null;
         try {
             stream = IOUtil.getInputStreamForURI(uri);
-            return parse(stream, validate);
+            return parse(stream, DEFAULT_ERROR_HANDLER, validate);
         } finally {
             IOUtil.close(stream);
         }
@@ -211,18 +214,33 @@ public class XMLUtil {
     public static Document parseString(String text, boolean validate) throws IOException {
         if (logger.isDebugEnabled())
             logger.debug(text);
-        return parse(new StringBufferInputStream(text), validate);
+        return parse(new StringBufferInputStream(text), DEFAULT_ERROR_HANDLER, validate);
     }
 
     public static Document parse(InputStream stream) throws IOException {
-        return parse(stream, false);
+        return parse(stream, DEFAULT_ERROR_HANDLER, false);
     }
 
-    public static Document parse(InputStream stream, boolean validate) throws IOException {
+    public static Document parse(InputStream stream, final ErrorHandler errorHandler, boolean validate) throws IOException {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setValidating(validate);
             DocumentBuilder builder = factory.newDocumentBuilder();
+            builder.setErrorHandler(new org.xml.sax.ErrorHandler() {
+
+				public void error(SAXParseException e) throws SAXException {
+					errorHandler.handleError(e.getMessage(), e);
+				}
+
+				public void fatalError(SAXParseException e) throws SAXException {
+					errorHandler.handleError(e.getMessage(), e);
+				}
+
+				public void warning(SAXParseException e) throws SAXException {
+					errorHandler.handleError(e.getMessage(), e);
+				}
+            	
+            });
             return builder.parse(stream);
         } catch (ParserConfigurationException e) {
             throw new ConfigurationError(e);
