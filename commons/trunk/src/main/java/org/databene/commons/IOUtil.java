@@ -47,7 +47,8 @@ import java.util.Properties;
 public final class IOUtil {
 
     /** The logger. */
-    private static Log logger = LogFactory.getLog(IOUtil.class);
+    private static final Log logger = LogFactory.getLog(IOUtil.class);
+
     private static final String USER_AGENT = "Mozilla/5.0 (Windows; U; Windows NT 5.1; de-DE; rv:1.7.5) Gecko/20041122 Firefox/1.0";
 
     // convenience unchecked-exception operations ----------------------------------------------------------------------
@@ -140,6 +141,8 @@ public final class IOUtil {
     }
 
     public static boolean isURIAvailable(String uri) {
+    	if (logger.isDebugEnabled())
+    		logger.debug("isURIAvailable(" + uri + ')');
         InputStream stream = null;
         try {
             if (uri.startsWith("http://"))
@@ -174,13 +177,19 @@ public final class IOUtil {
             return getFileReader(uri, defaultEncoding);
     }
 
+    public static InputStream getInputStreamForURI(String uri) throws IOException {
+    	return getInputStreamForURI(uri, true);
+    }
+
     /**
      * Creates an InputStream from a url in String representation.
      * @param uri the source url
      * @return an InputStream theat reads te url.
      * @throws IOException if the url cannot be read.
      */
-    public static InputStream getInputStreamForURI(String uri) throws IOException {
+    public static InputStream getInputStreamForURI(String uri, boolean required) throws IOException {
+    	if (logger.isDebugEnabled())
+    		logger.debug("getInputStreamForURI(" + uri + ", " + required + ')');
         if (uri.startsWith("http://")) {
             try {
                 URLConnection connection = getConnection(uri);
@@ -193,16 +202,87 @@ public final class IOUtil {
             uri = "file://" + uri;
         if (uri.startsWith("file://"))
             return getFileOrResourceAsStream(uri.substring("file://".length()), true);
-        else
+        else if (required)
             throw new ConfigurationError("Don't know how to handle URL " + uri);
+        else
+        	return null;
     }
+
+    public static InputStream getInputStreamForUriReference(String localUri, String contextUri, boolean required) throws IOException {
+    	if (logger.isDebugEnabled())
+    		logger.debug("getInputStreamForUriReference(" + localUri + ", " + contextUri + ')');
+    	// do not resolve context for absolute URLs or missing contexts
+    	if (StringUtil.isEmpty(contextUri) || getProtocol(localUri) != null)
+    		return getInputStreamForURI(localUri, required);
+    	
+    	// now resolve the relative uri
+    	String uri = resolveLocalUri(localUri, contextUri);
+    	
+    	if (localUri.startsWith("http://")) {
+            try {
+                URLConnection connection = getConnection(uri);
+                return connection.getInputStream();
+            } catch (MalformedURLException e) {
+                throw new IllegalArgumentException(e);
+            }
+        }
+
+        if (!localUri.contains("://"))
+            localUri = "file://" + localUri;
+        if (localUri.startsWith("file://"))
+            return getFileOrResourceAsStream(localUri.substring("file://".length()), true);
+        else
+            throw new ConfigurationError("Don't know how to handle URL " + localUri);
+    }
+
+    public static String resolveLocalUri(String localUri, String contextUri) {
+    	if (logger.isDebugEnabled())
+    		logger.debug("resolveLocalUri(" + localUri + ", " + contextUri + ')');
+    	if (StringUtil.isEmpty(contextUri) || getProtocol(localUri) != null)
+    		return localUri;
+    	String protocol = getProtocol(contextUri);
+    	try {
+    		URL contextUrl = new URL((protocol == null ? "file:" : "")  + contextUri);
+    		URL absoluteUrl = new URL(contextUrl, localUri);
+    		String result = absoluteUrl.toString();
+    		if (protocol == null) // cut off 'file:'
+    			result = result.substring(5);
+    		if (!"./".equals(contextUri) && (protocol == null || protocol.startsWith("file:"))) {
+    			File file = new File(result);
+    			if (!file.exists() && isURIAvailable(localUri))
+    					result = localUri;
+    		}
+			return result;
+    	} catch (MalformedURLException e) {
+    		throw new RuntimeException(e); // TODO
+    	}
+	}
+
+	public static String getContextUri(String uri) {
+		if (StringUtil.isEmpty(uri))
+			return null;
+		String protocol = getProtocol(uri);
+		if (protocol != null)
+			uri = uri.substring(protocol.length());
+		String contextUri = StringUtil.splitOnLastSeparator(uri, '/')[0] + '/';
+		if (protocol != null)
+			contextUri = protocol + contextUri;
+		return contextUri;
+	}
+
+	public static String getProtocol(String uri) {
+		if (uri == null)
+			return null;
+		int sep = uri.indexOf("://");
+		return (sep > 0 ? uri.substring(0, sep) : null);
+	}
 
     public static PrintWriter getPrinterForURI(String uri, String encoding)
-            throws FileNotFoundException, UnsupportedEncodingException {
-        return new PrintWriter(new OutputStreamWriter(new FileOutputStream(uri), encoding));
-    }
+	    	throws FileNotFoundException, UnsupportedEncodingException {
+    	return new PrintWriter(new OutputStreamWriter(new FileOutputStream(uri), encoding));
+	}
 
-    // piping streams --------------------------------------------------------------------------------------------------
+	// piping streams --------------------------------------------------------------------------------------------------
 
     public static int transfer(Reader reader, Writer writer) throws IOException {
         int totalChars = 0;
@@ -360,6 +440,8 @@ public final class IOUtil {
      * @throws FileNotFoundException if the file cannot be found.
      */
     private static InputStream getFileOrResourceAsStream(String filename, boolean required) throws FileNotFoundException {
+    	if (logger.isDebugEnabled())
+    		logger.debug("getFileOrResourceAsStream(" + filename + ", " + required + ')');
         File file = new File(filename);
         if (file.exists()) {
             return new FileInputStream(filename);
@@ -373,6 +455,8 @@ public final class IOUtil {
      * @return an InputStream to the resource
      */
     private static InputStream getResourceAsStream(String name, boolean required) {
+    	if (logger.isDebugEnabled())
+    		logger.debug("getResourceAsStream(" + name + ", " + required + ')');
         if (!name.startsWith("/"))
             name = "/" + name;
         InputStream stream = IOUtil.class.getResourceAsStream(name);
