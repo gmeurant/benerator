@@ -39,7 +39,7 @@ import java.util.Arrays;
 /**
  * Created: 21.06.2007 08:31:28
  */
-public class IOUtilTest  extends TestCase {
+public class IOUtilTest extends TestCase {
 
     public void testClose() {
         IOUtil.close(new ByteArrayInputStream(new byte[0]));
@@ -73,6 +73,44 @@ public class IOUtilTest  extends TestCase {
         assertEquals("Charly", reader.readLine());
         assertNull(reader.readLine());
         reader.close();
+    }
+
+    public void testGetInputStreamForURIReference() throws IOException, UnsupportedEncodingException {
+    	// TODO implement testGetInputStreamForURIReference()
+    }
+    
+    public void testResolveLocalUri() {
+    	assertEquals("test.html", IOUtil.resolveLocalUri("test.html", null));
+    	assertEquals("test.html", IOUtil.resolveLocalUri("test.html", ""));
+    	assertEquals("http://test.com/main/test.html", IOUtil.resolveLocalUri("test.html", "http://test.com/main/"));
+    	assertEquals("http://test.com/main/sub/test.html", IOUtil.resolveLocalUri("sub/test.html", "http://test.com/main/"));
+    	assertEquals("http://test.com/test.html", IOUtil.resolveLocalUri("/test.html", "http://test.com/main/"));
+    	assertEquals("http://test.com/main/test.html", IOUtil.resolveLocalUri("./test.html", "http://test.com/main/"));
+    	assertEquals("http://test.com/other/test.html", IOUtil.resolveLocalUri("../other/test.html", "http://test.com/main/"));
+    	assertEquals("http://test.com/other/test.html", IOUtil.resolveLocalUri("/other/test.html", "http://test.com/main/"));
+    	assertEquals("sub/test.html", IOUtil.resolveLocalUri("sub/test.html", ""));
+    	assertEquals("../test.html", IOUtil.resolveLocalUri("../test.html", ""));
+    	assertEquals("file:///test.html", IOUtil.resolveLocalUri("file:///test.html", "http://bla.txt"));
+    	assertEquals("/Users/name/text.txt", IOUtil.resolveLocalUri("text.txt", "/Users/name/"));
+    	assertEquals("/Users/user2/text.txt", IOUtil.resolveLocalUri("/Users/user2/text.txt", "/Users/user1/"));
+    	// TODO test fallback to "./"
+    }
+    
+    public void testGetContextUri() {
+    	assertEquals(null, IOUtil.getContextUri(null));
+    	assertEquals(null, IOUtil.getContextUri(""));
+    	assertEquals("file://test/", IOUtil.getContextUri("file://test/text.txt"));
+    	assertEquals("test/", IOUtil.getContextUri("test/text.txt"));
+    	assertEquals("http://test.de/", IOUtil.getContextUri("http://test.de/text.txt"));
+    }
+    
+    public void testGetProtocol() {
+    	assertEquals(null, IOUtil.getProtocol(null));
+    	assertEquals(null, IOUtil.getProtocol(""));
+    	assertEquals(null, IOUtil.getProtocol("/test/text.txt"));
+    	assertEquals("http", IOUtil.getProtocol("http://files/index.dat"));
+    	assertEquals("file", IOUtil.getProtocol("file:///files/index.dat"));
+    	assertEquals("xyz", IOUtil.getProtocol("xyz:///files/index.dat"));
     }
 
     public void testGetReaderForURI() throws IOException, UnsupportedEncodingException {
