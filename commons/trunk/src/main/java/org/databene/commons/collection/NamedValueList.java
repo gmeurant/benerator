@@ -104,7 +104,10 @@ public class NamedValueList<E> {
 		if (caseHandling == IGNORANT)
 			name = name.toLowerCase();
 		int index = someIndexOfName(name);
-		setValue(index, value);
+		if (index < 0)
+			add(name, value);
+		else
+			setValue(index, value);
 	}
 	
 	public void add(String name, E value) {
