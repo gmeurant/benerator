@@ -36,10 +36,18 @@ import org.databene.commons.ConversionException;
 public class ReverseConverter<S, T> implements BidirectionalConverter<S, T> {
 
     private BidirectionalConverter<T, S> realConverter;
+    
+    // constructors ----------------------------------------------------------------------------------------------------
 
+    public ReverseConverter() {
+        this(null);
+    }
+    
     public ReverseConverter(BidirectionalConverter<T, S> realConverter) {
         this.realConverter = realConverter;
     }
+    
+    // BidirectionalConverter interface --------------------------------------------------------------------------------
 
     public Class<S> getSourceType() {
         return realConverter.getTargetType();
@@ -56,4 +64,14 @@ public class ReverseConverter<S, T> implements BidirectionalConverter<S, T> {
     public S revert(T target) throws ConversionException {
         return realConverter.convert(target);
     }
+    
+    // properties ------------------------------------------------------------------------------------------------------
+
+	public BidirectionalConverter<T, S> getRealConverter() {
+		return realConverter;
+	}
+
+	public void setRealConverter(BidirectionalConverter<T, S> realConverter) {
+		this.realConverter = realConverter;
+	}
 }
