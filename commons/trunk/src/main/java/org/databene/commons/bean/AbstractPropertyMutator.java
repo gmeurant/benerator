@@ -31,16 +31,13 @@ package org.databene.commons.bean;
  * <br/>
  * Created: 21.07.2007 08:58:59
  * @author Volker Bergmann
+ * @deprecated use AbstractNamedMutator
  */
-abstract class AbstractPropertyMutator implements PropertyMutator {
+@Deprecated
+abstract class AbstractPropertyMutator extends AbstractNamedMutator {
 
-    protected String propertyName;
+	protected AbstractPropertyMutator(String name) {
+		super(name);
+	}
 
-    protected AbstractPropertyMutator(String propertyName) {
-        this.propertyName = propertyName;
-    }
-
-    public String getPropertyName() {
-        return propertyName;
-    }
 }
