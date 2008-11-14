@@ -801,4 +801,8 @@ public final class BeanUtil {
 		return builder.toString();
 	}
 
+	public static String simpleName(Class type) {
+		return (type != null ? type.getSimpleName() : null);
+	}
+
 }
