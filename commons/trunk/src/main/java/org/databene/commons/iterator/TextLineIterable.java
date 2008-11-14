@@ -26,11 +26,11 @@
 
 package org.databene.commons.iterator;
 
+import org.databene.commons.HeavyweightIterator;
 import org.databene.commons.IOUtil;
 import org.databene.commons.ReaderLineIterator;
 import org.databene.commons.TypedIterable;
 
-import java.util.Iterator;
 import java.io.IOException;
 
 /**
@@ -51,7 +51,7 @@ public class TextLineIterable implements TypedIterable<String> {
         return String.class;
     }
 
-    public Iterator<String> iterator() {
+    public HeavyweightIterator<String> iterator() {
         try {
             return new ReaderLineIterator(IOUtil.getReaderForURI(uri));
         } catch (IOException e) {

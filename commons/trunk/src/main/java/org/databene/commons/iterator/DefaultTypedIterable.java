@@ -26,9 +26,9 @@
 
 package org.databene.commons.iterator;
 
+import org.databene.commons.HeavyweightIterable;
+import org.databene.commons.HeavyweightIterator;
 import org.databene.commons.TypedIterable;
-
-import java.util.Iterator;
 
 /**
  * Iterable proxy that adds type information to an untyped Iterable.<br/>
@@ -39,9 +39,9 @@ import java.util.Iterator;
 public class DefaultTypedIterable<E> implements TypedIterable<E> {
 
     private Class<E> type;
-    private Iterable<E> iterable;
+    private HeavyweightIterable<E> iterable;
 
-    public DefaultTypedIterable(Class<E> type, Iterable<E> iterable) {
+    public DefaultTypedIterable(Class<E> type, HeavyweightIterable<E> iterable) {
         this.type = type;
         this.iterable = iterable;
     }
@@ -50,7 +50,7 @@ public class DefaultTypedIterable<E> implements TypedIterable<E> {
         return type;
     }
 
-    public Iterator<E> iterator() {
+    public HeavyweightIterator<E> iterator() {
         return iterable.iterator();
     }
     
