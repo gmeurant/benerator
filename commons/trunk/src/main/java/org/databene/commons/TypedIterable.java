@@ -32,6 +32,6 @@ package org.databene.commons;
  * Created: 02.09.2007 23:20:03
  * @author Volker Bergmann
  */
-public interface TypedIterable<E> extends Iterable<E> {
+public interface TypedIterable<E> extends HeavyweightIterable<E> {
     Class<E> getType();
 }
