@@ -66,12 +66,20 @@ public class CSVTokenizer implements Heavyweight {
     public CSVTokenType ttype;
 
     public CSVTokenType lastType;
-
+    
     /**
      * String representation of the cell at the cursor position.
      * If the cursor is at a EOL/EOF position, this is null
      */
     public String cell;
+    
+    public int line;
+    
+    public int startColumn;
+    
+    public int endColumn;
+
+    private int cursor;
 
     // constructors ----------------------------------------------------------------------------------------------------
 
@@ -118,6 +126,8 @@ public class CSVTokenizer implements Heavyweight {
     public CSVTokenizer(Reader reader, char separator) {
         this.reader = new PushbackReader(new BufferedReader(reader));
         this.separator = separator;
+        this.line = 1;
+        this.cursor = 1;
     }
 
     // interface -------------------------------------------------------------------------------------------------------
@@ -129,47 +139,55 @@ public class CSVTokenizer implements Heavyweight {
      * @throws IOException if source access fails
      */
     public CSVTokenType next() throws IOException {
+        this.lastType = this.ttype;
         if (reader == null)
             return setState(EOF, null);
-        int c = reader.read();
+        if (lastType == EOL) {
+        	line++;
+        	startColumn = endColumn = cursor = 1;
+        } else
+        	startColumn = endColumn = cursor;
+        int c = read();
         if (c == -1) {
             close();
             return setState(EOF, null);
         } else if (c == separator) {
             return setState(CELL, "");
         } else if (c == '\r') {
-            if ((c = reader.read()) != '\n')
-                reader.unread(c);
+            if ((c = read()) != '\n')
+                unread(c);
             return setState(EOL, null);
         } else if (c == '\n') {
             return setState(EOL, null);
         } else if (c == '"') {
-            reader.unread(c);
+            unread(c);
             return parseQuotes();
         } else {
             StringBuilder buffer = new StringBuilder().append((char) c);
-            while ((c = reader.read()) != -1 && c != '\r' && c != '\n') {
-                if (c == separator)
+            while ((c = read()) != -1 && c != '\r' && c != '\n') {
+                if (c == separator) {
+                	endColumn = cursor - 2;
                     return setState(CELL, buffer.toString());
+                }
                 buffer.append((char) c);
             }
             if (c == '\r' || c == '\n')
-                reader.unread(c);
+                unread(c);
+        	endColumn = cursor - 1;
             return setState(CELL, buffer.toString());
         }
     }
 
     private CSVTokenType parseQuotes() throws IOException {
-        reader.read(); // skip leading quote
+        read(); // skip leading quote
         StringBuilder buffer = new StringBuilder();
         int c;
         boolean done;
         do {
-            while ((c = reader.read()) != -1 && c != '"') {
+            while ((c = read()) != -1 && c != '"')
                 buffer.append((char) c);
-            }
             if (c == '"') {
-                c = reader.read();
+                c = read();
                 if (c == '"') {
                     // escaped quote
                     buffer.append('"');
@@ -179,15 +197,18 @@ public class CSVTokenizer implements Heavyweight {
             } else
                 done = true;
         } while (!done);
-        if (c == '\r' || c == '\n')
-            reader.unread(c);
+        if (c == '\r' || c == '\n') {
+            unread(c);
+        	endColumn = cursor - 1;
+        } else
+        	endColumn = cursor - 2;
         return setState(CELL, buffer.toString());
     }
 
     public void skipLine() throws IOException {
         int c;
         // go to end of line
-        while ((c = reader.read()) != -1 && c != '\r' && c != '\n') {
+        while ((c = read()) != -1 && c != '\r' && c != '\n') {
             // skip EOL characters
         }
         switch (c) {
@@ -196,14 +217,26 @@ public class CSVTokenizer implements Heavyweight {
             case '\n' :
                 return;
             case '\r' :
-                int c2 = reader.read();
+                int c2 = read();
                 if (c2 != '\n')
-                    reader.unread(c2);
+                    unread(c2);
                 return;
             default   :
                 throw new IllegalStateException();
         }
     }
+
+	private void unread(int c) throws IOException {
+		reader.unread(c);
+		cursor--;
+	}
+
+	private int read() throws IOException {
+		int c = reader.read();
+		if (c != -1)
+			cursor++;
+		return c;
+	}
 
     /**
      * Closes the source
@@ -228,10 +261,9 @@ public class CSVTokenizer implements Heavyweight {
      * @return the token type
      */
     private CSVTokenType setState(CSVTokenType tokenType, String cell) {
-        this.lastType = this.ttype;
-        this.ttype = tokenType;
         this.cell = cell;
-        return tokenType;
+        this.ttype = tokenType;
+        return this.ttype;
     }
 
 }
