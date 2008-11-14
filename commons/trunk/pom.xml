@@ -4,7 +4,7 @@
 
     <groupId>org.databene</groupId>
     <artifactId>databene-commons</artifactId>
-    <version>0.4.6-alpha</version>
+    <version>0.4.6-alpha3</version>
 <!--
     <parent>
         <groupId>databene</groupId>
@@ -183,7 +183,7 @@
 		<repository>
 			<id>databene.repo</id>
 			<name>databene Internal Repository</name>
-			<url>ftp://databene.org/databene.org/m2/</url>
+			<url>ftp://databene.org/databene/m2</url>
 		</repository>
 	</distributionManagement>
   
