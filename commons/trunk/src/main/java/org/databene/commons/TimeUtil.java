@@ -29,6 +29,7 @@ package org.databene.commons;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Calendar;
+import java.util.Locale;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -175,6 +176,10 @@ public final class TimeUtil {
 
 	public static DateFormat createDefaultDateFormat() {
 		return new SimpleDateFormat(DEFAULT_DATE_PATTERN);
+	}
+
+	public static boolean isBusinessDay(Calendar tmp, Locale locale) {
+		return !isWeekend(tmp); // TODO implement correctly
 	}
 
 }
