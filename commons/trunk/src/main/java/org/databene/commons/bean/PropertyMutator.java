@@ -26,14 +26,15 @@
 
 package org.databene.commons.bean;
 
-import org.databene.commons.Mutator;
+import org.databene.commons.mutator.NamedMutator;
 
 /**
  * Mutates the value of a named (e.g. JavaBean) property.<br/>
  * <br/>
  * Created: 21.07.2007 08:20:13
  * @author Volker Bergmann
+ * @deprecated use {@link NamedMutator}
  */
-public interface PropertyMutator extends Mutator {
-    String getPropertyName();
+@Deprecated
+public interface PropertyMutator<C, V> extends NamedMutator<C, V> {
 }
