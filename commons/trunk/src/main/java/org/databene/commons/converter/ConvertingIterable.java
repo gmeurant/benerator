@@ -28,6 +28,7 @@ package org.databene.commons.converter;
 
 import org.databene.commons.Converter;
 import org.databene.commons.Heavyweight;
+import org.databene.commons.HeavyweightIterator;
 import org.databene.commons.TypedIterable;
 import org.databene.commons.iterator.ConvertingIterator;
 
@@ -53,7 +54,7 @@ public class ConvertingIterable<S, T> implements TypedIterable<T>, Heavyweight {
         return converter.getTargetType();
     }
 
-    public Iterator<T> iterator() {
+    public HeavyweightIterator<T> iterator() {
         return new ConvertingIterator(this.iterable.iterator(), converter);
     }
     
