@@ -27,15 +27,18 @@
 package org.databene.document.csv;
 
 import org.databene.script.*;
+import org.databene.commons.BeanUtil;
 import org.databene.commons.Context;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 import org.databene.commons.SystemInfo;
+import org.databene.commons.bean.ArrayPropertyExtractor;
 import org.databene.commons.bean.BeanToPropertyArrayConverter;
 import org.databene.commons.converter.ArrayConverter;
 import org.databene.commons.converter.ConverterChain;
 import org.databene.commons.converter.ToStringConverter;
 
+import java.beans.PropertyDescriptor;
 import java.io.Writer;
 import java.io.IOException;
 
@@ -46,7 +49,11 @@ import java.io.IOException;
  */
 public class BeanCSVWriter<E> extends ScriptedDocumentWriter<E> {
 
-    public BeanCSVWriter(Writer out, char separator, String ... propertyNames) {
+    public BeanCSVWriter(Writer out, char separator, Class<E> beanClass) {
+        this(out, separator, true, getPropertyNames(beanClass));
+    }
+
+	public BeanCSVWriter(Writer out, char separator, String ... propertyNames) {
         this(out, separator, true, propertyNames);
     }
 
@@ -62,6 +69,11 @@ public class BeanCSVWriter<E> extends ScriptedDocumentWriter<E> {
                          Script headerScript, Script footerScript, String ... propertyNames) {
         super(out, headerScript, new BeanCSVScript(propertyNames, separator), footerScript);
     }
+
+    private static <T> String[] getPropertyNames(Class<T> beanClass) {
+    	PropertyDescriptor[] descriptors = BeanUtil.getPropertyDescriptors(beanClass);
+    	return ArrayPropertyExtractor.convert(descriptors, "name", String.class);
+	}
 
     // BeanCSVScript ---------------------------------------------------------------------------------------------------
 
