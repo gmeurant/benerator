@@ -38,14 +38,20 @@ import org.apache.commons.logging.LogFactory;
  */
 public class ErrorHandler {
 	
+	// constants -------------------------------------------------------------------------------------------------------
+
 	public static enum Level {
 		ignore, trace, debug, info, warn, error, fatal
 	}
+
+	// attributes ------------------------------------------------------------------------------------------------------
 
 	private Log logger;
 	private Level level;
 	private boolean loggingStackTrace;
 
+	// constructors ----------------------------------------------------------------------------------------------------
+	
 	public ErrorHandler(Class<?> category) {
 		this(category.getName());
 	}
@@ -59,6 +65,8 @@ public class ErrorHandler {
 		this.level = level;
 		this.loggingStackTrace = true;
 	}
+	
+	// interface -------------------------------------------------------------------------------------------------------
 	
 	public void handleError(String message) {
 		switch (level) {
@@ -91,6 +99,8 @@ public class ErrorHandler {
 			handleError(message + SystemInfo.lineSeparator() + t.toString());
 	}
 
+	// properties ------------------------------------------------------------------------------------------------------
+	
 	public Level getLevel() {
 		return level;
 	}
