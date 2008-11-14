@@ -55,7 +55,7 @@ public class LoggingPreparedStatementHandler implements InvocationHandler {
     private static final Log sqlLogger = LogFactory.getLog(LogCategories.SQL); 
     private static final Log jdbcLogger = LogFactory.getLog(LogCategories.JDBC);
     private static final Converter<Object[], String[]> toStringArrayConverter 
-    	= new ArrayConverter<Object, String>(String.class, new ToStringConverter<Object>());
+    	= new ArrayConverter<Object, String>(String.class, new ToStringConverter<Object>("null"));
 
 	private String sql;
 	private PreparedStatement realStatement;
@@ -76,7 +76,9 @@ public class LoggingPreparedStatementHandler implements InvocationHandler {
 			if (localMethod != null)
 				return BeanUtil.invoke(this, localMethod, args);
 			else {
-				if (methodName.startsWith("set") && args != null && args.length >= 2 && args[0] instanceof Integer)
+				if ("setNull".equals(methodName) && args != null && args.length >= 2)
+					params[(Integer) args[0] - 1] = null;
+				else if (methodName.startsWith("set") && args != null && args.length >= 2 && args[0] instanceof Integer)
 					params[(Integer) args[0] - 1] = args[1];
 				return BeanUtil.invoke(realStatement, method, args);
 			}
