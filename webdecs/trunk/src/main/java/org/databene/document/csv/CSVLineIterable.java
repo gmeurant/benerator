@@ -27,9 +27,9 @@
 package org.databene.document.csv;
 
 import org.databene.commons.ConfigurationError;
+import org.databene.commons.HeavyweightIterator;
 import org.databene.commons.TypedIterable;
 
-import java.util.Iterator;
 import java.io.IOException;
 
 /**
@@ -55,7 +55,7 @@ public class CSVLineIterable implements TypedIterable<String[]> {
         return String[].class;
     }
 
-    public Iterator<String[]> iterator() {
+    public HeavyweightIterator<String[]> iterator() {
         try {
             return new CSVLineIterator(uri, separator, ignoreEmptyLines, encoding);
         } catch (IOException e) {
