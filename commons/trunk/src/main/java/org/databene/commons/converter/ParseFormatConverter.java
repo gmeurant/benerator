@@ -36,7 +36,7 @@ import java.text.ParseException;
  * <br/>
  * Created: 30.08.2006 19:48:09
  */
-public class ParseFormatConverter<S> extends NullsafeConverter<String, S> {
+public class ParseFormatConverter<S> extends NullSafeConverter<String, S> {
 
     private Class<S> targetType;
     /**

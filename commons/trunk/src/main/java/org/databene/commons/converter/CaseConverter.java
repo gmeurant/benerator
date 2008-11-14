@@ -36,7 +36,7 @@ import java.util.Locale;
  * <br/>
  * Created: 12.06.2006 19:05:09
  */
-public class CaseConverter extends NullsafeConverterProxy<String, String> {
+public class CaseConverter extends NullSafeConverterProxy<String, String> {
 
     public CaseConverter() {
         this(true);

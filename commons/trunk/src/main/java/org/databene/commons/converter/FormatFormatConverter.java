@@ -35,7 +35,7 @@ import org.databene.commons.ConversionException;
  * <br/>
  * Created: 30.08.2006 19:43:09
  */
-public class FormatFormatConverter<S> extends NullsafeConverter<S, String> {
+public class FormatFormatConverter<S> extends NullSafeConverter<S, String> {
 
     /**
      * The java.text.Format object used for conversion
