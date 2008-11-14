@@ -85,7 +85,7 @@ class PropertyGraphMutator implements PropertyMutator {
 
     // PropertyMutator interface ---------------------------------------------------------------------------------------
 
-    public String getPropertyName() {
+    public String getName() {
         return propertyName;
     }
 
@@ -95,7 +95,7 @@ class PropertyGraphMutator implements PropertyMutator {
                 throw new IllegalArgumentException("Cannot set a property on null");
             else
                 return;
-        logger.debug("setting property '" + getPropertyName() + "' to '" + propertyValue + "' on bean " + bean);
+        logger.debug("setting property '" + getName() + "' to '" + propertyValue + "' on bean " + bean);
         Object superBean = bean;
         if (subAccessors != null) {
             for (PropertyAccessor subAccessor : subAccessors) {
