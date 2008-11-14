@@ -42,6 +42,9 @@ public class Period implements Comparable<Period> {
     public static final Period HOUR = new Period(60 * 60 * 1000L, "h");
     public static final Period DAY = new Period(24 * 60 * 60 * 1000L, "d");
     public static final Period WEEK = new Period(7 * 24 * 60 * 60 * 1000L, "w");
+    public static final Period MONTH = new Period(30L * DAY.millis, "M");
+    public static final Period QUARTER = new Period(3L * MONTH.millis, "M");
+    public static final Period YEAR = new Period(365L * DAY.millis, "y");
 
     private long millis;
     private String name;
