@@ -26,10 +26,10 @@
 
 package org.databene.document.flat;
 
+import org.databene.commons.HeavyweightIterator;
 import org.databene.commons.TypedIterable;
 import org.databene.commons.format.PadFormat;
 
-import java.util.Iterator;
 import java.io.IOException;
 
 /**
@@ -55,7 +55,7 @@ public class FlatFileLineIterable implements TypedIterable<String[]> {
         return String[].class;
     }
 
-    public Iterator<String[]> iterator() {
+    public HeavyweightIterator<String[]> iterator() {
         try {
             return new FlatFileLineIterator(uri, formats, ignoreEmptyLines, encoding);
         } catch (IOException e) {
