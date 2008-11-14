@@ -40,14 +40,39 @@ public class CharacterRangeValidator implements Validator<Character> {
 	private char min;
 	private char max;
 
+	// constructors ----------------------------------------------------------------------------------------------------
+
+	public CharacterRangeValidator() {
+		this((char) 32, (char) 126);
+	}
+
 	public CharacterRangeValidator(char min, char max) {
-		super();
 		this.min = min;
 		this.max = max;
 	}
 
+	// Validator interface ---------------------------------------------------------------------------------------------
+
 	public boolean valid(Character c) {
 		return (min <= c && c <= max);
+	}
+	
+	// properties ------------------------------------------------------------------------------------------------------
+
+	public char getMin() {
+		return min;
+	}
+
+	public void setMin(char min) {
+		this.min = min;
+	}
+
+	public char getMax() {
+		return max;
+	}
+
+	public void setMax(char max) {
+		this.max = max;
 	}
 
 }
