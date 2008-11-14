@@ -29,8 +29,8 @@ package org.databene.document.csv;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.UpdateFailedException;
-import org.databene.commons.bean.PropertyMutator;
 import org.databene.commons.bean.PropertyMutatorFactory;
+import org.databene.commons.mutator.NamedMutator;
 
 import java.io.*;
 import java.util.Iterator;
@@ -45,7 +45,7 @@ public class CSVToJavaBeanMapper<E> implements Iterator<E> {
     private CSVLineIterator iterator;
     private Class<E> type;
     private String emptyValue;
-    private PropertyMutator[] mutators;
+    private NamedMutator[] mutators;
 
     public CSVToJavaBeanMapper(Reader reader, Class<E> type) throws IOException {
         this(reader, type, ',', null);
@@ -56,7 +56,7 @@ public class CSVToJavaBeanMapper<E> implements Iterator<E> {
         this.type = type;
         this.emptyValue = emptyValue;
         String[] attributeNames = this.iterator.next();
-        this.mutators = new PropertyMutator[attributeNames.length];
+        this.mutators = new NamedMutator[attributeNames.length];
         for (int i = 0; i < attributeNames.length; i++) {
             String attributeName = attributeNames[i];
             mutators[i] = PropertyMutatorFactory.getPropertyMutator(type, attributeName, false);
@@ -82,7 +82,7 @@ public class CSVToJavaBeanMapper<E> implements Iterator<E> {
             return bean;
         } catch (UpdateFailedException e) {
             throw new ConfigurationError("Failed to set property '" + 
-                    mutators[i].getPropertyName() + "' on class " + type);
+                    mutators[i].getName() + "' on class " + type);
         }
     }
 
