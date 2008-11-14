@@ -41,7 +41,7 @@ import java.lang.reflect.Method;
  * Created: 21.07.2007 09:01:19
  * @author Volker Bergmann
  */
-class UntypedPropertyMutator extends AbstractPropertyMutator{
+public class UntypedPropertyMutator extends AbstractPropertyMutator{
 
     private boolean strict;
 
@@ -60,16 +60,16 @@ class UntypedPropertyMutator extends AbstractPropertyMutator{
                 throw new UpdateFailedException("Cannot set a property on a null pointer");
             else
                 return;
-        PropertyDescriptor propertyDescriptor = BeanUtil.getPropertyDescriptor(bean.getClass(), propertyName);
+        PropertyDescriptor propertyDescriptor = BeanUtil.getPropertyDescriptor(bean.getClass(), name);
         if (propertyDescriptor == null)
             if (strict)
-                throw new UpdateFailedException("property '" + propertyName + "' not found in class " + bean.getClass());
+                throw new UpdateFailedException("property '" + name + "' not found in class " + bean.getClass());
             else
                 return;
 		Method writeMethod = propertyDescriptor.getWriteMethod();
         if (writeMethod == null) {
             if (strict)
-                throw new UpdateFailedException("No write method found for property '" + propertyName + "' in class " + bean.getClass());
+                throw new UpdateFailedException("No write method found for property '" + name + "' in class " + bean.getClass());
             else
                 return;
         }

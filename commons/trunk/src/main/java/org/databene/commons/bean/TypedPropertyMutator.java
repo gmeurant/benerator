@@ -41,7 +41,7 @@ import java.beans.PropertyDescriptor;
  * Created: 21.07.2007 08:58:49
  * @author Volker Bergmann
  */
-class TypedPropertyMutator extends AbstractPropertyMutator {
+public class TypedPropertyMutator extends AbstractPropertyMutator {
 
     private boolean strict;
     private Method writeMethod;
