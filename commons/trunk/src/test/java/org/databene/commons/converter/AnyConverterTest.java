@@ -95,4 +95,11 @@ public class AnyConverterTest extends TestCase {
     public void testStringToCharConversion() {
     	assertEquals('1', (char) AnyConverter.convert("1", char.class));
     }
+    
+    public void testBooleanConversion() {
+    	assertEquals(0, (int) AnyConverter.convert(false, int.class));
+    	assertEquals(1, (int) AnyConverter.convert(true, int.class));
+    	assertEquals(1, (int) AnyConverter.convert(Boolean.TRUE, int.class));
+    	assertEquals(1L, (long) AnyConverter.convert(Boolean.TRUE, Long.class));
+    }
 }
