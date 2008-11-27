@@ -99,7 +99,7 @@ public class Assert {
 
 	public static void instanceOf(Object object, Class type, String name) {
 		 if (object == null)
-			 throw new AssertionError("Object is not supposed to be null");
+			 throw new AssertionError(name + " is not supposed to be null");
 		 if (!type.isAssignableFrom(object.getClass()))
 			 throw new AssertionError(name + " is expected to be of type " + type.getName() + ", but is " + object.getClass());
 	}
