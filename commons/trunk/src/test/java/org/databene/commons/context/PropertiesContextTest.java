@@ -40,13 +40,18 @@ import junit.framework.TestCase;
  */
 public class PropertiesContextTest extends TestCase {
 	
-	public void testSet() {
+	public void testAtomic() {
 		Properties properties = new Properties();
 		properties.setProperty("a", "a");
-		properties.setProperty("b.c", "b.c");
 		PropertiesContext context = new PropertiesContext(properties);
 		assertEquals("a", context.get("a"));
-		assertTrue(context.get("b") instanceof Context);
+	}
+	
+	public void testPath() {
+		Properties properties = new Properties();
+		properties.setProperty("b.c", "b.c");
+		PropertiesContext context = new PropertiesContext(properties);
 		assertEquals("b.c", ((Context) context.get("b")).get("c"));
+		assertEquals("b.c", context.get("b.c"));
 	}
 }
