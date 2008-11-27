@@ -35,7 +35,7 @@ public class MathUtil {
     /**
      * Returns the number of digits needed for displaying the postfix values of a number, but at most 7.
      * @param number
-     * @return
+     * @return the number of digits needed for displaying the postfix values of a number, but at most 7
      */
     public static int fractionDigits(double number) {
         double x = fraction(number);
