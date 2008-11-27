@@ -310,7 +310,7 @@ public final class BeanUtil {
      * Creates a new instance of a Class.
      * @param constructor
      * @param params
-     * @return
+     * @return a new instance of the class
      */
     public static <T> T newInstance(Constructor<T> constructor, Object ... params) {
         Class<T> type = constructor.getDeclaringClass();
