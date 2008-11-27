@@ -87,22 +87,6 @@ public final class ArrayUtil {
         return true;
     }
 
-    /**
-     * Finds the elements that are contained in both array.
-     * @param a1 the first array to compare
-     * @param a2 the first array to compare
-     * @return the elements that are contained in both array.
-     */
-/*
-    public static <T> List<T> commonElements(T[] a1, T[] a2) {
-        List<T> commonElements = new ArrayList<T>();
-        for (T element : a1)
-            if (contains(element, a2))
-                commonElements.add(element);
-        return commonElements;
-    }
-*/    
-
     public static <T> T[] commonElements(T[]... sources) {
         Class<T> componentType = null;
         for (int arrayNumber = 0; arrayNumber < sources.length && componentType == null; arrayNumber++) {
