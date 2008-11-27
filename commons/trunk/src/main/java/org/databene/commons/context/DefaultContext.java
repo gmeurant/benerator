@@ -43,7 +43,7 @@ public class DefaultContext implements Context {
 
     private Context defaults;
 
-    private Map<String, Object> map;
+    protected Map<String, Object> map;
 
     public DefaultContext() {
         this(null);
@@ -83,11 +83,13 @@ public class DefaultContext implements Context {
 		map.remove(key);
 	}
 	
-    public synchronized String toString() {
-        return map.toString();
-    }
-
     public Set<String> keySet() {
         return map.keySet();
     }
+
+    @Override
+	public synchronized String toString() {
+        return map.toString();
+    }
+
 }
