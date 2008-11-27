@@ -39,6 +39,8 @@ import java.util.Map;
  * @author Volker Bergmann
  */
 public class BeanFactory {
+	
+	private static final ClassProvider DEFAULT_CLASS_PROVIDER = new DefaultClassProvider();
     /**
      * Creates an object of the specified type.
      * @param beanClassName the name of the class to instantiate
@@ -46,7 +48,11 @@ public class BeanFactory {
      * @return an object of the specified class
      */
     public static Object newBean(String beanClassName, Map<String, Object> properties) {
-        Object bean = BeanUtil.newInstance(beanClassName);
+        return newBean(beanClassName, properties, DEFAULT_CLASS_PROVIDER);
+    }
+
+    public static Object newBean(String beanClassName, Map<String, Object> properties, ClassProvider factory) {
+    	Object bean = BeanUtil.newInstance(factory.forName(beanClassName));
         for (Map.Entry<String, Object> entry : properties.entrySet()) {
             String propertyName = entry.getKey();
             PropertyMutator mutator = PropertyMutatorFactory.getPropertyMutator(bean.getClass(), propertyName, false);
