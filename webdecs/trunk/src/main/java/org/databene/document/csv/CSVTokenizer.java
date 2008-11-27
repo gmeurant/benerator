@@ -37,11 +37,10 @@ import java.io.*;
 /**
  * Parses a CSV file token by token as specified in RFC 4180.
  * It returns parsed values as CSVTokensType of type CELL, EOL and EOF.
- * The current cell content is accessible by the public attribute 'cell'.
- *
- * @see CSVTokenType<br/>
- *      <br/>
- *      Created: 26.08.2006 17:19:35
+ * The current cell content is accessible by the public attribute 'cell'.<br/>
+ * <br/>
+ * Created: 26.08.2006 17:19:35
+ * @see CSVTokenType
  */
 public class CSVTokenizer implements Heavyweight {
 
