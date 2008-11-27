@@ -4,10 +4,10 @@
 
     <groupId>org.databene</groupId>
     <artifactId>databene-webdecs</artifactId>
-    <version>0.4.6-alpha3</version>
+    <version>0.4.6-alpha5</version>
 
     <properties>
-	    <commons_version>0.4.6-alpha3</commons_version>
+	    <commons_version>0.4.6-alpha5</commons_version>
     </properties>
 
 <!--
@@ -132,6 +132,17 @@
                         <descriptor>src/main/assembly/backup-assembly.xml</descriptor>
                     </descriptors>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
