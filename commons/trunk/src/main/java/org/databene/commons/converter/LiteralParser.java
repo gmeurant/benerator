@@ -57,7 +57,7 @@ public class LiteralParser implements Converter<String, Object> {
      *   number := [-] digit* ['.' digit*]
      * </code> 
      * @param text
-     * @return
+     * @return a date, number, boolean or String that is the object representation of the specified text
      */
     public static Object parse(String text) {
         if (text == null)
