@@ -30,8 +30,8 @@ import java.util.Arrays;
 
 /**
  * Represents a sequence of regular expression parts.
- * @see RegexPart<br/>
  * <br/>
+ * @see RegexPart 
  */
 public class Regex {
 
