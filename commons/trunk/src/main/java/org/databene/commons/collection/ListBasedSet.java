@@ -116,4 +116,9 @@ public class ListBasedSet<E> implements Set<E> {
     public E get(int index) {
         return list.get(index);
     }
+    
+    @Override
+    public String toString() {
+    	return list.toString();
+    }
 }
