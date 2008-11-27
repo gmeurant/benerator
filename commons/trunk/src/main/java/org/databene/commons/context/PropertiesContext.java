@@ -52,7 +52,7 @@ public class PropertiesContext extends DefaultContext {
 
     public PropertiesContext(Map<String, ? extends Object> map) {
         for (Map.Entry<String, ? extends Object> entry : map.entrySet()) {
-            String name = (String)entry.getKey();
+            String name = entry.getKey();
             Object value = entry.getValue();
             set(name, value);
         }
@@ -60,11 +60,11 @@ public class PropertiesContext extends DefaultContext {
     
     // Context interface -----------------------------------------------------------------------------------------------
 
-    public void set(String name, Object value) {
+    @Override
+	public void set(String name, Object value) {
         String[] tokens = StringUtil.tokenize(name, '.');
-        if (tokens.length == 1) {
-            super.set(name, value);
-        } else {
+        super.set(name, value);
+        if (tokens.length > 1) {
             Context node = this;
             for (int i = 0; i < tokens.length - 1; i++) {
                 String token = tokens[i];
