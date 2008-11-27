@@ -29,7 +29,6 @@ package org.databene.commons;
 import java.util.*;
 
 import org.databene.commons.collection.ListBasedSet;
-import org.databene.commons.collection.MapEntry;
 
 /**
  * Map implementation that tracks the order in which elements where added
@@ -44,7 +43,7 @@ import org.databene.commons.collection.MapEntry;
 public class OrderedMap<K,V> implements Map<K,V> {
 
     private Map<K, Integer> keyIndices;
-    private List<V> values;
+    protected List<V> values;
 
     // constructors ----------------------------------------------------------------------------------------------------
 
@@ -152,7 +151,7 @@ public class OrderedMap<K,V> implements Map<K,V> {
     	Map.Entry<K, V>[] tmp = new Map.Entry[values.size()];
         for (Map.Entry<K, Integer> entry : keyIndices.entrySet()) {
             Integer index = entry.getValue();
-            tmp[index] = new MapEntry<K, V>(entry.getKey(), values.get(index));
+            tmp[index] = new ProxyEntry(entry.getKey(), index);
         }
         return new ListBasedSet<Map.Entry<K, V>>(tmp);
     }
@@ -202,6 +201,34 @@ public class OrderedMap<K,V> implements Map<K,V> {
                 return false;
         }
         return true;
+    }
+    
+    private class ProxyEntry implements Map.Entry<K, V> {
+    	
+    	private K key;
+    	private int index;
+    	
+		public ProxyEntry(K key, int index) {
+			this.key = key;
+			this.index = index;
+		}
+
+		public K getKey() {
+			return key;
+		}
+
+		public V getValue() {
+			return OrderedMap.this.values.get(index);
+		}
+
+		public V setValue(V value) {
+			return OrderedMap.this.values.set(index, value);
+		}
+    	
+		@Override
+		public String toString() {
+			return String.valueOf(key) + '=' + getValue();
+		}
     }
 
     // java.lang.Object overrides --------------------------------------------------------------------------------------
