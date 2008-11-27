@@ -163,4 +163,16 @@ public final class CollectionUtil {
                 return false;
         return l1.size() == 0;
     }
+    
+    public static <V> V getCaseInsensitive(String key, Map<String, V> map) {
+    	V result = map.get(key);
+    	if (result != null || key == null)
+    		return result;
+    	String lcKey = key.toLowerCase();
+    	for (String candidate : map.keySet())
+			if (candidate != null && lcKey.equals(candidate.toLowerCase()))
+				return map.get(candidate);
+		return null;
+    }
+
 }
