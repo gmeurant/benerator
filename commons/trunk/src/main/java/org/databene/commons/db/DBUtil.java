@@ -71,6 +71,7 @@ public class DBUtil {
     public static Connection connect(String url, String driver, String user, String password) throws ConnectFailedException {
 		try {
             Class.forName(driver);
+            jdbcLogger.debug("opening connection to " + url);
             Connection connection = DriverManager.getConnection(url, user, password);
             return connection;
         } catch (ClassNotFoundException e) {
