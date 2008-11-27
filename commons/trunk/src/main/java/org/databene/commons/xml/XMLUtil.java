@@ -224,7 +224,9 @@ public class XMLUtil {
     public static Document parse(InputStream stream, final ErrorHandler errorHandler, boolean validate) throws IOException {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setNamespaceAware(true);
             factory.setValidating(validate);
+            factory.setAttribute("http://java.sun.com/xml/jaxp/properties/schemaLanguage", "http://www.w3.org/2001/XMLSchema");
             DocumentBuilder builder = factory.newDocumentBuilder();
             builder.setErrorHandler(new org.xml.sax.ErrorHandler() {
 
@@ -278,6 +280,14 @@ public class XMLUtil {
     public static String getTargetNamespace(Document xsdDocument) {
     	return xsdDocument.getDocumentElement().getAttribute("targetNamespace");
     }
+
+	public static boolean getBooleanAttribute(Element element, String name) {
+		return Boolean.parseBoolean(element.getAttribute(name));
+	}
+
+	public static double getDoubleAttribute(Element element, String name) {
+		return Double.parseDouble(element.getAttribute(name));
+	}
 
 
 }
