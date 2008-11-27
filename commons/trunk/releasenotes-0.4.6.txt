@@ -14,7 +14,11 @@ Enhancements
   - HeavyweightIterableAdapter
   - HeavyweightIteratorAdapter
   - AbstractValidator
-  
+  - ClassProvider, DefaultClassProvider, ClassCache
+- AnyConverter supports conversion boolean -> number (0/1)
+- new mthods
+  - CollectionUtil.getCaseInsensitive(String key, Map<String, V> map)
   
 Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
 ---------
+- Entries returned from OrderedMap.entrySet() now have the expected behavior of updating the original data on setValue()
