@@ -26,6 +26,7 @@
 
 package org.databene.commons.converter;
 
+import org.databene.commons.BeanUtil;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 import org.apache.commons.logging.Log;
@@ -132,7 +133,11 @@ public class AnyConverter<S, T> implements Converter<S, T> {
      */
     private static <TT> TT convertBoolean(Boolean src, Class<TT> targetType) {
         if (boolean.class.equals(targetType))
-            return (TT)src;
+            return (TT)src; // TODO check if this can ever be reached
+        else if (Number.class.isAssignableFrom(targetType))
+            return convert((src ? 1 : 0), targetType);
+        else if (Number.class.isAssignableFrom(BeanUtil.getWrapper(targetType.getName())))
+            return convert((src ? 1 : 0), targetType);
         else
             throw new UnsupportedOperationException("Don't know how to convert " + src.getClass() + " to " + targetType);
     }
