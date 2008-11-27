@@ -32,6 +32,8 @@ import org.databene.commons.Context;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 import org.databene.commons.bean.BeanFactory;
+import org.databene.commons.bean.ClassProvider;
+import org.databene.commons.bean.DefaultClassProvider;
 import org.databene.commons.converter.AnyConverter;
 import org.databene.commons.converter.NoOpConverter;
 import org.w3c.dom.Element;
@@ -55,6 +57,8 @@ import java.beans.PropertyDescriptor;
 public class XMLElement2BeanConverter implements Converter<Element, Object> {
 
     private static final Log logger = LogFactory.getLog(XMLElement2BeanConverter.class);
+
+	private static final ClassProvider DEFAULT_CLASS_PROVIDER = new DefaultClassProvider();
 
     private Context context;
     private Converter<String, String> preprocessor;
@@ -85,6 +89,10 @@ public class XMLElement2BeanConverter implements Converter<Element, Object> {
     // utility methods -------------------------------------------------------------------------------------------------
 
     public static Object convert(Element element, Context context, Converter<String, String> preprocessor) throws ConversionException {
+    	return convert(element, context, preprocessor, DEFAULT_CLASS_PROVIDER);
+    }
+    
+    public static Object convert(Element element, Context context, Converter<String, String> preprocessor, ClassProvider factory) throws ConversionException {
         if ("idref".equals(element.getNodeName())) {
             if (context != null) {
                 String id = element.getAttribute("bean");
@@ -95,15 +103,15 @@ public class XMLElement2BeanConverter implements Converter<Element, Object> {
             } else
                 throw new IllegalArgumentException("'idref' without a Context");
         } else
-            return convertBean(element, context, preprocessor);
+            return convertBean(element, context, preprocessor, factory);
     }
 
     // private helpers -------------------------------------------------------------------------------------------------
     
-    private static Object convertBean(Element element, Context context, Converter<String, String> preprocessor) throws ConversionException {
+    private static Object convertBean(Element element, Context context, Converter<String, String> preprocessor, ClassProvider factory) throws ConversionException {
         String className = element.getAttribute("class");
         logger.debug("instantiating class '" + className + "'");
-        Class beanClass = BeanUtil.forName(className);
+        Class beanClass = factory.forName(className);
         NodeList propertyElements = element.getElementsByTagName("property");
         Map<String, Object> props = new HashMap<String, Object>(propertyElements.getLength());
         for (int i = 0; i < propertyElements.getLength(); i++) {
@@ -133,7 +141,7 @@ public class XMLElement2BeanConverter implements Converter<Element, Object> {
             }
             props.put(propertyName, propertyValue);
         }
-        return BeanFactory.newBean(className, props);
+        return BeanFactory.newBean(className, props, factory);
     }
     
 }
