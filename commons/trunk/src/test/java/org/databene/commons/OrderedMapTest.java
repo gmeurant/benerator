@@ -131,6 +131,14 @@ public class OrderedMapTest extends TestCase {
     	assertTrue(map123.equalsIgnoreOrder(map321));
     	assertTrue(map321.equalsIgnoreOrder(map123));
     }
+    
+    public void testUpdateEntry() {
+    	OrderedMap<Integer, Integer> map = createMap123();
+    	for (Map.Entry<Integer, Integer> entry : map.entrySet())
+    		entry.setValue(4);
+    	for (Integer value : map.values)
+    		assertEquals(4, (int)value);
+    }
 
     // private helpers -------------------------------------------------------------------------------------------------
 
