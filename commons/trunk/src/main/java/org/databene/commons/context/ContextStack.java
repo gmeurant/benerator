@@ -44,7 +44,7 @@ public class ContextStack implements Context {
     
     private static final Log logger = LogFactory.getLog(ContextStack.class);
 
-    private Stack<Context> contexts;
+    protected Stack<Context> contexts;
     
     public ContextStack(Context ... contexts) {
         super();
