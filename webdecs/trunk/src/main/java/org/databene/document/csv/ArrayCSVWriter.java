@@ -48,6 +48,10 @@ import java.io.IOException;
  */
 public class ArrayCSVWriter<E> extends ScriptedDocumentWriter<E[]> {
 
+    public ArrayCSVWriter(Writer out) {
+        this(out, ',');
+    }
+
     public ArrayCSVWriter(Writer out, char separator) {
         this(out, separator, (Script)null, (Script)null);
     }
