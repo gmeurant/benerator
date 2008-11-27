@@ -87,10 +87,10 @@ public class ErrorHandler {
 			switch (level) {
 				// yes, this could be more efficient, but it's just for error handling
 				// and you're not supposed to have a number of errors that impacts performance
-				case trace : logger.trace(message, t); break;
-				case debug : logger.debug(message, t); break;
-				case info  : logger.info( message, t); break;
-				case warn  : logger.warn( message, t); break;
+				case trace : logger.trace(message); break;
+				case debug : logger.debug(message); break;
+				case info  : logger.info( message); break;
+				case warn  : logger.warn( message); break;
 				case error : logger.error(message, t); break;
 				case fatal : logger.fatal(message, t);
 							 throw new RuntimeException(t);
