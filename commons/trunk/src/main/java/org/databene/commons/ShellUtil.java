@@ -28,6 +28,7 @@
 package org.databene.commons;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 
 /**
@@ -39,18 +40,22 @@ import java.io.InputStreamReader;
  */
 public class ShellUtil {
 	
-	public static void runShellTask(ReaderLineIterator iterator, ErrorHandler errorHandler) {
+	public static void runShellCommands(ReaderLineIterator iterator, ErrorHandler errorHandler) {
 		while (iterator.hasNext()) {
 			String command = iterator.next().trim();
 			if (command.length() > 0)
-				runShellTaskCommand(command, errorHandler);	
+				runShellCommand(command, errorHandler);	
 		}
     }
 
-	public static void runShellTaskCommand(String command, ErrorHandler errorHandler) {
+	public static void runShellCommand(String command, ErrorHandler errorHandler) {
+		runShellCommand(command, new File(SystemInfo.currentDir()), errorHandler);
+	}
+	
+	public static void runShellCommand(String command, File directory, ErrorHandler errorHandler) {
 		try {
 			String s = null;
-			Process p = Runtime.getRuntime().exec(command);
+			Process p = Runtime.getRuntime().exec(command, null, directory);
 			BufferedReader stdIn = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			BufferedReader stdErr = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 			// read the output from the command
