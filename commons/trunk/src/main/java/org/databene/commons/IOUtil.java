@@ -254,7 +254,7 @@ public final class IOUtil {
     		}
 			return result;
     	} catch (MalformedURLException e) {
-    		throw new RuntimeException(e); // TODO
+    		throw new IllegalArgumentException(e);
     	}
 	}
 
