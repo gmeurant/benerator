@@ -27,7 +27,7 @@
 package org.databene.commons.bean;
 
 /**
- * TODO documentation.<br/>
+ * Abstraction of a utility that provides class definitions by name.
  * <br/>
  * Created at 16.11.2008 07:03:52
  * @since 0.5.6
