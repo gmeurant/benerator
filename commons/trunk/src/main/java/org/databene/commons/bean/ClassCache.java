@@ -38,7 +38,7 @@ import org.databene.commons.ConfigurationError;
 import org.databene.commons.StringUtil;
 
 /**
- * TODO documentation.<br/>
+ * Provides classes by name, supporting package import and local class names.<br/>
  * <br/>
  * Created at 15.11.2008 17:03:04
  * @since 0.5.6

@@ -34,11 +34,11 @@ import java.util.Comparator;
 /**
  * Compares JavaBeans by a property.
  * If a beanComparator is provided, this one is used for property comparison,
- * else the ComparatorFactory is queried for a Comparator.
- * @see ComparatorFactory<br/>
+ * else the ComparatorFactory is queried for a Comparator.<br/>
  * <br/>
  * Created: 06.01.2005 20:04:36
  * @author Volker Bergmann
+ * @see ComparatorFactory
  */
 public class BeanComparator<C, V> implements Comparator<C> {
 
