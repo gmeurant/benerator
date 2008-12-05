@@ -179,7 +179,7 @@ public final class TimeUtil {
 	}
 
 	public static boolean isBusinessDay(Calendar tmp, Locale locale) {
-		return !isWeekend(tmp); // TODO implement correctly
+		return !isWeekend(tmp); // TODO 0.5.0 implement correctly
 	}
 
 }
