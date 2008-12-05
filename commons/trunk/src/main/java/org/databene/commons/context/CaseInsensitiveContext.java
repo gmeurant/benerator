@@ -34,7 +34,7 @@ import org.databene.commons.CollectionUtil;
 import org.databene.commons.Context;
 
 /**
- * TODO document class CaseInsensitiveContext.<br/>
+ * {@link Context} implementation which is case insensitive regarding key Strings.<br/>
  * <br/>
  * Created at 19.11.2008 08:55:05
  * @since 0.5.6
