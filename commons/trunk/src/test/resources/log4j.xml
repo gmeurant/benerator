@@ -63,7 +63,7 @@
     </category>
 
     <category name="org.databene">
-       <priority value="debug"/>
+       <priority value="info"/>
     </category>
 
 
