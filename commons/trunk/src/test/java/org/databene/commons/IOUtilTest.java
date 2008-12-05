@@ -76,7 +76,7 @@ public class IOUtilTest extends TestCase {
     }
 
     public void testGetInputStreamForURIReference() throws IOException, UnsupportedEncodingException {
-    	// TODO implement testGetInputStreamForURIReference()
+    	// TODO v0.5.7 implement testGetInputStreamForURIReference()
     }
     
     public void testResolveLocalUri() {
@@ -93,7 +93,7 @@ public class IOUtilTest extends TestCase {
     	assertEquals("file:///test.html", IOUtil.resolveLocalUri("file:///test.html", "http://bla.txt"));
     	assertEquals("/Users/name/text.txt", IOUtil.resolveLocalUri("text.txt", "/Users/name/"));
     	assertEquals("/Users/user2/text.txt", IOUtil.resolveLocalUri("/Users/user2/text.txt", "/Users/user1/"));
-    	// TODO test fallback to "./"
+    	// TODO v0.5.7 test fallback to "./"
     }
     
     public void testGetContextUri() {
