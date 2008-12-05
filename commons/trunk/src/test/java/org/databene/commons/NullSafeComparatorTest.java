@@ -47,11 +47,11 @@ public class NullSafeComparatorTest extends TestCase {
     }
 
     public void testInstantiation() {
-        new NullSafeComparator();
+        new NullSafeComparator<Integer>();
     }
 
     public void testComparableComparation() {
-        Comparator comparator = new NullSafeComparator();
+        Comparator<Integer> comparator = new NullSafeComparator<Integer>();
         Integer i1 = new Integer(1);
         Integer i2 = new Integer(2);
         Integer i2d = new Integer(2);
@@ -65,7 +65,7 @@ public class NullSafeComparatorTest extends TestCase {
     }
 
     public void testDownwardComparation() {
-        Comparator comparator = new NullSafeComparator(NullSafeComparator.NULL_IS_GREATER);
+        Comparator<Integer> comparator = new NullSafeComparator<Integer>(NullSafeComparator.NULL_IS_GREATER);
         Integer i1 = new Integer(1);
         Integer i2 = new Integer(2);
         Integer i2d = new Integer(2);
@@ -80,7 +80,7 @@ public class NullSafeComparatorTest extends TestCase {
 
     public void testCollatorComparation() {
         Collator collator = Collator.getInstance(Locale.GERMANY);
-        Comparator comparator = new NullSafeComparator(collator);
+        Comparator<String> comparator = new NullSafeComparator<String>(collator);
         String s1 = "Alpha";
         String s2 = "Beta";
         String s2d = "Beta";
