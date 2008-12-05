@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007, 2008 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -156,7 +156,7 @@ public class DBUtil {
         return builder.toString();
     }
 
-    public static String queryWithOneCellResult(PreparedStatement statement) {
+    public static String queryString(PreparedStatement statement) { 
         try {
             ResultSet resultSet = statement.executeQuery();
             if (!resultSet.next())
@@ -165,6 +165,23 @@ public class DBUtil {
             if (resultSet.next())
                 throw new RuntimeException("Expected exactly one row, found more.");
             resultSet.close();
+            return value;
+        } catch (SQLException e) {
+            throw new RuntimeException("Database query failed: ", e);
+        }
+    }
+
+    public static Object queryScalar(String query, Connection connection) {
+        try {
+        	Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            if (!resultSet.next())
+                throw new RuntimeException("Expected a row.");
+            Object value = resultSet.getObject(1);
+            if (resultSet.next())
+                throw new RuntimeException("Expected exactly one row, found more.");
+            resultSet.close();
+            statement.close();
             return value;
         } catch (SQLException e) {
             throw new RuntimeException("Database query failed: ", e);
@@ -238,7 +255,7 @@ public class DBUtil {
         return result;
     }
 
-    public static <T> String[][] query(String query, Connection connection) throws SQLException {
+    public static String[][] query(String query, Connection connection) throws SQLException {
     	Statement statement = null;
     	ResultSet resultSet = null;
     	try {
@@ -262,5 +279,31 @@ public class DBUtil {
 	public static String escape(String text) {
 		return text.replace("'", "''");
 	}
+
+    public static ResultsWithMetadata queryWithMetadata(String query, Connection connection) throws SQLException {
+    	Statement statement = null;
+    	ResultSet resultSet = null;
+    	try {
+	    	statement = connection.createStatement();
+	    	resultSet = statement.executeQuery(query);
+            ResultSetMetaData metaData = resultSet.getMetaData();
+			int columnCount = metaData.getColumnCount();
+            String[] columnNames = new String[columnCount];
+            for (int i = 1; i <= columnCount; i++)
+            	columnNames[i - 1] = metaData.getColumnName(i);
+	        List<Object[]> rows = new ArrayList<Object[]>();
+	        while (resultSet.next()) {
+	            String[] cells = new String[columnCount];
+	            for (int i = 0; i < columnCount; i++)
+	                cells[i] = resultSet.getString(i + 1);
+	            rows.add(cells);
+	        }
+	        String[][] array = new String[rows.size()][];
+	        return new ResultsWithMetadata(columnNames, rows.toArray(array));
+    	} finally {
+	    	DBUtil.close(resultSet);
+	    	DBUtil.close(statement);
+    	}
+    }
 
 }
