@@ -71,13 +71,14 @@ public class DBSnapshotMojo extends AbstractBeneratorMojo { // Created: 09.07.20
 	 */
 	protected String dbSchema;
 	
+	@Override
 	protected void setSystemProperties() {
 		super.setSystemProperties();
-		setSystemProperty("db_driver", dbDriver);
-		setSystemProperty("db_url", dbUrl);
-		setSystemProperty("db_user", dbUser);
-		setSystemProperty("db_password", dbPassword);
-		setSystemProperty("db_schema", dbSchema);
+		setSystemProperty("dbDriver", dbDriver);
+		setSystemProperty("dbUrl", dbUrl);
+		setSystemProperty("dbUser", dbUser);
+		setSystemProperty("dbPassword", dbPassword);
+		setSystemProperty("dbSchema", dbSchema);
 	}
 
 	/**
