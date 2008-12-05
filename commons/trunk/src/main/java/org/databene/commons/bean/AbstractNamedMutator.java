@@ -26,14 +26,16 @@
 
 package org.databene.commons.bean;
 
+import org.databene.commons.Named;
+
 /**
- * TODO documentation.<br/>
+ * Abstraction of a Mutator to which a name is assigned.<br/>
  * <br/>
  * Created at 04.11.2008 09:20:51
  * @since 0.5.6
  * @author Volker Bergmann
  */
-public abstract class AbstractNamedMutator<C, V> implements PropertyMutator<C, V> {
+public abstract class AbstractNamedMutator<C, V> implements Named, PropertyMutator<C, V> {
 
     protected String name;
 
