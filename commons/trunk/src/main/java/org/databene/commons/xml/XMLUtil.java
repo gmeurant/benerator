@@ -42,6 +42,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.databene.commons.ArrayBuilder;
+import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.ErrorHandler;
 import org.databene.commons.IOUtil;
@@ -194,7 +195,7 @@ public class XMLUtil {
     // XML operations --------------------------------------------------------------------------------------------------
 
     public static Document parse(String uri) throws IOException {
-        return parse(uri, false); // TODO 0.4.6 validate XML
+        return parse(uri, false);
     }
 
     public static Document parse(String uri, boolean validate) throws IOException {
@@ -287,6 +288,16 @@ public class XMLUtil {
 
 	public static double getDoubleAttribute(Element element, String name) {
 		return Double.parseDouble(element.getAttribute(name));
+	}
+
+	public static void mapAttributesToProperties(Element element, Object bean, boolean strict) {
+		for (Map.Entry<String, String> attribute : getAttributes(element).entrySet()) {
+			String name = StringUtil.lastToken(attribute.getKey(), ':');
+			String value = attribute.getValue();
+			Class<? extends Object> type = bean.getClass();
+			if (BeanUtil.hasProperty(type, name))
+				BeanUtil.setPropertyValue(bean, name, value, false);
+		}
 	}
 
 
