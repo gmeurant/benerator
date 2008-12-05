@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007, 2008 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -63,4 +63,8 @@ public final class FileUtil {
             return "";
         return filename.substring(dotIndex + 1);
     }
+
+	public static String nativePath(String path) {
+		return path.replace("/", SystemInfo.fileSeparator());
+	}
 }
