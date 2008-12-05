@@ -133,7 +133,7 @@ public class AnyConverter<S, T> implements Converter<S, T> {
      */
     private static <TT> TT convertBoolean(Boolean src, Class<TT> targetType) {
         if (boolean.class.equals(targetType))
-            return (TT)src; // TODO check if this can ever be reached
+            return (TT)src;
         else if (Number.class.isAssignableFrom(targetType))
             return convert((src ? 1 : 0), targetType);
         else if (Number.class.isAssignableFrom(BeanUtil.getWrapper(targetType.getName())))
