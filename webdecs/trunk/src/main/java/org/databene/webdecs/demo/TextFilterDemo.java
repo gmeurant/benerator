@@ -62,7 +62,6 @@ public class TextFilterDemo {
         // iterate the entries
         while (iterator.hasNext()) {
             String row = iterator.next();
-//            System.out.println(row);
             out.write(row);
             matchCount++;
         }
