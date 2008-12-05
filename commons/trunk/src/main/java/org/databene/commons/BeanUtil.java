@@ -610,7 +610,7 @@ public final class BeanUtil {
         setPropertyValue(bean, propertyName, propertyValue, true);
     }
 
-    public static void setPropertyValue(Object bean, String propertyName, Object propertyValue, boolean strict) {
+    public static void setPropertyValue(Object bean, String propertyName, Object argument, boolean strict) {
         Method writeMethod = null;
         try {
             Class<? extends Object> beanClass = bean.getClass();
@@ -622,20 +622,27 @@ public final class BeanUtil {
                     return;
             writeMethod = propertyDescriptor.getWriteMethod();
             Class<?> propertyType = propertyDescriptor.getPropertyType();
-            if (propertyValue != null && !propertyType.isAssignableFrom(propertyValue.getClass()) && !(isPrimitiveNumber(propertyType.getName()) && getWrapper(propertyType.getName()) == propertyValue.getClass()))
-                if (strict)
+			if (argument != null) {
+	            Class<? extends Object> argType = argument.getClass();
+	            if (!propertyType.isAssignableFrom(argType) && !isWrapperTypeOf(propertyType, argument) && strict)
                     throw new IllegalArgumentException("ArgumentType mismatch: expected " 
-                            + propertyType.getName() + ", found " + propertyValue.getClass().getName());
+                            + propertyType.getName() + ", found " + argument.getClass().getName());
                 else
-                    propertyValue = AnyConverter.convert(propertyValue, propertyType);
-                    
-            writeMethod.invoke(bean, propertyValue);
+                    argument = AnyConverter.convert(argument, propertyType);
+			}
+            writeMethod.invoke(bean, argument);
         } catch (IllegalAccessException e) {
             throw ExceptionMapper.configurationException(e, writeMethod);
         } catch (InvocationTargetException e) {
             throw ExceptionMapper.configurationException(e, writeMethod);
         }
     }
+
+	private static boolean isWrapperTypeOf(Class<?> propertyType,
+			Object propertyValue) {
+		String propertyTypeName = propertyType.getName();
+		return (isPrimitive(propertyTypeName) && getWrapper(propertyType.getName()) == propertyValue.getClass());
+	}
     
     public static <BEAN, PROP_TYPE> List<PROP_TYPE> extractProperties(Collection<BEAN> beans, String propertyName) {
         List<PROP_TYPE> result = new ArrayList<PROP_TYPE>(beans.size());
