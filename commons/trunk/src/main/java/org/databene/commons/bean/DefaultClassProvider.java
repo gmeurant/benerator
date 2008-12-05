@@ -29,7 +29,8 @@ package org.databene.commons.bean;
 import org.databene.commons.BeanUtil;
 
 /**
- * TODO documentation.<br/>
+ * Default implementation of the {@link ClassProvider} interface.
+ * It forwards the call to {@link BeanUtil}.<br/>
  * <br/>
  * Created at 16.11.2008 07:05:10
  * @since 0.5.6
