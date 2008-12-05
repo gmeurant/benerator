@@ -349,6 +349,12 @@ public final class StringUtil {
 		return getChars(0, chars.length, s, chars, 0);
 	}
 
+	public static char[] getChars(StringBuilder builder) {
+		char[] chars = new char[builder.length()];
+		builder.getChars(0, builder.length(), chars, 0);
+		return chars;
+	}
+
 	public static String padString(char c, int length) {
         if (length < 0)
             throw new IllegalArgumentException("Negative pad length: " + length);
