@@ -175,4 +175,15 @@ public final class CollectionUtil {
 		return null;
     }
 
+	public static <T> boolean ofEqualContent(List<T> list, T[] array) {
+		if (list == null || list.isEmpty())
+			return (array == null || array.length == 0);
+		if (array == null || list.size() != array.length)
+			return false;
+		for (int i = list.size() - 1; i >= 0; i--)
+			if (!NullSafeComparator.equals(list.get(i), array[i]))
+				return false;
+		return true;
+	}
+
 }
