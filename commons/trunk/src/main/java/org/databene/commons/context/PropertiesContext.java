@@ -70,7 +70,9 @@ public class PropertiesContext extends DefaultContext {
                 String token = tokens[i];
                 Object childObject = node.get(token);
                 if (childObject != null && !(childObject instanceof Context)) {
-                    logger.warn("ignoring entry " + name + "=" + value);
+                	 // TODO v0.6.0 find a better way for the following:
+                	if (!"java.vendor.url.bug".equals(name) && !("java.vendor.url").equals(name)) 
+                		logger.warn("ignoring entry " + name + "=" + value);
                     continue;
                 }
                 Context childContext = (Context)childObject;
