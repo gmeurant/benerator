@@ -8,8 +8,6 @@
 	<classpathentry kind="src" path="src/site/resources"/>
 	<classpathentry kind="src" path="src/site/fml"/>
 	<classpathentry kind="src" path="src/test/resources"/>
-	<classpathentry kind="var" path="AGITAR_MOCK_OBJECTS5"/>
-	<classpathentry kind="var" path="AGITAR_TEST_LIB"/>
 	<classpathentry kind="var" path="MAVEN_REPO/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/hsqldb/hsqldb/1.8.0.4/hsqldb-1.8.0.4.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/junit/junit/3.8.2/junit-3.8.2.jar"/>
