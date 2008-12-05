@@ -133,7 +133,7 @@ public class XMLUtilTest extends TestCase {
             FileWriter writer = new FileWriter(file);
             writer.write(XML_TEXT);
             writer.close();
-            Document document = XMLUtil.parse(file.getAbsolutePath());
+            Document document = XMLUtil.parse(file.getAbsolutePath(), false);
             checkXML(document);
         } finally {
             file.delete();
