@@ -33,12 +33,14 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.databene.benerator.main.Benerator;
 
 /**
- * Executes benerator using the specified descriptor file. Invoked by <code>mvn benerator:generate</code>.
+ * Executes benerator using the specified descriptor file. Invoked by <code>mvn benerator:generate</code>.<br/>
+ * <br/>
+ * Created: 10.07.2008 06:40:23
  * @since 0.5.4
  * @author Volker Bergmann
  * @goal generate
  */
-public class BeneratorMojo extends AbstractBeneratorMojo { // Created: 10.07.2008 06:40:23
+public class BeneratorMojo extends AbstractBeneratorMojo {
 	
 	/**
 	 * The fully qualified name of the JDBC database driver (can be queried in the descriptor file as ${db_driver}).
@@ -71,18 +73,36 @@ public class BeneratorMojo extends AbstractBeneratorMojo { // Created: 10.07.200
 	protected String dbSchema;
 	
 	/**
-	 * The path of the descriptor file relative to the project's root. This defaults to <code>src/test/benerator/benerator.ben.xml</code>.
+	 * The path of the descriptor file relative to the project's root. 
+	 * This defaults to <code>src/test/benerator/benerator.ben.xml</code>.
 	 * @parameter default-value="src/test/benerator/benerator.ben.xml"
 	 */
     private File descriptor;
     
+	/**
+	 * Specifies if maven should perform internal validation. 
+	 * This defaults to <code>true</code>.
+	 * @parameter default-value="true"
+	 */
+    private boolean validate;
+    
+    @Override
 	protected void setSystemProperties() {
 		super.setSystemProperties();
 		setSystemProperty("db_driver", dbDriver);
+		setSystemProperty("dbDriver", dbDriver);
+
 		setSystemProperty("db_url", dbUrl);
+		setSystemProperty("dbUrl", dbUrl);
+		
 		setSystemProperty("db_user", dbUser);
+		setSystemProperty("dbUser", dbUser);
+		
 		setSystemProperty("db_password", dbPassword);
+		setSystemProperty("dbPassword", dbPassword);
+		
 		setSystemProperty("db_schema", dbSchema);
+		setSystemProperty("dbSchema", dbSchema);
 	}
 
     /**
@@ -92,7 +112,8 @@ public class BeneratorMojo extends AbstractBeneratorMojo { // Created: 10.07.200
 		setSystemProperties();
 		try {
 			Benerator benerator = new Benerator();
-			benerator.setDefaultEncoding(encoding);
+			benerator.getContext().setDefaultEncoding(encoding);
+			benerator.getContext().setValidate(validate);
 			benerator.processFile(descriptor.getAbsolutePath());
 		} catch (IOException e) {
 			throw new MojoExecutionException("Error in generation", e);
