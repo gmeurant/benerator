@@ -45,6 +45,15 @@
     </dependencies>
 
     <build>
+
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ftp</artifactId>
+                <version>1.0-alpha-6</version>
+            </extension>
+        </extensions>
+        
         <!--resources>
             <resource>
                 <includes>
@@ -61,6 +70,17 @@
                 <configuration>
                     <source>1.5</source>
                     <target>1.5</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/assembly/source-assembly.xml</descriptor>
+                        <descriptor>src/main/assembly/dist-assembly.xml</descriptor>
+                        <descriptor>src/main/assembly/backup-assembly.xml</descriptor>
+                    </descriptors>
                 </configuration>
             </plugin>
         </plugins>
@@ -117,5 +137,17 @@
             </plugin>
         </plugins>
     </reporting>
+
+    <distributionManagement>
+        <repository>
+            <id>databene.repo</id>
+            <name>databene Internal Repository</name>
+            <url>ftp://databene.org/databene/m2</url>
+        </repository>
+    </distributionManagement>
+  
+    <scm>
+        <url>https://benerator.svn.sourceforge.net/svnroot/benerator</url>
+    </scm>
 
 </project>
