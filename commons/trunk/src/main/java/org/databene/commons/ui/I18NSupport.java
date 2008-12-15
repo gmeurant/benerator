@@ -24,12 +24,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.commons;
+package org.databene.commons.ui;
 
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+
+import org.databene.commons.BeanUtil;
+import org.databene.commons.Escalator;
+import org.databene.commons.LoggerEscalator;
 
 /**
  * Internationalization utilities.<br/>
