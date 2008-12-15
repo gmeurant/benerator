@@ -29,8 +29,11 @@ package org.databene.commons;
 import java.io.*;
 
 /**
- * File Utility class.
+ * File Utility class.<br/>
+ * <br/>
  * Created: 04.02.2007 08:22:52
+ * @since 0.1
+ * @author Volker Bergmann
  */
 public final class FileUtil {
 
@@ -66,5 +69,10 @@ public final class FileUtil {
 
 	public static String nativePath(String path) {
 		return path.replace("/", SystemInfo.fileSeparator());
+	}
+
+	public static boolean isEmptyFolder(File folder) {
+		String[] list = folder.list();
+		return list == null || list.length == 0;
 	}
 }
