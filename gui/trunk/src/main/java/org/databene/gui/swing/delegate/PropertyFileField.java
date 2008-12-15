@@ -35,6 +35,8 @@ import java.io.File;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.NullSafeComparator;
 import org.databene.commons.bean.ObservableBean;
+import org.databene.commons.ui.FileOperation;
+import org.databene.commons.ui.FileTypeSupport;
 import org.databene.gui.swing.FileField;
 
 /**
@@ -55,10 +57,19 @@ public class PropertyFileField extends FileField {
 
 	boolean locked;
 	
-	// constructor -----------------------------------------------------------------------------------------------------
+	// constructors ----------------------------------------------------------------------------------------------------
 	
-	public PropertyFileField(Object bean, String propertyName, int length, int selectionMode, int operation) {
-		super(length, null, selectionMode, operation);
+	public PropertyFileField(Object bean, String propertyName, int length, FileTypeSupport typeSupport, FileOperation operation) {
+		super(length, null, typeSupport, operation);
+		init(bean, propertyName);
+	}
+
+	public PropertyFileField(Object bean, String propertyName, int length, FileTypeSupport typeSupport, String approveButtonText) {
+		super(length, null, typeSupport, approveButtonText);
+		init(bean, propertyName);
+	}
+	
+	private void init(Object bean, String propertyName) {
 		this.bean = bean;
 		this.propertyName = propertyName;
 		this.locked = true;

@@ -26,8 +26,11 @@
 
 package org.databene.gui.swing;
 
-import org.databene.commons.ArrayFormat;
 import org.databene.commons.file.FilenameFormat;
+import org.databene.commons.ui.FileChooser;
+import org.databene.commons.ui.FileOperation;
+import org.databene.commons.ui.FileTypeSupport;
+import org.databene.gui.awt.AwtFileChooser;
 
 import javax.swing.*;
 import java.io.File;
@@ -49,35 +52,38 @@ public class FileField extends Box {
 	
 	private static final long serialVersionUID = 2088339867450647264L;
 	
-	public static int FILES_ONLY = JFileChooser.FILES_ONLY;
-	public static int DIRECTORIES_ONLY = JFileChooser.DIRECTORIES_ONLY;
-	public static int FILES_AND_DIRECTORIES = JFileChooser.FILES_AND_DIRECTORIES; 
-	public static int OPEN_DIALOG = JFileChooser.OPEN_DIALOG; 
-	public static int SAVE_DIALOG = JFileChooser.SAVE_DIALOG; 
-
     boolean fullPathDisplayed;
     private FilenameFormat filenameFormat;
     JTextField filenameField;
-    JFileChooser chooser;
+    FileChooser chooser;
     private List<ActionListener> actionListeners;
-    int operation;
+    FileOperation operation;
+    String approveButtonText;
+    
+    // constructors ----------------------------------------------------------------------------------------------------
 
     public FileField() {
         this(20);
     }
 
     public FileField(int columns) {
-        this(columns, null, FILES_AND_DIRECTORIES, OPEN_DIALOG);
+        this(columns, null, FileTypeSupport.filesOnly, FileOperation.open);
     }
 
-    public FileField(int columns, File file, int selectionMode, int operation) {
+    public FileField(int columns, File file, FileTypeSupport fileTypeSupport, String approveButtonText) {
+    	this(columns, file, fileTypeSupport, (FileOperation) null);
+    }
+
+    public FileField(int columns, File file, FileTypeSupport supportedTypes, FileOperation operation) {
     	super(BoxLayout.X_AXIS);
     	setBorder(null);
         this.fullPathDisplayed = true;
         this.operation = operation;
         filenameField = new JTextField(columns);
-        chooser = new JFileChooser();
-        chooser.setFileSelectionMode(selectionMode);
+        if (SwingUtil.isLookAndFeelNative())
+        	chooser = new AwtFileChooser(supportedTypes, operation);
+        else
+	        chooser = new SwingFileChooser(supportedTypes, operation);
         if (file != null && file.exists()) {
             chooser.setSelectedFile(file);
             filenameField.setText(file.getAbsolutePath());
@@ -91,30 +97,15 @@ public class FileField extends Box {
         this.actionListeners = new ArrayList<ActionListener>();
     }
 
+    // properties ------------------------------------------------------------------------------------------------------
+    
     public File getFile() {
-        return chooser.getSelectedFile();
+    	return chooser.getSelectedFile();
     }
 
     public void setFile(File file) {
-        chooser.setSelectedFile(file);
+		chooser.setSelectedFile(file);
         filenameField.setText(file.getAbsolutePath());
-    }
-
-    public File[] getFiles() {
-        return chooser.getSelectedFiles();
-    }
-
-    public void setFiles(File[] files) {
-        filenameField.setText(ArrayFormat.format(filenameFormat, ", ", files));
-        chooser.setSelectedFiles(files);
-    }
-
-    public boolean isMultiSelectionEnabled() {
-        return chooser.isMultiSelectionEnabled();
-    }
-
-    public void setMultiSelectionEnabled(boolean multiSelectionEnabled) {
-        chooser.setMultiSelectionEnabled(multiSelectionEnabled);
     }
 
     public boolean isFullPathUsed() {
@@ -132,7 +123,7 @@ public class FileField extends Box {
     public void removeActionListener(ActionListener listener) {
         actionListeners.remove(listener);
     }
-
+    
     // private helpers -------------------------------------------------------------------------------------------------
 
     void fireAction(String command) {
@@ -154,11 +145,8 @@ public class FileField extends Box {
                 chooser.setCurrentDirectory(file.getParentFile());
                 chooser.setSelectedFile(file);
             }
-            int action = (operation == OPEN_DIALOG ?
-            		chooser.showOpenDialog(FileField.this) : 
-            		chooser.showSaveDialog(FileField.this));
-            if (action == JFileChooser.APPROVE_OPTION ) {
-                File selectedFile = chooser.getSelectedFile();
+            File selectedFile = chooser.chooseFile(FileField.this);
+            if (selectedFile != null) {
                 filenameField.setText(selectedFile.getAbsolutePath());
                 fireAction("files");
             }
