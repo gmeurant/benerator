@@ -44,7 +44,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.databene.commons.I18NSupport;
+import org.databene.commons.ui.I18NSupport;
 
 /**
  * Component that allows for defining an ordered list of files.<br/>
