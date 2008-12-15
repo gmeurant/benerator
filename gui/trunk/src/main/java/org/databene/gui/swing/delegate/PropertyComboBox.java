@@ -26,16 +26,21 @@
 
 package org.databene.gui.swing.delegate;
 
+import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
+import javax.swing.JList;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 import org.databene.commons.BeanUtil;
 import org.databene.commons.NullSafeComparator;
 import org.databene.commons.bean.ObservableBean;
+import org.databene.commons.converter.ToStringConverter;
+import org.databene.commons.ui.I18NSupport;
 
 /**
  * {@link JComboBox} implementation that serves as delegate of a property of a JavaBean object.<br/>
@@ -52,8 +57,9 @@ public class PropertyComboBox extends JComboBox {
 	private Object bean;
 	private String propertyName;
 	boolean locked;
+	
 
-	public PropertyComboBox(Object bean, String propertyName, Object ... values) {
+	public PropertyComboBox(Object bean, String propertyName, I18NSupport i18n, String prefix, Object ... values) {
 		super(values);
 		this.bean = bean;
 		this.propertyName = propertyName;
@@ -62,6 +68,7 @@ public class PropertyComboBox extends JComboBox {
 		if (bean instanceof ObservableBean)
 			((ObservableBean) bean).addPropertyChangeListener(propertyName, listener);
 		this.getModel().addListDataListener(listener);
+		this.setRenderer(new Renderer(i18n, prefix));
 		this.locked = false;
 		refresh();
 	}
@@ -113,4 +120,25 @@ public class PropertyComboBox extends JComboBox {
 		}
 		
 	}
+	
+	static final class Renderer extends DefaultListCellRenderer {
+		
+		private static final long serialVersionUID = 8358429951305253637L;
+		private ToStringConverter<Object> converter = new ToStringConverter<Object>();
+		private I18NSupport i18n;
+		private String prefix;
+
+		public Renderer(I18NSupport i18n, String prefix) {
+			this.i18n = i18n;
+			this.prefix = prefix;
+		}
+
+		@Override
+		public Component getListCellRendererComponent(JList list, Object value,
+				int index, boolean isSelected, boolean cellHasFocus) {
+			String text = i18n.getString(prefix + converter.convert(value));
+			return super.getListCellRendererComponent(list, text, index, isSelected, cellHasFocus);
+		}
+	}
+
 }
