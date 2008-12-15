@@ -4,7 +4,11 @@
 
     <groupId>org.databene</groupId>
     <artifactId>databene-gui</artifactId>
-    <version>0.1.6</version>
+    <version>0.1.7-alpha-1</version>
+
+    <properties>
+        <commons_version>0.4.7-alpha-1</commons_version>
+    </properties>
 
     <packaging>jar</packaging>
     <name>databene gui</name>
@@ -39,7 +43,7 @@
         <dependency>
             <groupId>org.databene</groupId>
             <artifactId>databene-commons</artifactId>
-            <version>0.4.6</version>
+            <version>${commons_version}</version>
         </dependency>
 
     </dependencies>
