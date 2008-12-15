@@ -72,4 +72,8 @@ public class SwingUtil {
         int y = (size.height - paintedHeight) / 2;
         return new Rectangle(x, y, paintedWidth, paintedHeight);
     }
+    
+    public static boolean isLookAndFeelNative() {
+    	return UIManager.getSystemLookAndFeelClassName().equals(UIManager.getLookAndFeel().getClass().getName());
+    }
 }
