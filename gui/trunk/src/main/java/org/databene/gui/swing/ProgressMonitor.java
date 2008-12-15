@@ -36,7 +36,7 @@ import java.awt.Component;
  * @author Volker Bergmann
  */
 
-public class ProgressMonitor extends javax.swing.ProgressMonitor {
+public class ProgressMonitor extends javax.swing.ProgressMonitor implements org.databene.commons.ui.ProgressMonitor {
 	
 	private int progress;
 
