@@ -36,8 +36,8 @@ import javax.swing.event.ListDataListener;
 
 import org.databene.commons.BeanUtil;
 import org.databene.commons.CollectionUtil;
-import org.databene.commons.I18NSupport;
 import org.databene.commons.bean.ObservableBean;
+import org.databene.commons.ui.I18NSupport;
 import org.databene.gui.swing.FileList;
 
 /**
