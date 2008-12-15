@@ -30,7 +30,7 @@ package org.databene.commons.ui;
  * Abstraction of file type support.<br/>
  * <br/>
  * Created at 14.12.2008 14:41:10
- * @since 0.1.7
+ * @since 0.4.7
  * @author Volker Bergmann
  */
 

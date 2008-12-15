@@ -33,7 +33,7 @@ import java.io.File;
  * Platform-independent abstraction of a file chooser facility.<br/>
  * <br/>
  * Created at 14.12.2008 14:32:22
- * @since 0.1.7
+ * @since 0.4.7
  * @author Volker Bergmann
  */
 
