@@ -30,7 +30,7 @@ package org.databene.commons.ui;
  * Abstraction of file operation types.<br/>
  * <br/>
  * Created at 14.12.2008 15:19:56
- * @since 0.5.6
+ * @since 0.1.7
  * @author Volker Bergmann
  */
 

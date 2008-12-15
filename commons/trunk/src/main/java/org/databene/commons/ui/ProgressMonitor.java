@@ -30,7 +30,7 @@ package org.databene.commons.ui;
  * Platform-independent abstraction of a progress monitor.<br/>
  * <br/>
  * Created at 14.12.2008 20:29:28
- * @since 0.4.7
+ * @since 0.1.7
  * @author Volker Bergmann
  */
 
