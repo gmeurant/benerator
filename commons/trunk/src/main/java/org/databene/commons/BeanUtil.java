@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -275,32 +275,61 @@ public final class BeanUtil {
     /**
      * Creates an object of the specified type.
      * @param type the class to instantiate
-     * @param params the constructor parameters
+     * @param parameters the constructor parameters
      * @return an object of the specified class
      */
-    public static <T> T newInstance(Class<T> type, Object ... params) {
-        if (params.length == 0)
+    public static <T> T newInstance(Class<T> type, Object ... parameters) {
+    	return newInstance(type, true, parameters);
+    }
+
+    public static <T> T newInstance(Class<T> type, boolean strict, Object ... parameters) {
+        if (parameters.length == 0)
             return newInstanceFromDefaultConstructor(type);
-        Constructor<T> constructor = null;
+        Constructor<T> constructorToUse = null;
         try {
             Constructor<T>[] constructors = (Constructor<T>[]) type.getConstructors();
-            if (constructors.length == 1) {
-                constructor = constructors[0];
-                return newInstance(constructor, params);
-            } else {
-                Class<? extends Object>[] paramTypes = new Class[params.length];
-                for (int i = 0; i < params.length; i++)
-                    paramTypes[i] = params[i].getClass();
+    		List<Constructor<T>> candidates = new ArrayList<Constructor<T>>(constructors.length);
+    		int paramCount = parameters.length;
+    		for (Constructor<T> constructor : constructors)
+    			if (constructor.getParameterTypes().length == paramCount)
+    				candidates.add(constructor);
+    		if (candidates.size() == 1)
+    			constructorToUse = candidates.get(0);
+    		else if (candidates.size() == 0)
+    			throw new ConfigurationError("No constructor with " + paramCount + " parameters found for " + type);
+            else {
+            	// there are several candidates - find the first one with matching types
+                Class<? extends Object>[] paramTypes = new Class[parameters.length];
+                for (int i = 0; i < parameters.length; i++)
+                    paramTypes[i] = parameters[i].getClass();
                 for (Constructor c : type.getConstructors()) {
                     if (typesMatch(c.getParameterTypes(), paramTypes)) {
-                        constructor = c;
-                        return newInstance(constructor, params);
+                        constructorToUse = c;
+                        break;
                     }
                 }
-                throw new NoSuchMethodException("No appropriate constructor found: " + type + '(' + ArrayFormat.format(", ", paramTypes) + ')');
+             // there is no ideal match
+                if (constructorToUse == null) { 
+                	if (strict)
+                		throw new NoSuchMethodException("No appropriate constructor found: " + type + '(' + ArrayFormat.format(", ", paramTypes) + ')');
+                	for (Constructor<T> candidate : candidates) {
+                		try {
+                			return newInstance(constructorToUse, strict, parameters);
+                		} catch (Exception e) {
+                			if (logger.isDebugEnabled())
+                				logger.debug("Exception in constructor call: " + candidate, e);
+                			continue; // ignore exception and try next constructor
+                		}
+                	}
+                	// no constructor could be called without exception
+                	throw new ConfigurationError("None of these constructors could be called without exception: " + candidates);
+                }
             }
+    		if (!strict)
+    			parameters = convertArray(parameters, constructorToUse.getParameterTypes());
+            return newInstance(constructorToUse, parameters);
         } catch (SecurityException e) {
-            throw ExceptionMapper.configurationException(e, constructor);
+            throw ExceptionMapper.configurationException(e, constructorToUse);
         } catch (NoSuchMethodException e) {
             throw ExceptionMapper.configurationException(e, type);
         }
@@ -313,11 +342,17 @@ public final class BeanUtil {
      * @return a new instance of the class
      */
     public static <T> T newInstance(Constructor<T> constructor, Object ... params) {
+        return newInstance(constructor, true, params);
+    }
+
+    public static <T> T newInstance(Constructor<T> constructor, boolean strict, Object ... parameters) {
+		if (!strict)
+			parameters = convertArray(parameters, constructor.getParameterTypes());
         Class<T> type = constructor.getDeclaringClass();
         if (deprecated(type))
             escalator.escalate("Instantiating a deprecated class: " + type.getName(), BeanUtil.class, null);
         try {
-            return (T)constructor.newInstance(params);
+            return constructor.newInstance(parameters);
         } catch (InstantiationException e) {
             throw ExceptionMapper.configurationException(e, type);
         } catch (IllegalAccessException e) {
@@ -610,13 +645,17 @@ public final class BeanUtil {
         setPropertyValue(bean, propertyName, propertyValue, true);
     }
 
-    public static void setPropertyValue(Object bean, String propertyName, Object argument, boolean strict) {
+    public static void setPropertyValue(Object bean, String propertyName, Object propertyValue, boolean strict) {
+    	setPropertyValue(bean, propertyName, propertyValue, strict, !strict);
+    }
+
+    public static void setPropertyValue(Object bean, String propertyName, Object argument, boolean required, boolean autoConvert) {
         Method writeMethod = null;
         try {
             Class<? extends Object> beanClass = bean.getClass();
             PropertyDescriptor propertyDescriptor = getPropertyDescriptor(beanClass, propertyName);
             if (propertyDescriptor == null)
-                if (strict)
+                if (required)
                     throw new ConfigurationError(beanClass + " does not have a property '" + propertyName + "'");
                 else
                     return;
@@ -624,7 +663,7 @@ public final class BeanUtil {
             Class<?> propertyType = propertyDescriptor.getPropertyType();
 			if (argument != null) {
 	            Class<? extends Object> argType = argument.getClass();
-	            if (!propertyType.isAssignableFrom(argType) && !isWrapperTypeOf(propertyType, argument) && strict)
+	            if (!propertyType.isAssignableFrom(argType) && !isWrapperTypeOf(propertyType, argument) && !autoConvert)
                     throw new IllegalArgumentException("ArgumentType mismatch: expected " 
                             + propertyType.getName() + ", found " + argument.getClass().getName());
                 else
@@ -810,6 +849,15 @@ public final class BeanUtil {
 
 	public static String simpleName(Class type) {
 		return (type != null ? type.getSimpleName() : null);
+	}
+	
+	// private helpers -------------------------------------------------------------------------------------------------
+
+	private static Object[] convertArray(Object[] values, Class<?>[] targetTypes) {
+		Object[] result = new Object[values.length];
+		for (int i = 0; i < values.length; i++)
+			result[i] = AnyConverter.convert(values[i], targetTypes[i]);
+		return result;
 	}
 
 }
