@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008, 2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -62,8 +62,10 @@ public class PropertiesContext extends DefaultContext {
 
     @Override
 	public void set(String name, Object value) {
-        String[] tokens = StringUtil.tokenize(name, '.');
+    	// 1. use fully qualified name as key
         super.set(name, value);
+        // and 2. compose recursive Context structures of path components
+        String[] tokens = StringUtil.tokenize(name, '.');
         if (tokens.length > 1) {
             Context node = this;
             for (int i = 0; i < tokens.length - 1; i++) {
