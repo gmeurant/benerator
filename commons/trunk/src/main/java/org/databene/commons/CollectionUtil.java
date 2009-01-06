@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -46,7 +46,7 @@ public final class CollectionUtil {
      * @param array the array to convert into a list.
      * @return a list containing all elements of the given array.
      */
-    public static <T> List<T> toList(T ... array) {
+    public static <T, U extends T> List<T> toList(U ... array) {
         List<T> result = new ArrayList<T>(array.length);
         for (T item : array)
             result.add(item);
@@ -58,14 +58,14 @@ public final class CollectionUtil {
      * @param elements the content of the Set
      * @return a HashSet with the elements
      */
-    public static <T> Set<T> toSet(T ... elements) {
+    public static <T, U extends T> Set<T> toSet(U ... elements) {
         HashSet<T> set = new HashSet<T>();
         for (T element : elements)
             set.add(element);
         return set;
     }
 
-    public static <T> SortedSet<T> toSortedSet(T ... elements) {
+    public static <T, U extends T> SortedSet<T> toSortedSet(U ... elements) {
         TreeSet<T> set = new TreeSet<T>();
         for (T element : elements)
             set.add(element);
@@ -77,20 +77,21 @@ public final class CollectionUtil {
      * @param target the collection to be extended
      * @param values the values to add
      */
-    public static <T, C extends Collection<T>> C add(C target, T ... values) {
+    public static <T, U extends T, C extends Collection<? super T>> C add(C target, U ... values) {
         for (T item : values)
             target.add(item);
         return target;
     }
 
-    public static <T> List<T> copy(List<T> src, int offset, int length) {
+    public static <T> List<T> copy(List<? extends T> src, int offset, int length) {
         List<T> items = new ArrayList<T>(length);
         for (int i = 0; i < length; i++)
             items.add(src.get(offset + i));
         return items;
     }
 
-    public static <T> T[] toArray(Collection<? extends T> source) {
+    @SuppressWarnings("unchecked")
+	public static <T, U> T[] toArray(Collection<? extends T> source) {
         if (source.size() == 0)
             throw new IllegalArgumentException("For empty collections, a componentType needs to be specified.");
         Class<T> componentType = (Class<T>) source.iterator().next().getClass();
@@ -98,7 +99,8 @@ public final class CollectionUtil {
         return source.toArray(array);
     }
 
-    public static <T> T[] toArray(Collection<? extends T> source, Class<T> componentType) {
+    @SuppressWarnings("unchecked")
+	public static <T> T[] toArray(Collection<? extends T> source, Class<T> componentType) {
         T[] array = (T[]) Array.newInstance(componentType, source.size());
         return source.toArray(array);
     }
@@ -136,25 +138,25 @@ public final class CollectionUtil {
         if ((collectionType.getModifiers() & Modifier.ABSTRACT) == 0)
             return BeanUtil.newInstance(collectionType);
         else if (collectionType == Collection.class || collectionType == List.class)
-            return (T)new ArrayList();
+            return (T) new ArrayList();
         else if (collectionType == SortedSet.class)
-            return (T)new TreeSet();
+            return (T) new TreeSet();
         else if (collectionType == Set.class)
-            return (T)new TreeSet();
+            return (T) new TreeSet();
         else
             throw new UnsupportedOperationException("Not a supported collection type: " + collectionType.getName());
     }
 
     /** Compares two lists for identical content, accepting different order. */
-    public static boolean equalsIgnoreOrder(List a1, List a2) {
+    public static <T> boolean equalsIgnoreOrder(List<T> a1, List<T> a2) {
         if (a1 == a2)
             return true;
         if (a1 == null)
             return false;
         if (a1.size() != a2.size())
             return false;
-        List l1 = new ArrayList(a1.size());
-        for (Object item : a1)
+        List<T> l1 = new ArrayList<T>(a1.size());
+        for (T item : a1)
             l1.add(item);
         for (int i = a1.size() - 1; i >= 0; i--)
             if (a2.contains(a1.get(i)))
