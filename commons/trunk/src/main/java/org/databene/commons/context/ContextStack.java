@@ -29,6 +29,7 @@ package org.databene.commons.context;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
+import java.util.Map.Entry;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -65,14 +66,23 @@ public class ContextStack implements Context {
 
     public synchronized Set<String> keySet() {
         Set<String> keySet = new HashSet<String>();
-        for (int i = contexts.size() - 1; i >= 0; i++) {
+        for (int i = contexts.size() - 1; i >= 0; i--) {
             Context c = contexts.get(i);
             keySet.addAll(c.keySet());
         }
         return keySet;
     }
 
-    public synchronized void remove(String key) {
+	public Set<Entry<String, Object>> entrySet() {
+		Set<Entry<String, Object>> entrySet = new HashSet<Entry<String, Object>>();
+        for (int i = 0; i < contexts.size(); i++) {
+            Context c = contexts.get(i);
+            entrySet.addAll(c.entrySet());
+        }
+        return entrySet;
+    }
+
+	public synchronized void remove(String key) {
         if (contexts.size() > 0)
             contexts.peek().remove(key);
     }
@@ -91,4 +101,5 @@ public class ContextStack implements Context {
     public synchronized Context pop() {
         return this.contexts.pop();
     }
+
 }
