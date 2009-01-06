@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008, 2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -39,7 +39,7 @@ import org.databene.commons.ui.FileTypeSupport;
  * Swing implementation of the {@link FileChooser} interface.<br/>
  * <br/>
  * Created at 14.12.2008 14:34:50
- * @since 0.5.7
+ * @since 0.1.7
  * @author Volker Bergmann
  */
 
@@ -60,7 +60,7 @@ public class SwingFileChooser extends JFileChooser implements FileChooser {
 		switch (operation) {
 			case open: approval = showOpenDialog(component); break;
 			case save: approval = showSaveDialog(component); break;
-			default: approval = showDialog(component, "TODO"); break; // TODO
+			default:   approval = showDialog(component, "Choose"); break;
 		}
 		return (approval == APPROVE_OPTION ? super.getSelectedFile() : null);
 	}
@@ -76,7 +76,12 @@ public class SwingFileChooser extends JFileChooser implements FileChooser {
 	}
 
 	private int fileSelectionMode(FileTypeSupport supportedTypes) {
-		throw new UnsupportedOperationException("SwingFileChooser.fileSelectionMode() is not implemented"); // TODO implement SwingFileChooser.fileSelectionMode
+		switch (supportedTypes) {
+			case directoriesOnly: return JFileChooser.DIRECTORIES_ONLY;
+			case filesOnly: return JFileChooser.FILES_ONLY;
+			case filesAndDirectories: return JFileChooser.FILES_AND_DIRECTORIES;
+			default: throw new IllegalArgumentException("Illegal option: " + supportedTypes);
+		}
 	}
 
 }
