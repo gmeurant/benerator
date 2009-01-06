@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008, 2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,7 +24,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 package org.databene.gui.awt;
 
 import java.awt.Component;
@@ -32,15 +31,16 @@ import java.awt.FileDialog;
 import java.awt.Frame;
 import java.io.File;
 
+import org.databene.commons.SystemInfo;
 import org.databene.commons.ui.FileOperation;
 import org.databene.commons.ui.FileTypeSupport;
 import org.databene.commons.ui.FileChooser;
 
 /**
- * TODO document class AwtFileChooser.<br/>
+ * AWT based implementation of the {@link FileChooser} interface.<br/>
  * <br/>
  * Created at 14.12.2008 14:36:28
- * @since 0.5.6
+ * @since 0.1.7
  * @author Volker Bergmann
  */
 
@@ -50,8 +50,8 @@ public class AwtFileChooser extends FileDialog implements FileChooser {
 	
 	FileTypeSupport supportedTypes;
 	
-	public AwtFileChooser(FileTypeSupport supportedTypes, FileOperation operation) {
-		super((Frame) null);
+	public AwtFileChooser(String prompt, FileOperation operation, FileTypeSupport supportedTypes) {
+		super((Frame) null, prompt, (operation == FileOperation.open ? FileDialog.LOAD : FileDialog.SAVE));
 		this.supportedTypes = supportedTypes;
 	}
 
@@ -64,6 +64,8 @@ public class AwtFileChooser extends FileDialog implements FileChooser {
 	}
 
 	public void setCurrentDirectory(File currentDirectory) {
+		if (currentDirectory == null)
+			currentDirectory = new File(SystemInfo.currentDir());
 		setDirectory(currentDirectory.getAbsolutePath());
 	}
 	
@@ -75,7 +77,10 @@ public class AwtFileChooser extends FileDialog implements FileChooser {
 	public File getSelectedFile() {
 		if (getFile() == null)
 			return null;
-		return new File(getDirectory(), getFile());
+		if (supportedTypes == FileTypeSupport.directoriesOnly)
+			return new File(getDirectory());
+		else
+			return new File(getDirectory(), getFile());
 	}
 
 }
