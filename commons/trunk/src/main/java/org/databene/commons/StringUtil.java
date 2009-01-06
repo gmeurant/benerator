@@ -444,8 +444,21 @@ public final class StringUtil {
             return new String[] { path.substring(0, path.length() - 1), "" };
         else
             return new String[] { path.substring(0, sepIndex), path.substring(sepIndex + 1) };
-            
     }
+
+	public static String joinWithSeparator(char separator, String... parts) {
+		if (parts == null)
+			return "";
+		StringBuilder builder = new StringBuilder();
+		for (String part : parts) {
+			if (!isEmpty(part)) {
+				if (builder.length() > 0)
+					builder.append('.');
+				builder.append(part);
+			}
+		}
+		return builder.toString();
+	}
 
 	public static boolean equalsIgnoreCase(String s1, String s2) {
         return (s1 != null ? s1.equalsIgnoreCase(s2) : s2 == null);
@@ -512,12 +525,28 @@ public final class StringUtil {
 		return builder.toString();
 	}
 
-	public static String unescape(String line) {
-		line = line.replace("\\r", CR);
-		line = line.replace("\\n", LF);
-		line = line.replace("\\t", TAB);
-		line = line.replace("\\", "\\");
-		return line;
+	public static String escape(String text) {
+		if (text != null) {
+			text = text.replace("\\", "\\\\"); // keep this first, otherwise all other escapes will be doubled
+			text = text.replace(CR, "\\r");
+			text = text.replace(LF, "\\n");
+			text = text.replace(TAB, "\\t");
+//			text = text.replace("'", "\\'"); // TODO when to apply this?
+//			text = text.replace("\"", "\\\""); // TODO when to apply this?
+		}
+		return text;
+	}
+
+	public static String unescape(String text) {
+		if (text != null) {
+			text = text.replace("\\r", CR);
+			text = text.replace("\\n", LF);
+			text = text.replace("\\t", TAB);
+			text = text.replace("\\'", "'");
+			text = text.replace("\\\"", "\"");
+			text = text.replace("\\\\", "\\");
+		}
+		return text;
 	}
 
 	public static String replaceTokens(String src, String token, String ... values) {
@@ -537,4 +566,5 @@ public final class StringUtil {
 		}
 		return builder.toString();
 	}
+
 }
