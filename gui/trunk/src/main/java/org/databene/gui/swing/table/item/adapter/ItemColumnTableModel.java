@@ -44,13 +44,9 @@ public class ItemColumnTableModel extends AbstractTableModel implements ListData
 
     private FieldConnector headerConnector;
 
-
-
     public ItemColumnTableModel(ItemModel model, FieldConnector headerConnector) {
         setItemModel(model, headerConnector);
     }
-
-
 
     public ItemModel getItemModel() {
         return itemModel;
@@ -116,15 +112,15 @@ public class ItemColumnTableModel extends AbstractTableModel implements ListData
     }
 
     public void intervalAdded(ListDataEvent e) {
-        fireTableDataChanged(); // TODO v0.1.7 improve
+        fireTableDataChanged(); // TODO v0.2 improve
     }
 
     public void intervalRemoved(ListDataEvent e) {
-        fireTableDataChanged(); // TODO v0.1.7 improve
+        fireTableDataChanged(); // TODO v0.2 improve
     }
 
     public void contentsChanged(ListDataEvent e) {
-        fireTableDataChanged(); // TODO v0.1.7 improve
+        fireTableDataChanged(); // TODO v0.2 improve
     }
 
     // implementation ----------------------------------------------------------------------------------------------
