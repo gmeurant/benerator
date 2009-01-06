@@ -29,6 +29,7 @@ package org.databene.commons.context;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import org.databene.commons.CollectionUtil;
 import org.databene.commons.Context;
@@ -63,6 +64,10 @@ public class CaseInsensitiveContext implements Context {
 
 	public Set<String> keySet() {
 		return map.keySet();
+	}
+
+	public Set<Entry<String, Object>> entrySet() {
+		return map.entrySet();
 	}
 
 	public void remove(String key) {
