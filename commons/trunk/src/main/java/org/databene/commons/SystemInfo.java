@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,6 +26,8 @@
 
 package org.databene.commons;
 
+import java.nio.charset.Charset;
+
 /**
  * Provides the user with the Java system properties related to the Runtime System.
  * Created: 06.01.2007 19:10:02
@@ -49,7 +51,7 @@ public final class SystemInfo {
     /**
      * @return the OS version
      */
-    public static String version() {
+    public static String osVersion() {
         return System.getProperty("os.version");
     }
 
@@ -115,5 +117,26 @@ public final class SystemInfo {
     public static String userLanguage() {
         return System.getProperty("user.language");
     }
+
+	/**
+	 * @return true if the system is a Windows version, else false
+	 */
+	public static boolean isWindows() {
+		return osName().startsWith("Windows");
+	}
+
+	/**
+	 * @return true if the system is Mac OS X, else false
+	 */
+	public static boolean isMacOsx() {
+		return osName().startsWith("Mac OS X");
+	}
+
+	/**
+	 * @return the system's default {@link Charset}
+	 */
+	public static Charset charset() {
+		return Charset.forName(SystemInfo.fileEncoding());
+	}
 
 }
