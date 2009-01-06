@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -145,6 +145,8 @@ public final class IOUtil {
     		logger.debug("isURIAvailable(" + uri + ')');
         InputStream stream = null;
         try {
+            if (uri.startsWith("string://"))
+                return true;
             if (uri.startsWith("http://"))
                 return httpUrlAvailable(uri);
             if (!uri.contains("://"))
@@ -171,7 +173,9 @@ public final class IOUtil {
     }
 
     public static BufferedReader getReaderForURI(String uri, String defaultEncoding) throws IOException {
-        if (uri.startsWith("http://"))
+        if (uri.startsWith("string://"))
+            return new BufferedReader(new StringReader(uri.substring("string://".length())));
+        else if (uri.startsWith("http://"))
             return getHttpReader(uri, defaultEncoding);
         else
             return getFileReader(uri, defaultEncoding);
@@ -190,6 +194,10 @@ public final class IOUtil {
     public static InputStream getInputStreamForURI(String uri, boolean required) throws IOException {
     	if (logger.isDebugEnabled())
     		logger.debug("getInputStreamForURI(" + uri + ", " + required + ')');
+        if (uri.startsWith("string://")) {
+			String content = uri.substring("string://".length());
+			return new ByteArrayInputStream(content.getBytes(SystemInfo.charset()));
+		}
         if (uri.startsWith("http://")) {
             try {
                 URLConnection connection = getConnection(uri);
@@ -278,8 +286,18 @@ public final class IOUtil {
 	}
 
     public static PrintWriter getPrinterForURI(String uri, String encoding)
+			throws FileNotFoundException, UnsupportedEncodingException {
+    	return getPrinterForURI(uri, encoding, false, SystemInfo.lineSeparator());
+    }
+
+    public static PrintWriter getPrinterForURI(String uri, String encoding, boolean append, final String lineSeparator)
 	    	throws FileNotFoundException, UnsupportedEncodingException {
-    	return new PrintWriter(new OutputStreamWriter(new FileOutputStream(uri), encoding));
+    	return new PrintWriter(new OutputStreamWriter(new FileOutputStream(uri, append), encoding)) {
+    		@Override
+    		public void println() {
+    			print(lineSeparator);
+    		}
+    	};
 	}
 
 	// piping streams --------------------------------------------------------------------------------------------------
