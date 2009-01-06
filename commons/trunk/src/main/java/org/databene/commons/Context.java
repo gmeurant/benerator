@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2006 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2006-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,6 +26,7 @@
 
 package org.databene.commons;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -39,4 +40,6 @@ public interface Context {
     void remove(String key);
     /** @since 0.3.05 */
     Set<String> keySet();
+	/** @since 0.4.7 */
+	Set<Map.Entry<String, Object>> entrySet();
 }
