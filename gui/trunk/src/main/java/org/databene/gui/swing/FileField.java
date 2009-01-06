@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,6 +26,7 @@
 
 package org.databene.gui.swing;
 
+import org.databene.commons.SystemInfo;
 import org.databene.commons.file.FilenameFormat;
 import org.databene.commons.ui.FileChooser;
 import org.databene.commons.ui.FileOperation;
@@ -80,8 +81,8 @@ public class FileField extends Box {
         this.fullPathDisplayed = true;
         this.operation = operation;
         filenameField = new JTextField(columns);
-        if (SwingUtil.isLookAndFeelNative())
-        	chooser = new AwtFileChooser(supportedTypes, operation);
+        if (SystemInfo.isMacOsx())
+        	chooser = new AwtFileChooser(null, operation, supportedTypes);
         else
 	        chooser = new SwingFileChooser(supportedTypes, operation);
         if (file != null && file.exists()) {
