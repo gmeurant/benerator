@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2006 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2006-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,8 +26,6 @@
 
 package org.databene.commons;
 
-import java.util.Iterator;
-
 /**
  * Supports iterating the characters of a String.
  * This is especially useful for writing parsers that iterate over Strings,
@@ -36,7 +34,7 @@ import java.util.Iterator;
  * Created: 18.08.2006 19:21:45
  * @author Volker Bergmann
  */
-public class StringCharacterIterator implements Iterator<Character> {
+public class StringCharacterIterator implements CharacterIterator {
 
     /** The String to iterate */
     private String source;
@@ -74,7 +72,7 @@ public class StringCharacterIterator implements Iterator<Character> {
      * @see java.util.Iterator#next()
      * @return the next character.
      */
-    public Character next() {
+    public char next() {
         if (index >= source.length())
             throw new IllegalStateException("Reached the end of the string");
         return source.charAt(index++);
@@ -91,6 +89,12 @@ public class StringCharacterIterator implements Iterator<Character> {
 
     // Convenience interface -------------------------------------------------------------------------------------------
     
+	public char peekNext() {
+		if (!hasNext())
+			return 0;
+        return source.charAt(index);
+	}
+
     /**
      * Pushes back the cursor by one character.
      */
@@ -124,12 +128,21 @@ public class StringCharacterIterator implements Iterator<Character> {
         return source.substring(index);
     }
 
+	public String substring(int from, int to) {
+		return source.substring(from, to);
+	}
+
+	public String parsedSubstring(int from) {
+		return source.substring(from, index);
+	}
+
     // java.lang.Object overrides --------------------------------------------------------------------------------------
 
     /**
      * @return the String that is iterated.
      */
-    public String toString() {
+    @Override
+	public String toString() {
         return source;
     }
 
