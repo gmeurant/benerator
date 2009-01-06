@@ -29,6 +29,7 @@ package org.databene.commons;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 
 /**
@@ -40,19 +41,21 @@ import java.io.InputStreamReader;
  */
 public class ShellUtil {
 	
-	public static void runShellCommands(ReaderLineIterator iterator, ErrorHandler errorHandler) {
+	public static int runShellCommands(ReaderLineIterator iterator, ErrorHandler errorHandler) {
+		int result = 0;
 		while (iterator.hasNext()) {
 			String command = iterator.next().trim();
 			if (command.length() > 0)
-				runShellCommand(command, errorHandler);	
+				result = runShellCommand(command, errorHandler);	
 		}
+		return result;
     }
 
-	public static void runShellCommand(String command, ErrorHandler errorHandler) {
-		runShellCommand(command, new File(SystemInfo.currentDir()), errorHandler);
+	public static int runShellCommand(String command, ErrorHandler errorHandler) {
+		return runShellCommand(command, new File(SystemInfo.currentDir()), errorHandler);
 	}
 	
-	public static void runShellCommand(String command, File directory, ErrorHandler errorHandler) {
+	public static int runShellCommand(String command, File directory, ErrorHandler errorHandler) {
 		try {
 			String s = null;
 			Process p = Runtime.getRuntime().exec(command, null, directory);
@@ -67,10 +70,40 @@ public class ShellUtil {
 			    System.out.println(s);
 			}
 			p.waitFor();
+			int exitValue = p.exitValue();
+			if (exitValue != 0)
+				errorHandler.handleError("Process (" + command + ") did not terminate normally: Return code " + exitValue);
+			return exitValue;
+		} catch (FileNotFoundException e) {
+			errorHandler.handleError("Error in shell invocation: " + command, e);
+			return 2;
+		} catch (Exception e) {
+			errorHandler.handleError("Error in shell invocation: " + command, e);
+			return 1;
+		}
+	}
+
+	public static void runShellCommand(String[] cmdArray, File directory, ErrorHandler errorHandler) {
+		try {
+			String s = null;
+			Process p = Runtime.getRuntime().exec(cmdArray, null, directory);
+			BufferedReader stdIn = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			BufferedReader stdErr = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+			// read the output from the command
+			while ((s = stdIn.readLine()) != null) {
+			    System.out.println(s);
+			}
+			// read any errors from the attempted command
+			while ((s = stdErr.readLine()) != null) {
+			    System.out.println(s);
+			}
+			p.waitFor();
 			if (p.exitValue() != 0) {
+				String command = ArrayFormat.format(" ", cmdArray);
 				errorHandler.handleError("Process (" + command + ") did not terminate normally: Return code " + p.exitValue());
 			}
 		} catch (Exception e) {
+			String command = ArrayFormat.format(" ", cmdArray);
 			errorHandler.handleError("Error in shell invocation: " + command, e);
 		}
 	}
