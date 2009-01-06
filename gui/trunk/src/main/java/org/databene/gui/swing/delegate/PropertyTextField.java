@@ -37,6 +37,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
 import org.databene.commons.BeanUtil;
+import org.databene.commons.StringUtil;
 import org.databene.commons.bean.ObservableBean;
 import org.databene.commons.converter.ToStringConverter;
 
@@ -68,13 +69,12 @@ public class PropertyTextField extends JTextField {
 		this.propertyName = propertyName;
 		this.toStringConverter = new ToStringConverter<Object>();
 		this.locked = true;
-		refresh();
 		Listener listener = new Listener();
 		if (bean instanceof ObservableBean)
 			((ObservableBean) bean).addPropertyChangeListener(propertyName, listener);
 		this.getDocument().addDocumentListener(listener);
 		this.locked = false;
-		setText(toStringConverter.convert(BeanUtil.getPropertyValue(bean, propertyName)));
+		refresh();
 	}
 	
 	// event handlers --------------------------------------------------------------------------------------------------
@@ -87,6 +87,7 @@ public class PropertyTextField extends JTextField {
 			locked = true;
 			Object propertyValue = BeanUtil.getPropertyValue(bean, propertyName);
 			String text = toStringConverter.convert(propertyValue);
+			text = StringUtil.escape(text);
 			if (!getText().equals(text))
 				setText(text);
 			locked = false;
@@ -106,6 +107,7 @@ public class PropertyTextField extends JTextField {
 			} catch (BadLocationException e) {
 				throw new RuntimeException(e);
 			}
+			text = StringUtil.escape(text);
 			if (!text.equals(BeanUtil.getPropertyValue(bean, propertyName)))
 				BeanUtil.setPropertyValue(bean, propertyName, text);
 			locked = false;
@@ -118,15 +120,15 @@ public class PropertyTextField extends JTextField {
 			refresh();
 		}
 
-		public void changedUpdate(DocumentEvent arg0) {
+		public void changedUpdate(DocumentEvent evt) {
 			 update();
 		}
 
-		public void insertUpdate(DocumentEvent arg0) {
+		public void insertUpdate(DocumentEvent evt) {
 			 update();
 		}
 
-		public void removeUpdate(DocumentEvent arg0) {
+		public void removeUpdate(DocumentEvent evt) {
 			 update();
 		}
 		
