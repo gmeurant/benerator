@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -38,16 +38,17 @@ import java.util.ArrayList;
  * <br/>
  * Created: 13.05.2005 17:43:04
  */
+@SuppressWarnings("unchecked")
 public class ConverterChain<S, T> implements Converter<S, T> {
 
-    private ArrayList<Converter> converters;
+	private ArrayList<Converter> converters;
 
-    public ConverterChain(Converter ... converters) {
+	public ConverterChain(Converter ... converters) {
         this.converters = new ArrayList<Converter>(converters.length);
         add(converters);
     }
 
-    private void add(Converter... converters) {
+	public void add(Converter... converters) {
         CollectionUtil.add(this.converters, converters);
     }
 
