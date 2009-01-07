@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008, 2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,7 +24,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 package org.databene.commons.converter;
 
 import org.databene.commons.ConversionException;
@@ -40,6 +39,8 @@ import org.databene.commons.TimeUtil;
  */
 public class LiteralParser implements Converter<String, Object> {
 
+    // Converter interface implementation ------------------------------------------------------------------------------
+
     public Class<Object> getTargetType() {
         return Object.class;
     }
@@ -47,11 +48,13 @@ public class LiteralParser implements Converter<String, Object> {
     public Object convert(String sourceValue) throws ConversionException {
         return parse(sourceValue);
     }
+    
+    // static convenience methods --------------------------------------------------------------------------------------
 
     /**
      * parses a String into a date, number, boolean or String.
      * <code>
-     *   content := boolean | date | number | anytext
+     *   content := boolean | date | number | unparsed
      *   boolean := 'true' | 'false'
      *   date := digit{4} '-' digit{2} '-' digit{2} ['T' digit{2} ':' digit{2} [':' digit{2} ['.' digit{1,3}]]]
      *   number := [-] digit* ['.' digit*]
@@ -72,7 +75,11 @@ public class LiteralParser implements Converter<String, Object> {
         else if ("false".equals(trimmed))
             return Boolean.FALSE;
         
-        // precheck for anytext
+        // test for quoted string
+        if ((trimmed.startsWith("'") && trimmed.endsWith("'")) || (trimmed.startsWith("\"") && trimmed.endsWith("\"")))
+        	return trimmed;
+        
+        // precheck for unparsed
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             if (!(c == ':' || c == '-' || c == 'T' || c == '.' || (c >= '0' && c <= '9') || c == ' ' || c == '\t'))
@@ -95,6 +102,8 @@ public class LiteralParser implements Converter<String, Object> {
         }
         return trimmed;
     }
+    
+    // private helpers -------------------------------------------------------------------------------------------------
 
     private static Object parseDate(String trimmed) {
         StringCharacterIterator iterator = new StringCharacterIterator(trimmed);
@@ -190,7 +199,7 @@ public class LiteralParser implements Converter<String, Object> {
         	return null;
         // handle numbers without fraction digits
         if (!iterator.hasNext()) {
-            if (n > (long) Integer.MAX_VALUE)
+            if (n > Integer.MAX_VALUE)
                 return (negative ? -n : n);
             else
                 return (negative ? - n.intValue() : n.intValue());
