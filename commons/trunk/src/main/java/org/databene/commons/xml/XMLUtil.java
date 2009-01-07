@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -215,9 +215,12 @@ public class XMLUtil {
     public static Document parseString(String text, boolean validate) throws IOException {
         if (logger.isDebugEnabled())
             logger.debug(text);
-        return parse(new StringBufferInputStream(text), DEFAULT_ERROR_HANDLER, validate);
+        return parse(new StringBufferInputStream(text), DEFAULT_ERROR_HANDLER, validate); // TODO remove usage of deprecated class
     }
 
+	public static Element parseStringAsElement(String xml) throws IOException {
+		return XMLUtil.parseString(xml).getDocumentElement();
+	}
     public static Document parse(InputStream stream) throws IOException {
         return parse(stream, DEFAULT_ERROR_HANDLER, false);
     }
@@ -231,15 +234,15 @@ public class XMLUtil {
             DocumentBuilder builder = factory.newDocumentBuilder();
             builder.setErrorHandler(new org.xml.sax.ErrorHandler() {
 
-				public void error(SAXParseException e) throws SAXException {
+				public void error(SAXParseException e) {
 					errorHandler.handleError(e.getMessage(), e);
 				}
 
-				public void fatalError(SAXParseException e) throws SAXException {
+				public void fatalError(SAXParseException e) {
 					errorHandler.handleError(e.getMessage(), e);
 				}
 
-				public void warning(SAXParseException e) throws SAXException {
+				public void warning(SAXParseException e) {
 					errorHandler.handleError(e.getMessage(), e);
 				}
             	
