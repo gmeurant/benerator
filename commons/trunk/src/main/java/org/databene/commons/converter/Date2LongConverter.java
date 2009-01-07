@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -29,23 +29,58 @@ package org.databene.commons.converter;
 import org.databene.commons.ConversionException;
 
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
- * Converts Dates into long values indicating the number of milliseconds since 1970-01-01 and back.<br/>
+ * Converts a {@link Date} into the number of milliseconds since 1970-01-01 in a certain time zone and back.
+ * By default it uses the system's default time zone.<br/>
  * <br/>
  * Created: 05.08.2007 07:10:25
  */
 public class Date2LongConverter extends AbstractBidirectionalConverter<Date, Long>{
 
-    public Date2LongConverter() {
-        super(Date.class, Long.class);
-    }
+	private TimeZone timeZone;
+	
+	// construcors -----------------------------------------------------------------------------------------------------
 
-    public Long convert(Date sourceValue) throws ConversionException {
-        return sourceValue.getTime();
-    }
+	public Date2LongConverter() {
+		this(TimeZone.getDefault());
+	}
 
-    public Date revert(Long target) throws ConversionException {
-        return new Date(target);
-    }
+	public Date2LongConverter(TimeZone timeZone) {
+		super(Date.class, Long.class);
+		this.timeZone = timeZone;
+	}
+	
+	// properties ------------------------------------------------------------------------------------------------------
+
+	public TimeZone getTimeZone() {
+		return timeZone;
+	}
+
+	public void setTimeZone(TimeZone timeZone) {
+		this.timeZone = timeZone;
+	}
+	
+	// BidirectionalConverter interface implementation -----------------------------------------------------------------
+
+	@Override
+	public Class<Long> getTargetType() {
+		return Long.class;
+	}
+
+	@Override
+	public Long convert(Date sourceValue) throws ConversionException {
+		if (sourceValue == null)
+			return null;
+		return sourceValue.getTime() + timeZone.getRawOffset();
+	}
+
+	@Override
+	public Date revert(Long target) throws ConversionException {
+		if (target == null)
+			return null;
+		return new Date(target - timeZone.getRawOffset());
+	}
+
 }
