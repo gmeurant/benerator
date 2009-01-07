@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,10 +27,11 @@
 package org.databene.commons.validator;
 
 import org.databene.commons.ArrayFormat;
+import org.databene.commons.ArrayUtil;
 import org.databene.commons.Validator;
 
 /**
- * Abstract Validator implementation that combines the evaluation results of other Validators.<br/>
+ * Abstract {@link Validator} implementation that combines the evaluation results of other Validators.<br/>
  * <br/>
  * Created: 20.11.2007 09:50:13
  * @author Volker Bergmann
@@ -43,7 +44,12 @@ public abstract class CompositeValidator<E> implements Validator<E> {
         this.subValidators = subValidators;
     }
 
-    public String toString() {
+	public void add(Validator<E> validator) {
+		subValidators = ArrayUtil.append(subValidators, validator);
+	}
+	
+    @Override
+	public String toString() {
         return getClass().getSimpleName() + '[' + ArrayFormat.format(subValidators) + ']';
     }
 }
