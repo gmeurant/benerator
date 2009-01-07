@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -61,17 +61,17 @@ public class XMLElement2BeanConverter implements Converter<Element, Object> {
 	private static final ClassProvider DEFAULT_CLASS_PROVIDER = new DefaultClassProvider();
 
     private Context context;
-    private Converter<String, String> preprocessor;
+    private Converter<? super String, Object> preprocessor;
 
     public XMLElement2BeanConverter() {
         this(null);
     }
 
     public XMLElement2BeanConverter(Context context) {
-        this(context, new NoOpConverter<String>());
+        this(context, new NoOpConverter<Object>());
     }
 
-    public XMLElement2BeanConverter(Context context, Converter<String, String> preprocessor) {
+    public XMLElement2BeanConverter(Context context, Converter<? super String, Object> preprocessor) {
         this.context = context;
         this.preprocessor = preprocessor;
     }
@@ -88,11 +88,11 @@ public class XMLElement2BeanConverter implements Converter<Element, Object> {
     
     // utility methods -------------------------------------------------------------------------------------------------
 
-    public static Object convert(Element element, Context context, Converter<String, String> preprocessor) throws ConversionException {
+    public static Object convert(Element element, Context context, Converter<? super String, Object> preprocessor) throws ConversionException {
     	return convert(element, context, preprocessor, DEFAULT_CLASS_PROVIDER);
     }
     
-    public static Object convert(Element element, Context context, Converter<String, String> preprocessor, ClassProvider factory) throws ConversionException {
+    public static Object convert(Element element, Context context, Converter<? super String, Object> preprocessor, ClassProvider factory) throws ConversionException {
         if ("idref".equals(element.getNodeName())) {
             if (context != null) {
                 String id = element.getAttribute("bean");
@@ -108,7 +108,8 @@ public class XMLElement2BeanConverter implements Converter<Element, Object> {
 
     // private helpers -------------------------------------------------------------------------------------------------
     
-    private static Object convertBean(Element element, Context context, Converter<String, String> preprocessor, ClassProvider factory) throws ConversionException {
+    @SuppressWarnings("unchecked")
+	private static Object convertBean(Element element, Context context, Converter<? super String, Object> preprocessor, ClassProvider factory) throws ConversionException {
         String className = element.getAttribute("class");
         logger.debug("instantiating class '" + className + "'");
         Class beanClass = factory.forName(className);
@@ -121,7 +122,7 @@ public class XMLElement2BeanConverter implements Converter<Element, Object> {
             if (propertyElement.hasAttribute("value")) {
                 propertyValue = preprocessor.convert(propertyElement.getAttribute("value"));
             } else if (propertyElement.hasAttribute("ref")) {
-                String ref = preprocessor.convert(propertyElement.getAttribute("ref"));
+                String ref = String.valueOf(preprocessor.convert(propertyElement.getAttribute("ref")));
                 propertyValue = context.get(ref);
             } else {
                 NodeList childNodes = propertyElement.getChildNodes();
