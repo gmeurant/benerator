@@ -272,7 +272,9 @@ public final class IOUtil {
 		String protocol = getProtocol(uri);
 		if (protocol != null)
 			uri = uri.substring(protocol.length());
-		String contextUri = StringUtil.splitOnLastSeparator(uri, '/')[0] + '/';
+		char systemSeparator = SystemInfo.fileSeparator();
+		char uriSeparator = (uri.indexOf(systemSeparator) >= 0 ? systemSeparator : '/');
+		String contextUri = StringUtil.splitOnLastSeparator(uri, uriSeparator)[0] + uriSeparator;
 		if (protocol != null)
 			contextUri = protocol + contextUri;
 		return contextUri;
