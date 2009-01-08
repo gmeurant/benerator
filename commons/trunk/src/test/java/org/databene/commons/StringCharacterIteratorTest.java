@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,21 +28,49 @@ package org.databene.commons;
 
 import junit.framework.TestCase;
 
-import java.util.Iterator;
-
 /**
  * Created: 21.06.2007 08:34:31
  */
 public class StringCharacterIteratorTest extends TestCase {
 
-    public void test() {
-        Iterator<Character> iterator = new StringCharacterIterator("abc");
+    public void testIteration() {
+    	StringCharacterIterator iterator = new StringCharacterIterator("abc");
         assertTrue(iterator.hasNext());
-        assertEquals('a', (char)iterator.next());
+        assertEquals('a', iterator.next());
         assertTrue(iterator.hasNext());
-        assertEquals('b', (char)iterator.next());
+        assertEquals('b', iterator.next());
         assertTrue(iterator.hasNext());
-        assertEquals('c', (char)iterator.next());
+        assertEquals('c', iterator.next());
         assertFalse(iterator.hasNext());
     }
+
+    public void testLifeCycle() {
+    	StringCharacterIterator iterator = new StringCharacterIterator("ab");
+        assertTrue(iterator.hasNext());
+        assertEquals('a', iterator.next());
+        iterator.assertNext('b');
+        assertFalse(iterator.hasNext());
+        iterator.pushBack();
+        assertTrue(iterator.hasNext());
+        iterator.assertNext('b');
+        assertFalse(iterator.hasNext());
+    }
+
+    public void testLineColumn() {
+    	StringCharacterIterator iterator = new StringCharacterIterator("a\nb");
+    	assertPosition(1, 1, iterator);
+    	iterator.next();
+    	assertPosition(1, 2, iterator);
+    	iterator.next();
+    	assertPosition(2, 1, iterator);
+    	iterator.pushBack();
+    	assertPosition(1, 2, iterator);
+    	iterator.pushBack();
+    	assertPosition(1, 1, iterator);
+    }
+
+	private void assertPosition(int expectedLine, int expectedColumn, StringCharacterIterator iterator) {
+		assertEquals("Unexpected line,", expectedLine, iterator.line());
+		assertEquals("Unexpected column,", expectedColumn, iterator.column());
+	}
 }
