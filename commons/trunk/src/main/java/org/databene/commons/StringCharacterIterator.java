@@ -42,6 +42,12 @@ public class StringCharacterIterator implements CharacterIterator {
     /** The cursor index */
     private int index;
 
+    private int line;
+    
+    private int column;
+    
+    private int lastLineLength;
+    
     // constructors ----------------------------------------------------------------------------------------------------
 
     /** Creates an iterator that starts at the String's beginning */
@@ -55,6 +61,9 @@ public class StringCharacterIterator implements CharacterIterator {
             throw new IllegalArgumentException("source string must not be null");
         this.source = source;
         this.index = index;
+        this.line = 1;
+        this.column = 1;
+        this.lastLineLength = 1;
     }
 
     // java.util.Iterator interface ------------------------------------------------------------------------------------
@@ -75,6 +84,12 @@ public class StringCharacterIterator implements CharacterIterator {
     public char next() {
         if (index >= source.length())
             throw new IllegalStateException("Reached the end of the string");
+        if (source.charAt(index) == '\n') {
+        	lastLineLength = column;
+        	line++;
+        	column = 1;
+        } else
+        	column++;
         return source.charAt(index++);
     }
 
@@ -99,9 +114,14 @@ public class StringCharacterIterator implements CharacterIterator {
      * Pushes back the cursor by one character.
      */
     public void pushBack() {
-        if (index > 0)
+        if (index > 0) {
+            if (index - 1 < source.length() && source.charAt(index - 1) == '\n') {
+            	line--;
+            	column = lastLineLength;
+            } else
+                column--;
             index--;
-        else
+        } else
             throw new IllegalStateException("cannot pushBack before start of string: " + source);
     }
 
@@ -134,6 +154,22 @@ public class StringCharacterIterator implements CharacterIterator {
 
 	public String parsedSubstring(int from) {
 		return source.substring(from, index);
+	}
+
+	public void assertNext(char c) {
+		if (!hasNext())
+			throw new ParseException("Expected '" + c + "', but no more character is available", line, column);
+		char next = next();
+		if (next != c)
+			throw new ParseException("Expected '" + c + "', but found '" + next + "'", line, column);
+	}
+	
+	public int line() {
+		return line;
+	}
+	
+	public int column() {
+		return column;
 	}
 
     // java.lang.Object overrides --------------------------------------------------------------------------------------
