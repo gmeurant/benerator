@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007, 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,6 +28,7 @@ package org.databene.commons.db;
 
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
+import org.databene.LogCategories;
 import org.databene.commons.ArrayFormat;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.ConnectFailedException;
@@ -36,6 +37,7 @@ import org.databene.commons.IOUtil;
 import org.databene.commons.ReaderLineIterator;
 import org.databene.commons.StringUtil;
 import org.databene.commons.SystemInfo;
+import org.databene.commons.converter.ToStringConverter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -62,8 +64,8 @@ public class DBUtil {
 
     private static final Log logger = LogFactory.getLog(DBUtil.class);
 
-    private static final Log sqlLogger = LogFactory.getLog("org.databene.SQL"); 
-    private static final Log jdbcLogger = LogFactory.getLog("org.databene.JDBC"); 
+    private static final Log sqlLogger = LogFactory.getLog(LogCategories.SQL); 
+    private static final Log jdbcLogger = LogFactory.getLog(LogCategories.JDBC);
     
     /** private constructor for preventing instantiation. */
     private DBUtil() {}
@@ -112,20 +114,25 @@ public class DBUtil {
         }
     }
 
-    public static String[][] parseResultSet(ResultSet resultSet) throws SQLException {
-        List<String[]> rows = new ArrayList<String[]>();
+    public static Object parseResultSet(ResultSet resultSet) throws SQLException {
+        List<Object[]> rows = new ArrayList<Object[]>();
         while (resultSet.next()) {
             int columnCount = resultSet.getMetaData().getColumnCount();
-            String[] cells = new String[columnCount];
+            Object[] cells = new Object[columnCount];
             for (int i = 0; i < columnCount; i++)
-                cells[i] = resultSet.getString(i + 1);
+                cells[i] = resultSet.getObject(i + 1);
             rows.add(cells);
         }
-        String[][] array = new String[rows.size()][];
-        return rows.toArray(array);
+        if (rows.size() == 1 && rows.get(0).length == 1)
+        	return rows.get(0)[0];
+        else {
+	        Object[][] array = new Object[rows.size()][];
+	        return rows.toArray(array);
+        }
     }
 
     /** @deprecated replaced by ConvertingIterable(ResultSetIterator, ResultSetConverter) */
+    @Deprecated
     public static Object[] nextLine(ResultSet resultSet) throws SQLException {
         if (!resultSet.next())
             return null;
@@ -133,6 +140,7 @@ public class DBUtil {
     }
 
     /** @deprecated replaced by ResultSetConverter */
+    @Deprecated
     public static Object[] currentLine(ResultSet resultSet) throws SQLException {
         int columnCount = resultSet.getMetaData().getColumnCount();
         Object[] cells = new Object[columnCount];
@@ -149,10 +157,13 @@ public class DBUtil {
         for (int i = 1; i <= columnCount; i++)
             builder.append(metaData.getColumnName(i)).append(i < columnCount ? ", " : SystemInfo.lineSeparator());
         // format cells
-        String[][] cells = parseResultSet(resultSet);
-        for (String[] row : cells) {
-            builder.append(ArrayFormat.format(", ", row)).append(SystemInfo.lineSeparator());
-        }
+        Object parsed = parseResultSet(resultSet);
+        if (parsed instanceof Object[][]) {
+	        for (Object[] row : (Object[][]) parsed) {
+	            builder.append(ArrayFormat.format(", ", row)).append(SystemInfo.lineSeparator());
+	        }
+        } else
+        	builder.append(ToStringConverter.convert(parsed, "null"));
         return builder.toString();
     }
 
@@ -188,24 +199,23 @@ public class DBUtil {
         }
     }
 
-    public static void runScript(String scriptUri, String encoding, Connection connection, boolean ignoreComments, ErrorHandler errorHandler) throws IOException, SQLScriptException {
+    public static Object runScript(
+    		String scriptUri, String encoding, Connection connection, boolean ignoreComments, ErrorHandler errorHandler) 
+    			throws IOException {
 		BufferedReader reader = IOUtil.getReaderForURI(scriptUri, encoding);
-		try {
-			 runScript(reader, connection, ignoreComments, errorHandler);
-		} catch (SQLScriptException e) {
-            throw e.withUri(scriptUri); // add URI information to the exception
-		}
+		return runScript(reader, connection, ignoreComments, errorHandler);
     }
 
-    public static void runScript(String scriptText, Connection connection, boolean ignoreComments, ErrorHandler errorHandler) throws IOException, SQLScriptException {
+    public static Object runScript(String scriptText, Connection connection, boolean ignoreComments, ErrorHandler errorHandler) {
     	StringReader reader = new StringReader(scriptText);
-		runScript(reader, connection, ignoreComments, errorHandler);
+		return runScript(reader, connection, ignoreComments, errorHandler);
     }
 
-	private static SQLScriptException runScript(Reader reader, Connection connection, boolean ignoreComments, ErrorHandler errorHandler)
-			throws SQLScriptException {
+	private static Object runScript(
+			Reader reader, Connection connection, boolean ignoreComments, ErrorHandler errorHandler) {
 		ReaderLineIterator iterator = new ReaderLineIterator(reader);
 		SQLScriptException exception = null;
+		Object result = null;
 		try {
 			StringBuilder cmd = new StringBuilder();
 			while (iterator.hasNext()) {
@@ -216,13 +226,16 @@ public class DBUtil {
 			        cmd.append('\r');
 			    line = line.trim();
 			    cmd.append(line);
-			    if (line.endsWith(";")) {
-			        // delete the trailing ';'
-			        cmd.delete(cmd.length() - 1, cmd.length());
+			    if (line.endsWith(";") || !iterator.hasNext()) {
+			    	if (line.endsWith(";"))
+			    		cmd.delete(cmd.length() - 1, cmd.length()); // delete the trailing ';'
 			        String sql = cmd.toString();
 			        if (!ignoreComments || !StringUtil.startsWithIgnoreCase(sql.trim(), "COMMENT")) {
 			        	try {
-				        	executeUpdate(sql, connection);
+				        	if (sql.trim().toLowerCase().startsWith("select"))
+				        		result = query(sql, connection);
+				        	else
+				        		result = executeUpdate(sql, connection);
 						} catch (SQLException e) {
 							errorHandler.handleError("Error in executing SQL: " + SystemInfo.lineSeparator() + cmd, e);
 							// if we arrive here, the ErrorHandler decided not to throw an exception
@@ -234,7 +247,7 @@ public class DBUtil {
 			        cmd.delete(0, cmd.length());
 			    }
 			}
-			return exception;
+			return (exception != null ? exception : result);
         } finally {
 			iterator.close();
         }
@@ -255,7 +268,7 @@ public class DBUtil {
         return result;
     }
 
-    public static String[][] query(String query, Connection connection) throws SQLException {
+    public static Object query(String query, Connection connection) throws SQLException {
     	Statement statement = null;
     	ResultSet resultSet = null;
     	try {
@@ -268,8 +281,9 @@ public class DBUtil {
     	}
     }
 
-	public static PreparedStatement prepareStatement(Connection connection, String sql) throws SQLException {
+	public static PreparedStatement prepareStatement(Connection connection, String sql, boolean readOnly) throws SQLException {
 		jdbcLogger.debug("preparing statement: " + sql);
+		checkReadOnly(sql, readOnly);
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		return (PreparedStatement) Proxy.newProxyInstance(classLoader, 
 				new Class[] { PreparedStatement.class }, 
@@ -305,5 +319,10 @@ public class DBUtil {
 	    	DBUtil.close(statement);
     	}
     }
+
+	public static void checkReadOnly(String sql, boolean readOnly) {
+		if (readOnly && !sql.trim().toLowerCase().startsWith("select"))
+			throw new IllegalStateException("Tried to mutate a database with read-only settings: " + sql);
+	}
 
 }
