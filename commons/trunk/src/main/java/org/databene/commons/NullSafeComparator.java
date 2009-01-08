@@ -76,6 +76,17 @@ public class NullSafeComparator<E> implements Comparator<E> {
             return realComparator.compare(o1, o2);
     }
 
+    public static <T extends Comparable<T>> int compare(T o1, T o2, int nullComparation) {
+        if (o1 == o2)
+            return 0;
+        if (o1 == null)
+            return (o2 == null ? 0 : nullComparation);
+        else if (o2 == null)
+            return -nullComparation;
+        else
+            return o1.compareTo(o2);
+    }
+
     public static boolean equals(Object o1, Object o2) {
         if (o1 == null)
             return (o2 == null);
