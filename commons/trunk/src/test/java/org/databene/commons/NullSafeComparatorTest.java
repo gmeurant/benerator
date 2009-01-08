@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -62,6 +62,19 @@ public class NullSafeComparatorTest extends TestCase {
         assertEquals(0, comparator.compare(i2, i2));
         assertEquals(0, comparator.compare(i2, i2d));
         assertEquals(0, comparator.compare(null, null));
+    }
+
+    public void testStaticComparableComparation() {
+        Integer i1 = new Integer(1);
+        Integer i2 = new Integer(2);
+        Integer i2d = new Integer(2);
+        assertEquals(-1, NullSafeComparator.compare(i1, i2, -1));
+        assertEquals(1, NullSafeComparator.compare(i2, null, -1));
+        assertEquals(-1, NullSafeComparator.compare(null, i2, -1));
+        assertEquals(1, NullSafeComparator.compare(i2, i1, -1));
+        assertEquals(0, NullSafeComparator.compare(i2, i2, -1));
+        assertEquals(0, NullSafeComparator.compare(i2, i2d, -1));
+        assertEquals(0, NullSafeComparator.compare((Comparable) null, (Comparable) null, -1));
     }
 
     public void testDownwardComparation() {
