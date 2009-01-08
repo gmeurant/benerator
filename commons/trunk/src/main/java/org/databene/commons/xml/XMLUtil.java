@@ -26,11 +26,11 @@
 
 package org.databene.commons.xml;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.io.StringBufferInputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
@@ -215,7 +215,7 @@ public class XMLUtil {
     public static Document parseString(String text, boolean validate) throws IOException {
         if (logger.isDebugEnabled())
             logger.debug(text);
-        return parse(new StringBufferInputStream(text), DEFAULT_ERROR_HANDLER, validate); // TODO remove usage of deprecated class
+        return parse(new ByteArrayInputStream(text.getBytes()), DEFAULT_ERROR_HANDLER, validate);
     }
 
 	public static Element parseStringAsElement(String xml) throws IOException {
