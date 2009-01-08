@@ -32,6 +32,7 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Arrays;
@@ -66,16 +67,25 @@ public class IOUtilTest extends TestCase {
         assertEquals("Alice,Bob\r\nCharly", IOUtil.getContentOfURI("org/databene/commons/names.csv"));
     }
 
-    public void testGetInputStreamForURI() throws IOException, UnsupportedEncodingException {
+    public void testGetInputStreamForURI() throws Exception {
         InputStream stream = IOUtil.getInputStreamForURI("org/databene/commons/names.csv");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(stream, "cp1252"));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream, "iso-8859-1"));
+        assertEquals("Alice,Bob", reader.readLine());
+        assertEquals("Charly", reader.readLine());
+        assertNull(reader.readLine());
+        reader.close();
+    }
+    
+    public void testGetInputStreamForURIOfStringProtocol() throws Exception {
+        InputStream stream = IOUtil.getInputStreamForURI("string://Alice,Bob\r\nCharly");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream, SystemInfo.charset()));
         assertEquals("Alice,Bob", reader.readLine());
         assertEquals("Charly", reader.readLine());
         assertNull(reader.readLine());
         reader.close();
     }
 
-    public void testGetInputStreamForURIReference() throws IOException, UnsupportedEncodingException {
+    public void testGetInputStreamForURIReference() throws Exception {
     	// TODO v0.5.7 implement testGetInputStreamForURIReference()
     }
     
@@ -102,6 +112,13 @@ public class IOUtilTest extends TestCase {
     	assertEquals("file://test/", IOUtil.getContextUri("file://test/text.txt"));
     	assertEquals("test/", IOUtil.getContextUri("test/text.txt"));
     	assertEquals("http://test.de/", IOUtil.getContextUri("http://test.de/text.txt"));
+    	char fileSeparator = SystemInfo.fileSeparator();
+    	System.setProperty("file.separator", "\\");
+    	try {
+    		assertEquals("C:\\test\\", IOUtil.getContextUri("C:\\test\\bla.txt"));
+    	} finally {
+    		System.setProperty("file.separator", String.valueOf(fileSeparator));
+    	}
     }
     
     public void testGetProtocol() {
@@ -115,6 +132,14 @@ public class IOUtilTest extends TestCase {
 
     public void testGetReaderForURI() throws IOException, UnsupportedEncodingException {
         BufferedReader reader = IOUtil.getReaderForURI("org/databene/commons/names.csv");
+        assertEquals("Alice,Bob", reader.readLine());
+        assertEquals("Charly", reader.readLine());
+        assertNull(reader.readLine());
+        reader.close();
+    }
+
+    public void testGetReaderForURIOfStringProtocol() throws Exception {
+    	BufferedReader reader = IOUtil.getReaderForURI("string://Alice,Bob\r\nCharly");
         assertEquals("Alice,Bob", reader.readLine());
         assertEquals("Charly", reader.readLine());
         assertNull(reader.readLine());
@@ -143,11 +168,12 @@ public class IOUtilTest extends TestCase {
 
     public void testReadProperties() throws IOException {
         Map<String, String> properties = IOUtil.readProperties("org/databene/commons/test.properties");
-        assertEquals(4, properties.size());
+        assertEquals(5, properties.size());
         assertEquals("b", properties.get("a"));
         assertEquals("z", properties.get("x.y"));
         assertEquals("ab", properties.get("z"));
         assertEquals("a bc", properties.get("q"));
+        assertEquals("a\tb", properties.get("bla")); // unescaping
     }
 
     public void testWriteProperties() throws IOException {
