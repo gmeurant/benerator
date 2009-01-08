@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007, 2008 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -229,9 +229,35 @@ public class StringUtilTest extends TestCase {
     	checkSplit("a.b", "c" , "a.b.c");
     }
     
+    public void testJoinWithSeparator() {
+    	assertEquals("", StringUtil.joinWithSeparator('.', (String[]) null));
+    	assertEquals("", StringUtil.joinWithSeparator('.', null, null));
+    	assertEquals("A", StringUtil.joinWithSeparator('.', "A"));
+    	assertEquals("A", StringUtil.joinWithSeparator('.', null, "A"));
+    	assertEquals("A", StringUtil.joinWithSeparator('.', "A", null));
+    	assertEquals("A.B", StringUtil.joinWithSeparator('.', "A", null, "B"));
+    }
+    
     public void testReplaceTokens() {
     	assertEquals("A(alpha,bravo)", StringUtil.replaceTokens("A(XX,XX)", "XX", "alpha", "bravo"));
     }
+    
+    public void testEscape() {
+// TODO test escaping of ' and "    	assertEquals("\\'A\\rB\\nC\\tD\\\"", StringUtil.escape("'A\rB\nC\tD\""));
+    	assertEquals(null, StringUtil.escape(null));
+    	assertEquals("", StringUtil.escape(""));
+    	assertEquals("ABCD", StringUtil.escape("ABCD"));
+    	assertEquals("A\\rB\\nC\\tD", StringUtil.escape("A\rB\nC\tD"));
+    }
+    
+    public void testUnescape() {
+    	assertEquals(null, StringUtil.unescape(null));
+    	assertEquals("", StringUtil.unescape(""));
+    	assertEquals("ABCD", StringUtil.unescape("ABCD"));
+    	assertEquals("'A\rB\nC\tD\"", StringUtil.unescape("\\'A\\rB\\nC\\tD\\\""));
+    }
+    
+    // helpers ---------------------------------------------------------------------------------------------------------
 
 	private void checkSplit(String parent, String child, String path) {
 		assertTrue(Arrays.equals(ArrayUtil.buildArrayOfType(String.class, parent, child), StringUtil.splitOnLastSeparator(path, '.')));
