@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -41,7 +41,7 @@ import java.util.TreeSet;
 public class CollectionUtilTest extends TestCase {
 
     public void testToList() {
-        List<Integer> expectedList = new ArrayList<Integer>();
+        List<Number> expectedList = new ArrayList<Number>();
         expectedList.add(1);
         expectedList.add(2);
         expectedList.add(3);
