@@ -68,7 +68,7 @@ public final class FileUtil {
     }
 
 	public static String nativePath(String path) {
-		return path.replace("/", SystemInfo.fileSeparator());
+		return path.replace('/', SystemInfo.fileSeparator());
 	}
 
 	public static boolean isEmptyFolder(File folder) {

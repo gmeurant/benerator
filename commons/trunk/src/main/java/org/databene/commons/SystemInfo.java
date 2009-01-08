@@ -72,8 +72,8 @@ public final class SystemInfo {
     /**
      * @return File separator ("/" on UNIX)
      */
-    public static String fileSeparator() {
-        return System.getProperty("file.separator");
+    public static char fileSeparator() {
+        return System.getProperty("file.separator").charAt(0);
     }
 
     /**
