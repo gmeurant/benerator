@@ -42,7 +42,7 @@ public class SystemInfoTest extends TestCase {
     private static final Log logger = LogFactory.getLog(SystemInfoTest.class);
 
     public void testVersion() {
-        assertNotNull(SystemInfo.version());
+        assertNotNull(SystemInfo.osVersion());
     }
 
     public void testOSArchitecture() {
@@ -62,8 +62,7 @@ public class SystemInfoTest extends TestCase {
     }
 
     public void testFileSeparator() {
-        String fileSeparator = SystemInfo.fileSeparator();
-        assertNotNull(fileSeparator);
+        char fileSeparator = SystemInfo.fileSeparator();
         assertEquals(File.separator, fileSeparator);
     }
 
