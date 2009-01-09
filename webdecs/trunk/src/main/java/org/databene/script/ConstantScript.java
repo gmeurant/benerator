@@ -37,7 +37,7 @@ import org.databene.commons.Context;
  * Created: 16.06.2007 06:15:32
  * @author Volker Bergmann
  */
-public class ConstantScript implements Script {
+public class ConstantScript extends AbstractScript {
 
     private String text;
 
