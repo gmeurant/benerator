@@ -28,8 +28,10 @@ package org.databene.document.csv;
 
 import static org.databene.document.csv.CSVTokenType.*;
 
+import org.databene.commons.ConfigurationError;
 import org.databene.commons.Heavyweight;
 import org.databene.commons.IOUtil;
+import org.databene.commons.StringUtil;
 import org.databene.commons.SystemInfo;
 
 import java.io.*;
@@ -163,8 +165,16 @@ public class CSVTokenizer implements Heavyweight {
             return parseQuotes();
         } else {
             StringBuilder buffer = new StringBuilder().append((char) c);
+            boolean escapeMode = false;
             while ((c = read()) != -1 && c != '\r' && c != '\n') {
-                if (c == separator) {
+            	if (escapeMode) {
+            		c = unescape((char) c);
+            		escapeMode = false;
+            	} else if (c == '\\') {
+            		escapeMode = true;
+            		continue;
+            	}
+            	if (c == separator) {
                 	endColumn = cursor - 2;
                     return setState(CELL, buffer.toString());
                 }
@@ -177,7 +187,16 @@ public class CSVTokenizer implements Heavyweight {
         }
     }
 
-    private CSVTokenType parseQuotes() throws IOException {
+	private char unescape(char c) { // this is more efficient than StringUtil.unescape(String)
+		switch (c) {
+			case 't': return '\t';
+			case 'r': return '\r';
+			case 'n': return '\n';
+			default: return c;
+		}
+	}
+
+	private CSVTokenType parseQuotes() throws IOException {
         read(); // skip leading quote
         StringBuilder buffer = new StringBuilder();
         int c;
