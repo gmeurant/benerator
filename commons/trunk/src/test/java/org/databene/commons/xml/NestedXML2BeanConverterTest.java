@@ -55,7 +55,7 @@ public class NestedXML2BeanConverterTest extends TestCase {
         InputStream stream = new ByteArrayInputStream(xml.getBytes());
         try {
             Element element = XMLUtil.parse(stream).getDocumentElement();
-            SomeBean bean = (SomeBean) XMLElement2BeanConverter.convert(element, null, new NoOpConverter<String>());
+            SomeBean bean = (SomeBean) XMLElement2BeanConverter.convert(element, null, new NoOpConverter<Object>());
             assertEquals(10, bean.getNum());
             assertEquals("blabla", bean.getText());
             stream.close();
