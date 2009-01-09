@@ -50,7 +50,7 @@ public class ScriptedDocumentWriter<E> implements DocumentWriter<E> {
     private Script bodyPartScript;
     private Script footerScript;
 
-    private boolean headerWritten;
+    private boolean writeHeader;
 
     public ScriptedDocumentWriter(Writer out, String headerScriptUrl, String bodyPartScriptUrl, String footerScriptUrl)
             throws IOException {
@@ -67,7 +67,7 @@ public class ScriptedDocumentWriter<E> implements DocumentWriter<E> {
         this.bodyPartScript = bodyPartScript;
         this.footerScript = footerScript;
         this.vars = new HashMap<String, Object>();
-        this.headerWritten = false;
+        this.writeHeader = true;
     }
 
     public Script getHeaderScript() {
@@ -85,17 +85,21 @@ public class ScriptedDocumentWriter<E> implements DocumentWriter<E> {
     public void setFooterScript(Script footerScript) {
         this.footerScript = footerScript;
     }
+    
+    public void setWriteHeader(boolean writeHeader) {
+		this.writeHeader = writeHeader;
+	}
 
     // Script interface implementation ---------------------------------------------------------------------------------
 
-    public void setVariable(String name, Object value) {
+	public void setVariable(String name, Object value) {
         vars.put(name, value);
     }
 
     public void writeElement(E part) throws IOException {
-        if (!headerWritten) {
+        if (writeHeader) {
             writeHeader();
-            headerWritten = true;
+            writeHeader = false;
         }
         if (bodyPartScript != null) {
             Context context = new DefaultContext();
