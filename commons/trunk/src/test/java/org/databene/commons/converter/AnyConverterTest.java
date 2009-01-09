@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,6 +28,7 @@ package org.databene.commons.converter;
 
 import junit.framework.TestCase;
 
+import java.sql.Time;
 import java.util.Set;
 
 import org.databene.commons.ConversionException;
@@ -35,7 +36,8 @@ import org.databene.commons.converter.AnyConverter;
 import org.databene.commons.converter.JavaType;
 
 /**
- * Created: 29.09.2006 12:12:22
+ * Created: 29.09.2006 12:12:22<br/>
+ * @author Volker Bergmann
  */
 public class AnyConverterTest extends TestCase {
 
@@ -90,6 +92,7 @@ public class AnyConverterTest extends TestCase {
         assertEquals(true, (boolean) AnyConverter.convert("true", boolean.class));
         assertEquals(1, (int) AnyConverter.convert("1", Integer.class));
         assertEquals(1, (int) AnyConverter.convert("1", int.class));
+        assertEquals(new Time(1), AnyConverter.convert("00:00:00.001", Time.class));
     }
     
     public void testStringToCharConversion() {
