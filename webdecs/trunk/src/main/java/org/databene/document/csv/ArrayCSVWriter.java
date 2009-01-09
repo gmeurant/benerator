@@ -26,6 +26,7 @@
 
 package org.databene.document.csv;
 
+import org.databene.script.AbstractScript;
 import org.databene.script.Script;
 import org.databene.script.ScriptException;
 import org.databene.script.ScriptUtil;
@@ -80,7 +81,7 @@ public class ArrayCSVWriter<E> extends ScriptedDocumentWriter<E[]> {
 
     // ArrayCSVScript ---------------------------------------------------------------------------------------------
 
-    private static class ArrayCSVScript implements Script {
+    private static class ArrayCSVScript extends AbstractScript {
 
         private Converter<Object, String> converter;
         private char separator;

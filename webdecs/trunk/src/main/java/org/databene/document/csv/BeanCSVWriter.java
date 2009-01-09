@@ -77,7 +77,7 @@ public class BeanCSVWriter<E> extends ScriptedDocumentWriter<E> {
 
     // BeanCSVScript ---------------------------------------------------------------------------------------------------
 
-    private static class BeanCSVScript implements Script {
+    private static class BeanCSVScript extends AbstractScript {
 
         private char separator;
         private Converter<Object, String[]> converter;
