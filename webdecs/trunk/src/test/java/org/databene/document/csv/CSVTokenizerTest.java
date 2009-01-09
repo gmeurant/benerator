@@ -46,7 +46,15 @@ public class CSVTokenizerTest extends TestCase {
     }
 
     public void testAB() throws IOException {
-    	CSVTokenizer tokenizer = createTokenizer("A,B");
+    	CSVTokenizer tokenizer = createTokenizer("A\tv,B");
+        assertNextToken(tokenizer, CELL, "A\tv");
+        assertNextToken(tokenizer, CELL, "B");
+        assertNextToken(tokenizer, EOF, null);
+        assertNextToken(tokenizer, EOF, null);
+    }
+
+    public void testABTab() throws IOException {
+    	CSVTokenizer tokenizer = createTokenizer("A\tB", '\t');
         assertNextToken(tokenizer, CELL, "A");
         assertNextToken(tokenizer, CELL, "B");
         assertNextToken(tokenizer, EOF, null);
@@ -149,8 +157,12 @@ public class CSVTokenizerTest extends TestCase {
     // helpers ---------------------------------------------------------------------------------------------------------
 
 	private CSVTokenizer createTokenizer(String content) throws IOException {
+		return createTokenizer(content, ',');
+	}
+
+	private CSVTokenizer createTokenizer(String content, char separator) throws IOException {
 		StringReader reader = new StringReader(content);
-		return new CSVTokenizer(reader, ',');
+		return new CSVTokenizer(reader, separator);
 	}
 
     private void assertNextToken(CSVTokenizer tokenizer, CSVTokenType tokenType, String cell) throws IOException {
