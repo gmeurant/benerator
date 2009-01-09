@@ -13,5 +13,6 @@
 	<classpathentry kind="var" path="MAVEN_REPO/junit/junit/3.8.2/junit-3.8.2.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/log4j/log4j/1.2.13/log4j-1.2.13.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/Users/volker/.m2/repository/oracle/ojdbc/1.4/ojdbc-1.4.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
