@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008, 2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,7 +24,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 package org.databene.commons.converter;
 
 import java.text.ParseException;
@@ -34,7 +33,7 @@ import java.util.Date;
 import junit.framework.TestCase;
 
 /**
- * Tests the LiteralParser class.<br/><br/>
+ * Tests the {@link LiteralParser}.<br/><br/>
  * Created: 20.03.2008 07:18:30
  * @author Volker Bergmann
  */
@@ -55,6 +54,8 @@ public class LiteralParserTest extends TestCase {
 
     public void testString() {
         checkText("Alpha");
+        checkText("'1'");
+        checkText("\"2\"");
         checkText("true or false");
         checkText("7 days");
         checkText("True");
@@ -129,7 +130,7 @@ public class LiteralParserTest extends TestCase {
         assertEquals(text, LiteralParser.parse(text));
     }
 
-    private void checkLong(long value) {
+	private void checkLong(long value) {
         assertEquals(value, LiteralParser.parse(String.valueOf(value)));
     }
 

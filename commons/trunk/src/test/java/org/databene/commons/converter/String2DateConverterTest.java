@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,31 +26,38 @@
 
 package org.databene.commons.converter;
 
+import java.util.Date;
+
 import junit.framework.TestCase;
 
 import org.databene.commons.TimeUtil;
 import org.databene.commons.converter.String2DateConverter;
 
 /**
- * Tests the String2DateConverter.<br/>
+ * Tests the {@link String2DateConverter}.<br/>
  * <br/>
  * Created: 07.09.2007 18:00:32
  */
 public class String2DateConverterTest extends TestCase {
 
     public void testStandardDates() {
-        assertEquals(TimeUtil.date(2007, 8, 6), new String2DateConverter().convert("2007-09-06"));
-        assertEquals(TimeUtil.date(2007, 8, 6, 13, 28, 0, 0), new String2DateConverter().convert("2007-09-06T13:28"));
-        assertEquals(TimeUtil.date(2007, 8, 6, 13, 28, 56, 0), new String2DateConverter().convert("2007-09-06T13:28:56"));
-        assertEquals(TimeUtil.date(2007, 8, 6, 13, 28, 56, 123), new String2DateConverter().convert("2007-09-06T13:28:56.123"));
+        String stringValue = "2007-09-06";
+		assertEquals(TimeUtil.date(2007, 8, 6), convert(stringValue));
+        assertEquals(TimeUtil.date(2007, 8, 6, 13, 28, 0, 0), convert("2007-09-06T13:28"));
+        assertEquals(TimeUtil.date(2007, 8, 6, 13, 28, 56, 0), convert("2007-09-06T13:28:56"));
+        assertEquals(TimeUtil.date(2007, 8, 6, 13, 28, 56, 123), convert("2007-09-06T13:28:56.123"));
     }
 
     public void testStrangeDates() {
-        String2DateConverter converter = new String2DateConverter();
-        assertEquals(null, converter.convert(null));
-        assertEquals(null, converter.convert(""));
-        assertEquals(TimeUtil.date(1234, 2, 5), converter.convert("1234-3-5"));
-        assertEquals(TimeUtil.date(12345, 11, 1), converter.convert("12345-12-1"));
-        assertEquals(TimeUtil.date(-10000, 3, 1), converter.convert("-10000-4-1"));
+        assertEquals(null, convert(null));
+        assertEquals(null, convert(""));
+        assertEquals(TimeUtil.date(1234, 2, 5), convert("1234-3-5"));
+        assertEquals(TimeUtil.date(12345, 11, 1), convert("12345-12-1"));
+        assertEquals(TimeUtil.date(-10000, 3, 1), convert("-10000-4-1"));
     }
+
+	private Date convert(String stringValue) {
+		return new String2DateConverter<Date>().convert(stringValue);
+	}
+
 }
