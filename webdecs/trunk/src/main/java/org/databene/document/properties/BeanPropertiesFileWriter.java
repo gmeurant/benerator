@@ -26,6 +26,7 @@
 
 package org.databene.document.properties;
 
+import org.databene.script.AbstractScript;
 import org.databene.script.Script;
 import org.databene.script.ScriptException;
 import org.databene.script.ScriptUtil;
@@ -33,6 +34,7 @@ import org.databene.script.ScriptedDocumentWriter;
 import org.databene.commons.Context;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
+import org.databene.commons.StringUtil;
 import org.databene.commons.SystemInfo;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.bean.BeanToPropertyArrayConverter;
@@ -96,7 +98,7 @@ public class BeanPropertiesFileWriter<E> extends ScriptedDocumentWriter<E> {
 
     // scripts ---------------------------------------------------------------------------------------------------------
 
-    private static class PartScript implements Script {
+    private static class PartScript extends AbstractScript {
 
         private static final String LINE_SEPARATOR = SystemInfo.lineSeparator();
 
@@ -137,7 +139,7 @@ public class BeanPropertiesFileWriter<E> extends ScriptedDocumentWriter<E> {
                     out.write(prefix);
                     out.write(propertyNames[i]);
                     out.write('=');
-                    out.write(escape(cells[i]));
+                    out.write(StringUtil.escape(cells[i]));
                     out.write(LINE_SEPARATOR);
                 }
             } catch (ConversionException e) {
@@ -145,8 +147,5 @@ public class BeanPropertiesFileWriter<E> extends ScriptedDocumentWriter<E> {
             }
         }
 
-        private String escape(String text) {
-            return text.replace("\\", "\\\\");
-        }
     }
 }
