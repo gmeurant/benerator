@@ -36,6 +36,7 @@ import java.io.Writer;
 import java.io.IOException;
 
 import org.databene.commons.Context;
+import org.databene.script.AbstractScript;
 import org.databene.script.Script;
 import org.databene.script.ScriptException;
 
@@ -45,7 +46,7 @@ import org.databene.script.ScriptException;
  * Created: 31.01.2007 19:56:20
  * @author Volker Bergmann
  */
-public class FreeMarkerScript implements Script {
+public class FreeMarkerScript extends AbstractScript {
     
     private static Configuration cfg;
 

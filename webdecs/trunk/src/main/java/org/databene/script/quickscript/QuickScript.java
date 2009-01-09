@@ -26,6 +26,7 @@
 
 package org.databene.script.quickscript;
 
+import org.databene.script.AbstractScript;
 import org.databene.script.Script;
 import org.databene.script.ScriptException;
 import org.databene.commons.Accessor;
@@ -42,7 +43,7 @@ import java.io.IOException;
  * Created: 12.06.2007 17:26:32
  * @author Volker Bergmann
  */
-public class QuickScript implements Script {
+public class QuickScript extends AbstractScript {
     
     private Accessor[] accessors;
 
