@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -136,6 +136,13 @@ public class BeanUtilTest extends TestCase {
         P p = BeanUtil.newInstance(P.class);
         assertEquals(1, p.val);
         p = BeanUtil.newInstance(P.class, 2);
+        assertEquals(2, p.val);
+    }
+
+    public void testNewInstanceWithParamConversion() {
+        P p = BeanUtil.newInstance(P.class, false, 2);
+        assertEquals(2, p.val);
+        p = BeanUtil.newInstance(P.class, false, "2");
         assertEquals(2, p.val);
     }
 
