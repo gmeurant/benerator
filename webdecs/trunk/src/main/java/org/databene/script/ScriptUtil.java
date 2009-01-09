@@ -28,10 +28,13 @@ package org.databene.script;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
+
+import javax.script.ScriptEngineFactory;
+import javax.script.ScriptEngineManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -41,6 +44,7 @@ import org.databene.commons.Context;
 import org.databene.commons.FileUtil;
 import org.databene.commons.IOUtil;
 import org.databene.commons.StringCharacterIterator;
+import org.databene.script.jsr227.Jsr223ScriptFactory;
 
 /**
  * Utility class for scripting.<br/><br/>
@@ -65,14 +69,8 @@ public class ScriptUtil {
     
     // utility methods -------------------------------------------------------------------------------------------------
 
-    public static String execute(Script script, Context context) {
-        try {
-            StringWriter out = new StringWriter();
-            script.execute(context, out);
-            return out.toString();
-        } catch (IOException e) {
-            throw new ConfigurationError("Error in processing script: " + script, e);
-        }
+    public static Object execute(Script script, Context context) {
+    	return script.evaluate(context);
     }
 
     /*    
@@ -99,7 +97,7 @@ public class ScriptUtil {
         script.execute(context, out);
     }
 */
-    public static String render(String text, Context context) {
+    public static Object render(String text, Context context) {
 		if (text.startsWith("{{") && text.endsWith("}}"))
             return text.substring(1, text.length() - 1);
         else if (text.startsWith("{") && text.endsWith("}")) {
@@ -117,7 +115,7 @@ public class ScriptUtil {
         Script script = scriptsByName.get(uri);
         if (script == null) {
             String engineId = FileUtil.suffix(uri);
-            ScriptFactory factory = factories.get(engineId);
+            ScriptFactory factory = getFactory(engineId);
             script = factory.readFile(uri);
             scriptsByName.put(uri, script);
         }
@@ -127,7 +125,7 @@ public class ScriptUtil {
     public static Script parseSpecificText(String text, String engineId) {
         if (engineId == null)
             throw new IllegalArgumentException("engineId is null");
-        ScriptFactory factory = factories.get(engineId);
+        ScriptFactory factory = getFactory(engineId);
         if (factory != null)
             return factory.parseText(text);
         else
@@ -142,7 +140,7 @@ public class ScriptUtil {
             String engineId = iterator.parseLetters();
             iterator.skipWhitespace();
             if (iterator.next() == ':') {
-                if (factories.get(engineId) != null) {
+                if (getFactory(engineId) != null) {
                     String scriptText = iterator.remainingText();
                     script = parseSpecificText(scriptText, engineId);
                 } else
@@ -154,6 +152,10 @@ public class ScriptUtil {
         return new ConstantScript(text);
         
     }
+
+	private static ScriptFactory getFactory(String engineId) {
+		return factories.get(engineId);
+	}
     
     // private helpers -------------------------------------------------------------------------------------------------
     
@@ -161,6 +163,18 @@ public class ScriptUtil {
         String className = null;
         try {
             factories = new HashMap<String, ScriptFactory>();
+            
+            // check installed JSR 223 script engines
+            ScriptEngineManager mgr = new ScriptEngineManager();
+            for (ScriptEngineFactory engineFactory : mgr.getEngineFactories()) {
+        		Jsr223ScriptFactory factory = new Jsr223ScriptFactory(engineFactory.getScriptEngine());
+            	List<String> names = engineFactory.getNames();
+				for (String name : names) {
+					factories.put(name, factory);
+            	}
+            }
+
+            // read config file
             logger.info("Initializing Script mapping from file " + SETUP_FILE_NAME);
             Map<String, String> properties = IOUtil.readProperties(SETUP_FILE_NAME);
             for (Map.Entry<String, String> entry : properties.entrySet()) {
