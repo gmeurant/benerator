@@ -39,4 +39,5 @@ import java.io.Writer;
  */
 public interface Script {
     void execute(Context context, Writer out) throws ScriptException, IOException;
+    Object evaluate(Context context) throws ScriptException;
 }
