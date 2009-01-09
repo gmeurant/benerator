@@ -35,7 +35,7 @@ import org.databene.commons.Converter;
  * @since 0.3.0
  * @author Volker Bergmann
  */
-public class ScriptConverter implements Converter<String, String>{
+public class ScriptConverter implements Converter<String, Object>{
     
     private Context context;
     
@@ -43,11 +43,11 @@ public class ScriptConverter implements Converter<String, String>{
         this.context = context;
     }
 
-    public Class<String> getTargetType() {
-        return String.class;
+    public Class<Object> getTargetType() {
+        return Object.class;
     }
 
-    public String convert(String sourceValue) throws ConversionException {
+    public Object convert(String sourceValue) throws ConversionException {
         return ScriptUtil.render(sourceValue, context);
     }
 
