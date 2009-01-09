@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -35,7 +35,7 @@ import java.util.Stack;
 import java.util.Map;
 
 /**
- * Frovides utility methods for converting HTML to XML.<br/>
+ * Provides utility methods for converting HTML to XML.<br/>
  * <br/>
  * Created: 25.01.2007 17:10:37
  * @author Volker Bergmann
@@ -57,12 +57,12 @@ public class HTML2XML {
 
     private static class ConversionContext {
     	
-    	private Writer writer;
-    	private HTMLTokenizer tokenizer;
-    	private Stack<String> path;
-    	private boolean rootCreated;
+    	Writer writer;
+    	HTMLTokenizer tokenizer;
+    	Stack<String> path;
+    	boolean rootCreated;
     	
-    	private ConversionContext(Reader reader, Writer writer) {
+    	ConversionContext(Reader reader, Writer writer) {
     		this.tokenizer = new DefaultHTMLTokenizer(reader);
     		this.path = new Stack<String>();
     		this.rootCreated = false;
@@ -97,6 +97,7 @@ public class HTML2XML {
                     break;
                 case (HTMLTokenizer.CLOSED_TAG):
                     writeEmptyTag(context.writer, context.tokenizer);
+                	break;
                 case (HTMLTokenizer.END_TAG):
                     if ("script".equalsIgnoreCase(context.tokenizer.name()))
                         continue;
