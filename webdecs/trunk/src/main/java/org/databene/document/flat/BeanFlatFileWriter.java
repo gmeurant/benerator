@@ -26,6 +26,7 @@
 
 package org.databene.document.flat;
 
+import org.databene.script.AbstractScript;
 import org.databene.script.Script;
 import org.databene.script.ScriptException;
 import org.databene.script.ScriptUtil;
@@ -73,7 +74,7 @@ public class BeanFlatFileWriter<E> extends ScriptedDocumentWriter<E> {
 
     // BeanFlatFileScript ----------------------------------------------------------------------------------------------
 
-    private static class BeanFlatFileScript implements Script {
+    private static class BeanFlatFileScript extends AbstractScript {
 
         private Converter<Object, String[]> converter;
 
