@@ -38,7 +38,7 @@ import org.databene.commons.Context;
  * {@link Context} implementation which is case insensitive regarding key Strings.<br/>
  * <br/>
  * Created at 19.11.2008 08:55:05
- * @since 0.5.6
+ * @since 0.4.6
  * @author Volker Bergmann
  */
 

@@ -33,7 +33,7 @@ import org.databene.commons.BeanUtil;
  * It forwards the call to {@link BeanUtil}.<br/>
  * <br/>
  * Created at 16.11.2008 07:05:10
- * @since 0.5.6
+ * @since 0.4.6
  * @author Volker Bergmann
  */
 public class DefaultClassProvider implements ClassProvider {

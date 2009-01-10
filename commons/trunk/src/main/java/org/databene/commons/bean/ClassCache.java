@@ -41,7 +41,7 @@ import org.databene.commons.StringUtil;
  * Provides classes by name, supporting package import and local class names.<br/>
  * <br/>
  * Created at 15.11.2008 17:03:04
- * @since 0.5.6
+ * @since 0.4.6
  * @author Volker Bergmann
  */
 public class ClassCache {

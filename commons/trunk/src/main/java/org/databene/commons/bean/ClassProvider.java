@@ -30,7 +30,7 @@ package org.databene.commons.bean;
  * Abstraction of a utility that provides class definitions by name.
  * <br/>
  * Created at 16.11.2008 07:03:52
- * @since 0.5.6
+ * @since 0.4.6
  * @author Volker Bergmann
  */
 public interface ClassProvider {

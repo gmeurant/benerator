@@ -33,7 +33,7 @@ import java.io.FilenameFilter;
  * {@link FilenameFilter} implementation that accepts only directories.<br/>
  * <br/>
  * Created at 14.12.2008 14:20:47
- * @since 0.5.6
+ * @since 0.4.6
  * @author Volker Bergmann
  */
 

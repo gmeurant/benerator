@@ -33,7 +33,7 @@ import org.databene.commons.Named;
  * Mutator class to which a name is assigned.<br/>
  * <br/>
  * Created at 04.11.2008 09:18:34
- * @since 0.5.6
+ * @since 0.4.6
  * @author Volker Bergmann
  */
 public interface NamedMutator<C, V> extends Named, Mutator<C, V> {
