@@ -255,12 +255,19 @@ public final class BeanUtil {
             return type;
         else {
             try {
-                 return (Class<T>) Class.forName(name);
+                 return (Class<T>) getContextClassLoader().loadClass(name);
             } catch (ClassNotFoundException e) {
                 throw ExceptionMapper.configurationException(e, name);
             }
         }
     }
+
+	public static ClassLoader getContextClassLoader() {
+		ClassLoader result = Thread.currentThread().getContextClassLoader();
+		if (result == null)
+			result = BeanUtil.class.getClassLoader();
+		return result;
+	}
 
     /**
      * Instantiates a class by the default constructor.
