@@ -4,10 +4,10 @@
 
     <groupId>org.databene</groupId>
     <artifactId>databene-gui</artifactId>
-    <version>0.1.7-alpha-2</version>
+    <version>0.1.7</version>
 
     <properties>
-        <commons_version>0.4.7-alpha-2</commons_version>
+        <commons_version>0.4.7</commons_version>
     </properties>
 
     <packaging>jar</packaging>
@@ -72,6 +72,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
+                    <encoding>UTF-8</encoding>
                     <source>1.5</source>
                     <target>1.5</target>
                 </configuration>
@@ -86,6 +87,18 @@
                         <descriptor>src/main/assembly/backup-assembly.xml</descriptor>
                     </descriptors>
                 </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
