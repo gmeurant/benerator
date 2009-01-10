@@ -134,6 +134,14 @@ public final class LocaleUtil {
         return localeString.substring(0, separatorIndex);
     }
     
+	public static String getDefaultCountryCode() {
+		String result = Locale.getDefault().getCountry();
+		if (StringUtil.isEmpty(result))
+			result = getFallbackLocale().getCountry();
+		return result;
+	}
+
+    
     // private helpers -------------------------------------------------------------------------------------------------
 
     /**
