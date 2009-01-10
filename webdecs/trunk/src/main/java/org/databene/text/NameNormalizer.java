@@ -24,7 +24,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 package org.databene.text;
 
 import org.databene.commons.StringUtil;
@@ -36,7 +35,7 @@ import org.databene.commons.StringUtil;
  * with a capital letter.<br/>
  * <br/>
  * Created at 20.11.2008 19:39:20
- * @since 0.5.6
+ * @since 0.4.6
  * @author Volker Bergmann
  */
 

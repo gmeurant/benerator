@@ -32,7 +32,7 @@ import junit.framework.TestCase;
  * Tests the {@link NameNormalizer}.<br/>
  * <br/>
  * Created at 20.11.2008 19:43:30
- * @since 0.5.6
+ * @since 0.4.6
  * @author Volker Bergmann
  */
 
