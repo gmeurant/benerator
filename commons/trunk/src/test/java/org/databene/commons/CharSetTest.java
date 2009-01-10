@@ -48,8 +48,8 @@ public class CharSetTest extends TestCase {
         set.addWordChars();
         assertEquals(70, set.size());
         assertTrue(set.contains('a'));
-        assertTrue(set.contains('Ö'));
-        assertTrue(set.contains('ß'));
+        assertTrue(set.contains('Ã¤'));
+        assertTrue(set.contains('_'));
         assertTrue(set.contains('9'));
         set.removeDigits();
         assertEquals(60, set.size());
@@ -67,7 +67,7 @@ public class CharSetTest extends TestCase {
         se.add('a');
         assertTrue(sg.equals(se));
         assertEquals(sg.hashCode(), se.hashCode());
-        sg.add('ä');
+        sg.add('ï¿½');
         assertFalse(sg.equals(se));
         assertTrue(sg.hashCode() != se.hashCode());
     }
