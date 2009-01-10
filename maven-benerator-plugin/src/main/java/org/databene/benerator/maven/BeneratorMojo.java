@@ -28,9 +28,16 @@ package org.databene.benerator.maven;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.databene.benerator.main.Benerator;
+import org.databene.commons.CollectionUtil;
 
 /**
  * Executes benerator using the specified descriptor file. Invoked by <code>mvn benerator:generate</code>.<br/>
@@ -39,6 +46,7 @@ import org.databene.benerator.main.Benerator;
  * @since 0.5.4
  * @author Volker Bergmann
  * @goal generate
+ * @requiresDependencyResolution test
  */
 public class BeneratorMojo extends AbstractBeneratorMojo {
 	
@@ -86,6 +94,13 @@ public class BeneratorMojo extends AbstractBeneratorMojo {
 	 */
     private boolean validate;
     
+    /**
+     * Classpath.
+     * @parameter expression="${project.runtimeClasspathElements}"
+     * @required
+     */
+    List<String> classpathElements;
+    
     @Override
 	protected void setSystemProperties() {
 		super.setSystemProperties();
@@ -103,7 +118,10 @@ public class BeneratorMojo extends AbstractBeneratorMojo {
 		
 		setSystemProperty("db_schema", dbSchema);
 		setSystemProperty("dbSchema", dbSchema);
-	}
+
+		System.setProperty("file.encoding", encoding);
+		System.setProperty("benerator.validate", String.valueOf(validate));
+    }
 
     /**
      * Invokes benerator using the settings from the pom's configuration.
@@ -111,13 +129,27 @@ public class BeneratorMojo extends AbstractBeneratorMojo {
     public void execute() throws MojoExecutionException {
 		setSystemProperties();
 		try {
+	    	ClassLoader classLoader = new URLClassLoader(toClasspathURLs(classpathElements), getClass().getClassLoader());
+	    	Thread.currentThread().setContextClassLoader(classLoader);
 			Benerator benerator = new Benerator();
-			benerator.getContext().setDefaultEncoding(encoding);
-			benerator.getContext().setValidate(validate);
 			benerator.processFile(descriptor.getAbsolutePath());
 		} catch (IOException e) {
 			throw new MojoExecutionException("Error in generation", e);
 		}
+	}
+
+    protected static URL[] toClasspathURLs( List<String> classpathElements )
+	    throws MalformedURLException {
+	    List<URL> urls = new ArrayList<URL>();
+	    if ( classpathElements != null )
+	    {
+	    	Iterator<String> iterator = classpathElements.iterator();
+	        while (iterator.hasNext()) {
+	            String classpathElement = iterator.next();
+	            urls.add(new File(classpathElement).toURI().toURL());
+	        }
+	    }
+	    return CollectionUtil.toArray(urls);
 	}
 
 }
