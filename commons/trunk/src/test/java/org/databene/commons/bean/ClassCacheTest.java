@@ -34,7 +34,7 @@ import junit.framework.TestCase;
  * Tests the {@link ClassCache}.<br/>
  * <br/>
  * Created at 15.11.2008 17:16:09
- * @since 0.5.6
+ * @since 0.4.6
  * @author Volker Bergmann
  */
 public class ClassCacheTest extends TestCase {
