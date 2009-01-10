@@ -71,6 +71,20 @@ public class LocaleUtilTest extends TestCase {
         assertEquals(new Locale("de", "DE", "BY_MUC"), LocaleUtil.getLocale("de_DE_BY_MUC"));
         assertEquals(new Locale("de", "DE", "BY_MUC_SCHWABING"), LocaleUtil.getLocale("de_DE_BY_MUC_SCHWABING"));
     }
+    
+    public void testGetDefaultCountryCode() {
+    	Locale defaultLocale = Locale.getDefault();
+    	try {
+    		Locale.setDefault(Locale.GERMANY);
+    		assertEquals("DE", LocaleUtil.getDefaultCountryCode());
+    		Locale.setDefault(Locale.GERMAN);
+    		assertEquals("US", LocaleUtil.getDefaultCountryCode());
+    		Locale.setDefault(Locale.US);
+    		assertEquals("US", LocaleUtil.getDefaultCountryCode());
+    	} finally {
+    		Locale.setDefault(defaultLocale);
+    	}
+    }
 
     // private helpers -------------------------------------------------------------------------------------------------
 
@@ -87,9 +101,9 @@ public class LocaleUtilTest extends TestCase {
         assertTrue(set.contains('A'));
         assertTrue(set.contains('a'));
         if ("DE".equals(locale.getCountry()))
-            assertTrue(set.contains('ß'));
+            assertTrue(set.contains('ï¿½'));
         if ("de".equals(locale.getLanguage()) && "CH".equals(locale.getCountry()))
-            assertFalse(set.contains('ß'));
+            assertFalse(set.contains('ï¿½'));
     }
 
 }
