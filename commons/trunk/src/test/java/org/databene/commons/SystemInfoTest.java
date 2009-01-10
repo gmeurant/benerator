@@ -63,7 +63,7 @@ public class SystemInfoTest extends TestCase {
 
     public void testFileSeparator() {
         char fileSeparator = SystemInfo.fileSeparator();
-        assertEquals(File.separator, fileSeparator);
+        assertEquals(File.separatorChar, fileSeparator);
     }
 
     public void testCurrentDir() throws IOException {
