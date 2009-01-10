@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -38,12 +38,12 @@ public class DelocalizingConverterTest extends TestCase {
 
     public void testConversion() throws IOException {
         checkConversion("Abc", "Abc");
-        checkConversion("ÄÖÜäöüß", "AeOeUeaeoeuess");
-        checkConversion("áàâa", "aaaa");
-        checkConversion("éèêe", "eeee");
-        checkConversion("íìîi", "iiii");
-        checkConversion("óòôo", "oooo");
-        checkConversion("úùûu", "uuuu");
+        checkConversion("Ã„Ã–ÃœÃ¤Ã¶Ã¼ÃŸ", "AeOeUeaeoeuess");
+        checkConversion("Ã¡Ã Ã¢a", "aaaa");
+        checkConversion("Ã©Ã¨Ãªe", "eeee");
+        checkConversion("Ã­Ã¬Ã®i", "iiii");
+        checkConversion("Ã³Ã²Ã´o", "oooo");
+        checkConversion("ÃºÃ¹Ã»u", "uuuu");
     }
 
     private void checkConversion(String source, String expectedResult) throws IOException {
