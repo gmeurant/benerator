@@ -44,7 +44,6 @@ public class Date2DurationConverter extends FixedSourceTypeConverter<Date, Long>
 
 	public Date2DurationConverter() {
 		super(Date.class, Long.class);
-		
 	}
 
 	@Override
@@ -52,6 +51,7 @@ public class Date2DurationConverter extends FixedSourceTypeConverter<Date, Long>
 		if (sourceValue == null)
 			return null;
 		long source = sourceValue.getTime();
+		// for time zone problems, see http://mail-archives.apache.org/mod_mbox/struts-user/200502.mbox/%3C42158AA9.3050001@gridnode.com%3E 
 		Long result = source + TimeZone.getDefault().getOffset(0L);
 		if (result < 0)
 			result = source + TimeZone.getDefault().getOffset(-62170156800000L) + 62170156800000L;
