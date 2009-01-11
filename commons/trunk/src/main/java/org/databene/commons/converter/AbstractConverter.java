@@ -29,7 +29,7 @@ package org.databene.commons.converter;
 import org.databene.commons.Converter;
 
 /**
- * TODO document class AbstractConverter.<br/>
+ * Abstract implementation of the {@link Converter} interface.<br/>
  * <br/>
  * Created at 11.01.2009 11:34:57
  * @since 0.5.7
