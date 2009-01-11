@@ -124,7 +124,7 @@ public class PropertyComboBox extends JComboBox {
 	static final class Renderer extends DefaultListCellRenderer {
 		
 		private static final long serialVersionUID = 8358429951305253637L;
-		private ToStringConverter<Object> converter = new ToStringConverter<Object>();
+		private ToStringConverter converter = new ToStringConverter();
 		private I18NSupport i18n;
 		private String prefix;
 

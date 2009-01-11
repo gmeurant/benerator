@@ -58,7 +58,7 @@ public class PropertyTextField extends JTextField {
 	private Object bean;
 	private String propertyName;
 
-	private ToStringConverter<Object> toStringConverter;
+	private ToStringConverter toStringConverter;
 	boolean locked;
 	
 	// constructor -----------------------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ public class PropertyTextField extends JTextField {
 		super(length);
 		this.bean = bean;
 		this.propertyName = propertyName;
-		this.toStringConverter = new ToStringConverter<Object>();
+		this.toStringConverter = new ToStringConverter();
 		this.locked = true;
 		Listener listener = new Listener();
 		if (bean instanceof ObservableBean)
