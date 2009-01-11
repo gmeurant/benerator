@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,7 +28,6 @@ package org.databene.commons.converter;
 
 import org.databene.commons.ArrayUtil;
 import org.databene.commons.BeanUtil;
-import org.databene.commons.Converter;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
@@ -39,8 +38,9 @@ import java.util.Collection;
  * Note: The target type is not declared Object[], since we also want to create byte[].<br/>
  * <br/>
  * Created: 26.08.2007 16:01:38
+ * @author Volker Bergmann
  */
-public class ToArrayConverter implements Converter {
+public class ToArrayConverter extends AbstractConverter {
 
     private Class componentType;
     private Class arrayType;
@@ -57,6 +57,7 @@ public class ToArrayConverter implements Converter {
     }
 
     public ToArrayConverter(Class componentType, boolean nullToEmpty) {
+    	super(Object.class, ArrayUtil.arrayType(componentType));
         this.componentType = componentType;
         this.arrayType = ArrayUtil.arrayType(componentType);
         this.nullToEmpty = nullToEmpty;
@@ -70,10 +71,6 @@ public class ToArrayConverter implements Converter {
 
     // Converter interface implementation ------------------------------------------------------------------------------
 
-    public Class getTargetType() {
-        return arrayType;
-    }
-    
     public Object convert(Object sourceValue) {
         return convert(sourceValue, componentType, nullToEmpty);
     }

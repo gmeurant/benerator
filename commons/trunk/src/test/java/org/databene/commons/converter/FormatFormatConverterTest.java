@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -37,12 +37,15 @@ import org.databene.commons.TimeUtil;
 import org.databene.commons.converter.FormatFormatConverter;
 
 /**
+ * Tests the {@link FormatFormatConverter}.<br/>
+ * <br/>
  * Created: 29.09.2006 15:55:35
+ * @author Volker Bergmann
  */
 public class FormatFormatConverterTest extends TestCase {
 
     public void testIntegerConversion() throws ConversionException {
-        FormatFormatConverter<Integer> converter = new FormatFormatConverter<Integer>(NumberFormat.getInstance());
+        FormatFormatConverter<Integer> converter = new FormatFormatConverter<Integer>(Integer.class, NumberFormat.getInstance());
         assertNull(converter.convert(null));
         assertEquals("1", converter.convert(1));
         assertEquals("0", converter.convert(0));
@@ -50,7 +53,7 @@ public class FormatFormatConverterTest extends TestCase {
     }
 
     public void testDateConversion() throws ConversionException {
-        FormatFormatConverter<Date> converter = new FormatFormatConverter<Date>(new SimpleDateFormat("yyyy-MM-dd"));
+        FormatFormatConverter<Date> converter = new FormatFormatConverter<Date>(Date.class, new SimpleDateFormat("yyyy-MM-dd"));
         assertNull(converter.convert(null));
         assertEquals("1969-06-24", converter.convert(TimeUtil.date(1969, 5, 24)));
         assertEquals("1970-01-01", converter.convert(TimeUtil.date(1970, 0, 1)));

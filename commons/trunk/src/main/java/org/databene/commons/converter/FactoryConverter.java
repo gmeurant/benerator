@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -50,18 +50,12 @@ import java.lang.reflect.Modifier;
  * Created: 03.09.2007 20:17:16
  * @author Volker Bergmann
  */
-public class FactoryConverter<S, T> implements Converter<S, T> {
+public class FactoryConverter<S, T> extends AbstractConverter<S, T> {
 
     private static final Log logger = LogFactory.getLog(FactoryConverter.class);
 
-    private Class<T> targetType;
-
-    public FactoryConverter(Class<T> targetType) {
-        this.targetType = targetType;
-    }
-
-    public Class<T> getTargetType() {
-        return targetType;
+    public FactoryConverter(Class<S> sourceType, Class<T> targetType) {
+    	super(sourceType, targetType);
     }
 
     public T convert(S src) throws ConversionException {

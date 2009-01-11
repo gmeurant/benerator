@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -38,7 +38,6 @@ import java.text.ParseException;
  */
 public class ParseFormatConverter<S> extends NullSafeConverter<String, S> {
 
-    private Class<S> targetType;
     /**
      * The java.text.Format object used for conversion
      */
@@ -49,19 +48,15 @@ public class ParseFormatConverter<S> extends NullSafeConverter<String, S> {
     }
 
     public ParseFormatConverter(Class<S> targetType, Format format, S nullResult) {
-        super(nullResult);
-        this.targetType = targetType;
+        super(String.class, targetType, nullResult);
         this.format = format;
-    }
-
-    public Class<S> getTargetType() {
-        return targetType;
     }
 
     /**
      * Converts an object to a String by using the format's format() method.
      */
-    public S convertImpl(String source) throws ConversionException {
+    @Override
+	public S convertImpl(String source) throws ConversionException {
         if (source == null)
             return null;
         try {

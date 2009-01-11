@@ -27,7 +27,6 @@
 package org.databene.commons.converter;
 
 import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
 import org.databene.commons.StringCharacterIterator;
 import org.databene.commons.TimeUtil;
 
@@ -37,13 +36,13 @@ import org.databene.commons.TimeUtil;
  * Created: 19.03.2008 20:05:25
  * @author Volker Bergmann
  */
-public class LiteralParser implements Converter<String, Object> {
+public class LiteralParser extends AbstractConverter<String, Object> {
 
-    // Converter interface implementation ------------------------------------------------------------------------------
+	public LiteralParser() {
+		super(String.class,Object.class);
+	}
 
-    public Class<Object> getTargetType() {
-        return Object.class;
-    }
+	// Converter interface implementation ------------------------------------------------------------------------------
 
     public Object convert(String sourceValue) throws ConversionException {
         return parse(sourceValue);

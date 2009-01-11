@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -29,14 +29,25 @@ package org.databene.commons.converter;
 import org.databene.commons.Converter;
 
 /**
+ * Abstract imploementation of the {@link Converter} interface, providing management of source and target type.
  * @author Volker Bergmann
  */
 public abstract class AbstractConverter<S, T> implements Converter<S, T>{
 
-	private Class<T> targetType;
+	protected Class<S> sourceType;
+	protected Class<T> targetType;
 	
-	public AbstractConverter(Class<T> targetType) {
+	public AbstractConverter(Class<S> sourceType, Class<T> targetType) {
+		this.sourceType = sourceType;
 		this.targetType = targetType;
+	}
+
+	public Class<S> getSourceType() {
+		return sourceType;
+	}
+
+	public void setSourceType(Class<S> sourceType) {
+		this.sourceType = sourceType;
 	}
 
 	public Class<T> getTargetType() {

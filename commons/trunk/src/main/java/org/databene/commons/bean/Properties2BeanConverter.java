@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,6 +30,7 @@ import org.databene.commons.BeanUtil;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 import org.databene.commons.UpdateFailedException;
+import org.databene.commons.converter.AbstractConverter;
 
 import java.util.Properties;
 import java.util.Map;
@@ -42,20 +43,14 @@ import java.util.Map;
  * Created: 09.08.2007 19:28:36
  * @author Volker Bergmann
  */
-public class Properties2BeanConverter<E> implements Converter<Properties, E> {
-
-    private Class<E> beanClass;
+public class Properties2BeanConverter<E> extends AbstractConverter<Properties, E> {
 
     public Properties2BeanConverter(Class<E> beanClass) {
-        this.beanClass = beanClass;
-    }
-
-    public Class<E> getTargetType() {
-        return beanClass;
+    	super(Properties.class, beanClass);
     }
 
     public E convert(Properties sourceValue) throws ConversionException {
-        return convert(sourceValue, beanClass);
+        return convert(sourceValue, targetType);
     }
 
     public static <T> T convert(Properties props, Class<T> targetClass) throws ConversionException {

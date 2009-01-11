@@ -41,11 +41,9 @@ import java.text.DateFormat;
  * Created: 07.09.2007 09:07:12
  * @author Volker Bergmann
  */
-public class String2DateConverter<E extends Date> implements Converter<String, E> {
+public class String2DateConverter<E extends Date> extends AbstractConverter<String, E> {
     
     // TODO v0.5.0 support time zones (like 'Z', '+01:00' or '-01:30')
-
-    private Class<E> targetType;
 
     private static final String MILLI = "yyyy-MM-dd'T'hh:mm:ss.SSS";
     private static final String SECONDS = "yyyy-MM-dd'T'hh:mm:ss";
@@ -57,11 +55,7 @@ public class String2DateConverter<E extends Date> implements Converter<String, E
     }
 
     public String2DateConverter(Class<E> targetType) {
-        this.targetType = targetType;
-    }
-
-    public Class<E> getTargetType() {
-        return targetType;
+        super(String.class, targetType);
     }
 
     public E convert(String sourceValue) {

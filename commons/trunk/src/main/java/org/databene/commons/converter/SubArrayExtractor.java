@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,7 +27,6 @@
 package org.databene.commons.converter;
 
 import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
 
 import java.lang.reflect.Array;
 
@@ -36,16 +35,13 @@ import java.lang.reflect.Array;
  * <br/>
  * Created: 30.07.2007 21:05:07
  */
-public class SubArrayExtractor implements Converter<Object[], Object[]> {
+public class SubArrayExtractor extends AbstractConverter<Object[], Object[]> {
 
     private int[] indexes;
 
     public SubArrayExtractor(int ... indexes) {
+    	super(Object[].class, Object[].class);
         this.indexes = indexes;
-    }
-
-    public Class<Object[]> getTargetType() {
-        return Object[].class;
     }
 
     public Object[] convert(Object[] sourceValue) throws ConversionException {

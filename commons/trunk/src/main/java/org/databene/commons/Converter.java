@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -34,7 +34,10 @@ package org.databene.commons;
  */
 public interface Converter<S, T> {
 
+    Class<S> getSourceType();
+    
     Class<T> getTargetType();
+    
     /**
      * Concerts an object of type S to an object of type T
      * @param sourceValue the object to convert

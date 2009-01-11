@@ -39,11 +39,12 @@ import java.util.ArrayList;
  * Created: 13.05.2005 17:43:04
  */
 @SuppressWarnings("unchecked")
-public class ConverterChain<S, T> implements Converter<S, T> {
+public class ConverterChain<S, T> extends AbstractConverter<S, T> {
 
 	private ArrayList<Converter> converters;
 
 	public ConverterChain(Converter ... converters) {
+		super(null, null);
         this.converters = new ArrayList<Converter>(converters.length);
         add(converters);
     }
@@ -60,7 +61,13 @@ public class ConverterChain<S, T> implements Converter<S, T> {
         return (T)result;
     }
 
-    public Class<T> getTargetType() {
-        return (Class<T>) converters.get(converters.size() - 1).getClass();
+    @Override
+	public Class<S> getSourceType() { // TODO 
+        return (Class<S>) converters.get(0).getSourceType();
+    }
+
+    @Override
+	public Class<T> getTargetType() { // TODO 
+        return (Class<T>) converters.get(converters.size() - 1).getTargetType();
     }
 }

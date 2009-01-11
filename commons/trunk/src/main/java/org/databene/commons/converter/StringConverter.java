@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -38,16 +38,10 @@ import java.util.Date;
  * Created: 16.06.2007 11:24:08
  * @author Volker Bergmann
  */
-public class StringConverter<T> implements Converter<String, T> {
-
-    public Class<T> targetType;
+public class StringConverter<T> extends AbstractConverter<String, T> {
 
     public StringConverter(Class<T> targetType) {
-        this.targetType = targetType;
-    }
-
-    public Class<T> getTargetType() {
-        return targetType;
+        super(String.class, targetType);
     }
 
     public T convert(String sourceValue) throws ConversionException {

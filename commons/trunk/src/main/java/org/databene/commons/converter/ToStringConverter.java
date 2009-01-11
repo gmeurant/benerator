@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -33,7 +33,6 @@ import java.util.Date;
 import org.databene.commons.ArrayFormat;
 import org.databene.commons.Base64Codec;
 import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
 
 /**
  * Converts an object to a String by using its toString() method.
@@ -41,7 +40,7 @@ import org.databene.commons.Converter;
  * <br/>
  * Created: 31.08.2006 18:44:59
  */
-public class ToStringConverter<S> implements Converter<S, String> {
+public class ToStringConverter extends AbstractConverter<Object, String> {
 
     private static final String DEFAULT_TIMESTAMP_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
@@ -72,6 +71,7 @@ public class ToStringConverter<S> implements Converter<S, String> {
     }
 
     public ToStringConverter(String nullString, String datePattern, String timestampPattern) {
+    	super(Object.class, String.class);
         this.nullString = nullString;
         this.datePattern = datePattern;
         this.timestampPattern = timestampPattern;
@@ -98,7 +98,6 @@ public class ToStringConverter<S> implements Converter<S, String> {
     public void setNullString(String nullResult) {
         this.nullString = nullResult;
     }
-
     
     public String getDatePattern() {
 		return datePattern;
@@ -118,11 +117,7 @@ public class ToStringConverter<S> implements Converter<S, String> {
 
 	// Converter interface implementation ------------------------------------------------------------------------------
 
-	public Class<String> getTargetType() {
-        return String.class;
-    }
-
-	public String convert(S source) throws ConversionException {
+	public String convert(Object source) throws ConversionException {
         return convert(source, nullString, datePattern, timestampPattern);
     }
 
@@ -132,7 +127,8 @@ public class ToStringConverter<S> implements Converter<S, String> {
     	return convert(source, nullString, null, null);
     }
 
-    public static <TT> String convert(TT source, String nullString, String datePattern, String timestampPattern) {
+    @SuppressWarnings("unchecked")
+	public static <TT> String convert(TT source, String nullString, String datePattern, String timestampPattern) {
         if (source == null) {
             return nullString;
         } else if (source.getClass().isArray()) {
@@ -144,7 +140,7 @@ public class ToStringConverter<S> implements Converter<S, String> {
         	else
         		return ArrayFormat.format((Object[])source);
         } else if (source instanceof Class) {
-            return ((Class)source).getName();
+            return ((Class) source).getName();
         } else if (source instanceof Timestamp) {
         	if (timestampPattern != null)
         		return new SimpleDateFormat(timestampPattern).format((Date) source);

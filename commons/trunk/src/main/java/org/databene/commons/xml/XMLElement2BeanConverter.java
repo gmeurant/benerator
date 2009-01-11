@@ -34,6 +34,7 @@ import org.databene.commons.Converter;
 import org.databene.commons.bean.BeanFactory;
 import org.databene.commons.bean.ClassProvider;
 import org.databene.commons.bean.DefaultClassProvider;
+import org.databene.commons.converter.AbstractConverter;
 import org.databene.commons.converter.AnyConverter;
 import org.databene.commons.converter.NoOpConverter;
 import org.w3c.dom.Element;
@@ -54,7 +55,7 @@ import java.beans.PropertyDescriptor;
  * Created: 19.08.2007 15:12:40
  * @author Volker Bergmann
  */
-public class XMLElement2BeanConverter implements Converter<Element, Object> {
+public class XMLElement2BeanConverter extends AbstractConverter<Element, Object> {
 
     private static final Log logger = LogFactory.getLog(XMLElement2BeanConverter.class);
 
@@ -72,15 +73,12 @@ public class XMLElement2BeanConverter implements Converter<Element, Object> {
     }
 
     public XMLElement2BeanConverter(Context context, Converter<? super String, Object> preprocessor) {
+    	super(Element.class, Object.class);
         this.context = context;
         this.preprocessor = preprocessor;
     }
     
     // Converter interface ---------------------------------------------------------------------------------------------
-
-    public Class<Object> getTargetType() {
-        return Object.class;
-    }
 
     public Object convert(Element element) throws ConversionException {
         return convert(element, context, preprocessor);

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,18 +27,18 @@
 package org.databene.commons.converter;
 
 import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
 
 /**
  * Wraps another Converter and adds the feature of converting null values to a predefined value.<br/>
  * <br/>
  * Created: 26.07.2007 06:59:35
  */
-public abstract class NullSafeConverter<S, T> implements Converter<S, T> {
+public abstract class NullSafeConverter<S, T> extends AbstractConverter<S, T> {
 
     protected T nullResult;
 
-    public NullSafeConverter(T nullResult) {
+    public NullSafeConverter(Class<S> sourceType, Class<T> targetType, T nullResult) {
+    	super(sourceType, targetType);
         this.nullResult = nullResult;
     }
 

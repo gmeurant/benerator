@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,7 +27,6 @@
 package org.databene.commons.converter;
 
 import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
 
 import java.text.*;
 import java.util.Locale;
@@ -38,18 +37,15 @@ import java.util.Locale;
  * Created: 10.09.2007 07:35:18
  * @author Volker Bergmann
  */
-public class Number2StringConverter implements Converter<Number, String> {
+public class Number2StringConverter extends AbstractConverter<Number, String> {
 
     private int minimumFractionDigits;
     private int maximumFractionDigits;
 
     public Number2StringConverter(int minimumFractionDigits, int maximumFractionDigits) {
+    	super(Number.class, String.class);
         this.minimumFractionDigits = minimumFractionDigits;
         this.maximumFractionDigits = maximumFractionDigits;
-    }
-
-    public Class<String> getTargetType() {
-        return String.class;
     }
 
     public String convert(Number sourceValue) throws ConversionException {

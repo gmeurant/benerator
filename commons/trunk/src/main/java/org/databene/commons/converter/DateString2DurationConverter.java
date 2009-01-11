@@ -28,8 +28,6 @@ package org.databene.commons.converter;
 
 import java.util.Date;
 
-import org.databene.commons.ConversionException;
-
 /**
  * Converts a date in String format to a duration in milliseconds. This takes the dates 1970-01-01 or 0000-00-00 as base.<br/>
  * <br/>
@@ -38,25 +36,13 @@ import org.databene.commons.ConversionException;
  * @author Volker Bergmann
  */
 
-public class DateString2DurationConverter extends AbstractConverter<String, Long> {
+public class DateString2DurationConverter extends ConverterChain<String, Long> {
 	
-	private static ConverterChain<String, Long> helper = new ConverterChain<String, Long>(
-			new String2DateConverter<Date>(),
-			new Date2LongConverter()
-		);
-
 	public DateString2DurationConverter() {
-		super(Long.class);
-	}
-
-	@Override
-	public Long convert(String sourceValue) throws ConversionException {
-		if (sourceValue == null)
-			return null;
-		Long result = helper.convert(sourceValue);
-		if (result < 0)
-			result += 62170156800000L;
-		return result;
+		super(
+			new String2DateConverter<Date>(),
+			new Date2DurationConverter()
+		);
 	}
 
 }

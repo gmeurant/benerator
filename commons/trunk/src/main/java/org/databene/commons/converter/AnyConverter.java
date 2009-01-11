@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -39,29 +39,23 @@ import java.util.Collection;
  * <br/>
  * Created: 16.06.2007 11:34:42
  */
-public class AnyConverter<S, T> implements Converter<S, T> {
+public class AnyConverter<S, T> extends AbstractConverter<S, T> {
 
     private static final Log logger = LogFactory.getLog(AnyConverter.class);
 
-    private Class<T> targetType;
-    
     private String datePattern;
 
     private String timestampPattern;
 
-    public AnyConverter(Class<T> targetType) {
-        this(targetType, "yyyyMMdd");
+    public AnyConverter(Class<S> sourceType, Class<T> targetType) {
+        this(sourceType, targetType, "yyyyMMdd");
     }
 
-    public AnyConverter(Class<T> targetType, String datePattern) {
-        this.targetType = targetType;
+    public AnyConverter(Class<S> sourceType, Class<T> targetType, String datePattern) {
+    	super(sourceType, targetType);
         this.datePattern = datePattern;
     }
 
-    public Class<T> getTargetType() {
-        return targetType;
-    }
-    
     public String getDatePattern() {
 		return datePattern;
 	}
@@ -94,7 +88,7 @@ public class AnyConverter<S, T> implements Converter<S, T> {
             return (TT) source;
 
         // search for exact converters
-        BidirectionalConverter converter = ConverterManager.getInstance().getConverter(source.getClass(), targetType);
+        Converter converter = ConverterManager.getInstance().getConverter(source.getClass(), targetType);
         if (converter != null)
                 return (TT)converter.convert(source);
 

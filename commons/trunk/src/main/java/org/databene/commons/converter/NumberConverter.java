@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -34,16 +34,10 @@ import org.databene.commons.Converter;
  * <br/>
  * Created: 16.06.2007 11:31:43
  */
-public class NumberConverter<T> implements Converter<Number, T> {
-
-    private Class<T> targetType;
+public class NumberConverter<T> extends AbstractConverter<Number, T> {
 
     public NumberConverter(Class<T> targetType) {
-        this.targetType = targetType;
-    }
-
-    public Class<T> getTargetType() {
-        return targetType;
+        super(Number.class, targetType);
     }
 
     public T convert(Number sourceValue) throws ConversionException {

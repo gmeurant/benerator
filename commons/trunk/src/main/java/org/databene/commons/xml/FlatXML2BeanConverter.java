@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -31,7 +31,7 @@ import java.util.Map;
 
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
-import org.databene.commons.Converter;
+import org.databene.commons.converter.AbstractConverter;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -43,20 +43,17 @@ import org.w3c.dom.NamedNodeMap;
  * @since 0.4.0
  * @author Volker Bergmann
  */
-public class FlatXML2BeanConverter implements Converter<Element, Object> {
+public class FlatXML2BeanConverter extends AbstractConverter<Element, Object> {
 
     private Map<String, Class<? extends Object>> types;
     
     public FlatXML2BeanConverter() {
+    	super(Element.class, Object.class);
         this.types = new HashMap<String, Class<? extends Object>>();
     }
     
     public void addMapping(String name, Class<? extends Object> type) {
         types.put(name, type);
-    }
-
-    public Class<Object> getTargetType() {
-        return Object.class;
     }
 
     public Object convert(Element element) {

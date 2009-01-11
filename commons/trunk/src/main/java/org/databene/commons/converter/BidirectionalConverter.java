@@ -35,6 +35,5 @@ import org.databene.commons.Converter;
  * Created: 04.08.2007 19:59:53
  */
 public interface BidirectionalConverter<S, T> extends Converter<S, T> {
-    Class<S> getSourceType();
     S revert(T target) throws ConversionException;
 }

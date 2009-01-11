@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,6 +27,7 @@
 package org.databene.commons.converter;
 
 import org.databene.commons.ConfigurationError;
+import org.databene.commons.Converter;
 import org.databene.commons.IOUtil;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ReaderLineIterator;
@@ -37,8 +38,8 @@ import java.util.*;
 import java.io.IOException;
 
 /**
- * Manages typed converters. A default configuration is provided and can be overwritten by a local file 'converters.txt',
- * that lists each convertercustom 's class name, one name per line, e.g.
+ * Manages converters. A default configuration is provided and can be overwritten by a local file 'converters.txt',
+ * that lists each converter's class name, one name per line, e.g.
  * <pre>
  *     com.my.MyString2ThingConverter
  *     com.my.MyString2ComplexConverter
@@ -50,11 +51,12 @@ public class ConverterManager {
 
     private static final Log logger = LogFactory.getLog(ConverterManager.class);
 
-    private static ConverterManager instance;
-
-    private List<BidirectionalConverter> converters;
     private static final String DEFAULT_SETUP_FILENAME = "org/databene/commons/converter/converters.txt";
     private static final String CUSTOM_SETUP_FILENAME = "converters.txt";
+
+    private static ConverterManager instance;
+
+    private List<Converter> converters;
 
     public static ConverterManager getInstance() {
         if (instance == null)
@@ -62,26 +64,27 @@ public class ConverterManager {
         return instance;
     }
 
-    public BidirectionalConverter getConverter(Class srcType, Class dstType) {
+    public Converter getConverter(Class srcType, Class dstType) {
         if (srcType == dstType || (dstType.isAssignableFrom(srcType) && !dstType.isPrimitive()))
             return new NoOpConverter();
-        for (BidirectionalConverter converter : converters) {
+        for (Converter converter : converters) {
             if (converter.getSourceType() == srcType && converter.getTargetType() == dstType)
                 return converter;
-            else if (converter.getSourceType() == dstType && converter.getTargetType() == srcType)
-                return new ReverseConverter(converter);
+            else if (converter instanceof BidirectionalConverter
+            		&& converter.getSourceType() == dstType && converter.getTargetType() == srcType)
+                return new ReverseConverter((BidirectionalConverter) converter);
         }
         return null;
     }
 
-    public void register(BidirectionalConverter converter) {
+    public void register(Converter converter) {
         converters.add(converter);
     }
 
     // private helpers -------------------------------------------------------------------------------------------------
 
     private ConverterManager() {
-        this.converters = new ArrayList<BidirectionalConverter>();
+        this.converters = new ArrayList<Converter>();
         try {
             if (IOUtil.isURIAvailable(CUSTOM_SETUP_FILENAME))
                 readConfigFile(CUSTOM_SETUP_FILENAME);

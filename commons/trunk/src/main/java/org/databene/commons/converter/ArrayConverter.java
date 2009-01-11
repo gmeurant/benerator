@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -34,21 +34,19 @@ import org.databene.commons.Converter;
  * Converts arrays from one component type to arrays of another component type.<br/>
  * <br/>
  * Created: 07.06.2007 14:35:18
+ * @author Volker Bergmann
  */
-public class ArrayConverter<S, T> implements Converter<S[], T[]> {
+public class ArrayConverter<S, T> extends AbstractConverter<S[], T[]> {
 
     private Class<T> componentType;
     private Class<T[]> arrayType;
     private Converter<S, T>[] converters;
 
-    public ArrayConverter(Class<T> targetClass, Converter<S, T> ... converters) {
-        this.componentType = targetClass;
+    public ArrayConverter(Class<S> sourceComponentType, Class<T> targetComponentType, Converter<S, T> ... converters) {
+    	super(ArrayUtil.arrayType(sourceComponentType), ArrayUtil.arrayType(targetComponentType));
+        this.componentType = targetComponentType;
         this.arrayType = ArrayUtil.arrayType(componentType);
         this.converters = converters;
-    }
-
-    public Class<T[]> getTargetType() {
-        return arrayType;
     }
 
     public T[] convert(S[] sourceValues) throws ConversionException {

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -55,7 +55,7 @@ public class LoggingPreparedStatementHandler implements InvocationHandler {
     private static final Log sqlLogger = LogFactory.getLog(LogCategories.SQL); 
     private static final Log jdbcLogger = LogFactory.getLog(LogCategories.JDBC);
     private static final Converter<Object[], String[]> toStringArrayConverter 
-    	= new ArrayConverter<Object, String>(String.class, new ToStringConverter<Object>("null"));
+    	= new ArrayConverter<Object, String>(Object.class, String.class, new ToStringConverter("null"));
 
 	private String sql;
 	private PreparedStatement realStatement;

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008, 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,45 +24,18 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 package org.databene.commons.converter;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.databene.commons.ConversionException;
-
 /**
- * Assures uniqueness for all processed Strings by appending unique numbers to recurring instances.<br/>
- * <br/>
- * Created: 24.06.2008 19:41:08
- * @since 0.4.4
- * @author Volker Bergmann
+ * TODO document class timeZone.<br/> <br/> Created at 11.01.2009 07:37:37
+ * @since  0.5.7
+ * @author  Volker Bergmann
  */
-public class UniqueStringConverter extends AbstractConverter<String, String> {
-	
-	private static final int MAX_TRIES = 10000;
-	private Set<String> usedStrings;
-
-	public UniqueStringConverter() {
-		super(String.class, String.class);
-		usedStrings = new HashSet<String>();
+public class timeZone {
+	/**
+	 * 
+	 */
+	public timeZone() {
 	}
-
-	public String convert(String sourceValue) throws ConversionException {
-		String resultValue = sourceValue;
-		if (usedStrings.contains(sourceValue)) {
-			boolean ok = false;
-			for (int i = 0; !ok && i < MAX_TRIES; i++) {
-				resultValue = sourceValue + i;
-				if (!usedStrings.contains(resultValue)) {
-					ok = true;
-				}
-			}
-			if (!ok)
-				throw new UnsupportedOperationException("not more than " + MAX_TRIES + " identical Strings can be made unique");
-		}
-		usedStrings.add(resultValue);
-		return resultValue;
-	}
-
 }

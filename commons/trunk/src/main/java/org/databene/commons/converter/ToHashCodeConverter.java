@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008, 2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -39,7 +39,7 @@ import org.databene.commons.ConversionException;
 public class ToHashCodeConverter extends AbstractConverter<Object, Integer>{
 
 	public ToHashCodeConverter() {
-		super(Integer.class);
+		super(Object.class, Integer.class);
 	}
 
 	public Integer convert(Object sourceValue) throws ConversionException {

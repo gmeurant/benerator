@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -37,16 +37,10 @@ import java.util.Collection;
  * <br/>
  * Created: 26.08.2007 16:16:15
  */
-public class ToCollectionConverter<C extends Collection> implements Converter<Object, C> {
-
-    private Class<C> targetType;
+public class ToCollectionConverter<C extends Collection> extends AbstractConverter<Object, C> {
 
     public ToCollectionConverter(Class<C> targetType) {
-        this.targetType = targetType;
-    }
-
-    public Class<C> getTargetType() {
-        return targetType;
+        super(Object.class, targetType);
     }
 
     public C convert(Object sourceValue) throws ConversionException {

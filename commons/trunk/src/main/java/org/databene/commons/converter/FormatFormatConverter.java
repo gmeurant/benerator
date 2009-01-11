@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -47,24 +47,21 @@ public class FormatFormatConverter<S> extends NullSafeConverter<S, String> {
      *
      * @param format the format object to use.
      */
-    public FormatFormatConverter(Format format) {
-        this(format, null);
+    public FormatFormatConverter(Class<S> sourceType, Format format) {
+        this(sourceType, format, null);
     }
 
-    public FormatFormatConverter(Format format, String nullResult) {
-        super(nullResult);
+    public FormatFormatConverter(Class<S> sourceType, Format format, String nullResult) {
+        super(sourceType, String.class, nullResult);
         this.format = format;
-    }
-
-    public Class<String> getTargetType() {
-        return String.class;
     }
 
     /**
      * Converts an object to a String by using the format's format() method.
      * @see org.databene.commons.Converter
      */
-    public String convertImpl(S source) {
+    @Override
+	public String convertImpl(S source) {
         if (source == null)
             return null;
         try {

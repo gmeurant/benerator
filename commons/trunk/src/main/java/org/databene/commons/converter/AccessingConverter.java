@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,7 +28,6 @@ package org.databene.commons.converter;
 
 import org.databene.commons.Accessor;
 import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
 
 /**
  * Wraps an Accessor into a Converter interface.
@@ -36,18 +35,13 @@ import org.databene.commons.Converter;
  * <br/>
  * Created: 26.08.2007 07:25:26
  */
-public class AccessingConverter<C, V> implements Converter<C, V> {
+public class AccessingConverter<C, V> extends AbstractConverter<C, V> {
 
-    private Class<V> targetType;
     private Accessor<C, V> accessor;
 
-    public AccessingConverter(Class<V> targetType, Accessor<C, V> accessor) {
-        this.targetType = targetType;
+    public AccessingConverter(Class<C> sourceType, Class<V> targetType, Accessor<C, V> accessor) {
+        super(sourceType, targetType);
         this.accessor = accessor;
-    }
-
-    public Class<V> getTargetType() {
-        return targetType;
     }
 
     public V convert(C sourceValue) throws ConversionException {

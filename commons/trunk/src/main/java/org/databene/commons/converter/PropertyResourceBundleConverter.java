@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,27 +26,23 @@
 
 package org.databene.commons.converter;
 
-import org.databene.commons.Converter;
-
 import java.util.PropertyResourceBundle;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * Int.<br/>
+ * Converts key strings to localized texts by using a ResourceBundle.<br/>
  * <br/>
  * Created: 07.06.2007 07:48:35
+ * @author Volker Bergmann
  */
-public class PropertyResourceBundleConverter implements Converter<String, String> {
+public class PropertyResourceBundleConverter extends AbstractConverter<String, String> {
 
     private ResourceBundle bundle;
 
     public PropertyResourceBundleConverter(String baseName, Locale locale) {
+    	super(String.class, String.class);
         bundle = PropertyResourceBundle.getBundle(baseName, locale);
-    }
-
-    public Class<String> getTargetType() {
-        return String.class;
     }
 
     public String convert(String sourceValue) {

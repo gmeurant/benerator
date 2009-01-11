@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,7 +28,7 @@ package org.databene.commons.bean;
 
 import org.databene.commons.ArrayUtil;
 import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
+import org.databene.commons.converter.AbstractConverter;
 import org.databene.commons.converter.AnyConverter;
 
 import java.lang.reflect.Array;
@@ -40,20 +40,15 @@ import java.lang.reflect.Array;
  * Created: 02.08.2007 20:47:35
  * @author Volker Bergmann
  */
-public class ArrayPropertyExtractor<E> implements Converter<Object[], E[]> {
+public class ArrayPropertyExtractor<E> extends AbstractConverter<Object[], E[]> {
 
     private String propertyName;
     private Class<E> propertyType;
-    private Class<E[]> arrayType;
 
     public ArrayPropertyExtractor(String propertyName, Class<E> propertyType) {
+    	super(Object[].class, ArrayUtil.arrayType(propertyType));
         this.propertyName = propertyName;
         this.propertyType = propertyType;
-        this.arrayType = ArrayUtil.arrayType(propertyType);
-    }
-
-    public Class<E[]> getTargetType() {
-        return arrayType;
     }
 
     public E[] convert(Object[] sourceValue) throws ConversionException {

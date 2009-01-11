@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,7 +27,6 @@
 package org.databene.commons.converter;
 
 import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
 import org.databene.commons.LocaleUtil;
 
 import java.text.MessageFormat;
@@ -38,7 +37,7 @@ import java.util.Locale;
  * <br/>
  * Created: 12.11.2007 20:46:31
  */
-public class MessageConverter<S> implements Converter<S, String> {
+public class MessageConverter extends AbstractConverter<Object, String> {
 
     private String pattern;
     private Locale locale;
@@ -50,6 +49,7 @@ public class MessageConverter<S> implements Converter<S, String> {
     }
 
     public MessageConverter(String pattern, Locale locale) {
+    	super(Object.class, String.class);
         this.pattern = pattern;
         this.locale = locale;
         buildFormat();
@@ -73,11 +73,7 @@ public class MessageConverter<S> implements Converter<S, String> {
         buildFormat();
     }
 
-    public Class<String> getTargetType() {
-        return String.class;
-    }
-
-    public String convert(S sourceValue) throws ConversionException {
+    public String convert(Object sourceValue) throws ConversionException {
         Object tmp = sourceValue;
         if (tmp != null && !tmp.getClass().isArray())
             tmp = new Object[] { tmp };

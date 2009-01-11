@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,6 @@
 
 package org.databene.commons.converter;
 
-import org.databene.commons.Converter;
 import org.databene.commons.LocaleUtil;
 
 import java.util.Locale;
@@ -58,7 +57,7 @@ public class CaseConverter extends NullSafeConverterProxy<String, String> {
 		((ConverterImpl) realConverter).setLocale(locale);
 	}
 
-    private static final class ConverterImpl implements Converter<String, String> {
+    private static final class ConverterImpl extends AbstractConverter<String, String> {
         /** Mode flag for the Converter. If set to true, it converts to upper case, else to lower case */
         private boolean toUpper;
 
@@ -68,6 +67,7 @@ public class CaseConverter extends NullSafeConverterProxy<String, String> {
          * @param toUpper If set to true, the instance converts to upper case, else to lower case
          */
         public ConverterImpl(boolean toUpper, Locale locale) {
+        	super(String.class, String.class);
             this.toUpper = toUpper;
             this.locale = locale;
         }
@@ -79,10 +79,6 @@ public class CaseConverter extends NullSafeConverterProxy<String, String> {
 		public void setLocale(Locale locale) {
 			this.locale = locale;
 		}
-
-		public Class<String> getTargetType() {
-            return String.class;
-        }
 
         /**
          * @see org.databene.commons.Converter

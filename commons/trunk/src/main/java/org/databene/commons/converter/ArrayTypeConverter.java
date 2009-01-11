@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -37,13 +37,13 @@ import org.databene.commons.Converter;
 public class ArrayTypeConverter<T> extends ArrayConverter<Object, T> {
 
     public ArrayTypeConverter(Class<T> arrayComponentType, Class<? extends T> ... elementTypes) {
-        super(arrayComponentType, createConverters(elementTypes));
+        super(Object.class, arrayComponentType, createConverters(elementTypes));
     }
 
     private static <T>Converter<Object, T>[] createConverters(Class<? extends T> ... elementTypes) {
         Converter<Object, T>[] converters = new Converter[elementTypes.length];
         for (int i = 0; i < elementTypes.length; i++)
-            converters[i] = new AnyConverter(elementTypes[i]);
+            converters[i] = new AnyConverter(Object.class, elementTypes[i]);
         return converters;
     }
     
