@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -87,14 +87,14 @@ public class BeanFlatFileWriter<E> extends ScriptedDocumentWriter<E> {
                 propertyNames[i] = descriptor.getName();
                 propertyConverters[i] = new ConverterChain(
                     new ToStringConverter(),
-                    new FormatFormatConverter(
+                    new FormatFormatConverter(String.class, 
                             new PadFormat(descriptor.getWidth(), descriptor.getAlignment(), ' ')
                             )
                 );
             }
             this.converter = new ConverterChain(
                 new BeanToPropertyArrayConverter(propertyNames),
-                new ArrayConverter(String.class, propertyConverters)
+                new ArrayConverter(Object.class, String.class, propertyConverters)
             );
         }
 

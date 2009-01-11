@@ -179,7 +179,7 @@ public class ScriptUtil {
             Map<String, String> properties = IOUtil.readProperties(SETUP_FILE_NAME);
             for (Map.Entry<String, String> entry : properties.entrySet()) {
                 className = entry.getValue().toString();
-                ScriptFactory factory = BeanUtil.newInstance(className);
+                ScriptFactory factory = (ScriptFactory) BeanUtil.newInstance(className);
                 factories.put(entry.getKey().toString(), factory);
             }
         } catch (FileNotFoundException e) {

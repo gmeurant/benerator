@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,23 +28,20 @@ package org.databene.script;
 
 import org.databene.commons.Context;
 import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
+import org.databene.commons.converter.AbstractConverter;
 
 /**
  * Converter that uses a {@link Script} for String conversion.<br/><br/>
  * @since 0.3.0
  * @author Volker Bergmann
  */
-public class ScriptConverter implements Converter<String, Object>{
+public class ScriptConverter extends AbstractConverter<String, Object>{
     
     private Context context;
     
     public ScriptConverter(Context context) {
+    	super(String.class, Object.class);
         this.context = context;
-    }
-
-    public Class<Object> getTargetType() {
-        return Object.class;
     }
 
     public Object convert(String sourceValue) throws ConversionException {

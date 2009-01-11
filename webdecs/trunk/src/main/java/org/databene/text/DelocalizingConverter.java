@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -29,6 +29,7 @@ package org.databene.text;
 import org.databene.document.csv.CSVLineIterator;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.Converter;
+import org.databene.commons.converter.AbstractConverter;
 
 import java.io.IOException;
 import java.util.Map;
@@ -39,11 +40,11 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * Delocalizes a String bye replacing local characters by international latin characters.
- * For example the umlaut 'ä' is replaced by 'ae'.<br/>
+ * For example the umlaut 'ï¿½' is replaced by 'ae'.<br/>
  * <br/>
  * Created: 12.06.2006 18:53:55
  */
-public class DelocalizingConverter implements Converter<String, String> {
+public class DelocalizingConverter extends AbstractConverter<String, String> {
 
     /** The logger */
     private static Log logger = LogFactory.getLog(DelocalizingConverter.class);
@@ -54,14 +55,11 @@ public class DelocalizingConverter implements Converter<String, String> {
 
     /** Default constructor */
     public DelocalizingConverter() throws IOException {
+    	super(String.class, String.class);
         init();
     }
 
     // Converter implementation ----------------------------------------------------------------------------------------
-
-    public Class<String> getTargetType() {
-        return String.class;
-    }
 
     /**
      * Implementation of the Converter interface.

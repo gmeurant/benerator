@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,21 +27,22 @@
 package org.databene.text;
 
 import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
 import org.databene.commons.StringUtil;
+import org.databene.commons.converter.AbstractConverter;
 
 /**
  * Converter that normalizes white space on strings.<br/>
  * <br/>
  * Created: 19.06.2007 07:36:32
  */
-public class NormalizeSpaceConverter implements Converter<String, String> {
+public class NormalizeSpaceConverter extends AbstractConverter<String, String> {
 
-    public Class<String> getTargetType() {
-        return String.class;
-    }
+	public NormalizeSpaceConverter() {
+		super(String.class, String.class);
+		
+	}
 
-    public String convert(String sourceValue) throws ConversionException {
+	public String convert(String sourceValue) throws ConversionException {
         return StringUtil.normalizeSpace(sourceValue);
     }
 }

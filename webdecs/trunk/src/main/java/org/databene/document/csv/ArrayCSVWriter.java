@@ -88,7 +88,7 @@ public class ArrayCSVWriter<E> extends ScriptedDocumentWriter<E[]> {
 
         public ArrayCSVScript(char separator) {
             this.separator = separator;
-            this.converter = new ToStringConverter<Object>();
+            this.converter = new ToStringConverter();
         }
 
         public void execute(Context context, Writer out) throws IOException, ScriptException {

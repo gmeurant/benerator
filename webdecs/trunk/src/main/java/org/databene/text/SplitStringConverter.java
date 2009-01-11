@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,24 +27,22 @@
 package org.databene.text;
 
 import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
 import org.databene.commons.StringUtil;
+import org.databene.commons.converter.AbstractConverter;
 
 /**
  * Splits a String by a separator character<br/>
  * <br/>
  * Created: 19.06.2007 07:33:03
+ * @author Volker Bergmann
  */
-public class SplitStringConverter implements Converter<String, String[]> {
+public class SplitStringConverter extends AbstractConverter<String, String[]> {
 
     private char separator;
 
     public SplitStringConverter(char separator) {
+    	super(String.class, String[].class);
         this.separator = separator;
-    }
-
-    public Class<String[]> getTargetType() {
-        return String[].class;
     }
 
     public String[] convert(String sourceValue) throws ConversionException {
