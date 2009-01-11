@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,8 +24,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 package org.databene.commons.converter;
+
+import java.util.TimeZone;
 
 import junit.framework.TestCase;
 
@@ -35,7 +36,7 @@ import junit.framework.TestCase;
  * @author Volker Bergmann
  */
 public class String2TimeConverterTest extends TestCase {
-
+	
     public void testMillis() {
         check("00:00:00.000", 0);
         check("00:00:00.001", 1);
@@ -58,7 +59,10 @@ public class String2TimeConverterTest extends TestCase {
         check("01:00", 3600000);
     }
 
-    private void check(String timeString, long expectedMillis) {
-        assertEquals(expectedMillis, new String2TimeConverter().convert(timeString).getTime());
+    private void check(String timeString, long expectedLocalMillis) {
+    	// Half-hour time zone fix, see http://mail-archives.apache.org/mod_mbox/struts-user/200502.mbox/%3C42158AA9.3050001@gridnode.com%3E
+        long expectedUTCMillis = expectedLocalMillis + (TimeZone.getDefault().getOffset(0L) % 3600000L);
+		long actualMillis = new String2TimeConverter().convert(timeString).getTime();
+		assertEquals(expectedUTCMillis, actualMillis);
     }
 }
