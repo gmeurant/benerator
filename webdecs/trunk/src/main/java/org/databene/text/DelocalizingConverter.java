@@ -29,7 +29,7 @@ package org.databene.text;
 import org.databene.document.csv.CSVLineIterator;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.Converter;
-import org.databene.commons.converter.AbstractConverter;
+import org.databene.commons.converter.FixedSourceTypeConverter;
 
 import java.io.IOException;
 import java.util.Map;
@@ -44,7 +44,7 @@ import org.apache.commons.logging.LogFactory;
  * <br/>
  * Created: 12.06.2006 18:53:55
  */
-public class DelocalizingConverter extends AbstractConverter<String, String> {
+public class DelocalizingConverter extends FixedSourceTypeConverter<String, String> {
 
     /** The logger */
     private static Log logger = LogFactory.getLog(DelocalizingConverter.class);

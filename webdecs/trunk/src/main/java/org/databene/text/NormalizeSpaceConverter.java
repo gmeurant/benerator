@@ -28,14 +28,14 @@ package org.databene.text;
 
 import org.databene.commons.ConversionException;
 import org.databene.commons.StringUtil;
-import org.databene.commons.converter.AbstractConverter;
+import org.databene.commons.converter.FixedSourceTypeConverter;
 
 /**
  * Converter that normalizes white space on strings.<br/>
  * <br/>
  * Created: 19.06.2007 07:36:32
  */
-public class NormalizeSpaceConverter extends AbstractConverter<String, String> {
+public class NormalizeSpaceConverter extends FixedSourceTypeConverter<String, String> {
 
 	public NormalizeSpaceConverter() {
 		super(String.class, String.class);

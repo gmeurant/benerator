@@ -28,7 +28,7 @@ package org.databene.text;
 
 import org.databene.commons.ConversionException;
 import org.databene.commons.StringUtil;
-import org.databene.commons.converter.AbstractConverter;
+import org.databene.commons.converter.FixedSourceTypeConverter;
 
 /**
  * Splits a String by a separator character<br/>
@@ -36,7 +36,7 @@ import org.databene.commons.converter.AbstractConverter;
  * Created: 19.06.2007 07:33:03
  * @author Volker Bergmann
  */
-public class SplitStringConverter extends AbstractConverter<String, String[]> {
+public class SplitStringConverter extends FixedSourceTypeConverter<String, String[]> {
 
     private char separator;
 
