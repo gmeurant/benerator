@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -33,6 +33,7 @@ package org.databene.commons;
  */
 public final class VMInfo {
 
+	// TODO v0.5.8 extract constants, create getters and setters for each System property and deprecate the old methods
     /**
      * Java Runtime Environment version
      */
