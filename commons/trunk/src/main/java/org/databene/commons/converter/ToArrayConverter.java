@@ -40,7 +40,7 @@ import java.util.Collection;
  * Created: 26.08.2007 16:01:38
  * @author Volker Bergmann
  */
-public class ToArrayConverter extends AbstractConverter {
+public class ToArrayConverter extends FixedSourceTypeConverter {
 
     private Class componentType;
     private Class arrayType;

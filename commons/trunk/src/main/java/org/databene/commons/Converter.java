@@ -34,7 +34,7 @@ package org.databene.commons;
  */
 public interface Converter<S, T> {
 
-    Class<S> getSourceType();
+    boolean canConvert(Object sourceValue);
     
     Class<T> getTargetType();
     

@@ -38,7 +38,7 @@ import java.util.Date;
  * Created: 16.06.2007 11:24:08
  * @author Volker Bergmann
  */
-public class StringConverter<T> extends AbstractConverter<String, T> {
+public class StringConverter<T> extends FixedSourceTypeConverter<String, T> {
 
     public StringConverter(Class<T> targetType) {
         super(String.class, targetType);

@@ -37,7 +37,7 @@ import java.math.BigDecimal;
  * <br/>
  * Created: 16.06.2007 11:51:14
  */
-public class NumberToNumberConverter<S extends Number, T extends Number> extends AbstractConverter<S, T> {
+public class NumberToNumberConverter<S extends Number, T extends Number> extends FixedSourceTypeConverter<S, T> {
 
     public NumberToNumberConverter(Class<S> sourceType, Class<T> targetType) {
         super(sourceType, targetType);

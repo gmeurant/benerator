@@ -30,7 +30,7 @@ import org.databene.commons.BeanUtil;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 import org.databene.commons.UpdateFailedException;
-import org.databene.commons.converter.AbstractConverter;
+import org.databene.commons.converter.FixedSourceTypeConverter;
 
 import java.util.Properties;
 import java.util.Map;
@@ -43,7 +43,7 @@ import java.util.Map;
  * Created: 09.08.2007 19:28:36
  * @author Volker Bergmann
  */
-public class Properties2BeanConverter<E> extends AbstractConverter<Properties, E> {
+public class Properties2BeanConverter<E> extends FixedSourceTypeConverter<Properties, E> {
 
     public Properties2BeanConverter(Class<E> beanClass) {
     	super(Properties.class, beanClass);

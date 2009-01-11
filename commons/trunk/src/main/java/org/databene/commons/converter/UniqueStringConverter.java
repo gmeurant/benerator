@@ -38,7 +38,7 @@ import org.databene.commons.ConversionException;
  * @since 0.4.4
  * @author Volker Bergmann
  */
-public class UniqueStringConverter extends AbstractConverter<String, String> {
+public class UniqueStringConverter extends FixedSourceTypeConverter<String, String> {
 	
 	private static final int MAX_TRIES = 10000;
 	private Set<String> usedStrings;

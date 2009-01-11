@@ -27,7 +27,7 @@
 package org.databene.commons.bean;
 
 import org.databene.commons.ConversionException;
-import org.databene.commons.converter.AbstractConverter;
+import org.databene.commons.converter.FixedSourceTypeConverter;
 
 /**
  * Converter implementation that extracts all property values of a JavaBean to a Properties object.<br/>
@@ -35,7 +35,7 @@ import org.databene.commons.converter.AbstractConverter;
  * Created: 07.06.2007 14:11:58
  * @author Volker Bergmann
  */
-public class BeanToPropertyArrayConverter<E> extends AbstractConverter<E, Object[]> {
+public class BeanToPropertyArrayConverter<E> extends FixedSourceTypeConverter<E, Object[]> {
 
     private PropertyAccessor<E, ? extends Object>[] accessors;
 

@@ -35,7 +35,7 @@ import org.databene.commons.ConversionException;
  * <br/>
  * Created: 26.08.2007 07:25:26
  */
-public class AccessingConverter<C, V> extends AbstractConverter<C, V> {
+public class AccessingConverter<C, V> extends FixedSourceTypeConverter<C, V> {
 
     private Accessor<C, V> accessor;
 

@@ -40,7 +40,7 @@ import org.databene.commons.ConversionException;
  * <br/>
  * Created: 31.08.2006 18:44:59
  */
-public class ToStringConverter extends AbstractConverter<Object, String> {
+public class ToStringConverter extends FixedSourceTypeConverter<Object, String> {
 
     private static final String DEFAULT_TIMESTAMP_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 

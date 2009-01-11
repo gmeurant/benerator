@@ -36,7 +36,7 @@ import java.util.ResourceBundle;
  * Created: 07.06.2007 07:48:35
  * @author Volker Bergmann
  */
-public class PropertyResourceBundleConverter extends AbstractConverter<String, String> {
+public class PropertyResourceBundleConverter extends FixedSourceTypeConverter<String, String> {
 
     private ResourceBundle bundle;
 

@@ -64,14 +64,17 @@ public class ConverterManager {
         return instance;
     }
 
-    public Converter getConverter(Class srcType, Class dstType) {
+    public Converter getConverter(Object sourceValue, Class dstType) {
+        if (sourceValue == null)
+            return new NoOpConverter();
+    	Class srcType = sourceValue.getClass();
         if (srcType == dstType || (dstType.isAssignableFrom(srcType) && !dstType.isPrimitive()))
             return new NoOpConverter();
         for (Converter converter : converters) {
-            if (converter.getSourceType() == srcType && converter.getTargetType() == dstType)
+            if (converter.canConvert(sourceValue) && converter.getTargetType() == dstType)
                 return converter;
             else if (converter instanceof BidirectionalConverter
-            		&& converter.getSourceType() == dstType && converter.getTargetType() == srcType)
+            		&& ((BidirectionalConverter) converter).getSourceType() == dstType && converter.getTargetType() == srcType)
                 return new ReverseConverter((BidirectionalConverter) converter);
         }
         return null;

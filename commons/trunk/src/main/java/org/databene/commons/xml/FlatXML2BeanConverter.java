@@ -31,7 +31,7 @@ import java.util.Map;
 
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
-import org.databene.commons.converter.AbstractConverter;
+import org.databene.commons.converter.FixedSourceTypeConverter;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -43,7 +43,7 @@ import org.w3c.dom.NamedNodeMap;
  * @since 0.4.0
  * @author Volker Bergmann
  */
-public class FlatXML2BeanConverter extends AbstractConverter<Element, Object> {
+public class FlatXML2BeanConverter extends FixedSourceTypeConverter<Element, Object> {
 
     private Map<String, Class<? extends Object>> types;
     

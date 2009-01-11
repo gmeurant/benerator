@@ -39,7 +39,7 @@ import java.util.ArrayList;
  * Created: 13.05.2005 17:43:04
  */
 @SuppressWarnings("unchecked")
-public class ConverterChain<S, T> extends AbstractConverter<S, T> {
+public class ConverterChain<S, T> extends FixedSourceTypeConverter<S, T> {
 
 	private ArrayList<Converter> converters;
 
@@ -59,11 +59,6 @@ public class ConverterChain<S, T> extends AbstractConverter<S, T> {
             result = converter.convert(result);
         }
         return (T)result;
-    }
-
-    @Override
-	public Class<S> getSourceType() { // TODO 
-        return (Class<S>) converters.get(0).getSourceType();
     }
 
     @Override

@@ -37,7 +37,7 @@ import java.util.Locale;
  * Created: 10.09.2007 07:35:18
  * @author Volker Bergmann
  */
-public class Number2StringConverter extends AbstractConverter<Number, String> {
+public class Number2StringConverter extends FixedSourceTypeConverter<Number, String> {
 
     private int minimumFractionDigits;
     private int maximumFractionDigits;

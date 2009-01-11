@@ -47,17 +47,22 @@ public class AnyConverter<S, T> extends AbstractConverter<S, T> {
 
     private String timestampPattern;
 
-    public AnyConverter(Class<S> sourceType, Class<T> targetType) {
-        this(sourceType, targetType, "yyyyMMdd");
+    public AnyConverter(Class<T> targetType) {
+        this(targetType, "yyyyMMdd");
     }
 
-    public AnyConverter(Class<S> sourceType, Class<T> targetType, String datePattern) {
-    	super(sourceType, targetType);
+    public AnyConverter(Class<T> targetType, String datePattern) {
+    	super(targetType);
         this.datePattern = datePattern;
     }
 
     public String getDatePattern() {
 		return datePattern;
+	}
+
+	@Override
+	public boolean canConvert(Object sourceValue) {
+		return true;
 	}
 
 	public T convert(Object sourceValue) throws ConversionException {
@@ -88,7 +93,7 @@ public class AnyConverter<S, T> extends AbstractConverter<S, T> {
             return (TT) source;
 
         // search for exact converters
-        Converter converter = ConverterManager.getInstance().getConverter(source.getClass(), targetType);
+        Converter converter = ConverterManager.getInstance().getConverter(source, targetType);
         if (converter != null)
                 return (TT)converter.convert(source);
 

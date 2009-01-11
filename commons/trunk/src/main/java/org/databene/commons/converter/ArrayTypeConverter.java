@@ -43,7 +43,7 @@ public class ArrayTypeConverter<T> extends ArrayConverter<Object, T> {
     private static <T>Converter<Object, T>[] createConverters(Class<? extends T> ... elementTypes) {
         Converter<Object, T>[] converters = new Converter[elementTypes.length];
         for (int i = 0; i < elementTypes.length; i++)
-            converters[i] = new AnyConverter(Object.class, elementTypes[i]);
+            converters[i] = new AnyConverter(elementTypes[i]);
         return converters;
     }
     

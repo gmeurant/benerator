@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -33,7 +33,7 @@ import org.databene.commons.ConversionException;
  * <br/>
  * Created: 04.08.2007 19:45:18
  */
-public class ReverseConverter<S, T> implements BidirectionalConverter<S, T> {
+public class ReverseConverter<S, T> extends AbstractConverter<S,T> implements BidirectionalConverter<S, T> {
 
     private BidirectionalConverter<T, S> realConverter;
     
@@ -44,17 +44,19 @@ public class ReverseConverter<S, T> implements BidirectionalConverter<S, T> {
     }
     
     public ReverseConverter(BidirectionalConverter<T, S> realConverter) {
+    	super(realConverter.getSourceType());
         this.realConverter = realConverter;
     }
     
     // BidirectionalConverter interface --------------------------------------------------------------------------------
 
-    public Class<S> getSourceType() {
-        return realConverter.getTargetType();
-    }
+	@Override
+	public boolean canConvert(Object sourceValue) {
+		return realConverter.canConvert(sourceValue);
+	}
 
-    public Class<T> getTargetType() {
-        return realConverter.getSourceType();
+	public Class<S> getSourceType() {
+        return realConverter.getTargetType();
     }
 
     public T convert(S source) throws ConversionException {
@@ -74,4 +76,5 @@ public class ReverseConverter<S, T> implements BidirectionalConverter<S, T> {
 	public void setRealConverter(BidirectionalConverter<T, S> realConverter) {
 		this.realConverter = realConverter;
 	}
+
 }

@@ -30,6 +30,7 @@ import junit.framework.TestCase;
 
 import java.util.Locale;
 
+import org.databene.commons.Converter;
 import org.databene.commons.converter.String2LocaleConverter;
 
 /**
@@ -41,6 +42,7 @@ public class ConverterManagerTest extends TestCase {
 
     public void test() {
         ConverterManager mgr = ConverterManager.getInstance();
-        assertEquals(String2LocaleConverter.class, mgr.getConverter(String.class, Locale.class).getClass());
+        Converter converter = mgr.getConverter("DE", Locale.class);
+		assertEquals(String2LocaleConverter.class, converter.getClass());
     }
 }

@@ -34,7 +34,7 @@ import org.databene.commons.Converter;
 import org.databene.commons.bean.BeanFactory;
 import org.databene.commons.bean.ClassProvider;
 import org.databene.commons.bean.DefaultClassProvider;
-import org.databene.commons.converter.AbstractConverter;
+import org.databene.commons.converter.FixedSourceTypeConverter;
 import org.databene.commons.converter.AnyConverter;
 import org.databene.commons.converter.NoOpConverter;
 import org.w3c.dom.Element;
@@ -55,7 +55,7 @@ import java.beans.PropertyDescriptor;
  * Created: 19.08.2007 15:12:40
  * @author Volker Bergmann
  */
-public class XMLElement2BeanConverter extends AbstractConverter<Element, Object> {
+public class XMLElement2BeanConverter extends FixedSourceTypeConverter<Element, Object> {
 
     private static final Log logger = LogFactory.getLog(XMLElement2BeanConverter.class);
 

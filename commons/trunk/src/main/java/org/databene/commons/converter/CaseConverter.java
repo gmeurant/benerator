@@ -57,7 +57,7 @@ public class CaseConverter extends NullSafeConverterProxy<String, String> {
 		((ConverterImpl) realConverter).setLocale(locale);
 	}
 
-    private static final class ConverterImpl extends AbstractConverter<String, String> {
+    private static final class ConverterImpl extends FixedSourceTypeConverter<String, String> {
         /** Mode flag for the Converter. If set to true, it converts to upper case, else to lower case */
         private boolean toUpper;
 

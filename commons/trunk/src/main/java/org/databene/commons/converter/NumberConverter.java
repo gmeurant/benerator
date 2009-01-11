@@ -34,7 +34,7 @@ import org.databene.commons.Converter;
  * <br/>
  * Created: 16.06.2007 11:31:43
  */
-public class NumberConverter<T> extends AbstractConverter<Number, T> {
+public class NumberConverter<T> extends FixedSourceTypeConverter<Number, T> {
 
     public NumberConverter(Class<T> targetType) {
         super(Number.class, targetType);

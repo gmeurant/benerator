@@ -31,7 +31,7 @@ package org.databene.commons.converter;
  * <br/>
  * Created: 13.05.2005 10:01:30
  */
-public abstract class AbstractBidirectionalConverter<S, T> extends AbstractConverter<S, T> implements BidirectionalConverter<S, T> {
+public abstract class AbstractBidirectionalConverter<S, T> extends FixedSourceTypeConverter<S, T> implements BidirectionalConverter<S, T> {
 
     public AbstractBidirectionalConverter(Class<S> sourceType, Class<T> targetType) {
     	super(sourceType, targetType);
