@@ -62,7 +62,7 @@ public final class BeanUtil {
     /**
      * List of simple Java types.
      */
-    private static final Class[] simpleTypes = {
+    private static final Class<?>[] simpleTypes = {
         String.class,
         long.class,       Long.class,
         int.class,        Integer.class,
@@ -274,8 +274,8 @@ public final class BeanUtil {
      * @param className the name of the class to instantiate
      * @return an instance of the class
      */
-    public static <T> T newInstance(String className) {
-        Class<T> type = (Class<T>) BeanUtil.forName(className);
+    public static Object newInstance(String className) {
+        Class<? extends Object> type = BeanUtil.forName(className);
         return newInstanceFromDefaultConstructor(type);
     }
 
