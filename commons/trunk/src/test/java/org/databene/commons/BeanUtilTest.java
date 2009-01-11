@@ -147,7 +147,7 @@ public class BeanUtilTest extends TestCase {
     }
 
     public void testNewInstanceFromClassName() {
-        P p = BeanUtil.newInstance(P.class.getName());
+        P p = (P) BeanUtil.newInstance(P.class.getName());
         assertEquals(1, p.val);
     }
 
