@@ -42,7 +42,7 @@ import org.databene.commons.StringUtil;
  * Created: 14.03.2008 22:15:58
  * @author Volker Bergmann
  */
-public class String2TimeConverter extends AbstractBidirectionalConverter<String, Time>{
+public class String2TimeConverter extends AbstractBidirectionalConverter<String, Time> {
 
     private static final String MILLIS  = "hh:mm:ss.SSS";
     private static final String SECONDS = "hh:mm:ss";
@@ -50,10 +50,6 @@ public class String2TimeConverter extends AbstractBidirectionalConverter<String,
 
     public String2TimeConverter() {
         super(String.class, Time.class);
-    }
-
-    public Class<Time> getTargetType() {
-        return Time.class;
     }
 
     public Time convert(String sourceValue) throws ConversionException {
