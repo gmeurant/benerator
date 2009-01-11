@@ -37,14 +37,14 @@ import java.util.ArrayList;
  * each converting the result of the preceeding converter.<br/>
  * <br/>
  * Created: 13.05.2005 17:43:04
+ * @author Volker Bergmann
  */
 @SuppressWarnings("unchecked")
-public class ConverterChain<S, T> extends FixedSourceTypeConverter<S, T> {
+public class ConverterChain<S, T> implements Converter<S, T> {
 
 	private ArrayList<Converter> converters;
 
 	public ConverterChain(Converter ... converters) {
-		super(null, null);
         this.converters = new ArrayList<Converter>(converters.length);
         add(converters);
     }
@@ -52,8 +52,20 @@ public class ConverterChain<S, T> extends FixedSourceTypeConverter<S, T> {
 	public void add(Converter... converters) {
         CollectionUtil.add(this.converters, converters);
     }
+	
+	// Converter interface implementation ------------------------------------------------------------------------------
 
-    public T convert(S source) throws ConversionException {
+    @Override
+	public Class<T> getTargetType() {
+        return (Class<T>) converters.get(converters.size() - 1).getTargetType();
+    }
+
+	@Override
+	public boolean canConvert(Object sourceValue) {
+		return converters.get(0).canConvert(sourceValue);
+	}
+
+	public T convert(S source) throws ConversionException {
         Object result = source;
         for (Converter converter : converters) {
             result = converter.convert(result);
@@ -61,8 +73,4 @@ public class ConverterChain<S, T> extends FixedSourceTypeConverter<S, T> {
         return (T)result;
     }
 
-    @Override
-	public Class<T> getTargetType() { // TODO 
-        return (Class<T>) converters.get(converters.size() - 1).getTargetType();
-    }
 }
