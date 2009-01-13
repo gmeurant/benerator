@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -180,6 +180,16 @@ public final class TimeUtil {
 
 	public static boolean isBusinessDay(Calendar tmp, Locale locale) {
 		return !isWeekend(tmp); // TODO v0.5.0 improve locale-dependently
+	}
+
+	public static boolean isMidnight(Date date) {
+		// note that a calculation based on the raw millis value is not viable 
+		// since time zones like Singapore had 7:30 hours delay in 1970-01-01
+		// and 8:00 hours now!
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(date);
+        return (cal.get(Calendar.MILLISECOND) == 0 && cal.get(Calendar.SECOND) == 0 
+        		&& cal.get(Calendar.MINUTE) == 0 && cal.get(Calendar.HOUR_OF_DAY) == 0);
 	}
 
 }
