@@ -26,6 +26,8 @@
 
 package org.databene.commons;
 
+import java.util.TimeZone;
+
 import org.databene.commons.collection.MapEntry;
 
 import junit.framework.TestCase;
@@ -45,7 +47,23 @@ public class CompositeFormatterTest extends TestCase {
 	}
 
 	public void testRenderDateComponent() {
-		checkRendering("date=1970-01-01", "date", TimeUtil.date(1970, 0, 1));
+		TimeZone timeZone = TimeZone.getDefault();
+		try {
+			TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
+			checkRendering("date=1970-01-01", "date", TimeUtil.date(1970, 0, 1));
+			checkRendering("date=2001-03-04", "date", TimeUtil.date(2001, 2, 4));
+			TimeZone.setDefault(TimeZone.getTimeZone("CET"));
+			checkRendering("date=1970-01-01", "date", TimeUtil.date(1970, 0, 1));
+			checkRendering("date=2001-03-04", "date", TimeUtil.date(2001, 2, 4));
+			TimeZone.setDefault(TimeZone.getTimeZone("PST"));
+			checkRendering("date=1970-01-01", "date", TimeUtil.date(1970, 0, 1));
+			checkRendering("date=2001-03-04", "date", TimeUtil.date(2001, 2, 4));
+			TimeZone.setDefault(TimeZone.getTimeZone("Asia/Singapore"));
+			checkRendering("date=1970-01-01", "date", TimeUtil.date(1970, 0, 1));
+			checkRendering("date=2001-03-04", "date", TimeUtil.date(2001, 2, 4));
+		} finally {
+			TimeZone.setDefault(timeZone);
+		}
 	}
 
 	public void testRenderTimeComponent() {
