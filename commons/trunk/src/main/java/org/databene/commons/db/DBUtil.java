@@ -219,20 +219,19 @@ public class DBUtil {
 		try {
 			StringBuilder cmd = new StringBuilder();
 			while (iterator.hasNext()) {
-			    String line = iterator.next();
+			    String line = iterator.next().trim();
 			    if (line.startsWith("--"))
 			        continue;
 			    if (cmd.length() > 0)
-			        cmd.append('\r');
-			    line = line.trim();
+			        cmd.append('\n');
 			    cmd.append(line);
 			    if (line.endsWith(";") || !iterator.hasNext()) {
 			    	if (line.endsWith(";"))
 			    		cmd.delete(cmd.length() - 1, cmd.length()); // delete the trailing ';'
-			        String sql = cmd.toString();
-			        if (!ignoreComments || !StringUtil.startsWithIgnoreCase(sql.trim(), "COMMENT")) {
+			        String sql = cmd.toString().trim();
+			        if (sql.length() > 0 && (!ignoreComments || !StringUtil.startsWithIgnoreCase(sql, "COMMENT"))) {
 			        	try {
-				        	if (sql.trim().toLowerCase().startsWith("select"))
+				        	if (sql.toLowerCase().startsWith("select"))
 				        		result = query(sql, connection);
 				        	else
 				        		result = executeUpdate(sql, connection);
@@ -254,6 +253,11 @@ public class DBUtil {
 	}
 
     public static int executeUpdate(String sql, Connection connection) throws SQLException {
+    	if (sql == null || sql.trim().length() == 0) {
+    		logger.warn("Empty SQL string in executeUpdate()");
+    		return 0;
+    	}
+    		
         if (sqlLogger.isDebugEnabled())
             sqlLogger.debug(sql);
         int result = 0;
