@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2006 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2006-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,7 +30,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.TimeZone;
 
 import org.databene.commons.converter.ToStringConverter;
 
@@ -144,10 +143,7 @@ public class CompositeFormatter {
             value = nullValue;
         } else if (value instanceof Date) {
             Date date = (Date) value;
-            TimeZone timeZone = TimeZone.getDefault();
-            long timeInMillis = date.getTime();
-            timeInMillis += timeZone.getRawOffset();
-            if (timeInMillis % 86400000L == 0L)
+            if (TimeUtil.isMidnight(date))
                 value = new SimpleDateFormat(datePattern).format((Date) value);
             else
                 value = new SimpleDateFormat(timestampPattern).format((Date) value);
