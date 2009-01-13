@@ -46,7 +46,6 @@ public class Date2DurationConverter extends FixedSourceTypeConverter<Date, Long>
 		super(Date.class, Long.class);
 	}
 
-	@Override
 	public Long convert(Date sourceValue) throws ConversionException {
 		if (sourceValue == null)
 			return null;

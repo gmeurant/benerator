@@ -41,7 +41,6 @@ public abstract class FixedSourceTypeConverter<S, T> extends AbstractConverter<S
 		this.sourceType = sourceType;
 	}
 
-	@Override
 	public boolean canConvert(Object sourceValue) {
 		return (this.sourceType.isAssignableFrom(sourceValue.getClass()));
 	}
