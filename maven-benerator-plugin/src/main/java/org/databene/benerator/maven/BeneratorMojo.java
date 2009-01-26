@@ -94,12 +94,46 @@ public class BeneratorMojo extends AbstractBeneratorMojo {
 	 */
     private boolean validate;
     
+	/**
+	 * The database schema to use (can be queried in the descriptor file as ${db_schema}).
+	 * @parameter default="runtime"
+	 */
+	protected String scope;
+	
     /**
-     * Classpath.
+     * Runtime classpath elements.
      * @parameter expression="${project.runtimeClasspathElements}"
      * @required
+     * @readonly
      */
-    List<String> classpathElements;
+    List<String> runtimeClasspathElements;
+    
+    /**
+     * Test classpath elements.
+     * @parameter expression="${project.testClasspathElements}"
+     * @required
+     * @readonly
+     */
+    List<String> testClasspathElements;
+    
+    /**
+     * Invokes benerator using the settings from the pom's configuration.
+     */
+    public void execute() throws MojoExecutionException {
+		setSystemProperties();
+		List<String> classpathElements = ("test".equals(scope) ? testClasspathElements : runtimeClasspathElements);
+		getLog().debug("Classpath elements: " + classpathElements);
+		try {
+	    	ClassLoader classLoader = new URLClassLoader(toClasspathURLs(classpathElements), getClass().getClassLoader());
+	    	Thread.currentThread().setContextClassLoader(classLoader);
+			Benerator benerator = new Benerator();
+			benerator.processFile(descriptor.getAbsolutePath());
+		} catch (IOException e) {
+			throw new MojoExecutionException("Error in generation", e);
+		}
+	}
+
+    // non-public helpers ----------------------------------------------------------------------------------------------
     
     @Override
 	protected void setSystemProperties() {
@@ -122,21 +156,6 @@ public class BeneratorMojo extends AbstractBeneratorMojo {
 		System.setProperty("file.encoding", encoding);
 		System.setProperty("benerator.validate", String.valueOf(validate));
     }
-
-    /**
-     * Invokes benerator using the settings from the pom's configuration.
-     */
-    public void execute() throws MojoExecutionException {
-		setSystemProperties();
-		try {
-	    	ClassLoader classLoader = new URLClassLoader(toClasspathURLs(classpathElements), getClass().getClassLoader());
-	    	Thread.currentThread().setContextClassLoader(classLoader);
-			Benerator benerator = new Benerator();
-			benerator.processFile(descriptor.getAbsolutePath());
-		} catch (IOException e) {
-			throw new MojoExecutionException("Error in generation", e);
-		}
-	}
 
     protected static URL[] toClasspathURLs( List<String> classpathElements )
 	    throws MalformedURLException {
