@@ -65,7 +65,9 @@ import org.xml.sax.SAXParseException;
  */
 public class XMLUtil {
     
-    private static final ErrorHandler DEFAULT_ERROR_HANDLER = new ErrorHandler(XMLUtil.class.getSimpleName(), ErrorHandler.Level.fatal);
+	private static final String XML_SCHEMA_URL = "http://www.w3.org/2001/XMLSchema";
+s	private static final String SCHEMA_LANGUAGE_KEY = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
+	private static final ErrorHandler DEFAULT_ERROR_HANDLER = new ErrorHandler(XMLUtil.class.getSimpleName(), ErrorHandler.Level.fatal);
 	private static final Log logger = LogFactory.getLog(XMLUtil.class);
     
     private XMLUtil() {}
@@ -221,6 +223,7 @@ public class XMLUtil {
 	public static Element parseStringAsElement(String xml) throws IOException {
 		return XMLUtil.parseString(xml).getDocumentElement();
 	}
+	
     public static Document parse(InputStream stream) throws IOException {
         return parse(stream, DEFAULT_ERROR_HANDLER, false);
     }
@@ -230,23 +233,10 @@ public class XMLUtil {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setNamespaceAware(true);
             factory.setValidating(validate);
-            factory.setAttribute("http://java.sun.com/xml/jaxp/properties/schemaLanguage", "http://www.w3.org/2001/XMLSchema");
+            if (validate)
+				activateXmlSchemaValidation(factory);
             DocumentBuilder builder = factory.newDocumentBuilder();
-            builder.setErrorHandler(new org.xml.sax.ErrorHandler() {
-
-				public void error(SAXParseException e) {
-					errorHandler.handleError(e.getMessage(), e);
-				}
-
-				public void fatalError(SAXParseException e) {
-					errorHandler.handleError(e.getMessage(), e);
-				}
-
-				public void warning(SAXParseException e) {
-					errorHandler.handleError(e.getMessage(), e);
-				}
-            	
-            });
+            builder.setErrorHandler(createSaxErrorHandler(errorHandler));
             return builder.parse(stream);
         } catch (ParserConfigurationException e) {
             throw new ConfigurationError(e);
@@ -302,6 +292,36 @@ public class XMLUtil {
 				BeanUtil.setPropertyValue(bean, name, value, false);
 		}
 	}
+	
+	// private helpers -------------------------------------------------------------------------------------------------
 
+	private static void activateXmlSchemaValidation(
+			DocumentBuilderFactory factory) {
+		try {
+			factory.setAttribute(SCHEMA_LANGUAGE_KEY, XML_SCHEMA_URL);
+		} catch (Exception e) {
+			// some XML parsers may not support attributes in general or especially XML Schema 
+			logger.error(e);
+		}
+	}
+
+	private static org.xml.sax.ErrorHandler createSaxErrorHandler(
+			final ErrorHandler errorHandler) {
+		return new org.xml.sax.ErrorHandler() {
+
+			public void error(SAXParseException e) {
+				errorHandler.handleError(e.getMessage(), e);
+			}
+
+			public void fatalError(SAXParseException e) {
+				errorHandler.handleError(e.getMessage(), e);
+			}
+
+			public void warning(SAXParseException e) {
+				errorHandler.handleError(e.getMessage(), e);
+			}
+			
+		};
+	}
 
 }
