@@ -164,14 +164,18 @@ public class ScriptUtil {
         try {
             factories = new HashMap<String, ScriptFactory>();
             
-            // check installed JSR 223 script engines
-            ScriptEngineManager mgr = new ScriptEngineManager();
-            for (ScriptEngineFactory engineFactory : mgr.getEngineFactories()) {
-        		Jsr223ScriptFactory factory = new Jsr223ScriptFactory(engineFactory.getScriptEngine());
-            	List<String> names = engineFactory.getNames();
-				for (String name : names) {
-					factories.put(name, factory);
-            	}
+            try {
+	            // check installed JSR 223 script engines
+	            ScriptEngineManager mgr = new ScriptEngineManager();
+	            for (ScriptEngineFactory engineFactory : mgr.getEngineFactories()) {
+	        		Jsr223ScriptFactory factory = new Jsr223ScriptFactory(engineFactory.getScriptEngine());
+	            	List<String> names = engineFactory.getNames();
+					for (String name : names) {
+						factories.put(name, factory);
+	            	}
+	            }
+            } catch (NoClassDefFoundError e) {
+            	logger.error("Java 6/JSR 223 script engines not available, deactivating script engine support.");
             }
 
             // read config file
