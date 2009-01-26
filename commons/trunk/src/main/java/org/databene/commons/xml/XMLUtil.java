@@ -66,7 +66,7 @@ import org.xml.sax.SAXParseException;
 public class XMLUtil {
     
 	private static final String XML_SCHEMA_URL = "http://www.w3.org/2001/XMLSchema";
-s	private static final String SCHEMA_LANGUAGE_KEY = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
+	private static final String SCHEMA_LANGUAGE_KEY = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
 	private static final ErrorHandler DEFAULT_ERROR_HANDLER = new ErrorHandler(XMLUtil.class.getSimpleName(), ErrorHandler.Level.fatal);
 	private static final Log logger = LogFactory.getLog(XMLUtil.class);
     
