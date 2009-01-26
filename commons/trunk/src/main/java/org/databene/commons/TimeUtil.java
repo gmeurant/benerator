@@ -180,6 +180,7 @@ public final class TimeUtil {
 
 	public static boolean isBusinessDay(Calendar tmp, Locale locale) {
 		return !isWeekend(tmp); // TODO v0.5.0 improve locale-dependently
+		// TODO: US: 19.1. Martin-Luther-King-Day, 4.7. Independence Day
 	}
 
 	public static boolean isMidnight(Date date) {
