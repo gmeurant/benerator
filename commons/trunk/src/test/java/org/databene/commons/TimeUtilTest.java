@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -48,5 +48,9 @@ public class TimeUtilTest extends TestCase {
         Date later = new Date(now.getTime() + Period.DAY.getMillis());
         assertEquals(now, TimeUtil.min(now, later));
         assertEquals(now, TimeUtil.min(later, now));
+    }
+    
+    public void testIsMidnight() {
+    	// TODO implement test
     }
 }
