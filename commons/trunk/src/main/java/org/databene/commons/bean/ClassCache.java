@@ -44,14 +44,15 @@ import org.databene.commons.StringUtil;
  * @since 0.4.6
  * @author Volker Bergmann
  */
+@SuppressWarnings("unchecked")
 public class ClassCache {
 	
 	private static final Log logger = LogFactory.getLog(ClassCache.class); 
 	
-	private Map<String, Class> classes;
+    private Map<String, Class> classes;
 	private Set<String> packages;
 	
-	public ClassCache() {
+    public ClassCache() {
 		classes = new HashMap<String, Class>();
 		packages = new HashSet<String>();
 		importPackage("java.lang");
@@ -69,7 +70,7 @@ public class ClassCache {
 		packages.add(packageName);
 	}
 
-	public Class forName(String name) {
+    public Class forName(String name) {
 		Class result = classes.get(name);
 		if (result != null)
 			return result;
