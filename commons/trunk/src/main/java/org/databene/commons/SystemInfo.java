@@ -36,18 +36,18 @@ import java.nio.charset.Charset;
  */
 public final class SystemInfo {
 
-	public static final String USER_LANGUAGE = "user.language";
-	public static final String FILE_ENCODING = "file.encoding";
-	public static final String JAVA_IO_TMPDIR = "java.io.tmpdir";
-	public static final String USER_HOME = "user.home";
-	public static final String USER_NAME = "user.name";
-	public static final String USER_DIR = "user.dir";
-	public static final String FILE_SEPARATOR = "file.separator";
-	public static final String PATH_SEPARATOR = "path.separator";
-	public static final String LINE_SEPARATOR = "line.separator";
-	public static final String OS_VERSION = "os.version";
-	public static final String OS_ARCH = "os.arch";
-	public static final String OS_NAME = "os.name";
+	public static final String USER_LANGUAGE_KEY = "user.language";
+	public static final String FILE_ENCODING_KEY = "file.encoding";
+	public static final String JAVA_IO_TMPDIR_KEY = "java.io.tmpdir";
+	public static final String USER_HOME_KEY = "user.home";
+	public static final String USER_NAME_KEY = "user.name";
+	public static final String USER_DIR_KEY = "user.dir";
+	public static final String FILE_SEPARATOR_KEY = "file.separator";
+	public static final String PATH_SEPARATOR_KEY = "path.separator";
+	public static final String LINE_SEPARATOR_KEY = "line.separator";
+	public static final String OS_VERSION_KEY = "os.version";
+	public static final String OS_ARCH_KEY = "os.arch";
+	public static final String OS_NAME_KEY = "os.name";
 
 	private static final String MAC_OS_X = "Mac OS X";
 	private static final String WINDOWS = "Windows";
@@ -58,84 +58,84 @@ public final class SystemInfo {
      * @return the OS name
      */
     public static String osName() {
-        return System.getProperty(OS_NAME);
+        return System.getProperty(OS_NAME_KEY);
     }
 
     /**
      * @return the OS architecture
      */
     public static String osArchitecture() {
-        return System.getProperty(OS_ARCH);
+        return System.getProperty(OS_ARCH_KEY);
     }
 
     /**
      * @return the OS version
      */
     public static String osVersion() {
-        return System.getProperty(OS_VERSION);
+        return System.getProperty(OS_VERSION_KEY);
     }
 
     /**
      * @return Line separator ("\n" on UNIX)
      */
     public static String lineSeparator() {
-        return System.getProperty(LINE_SEPARATOR);
+        return System.getProperty(LINE_SEPARATOR_KEY);
     }
 
     /**
      * @return Path separator (":" on UNIX)
      */
     public static String pathSeparator() {
-        return System.getProperty(PATH_SEPARATOR);
+        return System.getProperty(PATH_SEPARATOR_KEY);
     }
 
     /**
      * @return File separator ("/" on UNIX)
      */
     public static char fileSeparator() {
-        return System.getProperty(FILE_SEPARATOR).charAt(0);
+        return System.getProperty(FILE_SEPARATOR_KEY).charAt(0);
     }
 
     /**
      * @return the user's current directory
      */
     public static String currentDir() {
-        return System.getProperty(USER_DIR);
+        return System.getProperty(USER_DIR_KEY);
     }
 
     /**
      * @return the user's name
      */
     public static String userName() {
-        return System.getProperty(USER_NAME);
+        return System.getProperty(USER_NAME_KEY);
     }
 
     /**
      * @return the user's home directory
      */
     public static String userHome() {
-        return System.getProperty(USER_HOME);
+        return System.getProperty(USER_HOME_KEY);
     }
 
     /**
      * @return the default temp file path
      */
     public static String tempDir() {
-        return System.getProperty(JAVA_IO_TMPDIR);
+        return System.getProperty(JAVA_IO_TMPDIR_KEY);
     }
 
     /**
      * @return the file encoding
      */
     public static String fileEncoding() {
-        return System.getProperty(FILE_ENCODING);
+        return System.getProperty(FILE_ENCODING_KEY);
     }
 
     /**
      * @return user language
      */
     public static String userLanguage() {
-        return System.getProperty(USER_LANGUAGE);
+        return System.getProperty(USER_LANGUAGE_KEY);
     }
 
 	/**
