@@ -79,17 +79,14 @@ public class OrderedMap<K,V> implements Map<K,V> {
     }
 
     public boolean containsKey(Object key) {
-        //noinspection SuspiciousMethodCalls
         return keyIndices.containsKey(key);
     }
 
     public boolean containsValue(Object value) {
-        //noinspection SuspiciousMethodCalls
         return values.contains(value);
     }
 
     public V get(Object key) {
-        //noinspection SuspiciousMethodCalls
         Integer index = keyIndices.get(key);
         if (index == null)
             return null;
@@ -156,9 +153,9 @@ public class OrderedMap<K,V> implements Map<K,V> {
         return new ListBasedSet<Map.Entry<K, V>>(tmp);
     }
 
-    // List interface --------------------------------------------------------------------------------------------------
+    // List/Vector interface -------------------------------------------------------------------------------------------
 
-    public V get(int index) {
+    public V elementAt(int index) {
         return values.get(index);
     }
 
