@@ -4,10 +4,10 @@
 
     <groupId>org.databene</groupId>
     <artifactId>databene-gui</artifactId>
-    <version>0.1.8-alpha-2</version>
+    <version>0.1.8-alpha-3</version>
 
     <properties>
-        <commons_version>0.4.8-alpha-2</commons_version>
+        <commons_version>0.4.8-alpha-3</commons_version>
     </properties>
 
     <packaging>jar</packaging>
