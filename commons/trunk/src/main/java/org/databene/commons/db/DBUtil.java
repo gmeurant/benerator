@@ -70,16 +70,24 @@ public class DBUtil {
     /** private constructor for preventing instantiation. */
     private DBUtil() {}
     
-    public static Connection connect(String url, String driver, String user, String password) throws ConnectFailedException {
+    public static Connection connect(String url, String driverClass, String user, String password) throws ConnectFailedException {
 		try {
-            Class.forName(driver);
+            Class.forName(driverClass);
             jdbcLogger.debug("opening connection to " + url);
             Connection connection = DriverManager.getConnection(url, user, password);
             return connection;
-        } catch (ClassNotFoundException e) {
-            throw new ConfigurationError("JDBC driver not found: " + driver, e);
         } catch (Exception e) {
 			throw new ConnectFailedException("Connecting " + url + " failed: ", e);
+		}
+	}
+
+    public static boolean available(String url, String driverClass, String user, String password) {
+		try {
+	    	Connection connection = connect(url, driverClass, user, password);
+	    	DBUtil.close(connection);
+            return true;
+        } catch (Exception e) {
+            return false;
 		}
 	}
 
@@ -236,6 +244,8 @@ public class DBUtil {
 				        	else
 				        		result = executeUpdate(sql, connection);
 						} catch (SQLException e) {
+							if (errorHandler == null)
+								errorHandler = new ErrorHandler(DBUtil.class);
 							errorHandler.handleError("Error in executing SQL: " + SystemInfo.lineSeparator() + cmd, e);
 							// if we arrive here, the ErrorHandler decided not to throw an exception
 							// so we save the exception and line number and continue execution
