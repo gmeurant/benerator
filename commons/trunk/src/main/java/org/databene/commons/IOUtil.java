@@ -168,6 +168,16 @@ public final class IOUtil {
         return writer.toString();
     }
 
+    public static String[] readTextLines(String uri, boolean includeEmptyLines) throws IOException {
+        ArrayBuilder<String> builder = new ArrayBuilder<String>(String.class, 100);
+        BufferedReader reader = getReaderForURI(uri);
+        String line;
+        while ((line = reader.readLine()) != null)
+        	if (line.length() > 0 || includeEmptyLines)
+        		builder.append(line.trim());
+        return builder.toArray();
+    }
+
     public static BufferedReader getReaderForURI(String uri) throws IOException {
         return getReaderForURI(uri, SystemInfo.fileEncoding());
     }
