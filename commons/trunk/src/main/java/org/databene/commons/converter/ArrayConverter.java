@@ -65,7 +65,7 @@ public class ArrayConverter<S, T> extends FixedSourceTypeConverter<S[], T[]> {
     public static <S, T> T[] convert(S[] sourceValues, Converter<S, T> converter, Class<T> componentType) throws ConversionException {
         T[] result = ArrayUtil.newInstance(componentType, sourceValues.length);
         for (int i = 0; i < sourceValues.length; i++)
-            result[i] = converter.convert(sourceValues[i]);
+            result[i] = (converter != null ? converter.convert(sourceValues[i]) : (T) sourceValues[i]);
         return result;
     }
 }
