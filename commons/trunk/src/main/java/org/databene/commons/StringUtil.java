@@ -432,6 +432,20 @@ public final class StringUtil {
         return text.substring(0, 1).toLowerCase() + text.substring(1);
     }
 
+    public static String[] splitOnFirstSeparator(String path, char separator) {
+        if (path == null)
+            return new String[] { null, null };
+        int sepIndex = path.indexOf(separator);
+        if (sepIndex < 0)
+            return new String[] { null, path };
+        else if (sepIndex == 0)
+            return new String[] { "", path.substring(1) };
+        else if (sepIndex == path.length() - 1)
+            return new String[] { path.substring(0, path.length() - 1), "" };
+        else
+            return new String[] { path.substring(0, sepIndex), path.substring(sepIndex + 1) };
+    }
+
     public static String[] splitOnLastSeparator(String path, char separator) {
         if (path == null)
             return new String[] { null, null };
