@@ -85,7 +85,10 @@ public class FileTreeModel implements TreeModel<File> {
 
     private File[] listFiles(File parent) {
         File[] files = parent.listFiles();
-        Arrays.sort(files, fileComparator);
+        if (files != null)
+        	Arrays.sort(files, fileComparator);
+        else
+        	files = new File[0];
         return files;
     }
 
