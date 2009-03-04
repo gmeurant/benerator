@@ -44,6 +44,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.databene.commons.CollectionUtil;
 import org.databene.commons.ui.I18NSupport;
 
 /**
@@ -82,6 +83,10 @@ public class FileList extends JPanel {
 	
 	public void setFiles(File[] files) {
 		model.setAll(files);
+	}
+	
+	public List<File> getSelectedFiles() {
+		return CollectionUtil.toListOfType(list.getSelectedValues());
 	}
 
 	void add() {
