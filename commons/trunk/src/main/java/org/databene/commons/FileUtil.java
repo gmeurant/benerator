@@ -75,4 +75,46 @@ public final class FileUtil {
 		String[] list = folder.list();
 		return list == null || list.length == 0;
 	}
+	
+    public static void copy(File srcFile, File targetFile, boolean overwrite) throws FileNotFoundException, IOException {
+    	copy(srcFile, targetFile, overwrite, null);
+    }
+    
+    public static void copy(File srcFile, File targetFile, boolean overwrite, FileFilter filter) 
+    		throws FileNotFoundException, IOException {
+    	if (filter != null && !filter.accept(srcFile.getCanonicalFile()))
+    		return;
+    	if (!srcFile.exists())
+    		throw new ConfigurationError("Source file not found: " + srcFile);
+    	if (!overwrite && targetFile.exists()) // TODO test this
+    		throw new ConfigurationError("Target file already exists: " + targetFile);
+    	if (srcFile.isFile())
+    		copyFile(srcFile, targetFile);
+    	else
+    		copyDirectory(srcFile, targetFile);
+    }
+    
+	// private helpers -------------------------------------------------------------------------------------------------
+
+	private static void copyFile(File srcFile, File targetFile)
+			throws FileNotFoundException, IOException {
+		InputStream in = new BufferedInputStream(new FileInputStream(srcFile));
+        OutputStream out = null;
+        try {
+	        out = new FileOutputStream(targetFile);
+	        IOUtil.transfer(in, out);
+        } finally {
+	        IOUtil.close(out);
+	        IOUtil.close(in);
+        }
+	}
+
+	private static void copyDirectory(File srcDirectory, File targetDirectory) throws FileNotFoundException, IOException {
+		ensureDirectoryExists(targetDirectory);
+		for (File src : srcDirectory.listFiles()) {
+			File dstFile = new File(targetDirectory, src.getName());
+			copy(src, dstFile, true);
+		}
+	}
+
 }
