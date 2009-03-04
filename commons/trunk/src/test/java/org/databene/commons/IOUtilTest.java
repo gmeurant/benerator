@@ -32,7 +32,6 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Arrays;
@@ -53,16 +52,17 @@ public class IOUtilTest extends TestCase {
         IOUtil.flush(new StringWriter());
     }
 
-    public void testLocalFilename() throws MalformedURLException {
+    public void testLocalFilename() {
         assertEquals("product-info.jsp", IOUtil.localFilename("http://localhost:80/shop/product-info.jsp"));
     }
 
-    public void testIsURIAvaliable() throws IOException, UnsupportedEncodingException {
+    public void testIsURIAvaliable() {
         assertTrue(IOUtil.isURIAvailable("org/databene/commons/names.csv"));
         assertFalse(IOUtil.isURIAvailable("org/databene/commons/not.an.existing.file"));
     }
 
     public void testGetContentOfURI() throws IOException {
+        // TODO make this run assertEquals("Alice,Bob\r\nCharly", IOUtil.getContentOfURI("file:org/databene/commons/names.csv"));
         assertEquals("Alice,Bob\r\nCharly", IOUtil.getContentOfURI("file://org/databene/commons/names.csv"));
         assertEquals("Alice,Bob\r\nCharly", IOUtil.getContentOfURI("org/databene/commons/names.csv"));
     }

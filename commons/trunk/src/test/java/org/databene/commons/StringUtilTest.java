@@ -220,13 +220,22 @@ public class StringUtilTest extends TestCase {
     	assertEquals("Alice Smith", StringUtil.normalizeName(" \r\n\taLICE \r sMITH \n\t "));
     }
     
+    public void testSplitOnFirstSeparator() {
+    	checkSplitFirst(null , null, null   );
+    	checkSplitFirst(null , "x" , "x"    );
+    	checkSplitFirst("x"  , ""  , "x="  );
+    	checkSplitFirst(""   , "y" , "=y"  );
+    	checkSplitFirst("x"  , "y" , "x=y"  );
+    	checkSplitFirst("x", "(y=z)" , "x=(y=z)");
+    }
+    
     public void testSplitOnLastSeparator() {
-    	checkSplit(null , null, null   );
-    	checkSplit(null , "c" , "c"    );
-    	checkSplit("b"  , ""  , "b."  );
-    	checkSplit(""   , "c" , ".c"  );
-    	checkSplit("b"  , "c" , "b.c"  );
-    	checkSplit("a.b", "c" , "a.b.c");
+    	checkSplitLast(null , null, null   );
+    	checkSplitLast(null , "c" , "c"    );
+    	checkSplitLast("b"  , ""  , "b."  );
+    	checkSplitLast(""   , "c" , ".c"  );
+    	checkSplitLast("b"  , "c" , "b.c"  );
+    	checkSplitLast("a.b", "c" , "a.b.c");
     }
     
     public void testJoinWithSeparator() {
@@ -259,7 +268,11 @@ public class StringUtilTest extends TestCase {
     
     // helpers ---------------------------------------------------------------------------------------------------------
 
-	private void checkSplit(String parent, String child, String path) {
+	private void checkSplitFirst(String parent, String child, String path) {
+		assertTrue(Arrays.equals(ArrayUtil.buildArrayOfType(String.class, parent, child), StringUtil.splitOnFirstSeparator(path, '=')));
+	}
+
+	private void checkSplitLast(String parent, String child, String path) {
 		assertTrue(Arrays.equals(ArrayUtil.buildArrayOfType(String.class, parent, child), StringUtil.splitOnLastSeparator(path, '.')));
 	}
 }

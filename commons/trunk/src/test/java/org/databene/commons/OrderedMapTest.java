@@ -168,7 +168,7 @@ public class OrderedMapTest extends TestCase {
             assertTrue(valueIterator.hasNext());
             assertEquals(expectedValues[i], valueIterator.next());
             assertEquals(expectedValues[i], values.get(i));
-            assertEquals(expectedValues[i], map.get(i));
+            assertEquals(expectedValues[i], map.elementAt(i));
             assertTrue(entryIterator.hasNext());
             Map.Entry<T, T> entry = entryIterator.next();
             assertEquals(expectedKeys[i], entry.getKey());
