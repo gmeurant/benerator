@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<!-- (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+<!-- (c) Copyright 2009 by Volker Bergmann. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, is permitted under the terms of the
@@ -56,11 +56,23 @@ POSSIBILITY OF SUCH DAMAGE. -->
     
     <driver id="SQL_SERVER"
     		database="MS SQL Server"
-            system="jTDS (MS SQL Server)" 
+            system="MS SQL Server (jTDS Driver)" 
             name="jTDS JDBC Driver" 
             class="net.sourceforge.jtds.jdbc.Driver" 
-            port="5000"
-            url="jdbc:jtds:microsoft://{0}:{1}/{2}"
+            port="1433"
+            url="jdbc:jtds:sqlserver://{0}:{1}/{2}"
+            user="user"
+            info="http://jtds.sourceforge.net/">
+        <dependency lib="jtds-1.2.2.jar" artifact="net.sourceforge.jtds:jtds:1.2.2" official="no" />
+    </driver>
+    
+    <driver id="SYBASE"
+    		database="Sybase"
+            system="Sybase (jTDS Driver)" 
+            name="Sybase" 
+            class="net.sourceforge.jtds.jdbc.Driver" 
+            port="7100"
+            url="jdbc:jtds:sybase://{0}:{1}/{2}"
             user="user"
             info="http://jtds.sourceforge.net/">
         <dependency lib="jtds-1.2.2.jar" artifact="net.sourceforge.jtds:jtds:1.2.2" official="no" />
@@ -78,7 +90,7 @@ POSSIBILITY OF SUCH DAMAGE. -->
     </driver>
     
     <driver id="HSQL_EMBEDDED"
-    		system="HSQL" 
+    		system="HSQL Embedded" 
             name="HSQL Embedded" 
             class="org.hsqldb.jdbcDriver" 
             url="jdbc:hsqldb:database"
@@ -88,7 +100,7 @@ POSSIBILITY OF SUCH DAMAGE. -->
     </driver>
     
     <driver id="HSQL"
-    		system="HSQL" 
+    		system="HSQL Server" 
             name="HSQL Server" 
             class="org.hsqldb.jdbcDriver" 
             port="9001"
@@ -99,7 +111,7 @@ POSSIBILITY OF SUCH DAMAGE. -->
     </driver>
     
     <driver id="DERBY"
-    		system="Apache" 
+    		system="Derby" 
             name="Derby" 
             class="org.apache.derby.jdbc.ClientDriver" 
             port="1527"
@@ -118,6 +130,18 @@ POSSIBILITY OF SUCH DAMAGE. -->
             user="user"
             info="http://jdbc.postgresql.org/download.html">
         <dependency lib="postgresql-nn.jdbc3.jar" artifact="postgresql:postgresql:8.3-603.jdbc4" official="yes" />
+    </driver>
+    
+    <driver id="FIREBIRD"
+    		system="Firebird (Jaybird Driver)" 
+            name="Jaybird" 
+            class="org.firebirdsql.jdbc.FBDriver" 
+            port="3050"
+            url="jdbc:firebirdsql:{0}/{1}:{2}"
+            user="sysdba"
+            password="masterkey"
+            info="http://www.firebirdsql.org/index.php?op=files&amp;id=jaybird">
+        <dependency lib="jaybird-full-2.1.6.jar" artifact="org.firebird:jaybird:2.1.6" official="no" />
     </driver>
     
 </drivers>
