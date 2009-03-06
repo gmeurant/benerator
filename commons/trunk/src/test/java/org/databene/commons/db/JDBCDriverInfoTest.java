@@ -47,7 +47,7 @@ public class JDBCDriverInfoTest extends TestCase {
 	public void testHSQL() {
 		JDBCDriverInfo hsql = JDBCDriverInfo.HSQL;
 		assertEquals("HSQL", hsql.getId());
-		assertEquals("HSQL", hsql.getDbSystem());
+		assertEquals("HSQL Server", hsql.getDbSystem());
 		assertEquals("HSQL Server", hsql.getName());
 		assertEquals("org.hsqldb.jdbcDriver", hsql.getDriverClass());
 		assertEquals("9001", hsql.getDefaultPort());
