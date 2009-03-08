@@ -64,7 +64,6 @@ public class DBUtil {
 
     private static final Log logger = LogFactory.getLog(DBUtil.class);
 
-    private static final Log sqlLogger = LogFactory.getLog(LogCategories.SQL); 
     private static final Log jdbcLogger = LogFactory.getLog(LogCategories.JDBC);
     
     /** private constructor for preventing instantiation. */
@@ -122,7 +121,8 @@ public class DBUtil {
         }
     }
 
-    public static Object parseResultSet(ResultSet resultSet) throws SQLException {
+    public static Object parseResultSet(ResultSet resultSet) throws SQLException { 
+    	// TODO create LoggingResultSet. SQL and JDBC log should happen only in handler classes
         List<Object[]> rows = new ArrayList<Object[]>();
         while (resultSet.next()) {
             int columnCount = resultSet.getMetaData().getColumnCount();
@@ -267,9 +267,6 @@ public class DBUtil {
     		logger.warn("Empty SQL string in executeUpdate()");
     		return 0;
     	}
-    		
-        if (sqlLogger.isDebugEnabled())
-            sqlLogger.debug(sql);
         int result = 0;
         Statement statement = null;
         try {
