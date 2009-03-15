@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="databene commons">
 
-    <skin>
-        <groupId>databene</groupId>
-        <artifactId>databene-skin</artifactId>
-        <version>1.0</version>
-    </skin>
-
     <bannerLeft>
       <name>databene</name>
       <src>images/logos/commons.png</src>
