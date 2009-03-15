@@ -26,9 +26,16 @@
 
 package org.databene.commons.converter;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.PropertyResourceBundle;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import org.databene.commons.IOUtil;
+import org.databene.commons.LocaleUtil;
 
 /**
  * Converts key strings to localized texts by using a ResourceBundle.<br/>
@@ -39,13 +46,33 @@ import java.util.ResourceBundle;
 public class PropertyResourceBundleConverter extends FixedSourceTypeConverter<String, String> {
 
     private ResourceBundle bundle;
+    private ResourceBundle.Control control = new UTF8Control();
 
     public PropertyResourceBundleConverter(String baseName, Locale locale) {
     	super(String.class, String.class);
-        bundle = PropertyResourceBundle.getBundle(baseName, locale);
+        bundle = PropertyResourceBundle.getBundle(baseName, locale, control);
     }
 
     public String convert(String sourceValue) {
         return bundle.getString(sourceValue);
+    }
+    
+    static class UTF8Control extends PropertyResourceBundle.Control {
+    	
+    	@Override
+    	public ResourceBundle newBundle(String baseName, Locale locale, String format, ClassLoader loader, boolean reload)
+    	        throws IOException {
+    		String bundleName = toBundleName(baseName, locale);
+    		String resourceName = toResourceName(bundleName, "properties");
+    		InputStream stream = IOUtil.getInputStreamForURI(resourceName, true);
+			Charset utf8 = Charset.forName("UTF-8");
+			return new PropertyResourceBundle(new InputStreamReader(stream, utf8)); 
+    	}
+    	
+    	@Override
+    	public Locale getFallbackLocale(String baseName, Locale locale) {
+    		Locale fallback = LocaleUtil.getFallbackLocale();
+    	    return (fallback.equals(locale) ? null : fallback);
+    	}
     }
 }
