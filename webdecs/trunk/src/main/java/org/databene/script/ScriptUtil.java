@@ -43,6 +43,7 @@ import org.databene.commons.ConfigurationError;
 import org.databene.commons.Context;
 import org.databene.commons.FileUtil;
 import org.databene.commons.IOUtil;
+import org.databene.commons.LogCategories;
 import org.databene.commons.StringCharacterIterator;
 import org.databene.script.jsr227.Jsr223ScriptFactory;
 
@@ -53,7 +54,7 @@ import org.databene.script.jsr227.Jsr223ScriptFactory;
  */
 public class ScriptUtil {
     
-    private static final Log logger = LogFactory.getLog(ScriptUtil.class);
+    private static final Log configLogger = LogFactory.getLog(LogCategories.CONFIG);
 
     // extension mapping -----------------------------------------------------------------------------------------------
     
@@ -175,11 +176,11 @@ public class ScriptUtil {
 	            	}
 	            }
             } catch (NoClassDefFoundError e) {
-            	logger.error("Java 6/JSR 223 script engines not available, deactivating script engine support.");
+            	configLogger.error("Java 6/JSR 223 script engines not available, deactivating script engine support.");
             }
 
             // read config file
-            logger.info("Initializing Script mapping from file " + SETUP_FILE_NAME);
+            configLogger.debug("Initializing Script mapping from file " + SETUP_FILE_NAME);
             Map<String, String> properties = IOUtil.readProperties(SETUP_FILE_NAME);
             for (Map.Entry<String, String> entry : properties.entrySet()) {
                 className = entry.getValue().toString();
