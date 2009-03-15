@@ -120,20 +120,22 @@ public class CompositeFormatter {
     }
 
     private <T> String renderComponentsHierarchical(Composite<T> composite, String indent) {
+        String lineSeparator = SystemInfo.getLineSeparator();
         StringBuilder builder = new StringBuilder();
         indent += INDENT_DELTA;
         Map<String, T> components = composite.getComponents();
         Iterator<Map.Entry<String, T>> iterator = components.entrySet().iterator();
         while (iterator.hasNext()) {
-            builder.append(SystemInfo.lineSeparator());
+			builder.append(lineSeparator);
             renderComponent(builder, indent, iterator.next());
         }
         indent = indent.substring(0, indent.length() - INDENT_DELTA.length());
         if (builder.length() > 1)
-            builder.append(SystemInfo.lineSeparator());
+            builder.append(lineSeparator);
         return builder.toString();
     }
 
+    @SuppressWarnings("unchecked")
     void renderComponent(StringBuilder builder, String indent, Map.Entry<String, ? extends Object> component) {
         builder.append(indent);
         if (renderNames)

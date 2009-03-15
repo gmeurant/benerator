@@ -79,6 +79,7 @@ public class ErrorHandler {
 			case error : logger.error(message); break;
 			case fatal : logger.fatal(message);
 						 throw new RuntimeException(message);
+			case ignore: // ignore
 		}
 	}
 
@@ -94,9 +95,10 @@ public class ErrorHandler {
 				case error : logger.error(message, t); break;
 				case fatal : logger.fatal(message, t);
 							 throw new RuntimeException(t);
+				case ignore: // ignore
 			}
 		} else
-			handleError(message + SystemInfo.lineSeparator() + t.toString());
+			handleError(message + SystemInfo.getLineSeparator() + t.toString());
 	}
 
 	// properties ------------------------------------------------------------------------------------------------------
