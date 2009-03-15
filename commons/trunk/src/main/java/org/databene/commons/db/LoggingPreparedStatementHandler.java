@@ -29,7 +29,6 @@ package org.databene.commons.db;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,6 +49,7 @@ import org.databene.commons.converter.ToStringConverter;
  * Created: 28.06.2007 12:30:02
  * @author Volker Bergmann
  */
+@SuppressWarnings("unchecked")
 public class LoggingPreparedStatementHandler implements InvocationHandler {
 	
     private static final Log sqlLogger = LogFactory.getLog(LogCategories.SQL); 
@@ -61,9 +61,9 @@ public class LoggingPreparedStatementHandler implements InvocationHandler {
 	private PreparedStatement realStatement;
 	Object[] params;
 	
-	public LoggingPreparedStatementHandler(Connection connection, String sql) throws SQLException {
+	public LoggingPreparedStatementHandler(PreparedStatement realStatement, String sql) {
 		this.sql = sql;
-		this.realStatement = connection.prepareStatement(sql);
+		this.realStatement = realStatement;
 		int paramCount = StringUtil.countChars(sql, '?');
 		params = new Object[paramCount];
 	}
