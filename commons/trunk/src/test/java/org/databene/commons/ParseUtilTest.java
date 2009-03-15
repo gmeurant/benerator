@@ -119,7 +119,7 @@ public class ParseUtilTest extends TestCase {
             String line = lines[i];
             buffer.append(line);
             if (i < lines.length - 1)
-                buffer.append(SystemInfo.lineSeparator());
+                buffer.append(SystemInfo.getLineSeparator());
         }
         StringReader reader = new StringReader(buffer.toString());
         return new PushbackReader(reader);
