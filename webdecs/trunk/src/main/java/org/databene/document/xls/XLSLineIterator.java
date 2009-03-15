@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -58,6 +59,8 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 	private String[] headers;
 	private Converter<String, ? extends Object> preprocessor;
 	
+	// constructors ----------------------------------------------------------------------------------------------------
+	
 	public XLSLineIterator(String uri) throws IOException {
 		this(uri, 0);
 	}
@@ -84,6 +87,8 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 		headers = builder.toArray();
 	}
 	
+	// interface -------------------------------------------------------------------------------------------------------
+	
 	public String[] getHeaders() {
 		return headers;
 	}
@@ -106,12 +111,21 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 		return result;
 	}
 
+	public void remove() {
+		throw new UnsupportedOperationException("remove() is not supported");
+	}
+	
+	// helper methods --------------------------------------------------------------------------------------------------
+	
 	private Object resolveCellValue(HSSFCell cell) {
 		if (cell == null)
 			return null;
 		switch (cell.getCellType()) {
 			case Cell.CELL_TYPE_STRING: return preprocessor.convert(cell.getRichStringCellValue().getString());
-			case Cell.CELL_TYPE_NUMERIC: return cell.getNumericCellValue();
+			case Cell.CELL_TYPE_NUMERIC: if (HSSFDateUtil.isCellDateFormatted(cell))
+				return cell.getDateCellValue();
+			else
+				return cell.getNumericCellValue();
 			case Cell.CELL_TYPE_BOOLEAN: return cell.getBooleanCellValue();
 			case Cell.CELL_TYPE_BLANK: 
 			case Cell.CELL_TYPE_ERROR: return cell.getRichStringCellValue().getString();
@@ -129,10 +143,6 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 				}	
 			default: throw new ConfigurationError("Not a supported cell type: " + cell.getCellType());
 		}
-	}
-
-	public void remove() {
-		throw new UnsupportedOperationException("remove() is not supported");
 	}
 
 }
