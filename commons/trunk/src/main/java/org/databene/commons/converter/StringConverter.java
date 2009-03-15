@@ -28,7 +28,6 @@ package org.databene.commons.converter;
 
 import org.databene.commons.ArrayFormat;
 import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
 
 import java.util.Date;
 
@@ -51,6 +50,7 @@ public class StringConverter<T> extends FixedSourceTypeConverter<String, T> {
     /**
      * Converts a String to an arbitrary type.
      */
+    @SuppressWarnings("unchecked")
     public static <T> T convert(String src, Class<T> targetType) throws ConversionException{
     	if (src == null)
     		return null;
