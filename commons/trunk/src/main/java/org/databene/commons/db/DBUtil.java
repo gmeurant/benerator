@@ -122,7 +122,7 @@ public class DBUtil {
     }
 
     public static Object parseResultSet(ResultSet resultSet) throws SQLException { 
-    	// TODO create LoggingResultSet. SQL and JDBC log should happen only in handler classes
+    	// TODO v0.6 create LoggingResultSet. SQL and JDBC log should happen only in handler classes
         List<Object[]> rows = new ArrayList<Object[]>();
         while (resultSet.next()) {
             int columnCount = resultSet.getMetaData().getColumnCount();
@@ -163,12 +163,12 @@ public class DBUtil {
         ResultSetMetaData metaData = resultSet.getMetaData();
         int columnCount = metaData.getColumnCount();
         for (int i = 1; i <= columnCount; i++)
-            builder.append(metaData.getColumnName(i)).append(i < columnCount ? ", " : SystemInfo.lineSeparator());
+            builder.append(metaData.getColumnName(i)).append(i < columnCount ? ", " : SystemInfo.getLineSeparator());
         // format cells
         Object parsed = parseResultSet(resultSet);
         if (parsed instanceof Object[][]) {
 	        for (Object[] row : (Object[][]) parsed) {
-	            builder.append(ArrayFormat.format(", ", row)).append(SystemInfo.lineSeparator());
+	            builder.append(ArrayFormat.format(", ", row)).append(SystemInfo.getLineSeparator());
 	        }
         } else
         	builder.append(ToStringConverter.convert(parsed, "null"));
@@ -246,7 +246,7 @@ public class DBUtil {
 						} catch (SQLException e) {
 							if (errorHandler == null)
 								errorHandler = new ErrorHandler(DBUtil.class);
-							errorHandler.handleError("Error in executing SQL: " + SystemInfo.lineSeparator() + cmd, e);
+							errorHandler.handleError("Error in executing SQL: " + SystemInfo.getLineSeparator() + cmd, e);
 							// if we arrive here, the ErrorHandler decided not to throw an exception
 							// so we save the exception and line number and continue execution
 							if (exception != null) // only the first exception is saved
@@ -293,12 +293,24 @@ public class DBUtil {
     }
 
 	public static PreparedStatement prepareStatement(Connection connection, String sql, boolean readOnly) throws SQLException {
+		return prepareStatement(connection, sql, readOnly, 
+				ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, ResultSet.HOLD_CURSORS_OVER_COMMIT);
+	}
+
+	public static PreparedStatement prepareStatement(
+			Connection connection, 
+			String sql, 
+			boolean readOnly,
+			int resultSetType,
+            int resultSetConcurrency,
+            int resultSetHoldability) throws SQLException {
 		jdbcLogger.debug("preparing statement: " + sql);
 		checkReadOnly(sql, readOnly);
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		PreparedStatement realStatement = connection.prepareStatement(sql);
 		return (PreparedStatement) Proxy.newProxyInstance(classLoader, 
 				new Class[] { PreparedStatement.class }, 
-				new LoggingPreparedStatementHandler(connection, sql));
+				new LoggingPreparedStatementHandler(realStatement, sql));
 	}
 
 	public static String escape(String text) {
