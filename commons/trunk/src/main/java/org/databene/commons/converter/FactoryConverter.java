@@ -27,7 +27,6 @@
 package org.databene.commons.converter;
 
 import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
 import org.databene.commons.StringUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -62,6 +61,7 @@ public class FactoryConverter<S, T> extends FixedSourceTypeConverter<S, T> {
         return convert(src, targetType);
     }
 
+    @SuppressWarnings("unchecked")
     public static <TT> TT convert(Object src, Class<TT> targetType) throws ConversionException {
         if (src == null)
             return null;
@@ -103,6 +103,7 @@ public class FactoryConverter<S, T> extends FixedSourceTypeConverter<S, T> {
     }
 
     /** Tries to create an object by a static valueOf() method of the target class */
+    @SuppressWarnings("unchecked")
     private static <T> T tryToConstructByValueOfMethod(Object src, Class<T> targetType) {
         try {
             Method valueOfMethod = targetType.getMethod("valueOf", src.getClass());
@@ -119,6 +120,7 @@ public class FactoryConverter<S, T> extends FixedSourceTypeConverter<S, T> {
     }
 
     /** Tries to create an object by a static valueOf() method of the target class */
+    @SuppressWarnings("unchecked")
     private static <T> T tryToConstructByGetInstanceMethod(Object src, Class<T> targetType) {
         try {
             Method valueOfMethod = targetType.getMethod("getInstance", src.getClass());
@@ -134,6 +136,7 @@ public class FactoryConverter<S, T> extends FixedSourceTypeConverter<S, T> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private static <T> T tryToConstructByTypeValueMethod(Object src, Class<T> targetType) {
         try {
             String methodName = StringUtil.uncapitalize(targetType.getSimpleName()) + "Value";
