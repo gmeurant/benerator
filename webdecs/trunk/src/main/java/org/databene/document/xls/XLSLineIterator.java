@@ -31,12 +31,12 @@ import java.util.Iterator;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
-import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Row;
 import org.databene.commons.ArrayBuilder;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.Converter;
@@ -55,7 +55,7 @@ import org.databene.commons.converter.NoOpConverter;
 public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 	
 	private HSSFWorkbook workbook;
-	private Iterator<HSSFRow> rowIterator;
+	private Iterator<Row> rowIterator;
 	private String[] headers;
 	private Converter<String, ? extends Object> preprocessor;
 	
@@ -69,7 +69,6 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 		this(uri, sheetIndex, null);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public XLSLineIterator(String uri, int sheetIndex, Converter<String, ? extends Object> preprocessor) throws IOException {
 		if (preprocessor == null)
 			preprocessor = new NoOpConverter<String>();
@@ -77,10 +76,10 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 		workbook = new HSSFWorkbook(IOUtil.getInputStreamForURI(uri));
 		HSSFSheet sheet = workbook.getSheetAt(sheetIndex);
 		rowIterator = sheet.rowIterator();
-		HSSFRow headerRow = rowIterator.next();
+		Row headerRow = rowIterator.next();
 		ArrayBuilder<String> builder = new ArrayBuilder<String>(String.class);
 		for (int cellnum = 0; cellnum <= headerRow.getLastCellNum(); cellnum++) {
-			HSSFCell cell = headerRow.getCell(cellnum);
+			Cell cell = headerRow.getCell(cellnum);
 			if (cell != null && cell.getCellType() != Cell.CELL_TYPE_BLANK)
 				builder.append(cell.getRichStringCellValue().getString());
 		}
@@ -104,7 +103,7 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 	}
 
 	public Object[] next() {
-		HSSFRow row = rowIterator.next();
+		Row row = rowIterator.next();
 		Object[] result = new Object[headers.length];
 		for (int cellnum = 0; cellnum < headers.length; cellnum++)
 			result[cellnum] = resolveCellValue(row.getCell(cellnum));
@@ -117,7 +116,7 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 	
 	// helper methods --------------------------------------------------------------------------------------------------
 	
-	private Object resolveCellValue(HSSFCell cell) {
+	private Object resolveCellValue(Cell cell) {
 		if (cell == null)
 			return null;
 		switch (cell.getCellType()) {
