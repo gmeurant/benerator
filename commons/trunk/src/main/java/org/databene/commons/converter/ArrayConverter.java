@@ -39,13 +39,11 @@ import org.databene.commons.Converter;
 public class ArrayConverter<S, T> extends FixedSourceTypeConverter<S[], T[]> {
 
     private Class<T> componentType;
-    private Class<T[]> arrayType;
     private Converter<S, T>[] converters;
 
     public ArrayConverter(Class<S> sourceComponentType, Class<T> targetComponentType, Converter<S, T> ... converters) {
     	super(ArrayUtil.arrayType(sourceComponentType), ArrayUtil.arrayType(targetComponentType));
         this.componentType = targetComponentType;
-        this.arrayType = ArrayUtil.arrayType(componentType);
         this.converters = converters;
     }
 
@@ -62,6 +60,7 @@ public class ArrayConverter<S, T> extends FixedSourceTypeConverter<S[], T[]> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public static <S, T> T[] convert(S[] sourceValues, Converter<S, T> converter, Class<T> componentType) throws ConversionException {
         T[] result = ArrayUtil.newInstance(componentType, sourceValues.length);
         for (int i = 0; i < sourceValues.length; i++)
