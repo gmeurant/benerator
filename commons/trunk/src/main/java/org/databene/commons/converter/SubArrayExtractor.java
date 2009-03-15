@@ -44,6 +44,7 @@ public class SubArrayExtractor extends FixedSourceTypeConverter<Object[], Object
         this.indexes = indexes;
     }
 
+    @SuppressWarnings("unchecked")
     public Object[] convert(Object[] sourceValue) throws ConversionException {
         Class<Object> componentType = (Class<Object>) sourceValue.getClass().getComponentType();
         Object[] array = (Object[]) Array.newInstance(componentType, indexes.length);

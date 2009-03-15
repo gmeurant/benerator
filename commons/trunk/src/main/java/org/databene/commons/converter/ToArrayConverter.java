@@ -80,6 +80,7 @@ public class ToArrayConverter extends FixedSourceTypeConverter {
     	return convert(sourceValue, componentType, true);
     }
 
+    @SuppressWarnings("cast")
     public static Object convert(Object sourceValue, Class componentType, boolean nullToEmpty) {
     	if (sourceValue == null)
     		return (nullToEmpty ? ArrayUtil.buildArrayOfType(componentType) : null);
