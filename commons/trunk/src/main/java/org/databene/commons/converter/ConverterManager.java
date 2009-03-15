@@ -26,11 +26,11 @@
 
 package org.databene.commons.converter;
 
-import org.databene.LogCategories;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.Converter;
 import org.databene.commons.IOUtil;
 import org.databene.commons.BeanUtil;
+import org.databene.commons.LogCategories;
 import org.databene.commons.ReaderLineIterator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

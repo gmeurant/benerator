@@ -28,12 +28,12 @@ package org.databene.commons.db;
 
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
-import org.databene.LogCategories;
 import org.databene.commons.ArrayFormat;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.ConnectFailedException;
 import org.databene.commons.ErrorHandler;
 import org.databene.commons.IOUtil;
+import org.databene.commons.LogCategories;
 import org.databene.commons.ReaderLineIterator;
 import org.databene.commons.StringUtil;
 import org.databene.commons.SystemInfo;
