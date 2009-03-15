@@ -35,10 +35,8 @@ package org.databene.commons.db;
  */
 public class SQLScriptException extends Exception {
 	
-	/**
-	 * serialVersionUID of the SQLScriptException
-	 */
 	private static final long serialVersionUID = -6190417735216916815L;
+
 	private String uri;
 	private int lineNo;
 
@@ -71,7 +69,8 @@ public class SQLScriptException extends Exception {
 		return lineNo;
 	}
 
-	public String getMessage() {
+	@Override
+    public String getMessage() {
 		return "Error in execution of script " + (uri != null ? uri + ' ' : "") + "line " + lineNo + ": " 
 			+ (getCause() != null ? getCause().getMessage() : "");
 	}
