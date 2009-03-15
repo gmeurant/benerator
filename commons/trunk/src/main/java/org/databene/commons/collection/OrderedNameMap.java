@@ -103,7 +103,7 @@ public class OrderedNameMap<E> extends OrderedMap<String, E> {
         	return result;
         for (Map.Entry<String, E> entry : super.entrySet())
         	if (NullSafeComparator.equals(entry.getKey(), key))
-        		return super.remove(entry.getKey()); // TODO test proper case handling
+        		return super.remove(entry.getKey());
         return null;
     }
 
