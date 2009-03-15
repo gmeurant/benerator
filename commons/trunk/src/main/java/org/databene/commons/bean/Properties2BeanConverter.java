@@ -28,9 +28,9 @@ package org.databene.commons.bean;
 
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
 import org.databene.commons.UpdateFailedException;
 import org.databene.commons.converter.FixedSourceTypeConverter;
+import org.databene.commons.mutator.NamedMutator;
 
 import java.util.Properties;
 import java.util.Map;
@@ -53,6 +53,7 @@ public class Properties2BeanConverter<E> extends FixedSourceTypeConverter<Proper
         return convert(sourceValue, targetType);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T convert(Properties props, Class<T> targetClass) throws ConversionException {
         try {
             T bean = BeanUtil.newInstance(targetClass);
@@ -60,7 +61,7 @@ public class Properties2BeanConverter<E> extends FixedSourceTypeConverter<Proper
                 String propertyName = (String) entry.getKey();
                 if ("class".equals(propertyName))
                     continue;
-                PropertyMutator propertyMutator = PropertyMutatorFactory.getPropertyMutator(targetClass, propertyName, false);
+                NamedMutator propertyMutator = PropertyMutatorFactory.getPropertyMutator(targetClass, propertyName, false);
                 propertyMutator.setValue(bean, entry.getValue());
             }
             return bean;
