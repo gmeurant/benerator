@@ -40,10 +40,10 @@ import java.util.Collection;
  * Created: 26.08.2007 16:01:38
  * @author Volker Bergmann
  */
+@SuppressWarnings("unchecked")
 public class ToArrayConverter extends FixedSourceTypeConverter {
 
     private Class componentType;
-    private Class arrayType;
     private boolean nullToEmpty;
 
     // constructors ----------------------------------------------------------------------------------------------------
@@ -59,7 +59,6 @@ public class ToArrayConverter extends FixedSourceTypeConverter {
     public ToArrayConverter(Class componentType, boolean nullToEmpty) {
     	super(Object.class, ArrayUtil.arrayType(componentType));
         this.componentType = componentType;
-        this.arrayType = ArrayUtil.arrayType(componentType);
         this.nullToEmpty = nullToEmpty;
     }
     
