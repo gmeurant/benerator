@@ -26,6 +26,7 @@
 
 package org.databene.commons.converter;
 
+import org.databene.LogCategories;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.Converter;
 import org.databene.commons.IOUtil;
@@ -47,9 +48,10 @@ import java.io.IOException;
  * <br/>
  * Created: 04.08.2007 19:43:17
  */
+@SuppressWarnings("unchecked")
 public class ConverterManager {
 
-    private static final Log logger = LogFactory.getLog(ConverterManager.class);
+    private static final Log configLogger = LogFactory.getLog(LogCategories.CONFIG);
 
     private static final String DEFAULT_SETUP_FILENAME = "org/databene/commons/converter/converters.txt";
     private static final String CUSTOM_SETUP_FILENAME = "converters.txt";
@@ -92,7 +94,7 @@ public class ConverterManager {
             if (IOUtil.isURIAvailable(CUSTOM_SETUP_FILENAME))
                 readConfigFile(CUSTOM_SETUP_FILENAME);
             else
-                logger.info("No custom converter setup '" + CUSTOM_SETUP_FILENAME + "' found; using defaults.");
+            	configLogger.debug("No custom converter setup '" + CUSTOM_SETUP_FILENAME + "' found; using defaults.");
             readConfigFile(DEFAULT_SETUP_FILENAME);
         } catch (IOException e) {
             throw new ConfigurationError("Error reading setup file: " + DEFAULT_SETUP_FILENAME);
