@@ -4,7 +4,7 @@
 
     <groupId>org.databene</groupId>
     <artifactId>databene-commons</artifactId>
-    <version>0.4.8-alpha-3</version>
+    <version>0.4.8</version>
 <!--
     <parent>
         <groupId>databene</groupId>
@@ -172,17 +172,17 @@
                     <targetJdk>1.5</targetJdk>
                 </configuration>
             </plugin>
-
+<!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
             </plugin>
-            
+  
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jxr-maven-plugin</artifactId>
             </plugin>
-
+-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
