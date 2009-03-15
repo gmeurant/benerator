@@ -27,7 +27,6 @@
 package org.databene.commons.converter;
 
 import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
 import org.databene.commons.StringUtil;
 
 import java.util.Date;
@@ -50,6 +49,7 @@ public class String2DateConverter<E extends Date> extends FixedSourceTypeConvert
     private static final String MINUTES = "yyyy-MM-dd'T'hh:mm";
     private static final String DATE = "y-M-d";
 
+    @SuppressWarnings("unchecked")
     public String2DateConverter() {
         this((Class<E>) java.util.Date.class);
     }
@@ -58,6 +58,7 @@ public class String2DateConverter<E extends Date> extends FixedSourceTypeConvert
         super(String.class, targetType);
     }
 
+    @SuppressWarnings("unchecked")
     public E convert(String sourceValue) {
         return (E) convert(sourceValue, targetType);
     }
