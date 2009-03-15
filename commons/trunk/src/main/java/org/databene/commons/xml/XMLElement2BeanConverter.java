@@ -68,8 +68,9 @@ public class XMLElement2BeanConverter extends FixedSourceTypeConverter<Element, 
         this(null);
     }
 
+    @SuppressWarnings("unchecked")
     public XMLElement2BeanConverter(Context context) {
-        this(context, new NoOpConverter<Object>());
+        this(context, new NoOpConverter());
     }
 
     public XMLElement2BeanConverter(Context context, Converter<? super String, Object> preprocessor) {
