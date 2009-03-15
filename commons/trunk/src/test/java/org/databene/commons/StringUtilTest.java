@@ -252,11 +252,13 @@ public class StringUtilTest extends TestCase {
     }
     
     public void testEscape() {
-// TODO test escaping of ' and "    	assertEquals("\\'A\\rB\\nC\\tD\\\"", StringUtil.escape("'A\rB\nC\tD\""));
     	assertEquals(null, StringUtil.escape(null));
     	assertEquals("", StringUtil.escape(""));
     	assertEquals("ABCD", StringUtil.escape("ABCD"));
-    	assertEquals("A\\rB\\nC\\tD", StringUtil.escape("A\rB\nC\tD"));
+    	assertEquals("'\"A\\rB\\nC\\tD\"'", StringUtil.escape("'\"A\rB\nC\tD\"'"));
+    	assertEquals("\\'\"A\\rB\\nC\\tD\"\\'", StringUtil.escape("'\"A\rB\nC\tD\"'", true, false));
+    	assertEquals("'\\\"A\\rB\\nC\\tD\\\"'", StringUtil.escape("'\"A\rB\nC\tD\"'", false, true));
+    	assertEquals("\\'\\\"A\\rB\\nC\\tD\\\"\\'", StringUtil.escape("'\"A\rB\nC\tD\"'", true, true));
     }
     
     public void testUnescape() {
@@ -264,6 +266,25 @@ public class StringUtilTest extends TestCase {
     	assertEquals("", StringUtil.unescape(""));
     	assertEquals("ABCD", StringUtil.unescape("ABCD"));
     	assertEquals("'A\rB\nC\tD\"", StringUtil.unescape("\\'A\\rB\\nC\\tD\\\""));
+    }
+    
+    public void testEmptyToNull() {
+    	assertEquals(" a ", StringUtil.emptyToNull(" a "));
+    	assertEquals(null, StringUtil.emptyToNull(null));
+    	assertEquals(null, StringUtil.emptyToNull(""));
+    	assertEquals(null, StringUtil.emptyToNull("   "));
+    }
+    
+    public void testRemoveSection() {
+    	// check valid settings
+    	assertEquals("123789", StringUtil.removeSection("123456789", "45", "56"));
+    	assertEquals("123789", StringUtil.removeSection("123456789", "456", "56"));
+    	assertEquals("13", StringUtil.removeSection("123", "2", "2"));
+    	assertEquals("23", StringUtil.removeSection("123", "1", "1"));
+    	assertEquals("12", StringUtil.removeSection("123", "3", "3"));
+    	// check invalid setups - they leave the string unmodified
+    	assertEquals("123456789", StringUtil.removeSection("123456789", "32", "56"));
+    	assertEquals("123456789", StringUtil.removeSection("123456789", "45", "34"));
     }
     
     // helpers ---------------------------------------------------------------------------------------------------------
