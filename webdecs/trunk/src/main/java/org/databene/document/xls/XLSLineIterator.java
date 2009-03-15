@@ -26,6 +26,7 @@
 
 package org.databene.document.xls;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
@@ -69,9 +70,10 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 		this(uri, sheetIndex, null);
 	}
 	
-	public XLSLineIterator(String uri, int sheetIndex, Converter<String, ? extends Object> preprocessor) throws IOException {
+	@SuppressWarnings("unchecked")
+    public XLSLineIterator(String uri, int sheetIndex, Converter<String, ? extends Object> preprocessor) throws IOException {
 		if (preprocessor == null)
-			preprocessor = new NoOpConverter<String>();
+			preprocessor = new NoOpConverter();
 		this.preprocessor = preprocessor;
 		workbook = new HSSFWorkbook(IOUtil.getInputStreamForURI(uri));
 		HSSFSheet sheet = workbook.getSheetAt(sheetIndex);
