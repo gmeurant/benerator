@@ -4,10 +4,10 @@
 
     <groupId>org.databene</groupId>
     <artifactId>databene-webdecs</artifactId>
-    <version>0.4.8-alpha-3</version>
+    <version>0.4.8</version>
 
     <properties>
-	    <commons_version>0.4.8-alpha-3</commons_version>
+	    <commons_version>0.4.8</commons_version>
     </properties>
 
 <!--
@@ -58,7 +58,7 @@
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <version>3.5-beta4</version>
+            <version>3.5-beta5</version>
         </dependency>
 
         <dependency>
@@ -185,7 +185,7 @@
                     <targetJdk>1.5</targetJdk>
                 </configuration>
             </plugin>
-            
+<!-- 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -195,7 +195,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jxr-maven-plugin</artifactId>
             </plugin>
-
+ -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
