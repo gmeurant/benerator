@@ -40,6 +40,7 @@ public class ArrayTypeConverter<T> extends ArrayConverter<Object, T> {
         super(Object.class, arrayComponentType, createConverters(elementTypes));
     }
 
+    @SuppressWarnings("unchecked")
     private static <T>Converter<Object, T>[] createConverters(Class<? extends T> ... elementTypes) {
         Converter<Object, T>[] converters = new Converter[elementTypes.length];
         for (int i = 0; i < elementTypes.length; i++)

@@ -36,6 +36,7 @@ import java.util.ArrayList;
  * <br/>
  * Created: 13.05.2005 17:43:04
  */
+@SuppressWarnings("unchecked")
 public class BidirectionalConverterChain<S, T> extends AbstractBidirectionalConverter<S, T> {
 
     private ArrayList<Converter> list;
