@@ -35,12 +35,13 @@ import org.databene.commons.ConversionException;
  */
 public class NoOpConverter<E> extends AbstractBidirectionalConverter<E,E> {
 
-    private static NoOpConverter instance = new NoOpConverter();
+    private static NoOpConverter<?> instance = new NoOpConverter<Object>();
 
-    public static NoOpConverter getInstance() {
+    public static NoOpConverter<?> getInstance() {
         return instance;
     }
 
+    @SuppressWarnings("unchecked")
     public NoOpConverter() {
         this((Class<E>) Object.class);
     }
@@ -57,6 +58,7 @@ public class NoOpConverter<E> extends AbstractBidirectionalConverter<E,E> {
         return target;
     }
 
+    @Override
     public String toString() {
         return getClass().getSimpleName();
     }
