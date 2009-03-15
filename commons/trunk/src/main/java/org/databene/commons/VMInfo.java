@@ -33,130 +33,291 @@ package org.databene.commons;
  */
 public final class VMInfo {
 
-	// TODO v0.5.8 extract constants, create getters and setters for each System property and deprecate the old methods
     /**
      * Java Runtime Environment version
+     * @deprecated Use {@link #getJavaVersion()}
      */
+	@Deprecated
     public static String javaVersion() {
         return System.getProperty("java.version");
     }
 
     /**
-     * @return the Java Runtime Environment vendor
+     * Java Runtime Environment version
      */
+    public static String getJavaVersion() {
+        return System.getProperty("java.version");
+    }
+
+    /**
+     * @return the Java Runtime Environment vendor
+     * @deprecated Use {@link #getJavaVendor()}
+     */
+    @Deprecated
     public static String javaVendor() {
         return System.getProperty("java.vendor");
     }
 
     /**
-     * @return the Java vendor URL
+     * @return the Java Runtime Environment vendor
      */
+    public static String getJavaVendor() {
+        return System.getProperty("java.vendor");
+    }
+
+    /**
+     * @return the Java vendor URL
+     * @deprecated Use {@link #getJavaVendorUrl()}
+     */
+	@Deprecated
     public static String javaVendorUrl() {
         return System.getProperty("java.vendor.url");
     }
 
     /**
-     * @return the Java Runtime Environment specification version
+     * @return the Java vendor URL
      */
+    public static String getJavaVendorUrl() {
+        return System.getProperty("java.vendor.url");
+    }
+
+    /**
+     * @return the Java Runtime Environment specification version
+     * @deprecated Use {@link #getJavaSpecificationVersion()}
+     */
+	@Deprecated
     public static String javaSpecificationVersion() {
         return System.getProperty("java.specification.version");
     }
 
     /**
-     * @return the Java Runtime Environment specification vendor
+     * @return the Java Runtime Environment specification version
      */
+    public static String getJavaSpecificationVersion() {
+        return System.getProperty("java.specification.version");
+    }
+
+    /**
+     * @return the Java Runtime Environment specification vendor
+     * @deprecated Use {@link #getJavaSpecificationVendor()}
+     */
+	@Deprecated
     public static String javaSpecificationVendor() {
         return System.getProperty("java.specification.vendor");
     }
 
     /**
-     * @return the Java Runtime Environment specification name
+     * @return the Java Runtime Environment specification vendor
      */
+    public static String getJavaSpecificationVendor() {
+        return System.getProperty("java.specification.vendor");
+    }
+
+    /**
+     * @return the Java Runtime Environment specification name
+     * @deprecated Use {@link #getJavaSpecificationName()}
+     */
+	@Deprecated
     public static String javaSpecificationName() {
         return System.getProperty("java.specification.name");
     }
 
     /**
-     * @return the Java class format version number
+     * @return the Java Runtime Environment specification name
      */
+    public static String getJavaSpecificationName() {
+        return System.getProperty("java.specification.name");
+    }
+
+    /**
+     * @return the Java class format version number
+     * @deprecated Use {@link #getJavaClassVersion()}
+     */
+	@Deprecated
     public static String javaClassVersion() {
         return System.getProperty("java.class.version");
     }
 
     /**
-     * @return the name of JIT compiler to use
+     * @return the Java class format version number
      */
+    public static String getJavaClassVersion() {
+        return System.getProperty("java.class.version");
+    }
+
+    /**
+     * @return the name of JIT compiler to use
+     * @deprecated Use {@link #getJavaCompiler()}
+     */
+	@Deprecated
     public static String javaCompiler() {
         return System.getProperty("java.compiler");
     }
 
     /**
-     * @return Java installation directory
+     * @return the name of JIT compiler to use
      */
+    public static String getJavaCompiler() {
+        return System.getProperty("java.compiler");
+    }
+
+    /**
+     * @return Java installation directory
+     * @deprecated Use {@link #getJavaHome()}
+     */
+	@Deprecated
     public static String javaHome() {
         return System.getProperty("java.home");
     }
 
     /**
-     * @return Path of extension directory or directories
+     * @return Java installation directory
      */
+    public static String getJavaHome() {
+        return System.getProperty("java.home");
+    }
+
+    /**
+     * @return Path of extension directory or directories
+     * @deprecated Use {@link #getExtDirs()}
+     */
+	@Deprecated
     public static String extDirs() {
         return System.getProperty("java.ext.dirs");
     }
 
     /**
-     * @return Java class path
+     * @return Path of extension directory or directories
      */
+    public static String getExtDirs() {
+        return System.getProperty("java.ext.dirs");
+    }
+
+    /**
+     * @return Java class path
+     * @deprecated Use {@link #getClassPath()}
+     */
+	@Deprecated
     public static String classPath() {
         return System.getProperty("java.class.path");
     }
 
     /**
-     * @return List of paths to search when loading libraries
+     * @return Java class path
      */
+    public static String getClassPath() {
+        return System.getProperty("java.class.path");
+    }
+
+    /**
+     * @return List of paths to search when loading libraries
+     * @deprecated Use {@link #getLibraryPath()}
+     */
+	@Deprecated
     public static String libraryPath() {
         return System.getProperty("java.library.path");
     }
 
     /**
-     * @return the Java Virtual Machine specification version
+     * @return List of paths to search when loading libraries
      */
+    public static String getLibraryPath() {
+        return System.getProperty("java.library.path");
+    }
+
+    /**
+     * @return the Java Virtual Machine specification version
+     * @deprecated Use {@link #getJavaVmSpecificationVersion()}
+     */
+	@Deprecated
     public static String javaVmSpecificationVersion() {
         return System.getProperty("java.vm.specification.version");
     }
 
     /**
-     * @return the Java Virtual Machine specification vendor
+     * @return the Java Virtual Machine specification version
      */
+    public static String getJavaVmSpecificationVersion() {
+        return System.getProperty("java.vm.specification.version");
+    }
+
+    /**
+     * @return the Java Virtual Machine specification vendor
+     * @deprecated Use {@link #getJavaVmSpecificationVendor()}
+     */
+	@Deprecated
     public static String javaVmSpecificationVendor() {
         return System.getProperty("java.vm.specification.vendor");
     }
 
     /**
-     * @return the Java Virtual Machine specification name
+     * @return the Java Virtual Machine specification vendor
      */
+    public static String getJavaVmSpecificationVendor() {
+        return System.getProperty("java.vm.specification.vendor");
+    }
+
+    /**
+     * @return the Java Virtual Machine specification name
+     * @deprecated Use {@link #getJavaVmSpecificationName()}
+     */
+	@Deprecated
     public static String javaVmSpecificationName() {
         return System.getProperty("java.vm.specification.name");
     }
 
     /**
-     * @return the Java Virtual Machine implementation version
+     * @return the Java Virtual Machine specification name
      */
+    public static String getJavaVmSpecificationName() {
+        return System.getProperty("java.vm.specification.name");
+    }
+
+    /**
+     * @return the Java Virtual Machine implementation version
+     * @deprecated Use {@link #getJavaVmVersion()}
+     */
+	@Deprecated
     public static String javaVmVersion() {
         return System.getProperty("java.vm.version");
     }
 
     /**
-     * @return the Java Virtual Machine implementation vendor
+     * @return the Java Virtual Machine implementation version
      */
+    public static String getJavaVmVersion() {
+        return System.getProperty("java.vm.version");
+    }
+
+    /**
+     * @return the Java Virtual Machine implementation vendor
+     * @deprecated Use {@link #getJavaVmVendor()}
+     */
+	@Deprecated
     public static String javaVmVendor() {
         return System.getProperty("java.vm.vendor");
     }
 
     /**
+     * @return the Java Virtual Machine implementation vendor
+     */
+    public static String getJavaVmVendor() {
+        return System.getProperty("java.vm.vendor");
+    }
+
+    /**
+     * @return the Java Virtual Machine implementation name
+     * @deprecated Use {@link #getJavaVmName()}
+     */
+	@Deprecated
+    public static String javaVmName() {
+        return System.getProperty("java.vm.name");
+    }
+
+    /**
      * @return the Java Virtual Machine implementation name
      */
-    public static String javaVmName() {
+    public static String getJavaVmName() {
         return System.getProperty("java.vm.name");
     }
 
