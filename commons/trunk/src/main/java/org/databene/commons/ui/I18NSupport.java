@@ -26,6 +26,7 @@
 
 package org.databene.commons.ui;
 
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
@@ -71,6 +72,10 @@ public class I18NSupport {
 			string = resourceName;
 		}
 		return string;
+	}
+	
+	public String format(String resourceName, Object... args) {
+		return MessageFormat.format(getString(resourceName), args);
 	}
 	
 	@Override
