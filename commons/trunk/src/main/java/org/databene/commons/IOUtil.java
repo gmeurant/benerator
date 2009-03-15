@@ -34,7 +34,6 @@ import java.io.*;
 import java.net.URL;
 import java.net.MalformedURLException;
 import java.net.URLConnection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -362,7 +361,7 @@ public final class IOUtil {
     }
     
     public static Map<String, String> readProperties(String filename, String encoding) throws IOException {
-        return readProperties(new HashMap(), filename, null, encoding);
+        return readProperties(new OrderedMap(), filename, null, encoding);
     }
     
     public static <V> Map<String, V> readProperties(
@@ -372,7 +371,7 @@ public final class IOUtil {
     
     public static <V> Map<String, V> readProperties(
             String filename, Converter<Map.Entry, Map.Entry> converter, String encoding) throws IOException {
-        return readProperties(new HashMap<String, V>(), filename, converter, encoding);
+        return readProperties(new OrderedMap<String, V>(), filename, converter, encoding);
     }
 
     private static <M extends Map> M readProperties(M target, String filename, 
@@ -393,7 +392,7 @@ public final class IOUtil {
                 if (key != null) {
                     value += normalizeLine(line);
                 } else {
-                    String[] assignment = ParseUtil.parseAssignment(line, "=");
+                    String[] assignment = ParseUtil.parseAssignment(line, "=", false);
                     if (assignment != null && assignment[1] != null) {
                         key = assignment[0];
                         value = normalizeLine(assignment[1]);
