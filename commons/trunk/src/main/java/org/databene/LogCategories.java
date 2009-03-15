@@ -34,6 +34,8 @@ package org.databene;
  * @author Volker Bergmann
  */
 public class LogCategories {
-	public static final String JDBC = "org.databene.JDBC";
-	public static final String SQL  = "org.databene.SQL";
+	public static final String JDBC    = "org.databene.JDBC";
+	public static final String SQL     = "org.databene.SQL";
+	public static final String CONFIG  = "org.databene.CONFIG";
+	public static final String COMMENT = "org.databene.COMMENT";
 }
