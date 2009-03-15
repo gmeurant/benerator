@@ -436,21 +436,18 @@ public final class StringUtil {
         if (path == null)
             return new String[] { null, null };
         int sepIndex = path.indexOf(separator);
-        if (sepIndex < 0)
-            return new String[] { null, path };
-        else if (sepIndex == 0)
-            return new String[] { "", path.substring(1) };
-        else if (sepIndex == path.length() - 1)
-            return new String[] { path.substring(0, path.length() - 1), "" };
-        else
-            return new String[] { path.substring(0, sepIndex), path.substring(sepIndex + 1) };
+        return splitAroundSeparator(path, sepIndex);
     }
 
     public static String[] splitOnLastSeparator(String path, char separator) {
         if (path == null)
             return new String[] { null, null };
         int sepIndex = path.lastIndexOf(separator);
-        if (sepIndex < 0)
+        return splitAroundSeparator(path, sepIndex);
+    }
+
+	public static String[] splitAroundSeparator(String path, int sepIndex) {
+	    if (sepIndex < 0)
             return new String[] { null, path };
         else if (sepIndex == 0)
             return new String[] { "", path.substring(1) };
@@ -540,14 +537,20 @@ public final class StringUtil {
 	}
 
 	public static String escape(String text) {
-		if (text != null) {
-			text = text.replace("\\", "\\\\"); // keep this first, otherwise all other escapes will be doubled
-			text = text.replace(CR, "\\r");
-			text = text.replace(LF, "\\n");
-			text = text.replace(TAB, "\\t");
-//			text = text.replace("'", "\\'"); // TODO when to apply this?
-//			text = text.replace("\"", "\\\""); // TODO when to apply this?
-		}
+		return escape(text, false, false);
+	}
+
+	public static String escape(String text, boolean escapeSingleQuotes, boolean escapeDoubleQuotes) {
+		if (text == null)
+			return null;
+		text = text.replace("\\", "\\\\"); // keep this first, otherwise all other escapes will be doubled
+		text = text.replace(CR, "\\r");
+		text = text.replace(LF, "\\n");
+		text = text.replace(TAB, "\\t");
+		if (escapeSingleQuotes)
+			text = text.replace("'", "\\'");
+		if (escapeDoubleQuotes)
+			text = text.replace("\"", "\\\"");
 		return text;
 	}
 
@@ -581,4 +584,20 @@ public final class StringUtil {
 		return builder.toString();
 	}
 
+	public static String emptyToNull(String s) {
+		if (s == null || s.length() == 0)
+			return null;
+		String trimmed = trim(s);
+		return (trimmed.length() != 0 ? s : null);
+	}
+
+    public static String removeSection(String text, String beginMark, String endMark) {
+    	if (StringUtil.isEmpty(text))
+    		return text;
+	    int beginIndex = text.indexOf(beginMark);
+	    int endIndex = text.indexOf(endMark);
+	    if (beginIndex < 0 || endIndex < 0 || beginIndex + beginMark.length() > endIndex + endMark.length())
+	    	return text;
+	    return text.substring(0, beginIndex) + text.substring(endIndex + endMark.length());
+    }
 }
