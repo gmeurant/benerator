@@ -39,7 +39,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * TODO document class DBProductType.<br/>
+ * Represents a JDBC driver and related information.<br/>
  * <br/>
  * Created at 23.02.2009 09:40:31
  * @since 0.4.8
@@ -48,18 +48,21 @@ import org.w3c.dom.Element;
 
 public class JDBCDriverInfo {
 
-	private String id;
+    private static final String DB_DEFINITION_FILE = "org/databene/commons/db/jdbc-driver-info.xml";
+
+    private String id;
 	private String name;
 	private String dbSystem;
 	private String downloadUrl;
 	private String driverClass;
 	private String defaultDatabase;
+	private String defaultSchema;
 	private String defaultPort;
 	private String urlPattern;
 	private String defaultUser;
 	private String[] jars;
 	private boolean installed;
-
+	
 	public JDBCDriverInfo() {
 		this.installed = false;
 	}
@@ -146,7 +149,15 @@ public class JDBCDriverInfo {
 
 	// operations ------------------------------------------------------------------------------------------------------
 	
-	public boolean isInstalled() {
+	public String getDefaultSchema() {
+    	return defaultSchema;
+    }
+
+	public void setDefaultSchema(String defaultSchema) {
+    	this.defaultSchema = defaultSchema;
+    }
+
+	public boolean installed() {
 		if (installed)
 			return true;
 		try {
@@ -174,7 +185,7 @@ public class JDBCDriverInfo {
 	
 	static {
 		try {
-	        Document document = XMLUtil.parse("org/databene/commons/db/db.xml");
+	        Document document = XMLUtil.parse(DB_DEFINITION_FILE);
 	        Element root = document.getDocumentElement();
 	        Element[] driverElements = XMLUtil.getChildElements(root);
 	        for (Element driverElement : driverElements) {
@@ -185,6 +196,7 @@ public class JDBCDriverInfo {
 	        	driver.setDriverClass(driverElement.getAttribute("class"));
 	        	driver.setDefaultPort(driverElement.getAttribute("port"));
 	        	driver.setDefaultDatabase(driverElement.getAttribute("defaultDatabase"));
+	        	driver.setDefaultSchema(driverElement.getAttribute("defaultSchema"));
 	        	driver.setUrlPattern(driverElement.getAttribute("url"));
 	        	driver.setDownloadUrl(driverElement.getAttribute("info"));
 	        	driver.setDefaultUser(driverElement.getAttribute("user"));
