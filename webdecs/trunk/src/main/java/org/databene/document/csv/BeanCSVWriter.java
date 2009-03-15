@@ -103,7 +103,7 @@ public class BeanCSVWriter<E> extends ScriptedDocumentWriter<E> {
                     out.write(separator);
                     out.write(CSVUtil.renderCell(cells[i], separator));
                 }
-                out.write(SystemInfo.lineSeparator());
+                out.write(SystemInfo.getLineSeparator());
             } catch (ConversionException e) {
                 throw new ScriptException(e);
             }

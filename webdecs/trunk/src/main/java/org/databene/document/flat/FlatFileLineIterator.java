@@ -54,7 +54,7 @@ public class FlatFileLineIterator implements HeavyweightIterator<String[]> {
     // constructors ----------------------------------------------------------------------------------------------------
 
     public FlatFileLineIterator(String uri, PadFormat[] formats) throws IOException {
-        this(uri, formats, SystemInfo.fileEncoding());
+        this(uri, formats, SystemInfo.getFileEncoding());
     }
 
     public FlatFileLineIterator(String uri, PadFormat[] formats, String encoding) throws IOException {
@@ -62,7 +62,7 @@ public class FlatFileLineIterator implements HeavyweightIterator<String[]> {
     }
 
     public FlatFileLineIterator(String uri, PadFormat[] formats, boolean ignoreEmptyLines) throws IOException {
-        this(uri, formats, ignoreEmptyLines, SystemInfo.fileEncoding());
+        this(uri, formats, ignoreEmptyLines, SystemInfo.getFileEncoding());
     }
 
     public FlatFileLineIterator(String uri, PadFormat[] formats, boolean ignoreEmptyLines, String encoding) throws IOException {

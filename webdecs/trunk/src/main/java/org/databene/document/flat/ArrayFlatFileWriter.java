@@ -97,7 +97,7 @@ public class ArrayFlatFileWriter<E> extends ScriptedDocumentWriter<E[]> {
                 Object[] cellsOfCurrentRow = (Object[]) context.get("part");
                 for (int i = 0; i < cellsOfCurrentRow.length; i++)
                     out.write(converters[i].convert(cellsOfCurrentRow[i]));
-                out.write(SystemInfo.lineSeparator());
+                out.write(SystemInfo.getLineSeparator());
             } catch (ConversionException e) {
                 throw new ScriptException(e);
             }

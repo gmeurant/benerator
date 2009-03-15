@@ -28,10 +28,8 @@ package org.databene.document.csv;
 
 import static org.databene.document.csv.CSVTokenType.*;
 
-import org.databene.commons.ConfigurationError;
 import org.databene.commons.Heavyweight;
 import org.databene.commons.IOUtil;
-import org.databene.commons.StringUtil;
 import org.databene.commons.SystemInfo;
 
 import java.io.*;
@@ -102,7 +100,7 @@ public class CSVTokenizer implements Heavyweight {
      * @throws IOException
      */
     public CSVTokenizer(String uri, char separator) throws IOException {
-        this(uri, separator, SystemInfo.fileEncoding());
+        this(uri, separator, SystemInfo.getFileEncoding());
     }
 
     public CSVTokenizer(String uri, char separator, String encoding) throws IOException {

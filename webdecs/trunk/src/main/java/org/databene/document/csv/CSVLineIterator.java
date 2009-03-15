@@ -81,7 +81,7 @@ public class CSVLineIterator implements HeavyweightIterator<String[]> {
     }
 
     public CSVLineIterator(String uri, char separator, boolean ignoreEmptyLines) throws IOException {
-        this(uri, separator, ignoreEmptyLines, SystemInfo.fileEncoding());
+        this(uri, separator, ignoreEmptyLines, SystemInfo.getFileEncoding());
     }
 
     public CSVLineIterator(String uri, char separator, boolean ignoreEmptyLines, String encoding) throws IOException {

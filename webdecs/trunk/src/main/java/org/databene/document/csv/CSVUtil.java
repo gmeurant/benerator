@@ -41,7 +41,7 @@ import java.util.ArrayList;
 public class CSVUtil {
 
     public static String[][] parseRows(String url, char separator) throws IOException {
-        return parseRows(url, separator, SystemInfo.fileEncoding());
+        return parseRows(url, separator, SystemInfo.getFileEncoding());
     }
 
     public static String[][] parseRows(String url, char separator, String encoding) throws IOException {
@@ -62,6 +62,6 @@ public class CSVUtil {
     }
 
     public static String formatHeader(char separator, String... propertyNames) {
-        return ArrayFormat.format(String.valueOf(separator), propertyNames) + SystemInfo.lineSeparator();
+        return ArrayFormat.format(String.valueOf(separator), propertyNames) + SystemInfo.getLineSeparator();
     }
 }

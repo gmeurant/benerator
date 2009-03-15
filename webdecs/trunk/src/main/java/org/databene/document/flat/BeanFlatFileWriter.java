@@ -103,7 +103,7 @@ public class BeanFlatFileWriter<E> extends ScriptedDocumentWriter<E> {
                 String[] cells = converter.convert(context.get("part"));
                 for (int i = 0; i < cells.length; i++)
                     out.write(cells[i]);
-                out.write(SystemInfo.lineSeparator());
+                out.write(SystemInfo.getLineSeparator());
             } catch (ConversionException e) {
                 throw new ScriptException(e);
             }

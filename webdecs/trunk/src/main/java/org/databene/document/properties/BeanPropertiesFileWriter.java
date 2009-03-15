@@ -100,7 +100,7 @@ public class BeanPropertiesFileWriter<E> extends ScriptedDocumentWriter<E> {
 
     private static class PartScript extends AbstractScript {
 
-        private static final String LINE_SEPARATOR = SystemInfo.lineSeparator();
+        private static final String LINE_SEPARATOR = SystemInfo.getLineSeparator();
 
         private MessageFormat prefixFormat;
         private String[] propertyNames;

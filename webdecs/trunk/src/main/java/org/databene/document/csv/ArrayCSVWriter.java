@@ -100,7 +100,7 @@ public class ArrayCSVWriter<E> extends ScriptedDocumentWriter<E[]> {
                     out.write(separator);
                     out.write(converter.convert(cellsOfCurrentRow[i]));
                 }
-                out.write(SystemInfo.lineSeparator());
+                out.write(SystemInfo.getLineSeparator());
             } catch (ConversionException e) {
                 throw new ScriptException(e);
             }
