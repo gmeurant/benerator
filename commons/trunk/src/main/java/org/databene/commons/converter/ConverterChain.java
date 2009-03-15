@@ -33,8 +33,8 @@ import org.databene.commons.Converter;
 import java.util.ArrayList;
 
 /**
- * Aggregates other (sub) convertes and implements conversion by subsequent invocation of the sub generators,
- * each converting the result of the preceeding converter.<br/>
+ * Aggregates other (sub) converters and implements conversion by subsequent invocation of the sub generators,
+ * each converting the result of the preceding converter.<br/>
  * <br/>
  * Created: 13.05.2005 17:43:04
  * @author Volker Bergmann
@@ -57,7 +57,7 @@ public class ConverterChain<S, T> implements Converter<S, T> {
 
     @Override
 	public Class<T> getTargetType() {
-        return (Class<T>) converters.get(converters.size() - 1).getTargetType();
+        return converters.get(converters.size() - 1).getTargetType();
     }
 
 	@Override
