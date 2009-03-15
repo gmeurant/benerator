@@ -157,7 +157,7 @@ public class HTML2XML {
     }
 
     private static void writeHeader(Writer writer) throws IOException {
-        writer.write("<?xml version=\"1.0\"?>" + SystemInfo.lineSeparator());
+        writer.write("<?xml version=\"1.0\"?>" + SystemInfo.getLineSeparator());
     }
 
     private static void writeEmptyTag(Writer writer, HTMLTokenizer tokenizer) throws IOException {
