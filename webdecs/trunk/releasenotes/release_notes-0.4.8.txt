@@ -1,0 +1,6 @@
+release notes databene webdecs 0.4.8
+------------------------------------
+
+Summary
+-------
+Webdecs 0.4.8 introduces an XLSLineIterator and adapts to various interface changes in databene-commons.
