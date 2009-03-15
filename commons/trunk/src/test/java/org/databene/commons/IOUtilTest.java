@@ -57,12 +57,14 @@ public class IOUtilTest extends TestCase {
     }
 
     public void testIsURIAvaliable() {
+        assertTrue(IOUtil.isURIAvailable("file://org/databene/commons/names.csv"));
+        assertTrue(IOUtil.isURIAvailable("file:org/databene/commons/names.csv"));
         assertTrue(IOUtil.isURIAvailable("org/databene/commons/names.csv"));
         assertFalse(IOUtil.isURIAvailable("org/databene/commons/not.an.existing.file"));
     }
 
     public void testGetContentOfURI() throws IOException {
-        // TODO make this run assertEquals("Alice,Bob\r\nCharly", IOUtil.getContentOfURI("file:org/databene/commons/names.csv"));
+        assertEquals("Alice,Bob\r\nCharly", IOUtil.getContentOfURI("file:org/databene/commons/names.csv"));
         assertEquals("Alice,Bob\r\nCharly", IOUtil.getContentOfURI("file://org/databene/commons/names.csv"));
         assertEquals("Alice,Bob\r\nCharly", IOUtil.getContentOfURI("org/databene/commons/names.csv"));
     }
@@ -78,17 +80,13 @@ public class IOUtilTest extends TestCase {
     
     public void testGetInputStreamForURIOfStringProtocol() throws Exception {
         InputStream stream = IOUtil.getInputStreamForURI("string://Alice,Bob\r\nCharly");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(stream, SystemInfo.charset()));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream, SystemInfo.getCharset()));
         assertEquals("Alice,Bob", reader.readLine());
         assertEquals("Charly", reader.readLine());
         assertNull(reader.readLine());
         reader.close();
     }
 
-    public void testGetInputStreamForURIReference() throws Exception {
-    	// TODO v0.5.7 implement testGetInputStreamForURIReference()
-    }
-    
     public void testResolveLocalUri() {
     	assertEquals("test.html", IOUtil.resolveLocalUri("test.html", null));
     	assertEquals("test.html", IOUtil.resolveLocalUri("test.html", ""));
@@ -101,9 +99,9 @@ public class IOUtilTest extends TestCase {
     	assertEquals("sub/test.html", IOUtil.resolveLocalUri("sub/test.html", ""));
     	assertEquals("../test.html", IOUtil.resolveLocalUri("../test.html", ""));
     	assertEquals("file:///test.html", IOUtil.resolveLocalUri("file:///test.html", "http://bla.txt"));
+    	assertEquals("file:/test.html", IOUtil.resolveLocalUri("file:/test.html", "http://bla.txt"));
     	assertEquals("/Users/name/text.txt", IOUtil.resolveLocalUri("text.txt", "/Users/name/"));
     	assertEquals("/Users/user2/text.txt", IOUtil.resolveLocalUri("/Users/user2/text.txt", "/Users/user1/"));
-    	// TODO v0.5.7 test fallback to "./"
     }
     
     public void testGetContextUri() {
@@ -112,7 +110,7 @@ public class IOUtilTest extends TestCase {
     	assertEquals("file://test/", IOUtil.getContextUri("file://test/text.txt"));
     	assertEquals("test/", IOUtil.getContextUri("test/text.txt"));
     	assertEquals("http://test.de/", IOUtil.getContextUri("http://test.de/text.txt"));
-    	char fileSeparator = SystemInfo.fileSeparator();
+    	char fileSeparator = SystemInfo.getFileSeparator();
     	System.setProperty("file.separator", "\\");
     	try {
     		assertEquals("C:\\test\\", IOUtil.getContextUri("C:\\test\\bla.txt"));
@@ -205,7 +203,7 @@ public class IOUtilTest extends TestCase {
     	URLConnection c3 = new URLConnectionMock(URL, null, null);
     	assertEquals(ENCODING, IOUtil.encoding(c3, ENCODING));
     	URLConnection c4 = new URLConnectionMock(URL, null, null);
-    	assertEquals(SystemInfo.fileEncoding(), IOUtil.encoding(c4, null));
+    	assertEquals(SystemInfo.getFileEncoding(), IOUtil.encoding(c4, null));
     }
     
     private class URLConnectionMock extends URLConnection {
@@ -220,7 +218,7 @@ public class IOUtilTest extends TestCase {
 		}
 
 		@Override
-		public void connect() throws IOException {
+		public void connect() {
 			throw new UnsupportedOperationException("connect() not implemented");
 		}
     	
