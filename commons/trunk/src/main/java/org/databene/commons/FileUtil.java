@@ -68,7 +68,7 @@ public final class FileUtil {
     }
 
 	public static String nativePath(String path) {
-		return path.replace('/', SystemInfo.fileSeparator());
+		return path.replace('/', SystemInfo.getFileSeparator());
 	}
 
 	public static boolean isEmptyFolder(File folder) {
@@ -86,7 +86,7 @@ public final class FileUtil {
     		return;
     	if (!srcFile.exists())
     		throw new ConfigurationError("Source file not found: " + srcFile);
-    	if (!overwrite && targetFile.exists()) // TODO test this
+    	if (!overwrite && targetFile.exists())
     		throw new ConfigurationError("Target file already exists: " + targetFile);
     	if (srcFile.isFile())
     		copyFile(srcFile, targetFile);
