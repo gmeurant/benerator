@@ -78,27 +78,27 @@ public class VMInfoTest extends TestCase {
     }
 
     public void testJavaVMName() {
-        assertNotNull(VMInfo.javaVmName());
+        assertNotNull(VMInfo.getJavaVmName());
     }
 
     public void testJavaVMSpecificationName() {
-        assertNotNull(VMInfo.javaVmSpecificationName());
+        assertNotNull(VMInfo.getJavaVmSpecificationName());
     }
 
     public void testJavaVMSpecificationVendor() {
-        assertNotNull(VMInfo.javaVmSpecificationVendor());
+        assertNotNull(VMInfo.getJavaVmSpecificationVendor());
     }
 
     public void testJavaVMSpecificationVarsion() {
-        assertNotNull(VMInfo.javaVmSpecificationVersion());
+        assertNotNull(VMInfo.getJavaVmSpecificationVersion());
     }
 
     public void testJavaVMVendor() {
-        assertNotNull(VMInfo.javaVmVendor());
+        assertNotNull(VMInfo.getJavaVmVendor());
     }
 
     public void testJavaVersion() {
-        assertNotNull(VMInfo.javaVmVersion());
+        assertNotNull(VMInfo.getJavaVmVersion());
     }
 
 }

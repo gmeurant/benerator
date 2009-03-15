@@ -37,7 +37,7 @@ import java.io.Reader;
  */
 public class ReaderLineIteratorTest extends TestCase {
 
-    private static final String SEP = SystemInfo.lineSeparator();
+    private static final String SEP = SystemInfo.getLineSeparator();
 
     public void test() {
         Reader reader = new StringReader("alpha " + SEP + " beta" + SEP);

@@ -42,53 +42,53 @@ public class SystemInfoTest extends TestCase {
     private static final Log logger = LogFactory.getLog(SystemInfoTest.class);
 
     public void testVersion() {
-        assertNotNull(SystemInfo.osVersion());
+        assertNotNull(SystemInfo.getOsVersion());
     }
 
     public void testOSArchitecture() {
-        assertNotNull(SystemInfo.osArchitecture());
+        assertNotNull(SystemInfo.getOsArchitecture());
     }
 
     public void testOSName() {
-        assertNotNull(SystemInfo.osName());
+        assertNotNull(SystemInfo.getOsName());
     }
 
     public void testLineSeparator() {
-        assertNotNull(SystemInfo.lineSeparator());
+        assertNotNull(SystemInfo.getLineSeparator());
     }
 
     public void testPathSeparator() {
-        assertNotNull(SystemInfo.pathSeparator());
+        assertNotNull(SystemInfo.getPathSeparator());
     }
 
     public void testFileSeparator() {
-        char fileSeparator = SystemInfo.fileSeparator();
+        char fileSeparator = SystemInfo.getFileSeparator();
         assertEquals(File.separatorChar, fileSeparator);
     }
 
     public void testCurrentDir() throws IOException {
-        String currentDir = SystemInfo.currentDir();
+        String currentDir = SystemInfo.getCurrentDir();
         assertNotNull(currentDir);
         assertEquals(new File(".").getCanonicalPath(), currentDir);
     }
 
     public void testUserName() {
-        assertNotNull(SystemInfo.userName());
+        assertNotNull(SystemInfo.getUserName());
     }
 
     public void testUserHome() {
-        File userHome = new File(SystemInfo.userHome());
+        File userHome = new File(SystemInfo.getUserHome());
         assertTrue(userHome.exists());
     }
 
     public void testTempDir() {
-        String tempDir = SystemInfo.tempDir();
+        String tempDir = SystemInfo.getTempDir();
         assertNotNull(tempDir);
         assertTrue(new File(tempDir).exists());
     }
 
     public void testUserLanguage() {
-        String userLanguage = SystemInfo.userLanguage();
+        String userLanguage = SystemInfo.getUserLanguage();
         logger.debug("user language: " + userLanguage);
         assertNotNull(userLanguage);
     }
