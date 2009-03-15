@@ -27,7 +27,6 @@
 package org.databene.script.quickscript;
 
 import org.databene.script.AbstractScript;
-import org.databene.script.Script;
 import org.databene.script.ScriptException;
 import org.databene.commons.Accessor;
 import org.databene.commons.Context;
