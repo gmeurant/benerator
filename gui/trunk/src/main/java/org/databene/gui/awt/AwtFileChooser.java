@@ -65,7 +65,7 @@ public class AwtFileChooser extends FileDialog implements FileChooser {
 
 	public void setCurrentDirectory(File currentDirectory) {
 		if (currentDirectory == null)
-			currentDirectory = new File(SystemInfo.currentDir());
+			currentDirectory = new File(SystemInfo.getCurrentDir());
 		setDirectory(currentDirectory.getAbsolutePath());
 	}
 	
