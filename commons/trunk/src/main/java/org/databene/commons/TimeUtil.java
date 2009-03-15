@@ -29,7 +29,6 @@ package org.databene.commons;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Calendar;
-import java.util.Locale;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -178,11 +177,6 @@ public final class TimeUtil {
 		return new SimpleDateFormat(DEFAULT_DATE_PATTERN);
 	}
 
-	public static boolean isBusinessDay(Calendar tmp, Locale locale) {
-		return !isWeekend(tmp); // TODO v0.5.0 improve locale-dependently
-		// TODO: US: 19.1. Martin-Luther-King-Day, 4.7. Independence Day
-	}
-
 	public static boolean isMidnight(Date date) {
 		// note that a calculation based on the raw millis value is not viable 
 		// since time zones like Singapore had 7:30 hours delay in 1970-01-01
@@ -192,5 +186,10 @@ public final class TimeUtil {
         return (cal.get(Calendar.MILLISECOND) == 0 && cal.get(Calendar.SECOND) == 0 
         		&& cal.get(Calendar.MINUTE) == 0 && cal.get(Calendar.HOUR_OF_DAY) == 0);
 	}
+
+    public static Time currentTime() {
+	    Calendar now = new GregorianCalendar();
+	    return time(now.get(Calendar.HOUR), now.get(Calendar.MINUTE), now.get(Calendar.SECOND), now.get(Calendar.MILLISECOND));
+    }
 
 }
