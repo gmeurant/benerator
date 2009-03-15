@@ -79,6 +79,7 @@ public class AnyConverter<S, T> extends AbstractConverter<S, T> {
      * @param targetType the target type of the conversion
      * @return an object of the target type
      */
+    @SuppressWarnings("unchecked")
     public static <TT> TT convert(Object source, Class<TT> targetType, String datePattern, String timestampPattern) throws ConversionException {
         if (logger.isDebugEnabled())
             logger.debug("Converting " + source + (source != null ? " (" + source.getClass().getName() + ")" : "") + " to " + targetType);
@@ -130,6 +131,7 @@ public class AnyConverter<S, T> extends AbstractConverter<S, T> {
      * @param targetType the target type of the conversion
      * @return an object of the target type
      */
+    @SuppressWarnings("unchecked")
     private static <TT> TT convertBoolean(Boolean src, Class<TT> targetType) {
         if (boolean.class.equals(targetType))
             return (TT)src;
