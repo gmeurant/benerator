@@ -43,7 +43,7 @@ import org.databene.commons.format.PadFormat;
  */
 public class FlatFileLineIteratorTest extends TestCase {
 
-    private static final String SEP = SystemInfo.lineSeparator();
+    private static final String SEP = SystemInfo.getLineSeparator();
 
     public void testProcessingEmptyLines() throws IOException {
         FlatFileLineIterator iterator = createIterator(true);

@@ -40,7 +40,7 @@ import org.databene.commons.format.Alignment;
  */
 public class ArrayFlatFileWriterTest extends TestCase {
 
-    private static final String SEP = SystemInfo.lineSeparator();
+    private static final String SEP = SystemInfo.getLineSeparator();
 
     private static String RESULT =
             "header" + SEP + "1   23" + SEP + "14 156" + SEP + "footer";

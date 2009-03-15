@@ -41,7 +41,7 @@ import java.io.StringWriter;
  */
 public class BeanFlatFileWriterTest extends TestCase {
 
-    private static final String SEP = SystemInfo.lineSeparator();
+    private static final String SEP = SystemInfo.getLineSeparator();
 
     private static String RESULT =
             "header" + SEP + "Carl   48" + SEP + "Carl   48" + SEP + "footer";

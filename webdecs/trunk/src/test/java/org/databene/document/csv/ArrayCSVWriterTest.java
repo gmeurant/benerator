@@ -40,7 +40,7 @@ import org.databene.commons.SystemInfo;
  */
 public class ArrayCSVWriterTest extends TestCase {
 
-    private static final String SEP = SystemInfo.lineSeparator();
+    private static final String SEP = SystemInfo.getLineSeparator();
 
     private static String RESULT =
             "header" + SEP + "1;2;3" + SEP + "4;5;6" + SEP + "footer";

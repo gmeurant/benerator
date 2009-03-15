@@ -107,7 +107,7 @@ public class DefaultHTMLTokenizerTest extends TestCase {
             new HT(HTMLTokenizer.TEXT, "< a >")
         );
 
-    private static String SEP = SystemInfo.lineSeparator();
+    private static String SEP = SystemInfo.getLineSeparator();
 
     private static final TestSetup MIXED = new TestSetup(
             "<html>" + SEP +

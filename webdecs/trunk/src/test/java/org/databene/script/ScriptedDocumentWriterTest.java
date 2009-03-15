@@ -37,7 +37,7 @@ import java.io.StringWriter;
  */
 public class ScriptedDocumentWriterTest extends TestCase {
 
-    private static final String SEP = SystemInfo.lineSeparator();
+    private static final String SEP = SystemInfo.getLineSeparator();
 
     private static String RESULT =
             "header" + SEP + "row" + SEP + "footer";

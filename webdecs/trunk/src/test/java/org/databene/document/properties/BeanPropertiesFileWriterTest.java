@@ -44,7 +44,7 @@ import org.databene.commons.SystemInfo;
  */
 public class BeanPropertiesFileWriterTest extends TestCase {
 
-    private static final String SEP = SystemInfo.lineSeparator();
+    private static final String SEP = SystemInfo.getLineSeparator();
 
     private static String UNPREFIXED_RESULT =
             "# header" + SEP + "class=org.databene.bean.TP" + SEP + "name=Carl" + SEP + "age=48" + SEP + "# footer";

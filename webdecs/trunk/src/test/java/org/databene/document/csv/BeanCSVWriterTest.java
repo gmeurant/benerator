@@ -41,7 +41,7 @@ import org.databene.commons.SystemInfo;
  */
 public class BeanCSVWriterTest extends TestCase {
 
-    private static final String SEP = SystemInfo.lineSeparator();
+    private static final String SEP = SystemInfo.getLineSeparator();
 
     private static String RESULT =
             "header" + SEP + "Carl;48" + SEP + "Carl;48" + SEP + "footer";

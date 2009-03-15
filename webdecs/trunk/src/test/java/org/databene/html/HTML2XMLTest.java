@@ -39,7 +39,7 @@ import org.databene.commons.SystemInfo;
  */
 public class HTML2XMLTest extends TestCase {
 
-    private static String SEP = SystemInfo.lineSeparator();
+    private static String SEP = SystemInfo.getLineSeparator();
 
     private static final String HTML1 = "<html>" + SEP +
             "\t<?XXX level=\"3\"?>" + SEP +
