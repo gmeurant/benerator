@@ -27,7 +27,7 @@
 package org.databene.commons;
 
 /**
- * TODO document class ExceptionUtil.<br/>
+ * Provides Exception related utilities.<br/>
  * <br/>
  * Created at 23.02.2009 13:13:19
  * @since 0.4.8
