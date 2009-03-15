@@ -32,8 +32,6 @@ import org.databene.commons.HeavyweightIterator;
 import org.databene.commons.TypedIterable;
 import org.databene.commons.iterator.ConvertingIterator;
 
-import java.util.Iterator;
-
 /**
  * Iterable that provides {@link ConvertingIterator}s.<br/>
  * <br/>
