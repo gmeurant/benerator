@@ -233,11 +233,11 @@ public final class ParseUtil {
         return ('0' <= c && c <= '9') || ('a' <= c && c <= 'f') || ('A' <= c && c <= 'F');
     }
 
-    public static String[] parseAssignment(String line, String operator) {
+    public static String[] parseAssignment(String line, String operator, boolean lhsRequired) {
     	if (line == null)
     		return null;
         int sep = line.indexOf(operator);
-        if (sep <= 0)
+        if (sep < 0 || (lhsRequired && sep == 0))
             return null;
         return new String[] {
                 line.substring(0, sep).trim(),
