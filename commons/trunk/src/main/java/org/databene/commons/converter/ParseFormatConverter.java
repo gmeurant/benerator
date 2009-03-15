@@ -55,6 +55,7 @@ public class ParseFormatConverter<S> extends NullSafeConverter<String, S> {
     /**
      * Converts an object to a String by using the format's format() method.
      */
+    @SuppressWarnings("unchecked")
     @Override
 	public S convertImpl(String source) throws ConversionException {
         if (source == null)

@@ -27,7 +27,6 @@
 package org.databene.commons.converter;
 
 import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
 
 import java.math.BigInteger;
 import java.math.BigDecimal;
@@ -53,6 +52,7 @@ public class NumberToNumberConverter<S extends Number, T extends Number> extends
      * @param targetType the target number type of the conversion
      * @return an object of the target number type
      */
+    @SuppressWarnings("unchecked")
     public static <TT extends Number> TT convert(Number src, Class<TT> targetType) {
         if (BigInteger.class.equals(targetType))
             return (TT) BigInteger.valueOf(src.longValue());
@@ -71,7 +71,7 @@ public class NumberToNumberConverter<S extends Number, T extends Number> extends
      * @param targetType the primitive target type of the conversion
      * @return an object of the porimitive target type
      */
-    private static Object convertNumberToPrimitive(Number src, Class targetType) {
+    private static Object convertNumberToPrimitive(Number src, Class<?> targetType) {
         if (int.class.equals(targetType))
             return src.intValue();
         else if (byte.class.equals(targetType))
