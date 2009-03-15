@@ -31,7 +31,7 @@ import java.util.Arrays;
 import junit.framework.TestCase;
 
 /**
- * TODO document class JDBCDriverTest.<br/>
+ * Tests the {@link JDBCDriverInfo} class.<br/>
  * <br/>
  * Created at 23.02.2009 10:14:26
  * @since 0.4.8
@@ -52,6 +52,7 @@ public class JDBCDriverInfoTest extends TestCase {
 		assertEquals("org.hsqldb.jdbcDriver", hsql.getDriverClass());
 		assertEquals("9001", hsql.getDefaultPort());
 		assertEquals("jdbc:hsqldb:hsql://{0}:{1}/{2}", hsql.getUrlPattern());
+		assertEquals("PUBLIC", hsql.getDefaultSchema());
 		assertEquals("sa", hsql.getDefaultUser());
 		assertEquals("http://hsqldb.sourceforge.net/", hsql.getDownloadUrl());
 		assertTrue(Arrays.equals(new String[] { "hsqldb.jar" }, hsql.getJars()));
