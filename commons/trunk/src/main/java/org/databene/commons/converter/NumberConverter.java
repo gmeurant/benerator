@@ -27,7 +27,6 @@
 package org.databene.commons.converter;
 
 import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
 
 /**
  * Converts Numbers to other types.<br/>
@@ -50,6 +49,7 @@ public class NumberConverter<T> extends FixedSourceTypeConverter<Number, T> {
      * @param targetType the target type of the conversion
      * @return an object of the target type
      */
+    @SuppressWarnings("unchecked")
     public static <TT> TT convert(Number src, Class<TT> targetType) {
         if (String.class.equals(targetType))
             return (TT) ToStringConverter.convert(src, null);
