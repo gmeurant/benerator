@@ -42,7 +42,7 @@ public class String2ByteArrayConverter extends AbstractBidirectionalConverter<St
     private String encoding;
     
     public String2ByteArrayConverter() {
-        this(SystemInfo.fileEncoding());
+        this(SystemInfo.getFileEncoding());
     }
 
     public String2ByteArrayConverter(String encoding) {
