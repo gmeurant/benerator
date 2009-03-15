@@ -28,7 +28,6 @@ package org.databene.commons.converter;
 
 import org.databene.commons.CollectionUtil;
 import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
 
 import java.util.Collection;
 
@@ -37,6 +36,7 @@ import java.util.Collection;
  * <br/>
  * Created: 26.08.2007 16:16:15
  */
+@SuppressWarnings("unchecked")
 public class ToCollectionConverter<C extends Collection> extends FixedSourceTypeConverter<Object, C> {
 
     public ToCollectionConverter(Class<C> targetType) {
