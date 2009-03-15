@@ -149,10 +149,14 @@ public final class IOUtil {
                 return true;
             if (uri.startsWith("http://"))
                 return httpUrlAvailable(uri);
-            if (!uri.contains("://"))
-                uri = "file://" + uri;
-            if (uri.startsWith("file://"))
-                stream = getFileOrResourceAsStream(uri.substring("file://".length()), false);
+            if (uri.startsWith("file:") && !uri.startsWith("file://"))
+                stream = getFileOrResourceAsStream(uri.substring("file:".length()), false);
+            else {
+	            if (!uri.contains("://"))
+	                uri = "file://" + uri;
+	            if (uri.startsWith("file://"))
+	                stream = getFileOrResourceAsStream(uri.substring("file://".length()), false);
+            }
             return stream != null;
         } catch (FileNotFoundException e) {
             return false;
@@ -179,7 +183,7 @@ public final class IOUtil {
     }
 
     public static BufferedReader getReaderForURI(String uri) throws IOException {
-        return getReaderForURI(uri, SystemInfo.fileEncoding());
+        return getReaderForURI(uri, SystemInfo.getFileEncoding());
     }
 
     public static BufferedReader getReaderForURI(String uri, String defaultEncoding) throws IOException {
@@ -206,7 +210,7 @@ public final class IOUtil {
     		logger.debug("getInputStreamForURI(" + uri + ", " + required + ')');
         if (uri.startsWith("string://")) {
 			String content = uri.substring("string://".length());
-			return new ByteArrayInputStream(content.getBytes(SystemInfo.charset()));
+			return new ByteArrayInputStream(content.getBytes(SystemInfo.getCharset()));
 		}
         if (uri.startsWith("http://")) {
             try {
@@ -216,6 +220,8 @@ public final class IOUtil {
                 throw new IllegalArgumentException(e);
             }
         }
+        if (uri.startsWith("file:") && !uri.startsWith("file://"))
+            return getFileOrResourceAsStream(uri.substring("file:".length()), true);
         if (!uri.contains("://"))
             uri = "file://" + uri;
         if (uri.startsWith("file://"))
@@ -245,6 +251,8 @@ public final class IOUtil {
             }
         }
 
+        if (localUri.startsWith("file:") && !localUri.startsWith("file://"))
+            return getFileOrResourceAsStream(localUri.substring("file:".length()), true);
         if (!localUri.contains("://"))
             localUri = "file://" + localUri;
         if (localUri.startsWith("file://"))
@@ -282,7 +290,7 @@ public final class IOUtil {
 		String protocol = getProtocol(uri);
 		if (protocol != null)
 			uri = uri.substring(protocol.length());
-		char systemSeparator = SystemInfo.fileSeparator();
+		char systemSeparator = SystemInfo.getFileSeparator();
 		char uriSeparator = (uri.indexOf(systemSeparator) >= 0 ? systemSeparator : '/');
 		String contextUri = StringUtil.splitOnLastSeparator(uri, uriSeparator)[0] + uriSeparator;
 		if (protocol != null)
@@ -299,7 +307,7 @@ public final class IOUtil {
 
     public static PrintWriter getPrinterForURI(String uri, String encoding)
 			throws FileNotFoundException, UnsupportedEncodingException {
-    	return getPrinterForURI(uri, encoding, false, SystemInfo.lineSeparator());
+    	return getPrinterForURI(uri, encoding, false, SystemInfo.getLineSeparator());
     }
 
     public static PrintWriter getPrinterForURI(String uri, String encoding, boolean append, final String lineSeparator)
@@ -350,7 +358,7 @@ public final class IOUtil {
     // Properties I/O --------------------------------------------------------------------------------------------------
 
     public static Map<String, String> readProperties(String filename) throws IOException {
-        return readProperties(filename, SystemInfo.fileEncoding());
+        return readProperties(filename, SystemInfo.getFileEncoding());
     }
     
     public static Map<String, String> readProperties(String filename, String encoding) throws IOException {
@@ -359,7 +367,7 @@ public final class IOUtil {
     
     public static <V> Map<String, V> readProperties(
             String filename, Converter<Map.Entry, Map.Entry> converter) throws IOException {
-        return readProperties(filename, converter, SystemInfo.fileEncoding());
+        return readProperties(filename, converter, SystemInfo.getFileEncoding());
     }
     
     public static <V> Map<String, V> readProperties(
@@ -417,7 +425,7 @@ public final class IOUtil {
     }
 
     public static void writeProperties(Properties properties, String filename) throws IOException {
-        writeProperties(properties, filename, SystemInfo.fileEncoding());
+        writeProperties(properties, filename, SystemInfo.getFileEncoding());
     }
 
     public static void writeProperties(Properties properties, String filename, String encoding) throws IOException {
@@ -447,7 +455,7 @@ public final class IOUtil {
 */
 
     public static void writeTextFile(String filename, String content) throws IOException {
-        writeTextFile(filename, content, SystemInfo.fileEncoding());
+        writeTextFile(filename, content, SystemInfo.getFileEncoding());
     }
 
     public static void writeTextFile(String filename, String content, String encoding) throws IOException {
@@ -523,7 +531,7 @@ public final class IOUtil {
     private static BufferedReader getFileReader(String filename, String defaultEncoding) 
     		throws IOException, UnsupportedEncodingException {
 		if (defaultEncoding == null)
-		    defaultEncoding = SystemInfo.fileEncoding();
+		    defaultEncoding = SystemInfo.getFileEncoding();
 		InputStream is = getInputStreamForURI(filename);
 		PushbackInputStream in = new PushbackInputStream(is, 4);
 		defaultEncoding = bomEncoding(in, defaultEncoding);
@@ -556,7 +564,7 @@ public final class IOUtil {
 		if (StringUtil.isEmpty(encoding))
 		    encoding = defaultEncoding;
 		if (StringUtil.isEmpty(encoding))
-			encoding = SystemInfo.fileEncoding();
+			encoding = SystemInfo.getFileEncoding();
 		return encoding;
 	}
 
