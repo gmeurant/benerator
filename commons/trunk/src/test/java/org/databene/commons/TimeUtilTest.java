@@ -29,6 +29,9 @@ package org.databene.commons;
 import junit.framework.TestCase;
 
 import java.util.Date;
+import java.util.TimeZone;
+
+import sun.security.timestamp.TimestampToken;
 
 /**
  * (c) Copyright 2004 by Volker Bergmann
@@ -51,6 +54,13 @@ public class TimeUtilTest extends TestCase {
     }
     
     public void testIsMidnight() {
-    	// TODO implement test
+    	TimeZone zone = TimeZone.getDefault();
+    	try {
+    		TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
+    		assertTrue(TimeUtil.isMidnight(new Date(0)));
+    	} finally {
+    		TimeZone.setDefault(zone);
+    	}
     }
+    
 }
