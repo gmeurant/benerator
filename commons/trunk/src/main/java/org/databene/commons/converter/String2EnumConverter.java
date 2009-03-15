@@ -33,6 +33,7 @@ import org.databene.commons.ConversionException;
  * <br/>
  * Created: 20.08.2007 07:11:16
  */
+@SuppressWarnings("unchecked")
 public class String2EnumConverter<E extends Enum> extends AbstractBidirectionalConverter<String, E> {
 
     private Class<E> enumClass;
