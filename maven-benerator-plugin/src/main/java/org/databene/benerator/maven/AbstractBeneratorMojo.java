@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,25 +26,63 @@
 
 package org.databene.benerator.maven;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.databene.commons.CollectionUtil;
 
 /**
- * Common parent class for all Benerator Mojos.
-* <br/>
+ * Common parent class for all Benerator Mojos. <br/>
  * Created: 10.07.2008 16:21:23
+ * 
  * @since 0.5.4
  * @author Volker Bergmann
+ * @requiresDependencyResolution test
  */
 public abstract class AbstractBeneratorMojo extends AbstractMojo {
 
 	// attributes to be mapped from the pom's plugin configuration -----------------------------------------------------
 
 	/**
-	 * The file encoding to use as default for all file I/O. It defaults to the system's encoding.
+	 * The file encoding to use as default for all file I/O. It defaults to the
+	 * system's encoding.
+	 * 
 	 * @parameter expression="${file.encoding}"
 	 */
 	protected String encoding;
-    
+
+	/**
+	 * The scope of which dependencies should be resolved.
+	 * @parameter default="runtime"
+	 */
+	protected String scope;
+	
+	/**
+	 * Runtime classpath elements.
+	 * 
+	 * @parameter expression="${project.runtimeClasspathElements}"
+	 * @required
+	 * @readonly
+	 */
+	protected List<String> runtimeClasspathElements;
+
+	/**
+	 * Test classpath elements.
+	 * 
+	 * @parameter expression="${project.testClasspathElements}"
+	 * @required
+	 * @readonly
+	 */
+	protected List<String> testClasspathElements;
+
 	// convenience methods for child classes ---------------------------------------------------------------------------
 
 	/**
@@ -53,16 +91,42 @@ public abstract class AbstractBeneratorMojo extends AbstractMojo {
 	protected void setSystemProperties() {
 		setSystemProperty("file.encoding", encoding);
 	}
-	
+
 	// private helpers -------------------------------------------------------------------------------------------------
 
 	/**
 	 * Sets a single System property.
 	 */
 	protected void setSystemProperty(String name, String value) {
-//		getLog().info(name + ": " + value);
+		// getLog().info(name + ": " + value);
 		if (value != null)
 			System.setProperty(name, value);
 	}
 
+	protected void setupClasspath() throws MojoExecutionException {
+		try {
+			List<String> classpathElements = getClasspathElements();
+			ClassLoader parentClassLoader = getClass().getClassLoader();
+			ClassLoader classLoader = new URLClassLoader(getClasspathURLs(), parentClassLoader);
+			Thread.currentThread().setContextClassLoader(classLoader);
+			getLog().debug("Classpath elements: " + classpathElements);
+		} catch (IOException e) {
+			throw new MojoExecutionException("Error in generation", e);
+		}
+	}
+
+	protected List<String> getClasspathElements() {
+		return ("test".equals(scope) ? testClasspathElements : runtimeClasspathElements);
+	}
+
+	protected URL[] getClasspathURLs() throws MalformedURLException {
+		List<String> classpathElements = getClasspathElements();
+		List<URL> urls = new ArrayList<URL>(classpathElements.size());
+		Iterator<String> iterator = classpathElements.iterator();
+		while (iterator.hasNext()) {
+			String classpathElement = iterator.next();
+			urls.add(new File(classpathElement).toURI().toURL());
+		}
+		return CollectionUtil.toArray(urls);
+	}
 }
