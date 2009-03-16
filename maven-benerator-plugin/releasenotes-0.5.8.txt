@@ -1,0 +1,12 @@
+mave-benerator-plugin 0.5.8
+===========================
+
+Enhancements
+------------
+new 'bundle' goal that copies all dependencies of the current project 
+to the lib directory of the benerator installation 
+
+Feature Requests
+----------------
+2539807 include test scope artifacts in plugin classpath
+2544995 improve generated pom.xml
