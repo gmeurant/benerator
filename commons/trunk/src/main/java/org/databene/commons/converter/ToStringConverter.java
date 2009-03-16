@@ -27,6 +27,9 @@
 package org.databene.commons.converter;
 
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -46,7 +49,11 @@ public class ToStringConverter extends FixedSourceTypeConverter<Object, String> 
 
 	private static final String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
 
+	private static final String DEFAULT_DECIMAL_PATTERN = null;
+
 	private static final String DEFAULT_NULL_STRING = "";
+
+	private static final char DEFAULT_DECIMAL_SEPARATOR = '.';
 
 	/** The String used to replace null values */
     private String nullString = DEFAULT_NULL_STRING;
@@ -54,6 +61,12 @@ public class ToStringConverter extends FixedSourceTypeConverter<Object, String> 
     private String datePattern = DEFAULT_DATE_PATTERN;
 
     private String timestampPattern = DEFAULT_TIMESTAMP_PATTERN;
+    
+    private String decimalPattern = DEFAULT_DECIMAL_PATTERN;
+    
+    private char decimalSeparator = DEFAULT_DECIMAL_SEPARATOR;
+    
+    private DecimalFormat decimalFormat;
     
     // constructors ----------------------------------------------------------------------------------------------------
 
@@ -75,6 +88,7 @@ public class ToStringConverter extends FixedSourceTypeConverter<Object, String> 
         this.nullString = nullString;
         this.datePattern = datePattern;
         this.timestampPattern = timestampPattern;
+        decimalFormat = null;
     }
     
     // properties ------------------------------------------------------------------------------------------------------
@@ -115,22 +129,48 @@ public class ToStringConverter extends FixedSourceTypeConverter<Object, String> 
 		this.timestampPattern = timestampPattern;
 	}
 
+	public String getDecimalPattern() {
+		return decimalPattern;
+	}
+
+	public void setDecimalPattern(String decimalPattern) {
+		this.decimalPattern = decimalPattern;
+		decimalFormat = new DecimalFormat(decimalPattern);
+		setDecimalSeparator(decimalSeparator);
+	}
+
+	public char getDecimalSeparator() {
+    	return decimalSeparator;
+    }
+
+	public void setDecimalSeparator(char decimalSeparator) {
+    	this.decimalSeparator = decimalSeparator;
+		DecimalFormatSymbols newSymbols = new DecimalFormatSymbols();
+		newSymbols.setDecimalSeparator(decimalSeparator);
+		decimalFormat.setDecimalFormatSymbols(newSymbols);
+
+    }
+
 	// Converter interface implementation ------------------------------------------------------------------------------
 
 	public String convert(Object source) throws ConversionException {
-        return convert(source, nullString, datePattern, timestampPattern);
+        return convert(source, nullString, datePattern, timestampPattern, decimalFormat);
     }
 
 	// utility methods -------------------------------------------------------------------------------------------------
 	
     public static <TT> String convert(TT source, String nullString) {
-    	return convert(source, nullString, null, null);
+    	return convert(source, nullString, null, null, null);
     }
 
     @SuppressWarnings("unchecked")
-	public static <TT> String convert(TT source, String nullString, String datePattern, String timestampPattern) {
+	public static <TT> String convert(TT source, String nullString, String datePattern, String timestampPattern, NumberFormat numberFormat) {
         if (source == null) {
             return nullString;
+        } else if (source instanceof String) {
+        	return (String) source;
+        } else if (numberFormat != null && JavaType.isDecimalType(source)) {
+        	return numberFormat.format(source);
         } else if (source.getClass().isArray()) {
         	Class<?> componentType = source.getClass().getComponentType();
 			if (componentType == byte.class)
