@@ -26,7 +26,6 @@
 
 package org.databene.benerator.maven;
 
-import org.apache.maven.plugin.MojoExecutionException;
 import org.databene.benerator.main.DBSnapshotTool;
 import org.databene.commons.Assert;
 
@@ -84,7 +83,7 @@ public class DBSnapshotMojo extends AbstractBeneratorMojo { // Created: 09.07.20
 	/**
 	 * 'Main' method of the Mojo which calls the DbSnapshotTool using the pom's benerator configuration.
 	 */
-    public void execute() throws MojoExecutionException {
+    public void execute() {
 		getLog().info(getClass().getName());
 		setSystemProperties();
 		Assert.notNull(dbUrl, "dbUrl");
