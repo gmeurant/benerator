@@ -37,7 +37,8 @@ public class NoOpConverter<E> extends AbstractBidirectionalConverter<E,E> {
 
     private static NoOpConverter<?> instance = new NoOpConverter<Object>();
 
-    public static NoOpConverter<?> getInstance() {
+    @SuppressWarnings("unchecked")
+    public static NoOpConverter getInstance() {
         return instance;
     }
 
