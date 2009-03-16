@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,16 +28,9 @@ package org.databene.benerator.maven;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.databene.benerator.main.Benerator;
-import org.databene.commons.CollectionUtil;
 
 /**
  * Executes benerator using the specified descriptor file. Invoked by <code>mvn benerator:generate</code>.<br/>
@@ -46,7 +39,6 @@ import org.databene.commons.CollectionUtil;
  * @since 0.5.4
  * @author Volker Bergmann
  * @goal generate
- * @requiresDependencyResolution test
  */
 public class BeneratorMojo extends AbstractBeneratorMojo {
 	
@@ -94,40 +86,14 @@ public class BeneratorMojo extends AbstractBeneratorMojo {
 	 */
     private boolean validate;
     
-	/**
-	 * The database schema to use (can be queried in the descriptor file as ${db_schema}).
-	 * @parameter default="runtime"
-	 */
-	protected String scope;
-	
-    /**
-     * Runtime classpath elements.
-     * @parameter expression="${project.runtimeClasspathElements}"
-     * @required
-     * @readonly
-     */
-    List<String> runtimeClasspathElements;
-    
-    /**
-     * Test classpath elements.
-     * @parameter expression="${project.testClasspathElements}"
-     * @required
-     * @readonly
-     */
-    List<String> testClasspathElements;
-    
     /**
      * Invokes benerator using the settings from the pom's configuration.
      */
     public void execute() throws MojoExecutionException {
 		setSystemProperties();
-		List<String> classpathElements = ("test".equals(scope) ? testClasspathElements : runtimeClasspathElements);
-		getLog().debug("Classpath elements: " + classpathElements);
+		setupClasspath();
 		try {
-	    	ClassLoader classLoader = new URLClassLoader(toClasspathURLs(classpathElements), getClass().getClassLoader());
-	    	Thread.currentThread().setContextClassLoader(classLoader);
-			Benerator benerator = new Benerator();
-			benerator.processFile(descriptor.getAbsolutePath());
+			Benerator.main(new String[] { descriptor.getAbsolutePath() });
 		} catch (IOException e) {
 			throw new MojoExecutionException("Error in generation", e);
 		}
@@ -156,19 +122,5 @@ public class BeneratorMojo extends AbstractBeneratorMojo {
 		System.setProperty("file.encoding", encoding);
 		System.setProperty("benerator.validate", String.valueOf(validate));
     }
-
-    protected static URL[] toClasspathURLs( List<String> classpathElements )
-	    throws MalformedURLException {
-	    List<URL> urls = new ArrayList<URL>();
-	    if ( classpathElements != null )
-	    {
-	    	Iterator<String> iterator = classpathElements.iterator();
-	        while (iterator.hasNext()) {
-	            String classpathElement = iterator.next();
-	            urls.add(new File(classpathElement).toURI().toURL());
-	        }
-	    }
-	    return CollectionUtil.toArray(urls);
-	}
 
 }
