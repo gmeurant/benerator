@@ -45,8 +45,6 @@ public class AnyConverter<S, T> extends AbstractConverter<S, T> {
 
     private String datePattern;
 
-    private String timestampPattern;
-
     public AnyConverter(Class<T> targetType) {
         this(targetType, "yyyyMMdd");
     }
@@ -66,7 +64,7 @@ public class AnyConverter<S, T> extends AbstractConverter<S, T> {
 	}
 
 	public T convert(Object sourceValue) throws ConversionException {
-        return convert(sourceValue, targetType, datePattern, timestampPattern);
+        return convert(sourceValue, targetType, datePattern, null);
     }
 
     public static <TT> TT convert(Object source, Class<TT> targetType) throws ConversionException {
@@ -100,7 +98,7 @@ public class AnyConverter<S, T> extends AbstractConverter<S, T> {
 
         // to string conversion
         if (String.class.equals(targetType))
-            return (TT) ToStringConverter.convert(source, null, datePattern, timestampPattern);
+            return (TT) ToStringConverter.convert(source, null, datePattern, timestampPattern, null);
 
         // from string conversion
         if (String.class.equals(source.getClass()))
