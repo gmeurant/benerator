@@ -2,6 +2,8 @@ package org.databene.commons;
 
 import java.lang.reflect.Array;
 
+import org.databene.commons.converter.ToStringConverter;
+
 /**
  * Helper class for building arrays.
  * @param <E>
@@ -43,6 +45,17 @@ public class ArrayBuilder<E> {
         elementCount = 0;
         buffer = null;
         return result;
+    }
+    
+    @Override
+    public String toString() {
+    	StringBuilder builder = new StringBuilder();
+    	for (int i = 0; i < elementCount; i++) {
+    		if (i > 0)
+    			builder.append(", ");
+    		builder.append(ToStringConverter.convert(buffer[i], "[NULL]"));
+    	}
+    	return builder.toString();
     }
 
     // private helpers -------------------------------------------------------------------------------------------------
