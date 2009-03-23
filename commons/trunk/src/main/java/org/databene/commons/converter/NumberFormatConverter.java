@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,9 +27,11 @@
 package org.databene.commons.converter;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 
 import org.databene.commons.ConversionException;
+import org.databene.commons.NullSafeComparator;
 
 /**
  * Converts Strings to Numbers using a {@link DecimalFormat}.<br/>
@@ -40,16 +42,34 @@ import org.databene.commons.ConversionException;
  */
 public class NumberFormatConverter extends AbstractBidirectionalConverter<Number, String> {
 	
+	// constants -------------------------------------------------------------------------------------------------------
+	
+	private static final String DEFAULT_DECIMAL_PATTERN = "";
+    
+	private static final char DEFAULT_DECIMAL_SEPARATOR = '.';
+
+	private static final String DEFAULT_NULL_STRING = "";
+	
+	// attributes ------------------------------------------------------------------------------------------------------
+
 	private String pattern;
+	private char decimalSeparator;
 	private DecimalFormat format;
 
-	public NumberFormatConverter() {
-		this("#");
+	/** The string used to represent null values */
+    private String nullString;
+    
+    // constructors ----------------------------------------------------------------------------------------------------
+
+    public NumberFormatConverter() {
+		this(DEFAULT_DECIMAL_PATTERN);
 	}
 
 	public NumberFormatConverter(String pattern) {
 		super(Number.class, String.class);
-		this.pattern = pattern;
+		setPattern(pattern);
+		setDecimalSeparator(DEFAULT_DECIMAL_SEPARATOR);
+		setNullString(DEFAULT_NULL_STRING);
 	}
 	
 	// properties ------------------------------------------------------------------------------------------------------
@@ -61,19 +81,49 @@ public class NumberFormatConverter extends AbstractBidirectionalConverter<Number
 	public void setPattern(String pattern) {
 		this.pattern = pattern;
 		this.format = new DecimalFormat(pattern);
+		setDecimalSeparator(decimalSeparator);
 	}
+
+	public char getDecimalSeparator() {
+    	return decimalSeparator;
+    }
+
+	public void setDecimalSeparator(char decimalSeparator) {
+    	this.decimalSeparator = decimalSeparator;
+		DecimalFormatSymbols newSymbols = new DecimalFormatSymbols();
+		newSymbols.setDecimalSeparator(decimalSeparator);
+		format.setDecimalFormatSymbols(newSymbols);
+    }
+
+	public String getNullString() {
+    	return nullString;
+    }
+
+	public void setNullString(String nullString) {
+    	this.nullString = nullString;
+    }
 
 	// Converter interface implementation ------------------------------------------------------------------------------
 
-	public String convert(Number sourceValue) throws ConversionException {
-		return format.format(sourceValue);
+	public String convert(Number sourceNumber) throws ConversionException {
+		return (sourceNumber != null ? format.format(sourceNumber) : nullString);
 	}
 	
 	public Number revert(String target) throws ConversionException {
+		if (NullSafeComparator.equals(target, nullString))
+			return null;
 		try {
-			return format.parse(target);
+			Number result = format.parse(target);
+			return result;
 		} catch (ParseException e) {
 			throw new ConversionException("Error converting " + target);
 		}
+	}
+	
+	// java.lang.Object overrides --------------------------------------------------------------------------------------
+	
+	@Override
+	public String toString() {
+	    return getClass().getSimpleName() + '[' + pattern + ']';
 	}
 }
