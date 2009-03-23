@@ -88,8 +88,10 @@ public class LiteralParser extends FixedSourceTypeConverter<String, Object> {
         // test for number or date
         StringCharacterIterator iterator = new StringCharacterIterator(trimmed);
         char c = iterator.next();
-        if (c == '-')
-            return parseNonNegativeNumber(iterator, true, false);
+        if (c == '-') {
+        	Object number = parseNonNegativeNumber(iterator, true, false);
+        	return (number != null ? number : text);
+        }
         else if (c >= '0' && c <= '9') {
             iterator.pushBack();
             Object tmp = parseNonNegativeNumber(iterator, false, false);
