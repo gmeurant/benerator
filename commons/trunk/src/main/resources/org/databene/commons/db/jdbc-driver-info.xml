@@ -86,7 +86,7 @@ POSSIBILITY OF SUCH DAMAGE. -->
             url="jdbc:mysql://{0}:{1}/{2}"
             user="user"
             info="http://dev.mysql.com/downloads/connector/j/">
-        <dependency lib="msjdbc.jar" artifact="mysql:mysql-connector-java:5.1.6" official="yes" />
+        <dependency lib="mysql-connector-java.jar" artifact="mysql:mysql-connector-java:5.1.6" official="yes" />
     </driver>
     
     <driver id="HSQL_EMBEDDED"
