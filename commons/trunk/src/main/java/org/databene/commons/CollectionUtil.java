@@ -46,13 +46,14 @@ public final class CollectionUtil {
      * @param array the array to convert into a list.
      * @return a list containing all elements of the given array.
      */
-    public static <T, U extends T> List<T> toList(U ... array) {
+    public static <T> List<T> toList(T ... array) {
         List<T> result = new ArrayList<T>(array.length);
         for (T item : array)
             result.add(item);
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T, S> List<T> toListOfType(S ... array) {
         List<T> result = new ArrayList<T>(array.length);
         for (int i = 0; i < array.length; i++) {
@@ -122,6 +123,7 @@ public final class CollectionUtil {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     public static Map buildMap(Object ... keyValuePairs) {
         Map map = new HashMap();
         if (keyValuePairs.length % 2 != 0)
@@ -132,6 +134,7 @@ public final class CollectionUtil {
         return map;
     }
 
+    @SuppressWarnings("unchecked")
     public static Map buildOrderedMap(Object ... keyValuePairs) {
         Map map = new OrderedMap();
         if (keyValuePairs.length % 2 != 0)
