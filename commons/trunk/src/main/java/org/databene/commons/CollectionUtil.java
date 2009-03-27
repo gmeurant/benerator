@@ -68,7 +68,7 @@ public final class CollectionUtil {
      * @param elements the content of the Set
      * @return a HashSet with the elements
      */
-    public static <T, U extends T> Set<T> toSet(U ... elements) {
+    public static <T> Set<T> toSet(T ... elements) {
         HashSet<T> set = new HashSet<T>();
         for (T element : elements)
             set.add(element);
