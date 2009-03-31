@@ -1,0 +1,6 @@
+release notes databene webdecs 0.4.9
+------------------------------------
+
+Summary
+-------
+This is part of the Benerator 0.5.9 bugfix release
