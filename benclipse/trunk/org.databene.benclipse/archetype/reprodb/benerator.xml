@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<setup 
+	xmlns="http://databene.org/benerator/0.5.9-SR1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://databene.org/benerator/0.5.9-SR1 benerator-0.5.9-SR1.xsd">
+
+	<comment>
+		 Reproduces an existing database
+	</comment>
+	 
+	<import defaults="true"/>
+
+    <comment>defining a database that will be referred by the id 'db' later</comment>
+    <database id="db" />
+
+	<comment>Dropping the current tables/sequences if they exist and recreating them</comment>
+	<execute uri="{drop_tables.sql}" target="db" onError="ignore"/>
+	<execute uri="{create_tables.sql}" target="db" optimize="true"/>
+
+	<comment>Creating a valid base data set for regression testing by importing a DbUnit file</comment>
+	<create-entities source="base.dbunit.xml" consumer="db" />
+
+	<create-entities name="table" consumer="db" />
+
+</setup>

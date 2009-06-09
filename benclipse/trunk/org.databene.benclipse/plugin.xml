@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <!-- Benerator Descriptor Content Type -->
+   <extension point="org.eclipse.core.runtime.contentTypes">
+     <content-type id="beneratorDescriptor" name="Benerator Descriptor"
+           base-type="org.eclipse.core.runtime.xml"
+           priority="normal"
+           default-charset="UTF-8"
+           file-names="benerator.xml"
+           file-extensions="ben.xml">
+        <describer class="org.databene.benclipse.internal.content.BeneratorDescriptorContentDescriber"/>
+     </content-type>
+   </extension>
+
+   <extension point="org.eclipse.core.runtime.adapters">
+    <factory adaptableType="org.eclipse.core.resources.IResource"
+             class="org.databene.benclipse.internal.ArtifactKeyAdapterFactory">
+       <adapter type="org.databene.benclipse.embedder.ArtifactKey"/>
+    </factory>
+   </extension>
+  
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+
+   <!-- New Benerator Project Wizard -->
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="org.databene.benclipse.new"
+            name="Benerator">
+      </category>
+      <wizard
+            id="org.databene.benclipse.wizards.NewProjectWizard"
+            name="Benerator Project"
+            class="org.databene.benclipse.wizards.BeneratorProjectWizard"
+            category="org.databene.benclipse.new"
+            icon="icons/new-project.gif"
+            project="true">
+      </wizard>
+      <wizard
+            id="org.databene.benclipse.wizards.DbUnitSnapshotWizard"
+            name="DbUnit Snapshot"
+            class="org.databene.benclipse.wizards.DbUnitSnapshotWizard"
+            category="org.databene.benclipse.new"
+            icon="icons/simple.gif"
+            project="false">
+      </wizard>
+   </extension>
+
+   <!-- Benerator Launch Shotcuts -->
+   <extension point="org.eclipse.debug.ui.launchShortcuts">
+      <shortcut 
+            id="org.databene.benclipse.launch.DescriptorLaunchShortcut" 
+            class="org.databene.benclipse.launch.DescriptorLaunchShortcut"
+            label="Run Benerator Descriptor"
+            icon="icons/benerator.gif"
+            modes="run,debug"
+            category="org.databene.benclipse.launch.category.descriptor" >
+         <contextualLaunch>
+           <contextLabel label="Benerator Descriptor" mode="run"/>
+           <contextLabel label="Benerator Descriptor" mode="debug"/>
+           <enablement>
+             <with variable="selection">
+               <count value="1"/>
+               <iterate>
+                    <or>
+                        <test property="org.eclipse.debug.ui.matchesPattern" value="*.ben.xml"/>
+                        <test property="org.eclipse.debug.ui.matchesPattern" value="benerator.xml"/>
+                    </or>
+               </iterate>
+             </with>
+           </enablement>
+        </contextualLaunch>
+        <!--configurationType
+           id="org.databene.benclipse.launch.descriptor">
+        </configurationType-->
+     </shortcut>
+   </extension>
+   
+   <!-- Benerator Launch Configuration -->
+   <extension point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            id="org.databene.benclipse.launch.descriptor"
+            delegate="org.databene.benclipse.launch.DescriptorLaunchDelegate"
+            name="Benerator"
+            modes="run,debug" />
+   </extension>
+
+   <!--extension point="org.eclipse.debug.core.launchConfigurationComparators">
+		<launchConfigurationComparator
+			id="org.databene.benclipse.launch.properties"
+			class="org.databene.benerator.Comparator"
+			attribute="org.eclipse.jdt.launching.CLASSPATH"/>
+   </extension-->
+   
+   <!-- Benerator Launch Configuration Image -->
+   <extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+      <launchConfigurationTypeImage
+            icon="icons/benerator.gif"
+            configTypeID="org.databene.benclipse.launch.descriptor"
+            id="org.databene.benclipse.launchConfigurationTypeImage.descriptor"/>
+<!--
+      <launchConfigurationTypeImage
+            icon="icons/benerator.gif"
+            configTypeID="org.databene.benclipse.BeneratorBuilderConfigurationType"
+            id="org.databene.benclipse.launch.BeneratorBuilderConfigurationTypeImage"/>
+-->
+   </extension>
+
+   <!-- Benerator Launch Configuration Tab Groups -->
+   <extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup id="org.databene.benclipse.LaunchConfigurationTabGroup"
+            type="org.databene.benclipse.launch.descriptor"
+            class="org.databene.benclipse.launch.BeneratorLaunchConfigurationTabGroup"/>
+   </extension>
+   
+
+
+   <!-- Benerator Action Set -->
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="org.databene.benclipse.beneratorActionSet"
+            label="Benerator Action Set"
+            visible="true">
+         <menu id="beneratorMenu"
+               label="&amp;Benerator">
+            <separator name="beneratorGroup"/>
+            <separator name="dbUnitGroup"/>
+         </menu>
+         <action
+               class="org.databene.benclipse.actions.DbUnitSnapshotAction"
+               icon="icons/snapshot.gif"
+               id="org.databene.benclipse.actions.DbUnitSnapshotAction"
+               label="Create DbUnit &amp;Snapshot"
+               menubarPath="beneratorMenu/dbUnitGroup"
+               tooltip="Create a snapshot in DbUnit XML format">
+         </action>
+         <action
+               class="org.databene.benclipse.actions.DebugBeneratorAction"
+               icon="icons/benerator.gif"
+               id="org.databene.benclipse.actions.DebugBeneratorAction"
+               label="&amp;Debug Benerator"
+               menubarPath="beneratorMenu/beneratorGroup"
+               tooltip="Debug Benerator">
+         </action>
+         <action
+               class="org.databene.benclipse.actions.RunBeneratorAction"
+               icon="icons/benerator.gif"
+               id="org.databene.benclipse.actions.RunBeneratorAction"
+               label="&amp;Run Benerator"
+               menubarPath="beneratorMenu/beneratorGroup"
+               tooltip="Run Benerator">
+         </action>
+      </actionSet>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.actionSets">
+       <actionSet
+            id="org.databene.benclipse.hsqlActionSet"
+            label="Benclipse HSQL Action Set"
+            visible="true">
+         <menu id="beneratorMenu"
+               label="&amp;Benerator">
+            <separator name="hsqlGroup"/>
+         </menu>
+         <action
+               class="org.databene.benclipse.actions.StopHSQLAction"
+               icon="icons/hsql-terminate.gif"
+               id="org.databene.benclipse.actions.StopHSQLAction"
+               label="&amp;Stop HSQL"
+               menubarPath="beneratorMenu/hsqlGroup"
+               tooltip="Stop HSQL">
+         </action>
+         <action
+               class="org.databene.benclipse.actions.StartHSQLManagerAction"
+               icon="icons/hsql.gif"
+               id="org.databene.benclipse.actions.StartHSQLManagerAction"
+               label="Start &amp;HSQL Manager"
+               menubarPath="beneratorMenu/hsqlGroup"
+               tooltip="Start HSQL Manager">
+         </action>
+         <action
+               class="org.databene.benclipse.actions.StartHSQLAction"
+               icon="icons/hsql-start.gif"
+               id="org.databene.benclipse.actions.StartHSQLAction"
+               label="Start &amp;HSQL"
+               menubarPath="beneratorMenu/hsqlGroup"
+               tooltip="Start HSQL">
+         </action>
+      </actionSet>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="org.databene.benclipse.wizardActionSet"
+            label="Benerator Wizard Action Set"
+            visible="true">
+
+         <action
+               class="org.databene.benclipse.actions.BeneratorProjectWizardAction"
+               icon="icons/new-project.gif"
+               id="org.databene.benclipse.actions.BeneratorProjectWizardAction"
+               label="New Benerator Project"
+               menubarPath="file/new/project"
+               toolbarPath="Normal/JavaWizards"
+               tooltip="New Benerator Project">
+         </action>
+      </actionSet>
+   </extension>
+   
+   <!-- Benerator Preference Pages -->
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.databene.benclipse.preferences.BeneratorPreferencePage"
+            id="org.databene.benclipse.preferences.BeneratorPreferencePage"
+            name="Benerator">
+      </page>
+   </extension>
+
+   <!-- Benerator Preferences -->
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.databene.benclipse.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.startup">
+         <startup class="org.databene.benclipse.internal.BenclipseStartup"/> 
+   </extension>
+   
+   <extension
+         point="org.eclipse.jdt.core.classpathContainerInitializer">
+         <classpathContainerInitializer 
+            id="org.databene.benclipse.BENCLIPSE_CLASSPATH_CONTAINER" 
+            class="org.databene.benclipse.internal.BenclipseContainerInitializer"/>
+    </extension>
+
+</plugin>

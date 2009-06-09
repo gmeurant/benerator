@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<setup 
+	xmlns="http://databene.org/benerator/0.5.9-SR1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://databene.org/benerator/0.5.9-SR1 benerator-0.5.9-SR1.xsd">
+
+	<comment>
+		Hello World example
+	 </comment>
+	 
+	<import defaults="true"/>
+
+	<echo message="running the 'Hello World' example..." />
+
+	<comment>first greet the planet</comment>
+	<create-entities name="greeting" count="5" consumer="ConsoleExporter">
+		<attribute name="salutation" values="Hello,Howdy,Hi"/>
+		<attribute name="name" values="World,Earth,Planet" />
+	</create-entities>
+
+	<comment>now greet the planet's inhabitants</comment>
+	<import domain="person"/>
+	<create-entities name="message" count="10" consumer="ConsoleExporter">
+		<variable name="person" generator="PersonGenerator"/>
+		<variable name="salutation" values="Hello,Howdy,Hi"/>
+		<attribute name="text" script="{${salutation} ${person.givenName}}" />
+	</create-entities>
+
+</setup>
