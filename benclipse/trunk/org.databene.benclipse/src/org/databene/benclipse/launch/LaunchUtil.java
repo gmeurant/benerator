@@ -34,7 +34,7 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 
 /**
- * TODO document class LaunchUtil.<br/>
+ * Provides launching-related utility methods.<br/>
  * <br/>
  * Created at 03.06.2009 23:48:07
  * @since 0.5.9
@@ -52,6 +52,5 @@ public class LaunchUtil {
 	    wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, file.getAbsolutePath());
 	    wc.setAttribute(IBenclipseConstants.ATTR_FILENAME, descriptorFile.getProjectRelativePath().toString());
     }
-
 
 }
