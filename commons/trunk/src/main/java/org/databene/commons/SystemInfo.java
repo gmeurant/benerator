@@ -248,14 +248,28 @@ public final class SystemInfo {
 	 * @return true if the system is a Windows version, else false
 	 */
 	public static boolean isWindows() {
-		return getOsName().startsWith(WINDOWS);
+		return getOsName().toLowerCase().startsWith("win");
 	}
 
 	/**
-	 * @return true if the system is Mac OS X, else false
+	 * @return true if the system is Mac, else false
 	 */
 	public static boolean isMacOsx() {
-		return getOsName().startsWith(MAC_OS_X);
+		return getOsName().toLowerCase().startsWith("mac");
+	}
+
+	/**
+	 * @return true if the system is Linux, else false
+	 */
+	public static boolean isLinux() {
+		return getOsName().toLowerCase().startsWith("linux");
+	}
+
+	/**
+	 * @return true if the system is Solaris, else false
+	 */
+	public static boolean isSolaris() {
+		return getOsName().toLowerCase().startsWith("sun");
 	}
 
 	/**
