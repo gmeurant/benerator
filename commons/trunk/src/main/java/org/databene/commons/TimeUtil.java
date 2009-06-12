@@ -170,7 +170,7 @@ public final class TimeUtil {
     }
     
     public static Time time(int hour, int minute, int second, int millisecond) {
-        return new Time((((hour * 60L) + minute) * 60L + second) * 1000L);
+        return new Time((((hour * 60L) + minute) * 60L + second) * 1000L + millisecond);
     }
 
 	public static DateFormat createDefaultDateFormat() {
