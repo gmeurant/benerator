@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,42 +30,44 @@ import org.databene.benerator.main.DBSnapshotTool;
 import org.databene.commons.Assert;
 
 /**
- * Creates a database snapshot in DbUnit data file format. 
+ * Creates a database snapshot in DbUnit data file format.<br/>
+ * <br/>
+ * Created: 09.07.2008 18:50:23
  * @since 0.5.4
  * @author Volker Bergmann
  * @goal dbsnapshot
  */
-public class DBSnapshotMojo extends AbstractBeneratorMojo { // Created: 09.07.2008 18:50:23
+public class DBSnapshotMojo extends AbstractBeneratorMojo {
     
 	/**
-	 * The fully qualified name of the JDBC database driver  (can be queried in the descriptor file as ${db_driver}).
+	 * The fully qualified name of the JDBC database driver.
 	 * @parameter
 	 * @required
 	 */
 	protected String dbDriver;
 	
 	/**
-	 * The JDBC database url  (can be queried in the descriptor file as ${db_url}).
+	 * The JDBC database url.
 	 * @parameter
 	 * @required
 	 */
 	protected String dbUrl;
 	
 	/**
-	 * The database user name (can be queried in the descriptor file as ${db_user}).
+	 * The database user name.
 	 * @parameter expression="${user.name}"
 	 * @required
 	 */
 	protected String dbUser;
 	
 	/**
-	 * The database password (can be queried in the descriptor file as ${db_password}).
+	 * The database password.
 	 * @parameter expression="${user.name}"
 	 */
 	protected String dbPassword;
 	
 	/**
-	 * The database schema to use (can be queried in the descriptor file as ${db_schema}).
+	 * The database schema to use.
 	 * @parameter expression="${user.name}"
 	 */
 	protected String dbSchema;
