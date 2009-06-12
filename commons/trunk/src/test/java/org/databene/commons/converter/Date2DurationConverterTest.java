@@ -66,7 +66,6 @@ public class Date2DurationConverterTest extends TestCase {
 		try {
 			TimeZone.setDefault(TimeZone.getTimeZone(timeZoneName));
 			assertEquals(timeZoneName, TimeZone.getDefault().getID());
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			assertEquals(1L, convert("1970-01-01T00:00:00.001").longValue());
 			assertEquals(0L, convert("0000-00-00T00:00:00.000").longValue());
 			assertEquals(1L, convert("0000-00-00T00:00:00.001").longValue());
