@@ -37,6 +37,8 @@ import java.util.Locale;
  */
 public class CaseConverter extends NullSafeConverterProxy<String, String> {
 
+	// Constructors ----------------------------------------------------------------------------------------------------
+	
     public CaseConverter() {
         this(true);
     }
@@ -53,10 +55,18 @@ public class CaseConverter extends NullSafeConverterProxy<String, String> {
         super(new ConverterImpl(toUpper, locale), nullResult);
     }
 
+	// Properties ------------------------------------------------------------------------------------------------------
+	
+    public Locale getLocale() {
+    	return ((ConverterImpl) realConverter).getLocale();
+    }
+    
 	public void setLocale(Locale locale) {
 		((ConverterImpl) realConverter).setLocale(locale);
 	}
-
+	
+	// Helper class ----------------------------------------------------------------------------------------------------
+	
     private static final class ConverterImpl extends FixedSourceTypeConverter<String, String> {
         /** Mode flag for the Converter. If set to true, it converts to upper case, else to lower case */
         private boolean toUpper;
@@ -72,9 +82,13 @@ public class CaseConverter extends NullSafeConverterProxy<String, String> {
             this.locale = locale;
         }
 
+        public Locale getLocale() {
+	        return locale;
+        }
+
 		/**
-		 * Sets the locale of the CaseConverter.ConverterImpl.
-		 * @param locale the locale to set
+		 * Sets the Locale of the CaseConverter.ConverterImpl.
+		 * @param locale the Locale to set
 		 */
 		public void setLocale(Locale locale) {
 			this.locale = locale;
@@ -89,4 +103,5 @@ public class CaseConverter extends NullSafeConverterProxy<String, String> {
             return (toUpper ? source.toUpperCase(locale) : source.toLowerCase(locale));
         }
     }
+    
 }
