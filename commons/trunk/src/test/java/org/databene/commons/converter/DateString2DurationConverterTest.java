@@ -44,7 +44,7 @@ import junit.framework.TestCase;
 
 public class DateString2DurationConverterTest extends TestCase {
 	
-	public void test() {
+	public void testSimple() {
 		assertEquals(1L, convert("1970-01-01T00:00:00.001").longValue());
 		assertEquals(1L, convert("0000-00-00T00:00:00.001").longValue());
 		assertEquals(Period.DAY.getMillis(), convert("0000-00-01").longValue());
