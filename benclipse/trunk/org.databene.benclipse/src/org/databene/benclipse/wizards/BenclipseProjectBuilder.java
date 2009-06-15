@@ -28,17 +28,12 @@ package org.databene.benclipse.wizards;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
+import java.util.concurrent.Callable;
 
 import org.databene.benclipse.BenclipsePlugin;
 import org.databene.benclipse.archetype.Archetype;
@@ -50,14 +45,17 @@ import org.databene.benclipse.internal.HsqlDbController;
 import org.databene.benerator.main.DBSnapshotTool;
 import org.databene.commons.ArrayBuilder;
 import org.databene.commons.ArrayUtil;
+import org.databene.commons.BeanUtil;
 import org.databene.commons.CollectionUtil;
-import org.databene.commons.ConfigurationError;
 import org.databene.commons.FileUtil;
-import org.databene.commons.Filter;
+import org.databene.commons.IOUtil;
 import org.databene.commons.NullSafeComparator;
+import org.databene.commons.OrderedMap;
+import org.databene.commons.StringUtil;
 import org.databene.commons.SystemInfo;
 import org.databene.commons.converter.ToStringConverter;
-import org.databene.commons.xml.XMLUtil;
+import org.databene.html.DefaultHTMLTokenizer;
+import org.databene.html.HTMLTokenizer;
 import org.databene.model.data.ComplexTypeDescriptor;
 import org.databene.model.data.ComponentDescriptor;
 import org.databene.model.data.DataModel;
@@ -96,12 +94,6 @@ import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.hsqldb.lib.StringUtil;
-import org.w3c.dom.Comment;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.Text;
 
 /**
  * Creates a Benerator project in the Eclipse workspace.<br/>
@@ -117,6 +109,10 @@ public class BenclipseProjectBuilder { // TODO v0.6 merge with ArchetypeBuilder
 	private static final String SRC_FOLDER_NAME = "src";
     private final static Set<String> DB_CONSTRAINT_NAMES = CollectionUtil.toSet("nullable", "maxLength", "type");
 	private static final char TAB = '\t';
+	private static final String COMMENT_DBUNIT = "Create a valid predefined base data set for regression testing by " +
+			"importing a DbUnit file";
+	private static final String COMMENT_DROP_TABLES = "Drop the current tables and sequences if they already exist";
+	private static final String COMMENT_CREATE_TABLES = "Create the tables and sequences";
 
     private static ToStringConverter toStringConverter = new ToStringConverter();
 
@@ -127,9 +123,16 @@ public class BenclipseProjectBuilder { // TODO v0.6 merge with ArchetypeBuilder
 
 		final Job job = new WorkspaceJob(Messages.getString("wizard.project.job.creating.project")) {
 			@Override
-			public IStatus runInWorkspace(IProgressMonitor monitor) {
+			public IStatus runInWorkspace(final IProgressMonitor monitor) {
+				File jar = (dbInfo != null && dbInfo.getConnectionInfo() != null ? 
+						dbInfo.getConnectionInfo().getLibraryFile() :
+						null);
 				try {
-					createProject(name, archetype, jre, dbInfo, generationConfig, monitor, workbenchWindow);
+					BeanUtil.executeInJarClassLoader(jar, new Callable<IProject>() {
+						public IProject call() throws Exception {
+							return createProject(name, archetype, jre, dbInfo, generationConfig, monitor, workbenchWindow);
+	                    }
+					});
 					return Status.OK_STATUS;
 				} catch (CoreException e) {
 					return e.getStatus();
@@ -161,17 +164,17 @@ public class BenclipseProjectBuilder { // TODO v0.6 merge with ArchetypeBuilder
 		return true;
 	}
 
-    public static boolean createProject(final String name, Archetype archetype, IVMInstall vmInstall, DBProjectInfo dbInfo, 
+    public static IProject createProject(final String name, Archetype archetype, IVMInstall vmInstall, DBProjectInfo dbInfo, 
     		GenerationConfig generationConfig, IProgressMonitor monitor, IWorkbenchWindow workbenchWindow) throws Exception {
         monitor.beginTask("Creating project " + name, 3);
         JDBCConnectionInfo connectionInfo = dbInfo.getConnectionInfo();
         SchemaInitializationInfo initInfo = dbInfo.getInitInfo();
 
         IProject project = createEclipseProject(name, monitor);
-		createJavaProject(project, vmInstall, monitor);		
+        File driverJar = (dbInfo.getConnectionInfo() != null ? dbInfo.getConnectionInfo().getLibraryFile() : null);
+		createJavaProject(project, vmInstall, driverJar, monitor);		
 		File projectRoot = createProjectContent(project, archetype, dbInfo, generationConfig, monitor);
         project.refreshLocal(IResource.DEPTH_INFINITE, monitor); // refresh project structure in Eclipse
-        // TODO v0.6 expand project in navigator
         monitor.worked(1);
 
     	try {
@@ -185,12 +188,12 @@ public class BenclipseProjectBuilder { // TODO v0.6 merge with ArchetypeBuilder
 	        BenclipseDbUnitSnapshotCreator.createSnapshot(connectionInfo, new File(projectRoot, DBUNIT_SNAPSHOT_FILENAME));
         
         EclipseUtil.openInDefaultEditor(project.getFile("benerator.xml"), workbenchWindow);
-    	return true;
+    	return project;
     }
 
 	private static File createProjectContent(IProject project, Archetype archetype, 
 				DBProjectInfo dbInfo, GenerationConfig generationConfig, IProgressMonitor monitor)
-            throws FileNotFoundException, IOException {
+            throws FileNotFoundException, IOException, ParseException {
 	    // create project files
         monitor.subTask("Creating files...");
         // copy archetype files
@@ -208,63 +211,166 @@ public class BenclipseProjectBuilder { // TODO v0.6 merge with ArchetypeBuilder
     }
 
     private static void createBeneratorXml(IProject project, DBProjectInfo dbInfo,
-            GenerationConfig generationConfig, IProgressMonitor monitor) throws IOException {
+            GenerationConfig generationConfig, IProgressMonitor monitor) throws IOException, ParseException {
     	IFile ifile = project.getFile("benerator.xml");
     	File descriptorFile = ifile.getLocation().toFile();
-    	Document document = XMLUtil.parse(descriptorFile.getAbsolutePath());
-    	Element root = document.getDocumentElement();
-    	
-    	// set up generation config
-    	if (generationConfig.getEncoding() != null)
-    		root.setAttribute("defaultEncoding", generationConfig.getEncoding());
-    	if (generationConfig.getDataset() != null)
-    		root.setAttribute("defaultDataset", generationConfig.getDataset());
-    	if (generationConfig.getLocale() != null)
-    		root.setAttribute("defaultLocale", generationConfig.getLocale().toString());
-    	if (generationConfig.getLineSeparator() != null)
-    		root.setAttribute("defaultLineSeparator", generationConfig.getLineSeparator());
-    	
-    	setupDb(dbInfo, root);
-    	setupSqlFiles(project, dbInfo, root);
+
+    	DefaultHTMLTokenizer tokenizer = new DefaultHTMLTokenizer(IOUtil.getReaderForURI(descriptorFile.getAbsolutePath()));
+    	StringBuilder writer = new StringBuilder(2000);
+    	while (tokenizer.nextToken() != HTMLTokenizer.END)
+    		processToken(project, dbInfo, generationConfig, tokenizer, writer);
+    	IOUtil.writeTextFile(descriptorFile.getAbsolutePath(), writer.toString());
+
+    	monitor.worked(1);
+    }
+
+    private static void processToken(IProject project, DBProjectInfo dbInfo,
+            GenerationConfig generationConfig, DefaultHTMLTokenizer tokenizer, StringBuilder writer) 
+    			throws FileNotFoundException, IOException, ParseException {
+
+		SchemaInitializationInfo initInfo = dbInfo.getInitInfo();
     	String lineSeparator = generationConfig.getLineSeparator();
     	if (lineSeparator == null)
     		lineSeparator = SystemInfo.getLineSeparator();
-		setupDBTableGeneration(dbInfo, document, lineSeparator);
     	
-    	save(document, descriptorFile);
-    	monitor.worked(1);
-    	
+    	switch (tokenizer.tokenType()) {
+    		case HTMLTokenizer.START_TAG: {
+    			String nodeName = tokenizer.name();
+				if ("setup".equals(nodeName))
+    				appendStartTag(nodeName, renderSetupAttributes(tokenizer, generationConfig), writer, lineSeparator);
+				else if ("comment".equals(nodeName))
+    				processComment(tokenizer, dbInfo, writer);
+    			else
+    				writer.append(tokenizer.text());
+    			break;
+    		}
+    		case HTMLTokenizer.CLOSED_TAG: {
+    			String nodeName = tokenizer.name();
+    			if ("database".equals(nodeName) && dbInfo.getConnectionInfo() != null) {
+    				appendElement(nodeName, renderDbAttributes(dbInfo, tokenizer), writer, "");
+    			} else if ("execute".equals(nodeName)) {
+    				Map<String, String> attributes = tokenizer.attributes();
+    				String uri = attributes.get("uri");
+    				if ("{drop_tables.sql}".equals(uri)) {
+    			    	if (getDropScriptFile(initInfo) != null) {
+    			    		File dropScriptFile = getDropScriptFile(initInfo);
+    						copyToProject(dropScriptFile, project);
+    						attributes.put("uri", dropScriptFile.getName());
+    						appendElement(nodeName, attributes, writer, "");
+    			    	}
+    				} else if ("{create_tables.sql}".equals(uri)) {
+    			    	if (getCreateScriptFile(initInfo) != null) {
+    			    		File createScriptFile = getCreateScriptFile(initInfo);
+    						copyToProject(createScriptFile, project);
+    						attributes.put("uri", createScriptFile.getName());
+    						appendElement(nodeName, attributes, writer, "");
+    			    	}
+    				} else
+    					writer.append(tokenizer.text());
+    			} else if ("create-entities".equals(nodeName)) {
+    				Map<String, String> attributes = tokenizer.attributes();
+    				if (DBUNIT_SNAPSHOT_FILENAME.equals(attributes.get("source"))) {
+	    		    	if (isDbUnitSnapshot(dbInfo))
+	    		    		appendElement(nodeName, attributes, writer, "");
+    				} else if ("table".equals(attributes.get("name"))) {
+    					createTables(dbInfo, writer, lineSeparator);
+    				} else
+    					writer.append(tokenizer.text());
+    			} else
+    				writer.append(tokenizer.text());
+    			break;
+    		}
+    		default: writer.append(tokenizer.text());
+    	}
     }
 
-	private static void setupSqlFiles(IProject project, DBProjectInfo dbInfo, Element root) 
-			throws FileNotFoundException, IOException {
+    private static void processComment(DefaultHTMLTokenizer tokenizer, DBProjectInfo dbInfo, StringBuilder writer) throws IOException, ParseException {
+    	String startText = tokenizer.text();
+	    int nextToken = tokenizer.nextToken();
+	    if (nextToken == HTMLTokenizer.END_TAG) {
+	    	writer.append(startText).append(tokenizer.text());
+	    	return;
+	    }
+		if (nextToken != HTMLTokenizer.TEXT)
+	    	throw new ParseException("Text expected in comment", -1);
+		String commentText = tokenizer.text().trim();
 		SchemaInitializationInfo initInfo = dbInfo.getInitInfo();
-
-		// drop script for database-related archetypes
-    	if (initInfo != null && initInfo.getDropScriptFile() != null) {
-    		File dropScriptFile = initInfo.getDropScriptFile();
-			copyToProject(dropScriptFile, project);
-			Element element = findElement("execute", "uri", "{drop_tables.sql}", root);
-			element.setAttribute("uri", dropScriptFile.getName());
-    	} else
-    		removeElementIfExists("execute", "uri", "{drop_tables.sql}", root);
-    	
-		// create script for database-related archetypes
-    	if (initInfo != null && initInfo.getCreateScriptFile() != null) {
-    		File createScriptFile = initInfo.getCreateScriptFile();
-			copyToProject(createScriptFile, project);
-			Element element = findElement("execute", "uri", "{create_tables.sql}", root);
-			element.setAttribute("uri", createScriptFile.getName());
-    	} else
-    		removeElementIfExists("execute", "uri", "{create_tables.sql}", root);
-    	
-    	// DBUnit snapshot import
-    	if (initInfo == null || !initInfo.isDbUnitSnapshot())
-    		removeElementIfExists("create-entities", "source", DBUNIT_SNAPSHOT_FILENAME, root);
+		if (   (COMMENT_DROP_TABLES.equals(commentText) && getDropScriptFile(initInfo) == null)
+			|| (COMMENT_CREATE_TABLES.equals(commentText) && getCreateScriptFile(initInfo) == null) 
+			|| (COMMENT_DBUNIT.equals(commentText) && !isDbUnitSnapshot(dbInfo))) {
+				while (tokenizer.nextToken() != HTMLTokenizer.END_TAG) {
+					// skip all elements until comment end
+				}
+		} else {
+			// write comment start and content
+			writer.append(startText).append(tokenizer.text());
+		}
     }
 
-    private static Element findElement(String name, String attrName, String attrValue, Element root) {
-	    return findElement(root, new NameAndAttributeFilter(name, attrName, attrValue));
+	private static boolean isDbUnitSnapshot(DBProjectInfo dbInfo) {
+    	SchemaInitializationInfo initInfo = dbInfo.getInitInfo();
+    	return (initInfo != null && initInfo.isDbUnitSnapshot());
+    }
+
+	private static File getDropScriptFile(SchemaInitializationInfo initInfo) {
+	    return (initInfo != null && initInfo.getDropScriptFile() != null ? initInfo.getDropScriptFile() : null);
+    }
+
+	private static File getCreateScriptFile(SchemaInitializationInfo initInfo) {
+	    return (initInfo != null && initInfo.getCreateScriptFile() != null ? initInfo.getCreateScriptFile() : null);
+    }
+
+	private static Map<String, String> renderDbAttributes(DBProjectInfo dbInfo, DefaultHTMLTokenizer tokenizer) {
+	    Map<String, String> attributes = tokenizer.attributes();
+	    JDBCConnectionInfo con = dbInfo.getConnectionInfo();
+	    attributes.put("url", con.getUrl());	    		
+	    attributes.put("driver", con.getDriverClass());
+	    if (!StringUtil.isEmpty(con.getUrl()))
+	    	attributes.put("schema", con.getSchema());
+	    attributes.put("user", con.getUser());
+	    if (!StringUtil.isEmpty(con.getPassword()))
+	    	attributes.put("password", con.getPassword());
+	    return attributes;
+    }
+
+	private static Map<String, String> renderSetupAttributes(DefaultHTMLTokenizer tokenizer,
+            GenerationConfig generationConfig) {
+	    Map<String, String> attributes = tokenizer.attributes();
+	    if (generationConfig.getEncoding() != null)
+	    	attributes.put("defaultEncoding", generationConfig.getEncoding());
+	    if (generationConfig.getDataset() != null)
+	    	attributes.put("defaultDataset", generationConfig.getDataset());
+	    if (generationConfig.getLocale() != null)
+	    	attributes.put("defaultLocale", generationConfig.getLocale().toString());
+	    if (generationConfig.getLineSeparator() != null)
+	    	attributes.put("defaultLineSeparator", StringUtil.escape(generationConfig.getLineSeparator()));
+	    return attributes;
+    }
+
+    private static void appendStartTag(String nodeName, Map<String, String> attributes, StringBuilder writer, String lineSeparator) {
+	    writer.append('<').append(nodeName);
+	    writeAttributes(attributes, writer, lineSeparator);
+	    writer.append('>');
+    }
+
+    private static void appendElement(String nodeName, Map<String, String> attributes, StringBuilder writer, String lineSeparator) {
+	    writer.append('<').append(nodeName);
+	    writeAttributes(attributes, writer, lineSeparator);
+	    writer.append("/>");
+    }
+
+	private static void writeAttributes(Map<String, String> attributes, StringBuilder writer, String lineSeparator) {
+		int i = 0;
+	    for (Map.Entry<String, String> attribute : attributes.entrySet()) {
+	    	if (!StringUtil.isEmpty(lineSeparator) && i > 0) 
+	    		writer.append(TAB).append(TAB);
+	    	else
+	    		writer.append(' ');
+	    	writer.append(attribute.getKey()).append("=\"").append(attribute.getValue()).append("\"");
+	    	if (i < attributes.size() - 1)
+	    		writer.append(lineSeparator);
+	    	i++;
+	    }
     }
 
 	private static void copyToProject(File srcFile, IProject project) throws FileNotFoundException, IOException {
@@ -273,15 +379,7 @@ public class BenclipseProjectBuilder { // TODO v0.6 merge with ArchetypeBuilder
     	FileUtil.copy(srcFile, dstFile, true);
     }
 
-	private static void setupDBTableGeneration(DBProjectInfo dbInfo, Document document, String lineSeparator) {
-		Element createTablesElement = findElement("create-entities", "name", "table", document.getDocumentElement());
-		if (createTablesElement != null) {
-			createTables(dbInfo, createTablesElement, lineSeparator);
-			createTablesElement.getParentNode().removeChild(createTablesElement);
-		}
-    }
-
-    private static void createTables(DBProjectInfo dbInfo, Element markerElement, String lineSeparator) {
+    private static void createTables(DBProjectInfo dbInfo, StringBuilder writer, String lineSeparator) {
     	DBSystem db = getDBSystem(dbInfo.getConnectionInfo());
     	TypeDescriptor[] descriptors = db.getTypeDescriptors();
 		for (TypeDescriptor descriptor : descriptors) {
@@ -292,7 +390,7 @@ public class BenclipseProjectBuilder { // TODO v0.6 merge with ArchetypeBuilder
           		iDesc.setCount(0L);
           	else
           		iDesc.setCount(db.countEntities(name));
-			createEntity(iDesc, markerElement, lineSeparator);
+			createEntity(iDesc, writer, lineSeparator);
        }
 	}
     
@@ -305,32 +403,32 @@ public class BenclipseProjectBuilder { // TODO v0.6 merge with ArchetypeBuilder
 		return db;
     }
 	
-	private static void createEntity(InstanceDescriptor descriptor, Element markerElement, String lineSeparator) {
+	private static void createEntity(InstanceDescriptor descriptor, StringBuilder writer, String lineSeparator) {
         ComplexTypeDescriptor type = (ComplexTypeDescriptor) descriptor.getType();
-        Document document = markerElement.getOwnerDocument();
-        Element createEntityElement = document.createElement("create-entities");
-        markerElement.getParentNode().insertBefore(createEntityElement, markerElement);
+        Map<String, String> attributes = new OrderedMap<String, String>();
         for (FeatureDetail<? extends Object> detail : descriptor.getDetails()) {
             Object value = detail.getValue();
             if (value != null && !NullSafeComparator.equals(value, detail.getDefault()))
-                createEntityElement.setAttribute(detail.getName(), toStringConverter.convert(value));
+                attributes.put(detail.getName(), toStringConverter.convert(value));
         }
-        createEntityElement.setAttribute("consumer", "db");
+        attributes.put("consumer", "db");
+        appendStartTag("create-entities", attributes, writer, "");
+        writer.append(lineSeparator);
         
-        Comment attributeInfo = null;
         for (ComponentDescriptor cd : type.getComponents())
-            attributeInfo = addAttribute(cd, createEntityElement, lineSeparator);
-        if (attributeInfo != null)
-        	appendNewLineAfter(attributeInfo, 1, lineSeparator);
-        insertNewLineBefore(markerElement, 1, lineSeparator);
-        insertNewLineBefore(markerElement, 1, lineSeparator);
+            addAttribute(cd, writer, lineSeparator);
+        writer.append(TAB);
+        appendEndElement("create-entities", writer);
+        writer.append(lineSeparator);
+        writer.append(lineSeparator);
+        writer.append(TAB);
     }
 	
-    private static void appendNewLineAfter(Node node, int tabCount, String lineSeparator) {
-	    node.getParentNode().appendChild(createNewLine(node.getOwnerDocument(), tabCount, lineSeparator));
+    private static void appendEndElement(String nodeName, StringBuilder writer) {
+	    writer.append("</").append(nodeName).append(">");
     }
 
-	private static Comment addAttribute(ComponentDescriptor component, Element parent, String lineSeparator) {
+	private static void addAttribute(ComponentDescriptor component, StringBuilder writer, String lineSeparator) {
     	// normalize
     	boolean nullable = (component.isNullable() == null || component.isNullable());
 		if (component.getMaxCount() != null && component.getMaxCount() == 1)
@@ -365,35 +463,13 @@ public class BenclipseProjectBuilder { // TODO v0.6 merge with ArchetypeBuilder
         if (nullable)
         	attributes.put("nullQuota", "1");
 
-        StringBuilder builder = new StringBuilder();
-    	builder.append(elementName);
+        writer.append(TAB).append(TAB).append("<!--").append(elementName);
     	for (Map.Entry<String, String> entry : attributes.entrySet())
-    		builder.append(' ').append(entry.getKey()).append("=\"").append(entry.getValue()).append('"');
-    	builder.append(" /");
-    	Comment comment = insertCommentNode(parent, builder.toString());
-        insertNewLineBefore(comment, 2, lineSeparator);
-        return comment;
+    		writer.append(' ').append(entry.getKey()).append("=\"").append(entry.getValue()).append('"');
+    	writer.append(" /-->");
+    	writer.append(lineSeparator);
     }
     
-	private static void insertNewLineBefore(Node element, int tabCount, String lineSeparator) {
-		Text newLine = createNewLine(element.getOwnerDocument(), tabCount, lineSeparator);
-        element.getParentNode().insertBefore(newLine, element);
-	}
-
-	private static Text createNewLine(Document document, int tabCount, String lineSeparator) {
-	    StringBuilder builder = new StringBuilder(lineSeparator);
-		for (int i = 0; i < tabCount; i++)
-			builder.append(TAB);
-        Text newLine = document.createTextNode(builder.toString());
-	    return newLine;
-    }
-
-    private static Comment insertCommentNode(Element parent, String commentText) {
-    	Comment comment = parent.getOwnerDocument().createComment(commentText);
-    	parent.appendChild(comment);
-    	return comment;
-    }
-
 	private static void format(FeatureDetail<? extends Object> detail, Map<String, String> attributes) {
 		if (!"name".equals(detail.getName()) && detail.getValue() != null && !dbConstraint(detail.getName()))
 		    attributes.put(detail.getName(), toStringConverter.convert(detail.getValue()));
@@ -416,70 +492,11 @@ public class BenclipseProjectBuilder { // TODO v0.6 merge with ArchetypeBuilder
     	}
     }
 
-	private static void removeElementIfExists(
-			final String elementName, final String attrName, final String attribute, Element root) {
-	    removeElementIfExists(root, new Filter<Element>() {
-	    	public boolean accept(Element candidate) {
-	    		return elementName.equals(candidate.getNodeName()) && attribute.equals(candidate.getAttribute(attrName));
-	        }
-	    });
-    }
-
-    private static void removeElementIfExists(Element root, Filter<Element> filter) {
-    	Element element = findElement(root, filter);
-    	if (element != null)
-    		element.getParentNode().removeChild(element);
-    }
-
-	private static void setupDb(DBProjectInfo dbInfo, Element root) {
-	    // setup 'db' bean in all DB related archetypes
-    	JDBCConnectionInfo con = dbInfo.getConnectionInfo();
-    	if (con == null)
-    		return;
-    	Element db = findElement(root, new Filter<Element>() {
-			public boolean accept(Element candidate) {
-				return "database".equals(candidate.getNodeName()) && "db".equals(candidate.getAttribute("id"));
-            }
-    	});
-    	if (db != null) {
-			db.setAttribute("url", con.getUrl());	    		
-    		db.setAttribute("driver", con.getDriverClass());
-    		if (!StringUtil.isEmpty(con.getUrl()))
-    			db.setAttribute("schema", con.getSchema());
-    		db.setAttribute("user", con.getUser());
-    		if (!StringUtil.isEmpty(con.getPassword()))
-    			db.setAttribute("password", con.getPassword());
-    	}
-    }
-
-    private static Element findElement(Element parent, Filter<Element> filter) { // TODO v0.6 move this to XMLUtil
-	    if (filter.accept(parent))
-	    	return parent;
-	    for (Element child : XMLUtil.getChildElements(parent)) {
-	    	Element candidate = findElement(child, filter);
-	    	if (candidate != null)
-	    		return candidate;
-	    }
-	    return null;
-    }
-
-	private static void save(Document document, File file) throws FileNotFoundException { // TODO v0.6 move this method to XMLUtil
-		try {
-		    Transformer transformer = TransformerFactory.newInstance().newTransformer();
-	        DOMSource source = new DOMSource(document);
-	        FileOutputStream os = new FileOutputStream(file);
-	        StreamResult result = new StreamResult(os);
-	        transformer.transform(source, result);
-		} catch (TransformerException e) {
-			throw new ConfigurationError(e);
-		}
-    }
-
-	private static IJavaProject createJavaProject(IProject project, IVMInstall vmInstall, IProgressMonitor monitor)
+	private static IJavaProject createJavaProject(IProject project, IVMInstall vmInstall, File driverJar, IProgressMonitor monitor)
             throws CoreException, JavaModelException {
 	    // create Java project
 		IJavaProject javaProject = JavaCore.create(project);
-		IClasspathEntry[] classpathEntries = createFoldersAndClasspath(vmInstall, javaProject);
+		IClasspathEntry[] classpathEntries = createFoldersAndClasspath(vmInstall, javaProject, driverJar);
 		javaProject.setRawClasspath(classpathEntries, monitor);
 		
 		// set Java compliance
@@ -510,7 +527,7 @@ public class BenclipseProjectBuilder { // TODO v0.6 merge with ArchetypeBuilder
     }
 
 	private static IClasspathEntry[] createFoldersAndClasspath(
-    		IVMInstall vmInstall, IJavaProject javaProject) throws CoreException {
+    		IVMInstall vmInstall, IJavaProject javaProject, File driverJar) throws CoreException {
 	    ArrayBuilder<IClasspathEntry> builder = new ArrayBuilder<IClasspathEntry>(IClasspathEntry.class);
 	    
 	    // JRE classes
@@ -526,26 +543,13 @@ public class BenclipseProjectBuilder { // TODO v0.6 merge with ArchetypeBuilder
 
 	    // refer to benerator libraries
 	    builder.append(JavaCore.newContainerEntry(new Path(IBenclipseConstants.CONTAINER_ID)));
+	    
+	    // add custom driver JAR
+	    if (driverJar != null)
+	    	builder.append(JavaCore.newLibraryEntry(Path.fromOSString(driverJar.getAbsolutePath()), null, null));
                
 		// done - return an array representation of the classpath
 	    return builder.toArray();
     }
 
-	public static class NameAndAttributeFilter implements Filter<Element> { // TODO v0.6 move to commons XML utilities 
-
-		private String name;
-		private String attrName;
-		private String attrValue;
-
-		public NameAndAttributeFilter(String name, String attrName, String attrValue) {
-	        this.name = name;
-	        this.attrName = attrName;
-	        this.attrValue = attrValue;
-        }
-
-		public boolean accept(Element candidate) {
-	        return name.equals(candidate.getNodeName()) && attrValue.equals(candidate.getAttribute(attrName));
-        }
-		
-	}
 }
