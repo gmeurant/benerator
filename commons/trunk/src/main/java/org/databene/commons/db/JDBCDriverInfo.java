@@ -32,7 +32,6 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import org.databene.commons.ArrayBuilder;
-import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.xml.XMLUtil;
 import org.w3c.dom.Document;
@@ -61,10 +60,15 @@ public class JDBCDriverInfo {
 	private String urlPattern;
 	private String defaultUser;
 	private String[] jars;
-	private boolean installed;
 	
 	public JDBCDriverInfo() {
-		this.installed = false;
+		this(null, null, null);
+	}
+	
+	public JDBCDriverInfo(String id, String name, String dbSystem) {
+		this.id = id;
+		this.name = name;
+		this.dbSystem = dbSystem;
 	}
 	
 	public String getId() {
@@ -72,7 +76,7 @@ public class JDBCDriverInfo {
     }
 
 	public void setId(String id) {
-    	this.id = normalize(id);
+    	this.id = normalizeNull(id);
     }
 
 	public String getName() {
@@ -80,7 +84,7 @@ public class JDBCDriverInfo {
     }
 
 	public void setName(String name) {
-    	this.name = normalize(name);
+    	this.name = normalizeNull(name);
     }
 
 	public String getDbSystem() {
@@ -88,7 +92,7 @@ public class JDBCDriverInfo {
     }
 	
 	public void setDbSystem(String dbSystem) {
-    	this.dbSystem = normalize(dbSystem);
+    	this.dbSystem = normalizeNull(dbSystem);
     }
 
 	public String getUrlPattern() {
@@ -96,7 +100,7 @@ public class JDBCDriverInfo {
     }
 
 	public void setUrlPattern(String urlPattern) {
-    	this.urlPattern = normalize(urlPattern);
+    	this.urlPattern = normalizeNotNull(urlPattern);
     }
 
 	public String getDownloadUrl() {
@@ -104,7 +108,7 @@ public class JDBCDriverInfo {
     }
 
 	public void setDownloadUrl(String downloadUrl) {
-    	this.downloadUrl = normalize(downloadUrl);
+    	this.downloadUrl = normalizeNull(downloadUrl);
     }
 
 	public String getDefaultPort() {
@@ -112,7 +116,7 @@ public class JDBCDriverInfo {
     }
 
 	public void setDefaultPort(String defaultPort) {
-    	this.defaultPort = normalize(defaultPort);
+    	this.defaultPort = normalizeNull(defaultPort);
     }
 
 	public String[] getJars() {
@@ -128,7 +132,7 @@ public class JDBCDriverInfo {
 	}
 	
 	public void setDriverClass(String driverClass) {
-    	this.driverClass = normalize(driverClass);
+    	this.driverClass = normalizeNull(driverClass);
     }
 
 	public String getDefaultUser() {
@@ -136,7 +140,7 @@ public class JDBCDriverInfo {
 	}
 	
 	public void setDefaultUser(String defaultUser) {
-    	this.defaultUser = normalize(defaultUser);
+    	this.defaultUser = normalizeNull(defaultUser);
     }
 
 	public String getDefaultDatabase() {
@@ -144,7 +148,7 @@ public class JDBCDriverInfo {
     }
 
 	public void setDefaultDatabase(String defaultDatabase) {
-    	this.defaultDatabase = normalize(defaultDatabase);
+    	this.defaultDatabase = normalizeNull(defaultDatabase);
     }
 
 	// operations ------------------------------------------------------------------------------------------------------
@@ -157,28 +161,18 @@ public class JDBCDriverInfo {
     	this.defaultSchema = defaultSchema;
     }
 
-	public boolean installed() {
-		if (installed)
-			return true;
-		try {
-			BeanUtil.forName(driverClass);
-			installed = true;
-		} catch (ConfigurationError e) {
-			installed = false;
-			if (!(e.getCause() instanceof ClassNotFoundException))
-				throw e;
-		}
-		return installed;
-	}
-	
 	public String jdbcURL(String host, String port, String database) {
 		return MessageFormat.format(urlPattern, host, port, database);
 	}
 	
 	// private helpers -------------------------------------------------------------------------------------------------
 	
-	private String normalize(String value) {
+	private String normalizeNull(String value) {
 		return (value == null || value.trim().length() == 0 ? null : value.trim());
+	}
+	
+	private String normalizeNotNull(String value) {
+		return (value == null || value.trim().length() == 0 ? "" : value.trim());
 	}
 	
 	private static HashMap<String, JDBCDriverInfo> instances = new HashMap<String, JDBCDriverInfo>();
