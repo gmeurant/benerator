@@ -36,11 +36,16 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.beans.Introspector;
 import java.beans.BeanInfo;
 import java.beans.PropertyDescriptor;
 import java.beans.IntrospectionException;
+import java.io.File;
 import java.io.PrintWriter;
 
 /**
@@ -231,6 +236,7 @@ public final class BeanUtil {
      * @param field the field representation of the attribute.
      * @return an array of types that are used to parameterize the attribute.
      */
+    @SuppressWarnings("unchecked")
     public static Class<? extends Object>[] getGenericTypes(Field field) {
         Type genericFieldType = field.getGenericType();
         if (!(genericFieldType instanceof ParameterizedType))
@@ -249,6 +255,7 @@ public final class BeanUtil {
      * @param name the name of the class to instantiate
      * @return the Class instance
      */
+    @SuppressWarnings("unchecked")
     public static <T> Class<T> forName(String name) {
         Class type = simpleTypeMap.get(name);
         if (type != null)
@@ -257,6 +264,9 @@ public final class BeanUtil {
             try {
                  return (Class<T>) getContextClassLoader().loadClass(name);
             } catch (ClassNotFoundException e) {
+                throw ExceptionMapper.configurationException(e, name);
+            } catch (NullPointerException e) {
+            	// this is raised by the Eclipse BundleLoader if it does not find the class
                 throw ExceptionMapper.configurationException(e, name);
             }
         }
@@ -269,6 +279,35 @@ public final class BeanUtil {
 		return result;
 	}
 
+	public static ClassLoader createJarClassLoader(File jarFile) throws MalformedURLException {
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		if (jarFile != null)
+			classLoader = new URLClassLoader(new URL[] { jarFile.toURI().toURL() }, classLoader);
+		return classLoader;
+	}
+	
+	public static void executeInJarClassLoader(File jarFile, Runnable action) throws MalformedURLException {
+		Thread currentThread = Thread.currentThread();
+		ClassLoader contextClassLoader = currentThread.getContextClassLoader();
+		try {
+			currentThread.setContextClassLoader(createJarClassLoader(jarFile));
+			action.run();
+        } finally {
+			currentThread.setContextClassLoader(contextClassLoader);
+		}
+	}
+    
+	public static <T> T executeInJarClassLoader(File jarFile, Callable<T> action) throws Exception {
+		Thread currentThread = Thread.currentThread();
+		ClassLoader contextClassLoader = currentThread.getContextClassLoader();
+		try {
+			currentThread.setContextClassLoader(createJarClassLoader(jarFile));
+			return action.call();
+        } finally {
+			currentThread.setContextClassLoader(contextClassLoader);
+		}
+	}
+    
     /**
      * Instantiates a class by the default constructor.
      * @param className the name of the class to instantiate
@@ -289,6 +328,7 @@ public final class BeanUtil {
     	return newInstance(type, true, parameters);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T newInstance(Class<T> type, boolean strict, Object ... parameters) {
         if (parameters.length == 0)
             return newInstanceFromDefaultConstructor(type);
@@ -422,6 +462,7 @@ public final class BeanUtil {
      * @param args
      * @return the invoked method's return value.
      */
+    @SuppressWarnings("unchecked")
     public static Object invoke(Object target, String methodName, Object ... args) {
 
     	if (target == null)
@@ -436,6 +477,7 @@ public final class BeanUtil {
         return invoke(target, method, args);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T invokeStatic(Class<? extends Object> targetClass, String methodName, Object ... args) {
         if (targetClass == null)
             throw new IllegalArgumentException("target is null");
@@ -457,10 +499,11 @@ public final class BeanUtil {
         return invoke(target, method, true, args);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T invoke(Object target, Method method, boolean strict, Object ... args) {
         try {
             Object[] params = (strict ? args : ArrayTypeConverter.convert(args, method.getParameterTypes()));
-            return (T)method.invoke(target, (Object[])params);
+            return (T) method.invoke(target, params);
         } catch (IllegalAccessException e) {
             throw ExceptionMapper.configurationException(e, method);
         } catch (InvocationTargetException e) {
@@ -631,8 +674,12 @@ public final class BeanUtil {
         Method readMethod = null;
         try {
             PropertyDescriptor descriptor = getPropertyDescriptor(bean.getClass(), propertyName);
-            if (descriptor == null && strict)
-            	throw new ConfigurationError("Property '" + propertyName + "' not found in class " + bean.getClass());
+            if (descriptor == null) {
+            	if (strict)
+            		throw new ConfigurationError("Property '" + propertyName + "' not found in class " + bean.getClass());
+            	else 
+            		return null;
+            }
 			readMethod = descriptor.getReadMethod();
             return readMethod.invoke(bean);
         } catch (IllegalAccessException e) {
@@ -690,10 +737,11 @@ public final class BeanUtil {
 		return (isPrimitive(propertyTypeName) && getWrapper(propertyType.getName()) == propertyValue.getClass());
 	}
     
+    @SuppressWarnings("unchecked")
     public static <BEAN, PROP_TYPE> List<PROP_TYPE> extractProperties(Collection<BEAN> beans, String propertyName) {
         List<PROP_TYPE> result = new ArrayList<PROP_TYPE>(beans.size());
         for (BEAN bean : beans)
-            result.add((PROP_TYPE)getPropertyValue(bean, propertyName));
+            result.add((PROP_TYPE) getPropertyValue(bean, propertyName));
         return result;
     }
 
@@ -763,6 +811,7 @@ public final class BeanUtil {
      * Creates an instance of the class using the default constructor.
      * @since 0.2.06
      */
+    @SuppressWarnings("cast")
     private static <T> T newInstanceFromDefaultConstructor(Class<T> type) {
         if (type == null)
             return null;
@@ -771,7 +820,7 @@ public final class BeanUtil {
         if (deprecated(type))
             escalator.escalate("Instantiating a deprecated class: " + type.getName(), BeanUtil.class, null);
         try {
-            return (T)type.newInstance();
+            return (T) type.newInstance();
         } catch (InstantiationException e) {
             throw ExceptionMapper.configurationException(e, type);
         } catch (IllegalAccessException e) {
@@ -854,7 +903,7 @@ public final class BeanUtil {
 		return builder.toString();
 	}
 
-	public static String simpleName(Class type) {
+	public static <T> String simpleName(Class<T> type) {
 		return (type != null ? type.getSimpleName() : null);
 	}
 	
