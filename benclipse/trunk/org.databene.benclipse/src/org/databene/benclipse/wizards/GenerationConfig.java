@@ -46,15 +46,15 @@ public class GenerationConfig {
 	private boolean openGeneratedFiles;
 	
 	public GenerationConfig() {
-		this(null, null, null, null, true);
+		this(null, null, null, null /*, true*/);
     }
 
-	public GenerationConfig(String encoding, String lineSeparator, Locale locale, String dataset, boolean openGeneratedFiles) {
+	public GenerationConfig(String encoding, String lineSeparator, Locale locale, String dataset/*, boolean openGeneratedFiles*/) {
 	    this.encoding = encoding;
 	    this.lineSeparator = lineSeparator;
 	    this.locale = locale;
 	    this.dataset = dataset;
-	    this.openGeneratedFiles = openGeneratedFiles;
+	    //this.openGeneratedFiles = openGeneratedFiles;
     }
 
 	public String getEncoding() {
