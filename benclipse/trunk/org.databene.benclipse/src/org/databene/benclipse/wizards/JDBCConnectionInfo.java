@@ -26,6 +26,8 @@
 
 package org.databene.benclipse.wizards;
 
+import java.io.File;
+
 /**
  * JavaBean that assembles all information related to a JDBC connection.<br/>
  * <br/>
@@ -41,17 +43,19 @@ public class JDBCConnectionInfo {
 	private String user;
 	private String password;
 	private String schema;
+	private File libraryFile;
 
 	public JDBCConnectionInfo() {
-		this(null, null, null, null, null);
+		this(null, null, null, null, null, null);
 	}
 
-	public JDBCConnectionInfo(String url, String driverClass, String user, String password, String schema) {
+	public JDBCConnectionInfo(String url, String driverClass, String user, String password, String schema, File libraryFile) {
 		this.url = url;
 		this.driverClass = driverClass;
 		this.user = user;
 		this.password = password;
 		this.schema = schema;
+		this.libraryFile = libraryFile;
 	}
 
 	public String getUrl() {
@@ -93,5 +97,13 @@ public class JDBCConnectionInfo {
 	public void setSchema(String schema) {
 		this.schema = schema;
 	}
+
+	public File getLibraryFile() {
+    	return libraryFile;
+    }
+
+	public void setLibraryFile(File libraryFile) {
+    	this.libraryFile = libraryFile;
+    }
 
 }
