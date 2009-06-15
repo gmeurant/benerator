@@ -55,10 +55,13 @@ public class BenclipseDbUnitSnapshotCreator {
 
 	public static boolean createSnapshot(final JDBCConnectionInfo c, final File file) {
 	    final String createSnapshotMessage = Messages.getString("wizard.dbunit.job.creating.snapshot");
+	    final ClassLoader classLoaderToUse = Thread.currentThread().getContextClassLoader();
 		final Job job = new WorkspaceJob(createSnapshotMessage) {
 			@Override
 			public IStatus runInWorkspace(IProgressMonitor monitor) {
+				ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
 				try {
+					Thread.currentThread().setContextClassLoader(classLoaderToUse);
 					String schema = StringUtil.emptyToNull(c.getSchema().trim());
 					EclipseProgressMonitor eclipseMonitor = new EclipseProgressMonitor(monitor, createSnapshotMessage, 1);
 					DBSnapshotTool.export(c.getUrl(), c.getDriverClass(), schema, c.getUser(), c.getPassword(), 
@@ -68,6 +71,7 @@ public class BenclipseDbUnitSnapshotCreator {
 					return new Status(Status.ERROR, BenclipsePlugin.PLUGIN_ID, e.getMessage(), e);
 				} finally {
 					monitor.done();
+					Thread.currentThread().setContextClassLoader(contextClassLoader);
 				}
 			}
 		};
