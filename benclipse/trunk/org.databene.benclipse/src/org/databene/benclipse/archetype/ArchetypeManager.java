@@ -65,7 +65,7 @@ public class ArchetypeManager {
         while (entryPaths.hasMoreElements()) {
         	String entryPath = entryPaths.nextElement();
         	File file = fileFromEntryPath(entryPath, bundle);
-        	if (file.isDirectory())
+        	if (file.isDirectory() && !".svn".equals(file.getName()))
         		archetypeList.add(parseArchetype(file));
         }
     	
