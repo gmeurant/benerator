@@ -13,11 +13,13 @@
     <comment>defining a database that will be referred by the id 'db' later</comment>
     <database id="db" />
 
-	<comment>Dropping the current tables/sequences if they exist and recreating them</comment>
+	<comment>Drop the current tables and sequences if they already exist</comment>
 	<execute uri="{drop_tables.sql}" target="db" onError="ignore"/>
+
+	<comment>Create the tables and sequences</comment>
 	<execute uri="{create_tables.sql}" target="db" optimize="true"/>
 
-	<comment>Creating a valid base data set for regression testing by importing a DbUnit file</comment>
+	<comment>Create a valid predefined base data set for regression testing by importing a DbUnit file</comment>
 	<create-entities source="base.dbunit.xml" consumer="db" />
 
 	<create-entities name="table" consumer="db" />
