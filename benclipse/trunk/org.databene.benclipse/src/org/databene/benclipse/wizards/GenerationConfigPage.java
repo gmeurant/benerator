@@ -46,7 +46,6 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
@@ -73,7 +72,7 @@ public class GenerationConfigPage extends BeneratorWizardPage {
 	private ComboViewer separatorCombo;
 	private ComboViewer localeCombo;
 	private ComboViewer datasetCombo;
-	private Button openGeneratedFilesButton;
+	//private Button openGeneratedFilesButton;
 
 	public GenerationConfigPage() {
     	super("GenerationConfigPage");
@@ -89,9 +88,11 @@ public class GenerationConfigPage extends BeneratorWizardPage {
 	    new Label(control, SWT.NONE);
 	    createDomainGroup(control);
 	    new Label(control, SWT.NONE);
+	    /*
 	    openGeneratedFilesButton = SWTUtil.createCheckbox(
 	    		control, Messages.getString("wizard.project.gensettings.open"), null, "", 1);
 	    openGeneratedFilesButton.setSelection(true);
+	    */
 		setControl(control);
     }
 
@@ -255,18 +256,16 @@ public class GenerationConfigPage extends BeneratorWizardPage {
     	String dataset = getSelectedText(datasetCombo, NO_DATASET);
     	
     	// resolve 'open files'
-    	boolean open = openGeneratedFilesButton.getSelection();
+    	//boolean open = openGeneratedFilesButton.getSelection();
     	
     	// create result
-    	return new GenerationConfig(encoding, lineSeparator, locale, dataset, open);
+    	return new GenerationConfig(encoding, lineSeparator, locale, dataset/*, open*/);
     }
 
 	private String getSelectedText(ComboViewer combo, String noSelection) {
 	    String text = (String) ((IStructuredSelection) combo.getSelection()).getFirstElement();
-	    if (StringUtil.isEmpty(noSelection))
+	    if (noSelection.equals(text))
 	    	return null;
-	    if (StringUtil.isEmpty(text))
-	    	text = combo.getCombo().getText();
-    	return (StringUtil.isEmpty(text) ? null : text);
+    	return text;
     }
 }
