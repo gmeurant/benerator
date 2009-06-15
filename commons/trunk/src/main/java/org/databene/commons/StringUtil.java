@@ -222,6 +222,10 @@ public final class StringUtil {
         return result.toString();
     }
 
+    public static String nullToEmpty(String text) {
+    	return (text != null ? text : "");
+    }
+
     public static String normalizeSpace(String s) {
         if (s == null || s.length() == 0)
             return s;
