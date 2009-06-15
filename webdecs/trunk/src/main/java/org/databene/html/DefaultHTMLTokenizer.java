@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -52,11 +52,11 @@
 package org.databene.html;
 
 import org.databene.commons.CharSet;
+import org.databene.commons.OrderedMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.util.Map;
-import java.util.HashMap;
 import java.io.PushbackReader;
 import java.io.Reader;
 import java.io.IOException;
@@ -72,7 +72,7 @@ public class DefaultHTMLTokenizer implements HTMLTokenizer {
 
     private static Log logger = LogFactory.getLog(DefaultHTMLTokenizer.class);
 
-    private static final CharSet ELEMENT_NAME_CHARS = new CharSet('A','Z').addRange('a', 'z').addRange('0', '9').add('_').add(':');
+    private static final CharSet ELEMENT_NAME_CHARS = new CharSet('A','Z').addRange('a', 'z').addRange('0', '9').add('_').add(':').add('-');
     private static final CharSet ATTR_NAME_CHARS = new CharSet('A','Z').addRange('a', 'z').addRange('0', '9').add('_').add('-').add(':');
 
     // parser state
@@ -178,7 +178,7 @@ public class DefaultHTMLTokenizer implements HTMLTokenizer {
      */
     public Map<String, String> attributes() {
         if (attributeMap == null) {
-            attributeMap = new HashMap<String, String>();
+            attributeMap = new OrderedMap<String, String>();
             for (int i = 0; i < attribCount; i++) {
                 String attribName = new String(textBuffer, attribNameFrom[i], attribNameUntil[i] - attribNameFrom[i]);
                 attribName = attribName.intern();
@@ -434,7 +434,7 @@ public class DefaultHTMLTokenizer implements HTMLTokenizer {
         textBuffer[cursor++] = expectedChar;
     }
 
-    private void expectChar(char expectedChar) throws ParseException, IOException {
+    private void expectChar(char expectedChar) throws IOException {
         int c = reader.read();
         if (c != expectedChar) {
             String message = "Expected: '" + expectedChar + "', found: '" + (char)c + "'";
