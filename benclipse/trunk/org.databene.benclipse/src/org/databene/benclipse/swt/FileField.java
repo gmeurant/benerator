@@ -35,6 +35,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
@@ -63,6 +64,7 @@ public class FileField extends Observable {
 	boolean workspaceOnly;
 	boolean save;
 	String[] filterExtensions;
+	String nullName;
 	
 	public FileField(Composite parent, String labelText, String buttonText, int textHSpan) {
 		this.text = SWTUtil.createLabeledText(parent, labelText, textHSpan);
@@ -71,12 +73,19 @@ public class FileField extends Observable {
 		this.button.addSelectionListener(new Listener());
 		this.save = false;
 		this.workspaceOnly = true;
+		this.nullName = "";
 	}
 	
 	public void setWorkspaceOnly(boolean restrictedToWorkspace) {
     	this.workspaceOnly = restrictedToWorkspace;
     }
 	
+	public void setNullName(String nullName) {
+    	this.nullName = nullName;
+    	if (file == null)
+    		text.setText(nullName);
+    }
+
 	public void setSave(boolean save) {
     	this.save = save;
     }
@@ -91,7 +100,7 @@ public class FileField extends Observable {
 	
 	public void setFile(File file) {
 		this.file = file;
-		text.setText(file.getName());
+		text.setText(file != null ? file.getName() : nullName);
 	}
 	
 	class Listener extends SelectionAdapter {
@@ -124,4 +133,8 @@ public class FileField extends Observable {
 			}
 		}
 	}
+
+    public void addModifyListener(ModifyListener listener) {
+	    text.addModifyListener(listener);
+    }
 }
