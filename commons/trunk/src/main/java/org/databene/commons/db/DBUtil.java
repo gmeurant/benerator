@@ -29,6 +29,7 @@ package org.databene.commons.db;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
 import org.databene.commons.ArrayFormat;
+import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.ConnectFailedException;
 import org.databene.commons.ErrorHandler;
@@ -45,7 +46,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.Driver;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -69,12 +70,22 @@ public class DBUtil {
     /** private constructor for preventing instantiation. */
     private DBUtil() {}
     
-    public static Connection connect(String url, String driverClass, String user, String password) throws ConnectFailedException {
+    public static Connection connect(String url, String driverClassName, String user, String password) throws ConnectFailedException {
 		try {
-            Class.forName(driverClass);
+			// Instantiate driver
+            Class<Driver> driverClass = BeanUtil.forName(driverClassName);
+            Driver driver = driverClass.newInstance();
+            
+            // Wrap connection properties
+	        java.util.Properties info = new java.util.Properties();
+			if (user != null)
+			    info.put("user", user);
+			if (password != null)
+			    info.put("password", password);
+			
+			// connect
             jdbcLogger.debug("opening connection to " + url);
-            Connection connection = DriverManager.getConnection(url, user, password);
-            return connection;
+            return driver.connect(url, info);
         } catch (Exception e) {
 			throw new ConnectFailedException("Connecting " + url + " failed: ", e);
 		}
