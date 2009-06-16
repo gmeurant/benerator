@@ -36,7 +36,6 @@ import org.databene.benclipse.core.IBenclipseConstants;
 import org.databene.benclipse.core.Messages;
 import org.databene.benclipse.internal.VMUtil;
 import org.databene.benclipse.swt.SWTUtil;
-import org.databene.commons.ConfigurationError;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jface.preference.PreferenceDialog;
@@ -123,7 +122,8 @@ public class JREGroup extends Observable implements IBenclipseConstants {
 	    jreCombo.setLabelProvider(new VMInstallLabelProvider());
 	    jreCombo.setContentProvider(new DefaultContentProvider());
 	    List<IVMInstall> installs = updateJRECombo();
-	    jreCombo.setSelection(new StructuredSelection(installs.get(0)));
+	    if (installs.size() > 0)
+	    	jreCombo.setSelection(new StructuredSelection(installs.get(0)));
     }
 
     List<IVMInstall> updateJRECombo() {
@@ -133,10 +133,7 @@ public class JREGroup extends Observable implements IBenclipseConstants {
     }
 
 	private List<IVMInstall> getVMInstalls() {
-	    List<IVMInstall> vmInstalls = VMUtil.findVmInstallsVersionOrNewer(MIN_JVM_REQUIRED);
-        if (vmInstalls.size() == 0)
-        	throw new ConfigurationError("No appropriate JVM installed"); // TODO v0.6 handle the case of no installed JVM 1.6
-	    return vmInstalls;
+	    return VMUtil.findVmInstallsVersionOrNewer(MIN_JVM_REQUIRED);
     }
 
     // helper classes --------------------------------------------------------------------------------------------------
