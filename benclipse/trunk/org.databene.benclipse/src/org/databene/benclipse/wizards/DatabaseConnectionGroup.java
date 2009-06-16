@@ -36,6 +36,7 @@ import java.util.Observable;
 import java.util.concurrent.Callable;
 
 import org.databene.benclipse.BenclipsePlugin;
+import org.databene.benclipse.core.BenclipseLogger;
 import org.databene.benclipse.core.Messages;
 import org.databene.benclipse.internal.HsqlDbController;
 import org.databene.benclipse.swt.FileField;
@@ -205,8 +206,7 @@ public class DatabaseConnectionGroup extends Observable implements ModifyListene
 		            return BeanUtil.forName(driverClassName);
 	            }
 			});
-			if (state == STATE_EDITING)
-				setState(STATE_CONFIGURED);
+			setState(STATE_CONFIGURED);
 			return result;
 		} catch (Throwable t) {
 			setState(STATE_EDITING);
@@ -311,17 +311,26 @@ public class DatabaseConnectionGroup extends Observable implements ModifyListene
     }
     
 	void checkDriver() {
+		connectionError = null;
         try {
 	    	instantiateDriver();
 	    } catch (Exception e) {
-	    	// we're just interested in triggering state update
+	    	// TODO v0.6.0 handle UnsupportedClassVersionError in a special way?
+	    	BenclipseLogger.log("Error instantiating driver", e);
+	    	e.printStackTrace();
 	    }
 	    if (testConnectionButton != null)
 	    	testConnectionButton.setEnabled(state != STATE_EDITING);
     }
 
 	void updateUrl() {
-        urlText.setText(getSelectedDriver().jdbcURL(hostText.getText(), portText.getText(), dbText.getText()));
+		String jdbcURL;
+		try {
+			jdbcURL = getSelectedDriver().jdbcURL(hostText.getText(), portText.getText(), dbText.getText());
+		} catch (NullPointerException e) { // TODO v0.6.0 avoid this error in JDBCDriverInfo.jdbcURL(JDBCDriverInfo.java:165)
+			jdbcURL = "";
+		}
+		urlText.setText(jdbcURL);
     }
 
     public String getErrorMessage() {
@@ -349,8 +358,9 @@ public class DatabaseConnectionGroup extends Observable implements ModifyListene
 	    } catch (Exception e) {
 	    	e.printStackTrace();
 	    	setState(STATE_CONFIGURED);
-			return new Status(IStatus.OK, BenclipsePlugin.PLUGIN_ID, 
-					Messages.getString("wizard.project.db.message.connect.failed"), e);
+			Throwable rootCause = ExceptionUtil.getRootCause(e);
+			return new Status(IStatus.ERROR, BenclipsePlugin.PLUGIN_ID, 
+					Messages.formatMessage("wizard.project.db.message.connect.failed", rootCause.getMessage()), rootCause);
 	    } finally {
 	    	DBUtil.close(connection);
 	    }
@@ -463,9 +473,10 @@ public class DatabaseConnectionGroup extends Observable implements ModifyListene
 					} else {
 				    	connectionValid = false;
 				    	connectionError = ExceptionUtil.getRootCause(result.getException()).getMessage();
+				    	/*
 				    	MessageDialog.openError(group.getShell(), 
 				    			Messages.getString("wizard.project.db.message.connect.result"), 
-				    			result.getMessage());
+				    			result.getMessage());*/
 					}
 					checkState();
 				}
