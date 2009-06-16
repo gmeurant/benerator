@@ -36,6 +36,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.*;
 
@@ -85,6 +86,13 @@ public class ProjectLocationPage extends BeneratorWizardPage {
 
     @Override
     public void update(Observable o, Object arg) {
+        IVMInstall selectedJRE = jreGroup.getSelectedJRE();
+        if (selectedJRE == null) {
+            setErrorMessage(Messages.getString("wizard.project.jre.requires6"));
+            setPageComplete(false);
+        	super.update(o, arg);
+            return;
+        }
         String name = projectNameGroup.getProjectName();
         if (name.trim().length() == 0) {
             setErrorMessage(null);
