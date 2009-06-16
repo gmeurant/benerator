@@ -14,8 +14,9 @@ public class PersonSource extends AbstractEntitySource {
 	
 	public PersonSource() {
 		list = Arrays.asList(
-			new Entity("Person", "name", "Alice"),
-			new Entity("Person", "name", "Bob")
+			new Entity("Person", "firstname", "Alice"),
+			new Entity("Person", "firstname", "Bob"),
+			new Entity("Person", "firstname", "Charly")
 		);
 	}
 
