@@ -49,7 +49,7 @@ public class LaunchUtil {
 	public static void setDescriptorFile(IFile descriptorFile, ILaunchConfigurationWorkingCopy wc) {
 	    File file = descriptorFile.getLocation().toFile();
 	    wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_WORKING_DIRECTORY, file.getParentFile().getAbsolutePath());
-	    wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, file.getAbsolutePath());
+	    wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS, "\"" + file.getAbsolutePath() + "\"");
 	    wc.setAttribute(IBenclipseConstants.ATTR_FILENAME, descriptorFile.getProjectRelativePath().toString());
     }
 
