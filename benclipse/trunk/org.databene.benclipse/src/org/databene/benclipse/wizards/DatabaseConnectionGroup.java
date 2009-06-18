@@ -129,18 +129,20 @@ public class DatabaseConnectionGroup extends Observable implements ModifyListene
 		group = SWTUtil.createGroup(parent, Messages.getString("wizard.project.db.conn.title"), 6, 1, GridData.FILL_HORIZONTAL);
         group.setFont(parent.getFont());
         
-        createDriverCombo(group);
+        DriverListener driverListener = new DriverListener();
+
+        createDriverCombo(group, driverListener);
         JDBCDriverInfo driver = getSelectedDriver();
         ModifyListener urlComponentListener = new URLComponentListener();
 
 	    driverText = SWTUtil.createLabeledText(group, Messages.getString("wizard.project.db.driver.class"), 5);
 	    driverText.setText(driver.getDriverClass());
-	    driverText.addModifyListener(this);
+	    driverText.addModifyListener(driverListener);
 
 	    libraryFile = new FileField(group, Messages.getString("wizard.project.db.driver.lib"), "...", 4);
 	    libraryFile.setWorkspaceOnly(false);
 	    libraryFile.setNullName("<plug-in>");
-	    libraryFile.addModifyListener(this);
+	    libraryFile.addModifyListener(driverListener);
 
 	    hostText = SWTUtil.createLabeledText(group, Messages.getString("wizard.project.db.host"), 1);
 	    hostText.setText("localhost");
@@ -255,7 +257,7 @@ public class DatabaseConnectionGroup extends Observable implements ModifyListene
 	    otherDriver = new JDBCDriverInfo("OTHER", name, name);
     }
 
-	private void createDriverCombo(Composite parent) {
+	private void createDriverCombo(Composite parent, DriverListener driverListener) {
     	SWTUtil.createLabel(parent, Messages.getString("wizard.project.db.driver"));
 	    driverCombo = new ComboViewer(parent, 
 	    		SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.FULL_SELECTION | SWT.READ_ONLY);
@@ -275,7 +277,8 @@ public class DatabaseConnectionGroup extends Observable implements ModifyListene
 	    });
 		driverCombo.setInput(drivers);
 	    driverCombo.setSelection(new StructuredSelection(builtinDriver));
-	    driverCombo.addSelectionChangedListener(new DriverListener());
+	    driverCombo.addSelectionChangedListener(driverListener);
+	    
     }
 
 	String getDefaultDb(JDBCDriverInfo driver) {
@@ -293,7 +296,6 @@ public class DatabaseConnectionGroup extends Observable implements ModifyListene
     }
 
     void updateControls() {
-		checkDriver();
 		checkState();
     }
 
@@ -317,7 +319,6 @@ public class DatabaseConnectionGroup extends Observable implements ModifyListene
 	    } catch (Exception e) {
 	    	// TODO v0.6.0 handle UnsupportedClassVersionError in a special way?
 	    	BenclipseLogger.log("Error instantiating driver", e);
-	    	e.printStackTrace();
 	    }
 	    if (testConnectionButton != null)
 	    	testConnectionButton.setEnabled(state != STATE_EDITING);
@@ -337,34 +338,7 @@ public class DatabaseConnectionGroup extends Observable implements ModifyListene
     	return errorMessage;
     }
     
-	IStatus testConnection(JDBCConnectionInfo info, boolean builtInDriver) {
-	    // start HSQL if necessary
-	    try {
-	        if (builtInDriver && HsqlDbController.canBeStarted())
-	        	HsqlDbController.startHSQL(true);
-	    } catch (Exception e) {
-	    	return new Status(Status.ERROR, BenclipsePlugin.PLUGIN_ID,  
-	    			Messages.getString("wizard.project.db.message.hsql.failed"), e);
-	    }
-	    // check if connection data is alright
-	    Connection connection = null;
-	    try {
-	    	DBSystem db = new DBSystem("db", info.getUrl(), info.getDriverClass(), info.getUser(), info.getPassword());
-	    	db.setSchema(info.getSchema());
-	        connection = db.createConnection();
-	        setState(STATE_READY);
-			return new Status(IStatus.OK, BenclipsePlugin.PLUGIN_ID, 
-					Messages.getString("wizard.project.db.message.connect.success"));
-	    } catch (Exception e) {
-	    	e.printStackTrace();
-	    	setState(STATE_CONFIGURED);
-			Throwable rootCause = ExceptionUtil.getRootCause(e);
-			return new Status(IStatus.ERROR, BenclipsePlugin.PLUGIN_ID, 
-					Messages.formatMessage("wizard.project.db.message.connect.failed", rootCause.getMessage()), rootCause);
-	    } finally {
-	    	DBUtil.close(connection);
-	    }
-    }
+
 	
 	// helper classes --------------------------------------------------------------------------------------------------
 	
@@ -379,6 +353,8 @@ public class DatabaseConnectionGroup extends Observable implements ModifyListene
         }
     }
 	
+    
+    
     class URLListener implements ModifyListener {
         public void modifyText(ModifyEvent evt) {
     		connectionValid = false;
@@ -404,6 +380,8 @@ public class DatabaseConnectionGroup extends Observable implements ModifyListene
         }
     }
 
+    
+    
     public class TestConnectionButtonListener implements SelectionListener {
 	    public void widgetDefaultSelected(SelectionEvent evt) {
 	    	widgetSelected(evt);
@@ -435,27 +413,76 @@ public class DatabaseConnectionGroup extends Observable implements ModifyListene
             job.setPriority(20);
             job.schedule(); // TODO v0.6 have progress dialog instead of internal progress bar
 	    }
-    }
 
+		IStatus testConnection(JDBCConnectionInfo info, boolean builtInDriver) {
+		    // start HSQL if necessary
+		    try {
+		        if (builtInDriver && HsqlDbController.canBeStarted())
+		        	HsqlDbController.startHSQL(true);
+		    } catch (Exception e) {
+		    	return new Status(Status.ERROR, BenclipsePlugin.PLUGIN_ID,  
+		    			Messages.getString("wizard.project.db.message.hsql.failed"), e);
+		    }
+		    // check if connection data is alright
+		    Connection connection = null;
+		    try {
+		    	DBSystem db = new DBSystem("db", info.getUrl(), info.getDriverClass(), info.getUser(), info.getPassword());
+		    	db.setSchema(info.getSchema());
+		        connection = db.createConnection();
+		        setState(STATE_READY);
+				return new Status(IStatus.OK, BenclipsePlugin.PLUGIN_ID, 
+						Messages.getString("wizard.project.db.message.connect.success"));
+		    } catch (Exception e) {
+		    	e.printStackTrace();
+		    	setState(STATE_CONFIGURED);
+				Throwable rootCause = ExceptionUtil.getRootCause(e);
+				return new Status(IStatus.ERROR, BenclipsePlugin.PLUGIN_ID, 
+						Messages.formatMessage("wizard.project.db.message.connect.failed", rootCause.getMessage()), rootCause);
+		    } finally {
+		    	DBUtil.close(connection);
+		    }
+	    }
+	}
+
+    
+    
     /** Updates the GUI after changes in the selection of the database driver */
-    class DriverListener implements ISelectionChangedListener {
-        public void selectionChanged(SelectionChangedEvent evt) {
-	        if (hostText.getText().length() == 0)
-	        	hostText.setText("localhost");
-	        JDBCDriverInfo driver = getSelectedDriver();
-	    	if (driver != otherDriver) {
-	    		driverText.setText(driver.getDriverClass());
-	    		libraryFile.setFile(null);
-	    	}
-			portText.setText(driver.getDefaultPort() != null ? driver.getDefaultPort() : "");
-	        if (dbText.getText().length() == 0)
-	        	dbText.setText(getDefaultDb(driver));
-		    userText.setText(StringUtil.nullToEmpty(driver.getDefaultUser()));
-		    schemaText.setText(StringUtil.nullToEmpty(driver.getDefaultSchema()));
+    class DriverListener implements ISelectionChangedListener, ModifyListener {
+    	
+    	private boolean silent = false;
+
+    	public void selectionChanged(SelectionChangedEvent evt) {
+    		try {
+    			silent = true;
+		        if (hostText.getText().length() == 0)
+		        	hostText.setText("localhost");
+		        JDBCDriverInfo driver = getSelectedDriver();
+		    	if (driver != otherDriver) {
+		    		driverText.setText(driver.getDriverClass());
+		    		libraryFile.setFile(null);
+		    	}
+				portText.setText(driver.getDefaultPort() != null ? driver.getDefaultPort() : "");
+		        if (dbText.getText().length() == 0)
+		        	dbText.setText(getDefaultDb(driver));
+			    userText.setText(StringUtil.nullToEmpty(driver.getDefaultUser()));
+			    schemaText.setText(StringUtil.nullToEmpty(driver.getDefaultSchema()));
+    		} finally {
+    			silent = false;
+    		}
+			checkDriver();
         	updateControls();
         }
 
+        public void modifyText(ModifyEvent evt) {
+        	if (!silent) {
+		        checkDriver();
+		        updateControls();
+        	}
+        }
+
     }
+    
+    
     
     class TestConnectionJobListener extends JobChangeAdapter {
     	
@@ -484,6 +511,8 @@ public class DatabaseConnectionGroup extends Observable implements ModifyListene
 		}
     }
 
+    
+    
 	static final class JDBCDriverLabelProvider extends LabelProvider {
     	@Override
     	public String getText(Object element) {
