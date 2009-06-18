@@ -26,8 +26,8 @@
 
 package org.databene.benclipse.core;
 
+import org.databene.benclipse.BenclipsePlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 
@@ -40,15 +40,8 @@ import org.eclipse.core.runtime.Status;
 
 public class BenclipseLogger {
 
-	private static ILog log;
-
-	public static void setLog(ILog log) {
-		BenclipseLogger.log = log;
-	}
-
 	public static void log(IStatus status) {
-		if (log != null)
-			log.log(status);
+		BenclipsePlugin.getDefault().getLog().log(status);
 	}
 
 	public static void log(CoreException exception) {
