@@ -14,13 +14,19 @@
    </copyright>
 
    <license>
-      Redistribution and use in source and binary forms, with or without modification, is permitted under the terms of the GNU General Public License.
+      Redistribution and use in source and binary forms, with or without
+modification, is permitted under the terms of the GNU General
+Public License (see http://www.gnu.org/licenses/gpl-2.0.html).
 
-For redistributing this software or a derivative work under a license other than the GPL-compatible Free Software License as defined by the Free Software Foundation or approved by OSI, you must first obtain a commercial license to this software product from Volker Bergmann.
+For redistributing this software or a derivative work under a
+license other than the GPL-compatible Free Software License as
+defined by the Free Software Foundation or approved by OSI, you
+must first obtain a commercial license to this software product
+from Volker Bergmann.
    </license>
 
    <url>
-      <update label="Databene" url="http://databene.org/eclipse/update"/>
+      <update label="Databene Update Site" url="http://databene.org/eclipse/update"/>
    </url>
 
    <requires>
@@ -29,7 +35,7 @@ For redistributing this software or a derivative work under a license other than
 
    <plugin
          id="org.databene.benclipse"
-         download-size="7400"
+         download-size="7245"
          install-size="8300"
          version="0.5.9"/>
 
