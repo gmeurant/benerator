@@ -46,12 +46,21 @@ public class OrderedNameMap<E> extends OrderedMap<String, E> {
 	
 	private int caseSupport;
 	
-	// constructors / factory methods ----------------------------------------------------------------------------------
+	// constructors + factory methods ----------------------------------------------------------------------------------
 	
     public OrderedNameMap() {
 		this(CASE_SENSITIVE);
 	}
     
+    public OrderedNameMap(int caseSupport) {
+		this.caseSupport = caseSupport;
+	}
+
+    public OrderedNameMap(OrderedNameMap<E> that) {
+		this.caseSupport = that.caseSupport;
+		putAll(that);
+	}
+
     public static <T> OrderedNameMap<T> createCaseSensitiveMap() {
     	return new OrderedNameMap<T>();
     }
@@ -63,10 +72,6 @@ public class OrderedNameMap<E> extends OrderedMap<String, E> {
     public static <T> OrderedNameMap<T> createCaseIgnorantMap() {
     	return new OrderedNameMap<T>(CASE_IGNORANT);
     }
-
-    private OrderedNameMap(int caseSupport) {
-		this.caseSupport = caseSupport;
-	}
 
     // Map interface implementation ------------------------------------------------------------------------------------
     
