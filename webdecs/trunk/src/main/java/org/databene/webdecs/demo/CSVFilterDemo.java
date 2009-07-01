@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -29,8 +29,8 @@ package org.databene.webdecs.demo;
 import org.databene.commons.DocumentWriter;
 import org.databene.commons.Filter;
 import org.databene.commons.iterator.FilteringIterator;
-import org.databene.document.csv.CSVLineIterator;
 import org.databene.document.csv.ArrayCSVWriter;
+import org.databene.document.csv.CSVLineIterator;
 
 import java.io.*;
 
@@ -55,7 +55,7 @@ public class CSVFilterDemo {
 
         // create a CSV writer to save the rows that matched the filter
         Writer out = new BufferedWriter(new FileWriter("matches.csv"));
-        DocumentWriter<Object[]> csvWriter = new ArrayCSVWriter(out, '|');
+        DocumentWriter<Object[]> csvWriter = new ArrayCSVWriter<Object>(out, '|');
 
         // initialize counter and timer
         int matchCount = 0;
@@ -79,7 +79,7 @@ public class CSVFilterDemo {
         System.out.println("Found " + matchCount + " matches");
     }
 
-    private static final class RowFilter implements Filter<String[]> {
+    static final class RowFilter implements Filter<String[]> {
         public boolean accept(String[] candidate) {
             return candidate.length > 2 && "3023293310905".equals(candidate[1]);
         }
