@@ -80,6 +80,20 @@ public final class BeanUtil {
         BigDecimal.class, BigInteger.class
     };
 
+    private static final Class<?>[] integralNumberTypes = {
+        long.class,       Long.class,
+        int.class,        Integer.class,
+        short.class,      Short.class,
+        byte.class,       Byte.class,
+        BigInteger.class
+    };
+
+    private static final Class<?>[] decimalNumberTypes = {
+        float.class,      Float.class,
+        double.class,     Double.class,
+        BigDecimal.class
+    };
+
     private static final PrimitiveTypeMapping[] primitiveNumberTypes = {
         new PrimitiveTypeMapping(long.class, Long.class),
         new PrimitiveTypeMapping(int.class, Integer.class),
@@ -95,26 +109,36 @@ public final class BeanUtil {
     };
 
     /**
+     * Map of integral Java number types
+     */
+    private static Map<String, Class<?>> integralNumberTypeMap;
+
+    /**
+     * Map of decimal Java number types
+     */
+    private static Map<String, Class<?>> decimalNumberTypeMap;
+
+    /**
      * Map of simple Java types
      */
-    private static Map<String, Class<? extends Object>> simpleTypeMap;
+    private static Map<String, Class<?>> simpleTypeMap;
 
     /**
      * Map of primitive Java types
      */
-    private static Map<String, Class<? extends Object>> primitiveTypeMap;
+    private static Map<String, Class<?>> primitiveTypeMap;
 
     /**
      * Map of primitive Java number types
      */
-    private static Map<String, Class<? extends Object>> primitiveNumberTypeMap;
+    private static Map<String, Class<?>> primitiveNumberTypeMap;
 
     // initialization --------------------------------------------------------------------------------------------------
 
     static {
-        simpleTypeMap = new HashMap<String, Class<? extends Object>>();
-        for (Class<? extends Object> type : simpleTypes)
-            simpleTypeMap.put(type.getName(), type);
+        simpleTypeMap = map(simpleTypes);
+        integralNumberTypeMap = map(integralNumberTypes);
+        decimalNumberTypeMap = map(decimalNumberTypes);
         primitiveNumberTypeMap = new HashMap<String, Class<? extends Object>>();
         primitiveTypeMap = new HashMap<String, Class<? extends Object>>();
         for (PrimitiveTypeMapping mapping : primitiveNumberTypes) {
@@ -123,6 +147,13 @@ public final class BeanUtil {
         }
         for (PrimitiveTypeMapping mapping : primitiveNonNumberTypes)
             primitiveTypeMap.put(mapping.primitiveType.getName(), mapping.wrapperType);
+    }
+
+	private static Map<String, Class<?>> map(Class<?>[] array) {
+		Map<String, Class<?>> result = new HashMap<String, Class<?>>();
+        for (Class<? extends Object> type : simpleTypes)
+        	result.put(type.getName(), type);
+        return result;
     }
 
     /** Prevents instantiation of a BeanUtil object. */
@@ -146,6 +177,14 @@ public final class BeanUtil {
 
     public static boolean isPrimitiveNumber(String className) {
         return primitiveNumberTypeMap.containsKey(className);
+    }
+
+    public static boolean isIntegralNumber(String className) {
+        return integralNumberTypeMap.containsKey(className);
+    }
+
+    public static boolean isDecimalNumber(String className) {
+        return decimalNumberTypeMap.containsKey(className);
     }
 
     public static Class<? extends Object> getWrapper(String primitiveClassName) {
