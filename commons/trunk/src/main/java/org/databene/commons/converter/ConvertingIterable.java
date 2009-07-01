@@ -26,9 +26,12 @@
 
 package org.databene.commons.converter;
 
+import java.io.Closeable;
+
 import org.databene.commons.Converter;
 import org.databene.commons.Heavyweight;
 import org.databene.commons.HeavyweightIterator;
+import org.databene.commons.IOUtil;
 import org.databene.commons.TypedIterable;
 import org.databene.commons.iterator.ConvertingIterator;
 
@@ -59,8 +62,8 @@ public class ConvertingIterable<S, T> implements TypedIterable<T>, Heavyweight {
     }
     
 	public void close() {
-		 if (iterable instanceof Heavyweight)
-			 ((Heavyweight)iterable).close();
+		 if (iterable instanceof Closeable)
+			 IOUtil.close((Closeable) iterable);
 	}
 
 	// java.lang.Object overrides --------------------------------------------------------------------------------------
