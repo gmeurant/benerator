@@ -144,6 +144,7 @@ public class OrderedMap<K,V> implements Map<K,V> {
         return values;
     }
 
+    @SuppressWarnings("unchecked")
     public Set<Map.Entry<K, V>> entrySet() {
     	Map.Entry<K, V>[] tmp = new Map.Entry[values.size()];
         for (Map.Entry<K, Integer> entry : keyIndices.entrySet()) {
@@ -230,6 +231,8 @@ public class OrderedMap<K,V> implements Map<K,V> {
 
     // java.lang.Object overrides --------------------------------------------------------------------------------------
 
+    @SuppressWarnings("unchecked")
+    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -239,10 +242,12 @@ public class OrderedMap<K,V> implements Map<K,V> {
         return (this.values.equals(that.values) && this.keyIndices.equals(that.keyIndices));
     }
 
+    @Override
     public int hashCode() {
         return keyIndices.hashCode() * 29 + values.hashCode();
     }
 
+    @Override
     public String toString() {
         ListBasedSet<Entry<K, V>> entries = (ListBasedSet<Entry<K, V>>)entrySet();
         StringBuilder buffer = new StringBuilder("{");
