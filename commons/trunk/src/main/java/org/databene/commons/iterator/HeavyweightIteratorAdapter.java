@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,13 +26,15 @@
 
 package org.databene.commons.iterator;
 
+import java.io.Closeable;
 import java.util.Iterator;
 
 import org.databene.commons.HeavyweightIterator;
+import org.databene.commons.IOUtil;
 
 /**
  * Wraps an {@link Iterator} with a {@link HeavyweightIterator}. 
- * If the wrapped iterator is a HeavyweightIterator, calls to 
+ * If the wrapped iterator implements {@link Closeable}, calls to 
  * <code>close()</code> are forwarded, otherwise ignored<br/>.
  * <br/>
  * Created at 17.10.2008 01:27:08
@@ -59,9 +61,9 @@ public class HeavyweightIteratorAdapter<E> implements HeavyweightIterator<E> {
 		 source.remove();
 	}
 
-	public void close() {
-		 if (source instanceof HeavyweightIterator)
-			 ((HeavyweightIterator) source).close();
+    public void close() {
+		 if (source instanceof Closeable)
+			 IOUtil.close((Closeable) source);
 	}
 
 }
