@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,7 +28,6 @@ package org.databene.document.csv;
 
 import static org.databene.document.csv.CSVTokenType.*;
 
-import org.databene.commons.Heavyweight;
 import org.databene.commons.IOUtil;
 import org.databene.commons.SystemInfo;
 
@@ -42,7 +41,7 @@ import java.io.*;
  * Created: 26.08.2006 17:19:35
  * @see CSVTokenType
  */
-public class CSVTokenizer implements Heavyweight {
+public class CSVTokenizer implements Closeable {
 
     /**
      * The default separator to use
