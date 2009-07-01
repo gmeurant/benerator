@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,9 +27,10 @@
 package org.databene.commons.iterator;
 
 import org.databene.commons.Converter;
-import org.databene.commons.Heavyweight;
 import org.databene.commons.HeavyweightIterator;
+import org.databene.commons.IOUtil;
 
+import java.io.Closeable;
 import java.util.Iterator;
 
 /**
@@ -49,8 +50,8 @@ public class ConvertingIterator<S, T> implements HeavyweightIterator<T> {
     }
 
     public void close() {
-        if (source instanceof Heavyweight)
-            ((Heavyweight)source).close();
+        if (source instanceof Closeable)
+            IOUtil.close((Closeable) source);
     }
 
     public boolean hasNext() {
