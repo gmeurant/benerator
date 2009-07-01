@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,8 +26,8 @@
 
 package org.databene.commons.iterator;
 
-import org.databene.commons.HeavyweightIterable;
-import org.databene.commons.HeavyweightIterator;
+import java.util.Iterator;
+
 import org.databene.commons.TypedIterable;
 
 /**
@@ -39,9 +39,9 @@ import org.databene.commons.TypedIterable;
 public class DefaultTypedIterable<E> implements TypedIterable<E> {
 
     private Class<E> type;
-    private HeavyweightIterable<E> iterable;
+    private Iterable<E> iterable;
 
-    public DefaultTypedIterable(Class<E> type, HeavyweightIterable<E> iterable) {
+    public DefaultTypedIterable(Class<E> type, Iterable<E> iterable) {
         this.type = type;
         this.iterable = iterable;
     }
@@ -50,7 +50,7 @@ public class DefaultTypedIterable<E> implements TypedIterable<E> {
         return type;
     }
 
-    public HeavyweightIterator<E> iterator() {
+    public Iterator<E> iterator() {
         return iterable.iterator();
     }
     
