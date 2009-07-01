@@ -46,6 +46,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.Driver;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -358,5 +359,17 @@ public class DBUtil {
 		if (readOnly && !sql.trim().toLowerCase().startsWith("select"))
 			throw new IllegalStateException("Tried to mutate a database with read-only settings: " + sql);
 	}
+
+    public static void logMetaData(Connection connection) {
+    	try {
+	        DatabaseMetaData metaData = connection.getMetaData();
+	        jdbcLogger.info("Connected to " + metaData.getDatabaseProductName() + ' ' + metaData.getDatabaseProductVersion());
+	        jdbcLogger.info("Using driver " + metaData.getDriverName() + ' ' + metaData.getDriverVersion());
+	        jdbcLogger.info("JDBC version " + metaData.getJDBCMajorVersion() + '.' + metaData.getJDBCMinorVersion());
+	        
+        } catch (SQLException e) {
+        	logger.error("Failed to fetch metadata from connection " + connection);
+        }
+    }
 
 }
