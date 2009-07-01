@@ -53,79 +53,24 @@ public final class IOUtil {
     // convenience unchecked-exception operations ----------------------------------------------------------------------
 
     /**
-     * Convenience method that closes a stream if it is not null
+     * Convenience method that closes a {@link Closeable} if it is not null
      * and logs possible exceptions without disturbing program execution.
-     * @param stream the stream to close
+     * @param closeable the stream to close
      */
-    public static void close(InputStream stream) {
-        if (stream != null) {
+    public static void close(Closeable closeable) {
+        if (closeable != null) {
             try {
-                stream.close();
+                closeable.close();
             } catch (IOException e) {
                 logger.error(e, e);
             }
         }
     }
 
-    /**
-     * Convenience method that closes a stream if it is not null
-     * and logs possible exceptions without disturbing program execution.
-     * @param stream the stream to close
-     */
-    public static void close(OutputStream stream) {
-        if (stream != null) {
+    public static void flush(Flushable flushable) {
+        if (flushable != null) {
             try {
-                stream.close();
-            } catch (IOException e) {
-                logger.error(e, e);
-            }
-        }
-    }
-
-    /**
-     * Convenience method that closes a stream if it is not null
-     * and logs possible exceptions without disturbing program execution.
-     * @param writer the stream to close
-     */
-    public static void close(Writer writer) {
-        if (writer != null) {
-            try {
-                writer.close();
-            } catch (IOException e) {
-                logger.error(e, e);
-            }
-        }
-    }
-
-    /**
-     * Convenience method that closes a stream if it is not null
-     * and logs possible exceptions without disturbing program execution.
-     * @param reader the stream to close
-     */
-    public static void close(Reader reader) {
-        if (reader != null) {
-            try {
-                reader.close();
-            } catch (IOException e) {
-                logger.error(e, e);
-            }
-        }
-    }
-
-    public static void flush(OutputStream stream) {
-        if (stream != null) {
-            try {
-                stream.flush();
-            } catch (IOException e) {
-                logger.error(e, e);
-            }
-        }
-    }
-
-    public static void flush(Writer writer) {
-        if (writer != null) {
-            try {
-                writer.flush();
+                flushable.flush();
             } catch (IOException e) {
                 logger.error(e, e);
             }
@@ -360,20 +305,24 @@ public final class IOUtil {
         return readProperties(filename, SystemInfo.getFileEncoding());
     }
     
+    @SuppressWarnings("unchecked")
     public static Map<String, String> readProperties(String filename, String encoding) throws IOException {
         return readProperties(new OrderedMap(), filename, null, encoding);
     }
     
+    @SuppressWarnings("unchecked")
     public static <V> Map<String, V> readProperties(
             String filename, Converter<Map.Entry, Map.Entry> converter) throws IOException {
         return readProperties(filename, converter, SystemInfo.getFileEncoding());
     }
     
+    @SuppressWarnings("unchecked")
     public static <V> Map<String, V> readProperties(
             String filename, Converter<Map.Entry, Map.Entry> converter, String encoding) throws IOException {
         return readProperties(new OrderedMap<String, V>(), filename, converter, encoding);
     }
 
+    @SuppressWarnings("unchecked")
     private static <M extends Map> M readProperties(M target, String filename, 
             Converter<Map.Entry, Map.Entry> converter, String encoding) throws IOException {
         Reader reader = null;
