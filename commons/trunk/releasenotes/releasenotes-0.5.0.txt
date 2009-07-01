@@ -1,0 +1,22 @@
+release notes databene commons 0.5.0
+------------------------------------
+
+Summary
+-------
+
+
+Improvements
+------------
+- new BeanUtil methods: isIntegralNumber(className), isDecimalNumber(className)
+- new DBUtil method new method logMetaData()
+- IOUtil: Unified close() and flush() methods to work on any Closeable and Flushable
+
+
+Changes
+-------
+- Replaced Heavyweight with Closeable
+
+
+Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
+--------------------------------------------------------------------------------------------
+
