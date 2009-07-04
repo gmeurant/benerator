@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,11 +28,14 @@ package org.databene.commons;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
+import org.databene.commons.iterator.ArrayIterator;
+
 /**
- * Provides array-related operations.
+ * Provides array-related operations.<br/>
+ * <br/>
  * Created: 09.06.2006 21:31:49
  * @author Volker Bergmann
  */
@@ -160,16 +163,15 @@ public final class ArrayUtil {
     	Class<T> componentType = (Class<T>) (values.length > 0 ? values[0].getClass() : Object.class);
     	return buildArrayOfType(componentType, values);
     }
-/*
-    @Deprecated
-    public static <T> T[] toArray(Class<T> componentType, T ... values) {
-        return buildArrayOfType(componentType, values);
-    }
-*/
+
     public static <T> T[] buildArrayOfType(Class<T> componentType, T ... values) {
         T[] array = (T[]) Array.newInstance(componentType, values.length);
         System.arraycopy(values, 0, array, 0, values.length);
         return array;
+    }
+    
+    public static <T> Iterator<T> iterator(T[] array) {
+    	return new ArrayIterator<T>(array);
     }
 
     public static <T> T[] revert(T[] array) {
@@ -215,39 +217,6 @@ public final class ArrayUtil {
         return (values == null || values.length == 0);
     }
 
-    /** @deprecated use Arrays.deepEquals()*/
-    @Deprecated
-    public static boolean equals(Object[] a1, Object[] a2) { // TODO v0.6.0 remove
-    	return Arrays.deepEquals(a1, a2);
-
-/* 
-        if (a1 == a2)
-            return true;
-        if (a1 == null)
-            return (a2 == null);
-        if (a2 == null)
-            return false;
-        if (a1.length != a2.length)
-            return false;
-        for (int i = 0; i < a1.length; i++) {
-            if (a1[i] == a2[i])
-                continue;
-            if (a1[i] == null)
-                return false;
-            if (a1[i].getClass().isArray()) {
-                if (!a2[i].getClass().isArray())
-                    return false;
-                if (!equals((Object[]) a1[i], (Object[]) a2[i]))
-                    return false;
-            } else
-                if (!a1[i].equals(a2[i]))
-                    return false;
-                
-        }
-        return true;
-*/
-    }
-    
     public static <T> T lastElement(T[] array) {
     	if (isEmpty(array))
     		return null;
