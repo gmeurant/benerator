@@ -30,13 +30,12 @@ import org.databene.document.csv.CSVLineIterator;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.Converter;
 import org.databene.commons.converter.FixedSourceTypeConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Map;
 import java.util.HashMap;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Delocalizes a String bye replacing local characters by international latin characters.
@@ -47,7 +46,7 @@ import org.apache.commons.logging.LogFactory;
 public class DelocalizingConverter extends FixedSourceTypeConverter<String, String> {
 
     /** The logger */
-    private static Log logger = LogFactory.getLog(DelocalizingConverter.class);
+    private static Logger logger = LoggerFactory.getLogger(DelocalizingConverter.class);
 
     /** a Map of replacements. The key indicates the character to replace,
      * the value the character to use for replacement*/

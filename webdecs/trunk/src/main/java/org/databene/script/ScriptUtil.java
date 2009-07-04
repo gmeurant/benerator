@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -36,8 +36,6 @@ import java.util.WeakHashMap;
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.Context;
@@ -46,6 +44,8 @@ import org.databene.commons.IOUtil;
 import org.databene.commons.LogCategories;
 import org.databene.commons.StringCharacterIterator;
 import org.databene.script.jsr227.Jsr223ScriptFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility class for scripting.<br/><br/>
@@ -54,7 +54,7 @@ import org.databene.script.jsr227.Jsr223ScriptFactory;
  */
 public class ScriptUtil {
     
-    private static final Log configLogger = LogFactory.getLog(LogCategories.CONFIG);
+    private static final Logger configLogger = LoggerFactory.getLogger(LogCategories.CONFIG);
 
     // extension mapping -----------------------------------------------------------------------------------------------
     

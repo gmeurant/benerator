@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,18 +30,19 @@ import junit.framework.TestCase;
 
 import java.text.ParseException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.databene.commons.CharSet;
 import org.databene.commons.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * (c) Copyright 2006 by Volker Bergmann
+ * Tests the {@link RegexParser}
  * Created: 18.08.2006 21:56:01
+ * @author Volker Bergmann
  */
 public class RegexParserTest extends TestCase {
 
-    private static Log logger = LogFactory.getLog(RegexParserTest.class);
+    private static Logger logger = LoggerFactory.getLogger(RegexParserTest.class);
 
     public void testEmpty() throws ParseException {
         check(null);
@@ -85,7 +86,7 @@ public class RegexParserTest extends TestCase {
         check("[^\\w]", new RegexPart(new CharSet().addAnyCharacters().removeWordChars().getSet(), new Quantifier(1, 1)));
     }
 
-    public void testInvalidClass() throws ParseException {
+    public void testInvalidClass() {
         try {
 			new RegexParser().parse("\\/");
 			fail("ParseException expected");

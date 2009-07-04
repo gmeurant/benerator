@@ -53,8 +53,8 @@ package org.databene.html;
 
 import org.databene.commons.CharSet;
 import org.databene.commons.OrderedMap;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.io.PushbackReader;
@@ -70,7 +70,7 @@ import java.text.ParseException;
  */
 public class DefaultHTMLTokenizer implements HTMLTokenizer {
 
-    private static Log logger = LogFactory.getLog(DefaultHTMLTokenizer.class);
+    private static Logger logger = LoggerFactory.getLogger(DefaultHTMLTokenizer.class);
 
     private static final CharSet ELEMENT_NAME_CHARS = new CharSet('A','Z').addRange('a', 'z').addRange('0', '9').add('_').add(':').add('-');
     private static final CharSet ATTR_NAME_CHARS = new CharSet('A','Z').addRange('a', 'z').addRange('0', '9').add('_').add('-').add(':');

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -33,16 +33,16 @@ import java.text.ParseException;
 import java.util.Map;
 import java.util.HashMap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.databene.commons.SystemInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created: 25.01.2007 13:29:54
  */
 public class DefaultHTMLTokenizerTest extends TestCase {
 
-    private Log logger = LogFactory.getLog(DefaultHTMLTokenizerTest.class);
+    private Logger logger = LoggerFactory.getLogger(DefaultHTMLTokenizerTest.class);
 
     private static final TestSetup DOCUMENT_TYPE = new TestSetup(
             "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">",
