@@ -50,7 +50,6 @@ public class ReverseConverter<S, T> extends AbstractConverter<S,T> implements Bi
     
     // BidirectionalConverter interface --------------------------------------------------------------------------------
 
-	@Override
 	public boolean canConvert(Object sourceValue) {
 		return realConverter.canConvert(sourceValue);
 	}

@@ -28,8 +28,8 @@ package org.databene.commons.converter;
 
 import org.databene.commons.ConversionException;
 import org.databene.commons.StringUtil;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -51,7 +51,7 @@ import java.lang.reflect.Modifier;
  */
 public class FactoryConverter<S, T> extends FixedSourceTypeConverter<S, T> {
 
-    private static final Log logger = LogFactory.getLog(FactoryConverter.class);
+    private static final Logger logger = LoggerFactory.getLogger(FactoryConverter.class);
 
     public FactoryConverter(Class<S> sourceType, Class<T> targetType) {
     	super(sourceType, targetType);

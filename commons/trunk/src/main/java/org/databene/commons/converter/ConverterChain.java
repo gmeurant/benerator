@@ -55,12 +55,10 @@ public class ConverterChain<S, T> implements Converter<S, T> {
 	
 	// Converter interface implementation ------------------------------------------------------------------------------
 
-    @Override
 	public Class<T> getTargetType() {
         return converters.get(converters.size() - 1).getTargetType();
     }
 
-	@Override
 	public boolean canConvert(Object sourceValue) {
 		return converters.get(0).canConvert(sourceValue);
 	}

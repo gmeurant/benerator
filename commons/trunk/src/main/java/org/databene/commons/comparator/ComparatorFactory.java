@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,14 +26,14 @@
 
 package org.databene.commons.comparator;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ComparableComparator;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.IOUtil;
 import org.databene.commons.NullSafeComparator;
 import org.databene.commons.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -51,7 +51,7 @@ import java.text.Collator;
  */
 public class ComparatorFactory {
 
-    private static final Log logger = LogFactory.getLog(ComparatorFactory.class);
+    private static final Logger logger = LoggerFactory.getLogger(ComparatorFactory.class);
     private static final String CONFIG_FILE_URI = "org/databene/commons/comparator/comparators.txt";
     
     private static Map<Class<? extends Object>, Comparator<? extends Object>> comparators;

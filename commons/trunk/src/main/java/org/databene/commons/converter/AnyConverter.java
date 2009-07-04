@@ -29,8 +29,8 @@ package org.databene.commons.converter;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 
@@ -41,7 +41,7 @@ import java.util.Collection;
  */
 public class AnyConverter<S, T> extends AbstractConverter<S, T> {
 
-    private static final Log logger = LogFactory.getLog(AnyConverter.class);
+    private static final Logger logger = LoggerFactory.getLogger(AnyConverter.class);
 
     private String datePattern;
 
@@ -58,7 +58,6 @@ public class AnyConverter<S, T> extends AbstractConverter<S, T> {
 		return datePattern;
 	}
 
-	@Override
 	public boolean canConvert(Object sourceValue) {
 		return true;
 	}

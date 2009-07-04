@@ -33,8 +33,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.Converter;
@@ -42,6 +40,8 @@ import org.databene.commons.LogCategories;
 import org.databene.commons.StringUtil;
 import org.databene.commons.converter.ArrayConverter;
 import org.databene.commons.converter.ToStringConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Provides database related utility methods.<br/>
@@ -52,8 +52,8 @@ import org.databene.commons.converter.ToStringConverter;
 @SuppressWarnings("unchecked")
 public class LoggingPreparedStatementHandler implements InvocationHandler {
 	
-    private static final Log sqlLogger = LogFactory.getLog(LogCategories.SQL); 
-    private static final Log jdbcLogger = LogFactory.getLog(LogCategories.JDBC);
+    private static final Logger sqlLogger = LoggerFactory.getLogger(LogCategories.SQL); 
+    private static final Logger jdbcLogger = LoggerFactory.getLogger(LogCategories.JDBC);
     private static final Converter<Object[], String[]> toStringArrayConverter 
     	= new ArrayConverter<Object, String>(Object.class, String.class, new ToStringConverter("null"));
 

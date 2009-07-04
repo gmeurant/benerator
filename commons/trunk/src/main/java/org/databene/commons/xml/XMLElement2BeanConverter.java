@@ -37,11 +37,11 @@ import org.databene.commons.bean.DefaultClassProvider;
 import org.databene.commons.converter.FixedSourceTypeConverter;
 import org.databene.commons.converter.AnyConverter;
 import org.databene.commons.converter.NoOpConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -57,7 +57,7 @@ import java.beans.PropertyDescriptor;
  */
 public class XMLElement2BeanConverter extends FixedSourceTypeConverter<Element, Object> {
 
-    private static final Log logger = LogFactory.getLog(XMLElement2BeanConverter.class);
+    private static final Logger logger = LoggerFactory.getLogger(XMLElement2BeanConverter.class);
 
 	private static final ClassProvider DEFAULT_CLASS_PROVIDER = new DefaultClassProvider();
 

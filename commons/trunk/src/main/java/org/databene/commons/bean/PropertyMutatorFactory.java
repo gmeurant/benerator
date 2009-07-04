@@ -26,6 +26,8 @@
 
 package org.databene.commons.bean;
 
+import org.databene.commons.mutator.NamedMutator;
+
 /**
  * Creates PropertyMutator objects by availability of 
  * bean class name and/or property name and/or property type.<br/>
@@ -35,15 +37,15 @@ package org.databene.commons.bean;
  */
 public class PropertyMutatorFactory {
 
-    public static PropertyMutator getPropertyMutator(String propertyName) {
+    public static NamedMutator getPropertyMutator(String propertyName) {
         return getPropertyMutator(null, propertyName, true);
     }
 
-    public static PropertyMutator getPropertyMutator(Class beanClass, String propertyName) {
+    public static NamedMutator getPropertyMutator(Class beanClass, String propertyName) {
         return getPropertyMutator(beanClass, propertyName, true);
     }
 
-    public static PropertyMutator getPropertyMutator(Class beanClass, String propertyName, boolean strict) {
+    public static NamedMutator getPropertyMutator(Class beanClass, String propertyName, boolean strict) {
         if (propertyName.contains("."))
             return new PropertyGraphMutator(beanClass, propertyName, strict);
         else if (beanClass != null)

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008, 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -29,10 +29,10 @@ package org.databene.commons.context;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.databene.commons.Context;
 import org.databene.commons.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Maps entries of the form x.y to nested Maps.
@@ -41,7 +41,7 @@ import org.databene.commons.StringUtil;
  */
 public class PropertiesContext extends DefaultContext {
     
-    private static Log logger = LogFactory.getLog(PropertiesContext.class);
+    private static Logger logger = LoggerFactory.getLogger(PropertiesContext.class);
     
     // constructors ----------------------------------------------------------------------------------------------------
 

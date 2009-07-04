@@ -26,8 +26,6 @@
 
 package org.databene.commons.accessor;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.databene.commons.Accessor;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.Composite;
@@ -35,6 +33,8 @@ import org.databene.commons.ConfigurationError;
 import org.databene.commons.Context;
 import org.databene.commons.Escalator;
 import org.databene.commons.LoggerEscalator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyDescriptor;
 import java.util.Map;
@@ -47,7 +47,7 @@ import java.util.Map;
  */
 public class FeatureAccessor<C, V> implements Accessor<C, V> {
     
-    private static Log logger = LogFactory.getLog(FeatureAccessor.class);
+    private static Logger logger = LoggerFactory.getLogger(FeatureAccessor.class);
     
     private static Escalator escalator = new LoggerEscalator();
 

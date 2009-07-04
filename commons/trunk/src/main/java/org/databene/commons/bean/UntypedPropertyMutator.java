@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -41,7 +41,7 @@ import java.lang.reflect.Method;
  * Created: 21.07.2007 09:01:19
  * @author Volker Bergmann
  */
-public class UntypedPropertyMutator extends AbstractPropertyMutator{
+public class UntypedPropertyMutator extends AbstractNamedMutator {
 
     private boolean strict;
 

@@ -52,7 +52,6 @@ public class BeanConstraintValidator<E> implements Validator<E> {
     	constraintValidator.initialize(annotation);
     }
 
-	@Override
     public boolean valid(E object) {
 	    return constraintValidator.isValid(object, null);
     }

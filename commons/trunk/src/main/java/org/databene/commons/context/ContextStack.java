@@ -31,9 +31,9 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.Map.Entry;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.databene.commons.Context;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A Stack of Contexts, querying for items from top to bottom, 
@@ -43,7 +43,7 @@ import org.databene.commons.Context;
  */
 public class ContextStack implements Context {
     
-    private static final Log logger = LogFactory.getLog(ContextStack.class);
+    private static final Logger logger = LoggerFactory.getLogger(ContextStack.class);
 
     protected Stack<Context> contexts;
     

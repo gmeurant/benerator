@@ -51,7 +51,6 @@ public class URLDecodeConverter extends FixedSourceTypeConverter<String, String>
 	    super(String.class, String.class);
     }
 
-	@Override
     public String convert(String sourceValue) throws ConversionException {
 	    try {
 	        return URLEncoder.encode(sourceValue, encoding);

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -42,6 +42,8 @@ import org.databene.commons.StringUtil;
  */
 public class String2ConverterConverter extends AbstractBidirectionalConverter<String, Converter> {
 
+	// TODO v0.6 resolve scripts
+	
     public String2ConverterConverter() {
         super(String.class, Converter.class);
     }

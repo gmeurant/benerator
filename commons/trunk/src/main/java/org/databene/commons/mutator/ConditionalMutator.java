@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -32,8 +32,8 @@ import org.databene.commons.NullSafeComparator;
 import org.databene.commons.ComparableComparator;
 import org.databene.commons.StringUtil;
 import org.databene.commons.UpdateFailedException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Comparator;
 
@@ -54,7 +54,7 @@ public class ConditionalMutator extends MutatorProxy {
 
 	private Accessor accessor;
 
-    private static Log logger = LogFactory.getLog(ConditionalMutator.class);
+    private static Logger logger = LoggerFactory.getLogger(ConditionalMutator.class);
 
     public ConditionalMutator(Mutator realMutator, Accessor accessor, int mode) {
         super(realMutator);

@@ -32,8 +32,8 @@ import org.databene.commons.IOUtil;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.LogCategories;
 import org.databene.commons.ReaderLineIterator;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.io.IOException;
@@ -51,7 +51,7 @@ import java.io.IOException;
 @SuppressWarnings("unchecked")
 public class ConverterManager {
 
-    private static final Log configLogger = LogFactory.getLog(LogCategories.CONFIG);
+    private static final Logger configLogger = LoggerFactory.getLogger(LogCategories.CONFIG);
 
     private static final String DEFAULT_SETUP_FILENAME = "org/databene/commons/converter/converters.txt";
     private static final String CUSTOM_SETUP_FILENAME = "converters.txt";

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -31,11 +31,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Provides classes by name, supporting package import and local class names.<br/>
@@ -47,7 +47,7 @@ import org.databene.commons.StringUtil;
 @SuppressWarnings("unchecked")
 public class ClassCache {
 	
-	private static final Log logger = LogFactory.getLog(ClassCache.class); 
+	private static final Logger logger = LoggerFactory.getLogger(ClassCache.class); 
 	
     private Map<String, Class> classes;
 	private Set<String> packages;

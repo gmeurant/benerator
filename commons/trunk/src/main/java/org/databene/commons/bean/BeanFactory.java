@@ -28,6 +28,7 @@ package org.databene.commons.bean;
 
 import org.databene.commons.BeanUtil;
 import org.databene.commons.UpdateFailedException;
+import org.databene.commons.mutator.NamedMutator;
 
 import java.util.Map;
 
@@ -55,7 +56,7 @@ public class BeanFactory {
     	Object bean = BeanUtil.newInstance(factory.forName(beanClassName));
         for (Map.Entry<String, Object> entry : properties.entrySet()) {
             String propertyName = entry.getKey();
-            PropertyMutator mutator = PropertyMutatorFactory.getPropertyMutator(bean.getClass(), propertyName, false);
+            NamedMutator mutator = PropertyMutatorFactory.getPropertyMutator(bean.getClass(), propertyName, false);
             try {
                 mutator.setValue(bean, entry.getValue());
             } catch (UpdateFailedException e) {

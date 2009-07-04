@@ -31,15 +31,15 @@ import junit.framework.TestCase;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created: 21.06.2007 08:35:00
  */
 public class SystemInfoTest extends TestCase {
 
-    private static final Log logger = LogFactory.getLog(SystemInfoTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(SystemInfoTest.class);
 
     public void testVersion() {
         assertNotNull(SystemInfo.getOsVersion());

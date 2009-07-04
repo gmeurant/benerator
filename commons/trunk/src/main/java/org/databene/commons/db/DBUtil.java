@@ -26,8 +26,6 @@
 
 package org.databene.commons.db;
 
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.logging.Log;
 import org.databene.commons.ArrayFormat;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
@@ -39,6 +37,8 @@ import org.databene.commons.ReaderLineIterator;
 import org.databene.commons.StringUtil;
 import org.databene.commons.SystemInfo;
 import org.databene.commons.converter.ToStringConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -64,9 +64,9 @@ import java.util.ArrayList;
  */
 public class DBUtil {
 
-    private static final Log logger = LogFactory.getLog(DBUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(DBUtil.class);
 
-    private static final Log jdbcLogger = LogFactory.getLog(LogCategories.JDBC);
+    private static final Logger jdbcLogger = LoggerFactory.getLogger(LogCategories.JDBC);
     
     /** private constructor for preventing instantiation. */
     private DBUtil() {}
@@ -109,7 +109,7 @@ public class DBUtil {
         try {
             connection.close();
         } catch (SQLException e) {
-            logger.error(e, e);
+            logger.error("Error closing connection", e);
         }
     }
 

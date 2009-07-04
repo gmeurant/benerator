@@ -69,14 +69,12 @@ public class Date2LongConverter extends AbstractBidirectionalConverter<Date, Lon
 		return Long.class;
 	}
 
-	@Override
 	public Long convert(Date sourceValue) throws ConversionException {
 		if (sourceValue == null)
 			return null;
 		return sourceValue.getTime() + timeZone.getRawOffset();
 	}
 
-	@Override
 	public Date revert(Long target) throws ConversionException {
 		if (target == null)
 			return null;

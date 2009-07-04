@@ -47,19 +47,16 @@ public class ArrayElementExtractor<E> implements Converter<E[], E>{
 	    this.index = index;
     }
 
-	@Override
     public boolean canConvert(Object sourceValue) {
 	    return (sourceValue != null 
 	    		&& sourceValue.getClass().isArray() 
 	    		&& componentType.isAssignableFrom(sourceValue.getClass().getComponentType()));
     }
 
-    @Override
     public E convert(E[] sourceValue) throws ConversionException {
 	    return sourceValue[index];
     }
 
-    @Override
     public Class<E> getTargetType() {
 	    return componentType;
     }

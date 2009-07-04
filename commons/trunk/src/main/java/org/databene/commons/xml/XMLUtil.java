@@ -39,14 +39,14 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.databene.commons.ArrayBuilder;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.ErrorHandler;
 import org.databene.commons.IOUtil;
 import org.databene.commons.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -67,8 +67,8 @@ public class XMLUtil {
     
 	private static final String XML_SCHEMA_URL = "http://www.w3.org/2001/XMLSchema";
 	private static final String SCHEMA_LANGUAGE_KEY = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
-	private static final ErrorHandler DEFAULT_ERROR_HANDLER = new ErrorHandler(XMLUtil.class.getSimpleName(), ErrorHandler.Level.fatal);
-	private static final Log logger = LogFactory.getLog(XMLUtil.class);
+	private static final ErrorHandler DEFAULT_ERROR_HANDLER = new ErrorHandler(XMLUtil.class.getSimpleName(), ErrorHandler.Level.error);
+	private static final Logger logger = LoggerFactory.getLogger(XMLUtil.class);
     
     private XMLUtil() {}
 
@@ -301,7 +301,7 @@ public class XMLUtil {
 			factory.setAttribute(SCHEMA_LANGUAGE_KEY, XML_SCHEMA_URL);
 		} catch (Exception e) {
 			// some XML parsers may not support attributes in general or especially XML Schema 
-			logger.error(e);
+			logger.error("Error activating schema validation", e);
 		}
 	}
 

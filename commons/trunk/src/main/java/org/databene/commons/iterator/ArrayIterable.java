@@ -52,7 +52,6 @@ public class ArrayIterable<E> implements TypedIterable<E> {
 	    return type;
     }
 
-    @Override
     public Iterator<E> iterator() {
 	    return new ArrayIterator<E>(source);
     }

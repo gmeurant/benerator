@@ -49,17 +49,14 @@ public class ArrayIterator<E> implements Iterator<E> {
 	    this.cursor = 0;
     }
 
-	@Override
     public boolean hasNext() {
 	    return (cursor < array.length);
     }
 
-    @Override
     public E next() {
 	    return array[cursor++];
     }
 
-    @Override
     public void remove() {
 	    throw new UnsupportedOperationException("remove() is not supported by " + getClass());
     }

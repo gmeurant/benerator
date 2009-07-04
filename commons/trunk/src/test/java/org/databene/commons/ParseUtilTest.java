@@ -11,8 +11,8 @@ import java.text.ParsePosition;
 import java.util.Arrays;
 import java.math.BigInteger;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * (c) Copyright 2004 by Volker Bergmann
@@ -20,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class ParseUtilTest extends TestCase {
 
-    private static final Log logger = LogFactory.getLog(ParseUtilTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(ParseUtilTest.class);
 
     private static final double DELTA = 1e-4;
 

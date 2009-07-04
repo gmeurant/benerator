@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,11 +26,12 @@
 
 package org.databene.commons.bean;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.StringUtil;
 import org.databene.commons.UpdateFailedException;
+import org.databene.commons.mutator.NamedMutator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Mutates JavaBean object graphs.<br/>
@@ -38,13 +39,13 @@ import org.databene.commons.UpdateFailedException;
  * Created: 08.05.2005 06:24:41
  * @author Volker Bergmann
  */
-class PropertyGraphMutator implements PropertyMutator {
+class PropertyGraphMutator implements NamedMutator {
 
-    private static Log logger = LogFactory.getLog(PropertyGraphMutator.class);
+    private static Logger logger = LoggerFactory.getLogger(PropertyGraphMutator.class);
 
     private boolean strict;
     private PropertyAccessor[] subAccessors;
-    private PropertyMutator lastMutator;
+    private NamedMutator lastMutator;
     private String propertyName;
 
     // constructors ----------------------------------------------------------------------------------------------------

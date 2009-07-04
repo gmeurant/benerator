@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -41,7 +41,7 @@ import java.beans.PropertyDescriptor;
  * Created: 21.07.2007 08:58:49
  * @author Volker Bergmann
  */
-public class TypedPropertyMutator extends AbstractPropertyMutator {
+public class TypedPropertyMutator extends AbstractNamedMutator {
 
     private boolean strict;
     private Method writeMethod;
