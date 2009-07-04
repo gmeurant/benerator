@@ -26,9 +26,9 @@
 
 package org.databene.commons;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.databene.commons.collection.MapEntry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URL;
@@ -46,7 +46,7 @@ import java.util.Properties;
 public final class IOUtil {
 
     /** The logger. */
-    private static final Log logger = LogFactory.getLog(IOUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(IOUtil.class);
 
     private static final String USER_AGENT = "Mozilla/5.0 (Windows; U; Windows NT 5.1; de-DE; rv:1.7.5) Gecko/20041122 Firefox/1.0";
 
@@ -62,7 +62,7 @@ public final class IOUtil {
             try {
                 closeable.close();
             } catch (IOException e) {
-                logger.error(e, e);
+                logger.error("Error closing " + closeable, e);
             }
         }
     }
@@ -72,7 +72,7 @@ public final class IOUtil {
             try {
                 flushable.flush();
             } catch (IOException e) {
-                logger.error(e, e);
+                logger.error("Error flushing " + flushable, e);
             }
         }
     }

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,8 +26,8 @@
 
 package org.databene.commons;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Provides for error handling by logging and eventually raising an exception.<br/>
@@ -41,12 +41,12 @@ public class ErrorHandler {
 	// constants -------------------------------------------------------------------------------------------------------
 
 	public static enum Level {
-		ignore, trace, debug, info, warn, error, fatal
+		ignore, trace, debug, info, warn, error
 	}
 
 	// attributes ------------------------------------------------------------------------------------------------------
 
-	private Log logger;
+	private Logger logger;
 	private Level level;
 	private boolean loggingStackTrace;
 
@@ -57,11 +57,11 @@ public class ErrorHandler {
 	}
 	
 	public ErrorHandler(String category) {
-		this(category, Level.fatal);
+		this(category, Level.error);
 	}
 	
 	public ErrorHandler(String category, Level level) {
-		this.logger = LogFactory.getLog(category);
+		this.logger = LoggerFactory.getLogger(category);
 		this.level = level;
 		this.loggingStackTrace = true;
 	}
@@ -76,8 +76,7 @@ public class ErrorHandler {
 			case debug : logger.debug(message); break;
 			case info  : logger.info( message); break;
 			case warn  : logger.warn( message); break;
-			case error : logger.error(message); break;
-			case fatal : logger.fatal(message);
+			case error : logger.error(message);
 						 throw new RuntimeException(message);
 			case ignore: // ignore
 		}
@@ -92,8 +91,7 @@ public class ErrorHandler {
 				case debug : logger.debug(message); break;
 				case info  : logger.info( message); break;
 				case warn  : logger.warn( message); break;
-				case error : logger.error(message, t); break;
-				case fatal : logger.fatal(message, t);
+				case error : logger.error(message, t);
 							 throw new RuntimeException(t);
 				case ignore: // ignore
 			}

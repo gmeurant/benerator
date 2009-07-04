@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -29,8 +29,8 @@ package org.databene.commons;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Logs escalations to a logger.
@@ -45,6 +45,7 @@ public class LoggerEscalator implements Escalator {
         this.escalations = new HashSet<Escalation>();
     }
     
+    @SuppressWarnings("unchecked")
     public void escalate(String message, Object originator, Object cause) {
         // determine logger by the originator
         Class<? extends Object> category = null;
@@ -55,16 +56,16 @@ public class LoggerEscalator implements Escalator {
                 category = originator.getClass();
         else
             originator = this.getClass();
-        Log logger = LogFactory.getLog(category);
+        Logger logger = LoggerFactory.getLogger(category);
         // create escalation
         Escalation escalation = new Escalation(message, originator, cause);
         // if the escalation is new, send it
         if (!escalations.contains(escalation)) {
             escalations.add(escalation);
             if (cause instanceof Throwable)
-                logger.warn(escalation, (Throwable)cause);
+                logger.warn(escalation.toString(), (Throwable) cause);
             else
-                logger.warn(escalation);
+                logger.warn(escalation.toString());
         }
     }
 }
