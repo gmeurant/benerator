@@ -73,7 +73,7 @@ public class ConverterManager {
         if (srcType == dstType || (dstType.isAssignableFrom(srcType) && !dstType.isPrimitive()))
             return new NoOpConverter();
         for (Converter converter : converters) {
-            if (converter.canConvert(sourceValue) && converter.getTargetType() == dstType)
+            if (converter.canConvert(sourceValue) && dstType.isAssignableFrom(converter.getTargetType()))
                 return converter;
             else if (converter instanceof BidirectionalConverter
             		&& ((BidirectionalConverter) converter).getSourceType() == dstType && converter.getTargetType() == srcType)
@@ -105,7 +105,7 @@ public class ConverterManager {
         ReaderLineIterator iterator = new ReaderLineIterator(IOUtil.getReaderForURI(filename));
         while (iterator.hasNext()) {
             String className = iterator.next();
-            BidirectionalConverter converter = (BidirectionalConverter) BeanUtil.newInstance(className);
+            Converter converter = (Converter) BeanUtil.newInstance(className);
             register(converter);
         }
         iterator.close();
