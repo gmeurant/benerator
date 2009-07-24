@@ -115,6 +115,12 @@ public final class CollectionUtil {
         return source.toArray(array);
     }
 
+    @SuppressWarnings("unchecked")
+	public static <T> T[] extractArray(List<? extends T> source, Class<T> componentType, int fromIndex, int toIndex) {
+        T[] array = (T[]) Array.newInstance(componentType, toIndex - fromIndex);
+        return source.subList(fromIndex, toIndex).toArray(array);
+    }
+
     public static char[] toArray(Collection<Character> source) {
         char[] result = new char[source.size()];
         int i = 0;
@@ -146,15 +152,16 @@ public final class CollectionUtil {
     }
 
     /** Creates a new instance of a Collection. Abstract interfaces are mapped to a default implementation class. */ 
-    public static <T extends Collection> T newInstance(Class<T> collectionType) {
+    @SuppressWarnings("unchecked")
+    public static <T extends Collection<U>, U> T newInstance(Class<T> collectionType) {
         if ((collectionType.getModifiers() & Modifier.ABSTRACT) == 0)
             return BeanUtil.newInstance(collectionType);
         else if (collectionType == Collection.class || collectionType == List.class)
-            return (T) new ArrayList();
+            return (T) new ArrayList<U>();
         else if (collectionType == SortedSet.class)
-            return (T) new TreeSet();
+            return (T) new TreeSet<U>();
         else if (collectionType == Set.class)
-            return (T) new TreeSet();
+            return (T) new TreeSet<U>();
         else
             throw new UnsupportedOperationException("Not a supported collection type: " + collectionType.getName());
     }
@@ -189,6 +196,16 @@ public final class CollectionUtil {
 		return null;
     }
 
+    public static <V> boolean containsCaseInsensitive(String key, Map<String, V> map) {
+    	if (map.containsKey(key))
+    		return true;
+    	String lcKey = key.toLowerCase();
+    	for (String candidate : map.keySet())
+			if (candidate != null && lcKey.equals(candidate.toLowerCase()))
+				return true;
+		return false;
+    }
+
 	public static <T> boolean ofEqualContent(List<T> list, T[] array) {
 		if (list == null || list.isEmpty())
 			return (array == null || array.length == 0);
@@ -200,4 +217,8 @@ public final class CollectionUtil {
 		return true;
 	}
 
+	public static <T> T lastElement(List<T> list) {
+		return list.get(list.size() - 1);
+	}
+	
 }
