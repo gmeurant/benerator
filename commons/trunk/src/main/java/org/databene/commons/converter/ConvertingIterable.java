@@ -30,8 +30,8 @@ import java.io.Closeable;
 
 import org.databene.commons.Converter;
 import org.databene.commons.HeavyweightIterator;
+import org.databene.commons.HeavyweightTypedIterable;
 import org.databene.commons.IOUtil;
-import org.databene.commons.TypedIterable;
 import org.databene.commons.iterator.ConvertingIterator;
 
 /**
@@ -40,7 +40,7 @@ import org.databene.commons.iterator.ConvertingIterator;
  * Created: 28.08.2007 08:57:16
  * @author Volker Bergmann
  */
-public class ConvertingIterable<S, T> implements TypedIterable<T>, Closeable {
+public class ConvertingIterable<S, T> implements HeavyweightTypedIterable<T> {
 
     protected Iterable<S> iterable;
     protected Converter<S, T> converter;
