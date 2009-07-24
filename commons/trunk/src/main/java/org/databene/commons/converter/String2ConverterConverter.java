@@ -40,6 +40,7 @@ import org.databene.commons.StringUtil;
  * @since 0.4.0
  * @author Volker Bergmann
  */
+@SuppressWarnings("unchecked")
 public class String2ConverterConverter extends AbstractBidirectionalConverter<String, Converter> {
 
 	// TODO v0.6 resolve scripts
@@ -63,10 +64,8 @@ public class String2ConverterConverter extends AbstractBidirectionalConverter<St
     public String revert(Converter target) throws ConversionException {
         if (target == null)
             return null;
-        if (target instanceof Converter) {
-            Class<? extends Converter> targetClass = target.getClass();
-            return targetClass.getName();
-        } else 
-            throw new UnsupportedOperationException("Don't know how to convert class to String: " + target.getClass().getName());
+        Class<? extends Converter> targetClass = target.getClass();
+        return targetClass.getName();
     }
+
 }
