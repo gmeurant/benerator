@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,13 +30,24 @@ import junit.framework.TestCase;
 import org.databene.SomeEnum;
 import org.databene.commons.ArrayUtil;
 import org.databene.commons.ConversionException;
+import org.databene.commons.TimeUtil;
 import org.databene.commons.converter.StringConverter;
 
+import java.io.File;
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.net.URI;
+import java.net.URL;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 /**
  * Tests the StringConverter.<br/>
@@ -47,6 +58,10 @@ public class StringConverterTest extends TestCase {
 
 	public void testConvertNull() {
         assertEquals(null, StringConverter.convert(null, Object.class));
+	}
+	
+	public void testConvertToString() {
+        assertEquals("ABC", StringConverter.convert("ABC", String.class));
 	}
 	
 	public void testConvertEmptyToNumber() {
@@ -76,46 +91,78 @@ public class StringConverterTest extends TestCase {
 		}
 	}
 	
-    public void testString2Enum() {
+    public void test2Enum() {
         assertEquals(SomeEnum.ONE, StringConverter.convert("ONE", SomeEnum.class));
     }
 
-    public void testString2Number() {
+    public void test2Number() {
+        assertEquals((byte) 1, (byte) StringConverter.convert("1", byte.class));
+        assertEquals(Byte.valueOf((byte) 1), StringConverter.convert("1", Byte.class));
+        
+        assertEquals((short) 1, (short) StringConverter.convert("1", short.class));
+        assertEquals(Short.valueOf((short) 1), StringConverter.convert("1", Short.class));
+        
+        assertEquals(1, (int) StringConverter.convert("1", int.class));
+        assertEquals(Integer.valueOf(1), StringConverter.convert("1", Integer.class));
+        
+        assertEquals(1L, (long) StringConverter.convert("1", long.class));
+        assertEquals(Long.valueOf((byte) 1), StringConverter.convert("1", Long.class));
+        
+        assertEquals((float) 1, StringConverter.convert("1", float.class));
+        assertEquals(Float.valueOf((byte) 1), StringConverter.convert("1", Float.class));
+        
+        assertEquals(1., (double) StringConverter.convert("1", double.class));
+        assertEquals(Double.valueOf((byte) 1), StringConverter.convert("1", Double.class));
+        
+        assertEquals(new BigInteger("1"), StringConverter.convert("1", BigInteger.class));
         assertEquals(new BigDecimal("1"), StringConverter.convert("1", BigDecimal.class));
     }
     
-    public void testString2Date() {
+    public void test2Date() {
         assertEquals(new GregorianCalendar(1970, 0, 1).getTimeInMillis(), StringConverter.convert("1970-01-01", Date.class).getTime());
     }
     
-    public void testString2StringArray() {
+    public void test2GregorianCalendar() {
+        assertEquals(new GregorianCalendar(1970, 0, 1), StringConverter.convert("1970-01-01", GregorianCalendar.class));
+        assertEquals(new GregorianCalendar(2001, 1, 2, 3, 4, 5), StringConverter.convert("2001-02-02T03:04:05", GregorianCalendar.class));
+    }
+    
+    public void test2Calendar() {
+        assertEquals(new GregorianCalendar(1970, 0, 1), StringConverter.convert("1970-01-01", Calendar.class));
+    }
+    
+    public void test2StringArray() {
         assertTrue(Arrays.equals(
         		ArrayUtil.toArray("A", "B", "C"), 
         		StringConverter.convert("A,B,C", String[].class)));
     }
     
-    public void testString2CharArray() {
+    public void test2CharArray() {
         assertTrue(Arrays.equals(
         		ArrayUtil.toArray('A', 'B', 'C'), 
         		StringConverter.convert("A,B,C", Character[].class)));
     }
 
-    public void testString2IntegerArray() {
+    public void test2IntegerArray() {
         assertTrue(Arrays.equals(
         		ArrayUtil.toArray(1, 2, 3), 
         		StringConverter.convert("1,2,3", Integer[].class)));
     }
     
-    public void testString2PrimitiveNumber() {
+    public void test2PrimitiveNumber() {
         assertEquals(1, (int)StringConverter.convert("1", int.class));
         assertEquals((byte)1, (byte)StringConverter.convert("1", byte.class));
     }
     
-    public void testString2Locale() {
+    public void test2Locale() {
         assertEquals(Locale.GERMAN, StringConverter.convert("de", Locale.class));
     }
     
-    public void testString2StringConverterTest() {
+    public void test2Class() {
+		assertEquals(URL.class, StringConverter.convert("java.net.URL", Class.class));
+    }
+    
+    public void test2StringConverterTest() {
     	try {
     		StringConverter.convert("Bla", StringConverterTest.class);
     		fail(ConversionException.class.getSimpleName() + " expected");
@@ -124,4 +171,50 @@ public class StringConverterTest extends TestCase {
     	}
     }
     
+    public void test2File() {
+    	assertEquals(new File("license.txt"), StringConverter.convert("license.txt", File.class));
+    }
+    
+    public void test2URL() throws Exception {
+    	assertEquals(new URL("http://databene.org/databene.benerator:80"), 
+    			StringConverter.convert("http://databene.org/databene.benerator:80", URL.class));
+    }
+    
+    public void test2URI() throws Exception {
+    	assertEquals(new URI("http://databene.org/databene.benerator:80"), 
+    			StringConverter.convert("http://databene.org/databene.benerator:80", URI.class));
+    }
+    
+    public void test2SimpleDateFormat() {
+    	assertEquals(new SimpleDateFormat("dd.MM.yy"), StringConverter.convert("dd.MM.yy", SimpleDateFormat.class));
+    }
+    
+    public void test2DateFormat() {
+    	assertEquals(new SimpleDateFormat("dd.MM.yy"), StringConverter.convert("dd.MM.yy", DateFormat.class));
+    }
+    
+    public void test2DecimalFormat() {
+    	assertEquals(new DecimalFormat("00.00"), StringConverter.convert("00.00", DecimalFormat.class));
+    }
+    
+    public void test2NumberFormat() {
+    	assertEquals(new DecimalFormat("00.00"), StringConverter.convert("00.00", NumberFormat.class));
+    }
+    
+    public void test2SqlDate() {
+        assertEquals(new GregorianCalendar(1970, 0, 1).getTimeInMillis(), StringConverter.convert("1970-01-01", java.sql.Date.class).getTime());
+    }
+    
+    public void test2SqlTime() {
+        assertEquals(TimeUtil.time(12, 34, 56, 789), StringConverter.convert("12:34:56,789", java.sql.Time.class));
+    }
+    
+    public void test2SqlTimestamp() {
+        assertEquals(TimeUtil.time(12, 34, 56, 789), StringConverter.convert("12:34:56,789", java.sql.Timestamp.class));
+    }
+
+    public void test2Pattern() {
+        assertEquals(Pattern.compile("[1-3]{2,4}"), StringConverter.convert("[1-3]{2,4}", Pattern.class));
+    }
+
 }
