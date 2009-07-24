@@ -26,7 +26,6 @@
 
 package org.databene.document.xls;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
@@ -55,7 +54,7 @@ import org.databene.commons.converter.NoOpConverter;
 
 public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 	
-	private HSSFWorkbook workbook;
+	private HSSFSheet sheet;
 	private Iterator<Row> rowIterator;
 	private String[] headers;
 	private Converter<String, ? extends Object> preprocessor;
@@ -70,13 +69,16 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 		this(uri, sheetIndex, null);
 	}
 	
-	@SuppressWarnings("unchecked")
     public XLSLineIterator(String uri, int sheetIndex, Converter<String, ? extends Object> preprocessor) throws IOException {
+		this(sheet(uri, sheetIndex), preprocessor);
+	}
+	
+	@SuppressWarnings("unchecked")
+    public XLSLineIterator(HSSFSheet sheet, Converter<String, ? extends Object> preprocessor) {
+		this.sheet = sheet;
 		if (preprocessor == null)
 			preprocessor = new NoOpConverter();
 		this.preprocessor = preprocessor;
-		workbook = new HSSFWorkbook(IOUtil.getInputStreamForURI(uri));
-		HSSFSheet sheet = workbook.getSheetAt(sheetIndex);
 		rowIterator = sheet.rowIterator();
 		Row headerRow = rowIterator.next();
 		ArrayBuilder<String> builder = new ArrayBuilder<String>(String.class);
@@ -86,8 +88,8 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 				builder.append(cell.getRichStringCellValue().getString());
 		}
 		headers = builder.toArray();
-	}
-	
+    }
+
 	// interface -------------------------------------------------------------------------------------------------------
 	
 	public String[] getHeaders() {
@@ -95,7 +97,7 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 	}
 
 	public void close() {
-		workbook = null;
+		sheet = null;
 		rowIterator = null;
 		headers = new String[0];
 	}
@@ -131,7 +133,7 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 			case Cell.CELL_TYPE_BLANK: 
 			case Cell.CELL_TYPE_ERROR: return cell.getRichStringCellValue().getString();
 			case Cell.CELL_TYPE_FORMULA: 
-				FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+				FormulaEvaluator evaluator = sheet.getWorkbook().getCreationHelper().createFormulaEvaluator();
 				CellValue cellValue = evaluator.evaluate(cell);
 				switch (cellValue.getCellType()) {
 					case HSSFCell.CELL_TYPE_STRING: return preprocessor.convert(cellValue.getStringValue());
@@ -145,5 +147,10 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 			default: throw new ConfigurationError("Not a supported cell type: " + cell.getCellType());
 		}
 	}
+
+    private static HSSFSheet sheet(String uri, int sheetIndex) throws IOException {
+		HSSFWorkbook workbook = new HSSFWorkbook(IOUtil.getInputStreamForURI(uri));
+		return workbook.getSheetAt(sheetIndex);
+    }
 
 }
