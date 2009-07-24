@@ -75,7 +75,7 @@ public class FactoryConverter<S, T> extends FixedSourceTypeConverter<S, T> {
         if (result == null)
             result = tryToConstructByTypeValueMethod(src, targetType);
         if (result == null)
-            throw new ConversionException("Don't know how to convert '" + src + "' to " + targetType);
+            throw new ConversionException("Can't convert '" + src + "' to " + targetType);
         return result;
     }
 
