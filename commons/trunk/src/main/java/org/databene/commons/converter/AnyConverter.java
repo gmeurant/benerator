@@ -38,8 +38,9 @@ import java.util.Collection;
  * Converts any source type to any target type. It also makes use of the ConverterManager.<br/>
  * <br/>
  * Created: 16.06.2007 11:34:42
+ * @author Volker Bergmann
  */
-public class AnyConverter<S, T> extends AbstractConverter<S, T> {
+public class AnyConverter<S, T> extends AbstractConverter<S, T> { // TODO support timePattern, timestampPattern?
 
     private static final Logger logger = LoggerFactory.getLogger(AnyConverter.class);
 
@@ -63,11 +64,11 @@ public class AnyConverter<S, T> extends AbstractConverter<S, T> {
 	}
 
 	public T convert(Object sourceValue) throws ConversionException {
-        return convert(sourceValue, targetType, datePattern, null);
+        return convert(sourceValue, targetType, datePattern, null, null);
     }
 
     public static <TT> TT convert(Object source, Class<TT> targetType) throws ConversionException {
-        return convert(source, targetType, null, null);
+        return convert(source, targetType, null, null, null);
     }
     
     /**
@@ -77,7 +78,7 @@ public class AnyConverter<S, T> extends AbstractConverter<S, T> {
      * @return an object of the target type
      */
     @SuppressWarnings("unchecked")
-    public static <TT> TT convert(Object source, Class<TT> targetType, String datePattern, String timestampPattern) throws ConversionException {
+    public static <TT> TT convert(Object source, Class<TT> targetType, String datePattern, String timePattern, String timestampPattern) throws ConversionException {
         if (logger.isDebugEnabled())
             logger.debug("Converting " + source + (source != null ? " (" + source.getClass().getName() + ")" : "") + " to " + targetType);
         // check preconditions
@@ -97,7 +98,7 @@ public class AnyConverter<S, T> extends AbstractConverter<S, T> {
 
         // to string conversion
         if (String.class.equals(targetType))
-            return (TT) ToStringConverter.convert(source, null, datePattern, timestampPattern, null);
+            return (TT) ToStringConverter.convert(source, null);
 
         // from string conversion
         if (String.class.equals(source.getClass()))
@@ -137,7 +138,7 @@ public class AnyConverter<S, T> extends AbstractConverter<S, T> {
         else if (Number.class.isAssignableFrom(BeanUtil.getWrapper(targetType.getName())))
             return convert((src ? 1 : 0), targetType);
         else
-            throw new UnsupportedOperationException("Don't know how to convert " + src.getClass() + " to " + targetType);
+            throw new UnsupportedOperationException("Can't convert " + src.getClass() + " to " + targetType);
     }
 
 }
