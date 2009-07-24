@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2006-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -33,13 +33,14 @@ import java.util.Set;
  * Abstraction of a context that provides named items which can be set and retrieved.<br/>
  * <br/>
  * Created: 23.08.2007 08:32:53
+ * @since 0.3
+ * @author Volker Bergmann
  */
 public interface Context {
     Object get(String key);
     void set(String key, Object value);
     void remove(String key);
-    /** @since 0.3.05 */
     Set<String> keySet();
-	/** @since 0.4.7 */
 	Set<Map.Entry<String, Object>> entrySet();
+	boolean contains(String key);
 }
