@@ -32,7 +32,7 @@ package org.databene.commons.iterator;
  * @since 0.4.3
  * @author Volker Bergmann
  */
-public abstract class BidirectionalIteratorTest extends IteratorTest {
+public abstract class BidirectionalIteratorTest extends IteratorTestCase {
 
 	public static <T> PreviousHelper expectPreviousElements(BidirectionalIterator<T> iterator, T... elements) {
 		for (T element : elements) {
