@@ -28,6 +28,7 @@ package org.databene.commons.converter;
 
 import org.databene.commons.ArrayFormat;
 import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
 
 import java.util.Date;
 
@@ -78,10 +79,13 @@ public class StringConverter<T> extends FixedSourceTypeConverter<String, T> {
             result = (T) FactoryConverter.convert(src, wrapperClass);
         if (result != null)
             return result;
+        Converter converter = ConverterManager.getInstance().getConverter(src, targetType);
+        if (converter != null)
+        	return (T) converter.convert(src);
         result = FactoryConverter.convert(src, targetType);
         if (result != null)
             return result;
-        throw new UnsupportedOperationException("Don't know how to convert '" + src + "' to " + targetType);
+        throw new UnsupportedOperationException("Can't convert '" + src + "' to " + targetType);
     }
 
 
