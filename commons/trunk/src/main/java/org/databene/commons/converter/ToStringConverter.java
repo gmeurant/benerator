@@ -26,6 +26,7 @@
 
 package org.databene.commons.converter;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,15 +40,20 @@ import org.databene.commons.ConversionException;
  * Null values can be mapped to an individual String.<br/>
  * <br/>
  * Created: 31.08.2006 18:44:59
+ * @since 0.1
+ * @author Volker Bergmann
  */
 public class ToStringConverter extends FixedSourceTypeConverter<Object, String> {
 
 	// constants -------------------------------------------------------------------------------------------------------
+	
 	private static final String DEFAULT_NULL_STRING = "";
 
 	private static final String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
 
     private static final String DEFAULT_TIMESTAMP_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+    
+    private static ToStringConverter singletonInstance = new ToStringConverter();
     
     // attributes ------------------------------------------------------------------------------------------------------
 
@@ -58,7 +64,11 @@ public class ToStringConverter extends FixedSourceTypeConverter<Object, String> 
 
     private String timestampPattern;
     
+    private String timePattern;
+
     private NumberFormatConverter decimalConverter;
+    
+    private NumberFormatConverter integralConverter;
     
     // constructors ----------------------------------------------------------------------------------------------------
 
@@ -85,18 +95,6 @@ public class ToStringConverter extends FixedSourceTypeConverter<Object, String> 
     
     // properties ------------------------------------------------------------------------------------------------------
 
-    /** @deprecated replaced by {@link #getNullString()} */
-    @Deprecated
-    public String getNullResult() {
-        return getNullString();
-    }
-
-    /** @deprecated replaced by {@link #setNullString(String)} */
-    @Deprecated
-    public void setNullResult(String nullResult) {
-        setNullString(nullResult);
-    }
-
     public String getNullString() {
         return nullString;
     }
@@ -109,56 +107,65 @@ public class ToStringConverter extends FixedSourceTypeConverter<Object, String> 
 		return datePattern;
 	}
 
-	public void setDatePattern(String datePattern) {
-		this.datePattern = datePattern;
+	public void setDatePattern(String pattern) {
+		this.datePattern = pattern;
 	}
 
-	public String getTimestampPattern() {
+	public String getDateTimePattern() {
 		return timestampPattern;
 	}
 
-	public void setTimestampPattern(String timestampPattern) {
-		this.timestampPattern = timestampPattern;
+	public void setDateTimePattern(String pattern) {
+		this.timestampPattern = pattern;
 	}
 
 	public String getDecimalPattern() {
 		return decimalConverter.getPattern();
 	}
 
-	public void setDecimalPattern(String decimalPattern) {
+	public void setDecimalPattern(String pattern) {
 		if (decimalConverter == null)
-			decimalConverter = new NumberFormatConverter(decimalPattern);
-		decimalConverter.setPattern(decimalPattern);
+			decimalConverter = new NumberFormatConverter(pattern);
+		decimalConverter.setPattern(pattern);
 	}
 
 	public char getDecimalSeparator() {
     	return decimalConverter.getDecimalSeparator();
     }
 
-	public void setDecimalSeparator(char decimalSeparator) {
+	public void setDecimalSeparator(char separator) {
 		if (decimalConverter == null)
 			decimalConverter = new NumberFormatConverter();
-		decimalConverter.setDecimalSeparator(decimalSeparator);
+		decimalConverter.setDecimalSeparator(separator);
     }
 
-	// Converter interface implementation ------------------------------------------------------------------------------
+	public String getTimePattern() {
+		return timePattern;
+	}
+	
+    public void setTimePattern(String timePattern) {
+	    this.timePattern = timePattern;
+    }
+
+    public String getIntegralPattern() {
+    	return integralConverter.getPattern();
+    }
+
+    public void setIntegralPattern(String pattern) {
+    	if (integralConverter == null)
+    		integralConverter = new NumberFormatConverter();
+    	integralConverter.setPattern(pattern);
+    }
+
+    // Converter interface implementation ------------------------------------------------------------------------------
 
 	public String convert(Object source) throws ConversionException {
-        return convert(source, nullString, datePattern, timestampPattern, decimalConverter);
-    }
-
-	// utility methods -------------------------------------------------------------------------------------------------
-	
-    public static <TT> String convert(TT source, String nullString) {
-    	return convert(source, nullString, null, null, null);
-    }
-
-    @SuppressWarnings("unchecked")
-	public static <TT> String convert(TT source, String nullString, String datePattern, String timestampPattern, NumberFormatConverter decimalConverter) {
         if (source == null) {
             return nullString;
         } else if (source instanceof String) {
         	return (String) source;
+        } else if (integralConverter != null && JavaType.isDecimalType(source)) {
+        	return decimalConverter.convert((Number) source);
         } else if (decimalConverter != null && JavaType.isDecimalType(source)) {
         	return decimalConverter.convert((Number) source);
         } else if (source.getClass().isArray()) {
@@ -170,10 +177,15 @@ public class ToStringConverter extends FixedSourceTypeConverter<Object, String> 
         	else
         		return ArrayFormat.format((Object[])source);
         } else if (source instanceof Class) {
-            return ((Class) source).getName();
+            return ((Class<?>) source).getName();
         } else if (source instanceof Timestamp) {
         	if (timestampPattern != null)
         		return new SimpleDateFormat(timestampPattern).format((Date) source);
+        	else
+        		return new SimpleDateFormat().format((Date) source);
+        } else if (source instanceof Time) {
+        	if (timePattern != null)
+        		return new SimpleDateFormat(timePattern).format((Date) source);
         	else
         		return new SimpleDateFormat().format((Date) source);
         } else if (source instanceof Date) {
@@ -184,4 +196,13 @@ public class ToStringConverter extends FixedSourceTypeConverter<Object, String> 
         } else
             return source.toString();
     }
+
+	// utility methods -------------------------------------------------------------------------------------------------
+	
+    public static <TT> String convert(TT source, String nullString) {
+    	if (source == null)
+    		return nullString;
+    	return singletonInstance.convert(source);
+    }
+
 }
