@@ -69,7 +69,7 @@ public class NumberToNumberConverter<S extends Number, T extends Number> extends
      * (returned as the respective number wrapper).
      * @param src the object to convert
      * @param targetType the primitive target type of the conversion
-     * @return an object of the porimitive target type
+     * @return an object of the primitive target type
      */
     private static Object convertNumberToPrimitive(Number src, Class<?> targetType) {
         if (int.class.equals(targetType))
@@ -85,7 +85,7 @@ public class NumberToNumberConverter<S extends Number, T extends Number> extends
         else if (double.class.equals(targetType))
             return src.doubleValue();
         else
-            throw new UnsupportedOperationException("Don't know how to convert '" + src + "' to " + targetType);
+            throw new UnsupportedOperationException("Can't convert '" + src + "' to " + targetType);
     }
 
 }
