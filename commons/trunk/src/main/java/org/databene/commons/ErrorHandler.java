@@ -41,7 +41,7 @@ public class ErrorHandler {
 	// constants -------------------------------------------------------------------------------------------------------
 
 	public static enum Level {
-		ignore, trace, debug, info, warn, error
+		ignore, trace, debug, info, warn, error, fatal
 	}
 
 	// attributes ------------------------------------------------------------------------------------------------------
@@ -76,7 +76,8 @@ public class ErrorHandler {
 			case debug : logger.debug(message); break;
 			case info  : logger.info( message); break;
 			case warn  : logger.warn( message); break;
-			case error : logger.error(message);
+			case error : logger.error(message); break;
+			case fatal : logger.error(message);
 						 throw new RuntimeException(message);
 			case ignore: // ignore
 		}
@@ -91,7 +92,8 @@ public class ErrorHandler {
 				case debug : logger.debug(message); break;
 				case info  : logger.info( message); break;
 				case warn  : logger.warn( message); break;
-				case error : logger.error(message, t);
+				case error : logger.error(message, t); break;
+				case fatal : logger.error(message, t);
 							 throw new RuntimeException(t);
 				case ignore: // ignore
 			}
