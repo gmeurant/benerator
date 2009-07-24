@@ -70,4 +70,12 @@ public class MathUtil {
 		}
 		return result;
 	}
+	
+	public static int weightedSumOfDigits(String number, int startIndex, int... weights) {
+	    int sum = 0;
+	    for (int i = 0; i < weights.length; i++)
+	    	sum += MathUtil.sumOfDigits(weights[i] * (number.charAt(startIndex + i) - '0'));
+	    return sum;
+    }
+
 }
