@@ -130,6 +130,7 @@ public class StringLengthValidator implements Validator<String> {
 
     // java.lang.Object overrides --------------------------------------------------------------------------------------
 
+    @Override
     public String toString() {
         StringBuilder builder = new StringBuilder(getClass().getSimpleName());
         builder.append('[');
