@@ -62,6 +62,10 @@ public class CaseInsensitiveContext implements Context {
         return CollectionUtil.getCaseInsensitive(transformKey(key), map);
     }
 
+    public boolean contains(String key) {
+        return CollectionUtil.containsCaseInsensitive(transformKey(key), map);
+    }
+
 	public Set<String> keySet() {
 		return map.keySet();
 	}
