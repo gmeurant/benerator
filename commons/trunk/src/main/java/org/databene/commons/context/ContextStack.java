@@ -64,6 +64,15 @@ public class ContextStack implements Context {
         return null;
     }
 
+    public boolean contains(String key) {
+        for (int i = contexts.size() - 1; i >= 0; i--) {
+            Context c = contexts.get(i);
+            if (c.contains(key))
+            	return true;
+        }
+        return false;
+    }
+
     public synchronized Set<String> keySet() {
         Set<String> keySet = new HashSet<String>();
         for (int i = contexts.size() - 1; i >= 0; i--) {

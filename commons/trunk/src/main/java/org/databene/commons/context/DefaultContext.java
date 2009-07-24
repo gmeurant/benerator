@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -59,6 +59,12 @@ public class DefaultContext implements Context {
         if (value == null && defaults != null)
             value = defaults.get(key);
         return value;
+    }
+
+    public boolean contains(String key) {
+        if (map.containsKey(key))
+        	return true;
+        return (defaults != null && defaults.contains(key));
     }
 
     public synchronized void set(String key, Object value) {
