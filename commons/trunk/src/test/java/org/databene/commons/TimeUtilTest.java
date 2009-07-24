@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2005-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,14 +28,17 @@ package org.databene.commons;
 
 import junit.framework.TestCase;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import sun.security.timestamp.TimestampToken;
-
 /**
- * (c) Copyright 2004 by Volker Bergmann
+ * Tests the {@link TimeUtil} class.
  * Created: 17.02.2005 21:19:01
+ * @since 0.1
+ * @author Volker Bergmann
  */
 public class TimeUtilTest extends TestCase {
 
@@ -61,6 +64,25 @@ public class TimeUtilTest extends TestCase {
     	} finally {
     		TimeZone.setDefault(zone);
     	}
+    }
+    
+    public void testDate() {
+    	Date date = TimeUtil.date(2009, 6, 19);
+    	Calendar calendar = new GregorianCalendar(2009, 6, 19);
+    	assertEquals(calendar.getTime(), date);
+    }
+    
+    public void testTimestamp() {
+    	Timestamp timestamp = TimeUtil.timestamp(2009, 6, 19, 1, 34, 45, 123456789);
+    	Calendar cal = new GregorianCalendar();
+    	cal.setTime(new Date(timestamp.getTime()));
+    	assertEquals(2009, cal.get(Calendar.YEAR));
+    	assertEquals(6, cal.get(Calendar.MONTH));
+    	assertEquals(19, cal.get(Calendar.DAY_OF_MONTH));
+    	assertEquals(1, cal.get(Calendar.HOUR_OF_DAY));
+    	assertEquals(34, cal.get(Calendar.MINUTE));
+    	assertEquals(45, cal.get(Calendar.SECOND));
+    	assertEquals(123, cal.get(Calendar.MILLISECOND));
     }
     
 }
