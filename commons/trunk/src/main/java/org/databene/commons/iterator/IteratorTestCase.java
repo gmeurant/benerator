@@ -6,7 +6,7 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
-public abstract class IteratorTest extends TestCase {
+public abstract class IteratorTestCase extends TestCase {
 
     public static <T> void checkUniqueIteration(Iterator<T> iterator, int count) {
         Set<T> items = new HashSet<T>(count);
@@ -18,12 +18,12 @@ public abstract class IteratorTest extends TestCase {
         }
     }
 
-	public static <T> NextHelper expectNextElements(Iterator<T> iterator, T... elements) {
+	public static <T> NextHelper<T> expectNextElements(Iterator<T> iterator, T... elements) {
 		for (T element : elements) {
 			assertTrue(iterator.hasNext());
 			assertEquals(element, iterator.next());
 		}
-		return new NextHelper(iterator);
+		return new NextHelper<T>(iterator);
 	}
 	
 	public static class NextHelper<T> {
