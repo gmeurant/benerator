@@ -27,7 +27,13 @@ public class ArrayBuilder<E> {
         this.buffer = createBuffer(initialCapacity);
     }
 
+    /** @deprecated replaced with add(Element) */
+    @Deprecated
     public ArrayBuilder<E> append(E element) {
+        return add(element); // TODO deprecation warning
+    }
+    
+    public ArrayBuilder<E> add(E element) {
         if (buffer == null)
             throw new UnsupportedOperationException("ArrayBuilder cannot be reused after invoking toArray()");
         if (elementCount >= buffer.length - 1) {
@@ -37,6 +43,11 @@ public class ArrayBuilder<E> {
         }
         buffer[elementCount++] = element;
         return this;
+    }
+    
+    public void addAll(E[] elements) {
+	    for (E element : elements)
+	    	add(element);
     }
     
     public E[] toArray() {
@@ -60,7 +71,9 @@ public class ArrayBuilder<E> {
 
     // private helpers -------------------------------------------------------------------------------------------------
     
+    @SuppressWarnings("unchecked")
     private E[] createBuffer(int initialCapacity) {
-        return (E[])Array.newInstance(componentType, initialCapacity);
+        return (E[]) Array.newInstance(componentType, initialCapacity);
     }
+
 }
