@@ -122,7 +122,7 @@ public final class IOUtil {
         String line;
         while ((line = reader.readLine()) != null)
         	if (line.length() > 0 || includeEmptyLines)
-        		builder.append(line.trim());
+        		builder.add(line.trim());
         return builder.toArray();
     }
 
@@ -171,7 +171,7 @@ public final class IOUtil {
         if (uri.startsWith("file://"))
             return getFileOrResourceAsStream(uri.substring("file://".length()), true);
         else if (required)
-            throw new ConfigurationError("Don't know how to handle URL " + uri);
+            throw new ConfigurationError("Can't handle URL " + uri);
         else
         	return null;
     }
@@ -202,7 +202,7 @@ public final class IOUtil {
         if (localUri.startsWith("file://"))
             return getFileOrResourceAsStream(localUri.substring("file://".length()), true);
         else
-            throw new ConfigurationError("Don't know how to handle URL " + localUri);
+            throw new ConfigurationError("Can't to handle URL " + localUri);
     }
 
     public static String resolveLocalUri(String localUri, String contextUri) {
