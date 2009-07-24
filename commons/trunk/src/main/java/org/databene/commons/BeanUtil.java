@@ -151,7 +151,7 @@ public final class BeanUtil {
 
 	private static Map<String, Class<?>> map(Class<?>[] array) {
 		Map<String, Class<?>> result = new HashMap<String, Class<?>>();
-        for (Class<? extends Object> type : simpleTypes)
+        for (Class<? extends Object> type : array)
         	result.put(type.getName(), type);
         return result;
     }
@@ -918,9 +918,14 @@ public final class BeanUtil {
     }
 
 	public static String toString(Object bean) {
+		return toString(bean, false);
+	}
+
+	public static String toString(Object bean, boolean simple) {
 		if (bean == null)
 			return null;
-		StringBuilder builder = new StringBuilder(bean.getClass().getName());
+		Class<? extends Object> beanClass = bean.getClass();
+		StringBuilder builder = new StringBuilder(simple ? beanClass.getSimpleName() : bean.getClass().getName());
 		PropertyDescriptor[] descriptors = getPropertyDescriptors(bean.getClass());
 		boolean first = true;
 		for (PropertyDescriptor descriptor : descriptors) {
