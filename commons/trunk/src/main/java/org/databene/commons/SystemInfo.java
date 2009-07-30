@@ -49,9 +49,6 @@ public final class SystemInfo {
 	public static final String OS_ARCH_KEY = "os.arch";
 	public static final String OS_NAME_KEY = "os.name";
 
-	private static final String MAC_OS_X = "Mac OS X";
-	private static final String WINDOWS = "Windows";
-
 	/**
      * @return the OS name
      * @deprecated use {@link #getOsName()}
@@ -114,6 +111,10 @@ public final class SystemInfo {
      */
     public static String getLineSeparator() {
         return System.getProperty(LINE_SEPARATOR_KEY);
+    }
+
+    public static void setLineSeparator(String lineSeparator) {
+        System.setProperty(LINE_SEPARATOR_KEY, lineSeparator);
     }
 
     /**
@@ -226,6 +227,10 @@ public final class SystemInfo {
      */
     public static String getFileEncoding() {
         return System.getProperty(FILE_ENCODING_KEY);
+    }
+    
+    public static void setFileEncoding(String encoding) {
+    	System.setProperty(FILE_ENCODING_KEY, encoding);
     }
 
     /**
