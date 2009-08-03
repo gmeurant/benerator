@@ -31,6 +31,8 @@ package org.databene.commons;
  * a source object of type S to an object of type T.<br/>
  * <br/>
  * Created: 30.08.2006 19:41:08
+ * @since 0.1
+ * @author Volker Bergmann
  */
 public interface Converter<S, T> {
 
@@ -45,4 +47,5 @@ public interface Converter<S, T> {
      * @throws org.databene.commons.ConversionException if the conversion fails
      */
     T convert(S sourceValue) throws ConversionException;
+    
 }
