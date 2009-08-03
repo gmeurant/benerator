@@ -178,10 +178,10 @@ public class ArrayFormat extends Format {
         int sepIndex;
         while ((sepIndex = source.indexOf(separator, i)) >= 0) {
             String token = source.substring(i, sepIndex);
-            builder.append(AnyConverter.convert(token, componentType));
+            builder.add(AnyConverter.convert(token, componentType));
             i = sepIndex + separator.length();
         }
-        builder.append(AnyConverter.convert(source.substring(i, source.length()), componentType));
+        builder.add(AnyConverter.convert(source.substring(i, source.length()), componentType));
         return builder.toArray();
     }
 
