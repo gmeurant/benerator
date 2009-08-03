@@ -171,19 +171,27 @@ public final class BeanUtil {
         return simpleTypeMap.containsKey(className);
     }
 
-    public static boolean isPrimitive(String className) {
+    public static boolean isPrimitiveType(String className) {
         return primitiveTypeMap.containsKey(className);
     }
 
-    public static boolean isPrimitiveNumber(String className) {
+    public static boolean isPrimitiveNumberType(String className) {
         return primitiveNumberTypeMap.containsKey(className);
     }
 
-    public static boolean isIntegralNumber(String className) {
+    public static boolean isIntegralNumberType(Class<?> type) {
+        return isIntegralNumberType(type.getName());
+    }
+
+    public static boolean isIntegralNumberType(String className) {
         return integralNumberTypeMap.containsKey(className);
     }
 
-    public static boolean isDecimalNumber(String className) {
+    public static boolean isDecimalNumberType(Class<?> type) {
+        return isDecimalNumberType(type.getName());
+    }
+
+    public static boolean isDecimalNumberType(String className) {
         return decimalNumberTypeMap.containsKey(className);
     }
 
@@ -489,7 +497,7 @@ public final class BeanUtil {
         ArrayBuilder<Method> builder = new ArrayBuilder<Method>(Method.class);
         for (Method method : type.getMethods()) {
             if (methodName.equals(method.getName()))
-                builder.append(method);
+                builder.add(method);
         }
         return builder.toArray();
     }
@@ -562,10 +570,10 @@ public final class BeanUtil {
             Class<? extends Object> foundType = foundTypes[i];
             if (expectedType.isAssignableFrom(foundType))
                 return true;
-            if (isPrimitive(expectedType.getName()) &&
+            if (isPrimitiveType(expectedType.getName()) &&
                     foundType.equals(getWrapper(expectedType.getName())))
                 return true;
-            if (isPrimitive(foundType.getName()) &&
+            if (isPrimitiveType(foundType.getName()) &&
                     expectedType.equals(getWrapper(foundType.getName())))
                 return true;
         }
@@ -773,7 +781,7 @@ public final class BeanUtil {
 	private static boolean isWrapperTypeOf(Class<?> propertyType,
 			Object propertyValue) {
 		String propertyTypeName = propertyType.getName();
-		return (isPrimitive(propertyTypeName) && getWrapper(propertyType.getName()) == propertyValue.getClass());
+		return (isPrimitiveType(propertyTypeName) && getWrapper(propertyType.getName()) == propertyValue.getClass());
 	}
     
     @SuppressWarnings("unchecked")
@@ -900,7 +908,7 @@ public final class BeanUtil {
         ArrayBuilder<Method> builder = new ArrayBuilder<Method>(Method.class);
         for (Method method : methods)
             if (method.getAnnotation(annotationClass) != null)
-                builder.append(method);
+                builder.add(method);
         return builder.toArray();
     }
     
@@ -951,6 +959,25 @@ public final class BeanUtil {
 		return (type != null ? type.getSimpleName() : null);
 	}
 	
+    public static boolean equalsIgnoreType(Object o1, Object o2) { // TODO test
+    	if (NullSafeComparator.equals(o1, o2))
+    		return true;
+    	if (o1 == null || o2 == null)
+    		return false;
+    	if (o1.getClass() == o2.getClass())
+    		return false;
+    	// OK, both are not null, but they have a different type
+    	if (o1 instanceof String && o2 instanceof Number) {
+    		Object tmp = o1; o1 = o2; o2 = tmp;
+    	}
+    	if (o1 instanceof Number) {
+    		if (o2 instanceof String)
+    			o2 = AnyConverter.convert(o2, o1.getClass());
+    		return (((Number) o1).doubleValue() == ((Number) o2).doubleValue());
+    	}
+    	return false;
+    }
+
 	// private helpers -------------------------------------------------------------------------------------------------
 
 	private static Object[] convertArray(Object[] values, Class<?>[] targetTypes) {
