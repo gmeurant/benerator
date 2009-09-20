@@ -60,7 +60,7 @@ public class String2EnumConverterTest extends TestCase {
     // private helpers -------------------------------------------------------------------------------------------------
 
     private void check(SomeEnum instance) throws ConversionException {
-        String2EnumConverter converter = new String2EnumConverter(instance.getClass());
+        String2EnumConverter<SomeEnum> converter = new String2EnumConverter<SomeEnum>(SomeEnum.class);
         String name = instance.name();
         assertEquals(instance, converter.convert(name));
         assertEquals(name, converter.revert(instance));
