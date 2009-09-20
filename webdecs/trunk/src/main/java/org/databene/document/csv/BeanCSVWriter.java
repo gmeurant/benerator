@@ -97,16 +97,11 @@ public class BeanCSVWriter<E> extends ScriptedDocumentWriter<E> {
         public void execute(Context context, Writer out) throws IOException, ScriptException {
             try {
                 String[] cells = converter.convert(context.get("part"));
-                if (cells.length > 0)
-                    out.write(cells[0]);
-                for (int i = 1; i < cells.length; i++) {
-                    out.write(separator);
-                    out.write(CSVUtil.renderCell(cells[i], separator));
-                }
-                out.write(SystemInfo.getLineSeparator());
+                CSVUtil.writeRow(out, separator, cells);
             } catch (ConversionException e) {
                 throw new ScriptException(e);
             }
         }
+
     }
 }
