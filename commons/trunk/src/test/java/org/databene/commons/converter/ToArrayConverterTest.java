@@ -68,7 +68,8 @@ public class ToArrayConverterTest extends TestCase {
 	
 	// helpers ---------------------------------------------------------------------------------------------------------
 	
-	private <T> void check(T[] expected, Object source, Class<T> componentType) {
+	@SuppressWarnings("unchecked")
+    private <T> void check(T[] expected, Object source, Class<T> componentType) {
 		Assert.equals(expected, (T[]) ToArrayConverter.convert(source, componentType));
 	}
 

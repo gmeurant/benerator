@@ -49,6 +49,7 @@ public class ToCollectionConverterTest extends TestCase {
         assertNull(ToCollectionConverter.convert(null, List.class));
     }
 
+    @SuppressWarnings("unchecked")
     public void testToList() throws ConversionException {
         Converter<Object, ArrayList> toArrayListConverter = new ToCollectionConverter<ArrayList>(ArrayList.class);
         Converter<Object, List> toListConverter = new ToCollectionConverter<List>(List.class);
@@ -67,6 +68,7 @@ public class ToCollectionConverterTest extends TestCase {
     }
 
 
+    @SuppressWarnings("unchecked")
     public void testToSet() throws ConversionException {
         Converter<Object, HashSet> toHashSetConverter = new ToCollectionConverter<HashSet>(HashSet.class);
         Converter<Object, Set> toSetConverter = new ToCollectionConverter<Set>(Set.class);
@@ -84,6 +86,7 @@ public class ToCollectionConverterTest extends TestCase {
         assertEquals(set, toSetConverter.convert(sortedSet));
     }
 
+    @SuppressWarnings("unchecked")
     public void testToSortedSet() throws ConversionException {
         Converter<Object, TreeSet> toTreeSetConverter = new ToCollectionConverter<TreeSet>(TreeSet.class);
         Converter<Object, SortedSet> toSortedSetConverter = new ToCollectionConverter<SortedSet>(SortedSet.class);

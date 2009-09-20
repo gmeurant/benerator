@@ -40,6 +40,7 @@ import org.databene.commons.converter.String2LocaleConverter;
  */
 public class ConverterManagerTest extends TestCase {
 
+    @SuppressWarnings("unchecked")
     public void test() {
         ConverterManager mgr = ConverterManager.getInstance();
         Converter converter = mgr.getConverter("DE", Locale.class);
