@@ -34,5 +34,5 @@ package org.databene.commons.bean;
  * @author Volker Bergmann
  */
 public interface ClassProvider {
-	Class forName(String className);
+	Class<?> forName(String className);
 }
