@@ -42,6 +42,7 @@ import java.io.IOException;
  * Created: 12.06.2007 17:26:32
  * @author Volker Bergmann
  */
+@SuppressWarnings("unchecked")
 public class QuickScript extends AbstractScript {
     
     private Accessor[] accessors;
@@ -54,6 +55,7 @@ public class QuickScript extends AbstractScript {
         this.accessors = accessors;
     }
 
+    @Override
     public void execute(Context context, Writer out) throws IOException, ScriptException {
         for (Accessor<Context, ? extends Object> accessor : this.accessors)
             out.write(String.valueOf(accessor.getValue(context)));
