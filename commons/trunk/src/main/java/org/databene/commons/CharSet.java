@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -23,8 +23,10 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
 package org.databene.commons;
 
+import java.util.Iterator;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Locale;
@@ -34,9 +36,12 @@ import java.util.Locale;
  * as well as set manipulation methods.
  *
  * Created: 18.08.2006 19:49:17
+ * @author Volker Bergmann
  */
 public class CharSet {
-
+	
+	private String name;
+	
     /** The locale to use for letters */
     private Locale locale;
 
@@ -63,8 +68,13 @@ public class CharSet {
         this.locale = LocaleUtil.getFallbackLocale();
     }
 
-    /** Constructor that initializes to a continuous range of characters with the fallback locale */
     public CharSet(char from, char to) {
+    	this(null, from, to);
+    }
+    
+    /** Constructor that initializes to a continuous range of characters with the fallback locale */
+    public CharSet(String name, char from, char to) {
+    	this.name = name;
         set = new HashSet<Character>();
         for (char c = from; c <= to; c++)
             set.add(Character.valueOf(c));
@@ -72,7 +82,17 @@ public class CharSet {
     }
 
     /** Constructor that initializes to a predefined Set of characters with the fallback locale */
+    public CharSet(CharSet charSet) {
+        this(charSet.set);
+    }
+
+    /** Constructor that initializes to a predefined Set of characters with the fallback locale */
     public CharSet(Set<Character> set) {
+        this(null, set);
+    }
+
+    public CharSet(String name, Set<Character> set) {
+    	this.name = name;
         this.set = new HashSet<Character>(set);
         this.locale = LocaleUtil.getFallbackLocale();
     }
@@ -84,7 +104,7 @@ public class CharSet {
     }
 
     public CharSet removeDigits() {
-        return remove(getDigits());
+        return removeAll(getDigits());
     }
 
     public CharSet addHexDigits() {
@@ -92,7 +112,7 @@ public class CharSet {
     }
 
     public CharSet removeHexDigits() {
-        return remove(getHexDigits());
+        return removeAll(getHexDigits());
     }
 
     public CharSet addNonDigits() {
@@ -100,7 +120,7 @@ public class CharSet {
     }
 
     public CharSet removeNonDigits() {
-        return remove(getNonDigits());
+        return removeAll(getNonDigits());
     }
 
     public static Set<Character> getDigits() {
@@ -112,7 +132,7 @@ public class CharSet {
     }
 
     public static Set<Character> getNonDigits() {
-        return new CharSet().addAnyCharacters().remove(getDigits()).getSet();
+        return new CharSet().addAnyCharacters().removeAll(getDigits()).getSet();
     }
 
     // word related interface ------------------------------------------------------------------------------------------
@@ -134,7 +154,7 @@ public class CharSet {
 
     /** Removes all letters of the specified locale from the Set */
     public CharSet removeWordChars(Locale locale) {
-        return remove(getWordChars(locale));
+        return removeAll(getWordChars(locale));
     }
 
     /** Returns all letters of the specified locale */
@@ -152,7 +172,7 @@ public class CharSet {
 
     /** Removes all characters that are not letters of any locale */
     public CharSet removeNonWordChars() {
-        return remove(getNonWordChars());
+        return removeAll(getNonWordChars());
     }
 
     /** Returns all characters that are not letters of any locale */
@@ -175,7 +195,7 @@ public class CharSet {
      * @return this
      */
     public CharSet removeWhitespaces() {
-        return remove(getWhitespaces());
+        return removeAll(getWhitespaces());
     }
 
     /**
@@ -199,7 +219,7 @@ public class CharSet {
      * @return this
      */
     public CharSet removeNonWhitespaces() {
-        return remove(getNonWhitespaces());
+        return removeAll(getNonWhitespaces());
     }
 
     /**
@@ -207,7 +227,7 @@ public class CharSet {
      * @return a set of all characters that are not white spaces
      */
     public static Set<Character> getNonWhitespaces() {
-        return new CharSet().addAnyCharacters().remove(getWhitespaces()).getSet();
+        return new CharSet().addAnyCharacters().removeAll(getWhitespaces()).getSet();
     }
 
     // low level interface ---------------------------------------------------------------------------------------------
@@ -270,7 +290,7 @@ public class CharSet {
      * @param chars
      * @return this
      */
-    public CharSet remove(Set<Character> chars) {
+    public CharSet removeAll(Set<Character> chars) {
         set.removeAll(chars);
         return this;
     }
@@ -305,6 +325,10 @@ public class CharSet {
     public Set<Character> getSet() {
         return new HashSet<Character>(set);
     }
+    
+    public Iterator<Character> iterator() {
+    	return set.iterator();
+    }
 
     public boolean contains(char c) {
         return set.contains(c);
@@ -314,6 +338,10 @@ public class CharSet {
         return set.size();
     }
 
+    public boolean containsAll(Set<Character> set) {
+    	return (this.set.containsAll(set));
+    }
+    
     // java.lang.Object overrides --------------------------------------------------------------------------------------
 
     /**
@@ -321,14 +349,19 @@ public class CharSet {
      * @return a String representation of the Set
      * @see java.lang.Object
      */
+    @Override
     public String toString() {
-        return set.toString();
+    	if (name != null)
+    		return name;
+    	else
+    		return set.toString();
     }
 
     /**
      * Compares with another Set, ignoring the locale.
      * @see java.lang.Object
      */
+    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -343,6 +376,7 @@ public class CharSet {
      * @return the Set'S hash code
      * @see java.lang.Object
      */
+    @Override
     public int hashCode() {
         return set.hashCode();
     }
