@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,10 +30,12 @@ import org.databene.commons.BeanUtil;
 import org.databene.commons.ConversionException;
 
 /**
- * Intergrets a String as class name and returns the corresponding class object.<br/>
+ * Interprets a String as class name and returns the corresponding class object.<br/>
  * <br/>
  * Created: 05.08.2007 06:38:38
+ * @author Volker Bergmann
  */
+@SuppressWarnings("unchecked")
 public class String2ClassConverter extends AbstractBidirectionalConverter<String, Class> {
 
     public String2ClassConverter() {
@@ -47,4 +49,5 @@ public class String2ClassConverter extends AbstractBidirectionalConverter<String
     public Class convert(String className) throws ConversionException {
         return BeanUtil.forName(className);
     }
+    
 }
