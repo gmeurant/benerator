@@ -36,10 +36,10 @@ public class Quantifier {
     private int min;
 
     /** maximum length */
-    private int max;
+    private Integer max;
 
     /** Complete constructor that takes values for all attributes */
-    public Quantifier(int min, int max) {
+    public Quantifier(int min, Integer max) {
         this.min = min;
         this.max = max;
     }
@@ -50,7 +50,7 @@ public class Quantifier {
     }
 
     /** returns the maximum value */
-    public int getMax() {
+    public Integer getMax() {
         return max;
     }
 
@@ -60,24 +60,27 @@ public class Quantifier {
      * Creates a String of regular expression format, e.g. '{2,}', '{1,3}', '+', '?'
      * @see java.lang.Object#equals(Object)
      */
+    @Override
     public String toString() {
-        if (min == max)
+        if (max != null && min == max)
             return (min == 1 ? "" : '{' + String.valueOf(min) + '}');
         else if (min == 0) {
-            switch (max) {
-                case 1 : return "?";
-                case -1: return "*";
-                default: return "{0," + max + '}';
-            }
+            if (max == null)
+            	return "*";
+            else if (max == 1)
+            	return "?";
+            else 
+            	return "{0," + max + '}';
         } else if (min == 1)
-            return (max == -1 ? "+" : "{1," + max + "}");
+            return (max == null ? "+" : "{1," + max + "}");
         else
-            return (max == -1 ? "{" + min + ",}" : "{1," + "}");
+            return (max == null ? "{" + min + ",}" : "{1," + "}");
     }
 
     /**
      * @see java.lang.Object#equals(Object)
      */
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass())
@@ -91,7 +94,9 @@ public class Quantifier {
     /**
      * @see java.lang.Object#equals(Object)
      */
+    @Override
     public int hashCode() {
-        return 29 * min + max;
+        return 29 * min + (max != null ? max : 0);
     }
+    
 }
