@@ -56,25 +56,25 @@ public class BeanUtilTest extends TestCase {
     }
 
     public void testIsPrimitive() {
-        assertTrue(BeanUtil.isPrimitive(int.class.getName()));
-        assertFalse(BeanUtil.isPrimitive(Integer.class.getName()));
-        assertTrue(BeanUtil.isPrimitive(char.class.getName()));
-        assertFalse(BeanUtil.isPrimitive(Character.class.getName()));
-        assertFalse(BeanUtil.isPrimitive(String.class.getName()));
-        assertFalse(BeanUtil.isPrimitive(StringBuffer.class.getName()));
-        assertFalse(BeanUtil.isPrimitive(BeanUtil.class.getName()));
-        assertFalse(BeanUtil.isPrimitive(null));
+        assertTrue(BeanUtil.isPrimitiveType(int.class.getName()));
+        assertFalse(BeanUtil.isPrimitiveType(Integer.class.getName()));
+        assertTrue(BeanUtil.isPrimitiveType(char.class.getName()));
+        assertFalse(BeanUtil.isPrimitiveType(Character.class.getName()));
+        assertFalse(BeanUtil.isPrimitiveType(String.class.getName()));
+        assertFalse(BeanUtil.isPrimitiveType(StringBuffer.class.getName()));
+        assertFalse(BeanUtil.isPrimitiveType(BeanUtil.class.getName()));
+        assertFalse(BeanUtil.isPrimitiveType(null));
     }
 
     public void testIsPrimitiveNumber() {
-        assertTrue(BeanUtil.isPrimitive(int.class.getName()));
-        assertFalse(BeanUtil.isPrimitive(Integer.class.getName()));
-        assertTrue(BeanUtil.isPrimitive(char.class.getName()));
-        assertFalse(BeanUtil.isPrimitive(Character.class.getName()));
-        assertFalse(BeanUtil.isPrimitive(String.class.getName()));
-        assertFalse(BeanUtil.isPrimitive(StringBuffer.class.getName()));
-        assertFalse(BeanUtil.isPrimitive(BeanUtil.class.getName()));
-        assertFalse(BeanUtil.isPrimitive(null));
+        assertTrue(BeanUtil.isPrimitiveType(int.class.getName()));
+        assertFalse(BeanUtil.isPrimitiveType(Integer.class.getName()));
+        assertTrue(BeanUtil.isPrimitiveType(char.class.getName()));
+        assertFalse(BeanUtil.isPrimitiveType(Character.class.getName()));
+        assertFalse(BeanUtil.isPrimitiveType(String.class.getName()));
+        assertFalse(BeanUtil.isPrimitiveType(StringBuffer.class.getName()));
+        assertFalse(BeanUtil.isPrimitiveType(BeanUtil.class.getName()));
+        assertFalse(BeanUtil.isPrimitiveType(null));
     }
 
     public void testGetWrapper() {
