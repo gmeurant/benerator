@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,6 +26,7 @@
 
 package org.databene.commons.expression;
 
+import org.databene.commons.Context;
 import org.databene.commons.Expression;
 
 /**
@@ -50,7 +51,13 @@ public class ConstantExpression<E> implements Expression<E> {
         this.value = value;
     }
 
-    public E evaluate() {
+    public E evaluate(Context context) {
         return value;
     }
+    
+    @Override
+    public String toString() {
+    	return String.valueOf(value);
+    }
+    
 }

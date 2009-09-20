@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,6 +26,7 @@
 
 package org.databene.commons.expression;
 
+import org.databene.commons.Context;
 import org.databene.commons.Expression;
 import org.databene.commons.converter.NumberConverter;
 
@@ -44,10 +45,11 @@ public class SumExpression<E extends Number> extends CompositeExpression<E> {
         this.resultType = resultType;
     }
 
-    public E evaluate() {
+    public E evaluate(Context context) {
         double sum = 0;
         for (Expression<E> source : sources)
-            sum += source.evaluate().doubleValue();
+            sum += source.evaluate(context).doubleValue();
         return NumberConverter.convert(sum, resultType);
     }
+    
 }
