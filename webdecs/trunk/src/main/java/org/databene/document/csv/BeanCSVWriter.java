@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -31,7 +31,6 @@ import org.databene.commons.BeanUtil;
 import org.databene.commons.Context;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
-import org.databene.commons.SystemInfo;
 import org.databene.commons.bean.ArrayPropertyExtractor;
 import org.databene.commons.bean.BeanToPropertyArrayConverter;
 import org.databene.commons.converter.ArrayConverter;
@@ -82,6 +81,7 @@ public class BeanCSVWriter<E> extends ScriptedDocumentWriter<E> {
         private char separator;
         private Converter<Object, String[]> converter;
 
+        @SuppressWarnings("unchecked")
         public BeanCSVScript(String[] propertyNames, char separator) {
             this.separator = separator;
             int length = propertyNames.length;
@@ -94,6 +94,7 @@ public class BeanCSVWriter<E> extends ScriptedDocumentWriter<E> {
             );
         }
 
+        @Override
         public void execute(Context context, Writer out) throws IOException, ScriptException {
             try {
                 String[] cells = converter.convert(context.get("part"));
