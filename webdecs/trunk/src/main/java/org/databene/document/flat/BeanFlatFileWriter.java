@@ -78,6 +78,7 @@ public class BeanFlatFileWriter<E> extends ScriptedDocumentWriter<E> {
 
         private Converter<Object, String[]> converter;
 
+        @SuppressWarnings("unchecked")
         public BeanFlatFileScript(FlatFileColumnDescriptor[] descriptors) {
             int length = descriptors.length;
             String[] propertyNames = new String[length];
@@ -98,6 +99,7 @@ public class BeanFlatFileWriter<E> extends ScriptedDocumentWriter<E> {
             );
         }
 
+        @Override
         public void execute(Context context, Writer out) throws IOException, ScriptException {
             try {
                 String[] cells = converter.convert(context.get("part"));

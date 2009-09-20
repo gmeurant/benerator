@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -45,10 +45,12 @@ public class ConstantScript extends AbstractScript {
         this.text = text;
     }
 
+    @SuppressWarnings("unused")
     public void setVariable(String variableName, Object variableValue) {
         // nothing to do
     }
 
+    @Override
     public void execute(Context context, Writer out) throws IOException, ScriptException {
         out.write(text);
     }

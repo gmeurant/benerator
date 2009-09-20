@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -65,7 +65,7 @@ public class FreeMarkerScript extends AbstractScript {
         this(cfg.getTemplate(filename));
     }
 
-    public FreeMarkerScript(Template template) throws IOException {
+    public FreeMarkerScript(Template template) {
         this.template = template;
     }
     
@@ -83,6 +83,7 @@ public class FreeMarkerScript extends AbstractScript {
     
     // Script interface implementation ---------------------------------------------------------------------------------
 
+    @Override
     public void execute(Context context, Writer out) throws IOException, ScriptException {
         try {
             template.process(context, out);
@@ -101,6 +102,7 @@ public class FreeMarkerScript extends AbstractScript {
     /**
      * @see java.lang.Object#hashCode()
      */
+    @Override
     public int hashCode() {
         return template.hashCode();
     }
@@ -108,6 +110,7 @@ public class FreeMarkerScript extends AbstractScript {
     /**
      * @see java.lang.Object#equals(Object)
      */
+    @Override
     public boolean equals(Object obj) {
         return template.equals(obj);
     }

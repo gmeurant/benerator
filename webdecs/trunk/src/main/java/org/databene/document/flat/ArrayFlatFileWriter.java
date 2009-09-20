@@ -79,6 +79,7 @@ public class ArrayFlatFileWriter<E> extends ScriptedDocumentWriter<E[]> {
 
         private Converter<Object, String>[] converters;
 
+        @SuppressWarnings("unchecked")
         public ArrayFlatFileScript(FlatFileColumnDescriptor[] descriptors) {
             this.converters = new Converter[descriptors.length];
             for (int i = 0; i < descriptors.length; i++) {
@@ -92,6 +93,7 @@ public class ArrayFlatFileWriter<E> extends ScriptedDocumentWriter<E[]> {
             }
         }
 
+        @Override
         public void execute(Context context, Writer out) throws IOException, ScriptException {
             try {
                 Object[] cellsOfCurrentRow = (Object[]) context.get("part");

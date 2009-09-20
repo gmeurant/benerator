@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -86,6 +86,7 @@ public class AbbreviatedNumberFormat extends NumberFormat {
         snf.setGroupingUsed(true);
     }
 
+    @Override
     public StringBuffer format(double number, StringBuffer toAppendTo, FieldPosition pos) {
         if (!StringUtil.isEmpty(defaultScaleId))
             return formatFixed(number, toAppendTo, pos);
@@ -118,10 +119,12 @@ public class AbbreviatedNumberFormat extends NumberFormat {
         return snf.format(number, toAppendTo, pos);
     }
 
+    @Override
     public StringBuffer format(long number, StringBuffer toAppendTo, FieldPosition pos) {
         return format((double) number, toAppendTo, pos);
     }
 
+    @Override
     public Number parse(String source, ParsePosition pos) {
         Number value = snf.parse(StringUtil.trim(source), pos);
         int start = ParseUtil.nextNonWhitespaceIndex(source, pos.getIndex());

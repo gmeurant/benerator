@@ -57,8 +57,7 @@ import java.beans.PropertyDescriptor;
  */
 public class BeanPropertiesFileWriter<E> extends ScriptedDocumentWriter<E> {
 
-    public BeanPropertiesFileWriter(Writer out, String ... propertyNames)
-            throws IOException {
+    public BeanPropertiesFileWriter(Writer out, String ... propertyNames) {
         this(out, null, (Script)null, (Script)null, propertyNames);
     }
 
@@ -88,7 +87,7 @@ public class BeanPropertiesFileWriter<E> extends ScriptedDocumentWriter<E> {
         out.close();
     }
 
-    private static String[] getPropertyNames(Class beanType) {
+    private static String[] getPropertyNames(Class<?> beanType) {
         PropertyDescriptor[] descriptors = BeanUtil.getPropertyDescriptors(beanType);
         String[] names = new String[descriptors.length];
         for (int i = 0; i < descriptors.length; i++)
@@ -110,6 +109,7 @@ public class BeanPropertiesFileWriter<E> extends ScriptedDocumentWriter<E> {
         private StringBuffer buffer;
         FieldPosition pos0 = new FieldPosition(0);
 
+        @SuppressWarnings("unchecked")
         public PartScript(String prefixPattern, String ... propertyNames) {
             this.prefixFormat = (prefixPattern != null ? new MessageFormat(prefixPattern) : null);
             this.propertyNames = propertyNames;
@@ -125,6 +125,7 @@ public class BeanPropertiesFileWriter<E> extends ScriptedDocumentWriter<E> {
             this.buffer = new StringBuffer();
         }
 
+        @Override
         public void execute(Context context, Writer out) throws IOException, ScriptException {
             try {
                 elementCount++;
