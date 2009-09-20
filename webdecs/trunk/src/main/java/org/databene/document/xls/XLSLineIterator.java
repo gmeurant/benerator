@@ -78,7 +78,7 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 		for (int cellnum = 0; cellnum <= headerRow.getLastCellNum(); cellnum++) {
 			Cell cell = headerRow.getCell(cellnum);
 			if (cell != null && cell.getCellType() != Cell.CELL_TYPE_BLANK)
-				builder.append(cell.getRichStringCellValue().getString());
+				builder.add(cell.getRichStringCellValue().getString());
 		}
 		headers = builder.toArray();
     }
