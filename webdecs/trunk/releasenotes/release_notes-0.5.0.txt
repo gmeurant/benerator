@@ -1,0 +1,13 @@
+release notes databene webdecs 0.5.0
+------------------------------------
+
+Summary
+-------
+The new version mainly features a completely redesigned regular expression parsers and several smaller improvements.
+
+Enhancements
+------------
+- Redesigned the regular expression parser based on ANTLR3
+- Improvements in XLS file parsing
+- Code cleanup
+- Extended and new utility classes
