@@ -31,183 +31,208 @@ import junit.framework.TestCase;
 import java.text.ParseException;
 
 import org.databene.commons.CharSet;
+import org.databene.commons.CollectionUtil;
 import org.databene.commons.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Tests the {@link RegexParser}
+ * Tests the {@link RegexParser}.<br/><br/>
  * Created: 18.08.2006 21:56:01
+ * @since 0.1
  * @author Volker Bergmann
  */
 public class RegexParserTest extends TestCase {
 
-    private static Logger logger = LoggerFactory.getLogger(RegexParserTest.class);
+	private static final CharSet CS_DIGIT = new CharSet("\\d", '0', '9');
+    private static final CharSet CS_POS_DIGIT = new CharSet("1-9", '1', '9');
 
+    private static final CustomCharClass CC_DIGIT = new CustomCharClass(CollectionUtil.toList(CS_DIGIT));
+    private static final CustomCharClass CC_POS_DIGIT = new CustomCharClass(CollectionUtil.toList(CS_POS_DIGIT));
+
+	private static Logger logger = LoggerFactory.getLogger(RegexParserTest.class);
+    
     public void testEmpty() throws ParseException {
-        check(null);
-        check("",      new RegexPart(new CharSet().getSet(), new Quantifier(0, 0)));
+        check(null, null);
+        check("", "");
     }
 
     public void testSpecialCharacters() throws ParseException {
-        checkSpecialCharacter("\\+", '+');
-        checkSpecialCharacter("\\-", '-');
-        checkSpecialCharacter("\\\\", '\\');
-        checkSpecialCharacter("\\.", '.');
-        checkSpecialCharacter("\\t", '\t');
-        checkSpecialCharacter("\\n", '\n');
-        checkSpecialCharacter("\\r", '\r');
-        checkSpecialCharacter("\\f", '\u000C');
-        checkSpecialCharacter("\\a", '\u0007');
-        checkSpecialCharacter("\\e", '\u001B');
+        check("\\+", '+');
+        check("\\-", '-');
+        check("\\*", '*');
+        check("\\?", '?');
+        check("\\\\", '\\');
+        check("\\.", '.');
+        check("\\,", ',');
+        check("\\?", '?');
+        check("\\&", '&');
+        check("\\^", '^');
+        check("\\$", '$');
+        check("\\t", '\t');
+        check("\\n", '\n');
+        check("\\r", '\r');
+        check("\\f", '\u000C');
+        check("\\a", '\u0007');
+        check("\\e", '\u001B');
     }
 
-    public void testSpecialCharacterFormats() throws ParseException {
-        checkSpecialCharacter("\\x1", (char) 0x1);
-        checkSpecialCharacter("\\u11", (char) 0x11);
-        checkSpecialCharacter("\\01", (char) 1);
-        checkSpecialCharacter("\\cB", (char) 1);
+    public void testHexCharacter() throws ParseException {
+        check("\\xfe",   (char) 0xfe);
+        check("\\ufedc", (char) 0xfedc);
     }
 
-	private void checkSpecialCharacter(String pattern, char c) throws ParseException {
-		check(pattern, new RegexPart(new CharSet(c, c).getSet(), new Quantifier(1, 1)));
-	}
+    public void testOctalCharacter() throws ParseException {
+        check("\\0123",  (char) 0123);
+    }
+
+    public void testCodedCharacter() throws ParseException {
+        check("\\cB",    (char) 1);
+    }
 
     public void testCustomClasses() throws ParseException {
-        check("[a-c]", new RegexPart(new CharSet('a', 'c').getSet(), new Quantifier(1, 1)));
-        check("[a-cA-C]", new RegexPart(new CharSet('a', 'c').addRange('A', 'C').getSet(), new Quantifier(1, 1)));
-        check(".", new RegexPart(new CharSet().addAnyCharacters().getSet(), new Quantifier(1, 1)));
+        check("[a-c]", new CustomCharClass(CollectionUtil.toList(new CharSet('a', 'c'))));
+        check("[a-cA-C]", new CustomCharClass(CollectionUtil.toList(new CharSet('a', 'c'), new CharSet('A', 'C'))));
+        check("[^\\w]", new CustomCharClass(
+        		CollectionUtil.toList(new CharSet().addAnyCharacters()),
+        		CollectionUtil.toList(new CharSet().addWordChars())
+        	));
     }
 
-    public void testPredefClasses() throws ParseException {
-        check("\\d", new RegexPart(new CharSet().addDigits().getSet(), new Quantifier(1, 1)));
-        check("\\s", new RegexPart(new CharSet().addWhitespaces().getSet(), new Quantifier(1, 1)));
-        check("\\w", new RegexPart(new CharSet().addWordChars().getSet(), new Quantifier(1, 1)));
-        check("[^\\w]", new RegexPart(new CharSet().addAnyCharacters().removeWordChars().getSet(), new Quantifier(1, 1)));
-    }
-
-    public void testInvalidClass() {
+    public void testInvalidCustomClass() {
         try {
-			new RegexParser().parse("\\/");
+			new RegexParser().parse("[a-f");
 			fail("ParseException expected");
 		} catch (ParseException e) {
 			// this is expected
 		}
     }
 
-    public void testClassAndQuantifierCombinations() throws ParseException {
-        check("\\w+\\d+", new RegexPart[] {
-                new RegexPart(new CharSet().addWordChars().getSet(), new Quantifier(1, -1)),
-                new RegexPart(new CharSet().addDigits().getSet(), new Quantifier(1, -1))
-        });
-        check("[a-c][A-C]", new RegexPart[] {
-                new RegexPart(new CharSet().addRange('a', 'c').getSet(), new Quantifier(1, 1)),
-                new RegexPart(new CharSet().addRange('A', 'C').getSet(), new Quantifier(1, 1))
-        });
+    public void testPredefClasses() throws ParseException {
+        check(".", new CharSet().addAnyCharacters());
+        check("\\d", new CharSet().addDigits());
+        check("\\s", new CharSet().addWhitespaces());
+        check("\\w", new CharSet().addWordChars());
+    }
 
-        check("\\+[1-9]\\d{1,2}/\\d+/\\d+", new RegexPart[] {
-                new RegexPart(new CharSet('+').getSet(), new Quantifier(1, 1)),
-                new RegexPart(new CharSet('1', '9').getSet(), new Quantifier(1, 1)),
-                new RegexPart(new CharSet().addDigits().getSet(), new Quantifier(1, 2)),
-                new RegexPart(new CharSet('/').getSet(), new Quantifier(1, 1)),
-                new RegexPart(new CharSet().addDigits().getSet(), new Quantifier(1, -1)),
-                new RegexPart(new CharSet('/').getSet(), new Quantifier(1, 1)),
-                new RegexPart(new CharSet().addDigits().getSet(), new Quantifier(1, -1))
-        });
-
-        check("[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}", new RegexPart[] {
-                new RegexPart(new CharSet('0', '9').getSet(), new Quantifier(1, 3)),
-                new RegexPart(new CharSet('.').getSet(), new Quantifier(1, 1)),
-                new RegexPart(new CharSet('0', '9').getSet(), new Quantifier(1, 3)),
-                new RegexPart(new CharSet('.').getSet(), new Quantifier(1, 1)),
-                new RegexPart(new CharSet('0', '9').getSet(), new Quantifier(1, 3)),
-                new RegexPart(new CharSet('.').getSet(), new Quantifier(1, 1)),
-                new RegexPart(new CharSet('0', '9').getSet(), new Quantifier(1, 3)),
-        });
+    public void testInvalidPredefClass() {
+        try {
+			new RegexParser().parse("\\X");
+			fail("ParseException expected");
+		} catch (ParseException e) {
+			// this is expected
+		}
     }
 
     public void testQuantifiers() throws ParseException {
-        check("a",      new RegexPart(new CharSet('a').getSet(), new Quantifier(1,  1)));
-        check("a?",     new RegexPart(new CharSet('a').getSet(), new Quantifier(0,  1)));
-        check("a*",     new RegexPart(new CharSet('a').getSet(), new Quantifier(0, -1)));
-        check("a+",     new RegexPart(new CharSet('a').getSet(), new Quantifier(1, -1)));
-        check("[a]",    new RegexPart(new CharSet('a').getSet(), new Quantifier(1,  1)));
+        check("a",      'a');
+        check("a?",     new Factor('a', 0, 1));
+        check("a*",     new Factor('a', 0, null));
+        check("a+",     new Factor('a', 1, null));
 
-        check("a{3}",   new RegexPart(new CharSet('a').getSet(), new Quantifier(3,  3)));
-        check("a{3,}",  new RegexPart(new CharSet('a').getSet(), new Quantifier(3, -1)));
-        check("a{3,5}", new RegexPart(new CharSet('a').getSet(), new Quantifier(3,  5)));
+        check("a{3}",   new Factor('a', 3,  3));
+        check("a{3,}",  new Factor('a', 3, null));
+        check("a{3,5}", new Factor('a', 3,  5));
+    }
+    
+/* TODO make the RegexParser fail on illegal syntax
+    public void testInvalidQuantifier() {
+        try {
+			new RegexParser().parse("a{,4}");
+			fail("ParseException expected");
+		} catch (ParseException e) {
+			// this is expected
+		}
+    }
+*/
+    public void testClassAndQuantifierSequences() throws ParseException {
+        check("\\w+\\d+", new Sequence(
+                new Factor(new CharSet().addWordChars(), 1, null),
+                new Factor(new CharSet().addDigits(), 1, null)
+        	));
+        check("[a-c][A-C]", new Sequence(
+                new CustomCharClass(CollectionUtil.toList(new CharSet().addRange('a', 'c'))),
+                new CustomCharClass(CollectionUtil.toList(new CharSet().addRange('A', 'C')))
+    	));
+
+        check("\\+[1-9]\\d{1,2}/\\d+/\\d+", new Sequence(
+                '+',
+                CC_POS_DIGIT,
+                new Factor(CS_DIGIT, 1, 2),
+                '/',
+                new Factor(CS_DIGIT, 1, null),
+                '/',
+                new Factor(CS_DIGIT, 1, null)
+    	));
+
+        check("[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}", new Sequence(
+                new Factor(CC_DIGIT, 1, 3),
+                '.',
+                new Factor(CC_DIGIT, 1, 3),
+                '.',
+                new Factor(CC_DIGIT, 1, 3),
+                '.',
+                new Factor(CC_DIGIT, 1, 3)
+    	));
     }
 
     public void testGroups() throws ParseException {
-        check("(a)", new RegexPart(new Group(new Regex(
-                new RegexPart(new CharSet('a').getSet(), new Quantifier(1, 1))
-        ))));
+        check("(a)", 'a');
 
-        check("(ab)",      new RegexPart(new Group(new Regex(
-                new RegexPart(new CharSet('a').getSet(), new Quantifier(1, 1)),
-                new RegexPart(new CharSet('b').getSet(), new Quantifier(1, 1))
-        ))));
+        check("(ab)", new Sequence('a', 'b'));
 
-        check("(a)*",      new RegexPart(new Group(new Regex(
-                new RegexPart(new CharSet('a').getSet(), new Quantifier(1, 1))
-        )), new Quantifier(0, -1)));
+        check("(a)*", new Factor('a', 0, null));
 
-        check("(a?b+)*",      new RegexPart(new Group(new Regex(
-                new RegexPart(new CharSet('a').getSet(), new Quantifier(0, 1)),
-                new RegexPart(new CharSet('b').getSet(), new Quantifier(1, -1))
-        )), new Quantifier(0, -1)));
+        check("(a?b+)*",
+        	new Factor(new Sequence(
+                new Factor('a', 0, 1),
+                new Factor('b', 1, null)
+        	), 
+        	0, null));
 
-        check("(a{1}b{2,3}){4,5}",      new RegexPart(new Group(new Regex(
-                new RegexPart(new CharSet('a').getSet(), new Quantifier(1, 1)),
-                new RegexPart(new CharSet('b').getSet(), new Quantifier(2, 3))
-        )), new Quantifier(4, 5)));
+        check("(a{1}b{2,3}){4,5}", 
+        	new Factor(
+	        	new Sequence(
+	                new Factor('a', 1, 1),
+	                new Factor('b', 2, 3)
+	        	), 
+	        	4, 5
+        	)
+        );
     }
 
-    public void testAlternatives() throws ParseException {
-        check("(a|b)", new RegexPart(new AlternativePattern(
-                new Regex(new RegexPart(new CharSet('a').getSet(), new Quantifier(1, 1))),
-                new Regex(new RegexPart(new CharSet('b').getSet(), new Quantifier(1, 1)))
-        )));
-        check("(a?|b+)*", new RegexPart(new AlternativePattern(
-                new Regex(new RegexPart(new CharSet('a').getSet(), new Quantifier(0,  1))),
-                new Regex(new RegexPart(new CharSet('b').getSet(), new Quantifier(1, -1)))
-        ), new Quantifier(0, -1)));
+    public void testChoices() throws ParseException {
+        check("(a|b)", new Choice('a', 'b'));
+        check("(a?|b+)*", 
+        	new Factor(
+        		new Choice(
+        				new Factor('a', 0, 1),
+        				new Factor('b', 1, null)
+        		), 
+        		0, null
+        	));
     }
 
-    public void testRecursions() throws ParseException {
-        check("(a{1,2}|b){1,3}", new RegexPart(
-            new AlternativePattern(
-                new Regex(new RegexPart(new CharSet('a').getSet(), new Quantifier(1, 2))),
-                new Regex(new RegexPart(new CharSet('b').getSet(), new Quantifier(1, 1)))), 
-            new Quantifier(1, 3)));
+    public void testRecursion() throws ParseException {
+        check("(a{1,2}|b){1,3}", 
+        	new Factor(
+	            new Choice(
+	                new Factor('a', 1, 2),
+	                'b'), 
+	            1, 3
+	        ));
     }
 
-    private void check(String pattern, RegexPart expectedPart) throws ParseException {
+    private void check(String pattern, Object expectedPart) throws ParseException {
         logger.debug("checking " + pattern);
-        Regex regex = new RegexParser().parse(pattern);
-        logger.debug("parsed as: " + StringUtil.normalize(String.valueOf(regex)));
+        Object result = new RegexParser().parse(pattern);
+        logger.debug("parsed as: " + StringUtil.normalize(String.valueOf(result)));
         if (pattern == null)
-            assertEquals(expectedPart, regex);
-        else if (regex == null)
+            assertEquals(expectedPart, result);
+        else if (result == null)
             assertNull(expectedPart);
-        else {
-            RegexPart[] foundParts = regex.getParts();
-            assertEquals("Only one RegexPart expected in " + pattern, 1, foundParts.length);
-            assertEquals(expectedPart, foundParts[0]);
-        }
-    }
-
-    private void check(String pattern, RegexPart ... expectedParts) throws ParseException {
-        logger.debug("checking " + pattern);
-        Regex regex = new RegexParser().parse(pattern);
-        if (pattern == null) {
-            assertEquals(0, expectedParts.length);
-            return;
-        }
-        RegexPart[] foundParts = regex.getParts();
-        assertEquals("Size of result list does not match ", expectedParts.length, foundParts.length);
-        for (int i = 0; i < expectedParts.length; i++)
-            assertEquals("Error in " + (i + 1) + ". part:", expectedParts[i], foundParts[i]);
+        else
+            assertEquals(expectedPart, result);
     }
 
 }
