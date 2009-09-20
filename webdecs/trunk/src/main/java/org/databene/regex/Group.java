@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,18 +30,18 @@ package org.databene.regex;
  * Represents a group in a regular expression, e.g. '(abc)'.<br/>
  * <br/>
  */
-public class Group implements SubPattern {
+public class Group {
 
     /** The regular sub expression */
-    private Regex regex;
+    private Object regex;
 
     /** Constructor that takes a sub expression */
-    public Group(Regex regex) {
+    public Group(Object regex) {
         this.regex = regex;
     }
 
     /** returns the sub expression */
-    public Regex getRegex() {
+    public Object getRegex() {
         return regex;
     }
 
@@ -50,6 +50,7 @@ public class Group implements SubPattern {
     /**
      * @see java.lang.Object#equals(Object)
      */
+    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -61,6 +62,7 @@ public class Group implements SubPattern {
     /**
      * @see java.lang.Object#equals(Object)
      */
+    @Override
     public int hashCode() {
         return regex.hashCode();
     }
@@ -68,6 +70,7 @@ public class Group implements SubPattern {
     /**
      * @see java.lang.Object#equals(Object)
      */
+    @Override
     public String toString() {
         return "(" + regex + ')';
     }
