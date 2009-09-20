@@ -35,9 +35,10 @@ import org.databene.document.csv.CSVLineIterator;
 import java.io.*;
 
 /**
- * Parses the rows of a csv file and extracts the lines that match a {@link Filter} to a target file.<br/>
+ * Parses the rows of a CSV file and extracts the lines that match a {@link Filter} to a target file.<br/>
  * <br/>
  * Created: 12.06.2007 19:32:31
+ * @since 0.2
  * @author Volker Bergmann
  */
 public class CSVFilterDemo {
@@ -55,7 +56,7 @@ public class CSVFilterDemo {
 
         // create a CSV writer to save the rows that matched the filter
         Writer out = new BufferedWriter(new FileWriter("matches.csv"));
-        DocumentWriter<Object[]> csvWriter = new ArrayCSVWriter<Object>(out, '|');
+        DocumentWriter<Object[]> csvWriter = new ArrayCSVWriter(out, '|');
 
         // initialize counter and timer
         int matchCount = 0;
