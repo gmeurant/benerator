@@ -36,6 +36,7 @@ import java.util.Date;
  * Converts Strings to anything else.<br/>
  * <br/>
  * Created: 16.06.2007 11:24:08
+ * @since 0.2
  * @author Volker Bergmann
  */
 public class StringConverter<T> extends FixedSourceTypeConverter<String, T> {
