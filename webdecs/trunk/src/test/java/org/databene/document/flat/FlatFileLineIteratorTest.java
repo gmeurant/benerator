@@ -29,7 +29,6 @@ package org.databene.document.flat;
 import junit.framework.TestCase;
 
 import java.io.StringReader;
-import java.io.IOException;
 import java.util.Arrays;
 
 import org.databene.commons.SystemInfo;
@@ -45,7 +44,7 @@ public class FlatFileLineIteratorTest extends TestCase {
 
     private static final String SEP = SystemInfo.getLineSeparator();
 
-    public void testProcessingEmptyLines() throws IOException {
+    public void testProcessingEmptyLines() throws Exception {
         FlatFileLineIterator iterator = createIterator(true);
         assertTrue(Arrays.equals(new String[] {"Alice", "23"}, iterator.next()));
         assertTrue(Arrays.equals(new String[] {"Bob", "34"}, iterator.next()));
@@ -53,7 +52,7 @@ public class FlatFileLineIteratorTest extends TestCase {
         assertTrue(Arrays.equals(new String[] {"Dieter", "-1"}, iterator.next()));
     }
 
-    public void testIgnoringEmptyLines() throws IOException {
+    public void testIgnoringEmptyLines() throws Exception {
         FlatFileLineIterator iterator = createIterator(false);
         assertTrue(Arrays.equals(new String[] {"Alice", "23"}, iterator.next()));
         assertTrue(Arrays.equals(new String[] {"Bob", "34"}, iterator.next()));
@@ -62,7 +61,7 @@ public class FlatFileLineIteratorTest extends TestCase {
         assertTrue(Arrays.equals(new String[] {"Dieter", "-1"}, iterator.next()));
     }
 
-    private FlatFileLineIterator createIterator(boolean ignoreEmptyLines) throws IOException {
+    private FlatFileLineIterator createIterator(boolean ignoreEmptyLines) {
         PadFormat[] formats = new PadFormat[] {
                 new PadFormat(6, Alignment.LEFT, ' '),
                 new PadFormat(3, Alignment.RIGHT, '0'),

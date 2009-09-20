@@ -156,11 +156,11 @@ public class CSVTokenizerTest extends TestCase {
 
     // helpers ---------------------------------------------------------------------------------------------------------
 
-	private CSVTokenizer createTokenizer(String content) throws IOException {
+	private CSVTokenizer createTokenizer(String content) {
 		return createTokenizer(content, ',');
 	}
 
-	private CSVTokenizer createTokenizer(String content, char separator) throws IOException {
+	private CSVTokenizer createTokenizer(String content, char separator) {
 		StringReader reader = new StringReader(content);
 		return new CSVTokenizer(reader, separator);
 	}
