@@ -38,12 +38,6 @@ import org.slf4j.LoggerFactory;
  */
 public class ErrorHandler {
 	
-	// constants -------------------------------------------------------------------------------------------------------
-
-	public static enum Level {
-		ignore, trace, debug, info, warn, error, fatal
-	}
-
 	// attributes ------------------------------------------------------------------------------------------------------
 
 	private Logger logger;
