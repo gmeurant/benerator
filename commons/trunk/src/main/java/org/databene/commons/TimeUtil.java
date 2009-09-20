@@ -29,13 +29,18 @@ package org.databene.commons;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Calendar;
+import java.util.TimeZone;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 /**
- * Provides utility methods for creating and manipulating Dates and Calendars.
+ * Provides utility methods for creating and manipulating Dates and Calendars.<br/>
+ * <br/>
  * Created: 06.06.2004 18:16:26
+ * @since 0.1
+ * @author Volker Bergmann
  */
 public final class TimeUtil {
 
@@ -75,6 +80,10 @@ public final class TimeUtil {
         return calendar(year, month, day).getTime();
     }
 
+    public static Date gmtDate(int year, int month, int day) {
+        return calendar(year, month, day, TimeZone.getTimeZone("GMT")).getTime();
+    }
+
     public static Date date(int year, int month, int day, int hours, int minutes, int seconds, int milliseconds) {
         return calendar(year, month, day, hours, minutes, seconds, milliseconds).getTime();
     }
@@ -89,14 +98,20 @@ public final class TimeUtil {
         return new GregorianCalendar(year, month, day);
     }
 
+    public static Calendar calendar(int year, int month, int day, TimeZone timeZone) {
+        GregorianCalendar calendar = new GregorianCalendar(timeZone);
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+		return calendar;
+    }
+
     public static Calendar calendar(int year, int month, int day,
                                     int hours, int minutes, int seconds, int milliseconds) {
         GregorianCalendar calendar = new GregorianCalendar(year, month, day, hours, minutes, seconds);
         calendar.set(Calendar.MILLISECOND, milliseconds);
         return calendar;
     }
-
-
 
     public static Calendar calendar(Date date) {
         Calendar calendar = Calendar.getInstance();
@@ -161,6 +176,11 @@ public final class TimeUtil {
         return years;
     }
 
+    public static long millis(int year, int month, int day, int hour, int minute, int second) {
+    	GregorianCalendar calendar = new GregorianCalendar(year, month, day, hour, minute, second);
+    	return calendar.getTimeInMillis();
+    }
+    
     public static Time time(int hour, int minute) {
         return time(hour, minute, 0, 0);
     }
@@ -171,6 +191,12 @@ public final class TimeUtil {
     
     public static Time time(int hour, int minute, int second, int millisecond) {
         return new Time((((hour * 60L) + minute) * 60L + second) * 1000L + millisecond);
+    }
+    
+    public static Timestamp timestamp(int year, int month, int day, int hour, int minute, int second, int nanosecond) {
+    	Timestamp result = new Timestamp(millis(year, month, day, hour, minute, second));
+    	result.setNanos(nanosecond);
+		return result;
     }
 
 	public static DateFormat createDefaultDateFormat() {
