@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,6 +30,7 @@ import org.databene.commons.ArrayFormat;
 import org.databene.commons.SystemInfo;
 
 import java.io.IOException;
+import java.io.Writer;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -37,6 +38,8 @@ import java.util.ArrayList;
  * Utility methods for CSV processing.<br/>
  * <br/>
  * Created: 07.06.2007 07:44:28
+ * @since 0.5.4
+ * @author Volker Bergmann
  */
 public class CSVUtil {
 
@@ -54,6 +57,16 @@ public class CSVUtil {
         return lines.toArray(result);
     }
 
+    public static void writeRow(Writer out, char separator, String... cells) throws IOException {
+        if (cells.length > 0)
+            out.write(cells[0]);
+        for (int i = 1; i < cells.length; i++) {
+            out.write(separator);
+            out.write(renderCell(cells[i], separator));
+        }
+        out.write(SystemInfo.getLineSeparator());
+    }
+
     public static String renderCell(String text, char separator) {
         if (text.indexOf(separator) < 0)
             return text;
@@ -64,4 +77,5 @@ public class CSVUtil {
     public static String formatHeader(char separator, String... propertyNames) {
         return ArrayFormat.format(String.valueOf(separator), propertyNames) + SystemInfo.getLineSeparator();
     }
+
 }
