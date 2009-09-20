@@ -44,6 +44,7 @@ import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.ErrorHandler;
 import org.databene.commons.IOUtil;
+import org.databene.commons.Level;
 import org.databene.commons.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,7 +68,7 @@ public class XMLUtil {
     
 	private static final String XML_SCHEMA_URL = "http://www.w3.org/2001/XMLSchema";
 	private static final String SCHEMA_LANGUAGE_KEY = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
-	private static final ErrorHandler DEFAULT_ERROR_HANDLER = new ErrorHandler(XMLUtil.class.getSimpleName(), ErrorHandler.Level.error);
+	private static final ErrorHandler DEFAULT_ERROR_HANDLER = new ErrorHandler(XMLUtil.class.getSimpleName(), Level.error);
 	private static final Logger logger = LoggerFactory.getLogger(XMLUtil.class);
     
     private XMLUtil() {}
