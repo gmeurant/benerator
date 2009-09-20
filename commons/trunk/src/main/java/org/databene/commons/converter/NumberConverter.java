@@ -32,6 +32,7 @@ import org.databene.commons.ConversionException;
  * Converts Numbers to other types.<br/>
  * <br/>
  * Created: 16.06.2007 11:31:43
+ * @since 0.2
  * @author Volker Bergmann
  */
 public class NumberConverter<T> extends FixedSourceTypeConverter<Number, T> {
@@ -52,6 +53,8 @@ public class NumberConverter<T> extends FixedSourceTypeConverter<Number, T> {
      */
     @SuppressWarnings("unchecked")
     public static <TT> TT convert(Number src, Class<TT> targetType) {
+    	if (src == null)
+    		return null;
         if (String.class.equals(targetType))
             return (TT) ToStringConverter.convert(src, null);
         else if (Number.class.isAssignableFrom(targetType) || targetType.isPrimitive())
