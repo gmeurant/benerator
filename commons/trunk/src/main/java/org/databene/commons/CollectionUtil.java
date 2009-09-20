@@ -156,12 +156,12 @@ public final class CollectionUtil {
     public static <T extends Collection<U>, U> T newInstance(Class<T> collectionType) {
         if ((collectionType.getModifiers() & Modifier.ABSTRACT) == 0)
             return BeanUtil.newInstance(collectionType);
-        else if (collectionType == Collection.class || collectionType == List.class)
-            return (T) new ArrayList<U>();
-        else if (collectionType == SortedSet.class)
-            return (T) new TreeSet<U>();
-        else if (collectionType == Set.class)
-            return (T) new TreeSet<U>();
+        else if (Collection.class.equals(collectionType)  || List.class.equals(collectionType))
+            return (T) new ArrayList<Object>();
+        else if (SortedSet.class.equals(collectionType))
+            return (T) new TreeSet<Object>();
+        else if (Set.class.equals(collectionType))
+            return (T) new TreeSet<Object>();
         else
             throw new UnsupportedOperationException("Not a supported collection type: " + collectionType.getName());
     }
