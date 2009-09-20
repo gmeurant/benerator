@@ -27,6 +27,7 @@
 package org.databene.commons;
 
 import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * An assertion utility.<br/><br/>
@@ -66,38 +67,56 @@ public class Assert {
 			throw new AssertionError(message);
 	}
 
-	public static <T> void equals(T[] a1, T[] a2) {
+	public static void notEmpty(Collection<?> collection, String message) {
+		if (collection == null || collection.size() == 0)
+			throw new AssertionError(message);
+	}
+
+    @SuppressWarnings("null")
+    public static void equals(Object a1, Object a2, String message) {
 		if (a1 == null && a2 == null)
 			return;
-		if ((a1 == null && a2 != null) || (a1 != null && a2 == null))
+		else if ((a1 == null && a2 != null) || (a1 != null && a2 == null))
+			throw new AssertionError(message);
+		else if (!a1.equals(a2))
+			throw new AssertionError(message);
+    }
+
+	@SuppressWarnings("null")
+    public static <T> void equals(T[] a1, T[] a2) {
+		if (a1 == null && a2 == null)
+			return;
+		else if ((a1 == null && a2 != null) || (a1 != null && a2 == null))
 			throw new AssertionError("Arrays are not equal, one of them is null");
-		if (a1.length != a2.length)
+		else if (a1.length != a2.length)
 			throw new AssertionError("Arrays are not equal, the size differs: [" + 
 					ArrayFormat.format(a1) + "] vs. [" + ArrayFormat.format(a2) + ']');
-		if (!Arrays.deepEquals(a1, a2))
+		else if (!Arrays.deepEquals(a1, a2))
 			throw new AssertionError("Arrays are not equal, content differs: [" + 
 					ArrayFormat.format(a1) + "] vs. [" + ArrayFormat.format(a2) + ']');
 	}
 	
-	public static void equals(byte[] a1, byte[] a2) {
+	@SuppressWarnings("null")
+    public static void equals(byte[] a1, byte[] a2) {
 		if (a1 == null && a2 == null)
 			return;
-		if ((a1 == null && a2 != null) || (a1 != null && a2 == null))
+		else if ((a1 == null && a2 != null) || (a1 != null && a2 == null))
 			throw new AssertionError("Arrays are not equal, one of them is null");
-		if (a1.length != a2.length)
+		else if (a1.length != a2.length)
 			throw new AssertionError("Arrays are not equal, the size differs: [" + 
 					ArrayFormat.formatBytes(",", a1) + "] vs. [" + ArrayFormat.formatBytes(",", a2) + ']');
-		if (!Arrays.equals(a1, a2))
+		else if (!Arrays.equals(a1, a2))
 			throw new AssertionError("Arrays are not equal, content differs: [" + 
 					ArrayFormat.formatBytes(",", a1) + "] vs. [" + ArrayFormat.formatBytes(",", a2) + ']');
 	}
 
 	public static void length(String string, int length) {
 		if (string == null || string.length() != length)
-			throw new AssertionError("Unexpected string length: Expected " + length + ", found: " + string.length());
+			throw new AssertionError("Unexpected string length: Expected string of length " + length + ", found: " 
+					+ (string != null ? string.length() : "null"));
 	}
 
-	public static void instanceOf(Object object, Class type, String name) {
+	public static void instanceOf(Object object, Class<?> type, String name) {
 		 if (object == null)
 			 throw new AssertionError(name + " is not supposed to be null");
 		 if (!type.isAssignableFrom(object.getClass()))
