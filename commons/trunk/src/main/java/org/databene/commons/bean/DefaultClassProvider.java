@@ -37,8 +37,14 @@ import org.databene.commons.BeanUtil;
  * @author Volker Bergmann
  */
 public class DefaultClassProvider implements ClassProvider {
+	
+	private static DefaultClassProvider instance = new DefaultClassProvider();
 
-	public Class forName(String className) {
+    public static ClassProvider getInstance() {
+	    return instance;
+    }
+
+	public Class<?> forName(String className) {
 		return BeanUtil.forName(className);
 	}
 
