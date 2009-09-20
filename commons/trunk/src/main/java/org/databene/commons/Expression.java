@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2006 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2006-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,7 +30,9 @@ package org.databene.commons;
  * Represents an Expression that evaluates some internal state and returns the result.<br/>
  * <br/>
  * Created: 18.06.2007 17:00:22
+ * @since 0.2
+ * @author Volker Bergmann
  */
 public interface Expression<E> {
-    E evaluate();
+	E evaluate(Context context);
 }
