@@ -218,6 +218,19 @@
 			<url>ftp://databene.org/databene/m2</url>
 		</repository>
 	</distributionManagement>
+	
+	<repositories>
+		<repository>
+			<id>maven</id>
+			<name>Public Maven Repository</name>
+			<url>http://repo1.maven.org/maven2</url>
+		</repository>
+		<repository>
+			<id>jboss</id>
+			<name>JBoss Maven Repository</name>
+			<url>http://repository.jboss.org/maven2</url>
+		</repository>
+	</repositories>
   
 	<scm>
 		<url>https://benerator.svn.sourceforge.net/svnroot/benerator</url>
