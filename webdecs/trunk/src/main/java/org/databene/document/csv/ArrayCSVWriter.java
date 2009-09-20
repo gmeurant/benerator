@@ -47,7 +47,7 @@ import java.io.IOException;
  * Created: 06.06.2007 19:35:29
  * @author Volker Bergmann
  */
-public class ArrayCSVWriter<E> extends ScriptedDocumentWriter<E[]> {
+public class ArrayCSVWriter extends ScriptedDocumentWriter<Object[]> {
 
     public ArrayCSVWriter(Writer out) {
         this(out, ',');
@@ -91,6 +91,7 @@ public class ArrayCSVWriter<E> extends ScriptedDocumentWriter<E[]> {
             this.converter = new ToStringConverter();
         }
 
+        @Override
         public void execute(Context context, Writer out) throws IOException, ScriptException {
             try {
                 Object[] cellsOfCurrentRow = (Object[]) context.get("part");
