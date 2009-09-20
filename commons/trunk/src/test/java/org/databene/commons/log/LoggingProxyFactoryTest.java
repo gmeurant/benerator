@@ -29,7 +29,7 @@ package org.databene.commons.log;
 import junit.framework.TestCase;
 
 /**
- * Creates a proxy to a class which logs all invocations of parent interface methods.<br/>
+ * Tests the {@link LoggingProxyFactory}.<br/>
  * <br/>
  * Created at 17.09.2009 18:47:09
  * @since 0.6.0
