@@ -100,7 +100,7 @@ public class CharSet {
     // digit related interface -----------------------------------------------------------------------------------------
 
     public CharSet addDigits() {
-        return add(getDigits());
+        return addAll(getDigits());
     }
 
     public CharSet removeDigits() {
@@ -108,7 +108,7 @@ public class CharSet {
     }
 
     public CharSet addHexDigits() {
-        return add(getHexDigits());
+        return addAll(getHexDigits());
     }
 
     public CharSet removeHexDigits() {
@@ -116,7 +116,7 @@ public class CharSet {
     }
 
     public CharSet addNonDigits() {
-        return add(getNonDigits());
+        return addAll(getNonDigits());
     }
 
     public CharSet removeNonDigits() {
@@ -144,7 +144,7 @@ public class CharSet {
 
     /** Adds all letters of the specified locale to the Set */
     public CharSet addWordChars(Locale locale) {
-        return add(getWordChars(locale));
+        return addAll(getWordChars(locale));
     }
 
     /** Removes all letters of the internal locale from the Set */
@@ -167,7 +167,7 @@ public class CharSet {
 
     /** Adds all characters that are not letters of any locale */
     public CharSet addNonWordChars() {
-        return add(getNonWordChars());
+        return addAll(getNonWordChars());
     }
 
     /** Removes all characters that are not letters of any locale */
@@ -187,7 +187,7 @@ public class CharSet {
      * @return this
      */
     public CharSet addWhitespaces() {
-        return add(getWhitespaces());
+        return addAll(getWhitespaces());
     }
 
     /**
@@ -211,7 +211,7 @@ public class CharSet {
      * @return this
      */
     public CharSet addNonWhitespaces() {
-        return add(getNonWhitespaces());
+        return addAll(getNonWhitespaces());
     }
 
     /**
@@ -234,7 +234,7 @@ public class CharSet {
 
     /** Adds any character */
     public CharSet addAnyCharacters() {
-        return add(getAnyCharacters());
+        return addAll(getAnyCharacters());
     }
 
     /**
@@ -280,7 +280,7 @@ public class CharSet {
      * Adds a set of characters
      * @return this
      */
-    public CharSet add(Set<Character> chars) {
+    public CharSet addAll(Set<Character> chars) {
         set.addAll(chars);
         return this;
     }
