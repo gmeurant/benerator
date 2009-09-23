@@ -37,18 +37,26 @@ import org.databene.commons.iterator.ArrayIterator;
  * Provides array-related operations.<br/>
  * <br/>
  * Created: 09.06.2006 21:31:49
+ * @since 0.1
  * @author Volker Bergmann
  */
 public final class ArrayUtil {
 
+    @SuppressWarnings("unchecked")
     public static <T> T[] copyOfRange(T[] array, int offset, int length) {
         Class<T[]> resultType = (Class<T[]>) array.getClass();
         Class<T> componentType = (Class<T>) resultType.getComponentType();
+        return copyOfRange(array, offset, length, componentType);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T[] copyOfRange(Object[] array, int offset, int length, Class<T> componentType) {
         T[] result = (T[]) Array.newInstance(componentType, length);
         System.arraycopy(array, offset, result, 0, length);
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T[] remove(T[] array, int indexToRemove) {
         Class<T[]> resultType = (Class<T[]>) array.getClass();
         Class<T> componentType = (Class<T>) resultType.getComponentType();
@@ -90,6 +98,7 @@ public final class ArrayUtil {
         return true;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T[] commonElements(T[]... sources) {
         Class<T> componentType = null;
         for (int arrayNumber = 0; arrayNumber < sources.length && componentType == null; arrayNumber++) {
@@ -112,7 +121,7 @@ public final class ArrayUtil {
                     break;
                 }
             if (common)
-                builder.append(element);
+                builder.add(element);
         }
         return builder.toArray();
     }
@@ -159,11 +168,13 @@ public final class ArrayUtil {
         return -1;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T[] toArray(T ... values) {
     	Class<T> componentType = (Class<T>) (values.length > 0 ? values[0].getClass() : Object.class);
     	return buildArrayOfType(componentType, values);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T[] buildArrayOfType(Class<T> componentType, T ... values) {
         T[] array = (T[]) Array.newInstance(componentType, values.length);
         System.arraycopy(values, 0, array, 0, values.length);
@@ -192,15 +203,18 @@ public final class ArrayUtil {
         return array;
     }
     
+    @SuppressWarnings("unchecked")
     public static <T> Class<T[]> arrayType(Class<T> componentType) {
         T[] array = (T[]) Array.newInstance(componentType, 0);
         return (Class<T[]>) array.getClass();
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T[] newInstance(Class<T> componentType, int length) {
-        return (T[])Array.newInstance(componentType, length);
+        return (T[]) Array.newInstance(componentType, length);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T[] append(T[] array, T value) {
         if (array == null) {
             return toArray(value);
