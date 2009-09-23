@@ -39,13 +39,16 @@ import java.util.HashMap;
 
 /**
  * Delocalizes a String bye replacing local characters by international latin characters.
- * For example the umlaut '�' is replaced by 'ae'.<br/>
+ * For example the umlaut 'ä' is replaced with 'ae'.<br/>
  * <br/>
  * Created: 12.06.2006 18:53:55
  */
 public class DelocalizingConverter extends FixedSourceTypeConverter<String, String> {
 
-    /** The logger */
+    /** File that contains the character mapping */
+    private static final String CONFIG_FILENAME = "org/databene/text/DelocalizingConverter.csv";
+
+	/** The logger */
     private static Logger logger = LoggerFactory.getLogger(DelocalizingConverter.class);
 
     /** a Map of replacements. The key indicates the character to replace,
@@ -79,7 +82,7 @@ public class DelocalizingConverter extends FixedSourceTypeConverter<String, Stri
      */
     private void init() throws IOException {
         replacements = new HashMap<Character, String>();
-        CSVLineIterator iterator = new CSVLineIterator("org/databene/text/DelocalizingConverter.csv", ',', "iso-8859-1");
+        CSVLineIterator iterator = new CSVLineIterator(CONFIG_FILENAME, ',', true, "utf-8");
 
         while (iterator.hasNext()) {
             String[] tokens = iterator.next();
