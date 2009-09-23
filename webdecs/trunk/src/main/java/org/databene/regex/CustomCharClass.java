@@ -27,7 +27,10 @@
 package org.databene.regex;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+
+import org.databene.commons.CharSet;
 
 /**
  * Represents a custom character class with inclusions and exclusions.<br/>
@@ -41,6 +44,8 @@ public class CustomCharClass {
 
 	private List<?> included;
 	private List<?> excluded;
+	
+	// constructors ----------------------------------------------------------------------------------------------------
 
 	public CustomCharClass() {
 		this(new ArrayList<Object>());
@@ -54,6 +59,8 @@ public class CustomCharClass {
 	    this.included = included;
 	    this.excluded = excluded;
     }
+    
+    // properties ------------------------------------------------------------------------------------------------------
 
 	@SuppressWarnings("unchecked")
     public List<Object> getIncluded() {
@@ -72,6 +79,17 @@ public class CustomCharClass {
 	public void setExcluded(List<Object> excluded) {
     	this.excluded = excluded;
     }
+	
+	public CharSet getCharSet() {
+		CharSet result = new CharSet(this.toString(), new HashSet<Character>());
+		for (Object incl : included)
+			result.addAll(RegexParser.toSet(incl));
+		for (Object excl : excluded)
+			result.removeAll(RegexParser.toSet(excl));
+		return result;
+	}
+	
+	// java.lang.Object overrides --------------------------------------------------------------------------------------
 
     @Override
     public int hashCode() {
@@ -108,15 +126,17 @@ public class CustomCharClass {
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder("[");
-		append(included, result);
+		appendToString(included, result);
 		if (!excluded.isEmpty()) {
 			result.append('^');
-			append(excluded, result);
+			appendToString(excluded, result);
 		}
 		return result.append(']').toString();
 	}
+	
+	// private helpers -------------------------------------------------------------------------------------------------
 
-    private void append(List<?> objects, StringBuilder builder) {
+    private void appendToString(List<?> objects, StringBuilder builder) {
 	    for (Object object : objects)
 	    	builder.append(object);
     }
