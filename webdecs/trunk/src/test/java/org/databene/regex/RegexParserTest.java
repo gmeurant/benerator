@@ -101,7 +101,7 @@ public class RegexParserTest extends TestCase {
 
     public void testInvalidCustomClass() {
         try {
-			new RegexParser().parse("[a-f");
+			new RegexParser().parseRegex("[a-f");
 			fail("ParseException expected");
 		} catch (ParseException e) {
 			// this is expected
@@ -117,7 +117,7 @@ public class RegexParserTest extends TestCase {
 
     public void testInvalidPredefClass() {
         try {
-			new RegexParser().parse("\\X");
+			new RegexParser().parseRegex("\\X");
 			fail("ParseException expected");
 		} catch (ParseException e) {
 			// this is expected
@@ -177,38 +177,38 @@ public class RegexParserTest extends TestCase {
     }
 
     public void testGroups() throws ParseException {
-        check("(a)", 'a');
+        check("(a)", new Group('a'));
 
-        check("(ab)", new Sequence('a', 'b'));
+        check("(ab)", new Group(new Sequence('a', 'b')));
 
-        check("(a)*", new Factor('a', 0, null));
+        check("(a)*", new Factor(new Group('a'), 0, null));
 
         check("(a?b+)*",
-        	new Factor(new Sequence(
+        	new Factor(new Group(new Sequence(
                 new Factor('a', 0, 1),
                 new Factor('b', 1, null)
-        	), 
+        	)), 
         	0, null));
 
         check("(a{1}b{2,3}){4,5}", 
-        	new Factor(
+        	new Factor(new Group(
 	        	new Sequence(
 	                new Factor('a', 1, 1),
 	                new Factor('b', 2, 3)
-	        	), 
+	        	)), 
 	        	4, 5
         	)
         );
     }
 
     public void testChoices() throws ParseException {
-        check("(a|b)", new Choice('a', 'b'));
+        check("(a|b)", new Group(new Choice('a', 'b')));
         check("(a?|b+)*", 
         	new Factor(
-        		new Choice(
+        		new Group(new Choice(
         				new Factor('a', 0, 1),
         				new Factor('b', 1, null)
-        		), 
+        		)), 
         		0, null
         	));
     }
@@ -216,16 +216,16 @@ public class RegexParserTest extends TestCase {
     public void testRecursion() throws ParseException {
         check("(a{1,2}|b){1,3}", 
         	new Factor(
-	            new Choice(
+	            new Group(new Choice(
 	                new Factor('a', 1, 2),
-	                'b'), 
+	                'b')), 
 	            1, 3
 	        ));
     }
 
     private void check(String pattern, Object expectedPart) throws ParseException {
         logger.debug("checking " + pattern);
-        Object result = new RegexParser().parse(pattern);
+        Object result = new RegexParser().parseRegex(pattern);
         logger.debug("parsed as: " + StringUtil.normalize(String.valueOf(result)));
         if (pattern == null)
             assertEquals(expectedPart, result);
