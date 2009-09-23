@@ -57,7 +57,7 @@ public class Factor {
     // properties ------------------------------------------------------------------------------------------------------
 
     /** Returns the atom */
-    public Object getPattern() {
+    public Object getAtom() {
         return atom;
     }
 
