@@ -32,6 +32,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.antlr.runtime.ANTLRReaderStream;
 import org.antlr.runtime.CommonTokenStream;
@@ -39,6 +40,7 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
 import org.databene.commons.Assert;
 import org.databene.commons.CharSet;
+import org.databene.commons.CollectionUtil;
 import org.databene.commons.LocaleUtil;
 import org.databene.regex.antlr.RegexLexer;
 import org.slf4j.Logger;
@@ -69,7 +71,7 @@ public class RegexParser {
 
     // interface -------------------------------------------------------------------------------------------------------
 
-    public Object parse(String pattern) throws ParseException {
+    public Object parseRegex(String pattern) throws ParseException {
         if (pattern == null)
             return null;
         if (pattern.length() == 0)
@@ -100,6 +102,52 @@ public class RegexParser {
         }
     }
 
+    public Object parseSingleChar(String pattern) throws ParseException {
+        if (pattern == null)
+            return null;
+        if (pattern.length() == 0)
+            return "";
+        try {
+	        RegexLexer lex = new RegexLexer(new ANTLRReaderStream(new StringReader(pattern)));
+	        CommonTokenStream tokens = new CommonTokenStream(lex);
+	        org.databene.regex.antlr.RegexParser parser = new org.databene.regex.antlr.RegexParser(tokens);
+	        org.databene.regex.antlr.RegexParser.singlechar_return r = parser.singlechar();
+	        if (parser.getNumberOfSyntaxErrors() > 0)
+	        	throw new ParseException("Illegal regex: " + pattern, -1);
+	        if (r != null) {
+	        	CommonTree tree = (CommonTree) r.getTree();
+	        	if (LOGGER.isDebugEnabled())
+	        		LOGGER.debug("parsed " + pattern + " to " + tree.toStringTree());
+	            return convertNode(tree);
+	        } else
+	        	return null;
+        } catch (RuntimeException e) {
+        	if (e.getCause() instanceof RecognitionException)
+        		throw mapToParseException((RecognitionException) e.getCause());
+        	else
+        		throw e;
+        } catch (IOException e) {
+        	throw new IllegalStateException("Encountered illegal state in regex parsing", e);
+        } catch (RecognitionException e) {
+        	throw mapToParseException(e);
+        }
+    }
+
+	public static CharSet toCharSet(Object o) {
+		if (o instanceof CharSet)
+			return (CharSet) o;
+		else if (o instanceof Character)
+			return new CharSet(CollectionUtil.toSet((Character) o));
+		else if (o instanceof CustomCharClass)
+			return ((CustomCharClass) o).getCharSet();
+		else
+			throw new IllegalArgumentException("Not a supported character regex type: " + o.getClass());
+	}
+
+    public static Set<Character> toSet(Object regex) {
+	    return toCharSet(regex).getSet();
+    }
+	
     private ParseException mapToParseException(RecognitionException e) {
     	return new ParseException("Error parsing regular expression: " + e.getMessage(), e.charPositionInLine);
     }
@@ -111,6 +159,7 @@ public class RegexParser {
     		return "";
     	switch (node.getType()) {
 			case RegexLexer.CHOICE: return convertChoice(node);
+			case RegexLexer.GROUP: return convertGroup(node);
 			case RegexLexer.SEQUENCE: return convertSequence(node);
 			case RegexLexer.FACTOR: return convertFactor(node);
 			case RegexLexer.SIMPLEQUANTIFIER: return convertSimpleQuantifier(node);
@@ -126,6 +175,13 @@ public class RegexParser {
 			case RegexLexer.PREDEFINEDCLASS: return convertPredefClass(node);
 			default: throw new ParseException("Unknown token type: " + node.getToken(), node.getCharPositionInLine());
     	}
+    }
+
+	@SuppressWarnings("unchecked")
+    private Group convertGroup(CommonTree node) throws ParseException {
+    	List<CommonTree> childNodes = node.getChildren();
+    	Assert.equals(1, childNodes.size(), "Group is expected to have exactly one child node");
+    	return new Group(convertNode(childNodes.get(0)));
     }
 
 	@SuppressWarnings("unchecked")
