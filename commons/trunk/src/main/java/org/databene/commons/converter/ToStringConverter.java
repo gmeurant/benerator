@@ -29,6 +29,7 @@ package org.databene.commons.converter;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 
 import org.databene.commons.ArrayFormat;
@@ -193,6 +194,8 @@ public class ToStringConverter extends FixedSourceTypeConverter<Object, String> 
         		return new SimpleDateFormat(datePattern).format((Date) source);
         	else
         		return new SimpleDateFormat().format((Date) source);
+        } else if (source instanceof Collection) {
+        	return "{" + ArrayFormat.format(((Collection<?>) source).toArray()) + "}";
         } else
             return source.toString();
     }
