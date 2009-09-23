@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,12 +26,13 @@
 
 package org.databene.commons;
 
-import java.text.Format;
-import java.text.FieldPosition;
-import java.text.ParsePosition;
 import java.io.IOException;
+import java.text.FieldPosition;
+import java.text.Format;
+import java.text.ParsePosition;
 
 import org.databene.commons.converter.AnyConverter;
+import org.databene.commons.converter.ToStringConverter;
 
 /**
  * java.lang.text.Format implementation for formatting and parsing arrays.<br/>
@@ -46,39 +47,41 @@ public class ArrayFormat extends Format {
     private static final long serialVersionUID = 290320869220307493L;
     
 	private static final String DEFAULT_SEPARATOR = ", ";
-    private static final Format DEFAULT_ITEM_FORMAT = ToStringFormat.getDefault();
+    private static final Converter<Object, String> DEFAULT_ITEM_FORMATTER = new ToStringConverter();
 
     // attributes ------------------------------------------------------------------------------------------------------
 
-    private Format itemFormat;
+    private Converter<Object, String> itemFormatter;
     private String separator;
 
     // constructors ----------------------------------------------------------------------------------------------------
 
     public ArrayFormat() {
-        this(DEFAULT_ITEM_FORMAT, DEFAULT_SEPARATOR);
+        this(DEFAULT_ITEM_FORMATTER, DEFAULT_SEPARATOR);
     }
 
     public ArrayFormat(String separator) {
-        this(DEFAULT_ITEM_FORMAT, separator);
+        this(DEFAULT_ITEM_FORMATTER, separator);
     }
 
-    public ArrayFormat(Format itemFormat) {
+    public ArrayFormat(Converter<Object, String> itemFormat) {
         this(itemFormat, DEFAULT_SEPARATOR);
     }
 
-    public ArrayFormat(Format itemFormat, String separator) {
-        this.itemFormat = itemFormat;
+    public ArrayFormat(Converter<Object, String> itemFormatter, String separator) {
+        this.itemFormatter = itemFormatter;
         this.separator = separator;
     }
 
     // java.text.Format interface implementation -----------------------------------------------------------------------
 
+    @Override
     public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
         Object[] array = (Object[]) obj;
-        return formatPart(toAppendTo, itemFormat, separator, 0, array.length, array);
+        return formatPart(toAppendTo, itemFormatter, separator, 0, array.length, array);
     }
 
+    @Override
     public Object parseObject(String source, ParsePosition pos) {
         return parse(source, separator, String.class);
     }
@@ -100,8 +103,8 @@ public class ArrayFormat extends Format {
         return formatPart(null, separator, 0, items.length, items);
     }
 
-    public static <T> String format(Format format, String separator, T ... items) {
-        return formatPart(format, separator, 0, items.length, items);
+    public static <T> String format(Converter<Object,String> formatter, String separator, T ... items) {
+        return formatPart(formatter, separator, 0, items.length, items);
     }
 
     public static <T> String formatPart(int offset, int length, T ... items) {
@@ -112,22 +115,22 @@ public class ArrayFormat extends Format {
         return formatPart(null, separator, offset, length, items);
     }
 
-    public static <T> String formatPart(Format format, String separator, int offset, int length, T ... items) {
+    public static <T> String formatPart(Converter<Object,String> formatter, String separator, int offset, int length, T ... items) {
         if (items.length == 0)
             return "";
-        return formatPart(new StringBuilder(), format, separator, offset, length, items).toString();
+        return formatPart(new StringBuilder(), formatter, separator, offset, length, items).toString();
     }
 
-    public static <T, E extends Appendable> E formatPart(E toAppendTo, Format format, String separator,
+    public static <T, E extends Appendable> E formatPart(E toAppendTo, Converter<Object,String> formatter, String separator,
                                                          int offset, int length, T ... items) {
         if (items.length == 0)
             return toAppendTo;
         try {
-            if (format == null)
-                format = ToStringFormat.getDefault();
-            toAppendTo.append(format.format(items[offset]));
+            if (formatter == null)
+                formatter = DEFAULT_ITEM_FORMATTER;
+            toAppendTo.append(formatter.convert(items[offset]));
             for (int i = 1; i < length; i++)
-                toAppendTo.append(separator).append(format.format(items[offset + i]));
+                toAppendTo.append(separator).append(formatter.convert(items[offset + i]));
             return toAppendTo;
         } catch (IOException e) {
             throw new RuntimeException(e);
