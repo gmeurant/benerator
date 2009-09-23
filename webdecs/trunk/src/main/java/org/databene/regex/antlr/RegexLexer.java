@@ -1,4 +1,4 @@
-// $ANTLR 3.1.2 /Users/volker/Desktop/Regex/Regex.g 2009-09-20 18:40:33
+// $ANTLR 3.1.2 /Users/volker/Desktop/Regex/Regex.g 2009-09-23 12:36:19
  
 	package org.databene.regex.antlr;
 
@@ -9,38 +9,39 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class RegexLexer extends Lexer {
-    public static final int HEXDIGIT=25;
+    public static final int HEXDIGIT=26;
     public static final int T__35=35;
-    public static final int RANGE=18;
-    public static final int LETTER=22;
+    public static final int RANGE=19;
+    public static final int LETTER=23;
     public static final int T__36=36;
     public static final int ALPHANUM=5;
-    public static final int EXCL=20;
+    public static final int EXCL=21;
     public static final int OCTALCHAR=9;
-    public static final int CHOICE=14;
-    public static final int LBRACKET=28;
+    public static final int CHOICE=15;
+    public static final int LBRACKET=29;
     public static final int T__33=33;
     public static final int ESCAPEDEDCHARACTER=7;
-    public static final int LBRACE=26;
-    public static final int RBRACE=27;
-    public static final int CLASS=17;
-    public static final int T__30=30;
-    public static final int QUANT=21;
-    public static final int OCTALDIGIT=24;
+    public static final int LBRACE=27;
+    public static final int RBRACE=28;
+    public static final int CLASS=18;
+    public static final int QUANT=22;
+    public static final int OCTALDIGIT=25;
     public static final int CODEDCHAR=11;
     public static final int T__31=31;
     public static final int INT=13;
-    public static final int SEQUENCE=15;
+    public static final int SEQUENCE=16;
     public static final int HEXCHAR=10;
     public static final int EOF=-1;
     public static final int T__32=32;
-    public static final int RBRACKET=29;
+    public static final int GROUP=14;
+    public static final int RBRACKET=30;
+    public static final int T__37=37;
     public static final int SIMPLEQUANTIFIER=12;
-    public static final int INCL=19;
-    public static final int DIGIT=23;
+    public static final int INCL=20;
+    public static final int DIGIT=24;
     public static final int SPECIALCHARACTER=6;
     public static final int PREDEFINEDCLASS=4;
-    public static final int FACTOR=16;
+    public static final int FACTOR=17;
     public static final int NONTYPEABLECHARACTER=8;
     public static final int T__34=34;
 
@@ -91,35 +92,15 @@ public class RegexLexer extends Lexer {
     }
     public String getGrammarFileName() { return "/Users/volker/Desktop/Regex/Regex.g"; }
 
-    // $ANTLR start "T__30"
-    public final void mT__30() throws RecognitionException {
-        try {
-            int _type = T__30;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/volker/Desktop/Regex/Regex.g:41:7: ( '^' )
-            // /Users/volker/Desktop/Regex/Regex.g:41:9: '^'
-            {
-            match('^'); 
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        }
-    }
-    // $ANTLR end "T__30"
-
     // $ANTLR start "T__31"
     public final void mT__31() throws RecognitionException {
         try {
             int _type = T__31;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/volker/Desktop/Regex/Regex.g:42:7: ( '$' )
-            // /Users/volker/Desktop/Regex/Regex.g:42:9: '$'
+            // /Users/volker/Desktop/Regex/Regex.g:41:7: ( '^' )
+            // /Users/volker/Desktop/Regex/Regex.g:41:9: '^'
             {
-            match('$'); 
+            match('^'); 
 
             }
 
@@ -136,10 +117,10 @@ public class RegexLexer extends Lexer {
         try {
             int _type = T__32;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/volker/Desktop/Regex/Regex.g:43:7: ( '|' )
-            // /Users/volker/Desktop/Regex/Regex.g:43:9: '|'
+            // /Users/volker/Desktop/Regex/Regex.g:42:7: ( '$' )
+            // /Users/volker/Desktop/Regex/Regex.g:42:9: '$'
             {
-            match('|'); 
+            match('$'); 
 
             }
 
@@ -156,10 +137,10 @@ public class RegexLexer extends Lexer {
         try {
             int _type = T__33;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/volker/Desktop/Regex/Regex.g:44:7: ( '-' )
-            // /Users/volker/Desktop/Regex/Regex.g:44:9: '-'
+            // /Users/volker/Desktop/Regex/Regex.g:43:7: ( '|' )
+            // /Users/volker/Desktop/Regex/Regex.g:43:9: '|'
             {
-            match('-'); 
+            match('|'); 
 
             }
 
@@ -176,10 +157,10 @@ public class RegexLexer extends Lexer {
         try {
             int _type = T__34;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/volker/Desktop/Regex/Regex.g:45:7: ( '(' )
-            // /Users/volker/Desktop/Regex/Regex.g:45:9: '('
+            // /Users/volker/Desktop/Regex/Regex.g:44:7: ( '-' )
+            // /Users/volker/Desktop/Regex/Regex.g:44:9: '-'
             {
-            match('('); 
+            match('-'); 
 
             }
 
@@ -196,10 +177,10 @@ public class RegexLexer extends Lexer {
         try {
             int _type = T__35;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/volker/Desktop/Regex/Regex.g:46:7: ( ')' )
-            // /Users/volker/Desktop/Regex/Regex.g:46:9: ')'
+            // /Users/volker/Desktop/Regex/Regex.g:45:7: ( '(' )
+            // /Users/volker/Desktop/Regex/Regex.g:45:9: '('
             {
-            match(')'); 
+            match('('); 
 
             }
 
@@ -216,6 +197,26 @@ public class RegexLexer extends Lexer {
         try {
             int _type = T__36;
             int _channel = DEFAULT_TOKEN_CHANNEL;
+            // /Users/volker/Desktop/Regex/Regex.g:46:7: ( ')' )
+            // /Users/volker/Desktop/Regex/Regex.g:46:9: ')'
+            {
+            match(')'); 
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__36"
+
+    // $ANTLR start "T__37"
+    public final void mT__37() throws RecognitionException {
+        try {
+            int _type = T__37;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
             // /Users/volker/Desktop/Regex/Regex.g:47:7: ( ',' )
             // /Users/volker/Desktop/Regex/Regex.g:47:9: ','
             {
@@ -229,13 +230,27 @@ public class RegexLexer extends Lexer {
         finally {
         }
     }
-    // $ANTLR end "T__36"
+    // $ANTLR end "T__37"
+
+    // $ANTLR start "GROUP"
+    public final void mGROUP() throws RecognitionException {
+        try {
+            // /Users/volker/Desktop/Regex/Regex.g:149:7: ()
+            // /Users/volker/Desktop/Regex/Regex.g:149:9: 
+            {
+            }
+
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "GROUP"
 
     // $ANTLR start "CHOICE"
     public final void mCHOICE() throws RecognitionException {
         try {
-            // /Users/volker/Desktop/Regex/Regex.g:145:8: ()
-            // /Users/volker/Desktop/Regex/Regex.g:145:10: 
+            // /Users/volker/Desktop/Regex/Regex.g:151:8: ()
+            // /Users/volker/Desktop/Regex/Regex.g:151:10: 
             {
             }
 
@@ -248,8 +263,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "SEQUENCE"
     public final void mSEQUENCE() throws RecognitionException {
         try {
-            // /Users/volker/Desktop/Regex/Regex.g:147:9: ()
-            // /Users/volker/Desktop/Regex/Regex.g:147:11: 
+            // /Users/volker/Desktop/Regex/Regex.g:153:9: ()
+            // /Users/volker/Desktop/Regex/Regex.g:153:11: 
             {
             }
 
@@ -262,8 +277,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "FACTOR"
     public final void mFACTOR() throws RecognitionException {
         try {
-            // /Users/volker/Desktop/Regex/Regex.g:149:8: ()
-            // /Users/volker/Desktop/Regex/Regex.g:149:10: 
+            // /Users/volker/Desktop/Regex/Regex.g:155:8: ()
+            // /Users/volker/Desktop/Regex/Regex.g:155:10: 
             {
             }
 
@@ -276,8 +291,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "CLASS"
     public final void mCLASS() throws RecognitionException {
         try {
-            // /Users/volker/Desktop/Regex/Regex.g:151:7: ()
-            // /Users/volker/Desktop/Regex/Regex.g:151:9: 
+            // /Users/volker/Desktop/Regex/Regex.g:157:7: ()
+            // /Users/volker/Desktop/Regex/Regex.g:157:9: 
             {
             }
 
@@ -290,8 +305,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "RANGE"
     public final void mRANGE() throws RecognitionException {
         try {
-            // /Users/volker/Desktop/Regex/Regex.g:153:7: ()
-            // /Users/volker/Desktop/Regex/Regex.g:153:9: 
+            // /Users/volker/Desktop/Regex/Regex.g:159:7: ()
+            // /Users/volker/Desktop/Regex/Regex.g:159:9: 
             {
             }
 
@@ -304,8 +319,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "INCL"
     public final void mINCL() throws RecognitionException {
         try {
-            // /Users/volker/Desktop/Regex/Regex.g:155:6: ()
-            // /Users/volker/Desktop/Regex/Regex.g:155:8: 
+            // /Users/volker/Desktop/Regex/Regex.g:161:6: ()
+            // /Users/volker/Desktop/Regex/Regex.g:161:8: 
             {
             }
 
@@ -318,8 +333,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "EXCL"
     public final void mEXCL() throws RecognitionException {
         try {
-            // /Users/volker/Desktop/Regex/Regex.g:157:6: ()
-            // /Users/volker/Desktop/Regex/Regex.g:157:8: 
+            // /Users/volker/Desktop/Regex/Regex.g:163:6: ()
+            // /Users/volker/Desktop/Regex/Regex.g:163:8: 
             {
             }
 
@@ -332,8 +347,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "QUANT"
     public final void mQUANT() throws RecognitionException {
         try {
-            // /Users/volker/Desktop/Regex/Regex.g:159:7: ()
-            // /Users/volker/Desktop/Regex/Regex.g:159:9: 
+            // /Users/volker/Desktop/Regex/Regex.g:165:7: ()
+            // /Users/volker/Desktop/Regex/Regex.g:165:9: 
             {
             }
 
@@ -348,7 +363,7 @@ public class RegexLexer extends Lexer {
         try {
             int _type = PREDEFINEDCLASS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/volker/Desktop/Regex/Regex.g:166:2: ( '.' | '\\\\d' | '\\\\D' | '\\\\s' | '\\\\S' | '\\\\w' | '\\\\W' )
+            // /Users/volker/Desktop/Regex/Regex.g:172:2: ( '.' | '\\\\d' | '\\\\D' | '\\\\s' | '\\\\S' | '\\\\w' | '\\\\W' )
             int alt1=7;
             int LA1_0 = input.LA(1);
 
@@ -403,14 +418,14 @@ public class RegexLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // /Users/volker/Desktop/Regex/Regex.g:166:4: '.'
+                    // /Users/volker/Desktop/Regex/Regex.g:172:4: '.'
                     {
                     match('.'); 
 
                     }
                     break;
                 case 2 :
-                    // /Users/volker/Desktop/Regex/Regex.g:167:4: '\\\\d'
+                    // /Users/volker/Desktop/Regex/Regex.g:173:4: '\\\\d'
                     {
                     match("\\d"); 
 
@@ -418,7 +433,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 3 :
-                    // /Users/volker/Desktop/Regex/Regex.g:168:4: '\\\\D'
+                    // /Users/volker/Desktop/Regex/Regex.g:174:4: '\\\\D'
                     {
                     match("\\D"); 
 
@@ -426,7 +441,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 4 :
-                    // /Users/volker/Desktop/Regex/Regex.g:169:4: '\\\\s'
+                    // /Users/volker/Desktop/Regex/Regex.g:175:4: '\\\\s'
                     {
                     match("\\s"); 
 
@@ -434,7 +449,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 5 :
-                    // /Users/volker/Desktop/Regex/Regex.g:170:4: '\\\\S'
+                    // /Users/volker/Desktop/Regex/Regex.g:176:4: '\\\\S'
                     {
                     match("\\S"); 
 
@@ -442,7 +457,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 6 :
-                    // /Users/volker/Desktop/Regex/Regex.g:171:4: '\\\\w'
+                    // /Users/volker/Desktop/Regex/Regex.g:177:4: '\\\\w'
                     {
                     match("\\w"); 
 
@@ -450,7 +465,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 7 :
-                    // /Users/volker/Desktop/Regex/Regex.g:172:4: '\\\\W'
+                    // /Users/volker/Desktop/Regex/Regex.g:178:4: '\\\\W'
                     {
                     match("\\W"); 
 
@@ -472,7 +487,7 @@ public class RegexLexer extends Lexer {
         try {
             int _type = ALPHANUM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/volker/Desktop/Regex/Regex.g:175:9: ( LETTER | {...}? => DIGIT )
+            // /Users/volker/Desktop/Regex/Regex.g:181:9: ( LETTER | {...}? => DIGIT )
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -490,14 +505,14 @@ public class RegexLexer extends Lexer {
             }
             switch (alt2) {
                 case 1 :
-                    // /Users/volker/Desktop/Regex/Regex.g:175:11: LETTER
+                    // /Users/volker/Desktop/Regex/Regex.g:181:11: LETTER
                     {
                     mLETTER(); 
 
                     }
                     break;
                 case 2 :
-                    // /Users/volker/Desktop/Regex/Regex.g:176:4: {...}? => DIGIT
+                    // /Users/volker/Desktop/Regex/Regex.g:182:4: {...}? => DIGIT
                     {
                     if ( !((!numQuantifierMode)) ) {
                         throw new FailedPredicateException(input, "ALPHANUM", "!numQuantifierMode");
@@ -521,124 +536,124 @@ public class RegexLexer extends Lexer {
         try {
             int _type = SPECIALCHARACTER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/volker/Desktop/Regex/Regex.g:179:2: ( ' ' | '!' | '\\'' | '\"' | '%' | '&' | '/' | ':' | ';' | '<' | '=' | '>' | '@' | '_' | '`' | '~' | {...}? => ',' | {...}? => ( '?' | '*' | '+' ) )
+            // /Users/volker/Desktop/Regex/Regex.g:185:2: ( ' ' | '!' | '\\'' | '\"' | '%' | '&' | '/' | ':' | ';' | '<' | '=' | '>' | '@' | '_' | '`' | '~' | {...}? => ',' | {...}? => ( '?' | '*' | '+' ) )
             int alt3=18;
             alt3 = dfa3.predict(input);
             switch (alt3) {
                 case 1 :
-                    // /Users/volker/Desktop/Regex/Regex.g:179:4: ' '
+                    // /Users/volker/Desktop/Regex/Regex.g:185:4: ' '
                     {
                     match(' '); 
 
                     }
                     break;
                 case 2 :
-                    // /Users/volker/Desktop/Regex/Regex.g:179:10: '!'
+                    // /Users/volker/Desktop/Regex/Regex.g:185:10: '!'
                     {
                     match('!'); 
 
                     }
                     break;
                 case 3 :
-                    // /Users/volker/Desktop/Regex/Regex.g:179:16: '\\''
+                    // /Users/volker/Desktop/Regex/Regex.g:185:16: '\\''
                     {
                     match('\''); 
 
                     }
                     break;
                 case 4 :
-                    // /Users/volker/Desktop/Regex/Regex.g:179:23: '\"'
+                    // /Users/volker/Desktop/Regex/Regex.g:185:23: '\"'
                     {
                     match('\"'); 
 
                     }
                     break;
                 case 5 :
-                    // /Users/volker/Desktop/Regex/Regex.g:179:29: '%'
+                    // /Users/volker/Desktop/Regex/Regex.g:185:29: '%'
                     {
                     match('%'); 
 
                     }
                     break;
                 case 6 :
-                    // /Users/volker/Desktop/Regex/Regex.g:179:35: '&'
+                    // /Users/volker/Desktop/Regex/Regex.g:185:35: '&'
                     {
                     match('&'); 
 
                     }
                     break;
                 case 7 :
-                    // /Users/volker/Desktop/Regex/Regex.g:180:4: '/'
+                    // /Users/volker/Desktop/Regex/Regex.g:186:4: '/'
                     {
                     match('/'); 
 
                     }
                     break;
                 case 8 :
-                    // /Users/volker/Desktop/Regex/Regex.g:180:10: ':'
+                    // /Users/volker/Desktop/Regex/Regex.g:186:10: ':'
                     {
                     match(':'); 
 
                     }
                     break;
                 case 9 :
-                    // /Users/volker/Desktop/Regex/Regex.g:180:17: ';'
+                    // /Users/volker/Desktop/Regex/Regex.g:186:17: ';'
                     {
                     match(';'); 
 
                     }
                     break;
                 case 10 :
-                    // /Users/volker/Desktop/Regex/Regex.g:180:23: '<'
+                    // /Users/volker/Desktop/Regex/Regex.g:186:23: '<'
                     {
                     match('<'); 
 
                     }
                     break;
                 case 11 :
-                    // /Users/volker/Desktop/Regex/Regex.g:180:29: '='
+                    // /Users/volker/Desktop/Regex/Regex.g:186:29: '='
                     {
                     match('='); 
 
                     }
                     break;
                 case 12 :
-                    // /Users/volker/Desktop/Regex/Regex.g:180:35: '>'
+                    // /Users/volker/Desktop/Regex/Regex.g:186:35: '>'
                     {
                     match('>'); 
 
                     }
                     break;
                 case 13 :
-                    // /Users/volker/Desktop/Regex/Regex.g:181:4: '@'
+                    // /Users/volker/Desktop/Regex/Regex.g:187:4: '@'
                     {
                     match('@'); 
 
                     }
                     break;
                 case 14 :
-                    // /Users/volker/Desktop/Regex/Regex.g:181:10: '_'
+                    // /Users/volker/Desktop/Regex/Regex.g:187:10: '_'
                     {
                     match('_'); 
 
                     }
                     break;
                 case 15 :
-                    // /Users/volker/Desktop/Regex/Regex.g:181:17: '`'
+                    // /Users/volker/Desktop/Regex/Regex.g:187:17: '`'
                     {
                     match('`'); 
 
                     }
                     break;
                 case 16 :
-                    // /Users/volker/Desktop/Regex/Regex.g:181:23: '~'
+                    // /Users/volker/Desktop/Regex/Regex.g:187:23: '~'
                     {
                     match('~'); 
 
                     }
                     break;
                 case 17 :
-                    // /Users/volker/Desktop/Regex/Regex.g:182:4: {...}? => ','
+                    // /Users/volker/Desktop/Regex/Regex.g:188:4: {...}? => ','
                     {
                     if ( !((!numQuantifierMode)) ) {
                         throw new FailedPredicateException(input, "SPECIALCHARACTER", "!numQuantifierMode");
@@ -648,7 +663,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 18 :
-                    // /Users/volker/Desktop/Regex/Regex.g:183:4: {...}? => ( '?' | '*' | '+' )
+                    // /Users/volker/Desktop/Regex/Regex.g:189:4: {...}? => ( '?' | '*' | '+' )
                     {
                     if ( !((classMode)) ) {
                         throw new FailedPredicateException(input, "SPECIALCHARACTER", "classMode");
@@ -680,12 +695,12 @@ public class RegexLexer extends Lexer {
         try {
             int _type = ESCAPEDEDCHARACTER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/volker/Desktop/Regex/Regex.g:187:2: ( '\\\\$' | '\\\\&' | '\\\\(' | '\\\\)' | | '\\\\,' | '\\\\-' | '\\\\.' | '\\\\[' | '\\\\]' | '\\\\^' | '\\\\{' | '\\\\}' | '\\\\\\\\' | '\\\\|' | '\\\\*' | '\\\\+' | '\\\\?' )
+            // /Users/volker/Desktop/Regex/Regex.g:193:2: ( '\\\\$' | '\\\\&' | '\\\\(' | '\\\\)' | | '\\\\,' | '\\\\-' | '\\\\.' | '\\\\[' | '\\\\]' | '\\\\^' | '\\\\{' | '\\\\}' | '\\\\\\\\' | '\\\\|' | '\\\\*' | '\\\\+' | '\\\\?' )
             int alt4=18;
             alt4 = dfa4.predict(input);
             switch (alt4) {
                 case 1 :
-                    // /Users/volker/Desktop/Regex/Regex.g:187:4: '\\\\$'
+                    // /Users/volker/Desktop/Regex/Regex.g:193:4: '\\\\$'
                     {
                     match("\\$"); 
 
@@ -693,7 +708,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /Users/volker/Desktop/Regex/Regex.g:187:12: '\\\\&'
+                    // /Users/volker/Desktop/Regex/Regex.g:193:12: '\\\\&'
                     {
                     match("\\&"); 
 
@@ -701,7 +716,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 3 :
-                    // /Users/volker/Desktop/Regex/Regex.g:187:20: '\\\\('
+                    // /Users/volker/Desktop/Regex/Regex.g:193:20: '\\\\('
                     {
                     match("\\("); 
 
@@ -709,7 +724,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 4 :
-                    // /Users/volker/Desktop/Regex/Regex.g:187:28: '\\\\)'
+                    // /Users/volker/Desktop/Regex/Regex.g:193:28: '\\\\)'
                     {
                     match("\\)"); 
 
@@ -717,12 +732,12 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 5 :
-                    // /Users/volker/Desktop/Regex/Regex.g:188:2: 
+                    // /Users/volker/Desktop/Regex/Regex.g:194:2: 
                     {
                     }
                     break;
                 case 6 :
-                    // /Users/volker/Desktop/Regex/Regex.g:188:4: '\\\\,'
+                    // /Users/volker/Desktop/Regex/Regex.g:194:4: '\\\\,'
                     {
                     match("\\,"); 
 
@@ -730,7 +745,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 7 :
-                    // /Users/volker/Desktop/Regex/Regex.g:188:12: '\\\\-'
+                    // /Users/volker/Desktop/Regex/Regex.g:194:12: '\\\\-'
                     {
                     match("\\-"); 
 
@@ -738,7 +753,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 8 :
-                    // /Users/volker/Desktop/Regex/Regex.g:188:20: '\\\\.'
+                    // /Users/volker/Desktop/Regex/Regex.g:194:20: '\\\\.'
                     {
                     match("\\."); 
 
@@ -746,7 +761,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 9 :
-                    // /Users/volker/Desktop/Regex/Regex.g:188:28: '\\\\['
+                    // /Users/volker/Desktop/Regex/Regex.g:194:28: '\\\\['
                     {
                     match("\\["); 
 
@@ -754,7 +769,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 10 :
-                    // /Users/volker/Desktop/Regex/Regex.g:188:36: '\\\\]'
+                    // /Users/volker/Desktop/Regex/Regex.g:194:36: '\\\\]'
                     {
                     match("\\]"); 
 
@@ -762,7 +777,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 11 :
-                    // /Users/volker/Desktop/Regex/Regex.g:188:44: '\\\\^'
+                    // /Users/volker/Desktop/Regex/Regex.g:194:44: '\\\\^'
                     {
                     match("\\^"); 
 
@@ -770,7 +785,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 12 :
-                    // /Users/volker/Desktop/Regex/Regex.g:189:4: '\\\\{'
+                    // /Users/volker/Desktop/Regex/Regex.g:195:4: '\\\\{'
                     {
                     match("\\{"); 
 
@@ -778,7 +793,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 13 :
-                    // /Users/volker/Desktop/Regex/Regex.g:189:12: '\\\\}'
+                    // /Users/volker/Desktop/Regex/Regex.g:195:12: '\\\\}'
                     {
                     match("\\}"); 
 
@@ -786,7 +801,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 14 :
-                    // /Users/volker/Desktop/Regex/Regex.g:189:20: '\\\\\\\\'
+                    // /Users/volker/Desktop/Regex/Regex.g:195:20: '\\\\\\\\'
                     {
                     match("\\\\"); 
 
@@ -794,7 +809,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 15 :
-                    // /Users/volker/Desktop/Regex/Regex.g:189:29: '\\\\|'
+                    // /Users/volker/Desktop/Regex/Regex.g:195:29: '\\\\|'
                     {
                     match("\\|"); 
 
@@ -802,7 +817,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 16 :
-                    // /Users/volker/Desktop/Regex/Regex.g:190:4: '\\\\*'
+                    // /Users/volker/Desktop/Regex/Regex.g:196:4: '\\\\*'
                     {
                     match("\\*"); 
 
@@ -810,7 +825,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 17 :
-                    // /Users/volker/Desktop/Regex/Regex.g:190:12: '\\\\+'
+                    // /Users/volker/Desktop/Regex/Regex.g:196:12: '\\\\+'
                     {
                     match("\\+"); 
 
@@ -818,7 +833,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 18 :
-                    // /Users/volker/Desktop/Regex/Regex.g:190:20: '\\\\?'
+                    // /Users/volker/Desktop/Regex/Regex.g:196:20: '\\\\?'
                     {
                     match("\\?"); 
 
@@ -840,7 +855,7 @@ public class RegexLexer extends Lexer {
         try {
             int _type = NONTYPEABLECHARACTER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/volker/Desktop/Regex/Regex.g:194:2: ( '\\\\r' | '\\\\n' | '\\\\t' | '\\\\f' | '\\\\a' | '\\\\e' )
+            // /Users/volker/Desktop/Regex/Regex.g:200:2: ( '\\\\r' | '\\\\n' | '\\\\t' | '\\\\f' | '\\\\a' | '\\\\e' )
             int alt5=6;
             int LA5_0 = input.LA(1);
 
@@ -892,7 +907,7 @@ public class RegexLexer extends Lexer {
             }
             switch (alt5) {
                 case 1 :
-                    // /Users/volker/Desktop/Regex/Regex.g:194:4: '\\\\r'
+                    // /Users/volker/Desktop/Regex/Regex.g:200:4: '\\\\r'
                     {
                     match("\\r"); 
 
@@ -900,7 +915,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /Users/volker/Desktop/Regex/Regex.g:195:4: '\\\\n'
+                    // /Users/volker/Desktop/Regex/Regex.g:201:4: '\\\\n'
                     {
                     match("\\n"); 
 
@@ -908,7 +923,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 3 :
-                    // /Users/volker/Desktop/Regex/Regex.g:196:4: '\\\\t'
+                    // /Users/volker/Desktop/Regex/Regex.g:202:4: '\\\\t'
                     {
                     match("\\t"); 
 
@@ -916,7 +931,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 4 :
-                    // /Users/volker/Desktop/Regex/Regex.g:197:4: '\\\\f'
+                    // /Users/volker/Desktop/Regex/Regex.g:203:4: '\\\\f'
                     {
                     match("\\f"); 
 
@@ -924,7 +939,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 5 :
-                    // /Users/volker/Desktop/Regex/Regex.g:198:4: '\\\\a'
+                    // /Users/volker/Desktop/Regex/Regex.g:204:4: '\\\\a'
                     {
                     match("\\a"); 
 
@@ -932,7 +947,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 6 :
-                    // /Users/volker/Desktop/Regex/Regex.g:199:4: '\\\\e'
+                    // /Users/volker/Desktop/Regex/Regex.g:205:4: '\\\\e'
                     {
                     match("\\e"); 
 
@@ -954,8 +969,8 @@ public class RegexLexer extends Lexer {
         try {
             int _type = OCTALCHAR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/volker/Desktop/Regex/Regex.g:203:2: ( '\\\\0' OCTALDIGIT OCTALDIGIT OCTALDIGIT )
-            // /Users/volker/Desktop/Regex/Regex.g:203:4: '\\\\0' OCTALDIGIT OCTALDIGIT OCTALDIGIT
+            // /Users/volker/Desktop/Regex/Regex.g:209:2: ( '\\\\0' OCTALDIGIT OCTALDIGIT OCTALDIGIT )
+            // /Users/volker/Desktop/Regex/Regex.g:209:4: '\\\\0' OCTALDIGIT OCTALDIGIT OCTALDIGIT
             {
             match("\\0"); 
 
@@ -978,7 +993,7 @@ public class RegexLexer extends Lexer {
         try {
             int _type = HEXCHAR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/volker/Desktop/Regex/Regex.g:206:9: ( '\\\\x' HEXDIGIT HEXDIGIT | '\\\\u' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT )
+            // /Users/volker/Desktop/Regex/Regex.g:212:9: ( '\\\\x' HEXDIGIT HEXDIGIT | '\\\\u' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT )
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -1006,7 +1021,7 @@ public class RegexLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // /Users/volker/Desktop/Regex/Regex.g:206:11: '\\\\x' HEXDIGIT HEXDIGIT
+                    // /Users/volker/Desktop/Regex/Regex.g:212:11: '\\\\x' HEXDIGIT HEXDIGIT
                     {
                     match("\\x"); 
 
@@ -1016,7 +1031,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /Users/volker/Desktop/Regex/Regex.g:207:4: '\\\\u' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT
+                    // /Users/volker/Desktop/Regex/Regex.g:213:4: '\\\\u' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT
                     {
                     match("\\u"); 
 
@@ -1042,8 +1057,8 @@ public class RegexLexer extends Lexer {
         try {
             int _type = CODEDCHAR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/volker/Desktop/Regex/Regex.g:210:10: ( '\\\\c' LETTER )
-            // /Users/volker/Desktop/Regex/Regex.g:210:12: '\\\\c' LETTER
+            // /Users/volker/Desktop/Regex/Regex.g:216:10: ( '\\\\c' LETTER )
+            // /Users/volker/Desktop/Regex/Regex.g:216:12: '\\\\c' LETTER
             {
             match("\\c"); 
 
@@ -1064,8 +1079,8 @@ public class RegexLexer extends Lexer {
         try {
             int _type = SIMPLEQUANTIFIER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/volker/Desktop/Regex/Regex.g:213:2: ({...}? => ( '?' | '*' | '+' ) )
-            // /Users/volker/Desktop/Regex/Regex.g:213:4: {...}? => ( '?' | '*' | '+' )
+            // /Users/volker/Desktop/Regex/Regex.g:219:2: ({...}? => ( '?' | '*' | '+' ) )
+            // /Users/volker/Desktop/Regex/Regex.g:219:4: {...}? => ( '?' | '*' | '+' )
             {
             if ( !((!classMode)) ) {
                 throw new FailedPredicateException(input, "SIMPLEQUANTIFIER", "!classMode");
@@ -1095,13 +1110,13 @@ public class RegexLexer extends Lexer {
         try {
             int _type = INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/volker/Desktop/Regex/Regex.g:215:5: ({...}? => ( DIGIT )+ )
-            // /Users/volker/Desktop/Regex/Regex.g:215:7: {...}? => ( DIGIT )+
+            // /Users/volker/Desktop/Regex/Regex.g:221:5: ({...}? => ( DIGIT )+ )
+            // /Users/volker/Desktop/Regex/Regex.g:221:7: {...}? => ( DIGIT )+
             {
             if ( !((numQuantifierMode)) ) {
                 throw new FailedPredicateException(input, "INT", "numQuantifierMode");
             }
-            // /Users/volker/Desktop/Regex/Regex.g:215:30: ( DIGIT )+
+            // /Users/volker/Desktop/Regex/Regex.g:221:30: ( DIGIT )+
             int cnt7=0;
             loop7:
             do {
@@ -1115,7 +1130,7 @@ public class RegexLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // /Users/volker/Desktop/Regex/Regex.g:215:30: DIGIT
+            	    // /Users/volker/Desktop/Regex/Regex.g:221:30: DIGIT
             	    {
             	    mDIGIT(); 
 
@@ -1147,8 +1162,8 @@ public class RegexLexer extends Lexer {
         try {
             int _type = LBRACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/volker/Desktop/Regex/Regex.g:217:8: ( '{' )
-            // /Users/volker/Desktop/Regex/Regex.g:217:10: '{'
+            // /Users/volker/Desktop/Regex/Regex.g:223:8: ( '{' )
+            // /Users/volker/Desktop/Regex/Regex.g:223:10: '{'
             {
             match('{'); 
              numQuantifierMode = true; 
@@ -1168,8 +1183,8 @@ public class RegexLexer extends Lexer {
         try {
             int _type = RBRACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/volker/Desktop/Regex/Regex.g:219:8: ( '}' )
-            // /Users/volker/Desktop/Regex/Regex.g:219:10: '}'
+            // /Users/volker/Desktop/Regex/Regex.g:225:8: ( '}' )
+            // /Users/volker/Desktop/Regex/Regex.g:225:10: '}'
             {
             match('}'); 
              numQuantifierMode = false; 
@@ -1189,8 +1204,8 @@ public class RegexLexer extends Lexer {
         try {
             int _type = LBRACKET;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/volker/Desktop/Regex/Regex.g:221:9: ( '[' )
-            // /Users/volker/Desktop/Regex/Regex.g:221:11: '['
+            // /Users/volker/Desktop/Regex/Regex.g:227:9: ( '[' )
+            // /Users/volker/Desktop/Regex/Regex.g:227:11: '['
             {
             match('['); 
              classMode = true; 
@@ -1210,8 +1225,8 @@ public class RegexLexer extends Lexer {
         try {
             int _type = RBRACKET;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/volker/Desktop/Regex/Regex.g:223:9: ( ']' )
-            // /Users/volker/Desktop/Regex/Regex.g:223:11: ']'
+            // /Users/volker/Desktop/Regex/Regex.g:229:9: ( ']' )
+            // /Users/volker/Desktop/Regex/Regex.g:229:11: ']'
             {
             match(']'); 
              classMode = false; 
@@ -1229,7 +1244,7 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "LETTER"
     public final void mLETTER() throws RecognitionException {
         try {
-            // /Users/volker/Desktop/Regex/Regex.g:230:8: ( 'A' .. 'Z' | 'a' .. 'z' )
+            // /Users/volker/Desktop/Regex/Regex.g:236:8: ( 'A' .. 'Z' | 'a' .. 'z' )
             // /Users/volker/Desktop/Regex/Regex.g:
             {
             if ( (input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='a' && input.LA(1)<='z') ) {
@@ -1253,7 +1268,7 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "HEXDIGIT"
     public final void mHEXDIGIT() throws RecognitionException {
         try {
-            // /Users/volker/Desktop/Regex/Regex.g:233:9: ( DIGIT | 'A' .. 'F' | 'a' .. 'f' )
+            // /Users/volker/Desktop/Regex/Regex.g:239:9: ( DIGIT | 'A' .. 'F' | 'a' .. 'f' )
             // /Users/volker/Desktop/Regex/Regex.g:
             {
             if ( (input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='F')||(input.LA(1)>='a' && input.LA(1)<='f') ) {
@@ -1277,8 +1292,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "OCTALDIGIT"
     public final void mOCTALDIGIT() throws RecognitionException {
         try {
-            // /Users/volker/Desktop/Regex/Regex.g:236:11: ( '0' .. '7' )
-            // /Users/volker/Desktop/Regex/Regex.g:236:13: '0' .. '7'
+            // /Users/volker/Desktop/Regex/Regex.g:242:11: ( '0' .. '7' )
+            // /Users/volker/Desktop/Regex/Regex.g:242:13: '0' .. '7'
             {
             matchRange('0','7'); 
 
@@ -1293,8 +1308,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "DIGIT"
     public final void mDIGIT() throws RecognitionException {
         try {
-            // /Users/volker/Desktop/Regex/Regex.g:239:7: ( '0' .. '9' )
-            // /Users/volker/Desktop/Regex/Regex.g:239:9: '0' .. '9'
+            // /Users/volker/Desktop/Regex/Regex.g:245:7: ( '0' .. '9' )
+            // /Users/volker/Desktop/Regex/Regex.g:245:9: '0' .. '9'
             {
             matchRange('0','9'); 
 
@@ -1307,56 +1322,56 @@ public class RegexLexer extends Lexer {
     // $ANTLR end "DIGIT"
 
     public void mTokens() throws RecognitionException {
-        // /Users/volker/Desktop/Regex/Regex.g:1:8: ( T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | PREDEFINEDCLASS | ALPHANUM | SPECIALCHARACTER | ESCAPEDEDCHARACTER | NONTYPEABLECHARACTER | OCTALCHAR | HEXCHAR | CODEDCHAR | SIMPLEQUANTIFIER | INT | LBRACE | RBRACE | LBRACKET | RBRACKET )
+        // /Users/volker/Desktop/Regex/Regex.g:1:8: ( T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | PREDEFINEDCLASS | ALPHANUM | SPECIALCHARACTER | ESCAPEDEDCHARACTER | NONTYPEABLECHARACTER | OCTALCHAR | HEXCHAR | CODEDCHAR | SIMPLEQUANTIFIER | INT | LBRACE | RBRACE | LBRACKET | RBRACKET )
         int alt8=21;
         alt8 = dfa8.predict(input);
         switch (alt8) {
             case 1 :
-                // /Users/volker/Desktop/Regex/Regex.g:1:10: T__30
-                {
-                mT__30(); 
-
-                }
-                break;
-            case 2 :
-                // /Users/volker/Desktop/Regex/Regex.g:1:16: T__31
+                // /Users/volker/Desktop/Regex/Regex.g:1:10: T__31
                 {
                 mT__31(); 
 
                 }
                 break;
-            case 3 :
-                // /Users/volker/Desktop/Regex/Regex.g:1:22: T__32
+            case 2 :
+                // /Users/volker/Desktop/Regex/Regex.g:1:16: T__32
                 {
                 mT__32(); 
 
                 }
                 break;
-            case 4 :
-                // /Users/volker/Desktop/Regex/Regex.g:1:28: T__33
+            case 3 :
+                // /Users/volker/Desktop/Regex/Regex.g:1:22: T__33
                 {
                 mT__33(); 
 
                 }
                 break;
-            case 5 :
-                // /Users/volker/Desktop/Regex/Regex.g:1:34: T__34
+            case 4 :
+                // /Users/volker/Desktop/Regex/Regex.g:1:28: T__34
                 {
                 mT__34(); 
 
                 }
                 break;
-            case 6 :
-                // /Users/volker/Desktop/Regex/Regex.g:1:40: T__35
+            case 5 :
+                // /Users/volker/Desktop/Regex/Regex.g:1:34: T__35
                 {
                 mT__35(); 
 
                 }
                 break;
-            case 7 :
-                // /Users/volker/Desktop/Regex/Regex.g:1:46: T__36
+            case 6 :
+                // /Users/volker/Desktop/Regex/Regex.g:1:40: T__36
                 {
                 mT__36(); 
+
+                }
+                break;
+            case 7 :
+                // /Users/volker/Desktop/Regex/Regex.g:1:46: T__37
+                {
+                mT__37(); 
 
                 }
                 break;
@@ -1534,7 +1549,7 @@ public class RegexLexer extends Lexer {
             this.transition = DFA3_transition;
         }
         public String getDescription() {
-            return "178:1: SPECIALCHARACTER : ( ' ' | '!' | '\\'' | '\"' | '%' | '&' | '/' | ':' | ';' | '<' | '=' | '>' | '@' | '_' | '`' | '~' | {...}? => ',' | {...}? => ( '?' | '*' | '+' ) );";
+            return "184:1: SPECIALCHARACTER : ( ' ' | '!' | '\\'' | '\"' | '%' | '&' | '/' | ':' | ';' | '<' | '=' | '>' | '@' | '_' | '`' | '~' | {...}? => ',' | {...}? => ( '?' | '*' | '+' ) );";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             IntStream input = _input;
@@ -1662,7 +1677,7 @@ public class RegexLexer extends Lexer {
             this.transition = DFA4_transition;
         }
         public String getDescription() {
-            return "186:1: ESCAPEDEDCHARACTER : ( '\\\\$' | '\\\\&' | '\\\\(' | '\\\\)' | | '\\\\,' | '\\\\-' | '\\\\.' | '\\\\[' | '\\\\]' | '\\\\^' | '\\\\{' | '\\\\}' | '\\\\\\\\' | '\\\\|' | '\\\\*' | '\\\\+' | '\\\\?' );";
+            return "192:1: ESCAPEDEDCHARACTER : ( '\\\\$' | '\\\\&' | '\\\\(' | '\\\\)' | | '\\\\,' | '\\\\-' | '\\\\.' | '\\\\[' | '\\\\]' | '\\\\^' | '\\\\{' | '\\\\}' | '\\\\\\\\' | '\\\\|' | '\\\\*' | '\\\\+' | '\\\\?' );";
         }
     }
     static final String DFA8_eotS =
@@ -1680,8 +1695,8 @@ public class RegexLexer extends Lexer {
         "\1\12\1\uffff\1\13\1\22\1\23\1\24\1\25\1\uffff\1\14\1\15\1\16\1"+
         "\17\1\uffff\1\21\1\uffff\1\7\1\20";
     static final String DFA8_specialS =
-        "\1\1\12\uffff\1\0\1\uffff\1\4\5\uffff\1\5\4\uffff\1\3\1\uffff\1"+
-        "\2\2\uffff}>";
+        "\1\2\12\uffff\1\4\1\uffff\1\0\5\uffff\1\1\4\uffff\1\5\1\uffff\1"+
+        "\3\2\uffff}>";
     static final String[] DFA8_transitionS = {
             "\3\14\1\uffff\1\2\3\14\1\5\1\6\2\15\1\7\1\4\1\10\1\14\12\13"+
             "\5\14\1\15\1\14\32\12\1\21\1\11\1\22\1\1\2\14\32\12\1\17\1\3"+
@@ -1749,28 +1764,41 @@ public class RegexLexer extends Lexer {
             this.transition = DFA8_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T__30 | T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | PREDEFINEDCLASS | ALPHANUM | SPECIALCHARACTER | ESCAPEDEDCHARACTER | NONTYPEABLECHARACTER | OCTALCHAR | HEXCHAR | CODEDCHAR | SIMPLEQUANTIFIER | INT | LBRACE | RBRACE | LBRACKET | RBRACKET );";
+            return "1:1: Tokens : ( T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | PREDEFINEDCLASS | ALPHANUM | SPECIALCHARACTER | ESCAPEDEDCHARACTER | NONTYPEABLECHARACTER | OCTALCHAR | HEXCHAR | CODEDCHAR | SIMPLEQUANTIFIER | INT | LBRACE | RBRACE | LBRACKET | RBRACKET );";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             IntStream input = _input;
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA8_11 = input.LA(1);
+                        int LA8_13 = input.LA(1);
 
                          
-                        int index8_11 = input.index();
+                        int index8_13 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( ((LA8_11>='0' && LA8_11<='9')) && ((numQuantifierMode))) {s = 25;}
-
-                        else s = 24;
+                        s = 26;
 
                          
-                        input.seek(index8_11);
+                        input.seek(index8_13);
                         if ( s>=0 ) return s;
                         break;
                     case 1 : 
+                        int LA8_19 = input.LA(1);
+
+                         
+                        int index8_19 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( (!(((!numQuantifierMode)))) ) {s = 27;}
+
+                        else if ( ((!numQuantifierMode)) ) {s = 12;}
+
+                         
+                        input.seek(index8_19);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 2 : 
                         int LA8_0 = input.LA(1);
 
                          
@@ -1817,7 +1845,7 @@ public class RegexLexer extends Lexer {
                         input.seek(index8_0);
                         if ( s>=0 ) return s;
                         break;
-                    case 2 : 
+                    case 3 : 
                         int LA8_26 = input.LA(1);
 
                          
@@ -1832,7 +1860,22 @@ public class RegexLexer extends Lexer {
                         input.seek(index8_26);
                         if ( s>=0 ) return s;
                         break;
-                    case 3 : 
+                    case 4 : 
+                        int LA8_11 = input.LA(1);
+
+                         
+                        int index8_11 = input.index();
+                        input.rewind();
+                        s = -1;
+                        if ( ((LA8_11>='0' && LA8_11<='9')) && ((numQuantifierMode))) {s = 25;}
+
+                        else s = 24;
+
+                         
+                        input.seek(index8_11);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 5 : 
                         int LA8_24 = input.LA(1);
 
                          
@@ -1845,34 +1888,6 @@ public class RegexLexer extends Lexer {
 
                          
                         input.seek(index8_24);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 4 : 
-                        int LA8_13 = input.LA(1);
-
-                         
-                        int index8_13 = input.index();
-                        input.rewind();
-                        s = -1;
-                        s = 26;
-
-                         
-                        input.seek(index8_13);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 5 : 
-                        int LA8_19 = input.LA(1);
-
-                         
-                        int index8_19 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( (!(((!numQuantifierMode)))) ) {s = 27;}
-
-                        else if ( ((!numQuantifierMode)) ) {s = 12;}
-
-                         
-                        input.seek(index8_19);
                         if ( s>=0 ) return s;
                         break;
             }
