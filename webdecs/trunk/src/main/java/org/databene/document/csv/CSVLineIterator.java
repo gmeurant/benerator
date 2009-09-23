@@ -107,8 +107,8 @@ public class CSVLineIterator implements HeavyweightIterator<String[]> {
 
     public CSVLineIterator(Reader reader, char separator, boolean ignoreEmptyLines) throws IOException {
         this.tokenizer = new CSVTokenizer(reader, separator);
-        this.nextLine = parseNextLine();
         this.ignoreEmptyLines = ignoreEmptyLines;
+        this.nextLine = parseNextLine();
         this.lineCount = 0;
         this.eol = false;
     }
