@@ -8,6 +8,7 @@ The new version mainly features a completely redesigned regular expression parse
 Enhancements
 ------------
 - Redesigned the regular expression parser based on ANTLR3
+- The DelocalizingConverter now supports all diacritic characters I could find
 - Improvements in XLS file parsing
 - Code cleanup
 - Extended and new utility classes
