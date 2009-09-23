@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -31,8 +31,12 @@ import junit.framework.TestCase;
 import java.util.Arrays;
 import java.util.Locale;
 
+import org.databene.commons.converter.ToStringConverter;
+
 /**
+ * Tests the {@link ArrayFormat}.
  * Created: 20.06.2007 08:52:26
+ * @author Volker Bergmann
  */
 public class ArrayFormatTest extends TestCase {
 
@@ -56,7 +60,7 @@ public class ArrayFormatTest extends TestCase {
     }
 
     public void testFormatWithFormatAndSeparator() {
-        assertEquals("de/en/fr", ArrayFormat.format(new ToStringFormat(""), "/", LOCALES));
+        assertEquals("de/en/fr", ArrayFormat.format(new ToStringConverter(), "/", LOCALES));
     }
 
     public void testFormatPartSimple() {
@@ -68,10 +72,11 @@ public class ArrayFormatTest extends TestCase {
     }
 
     public void testFormatPartWithFormatAndSeparator() {
-        assertEquals("de/en", ArrayFormat.formatPart(ToStringFormat.getDefault(), "/", 0, 2, LOCALES));
+        assertEquals("de/en", ArrayFormat.formatPart(new ToStringConverter(), "/", 0, 2, LOCALES));
     }
 
     public void testFormatIntArray() {
         assertEquals("1.2.3", ArrayFormat.formatInts(".", 1, 2, 3));
     }
+    
 }
