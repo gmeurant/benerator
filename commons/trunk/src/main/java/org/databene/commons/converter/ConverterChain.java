@@ -26,41 +26,49 @@
 
 package org.databene.commons.converter;
 
-import org.databene.commons.CollectionUtil;
+import org.databene.commons.ArrayUtil;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
-
-import java.util.ArrayList;
 
 /**
  * Aggregates other (sub) converters and implements conversion by subsequent invocation of the sub generators,
  * each converting the result of the preceding converter.<br/>
  * <br/>
  * Created: 13.05.2005 17:43:04
+ * @since 0.1
  * @author Volker Bergmann
  */
 @SuppressWarnings("unchecked")
 public class ConverterChain<S, T> implements Converter<S, T> {
 
-	private ArrayList<Converter> converters;
+	private Converter[] converters;
 
 	public ConverterChain(Converter ... converters) {
-        this.converters = new ArrayList<Converter>(converters.length);
-        add(converters);
+        this.converters = converters;
     }
+	
+	// properties ------------------------------------------------------------------------------------------------------
 
-	public void add(Converter... converters) {
-        CollectionUtil.add(this.converters, converters);
+	public Converter[] getComponents() {
+        return converters;
+    }
+	
+	public void setComponents(Converter[] converters) {
+        this.converters = converters;
+    }
+	
+	public void addComponent(Converter converter) {
+        this.converters = ArrayUtil.append(this.converters, converter);
     }
 	
 	// Converter interface implementation ------------------------------------------------------------------------------
 
 	public Class<T> getTargetType() {
-        return converters.get(converters.size() - 1).getTargetType();
+        return (converters.length > 0 ? converters[converters.length - 1].getTargetType() : Object.class);
     }
 
 	public boolean canConvert(Object sourceValue) {
-		return converters.get(0).canConvert(sourceValue);
+		return (converters.length > 0 ? converters[0].canConvert(sourceValue) : false);
 	}
 
 	public T convert(S source) throws ConversionException {
