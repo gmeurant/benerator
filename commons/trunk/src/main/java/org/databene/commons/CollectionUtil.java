@@ -220,5 +220,11 @@ public final class CollectionUtil {
 	public static <T> T lastElement(List<T> list) {
 		return list.get(list.size() - 1);
 	}
+
+	private static final List EMPTY_LIST = new ArrayList();
+	
+    public static <T> List<T> emptyList() {
+	    return (List<T>) EMPTY_LIST;
+    }
 	
 }
