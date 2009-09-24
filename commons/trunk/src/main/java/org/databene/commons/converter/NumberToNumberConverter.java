@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -35,6 +35,7 @@ import java.math.BigDecimal;
  * Converts Number objects of one type to another Number type.<br/>
  * <br/>
  * Created: 16.06.2007 11:51:14
+ * @author Volker Bergmann
  */
 public class NumberToNumberConverter<S extends Number, T extends Number> extends FixedSourceTypeConverter<S, T> {
 
@@ -72,6 +73,8 @@ public class NumberToNumberConverter<S extends Number, T extends Number> extends
      * @return an object of the primitive target type
      */
     private static Object convertNumberToPrimitive(Number src, Class<?> targetType) {
+    	if (src == null)
+    		return null;
         if (int.class.equals(targetType))
             return src.intValue();
         else if (byte.class.equals(targetType))
