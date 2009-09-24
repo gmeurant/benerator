@@ -938,7 +938,7 @@ public final class BeanUtil {
 		boolean first = true;
 		for (PropertyDescriptor descriptor : descriptors) {
 			String propertyName = descriptor.getName();
-			if (!"class".equals(propertyName)) {
+			if (!"class".equals(propertyName) && descriptor.getReadMethod() != null) {
 				if (first)
 					builder.append('[');
 				else
