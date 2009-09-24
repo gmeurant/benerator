@@ -41,7 +41,7 @@ public class CellEditorManager {
     public static DefaultCellEditor createEditor(Class<?> targetType) {
         if (String.class.isAssignableFrom(targetType))
             return new DefaultCellEditor(new JTextField());
-        else if (Number.class.isAssignableFrom(targetType) || BeanUtil.isPrimitiveNumber(targetType.getName()))
+        else if (Number.class.isAssignableFrom(targetType) || BeanUtil.isPrimitiveNumberType(targetType.getName()))
             return new NumberCellEditor(targetType);
         else if (Boolean.class.equals(targetType))
             return new CheckBoxTableCellEditor();
