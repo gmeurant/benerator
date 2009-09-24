@@ -48,5 +48,5 @@ public abstract class AbstractConstraintValidator<A extends Annotation, T> imple
     public String toString() {
         return BeanUtil.toString(this);
     }
-    
+    // TODO have adapter to databene Validators?
 }
