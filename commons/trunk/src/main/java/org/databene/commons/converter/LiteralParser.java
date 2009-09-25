@@ -106,7 +106,7 @@ public class LiteralParser extends FixedSourceTypeConverter<String, Object> {
     
     // private helpers -------------------------------------------------------------------------------------------------
 
-    private static Object parseDate(String trimmed) {
+    private static Object parseDate(String trimmed) { // TODO support parsing times
         StringCharacterIterator iterator = new StringCharacterIterator(trimmed);
         // parse day
         Long year = parseNonNegativeIntegerPart(iterator, true);
