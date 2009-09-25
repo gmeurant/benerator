@@ -34,6 +34,7 @@ import java.io.*;
 import java.net.URL;
 import java.net.MalformedURLException;
 import java.net.URLConnection;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
 
@@ -41,6 +42,7 @@ import java.util.Properties;
  * Provides stream operations.<br/>
  * <br/>
  * Created: 17.07.2006 22:17:42
+ * @since 0.1
  * @author Volker Bergmann
  */
 public final class IOUtil {
@@ -64,6 +66,23 @@ public final class IOUtil {
             } catch (IOException e) {
                 logger.error("Error closing " + closeable, e);
             }
+        }
+    }
+
+    public static <T extends Collection<? extends Closeable>> void closeAll(T closeables) {
+        if (closeables != null) {
+        	Throwable t = null;
+        	for (Closeable closeable : closeables) {
+	            try {
+	                closeable.close();
+	            } catch (IOException e) {
+	                logger.error("Error closing " + closeable, e);
+	            } catch (Throwable e) {
+	                t = e;
+	            }
+        	}
+        	if (t != null)
+        		throw new RuntimeException("Error closing resources", t);
         }
     }
 
