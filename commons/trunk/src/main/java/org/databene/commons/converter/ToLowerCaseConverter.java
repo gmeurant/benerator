@@ -32,7 +32,7 @@ import java.util.Locale;
  * Converts Strings to lowercase.<br/>
  * <br/>
  * Created at 26.05.2009 09:10:24
- * @since 0.6.0
+ * @since 0.5.0
  * @author Volker Bergmann
  */
 

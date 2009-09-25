@@ -1,3 +1,4 @@
+org.databene.commons.converter.String2DateConverter
 org.databene.commons.converter.String2LocaleConverter
 org.databene.commons.converter.String2ClassConverter
 org.databene.commons.converter.Date2CalendarConverter

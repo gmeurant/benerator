@@ -35,7 +35,7 @@ import org.databene.commons.ConversionException;
  * Parses a {@link String} as {@link DateFormat}.<br/>
  * <br/>
  * Created at 13.07.2009 18:38:54
- * @since 0.6.0
+ * @since 0.5.0
  * @author Volker Bergmann
  */
 

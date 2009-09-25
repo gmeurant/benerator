@@ -32,7 +32,7 @@ import junit.framework.TestCase;
  * Tests the {@link RegexValidator}.<br/>
  * <br/>
  * Created at 15.07.2009 15:51:36
- * @since 0.6.0
+ * @since 0.5.0
  * @author Volker Bergmann
  */
 

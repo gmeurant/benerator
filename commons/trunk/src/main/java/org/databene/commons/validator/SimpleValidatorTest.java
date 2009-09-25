@@ -34,7 +34,7 @@ import junit.framework.TestCase;
  * Simple helper class that provides methods for testing validators.<br/>
  * <br/>
  * Created at 24.07.2009 17:52:21
- * @since 0.6.0
+ * @since 0.5.0
  * @author Volker Bergmann
  */
 

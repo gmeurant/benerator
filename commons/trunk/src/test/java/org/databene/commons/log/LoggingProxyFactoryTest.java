@@ -32,7 +32,7 @@ import junit.framework.TestCase;
  * Tests the {@link LoggingProxyFactory}.<br/>
  * <br/>
  * Created at 17.09.2009 18:47:09
- * @since 0.6.0
+ * @since 0.5.0
  * @author Volker Bergmann
  */
 

@@ -30,7 +30,7 @@ package org.databene.commons.math;
  * Simple non-thread-save implementation of a mutable integer object.<br/>
  * <br/>
  * Created at 12.07.2009 00:34:24
- * @since 0.6.0
+ * @since 0.5.0
  * @author Volker Bergmann
  */
 

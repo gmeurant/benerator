@@ -37,7 +37,7 @@ import org.databene.commons.Validator;
  * that validates a String by a regular expression.<br/>
  * <br/>
  * Created at 15.07.2009 15:22:21
- * @since 0.6.0
+ * @since 0.5.0
  * @author Volker Bergmann
  */
 

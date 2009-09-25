@@ -37,7 +37,7 @@ import org.databene.commons.Converter;
  * to render argument objects in C-like printf format.<br/>
  * <br/>
  * Created at 20.07.2009 07:18:43
- * @since 0.6.0
+ * @since 0.5.0
  * @author Volker Bergmann
  */
 

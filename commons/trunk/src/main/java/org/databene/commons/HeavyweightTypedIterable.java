@@ -30,7 +30,7 @@ package org.databene.commons;
  * TypedIterable which is a Heavyweight.<br/>
  * <br/>
  * Created at 24.07.2009 10:53:46
- * @since 0.6.0
+ * @since 0.5.0
  * @author Volker Bergmann
  */
 

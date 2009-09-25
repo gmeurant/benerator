@@ -35,7 +35,7 @@ import org.databene.commons.bean.PropertyAccessorFactory;
  * {@link Converter} implementation that reads a property form a JavaBean.<br/>
  * <br/>
  * Created at 15.07.2009 23:19:18
- * @since 0.6.0
+ * @since 0.5.0
  * @author Volker Bergmann
  */
 
