@@ -35,7 +35,7 @@ import java.io.IOException;
  * Created: 01.05.2007 08:06:46
  * @author Volker Bergmann
  */
-public class ReaderLineIterator implements HeavyweightIterator<String> {
+public class ReaderLineIterator implements HeavyweightIterator<String> { // TODO property 'skipEmptyLines'
 
     private BufferedReader reader;
     private String next;
