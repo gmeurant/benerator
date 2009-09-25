@@ -14,6 +14,8 @@ public class ArrayBuilder<E> {
     
     private static final int DEFAULT_INITIAL_CAPACITY = 10;
     
+    private static Escalator escalator = new LoggerEscalator();
+    
     private Class<E> componentType;
     private E[] buffer;
     private int elementCount;
@@ -30,7 +32,9 @@ public class ArrayBuilder<E> {
     /** @deprecated replaced with add(Element) */
     @Deprecated
     public ArrayBuilder<E> append(E element) {
-        return add(element); // TODO deprecation warning
+    	escalator.escalate(getClass().getName() + ".append() is deprecated, please use the add() method", 
+    			getClass(), null);
+        return add(element);
     }
     
     public ArrayBuilder<E> add(E element) {
