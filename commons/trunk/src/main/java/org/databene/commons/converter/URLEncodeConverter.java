@@ -31,7 +31,7 @@ import java.net.URLEncoder;
 import org.databene.commons.ConversionException;
 
 /**
- * TODO document class URLEncodeConverter.<br/>
+ * Converts Strings to their URL-encoded representation.<br/>
  * <br/>
  * Created at 04.07.2009 07:11:19
  * @since 0.5.0
