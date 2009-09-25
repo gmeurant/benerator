@@ -31,7 +31,7 @@ import java.util.Iterator;
 import org.databene.commons.Assert;
 
 /**
- * TODO document class ArrayIterator.<br/>
+ * {@link Iterator} implementation that iterates the elements of an array.
  * <br/>
  * Created at 30.06.2009 09:26:55
  * @since 0.5.0
