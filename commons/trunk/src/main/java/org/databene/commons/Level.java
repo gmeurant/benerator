@@ -27,10 +27,10 @@
 package org.databene.commons;
 
 /**
- * TODO document class Level.<br/>
+ * Represents a log or failure level.<br/>
  * <br/>
  * Created at 18.09.2009 13:46:48
- * @since 0.6.0
+ * @since 0.5.0
  * @author Volker Bergmann
  */
 
