@@ -91,7 +91,8 @@ public class DBSnapshotMojo extends AbstractBeneratorMojo {
 		Assert.notNull(dbUrl, "dbUrl");
 		Assert.notNull(dbDriver, "dbDriver");
 		Assert.notNull(dbUser, "dbUser");
-		DBSnapshotTool.export(dbUrl, dbDriver, dbSchema, dbUser, dbPassword, "snapshot.dbunit.xml");
+		DBSnapshotTool.export(dbUrl, dbDriver, dbSchema, dbUser, dbPassword, "snapshot.dbunit.xml", "dbunit");
+		// TODO support different export formats
 	}
 
 }
