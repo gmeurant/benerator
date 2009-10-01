@@ -31,6 +31,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.databene.commons.converter.AbstractFormatter;
 import org.databene.commons.converter.ToStringConverter;
 
 /**
@@ -38,33 +39,21 @@ import org.databene.commons.converter.ToStringConverter;
  * Created: 14.03.2008 22:47:57
  * @author Volker Bergmann
  */
-public class CompositeFormatter {
+public class CompositeFormatter extends AbstractFormatter {
     
-    private static final String DEFAULT_TIMESTAMP_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
-	private static final String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
-
 	private static final String INDENT_DELTA = "    ";
     
 	boolean flat;
 	boolean renderNames;
-    private String datePattern;
-    private String timestampPattern;
-    private String nullValue;
 
     public CompositeFormatter() {
     	this(true, true);
     }
     
     public CompositeFormatter(boolean flat, boolean renderNames) {
-    	this(flat, renderNames, DEFAULT_DATE_PATTERN, DEFAULT_TIMESTAMP_PATTERN);
-    }
-    
-    public CompositeFormatter(boolean flat, boolean renderNames, String datePattern, String timestampPattern) {
+    	super("[null]");
     	this.flat = flat;
     	this.renderNames = renderNames;
-    	this.datePattern = datePattern;
-    	this.timestampPattern = timestampPattern;
-    	this.nullValue = "[null]";
     }
     
     // interface -------------------------------------------------------------------------------------------------------
@@ -80,22 +69,6 @@ public class CompositeFormatter {
         return head + renderComponentsHierarchical(composite, indent) + tail;
     }
     
-    public String getDatePattern() {
-		return datePattern;
-	}
-
-	public void setDatePattern(String datePattern) {
-		this.datePattern = datePattern;
-	}
-
-	public String getTimestampPattern() {
-		return timestampPattern;
-	}
-
-	public void setTimestampPattern(String timestampPattern) {
-		this.timestampPattern = timestampPattern;
-	}
-
     // private helpers -------------------------------------------------------------------------------------------------
     
 	private <T> String renderFlat(String head, Composite<T> composite, String tail) {
@@ -142,13 +115,13 @@ public class CompositeFormatter {
             builder.append(component.getKey()).append('=');
         Object value = component.getValue();
         if (value == null) {
-            value = nullValue;
+            value = nullString;
         } else if (value instanceof Date) {
             Date date = (Date) value;
             if (TimeUtil.isMidnight(date))
                 value = new SimpleDateFormat(datePattern).format((Date) value);
             else
-                value = new SimpleDateFormat(timestampPattern).format((Date) value);
+                value = new SimpleDateFormat(dateTimePattern).format((Date) value);
         } else if (value instanceof Composite) {
             value = render("[", (Composite) value, "]") ;
         } else if (value.getClass().isArray()) {
