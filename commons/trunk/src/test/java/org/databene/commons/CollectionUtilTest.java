@@ -82,8 +82,8 @@ public class CollectionUtilTest extends TestCase {
 
     public void testEmpty() {
         assertTrue(CollectionUtil.isEmpty(null));
-        assertTrue(CollectionUtil.isEmpty(new HashSet()));
-        assertTrue(CollectionUtil.isEmpty(new ArrayList()));
+        assertTrue(CollectionUtil.isEmpty(new HashSet<String>()));
+        assertTrue(CollectionUtil.isEmpty(new ArrayList<String>()));
         assertFalse(CollectionUtil.isEmpty(Arrays.asList(1)));
     }
 
