@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -33,21 +33,28 @@ import java.io.IOException;
 /**
  * Iterator implementation that returns text lines provided by a reader.<br/><br/>
  * Created: 01.05.2007 08:06:46
+ * @since 0.1
  * @author Volker Bergmann
  */
-public class ReaderLineIterator implements HeavyweightIterator<String> { // TODO property 'skipEmptyLines'
+public class ReaderLineIterator implements HeavyweightIterator<String> {
 
     private BufferedReader reader;
+    private boolean skipEmptyLines;
     private String next;
 
     private int lineCount;
 
     public ReaderLineIterator(Reader reader) {
+    	this(reader, false);
+    }
+    
+    public ReaderLineIterator(Reader reader, boolean skipEmptyLines) {
         if (reader instanceof BufferedReader)
             this.reader = (BufferedReader) reader;
         else
             this.reader = new BufferedReader(reader);
-        lineCount = 0;
+        this.skipEmptyLines = skipEmptyLines;
+        this.lineCount = 0;
         fetchNext();
     }
 
@@ -83,7 +90,9 @@ public class ReaderLineIterator implements HeavyweightIterator<String> { // TODO
     private void fetchNext() {
         try {
             if (reader != null) {
-                next = reader.readLine();
+            	do {
+            		next = reader.readLine();
+            	} while (skipEmptyLines && next != null && next.trim().length() == 0);
                 if (next == null)
                     close();
                 lineCount++;
