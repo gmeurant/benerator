@@ -221,10 +221,12 @@ public final class CollectionUtil {
 		return list.get(list.size() - 1);
 	}
 
-	private static final List EMPTY_LIST = new ArrayList();
+	@SuppressWarnings("unchecked")
+    private static final List EMPTY_LIST = Collections.emptyList();
 	
+    @SuppressWarnings("unchecked")
     public static <T> List<T> emptyList() {
-	    return (List<T>) EMPTY_LIST;
+	    return EMPTY_LIST;
     }
 	
 }
