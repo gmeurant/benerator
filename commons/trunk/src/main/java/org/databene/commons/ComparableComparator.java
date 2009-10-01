@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -31,10 +31,12 @@ import java.util.Comparator;
 /**
  * Implementation of Comparator&lt;Comparable&gt;.
  * Created: 06.01.2005 20:12:40
+ * @author Volker Bergmann
  */
+@SuppressWarnings("unchecked")
 public class ComparableComparator<E extends Comparable> implements Comparator<E>{
 
     public int compare(E o1, E o2) {
-        return o1.compareTo((E)o2);
+        return o1.compareTo(o2);
     }
 }
