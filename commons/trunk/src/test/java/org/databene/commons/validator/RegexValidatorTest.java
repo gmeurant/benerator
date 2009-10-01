@@ -26,6 +26,8 @@
 
 package org.databene.commons.validator;
 
+import javax.validation.constraints.Pattern;
+
 import junit.framework.TestCase;
 
 /**
@@ -38,8 +40,22 @@ import junit.framework.TestCase;
 
 public class RegexValidatorTest extends TestCase {
 
-	public void test() {
+	public void testDefault() {
 		RegexValidator validator = new RegexValidator("[0-9]");
+		assertTrue(validator.valid("3"));
+		assertFalse(validator.valid("a"));
+		assertFalse(validator.valid("a"));
+	}
+	
+	public void testBeanSetup() {
+		RegexValidator validator = new RegexValidator();
+		validator.setRegexp("[0-9]");
+		assertTrue(validator.valid("3"));
+		assertFalse(validator.valid("a"));
+	}
+	
+	public void testCommentFlag() {
+		RegexValidator validator = new RegexValidator(" [0-9] # comment", Pattern.Flag.COMMENTS);
 		assertTrue(validator.valid("3"));
 		assertFalse(validator.valid("a"));
 	}

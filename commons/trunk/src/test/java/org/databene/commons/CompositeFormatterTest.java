@@ -76,7 +76,8 @@ public class CompositeFormatterTest extends TestCase {
 
 	private void checkRendering(String expected, String name, Object value) {
 		StringBuilder builder = new StringBuilder();
-		formatter.renderComponent(builder, "", new MapEntry(name, value));
+		formatter.renderComponent(builder, "", new MapEntry<String, Object>(name, value));
 		assertEquals(expected, builder.toString());
 	}
+	
 }

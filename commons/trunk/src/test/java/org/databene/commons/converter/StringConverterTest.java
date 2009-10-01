@@ -30,6 +30,7 @@ import junit.framework.TestCase;
 import org.databene.SomeEnum;
 import org.databene.commons.ArrayUtil;
 import org.databene.commons.ConversionException;
+import org.databene.commons.TimeUtil;
 import org.databene.commons.converter.StringConverter;
 
 import java.io.File;
@@ -42,9 +43,11 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 /**
  * Tests the StringConverter.<br/>
@@ -119,18 +122,14 @@ public class StringConverterTest extends TestCase {
         assertEquals(new GregorianCalendar(1970, 0, 1).getTimeInMillis(), StringConverter.convert("1970-01-01", Date.class).getTime());
     }
 
-    /* TODO v0.5 support this
     public void test2GregorianCalendar() {
         assertEquals(new GregorianCalendar(1970, 0, 1), StringConverter.convert("1970-01-01", GregorianCalendar.class));
         assertEquals(new GregorianCalendar(2001, 1, 2, 3, 4, 5), StringConverter.convert("2001-02-02T03:04:05", GregorianCalendar.class));
     }
-    */
     
-    /* TODO v0.5 support this
     public void test2Calendar() {
         assertEquals(new GregorianCalendar(1970, 0, 1), StringConverter.convert("1970-01-01", Calendar.class));
     }
-    */
     
     public void test2StringArray() {
         assertTrue(Arrays.equals(
@@ -206,17 +205,22 @@ public class StringConverterTest extends TestCase {
         assertEquals(new GregorianCalendar(1970, 0, 1).getTimeInMillis(), StringConverter.convert("1970-01-01", java.sql.Date.class).getTime());
     }
 
-    /* TODO v0.5 support this
     public void test2SqlTime() {
-        assertEquals(TimeUtil.time(12, 34, 56, 789), StringConverter.convert("12:34:56,789", java.sql.Time.class));
+        assertEquals(TimeUtil.time(12, 34, 56, 789), StringConverter.convert("12:34:56.789", java.sql.Time.class));
     }
     
     public void test2SqlTimestamp() {
-        assertEquals(TimeUtil.time(12, 34, 56, 789), StringConverter.convert("12:34:56,789", java.sql.Timestamp.class));
+        assertEquals(
+        	TimeUtil.timestamp(2008, 1, 1, 12, 34, 56, 789000000), 
+        	StringConverter.convert("2008-02-01T12:34:56.789", java.sql.Timestamp.class));
     }
 
     public void test2Pattern() {
-        assertEquals(Pattern.compile("[1-3]{2,4}"), StringConverter.convert("[1-3]{2,4}", Pattern.class));
+    	// the Pattern's equal() method does not seem to be implemented correctly, 
+    	// so we only compare the String representations
+        assertEquals(
+        		Pattern.compile("[1-3]{2,4}").toString(), 
+        		StringConverter.convert("[1-3]{2,4}", Pattern.class).toString());
     }
-	*/
+	
 }

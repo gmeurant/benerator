@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -33,19 +33,33 @@ import java.io.StringReader;
 import java.io.Reader;
 
 /**
+ * Tests the {@link ReaderLineIterator}.<br/>
+ * <br/>
  * Created: 01.05.2007 09:36:47
+ * @author Volker Bergmann
  */
 public class ReaderLineIteratorTest extends TestCase {
 
     private static final String SEP = SystemInfo.getLineSeparator();
 
-    public void test() {
+    public void testDefaultIteration() {
         Reader reader = new StringReader("alpha " + SEP + " beta" + SEP);
         ReaderLineIterator iterator = new ReaderLineIterator(reader);
-        assertTrue(iterator.hasNext());
+        checkIteration(iterator);
+    }
+    
+    public void testSkipEmptyLines() {
+        Reader reader = new StringReader("alpha " + SEP + SEP + " beta" + SEP);
+        ReaderLineIterator iterator = new ReaderLineIterator(reader, true);
+        checkIteration(iterator);
+    }
+
+    private void checkIteration(ReaderLineIterator iterator) {
+	    assertTrue(iterator.hasNext());
         assertEquals("alpha ", iterator.next());
         assertTrue(iterator.hasNext());
         assertEquals(" beta", iterator.next());
         assertFalse(iterator.hasNext());
     }
+    
 }

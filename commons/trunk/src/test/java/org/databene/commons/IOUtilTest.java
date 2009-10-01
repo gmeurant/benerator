@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -32,14 +32,23 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Arrays;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
+ * Tests the {@link IOUtil} class.<br/><br/>
  * Created: 21.06.2007 08:31:28
+ * @since 0.1
+ * @author Volker Bergmann
  */
 public class IOUtilTest extends TestCase {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(IOUtilTest.class);
 
     public void testClose() {
         IOUtil.close(new ByteArrayInputStream(new byte[0]));
@@ -69,13 +78,35 @@ public class IOUtilTest extends TestCase {
         assertEquals("Alice,Bob\r\nCharly", IOUtil.getContentOfURI("org/databene/commons/names.csv"));
     }
 
-    public void testGetInputStreamForURI() throws Exception {
-        InputStream stream = IOUtil.getInputStreamForURI("org/databene/commons/names.csv");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(stream, "iso-8859-1"));
-        assertEquals("Alice,Bob", reader.readLine());
-        assertEquals("Charly", reader.readLine());
-        assertNull(reader.readLine());
-        reader.close();
+    public void testGetInputStreamForURIOfFileProtocol() throws Exception {
+        InputStream stream = null;
+        BufferedReader reader;
+        try {
+	        stream = IOUtil.getInputStreamForURI("org/databene/commons/names.csv");
+	        reader = new BufferedReader(new InputStreamReader(stream, "iso-8859-1"));
+	        assertEquals("Alice,Bob", reader.readLine());
+	        assertEquals("Charly", reader.readLine());
+	        assertNull(reader.readLine());
+        } finally {
+        	IOUtil.close(stream);
+        }
+    }
+    
+    public void testGetInputStreamForURIOfFtpProtocol() throws Exception {
+    	if (!DatabeneTestUtil.isOnline()) {
+    		LOGGER.info("offline mode: skipping test testGetInputStreamForURIOfFtpProtocol()");
+    		return;
+    	}
+        InputStream stream = null;
+        BufferedReader reader = null;
+        try {
+	        stream = IOUtil.getInputStreamForURI(DatabeneTestUtil.ftpDownloadUrl());
+	        reader = new BufferedReader(new InputStreamReader(stream, "iso-8859-1"));
+	        assertEquals("test", reader.readLine());
+	        assertNull(reader.readLine());
+        } finally {
+        	IOUtil.close(reader);
+        }
     }
     
     public void testGetInputStreamForURIOfStringProtocol() throws Exception {
@@ -128,7 +159,7 @@ public class IOUtilTest extends TestCase {
     	assertEquals("xyz", IOUtil.getProtocol("xyz:///files/index.dat"));
     }
 
-    public void testGetReaderForURI() throws IOException, UnsupportedEncodingException {
+    public void testGetReaderForURI_File() throws IOException, UnsupportedEncodingException {
         BufferedReader reader = IOUtil.getReaderForURI("org/databene/commons/names.csv");
         assertEquals("Alice,Bob", reader.readLine());
         assertEquals("Charly", reader.readLine());
@@ -136,7 +167,7 @@ public class IOUtilTest extends TestCase {
         reader.close();
     }
 
-    public void testGetReaderForURIOfStringProtocol() throws Exception {
+    public void testGetReaderForURI_StringProtocol() throws Exception {
     	BufferedReader reader = IOUtil.getReaderForURI("string://Alice,Bob\r\nCharly");
         assertEquals("Alice,Bob", reader.readLine());
         assertEquals("Charly", reader.readLine());
@@ -144,7 +175,7 @@ public class IOUtilTest extends TestCase {
         reader.close();
     }
 
-    public void testGetReaderForURIOfEmptyFile() throws IOException, UnsupportedEncodingException {
+    public void testGetReaderForURI_EmptyFile() throws IOException, UnsupportedEncodingException {
         BufferedReader reader = IOUtil.getReaderForURI("org/databene/commons/empty.txt");
         assertEquals(-1, reader.read());
         reader.close();
@@ -177,9 +208,9 @@ public class IOUtilTest extends TestCase {
     public void testWriteProperties() throws IOException {
         File file = File.createTempFile("IOUtilTest", "properties");
         try {
-            Properties properties = new Properties();
-            properties.setProperty("a", "1");
-            properties.setProperty("b", "2");
+            Map<String, String> properties = new HashMap<String, String>();
+            properties.put("a", "1");
+            properties.put("b", "2");
             IOUtil.writeProperties(properties, file.getAbsolutePath());
             Properties check = new Properties();
             InputStream stream = new FileInputStream(file);
@@ -204,6 +235,39 @@ public class IOUtilTest extends TestCase {
     	assertEquals(ENCODING, IOUtil.encoding(c3, ENCODING));
     	URLConnection c4 = new URLConnectionMock(URL, null, null);
     	assertEquals(SystemInfo.getFileEncoding(), IOUtil.encoding(c4, null));
+    }
+    
+    public void testOpenOutputStreamForURI_FileProtocol() throws Exception {
+    	String filename = "target" + SystemInfo.getFileSeparator() + "testOpenOutputStreamForURI.txt";
+    	checkFileOutputStream(filename, IOUtil.openOutputStreamForURI(filename));
+    	checkFileOutputStream(filename, IOUtil.openOutputStreamForURI("file:" + filename));
+    }
+
+    public void testOpenOutputStreamForURI_FtpProtocol() throws Exception {
+    	if (!DatabeneTestUtil.isOnline()) {
+    		LOGGER.info("Offline mode: skipping testOpenOutputStreamForURI_FtpProtocol()");
+    		return;
+    	}
+    	String uri = DatabeneTestUtil.ftpUploadUrl();
+    	OutputStream out = IOUtil.openOutputStreamForURI(uri);
+	    try {
+    		out.write("test".getBytes());
+    		IOUtil.close(out);
+            assertEquals("test", IOUtil.getContentOfURI(uri));
+        } finally {
+    		IOUtil.close(out);
+        }
+    }
+
+    private void checkFileOutputStream(String filename, OutputStream out) throws IOException {
+	    try {
+    		out.write("test".getBytes());
+    		IOUtil.close(out);
+            assertEquals("test", IOUtil.getContentOfURI(filename));
+        } finally {
+    		IOUtil.close(out);
+        	FileUtil.deleteIfExists(new File(filename));
+        }
     }
     
     private class URLConnectionMock extends URLConnection {
@@ -235,4 +299,5 @@ public class IOUtilTest extends TestCase {
 				return null;
 		}
     }
+    
 }
