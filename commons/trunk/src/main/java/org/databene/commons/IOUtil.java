@@ -36,7 +36,6 @@ import java.net.MalformedURLException;
 import java.net.URLConnection;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * Provides stream operations.<br/>
@@ -159,6 +158,7 @@ public final class IOUtil {
     }
 
     public static InputStream getInputStreamForURI(String uri) throws IOException {
+    	Assert.notNull(uri, "uri");
     	return getInputStreamForURI(uri, true);
     }
 
@@ -175,24 +175,19 @@ public final class IOUtil {
 			String content = uri.substring("string://".length());
 			return new ByteArrayInputStream(content.getBytes(SystemInfo.getCharset()));
 		}
-        if (uri.startsWith("http://")) {
+        if (uri.startsWith("file://"))
+            return getFileOrResourceAsStream(uri.substring("file://".length()), true);
+        else if (uri.startsWith("file:"))
+            return getFileOrResourceAsStream(uri.substring("file:".length()), true);
+        else if (uri.contains("://")) {
             try {
                 URLConnection connection = getConnection(uri);
                 return connection.getInputStream();
             } catch (MalformedURLException e) {
                 throw new IllegalArgumentException(e);
             }
-        }
-        if (uri.startsWith("file:") && !uri.startsWith("file://"))
-            return getFileOrResourceAsStream(uri.substring("file:".length()), true);
-        if (!uri.contains("://"))
-            uri = "file://" + uri;
-        if (uri.startsWith("file://"))
-            return getFileOrResourceAsStream(uri.substring("file://".length()), true);
-        else if (required)
-            throw new ConfigurationError("Can't handle URL " + uri);
-        else
-        	return null;
+        } else
+        	return getFileOrResourceAsStream(uri, required);
     }
 
     public static InputStream getInputStreamForUriReference(String localUri, String contextUri, boolean required) throws IOException {
@@ -311,11 +306,29 @@ public final class IOUtil {
 
     public static void copy(String srcUri, String targetUri) throws IOException {
         logger.info("downloading " + srcUri + " --> " + targetUri);
-        InputStream in = IOUtil.getInputStreamForURI(srcUri);
-        OutputStream out = new FileOutputStream(targetUri); // TODO v0.5.0 support other protocols, e.g. FTP upload
+        InputStream in = getInputStreamForURI(srcUri);
+        OutputStream out = openOutputStreamForURI(targetUri);
         IOUtil.transfer(in, out);
         out.close();
         in.close();
+    }
+
+    public static OutputStream openOutputStreamForURI(String uri) throws IOException {
+    	if (uri.startsWith("file:")) {
+    		uri = uri.substring(5);
+    		if (uri.startsWith("//"))
+    			uri = uri.substring(2);
+    		return new FileOutputStream(uri);
+    	} else if (uri.contains("://")) {
+    		try {
+	    		URL url = new URL(uri);
+	    		URLConnection urlc = url.openConnection();
+	    		return urlc.getOutputStream();
+    		} catch (MalformedURLException e) {
+    			throw new IllegalArgumentException(e);
+    		}
+    	}
+	    return new FileOutputStream(uri);
     }
 
     // Properties I/O --------------------------------------------------------------------------------------------------
@@ -391,15 +404,15 @@ public final class IOUtil {
         return (line.endsWith("\\") ? line.substring(0, line.length() - 1) : line);
     }
 
-    public static void writeProperties(Properties properties, String filename) throws IOException {
+    public static void writeProperties(Map<String, String> properties, String filename) throws IOException {
         writeProperties(properties, filename, SystemInfo.getFileEncoding());
     }
 
-    public static void writeProperties(Properties properties, String filename, String encoding) throws IOException {
+    public static void writeProperties(Map<String, String> properties, String filename, String encoding) throws IOException {
         PrintWriter stream = null;
         try {
             stream = IOUtil.getPrinterForURI(filename, encoding);
-            for (Map.Entry<Object, Object> entry : properties.entrySet())
+            for (Map.Entry<String, String> entry : properties.entrySet())
                 stream.println(entry.getKey() + "=" + entry.getValue());
         } finally {
             IOUtil.close(stream);
@@ -428,7 +441,7 @@ public final class IOUtil {
     public static void writeTextFile(String filename, String content, String encoding) throws IOException {
         Writer writer = null;
         try {
-            writer = new OutputStreamWriter(new FileOutputStream(filename), encoding);
+            writer = new OutputStreamWriter(openOutputStreamForURI(filename), encoding);
             transfer(new StringReader(content), writer);
         } finally {
             close(writer);
