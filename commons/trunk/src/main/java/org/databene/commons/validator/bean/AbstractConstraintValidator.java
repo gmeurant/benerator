@@ -31,6 +31,7 @@ import java.lang.annotation.Annotation;
 import javax.validation.ConstraintValidator;
 
 import org.databene.commons.BeanUtil;
+import org.databene.commons.Validator;
 
 /**
  * Abstract implementation of the {@link ConstraintValidator} interface. 
@@ -39,7 +40,7 @@ import org.databene.commons.BeanUtil;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public abstract class AbstractConstraintValidator<A extends Annotation, T> implements ConstraintValidator<A, T> {
+public abstract class AbstractConstraintValidator<A extends Annotation, T> implements Validator<T>, ConstraintValidator<A, T> {
 
     public void initialize(A params) {
     }
@@ -48,5 +49,9 @@ public abstract class AbstractConstraintValidator<A extends Annotation, T> imple
     public String toString() {
         return BeanUtil.toString(this);
     }
-    // TODO have adapter to databene Validators?
+    
+    public boolean valid(T candidate) {
+    	return isValid(candidate, null);
+    }
+    
 }
