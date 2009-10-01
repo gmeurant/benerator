@@ -27,6 +27,7 @@
 package org.databene.commons.converter;
 
 import org.databene.commons.ConversionException;
+import org.databene.commons.Patterns;
 import org.databene.commons.StringUtil;
 
 import java.util.Date;
@@ -40,14 +41,14 @@ import java.text.DateFormat;
  * Created: 07.09.2007 09:07:12
  * @author Volker Bergmann
  */
-public class String2DateConverter<E extends Date> extends FixedSourceTypeConverter<String, E> {
+public class String2DateConverter<E extends Date> extends FixedSourceTypeConverter<String, E> implements Patterns {
     
-    // TODO v0.5.0 support time zones (like 'Z', '+01:00' or '-01:30')
+    // TODO v0.6.0 support time zones (like 'Z', '+01:00' or '-01:30')
 
-    private static final String MILLI = "yyyy-MM-dd'T'hh:mm:ss.SSS";
-    private static final String SECONDS = "yyyy-MM-dd'T'hh:mm:ss";
-    private static final String MINUTES = "yyyy-MM-dd'T'hh:mm";
-    private static final String DATE = "y-M-d";
+    private static final String MILLI   = DEFAULT_DATETIME_MILLIS_PATTERN;
+    private static final String SECONDS = DEFAULT_DATETIME_SECONDS_PATTERN;
+    private static final String MINUTES = DEFAULT_DATETIME_MINUTES_PATTERN;
+    private static final String DATE    = DEFAULT_DATE_PATTERN;
 
     @SuppressWarnings("unchecked")
     public String2DateConverter() {
