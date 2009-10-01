@@ -35,6 +35,7 @@ import java.util.Date;
 import org.databene.commons.ArrayFormat;
 import org.databene.commons.Base64Codec;
 import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
 
 /**
  * Converts an object to a String by using its toString() method.
@@ -44,33 +45,10 @@ import org.databene.commons.ConversionException;
  * @since 0.1
  * @author Volker Bergmann
  */
-public class ToStringConverter extends FixedSourceTypeConverter<Object, String> {
-
-	// constants -------------------------------------------------------------------------------------------------------
+public class ToStringConverter extends AbstractFormatter implements Converter<Object, String> {
 	
-	private static final String DEFAULT_NULL_STRING = "";
+	private static ToStringConverter singletonInstance = new ToStringConverter();
 
-	private static final String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
-
-    private static final String DEFAULT_TIMESTAMP_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-    
-    private static ToStringConverter singletonInstance = new ToStringConverter();
-    
-    // attributes ------------------------------------------------------------------------------------------------------
-
-	/** The string used to represent null values */
-    private String nullString;
-    
-    private String datePattern;
-
-    private String timestampPattern;
-    
-    private String timePattern;
-
-    private NumberFormatConverter decimalConverter;
-    
-    private NumberFormatConverter integralConverter;
-    
     // constructors ----------------------------------------------------------------------------------------------------
 
     /** Default constructor that uses an isEmpty String as null representation */
@@ -87,78 +65,18 @@ public class ToStringConverter extends FixedSourceTypeConverter<Object, String> 
     }
 
     public ToStringConverter(String nullString, String datePattern, String timestampPattern) {
-    	super(Object.class, String.class);
-        this.nullString = nullString;
-        this.datePattern = datePattern;
-        this.timestampPattern = timestampPattern;
-        this.decimalConverter = null;
+    	super(nullString, datePattern, timestampPattern);
     }
     
-    // properties ------------------------------------------------------------------------------------------------------
-
-    public String getNullString() {
-        return nullString;
-    }
-
-    public void setNullString(String nullResult) {
-        this.nullString = nullResult;
-    }
-    
-    public String getDatePattern() {
-		return datePattern;
-	}
-
-	public void setDatePattern(String pattern) {
-		this.datePattern = pattern;
-	}
-
-	public String getDateTimePattern() {
-		return timestampPattern;
-	}
-
-	public void setDateTimePattern(String pattern) {
-		this.timestampPattern = pattern;
-	}
-
-	public String getDecimalPattern() {
-		return decimalConverter.getPattern();
-	}
-
-	public void setDecimalPattern(String pattern) {
-		if (decimalConverter == null)
-			decimalConverter = new NumberFormatConverter(pattern);
-		decimalConverter.setPattern(pattern);
-	}
-
-	public char getDecimalSeparator() {
-    	return decimalConverter.getDecimalSeparator();
-    }
-
-	public void setDecimalSeparator(char separator) {
-		if (decimalConverter == null)
-			decimalConverter = new NumberFormatConverter();
-		decimalConverter.setDecimalSeparator(separator);
-    }
-
-	public String getTimePattern() {
-		return timePattern;
-	}
-	
-    public void setTimePattern(String timePattern) {
-	    this.timePattern = timePattern;
-    }
-
-    public String getIntegralPattern() {
-    	return integralConverter.getPattern();
-    }
-
-    public void setIntegralPattern(String pattern) {
-    	if (integralConverter == null)
-    		integralConverter = new NumberFormatConverter();
-    	integralConverter.setPattern(pattern);
-    }
-
     // Converter interface implementation ------------------------------------------------------------------------------
+
+    public boolean canConvert(Object sourceValue) {
+	    return true;
+    }
+
+    public Class<String> getTargetType() {
+	    return String.class;
+    }
 
 	public String convert(Object source) throws ConversionException {
         if (source == null) {
