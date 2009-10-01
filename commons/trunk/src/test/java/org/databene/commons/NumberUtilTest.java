@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -31,15 +31,13 @@ import static org.databene.commons.NumberUtil.*;
 
 /**
  * Created: 21.06.2007 08:32:34
+ * @author Volker Bergmann
  */
 public class NumberUtilTest extends TestCase {
 
     public void test() {
-        assertEquals("1.00", NumberUtil.format(1));
         assertEquals("1.23", NumberUtil.format(1.23, 2));
         assertEquals("1", NumberUtil.format(1.23, 0));
-        assertEquals("001", NumberUtil.formatZeroPadded(1, 3));
-        assertEquals("1", NumberUtil.formatZeroPadded(1, 1));
     }
 
     public void testBitsUsed() {
@@ -60,4 +58,5 @@ public class NumberUtilTest extends TestCase {
         assertEquals("0001", NumberUtil.formatHex( 1, 4));
         assertEquals("ffff", NumberUtil.formatHex(-1, 4));
     }
+    
 }

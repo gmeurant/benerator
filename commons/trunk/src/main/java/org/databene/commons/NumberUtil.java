@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,13 +27,12 @@
 package org.databene.commons;
 
 import java.text.NumberFormat;
-import java.text.DecimalFormat;
 import java.util.Locale;
-import java.util.HashMap;
 
 /**
- * Several convenience methods for formatting Numbers.
+ * Provides convenience methods for formatting Numbers.
  * Created: 12.02.2005 18:24:47
+ * @author Volker Bergmann
  */
 public class NumberUtil {
 
@@ -56,43 +55,8 @@ public class NumberUtil {
     public static int toInt(byte[] bytes) {
         int result = 0;
         for (int i = 0; i < 4; i++)
-            result = (result << 8) - Byte.MIN_VALUE + (int) bytes[i];
+            result = (result << 8) - Byte.MIN_VALUE + bytes[i];
         return result;
-    }
-
-    /**
-     * @deprecated
-     */
-    public static final int MAX_WIDTH = 12;
-
-    /**
-     * @deprecated
-     */
-    private static NumberFormat defaultNumberFormat;
-
-    /**
-     * @deprecated
-     */
-    private static HashMap fixWidthFormats;
-
-    static {
-        defaultNumberFormat = NumberFormat.getInstance(Locale.US);
-        defaultNumberFormat.setMinimumFractionDigits(2);
-        defaultNumberFormat.setMaximumFractionDigits(2);
-        fixWidthFormats = new HashMap();
-        StringBuilder buffer = new StringBuilder("0");
-        for (int i = 1; i < MAX_WIDTH; i++) {
-            NumberFormat format = new DecimalFormat(buffer.toString());
-            fixWidthFormats.put(new Integer(i), format);
-            buffer.append('0');
-        }
-    }
-
-    /**
-     * @deprecated
-     */
-    public static String format(double number) {
-        return defaultNumberFormat.format(number);
     }
 
     public static String format(double number, int digits) {
@@ -103,11 +67,4 @@ public class NumberUtil {
         return nf.format(number);
     }
 
-    /**
-     * @deprecated
-     */
-    public static String formatZeroPadded(int number, int digits) {
-        NumberFormat nf = (NumberFormat) fixWidthFormats.get(new Integer(digits));
-        return nf.format(number);
-    }
 }
