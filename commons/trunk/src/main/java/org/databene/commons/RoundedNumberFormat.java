@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -38,8 +38,14 @@ public class RoundedNumberFormat extends Format {
 
     private static final long serialVersionUID = 6188839664275513505L;
 
-	public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
+	@Override
+    public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
         return toAppendTo.append(format((Number)obj, 2));
+    }
+
+    @Override
+    public Object parseObject(String source, ParsePosition pos) {
+        throw new UnsupportedOperationException("Not supported");
     }
 
     public static String format(Number number, int fractionDigits) {
@@ -59,7 +65,4 @@ public class RoundedNumberFormat extends Format {
         return buffer.toString();
     }
 
-    public Object parseObject(String source, ParsePosition pos) {
-        throw new UnsupportedOperationException("Not supported");
-    }
 }

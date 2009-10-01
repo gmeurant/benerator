@@ -69,10 +69,12 @@ public class Period implements Comparable<Period> {
 
     // java.lang.Object overrides --------------------------------------------------------------------------------------
 
+    @Override
     public String toString() {
         return name;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -81,6 +83,7 @@ public class Period implements Comparable<Period> {
         return millis == ((Period) o).millis;
     }
 
+    @Override
     public int hashCode() {
         return (int) (millis ^ (millis >>> 32));
     }
@@ -103,4 +106,5 @@ public class Period implements Comparable<Period> {
     public static Period maxInstance() {
         return instances.last();
     }
+    
 }

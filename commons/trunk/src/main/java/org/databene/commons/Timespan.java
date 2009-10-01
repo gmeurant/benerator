@@ -96,6 +96,7 @@ public class Timespan {
         return new Timespan(startDate, endDate);
     }
 
+    @Override
     public String toString() {
         if (startDate != null)
             if (endDate != null)
