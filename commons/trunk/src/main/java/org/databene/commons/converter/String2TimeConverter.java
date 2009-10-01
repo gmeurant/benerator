@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,7 +24,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 package org.databene.commons.converter;
 
 import java.sql.Time;
@@ -35,18 +34,16 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import org.databene.commons.ConversionException;
+import org.databene.commons.Patterns;
 import org.databene.commons.StringUtil;
 
 /**
- * Parses a String as a time value.<br/><br/>
+ * Parses a String as a time value.<br/>
+ * <br/>
  * Created: 14.03.2008 22:15:58
  * @author Volker Bergmann
  */
-public class String2TimeConverter extends AbstractBidirectionalConverter<String, Time> {
-
-    private static final String MILLIS  = "hh:mm:ss.SSS";
-    private static final String SECONDS = "hh:mm:ss";
-    private static final String MINUTES = "hh:mm";
+public class String2TimeConverter extends AbstractBidirectionalConverter<String, Time> implements Patterns {
 
     public String2TimeConverter() {
         super(String.class, Time.class);
@@ -62,9 +59,9 @@ public class String2TimeConverter extends AbstractBidirectionalConverter<String,
         try {
             DateFormat format;
             switch (sourceValue.length()) {
-                case 12 : format = new SimpleDateFormat(MILLIS);  break;
-                case  8 : format = new SimpleDateFormat(SECONDS); break;
-                case  5 : format = new SimpleDateFormat(MINUTES); break;
+                case 12 : format = new SimpleDateFormat(DEFAULT_TIME_MILLIS_PATTERN);  break;
+                case  8 : format = new SimpleDateFormat(DEFAULT_TIME_SECONDS_PATTERN); break;
+                case  5 : format = new SimpleDateFormat(DEFAULT_DATETIME_MINUTES_PATTERN); break;
                 default : throw new IllegalArgumentException("Not a supported time format: " + sourceValue);
             }
             Date simpleDate = format.parse(sourceValue);
@@ -77,7 +74,7 @@ public class String2TimeConverter extends AbstractBidirectionalConverter<String,
     }
 
     public String revert(Time target) throws ConversionException {
-        return new SimpleDateFormat(MILLIS).format(new Date(target.getTime()));
+        return new SimpleDateFormat(DEFAULT_TIME_MILLIS_PATTERN).format(new Date(target.getTime()));
     }
 
 }
