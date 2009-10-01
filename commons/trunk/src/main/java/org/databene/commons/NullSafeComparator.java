@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -38,7 +38,7 @@ public class NullSafeComparator<E> implements Comparator<E> {
     public static final int NULL_IS_LESSER   = -1;
     public static final int NULL_IS_GREATER =  1;
 
-    private Comparator<E> realComparator;
+    private Comparator<? super E> realComparator;
 
     /** The value returned if null is compared to something.
      */
@@ -56,11 +56,11 @@ public class NullSafeComparator<E> implements Comparator<E> {
         this(new ComparableComparator(), nullComparation);
     }
 
-    public NullSafeComparator(Comparator<E> realComparator) {
+    public NullSafeComparator(Comparator<? super E> realComparator) {
         this(realComparator, -1);
     }
 
-    public NullSafeComparator(Comparator<E> realComparator, int nullComparation) {
+    public NullSafeComparator(Comparator<? super E> realComparator, int nullComparation) {
         this.realComparator = realComparator;
         this.nullComparation = nullComparation;
     }
