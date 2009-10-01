@@ -51,10 +51,12 @@ public class ToStringFormat extends Format {
         this.nullString = nullString;
     }
 
+    @Override
     public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
         return toAppendTo.append(obj != null ? obj : nullString);
     }
 
+    @Override
     public Object parseObject(String source, ParsePosition pos) {
         throw new UnsupportedOperationException("Not supported");
     }
