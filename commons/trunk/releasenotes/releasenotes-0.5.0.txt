@@ -16,10 +16,13 @@ Improvements
   - String2DateFormatConverter
   - String2GregorianCalendarConverter
   - String2NumberFormatConverter
+  - String2PatternConverter
 - new Validators
   - RegexValidator
 - new test helper class SimpleValidatorTest
 - new LoggingProxyFactory that creates logging wrappers for arbitrary classes which implement an interface
+- AnyConverter supports timePattern and timestampPattern
+
 
 Changes
 -------
