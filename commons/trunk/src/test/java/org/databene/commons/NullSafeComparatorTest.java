@@ -39,6 +39,7 @@ import org.databene.commons.NullSafeComparator;
  * Tests the NullSafeComparator.<br/>
  * <br/>
  * Created: 20.04.2006 18:01:28
+ * @author Volker Bergmann
  */
 public class NullSafeComparatorTest extends TestCase {
 
@@ -74,7 +75,7 @@ public class NullSafeComparatorTest extends TestCase {
         assertEquals(1, NullSafeComparator.compare(i2, i1, -1));
         assertEquals(0, NullSafeComparator.compare(i2, i2, -1));
         assertEquals(0, NullSafeComparator.compare(i2, i2d, -1));
-        assertEquals(0, NullSafeComparator.compare((Comparable) null, (Comparable) null, -1));
+        assertEquals(0, NullSafeComparator.compare((Integer) null, (Integer) null, Integer.valueOf(-1)));
     }
 
     public void testDownwardComparation() {
