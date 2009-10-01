@@ -75,7 +75,7 @@ public abstract class AbstractFormatter implements Patterns {
         this.datePattern = datePattern;
         this.timestampPattern = timestampPattern;
         this.timePattern = DEFAULT_TIME_PATTERN;
-        this.dateTimePattern = DEFAULT_DATE_TIME_PATTERN;
+        this.dateTimePattern = DEFAULT_DATETIME_PATTERN;
         this.decimalConverter = null;
     }
     
