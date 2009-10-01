@@ -40,31 +40,31 @@ import java.util.Collection;
  * Created: 16.06.2007 11:34:42
  * @author Volker Bergmann
  */
-public class AnyConverter<S, T> extends AbstractConverter<S, T> { // TODO support timePattern, timestampPattern?
+public class AnyConverter<S, T> extends AbstractFormatter implements Converter<S, T> {
 
     private static final Logger logger = LoggerFactory.getLogger(AnyConverter.class);
 
-    private String datePattern;
-
+    private Class<T> targetType;
+    
     public AnyConverter(Class<T> targetType) {
         this(targetType, "yyyyMMdd");
     }
 
     public AnyConverter(Class<T> targetType, String datePattern) {
-    	super(targetType);
+    	this.targetType = targetType;
         this.datePattern = datePattern;
     }
 
-    public String getDatePattern() {
-		return datePattern;
-	}
+    public Class<T> getTargetType() {
+	    return targetType;
+    }
 
 	public boolean canConvert(Object sourceValue) {
 		return true;
 	}
 
 	public T convert(Object sourceValue) throws ConversionException {
-        return convert(sourceValue, targetType, datePattern, null, null);
+        return convert(sourceValue, targetType, datePattern, timePattern, timestampPattern);
     }
 
     public static <TT> TT convert(Object source, Class<TT> targetType) throws ConversionException {
@@ -78,7 +78,8 @@ public class AnyConverter<S, T> extends AbstractConverter<S, T> { // TODO suppor
      * @return an object of the target type
      */
     @SuppressWarnings("unchecked")
-    public static <TT> TT convert(Object source, Class<TT> targetType, String datePattern, String timePattern, String timestampPattern) throws ConversionException {
+    public static <TT> TT convert(Object source, Class<TT> targetType, String datePattern, 
+    		String timePattern, String timestampPattern) throws ConversionException {
         if (logger.isDebugEnabled())
             logger.debug("Converting " + source + (source != null ? " (" + source.getClass().getName() + ")" : "") + " to " + targetType);
         // check preconditions
