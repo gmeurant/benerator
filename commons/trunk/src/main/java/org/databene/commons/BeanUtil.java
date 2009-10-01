@@ -959,7 +959,8 @@ public final class BeanUtil {
 		return (type != null ? type.getSimpleName() : null);
 	}
 	
-    public static boolean equalsIgnoreType(Object o1, Object o2) { // TODO test
+	/** Tries to convert both arguments to the same type and then compares them */
+    public static boolean equalsIgnoreType(Object o1, Object o2) {
     	if (NullSafeComparator.equals(o1, o2))
     		return true;
     	if (o1 == null || o2 == null)
