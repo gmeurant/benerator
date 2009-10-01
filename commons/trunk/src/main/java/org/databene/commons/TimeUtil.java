@@ -42,9 +42,7 @@ import java.text.SimpleDateFormat;
  * @since 0.1
  * @author Volker Bergmann
  */
-public final class TimeUtil {
-
-    public static final String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
+public final class TimeUtil implements Patterns {
 
 	public static int currentYear() {
         return new GregorianCalendar().get(Calendar.YEAR);
