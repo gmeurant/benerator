@@ -72,14 +72,25 @@ public class ConverterManager {
     	Class srcType = sourceValue.getClass();
         if (srcType == dstType || (dstType.isAssignableFrom(srcType) && !dstType.isPrimitive()))
             return new NoOpConverter();
+        Converter poorMatch = null;
         for (Converter converter : converters) {
-            if (converter.canConvert(sourceValue) && dstType.isAssignableFrom(converter.getTargetType()))
-                return converter;
-            else if (converter instanceof BidirectionalConverter
-            		&& ((BidirectionalConverter) converter).getSourceType() == dstType && converter.getTargetType() == srcType)
-                return new ReverseConverter((BidirectionalConverter) converter);
+            if (converter.canConvert(sourceValue)) {
+            	Class converterTargetType = converter.getTargetType();
+            	if (dstType == converterTargetType)
+            		return converter; // perfect match
+            	else if (dstType.isAssignableFrom(converterTargetType) && poorMatch == null)
+            		poorMatch = converter; // sub optimal match
+            } else if (converter instanceof BidirectionalConverter) {
+            	BidirectionalConverter bc = (BidirectionalConverter) converter;
+            	if (bc.getTargetType() == srcType) {
+            		if (bc.getSourceType() == dstType)
+            			return new ReverseConverter((BidirectionalConverter) converter); // perfect match
+            		else if (dstType.isAssignableFrom(bc.getSourceType()) && poorMatch == null)
+            			poorMatch = new ReverseConverter((BidirectionalConverter) converter); // sub optimal match;
+            	}
+            }
         }
-        return null;
+        return poorMatch; // that's null or a sub optimal match
     }
 
     public void register(Converter converter) {
