@@ -46,19 +46,21 @@ public class NullSafeComparator<E> implements Comparator<E> {
 
     // constructors ----------------------------------------------------------------------------------------------------
 
+    @SuppressWarnings("unchecked")
     public NullSafeComparator() {
         this(new ComparableComparator());
     }
 
+    @SuppressWarnings("unchecked")
     public NullSafeComparator(int nullComparation) {
         this(new ComparableComparator(), nullComparation);
     }
 
-    public NullSafeComparator(Comparator realComparator) {
+    public NullSafeComparator(Comparator<E> realComparator) {
         this(realComparator, -1);
     }
 
-    public NullSafeComparator(Comparator realComparator, int nullComparation) {
+    public NullSafeComparator(Comparator<E> realComparator, int nullComparation) {
         this.realComparator = realComparator;
         this.nullComparation = nullComparation;
     }
