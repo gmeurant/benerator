@@ -27,8 +27,10 @@
 package org.databene.commons.converter;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import org.databene.commons.ConversionException;
+import org.databene.commons.TimeUtil;
 
 /**
  * Parses a {@link String} as a {@link Calendar}.<br/>
@@ -39,13 +41,16 @@ import org.databene.commons.ConversionException;
  */
 
 public class String2GregorianCalendarConverter extends FixedSourceTypeConverter<String, GregorianCalendar> {
+	
+	private String2DateConverter<Date> helper = new String2DateConverter<Date>();
 
     public String2GregorianCalendarConverter() {
 	    super(String.class, GregorianCalendar.class);
     }
 
     public GregorianCalendar convert(String sourceValue) throws ConversionException {
-	    throw new UnsupportedOperationException("Not implemented yet"); // TODO implement
+	    Date date = helper.convert(sourceValue);
+		return TimeUtil.gregorianCalendar(date);
     }
 
 }
