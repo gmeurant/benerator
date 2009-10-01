@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -36,6 +36,7 @@ import java.beans.IntrospectionException;
  * Wraps checked exceptions as unchecked exceptions of type ConfigurationError.<br/>
  * <br/>
  * Created: 02.07.2006 07:44:23
+ * @author Volker Bergmann
  */
 public final class ExceptionMapper {
 
@@ -45,7 +46,7 @@ public final class ExceptionMapper {
      * @param constructor the constructor that was involved in the cause
      * @return a ConfigurationError that maps the cause.
      */
-    public static ConfigurationError configurationException(Exception cause, Constructor constructor) {
+    public static ConfigurationError configurationException(Exception cause, Constructor<?> constructor) {
         String message;
         if (cause instanceof IllegalAccessException)
             message = "No access to constructor: " + constructor;
@@ -83,7 +84,7 @@ public final class ExceptionMapper {
      * @param type the class that was involved in the cause
      * @return a ConfigurationError that maps the cause.
      */
-    public static ConfigurationError configurationException(Exception cause, Class type) {
+    public static ConfigurationError configurationException(Exception cause, Class<?> type) {
         String message;
         if (cause instanceof IntrospectionException)
             message = "Introspection failed for class " + type;
