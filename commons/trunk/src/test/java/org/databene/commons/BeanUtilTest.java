@@ -119,7 +119,7 @@ public class BeanUtilTest extends TestCase {
             @SuppressWarnings("unused")
 			public List<Integer> list;
         };
-        Class c = o.getClass();
+        Class<?> c = o.getClass();
         Field f = c.getField("list");
         assertTrue("Test for generic type failed", 
                 Arrays.deepEquals(new Class[] { Integer.class }, BeanUtil.getGenericTypes(f)));
@@ -159,6 +159,7 @@ public class BeanUtilTest extends TestCase {
 
     // method tests ----------------------------------------------------------------------------------------------------
 
+    @SuppressWarnings("unchecked")
     public void testGetMethod() throws IllegalAccessException, InvocationTargetException {
         Method method = BeanUtil.getMethod(P.class, "getVal");
         P p = new P();
@@ -173,6 +174,7 @@ public class BeanUtilTest extends TestCase {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public void testFindMethod() throws IllegalAccessException, InvocationTargetException {
         Method method = BeanUtil.findMethod(P.class, "getVal");
         P p = new P();
@@ -197,6 +199,7 @@ public class BeanUtilTest extends TestCase {
         assertEquals("u", B.stat);
     }
 
+    @SuppressWarnings("unchecked")
     public void testTypesMatch() {
         assertTrue(BeanUtil.typesMatch(new Class[] {  }, new Class[] {  }));
         assertFalse(BeanUtil.typesMatch(new Class[] { String.class }, new Class[] {  }));
@@ -218,7 +221,7 @@ public class BeanUtilTest extends TestCase {
         assertEquals(2, p.val);
     }
 
-    public void testHasProperty() throws IllegalAccessException, InvocationTargetException {
+    public void testHasProperty() {
         assertTrue(BeanUtil.hasProperty(B.class, "val"));
         assertFalse(BeanUtil.hasProperty(B.class, "blaBla"));
     }
@@ -233,12 +236,7 @@ public class BeanUtilTest extends TestCase {
         assertEquals("setVal", BeanUtil.writeMethodName("val"));
         assertEquals("setValid", BeanUtil.writeMethodName("valid"));
     }
-/*
-    public void testNullsafeClassName() {
-        assertEquals(BeanUtilTest.class.getName(), BeanUtil.nullsafeClassName(BeanUtilTest.class));
-        assertEquals(null, BeanUtil.nullsafeClassName(null));
-    }
-*/
+
     public void testGetPropertyDescriptors() {
         PropertyDescriptor[] descriptors = BeanUtil.getPropertyDescriptors(B.class);
         assertEquals(2, descriptors.length);
@@ -268,6 +266,12 @@ public class BeanUtilTest extends TestCase {
     public void testDeprecated() {
         assertFalse(BeanUtil.deprecated(Object.class));
         assertTrue(BeanUtil.deprecated(Dep.class));
+    }
+    
+    public void testEqualsIgnoreType() {
+    	assertTrue(BeanUtil.equalsIgnoreType("1", 1));
+    	assertTrue(BeanUtil.equalsIgnoreType(1., 1));
+    	assertFalse(BeanUtil.equalsIgnoreType(1., 2));
     }
 
     // Test classes ----------------------------------------------------------------------------------------------------
@@ -315,7 +319,7 @@ public class BeanUtilTest extends TestCase {
         }
     }
 
-    public static class C extends B {
+    public static class C extends B<Set<Integer>> {
     }
     
     @Deprecated
