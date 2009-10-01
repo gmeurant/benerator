@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,9 +30,11 @@ package org.databene.commons;
  * A basic validator interface.<br/>
  * <br/>
  * Created: 29.08.2006 08:31:19
+ * @since 0.1
+ * @author Volker Bergmann
  * @param <E> the type that is checked by this validator
  */
-public interface Validator<E> { // TODO v0.6.0 improve according to JSR 303
+public interface Validator<E> {
 
     /** 
      * Checks if an object is valid.
