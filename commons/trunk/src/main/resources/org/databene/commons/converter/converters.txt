@@ -1,9 +1,10 @@
+org.databene.commons.converter.String2TimestampConverter
+org.databene.commons.converter.String2TimeConverter
 org.databene.commons.converter.String2DateConverter
 org.databene.commons.converter.String2LocaleConverter
 org.databene.commons.converter.String2ClassConverter
-org.databene.commons.converter.Date2CalendarConverter
 org.databene.commons.converter.Date2TimestampConverter
-org.databene.commons.converter.String2TimeConverter
+org.databene.commons.converter.Date2CalendarConverter
 org.databene.commons.converter.Date2LongConverter
 org.databene.commons.converter.UtilDate2SqlDateConverter
 org.databene.commons.converter.ByteArrayToBase64Converter
@@ -11,3 +12,4 @@ org.databene.commons.converter.Long2IntegerConverter
 org.databene.commons.converter.String2GregorianCalendarConverter
 org.databene.commons.converter.String2DateFormatConverter
 org.databene.commons.converter.String2NumberFormatConverter
+org.databene.commons.converter.String2PatternConverter
