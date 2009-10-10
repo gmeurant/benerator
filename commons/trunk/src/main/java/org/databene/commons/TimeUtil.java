@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Calendar;
 import java.util.TimeZone;
+import java.util.concurrent.Callable;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -43,6 +44,11 @@ import java.text.SimpleDateFormat;
  * @author Volker Bergmann
  */
 public final class TimeUtil implements Patterns {
+	
+	public static TimeZone GMT = TimeZone.getTimeZone("GMT");
+	public static TimeZone CENTRAL_EUROPEAN_TIME = TimeZone.getTimeZone("CET");
+	public static TimeZone PACIFIC_STANDARD_TIME = TimeZone.getTimeZone("PST");
+	public static TimeZone SNGAPORE_TIME = TimeZone.getTimeZone("SGT");
 
 	public static int currentYear() {
         return new GregorianCalendar().get(Calendar.YEAR);
@@ -188,7 +194,9 @@ public final class TimeUtil implements Patterns {
     }
     
     public static Time time(int hour, int minute, int second, int millisecond) {
-        return new Time((((hour * 60L) + minute) * 60L + second) * 1000L + millisecond);
+    	GregorianCalendar calendar = new GregorianCalendar(1970, 0, 1, hour, minute, second);
+    	calendar.set(Calendar.MILLISECOND, millisecond);
+        return new Time(calendar.getTimeInMillis());
     }
     
     public static Timestamp timestamp(int year, int month, int day, int hour, int minute, int second, int nanosecond) {
@@ -214,6 +222,26 @@ public final class TimeUtil implements Patterns {
     public static Time currentTime() {
 	    Calendar now = new GregorianCalendar();
 	    return time(now.get(Calendar.HOUR), now.get(Calendar.MINUTE), now.get(Calendar.SECOND), now.get(Calendar.MILLISECOND));
+    }
+
+    public static void executeInTimeZone(TimeZone timeZone, Runnable action) {
+    	TimeZone originalZone = TimeZone.getDefault();
+    	try {
+    		TimeZone.setDefault(timeZone);
+    		action.run();
+    	} finally {
+    		TimeZone.setDefault(originalZone);
+    	}
+    }
+
+    public static <T> T executeInTimeZone(TimeZone timeZone, Callable<T> action) throws Exception {
+    	TimeZone originalZone = TimeZone.getDefault();
+    	try {
+    		TimeZone.setDefault(timeZone);
+    		return action.call();
+    	} finally {
+    		TimeZone.setDefault(originalZone);
+    	}
     }
 
 }
