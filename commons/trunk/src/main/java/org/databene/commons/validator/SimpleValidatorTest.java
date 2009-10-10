@@ -28,7 +28,7 @@ package org.databene.commons.validator;
 
 import org.databene.commons.Validator;
 
-import junit.framework.TestCase;
+import static junit.framework.Assert.*;
 
 /**
  * Simple helper class that provides methods for testing validators.<br/>
@@ -38,7 +38,7 @@ import junit.framework.TestCase;
  * @author Volker Bergmann
  */
 
-public abstract class SimpleValidatorTest<E> extends TestCase {
+public abstract class SimpleValidatorTest<E> {
 
 	private Validator<E> validator;
 	
