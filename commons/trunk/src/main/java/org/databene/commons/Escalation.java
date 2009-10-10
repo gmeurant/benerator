@@ -31,7 +31,7 @@ import org.databene.commons.converter.ToStringConverter;
 /**
  * Helper class for managing escalations.
  * @author Volker Bergmann
- * @since v0.2.04
+ * @since 0.2.04
  */
 public class Escalation {
     
