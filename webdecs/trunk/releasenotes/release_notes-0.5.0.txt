@@ -12,3 +12,4 @@ Enhancements
 - Improvements in XLS file parsing
 - Code cleanup
 - Extended and new utility classes
+- ScriptUtil: Bug fixes and support for programmatic addition of engines
