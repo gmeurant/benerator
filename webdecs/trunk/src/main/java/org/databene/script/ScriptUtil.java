@@ -42,7 +42,7 @@ import org.databene.commons.Context;
 import org.databene.commons.FileUtil;
 import org.databene.commons.IOUtil;
 import org.databene.commons.LogCategories;
-import org.databene.commons.StringCharacterIterator;
+import org.databene.commons.StringUtil;
 import org.databene.script.jsr227.Jsr223ScriptFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -123,7 +123,29 @@ public class ScriptUtil {
         return script;
     }
 
-    public static Script parseSpecificText(String text, String engineId) {
+    public static Script parseUnspecificText(String text) {
+        if (text.startsWith("{") && text.endsWith("}"))
+        	return parseScriptText(text.substring(1, text.length() - 1), false);
+        return new ConstantScript(text);
+    }
+
+    public static Script parseScriptText(String text) {
+    	return parseScriptText(text, true);
+    }
+
+    public static Script parseScriptText(String text, boolean removeBrackets) {
+        if (removeBrackets && text.startsWith("{") && text.endsWith("}"))
+        	text = text.substring(1, text.length() - 1);
+        String[] tokens = StringUtil.splitOnFirstSeparator(text, ':');
+        String engineId = tokens[0];
+        if (getFactory(engineId) != null) {
+            String scriptText = tokens[1];
+            return parseScriptText(scriptText, engineId);
+        } else
+            return parseScriptText(text, ScriptUtil.getDefaultScriptEngine());
+    }
+
+    public static Script parseScriptText(String text, String engineId) {
         if (engineId == null)
             throw new IllegalArgumentException("engineId is null");
         ScriptFactory factory = getFactory(engineId);
@@ -133,27 +155,6 @@ public class ScriptUtil {
             return new ConstantScript(text);
     }
     
-    public static Script parseUnspecificText(String text) {
-        if (text.startsWith("{") && text.endsWith("}")) {
-            text = text.substring(1, text.length() - 1);
-            Script script = null;
-            StringCharacterIterator iterator = new StringCharacterIterator(text);
-            String engineId = iterator.parseLetters();
-            iterator.skipWhitespace();
-            if (iterator.next() == ':') {
-                if (getFactory(engineId) != null) {
-                    String scriptText = iterator.remainingText();
-                    script = parseSpecificText(scriptText, engineId);
-                } else
-                    script = parseSpecificText(text, ScriptUtil.getDefaultScriptEngine());
-            } else
-                script = parseSpecificText(text, ScriptUtil.getDefaultScriptEngine());
-            return script;
-        }
-        return new ConstantScript(text);
-        
-    }
-
 	private static ScriptFactory getFactory(String engineId) {
 		return factories.get(engineId);
 	}
@@ -171,9 +172,8 @@ public class ScriptUtil {
 	            for (ScriptEngineFactory engineFactory : mgr.getEngineFactories()) {
 	        		Jsr223ScriptFactory factory = new Jsr223ScriptFactory(engineFactory.getScriptEngine());
 	            	List<String> names = engineFactory.getNames();
-					for (String name : names) {
-						factories.put(name, factory);
-	            	}
+					for (String name : names)
+						addFactory(name, factory);
 	            }
             } catch (NoClassDefFoundError e) {
             	configLogger.error("Java 6/JSR 223 script engines not available, deactivating script engine support.");
@@ -185,13 +185,17 @@ public class ScriptUtil {
             for (Map.Entry<String, String> entry : properties.entrySet()) {
                 className = entry.getValue().toString();
                 ScriptFactory factory = (ScriptFactory) BeanUtil.newInstance(className);
-                factories.put(entry.getKey().toString(), factory);
+                addFactory(entry.getKey().toString(), factory);
             }
         } catch (FileNotFoundException e) {
             throw new ConfigurationError("Setup file not found: " + SETUP_FILE_NAME, e);
         } catch (IOException e) {
             throw new ConfigurationError("I/O Error while reading file: " + SETUP_FILE_NAME, e);
         }
+    }
+
+    public static void addFactory(String name, ScriptFactory factory) {
+	    factories.put(name, factory);
     }
 
 	public static String getDefaultScriptEngine() {
