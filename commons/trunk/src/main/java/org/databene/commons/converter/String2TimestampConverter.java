@@ -54,15 +54,22 @@ public class String2TimestampConverter extends FixedSourceTypeConverter<String, 
         
         // separate the String into Date and nano parts 
     	sourceValue = sourceValue.trim();
-        String[] parts = StringUtil.splitOnFirstSeparator(sourceValue, '.');
+        String datePart;
+        String nanoPart;
+        if (sourceValue.contains(".")) {
+        	String[] parts = StringUtil.splitOnFirstSeparator(sourceValue, '.');
+            datePart = parts[0];
+            nanoPart = parts[1];
+        } else {
+        	datePart = sourceValue;
+        	nanoPart = null; 
+        }
         
         // calculate date part
-        String datePart = parts[0];
         Date date = helper.convert(datePart);
         Timestamp result = new Timestamp(date.getTime());
             
         // calculate nano part
-        String nanoPart = parts[1];
         if (!StringUtil.isEmpty(nanoPart)) {
         	nanoPart = StringUtil.padRight(nanoPart, 9, '0');
         	int nanos = Integer.parseInt(nanoPart);
