@@ -129,6 +129,12 @@ public final class CollectionUtil {
         return result;
     }
 
+    public static <K, V> Map<K, V> buildMap(K key, V value) {
+        Map<K, V> map = new HashMap<K, V>();
+        map.put(key, value);
+        return map;
+    }
+
     @SuppressWarnings("unchecked")
     public static Map buildMap(Object ... keyValuePairs) {
         Map map = new HashMap();
