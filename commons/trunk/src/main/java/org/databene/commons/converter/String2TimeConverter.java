@@ -31,7 +31,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.TimeZone;
 
 import org.databene.commons.ConversionException;
 import org.databene.commons.Patterns;
@@ -61,12 +60,11 @@ public class String2TimeConverter extends AbstractBidirectionalConverter<String,
             switch (sourceValue.length()) {
                 case 12 : format = new SimpleDateFormat(DEFAULT_TIME_MILLIS_PATTERN);  break;
                 case  8 : format = new SimpleDateFormat(DEFAULT_TIME_SECONDS_PATTERN); break;
-                case  5 : format = new SimpleDateFormat(DEFAULT_DATETIME_MINUTES_PATTERN); break;
+                case  5 : format = new SimpleDateFormat(DEFAULT_TIME_MINUTES_PATTERN); break;
                 default : throw new IllegalArgumentException("Not a supported time format: " + sourceValue);
             }
             Date simpleDate = format.parse(sourceValue);
             long millis = simpleDate.getTime();
-            millis += TimeZone.getDefault().getRawOffset();
             return new Time(millis);
         } catch (ParseException e) {
             throw new ConversionException(e);
