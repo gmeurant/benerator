@@ -29,6 +29,7 @@ package org.databene.commons.converter;
 import junit.framework.TestCase;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.Set;
 
 import org.databene.commons.ConversionException;
@@ -87,12 +88,12 @@ public class AnyConverterTest extends TestCase {
         assertEquals(1, (int) AnyConverter.convert(1, int.class));
     }
 
-    public void testFromStringConversion() throws ConversionException {
+    public void testFromStringConversion() throws Exception {
         assertEquals(true, (boolean) AnyConverter.convert("true", Boolean.class));
         assertEquals(true, (boolean) AnyConverter.convert("true", boolean.class));
         assertEquals(1, (int) AnyConverter.convert("1", Integer.class));
         assertEquals(1, (int) AnyConverter.convert("1", int.class));
-        assertEquals(new Time(1), AnyConverter.convert("00:00:00.001", Time.class));
+        assertEquals(new SimpleDateFormat("S").parse("1"), AnyConverter.convert("00:00:00.001", Time.class));
     }
     
     public void testStringToCharConversion() {
