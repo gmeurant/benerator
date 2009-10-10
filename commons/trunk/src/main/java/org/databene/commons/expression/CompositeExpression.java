@@ -36,9 +36,9 @@ import org.databene.commons.Expression;
  */
 public abstract class CompositeExpression<E> implements Expression<E> {
 
-    protected Expression<E>[] sources;
+    protected Expression<? extends E>[] sources;
 
-    protected CompositeExpression(Expression<E> ... sources) {
+    protected CompositeExpression(Expression<? extends E> ... sources) {
         this.sources = sources;
     }
 
