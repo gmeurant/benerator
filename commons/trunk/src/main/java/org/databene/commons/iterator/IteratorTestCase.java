@@ -4,9 +4,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import junit.framework.TestCase;
+import static junit.framework.Assert.*;
 
-public abstract class IteratorTestCase extends TestCase {
+public abstract class IteratorTestCase {
 
     public static <T> void checkUniqueIteration(Iterator<T> iterator, int count) {
         Set<T> items = new HashSet<T>(count);
@@ -41,6 +41,6 @@ public abstract class IteratorTestCase extends TestCase {
 		public void withNoNext() {
 			assertFalse(iterator.hasNext());
 		}
-		
 	}
+	
 }
