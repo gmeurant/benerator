@@ -57,7 +57,6 @@ public class ReaderLineIteratorTest {
         checkIteration(iterator);
     }
 
-	@Test
     private void checkIteration(ReaderLineIterator iterator) {
 	    assertTrue(iterator.hasNext());
         assertEquals("alpha ", iterator.next());

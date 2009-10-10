@@ -156,7 +156,7 @@ public class XMLUtilTest {
 
 	@Test
     public void testParseStream() throws IOException {
-        ByteArrayInputStream stream = new ByteArrayInputStream(XML_TEXT.getBytes(Charset.forName("UTF"))); 
+        ByteArrayInputStream stream = new ByteArrayInputStream(XML_TEXT.getBytes(Charset.forName("UTF-8"))); 
         checkXML(XMLUtil.parse(stream));
     }
 
@@ -212,4 +212,5 @@ public class XMLUtilTest {
 			throw new RuntimeException(e);
 		}
 	}
+	
 }

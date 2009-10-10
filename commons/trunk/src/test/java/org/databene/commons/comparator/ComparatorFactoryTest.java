@@ -41,14 +41,14 @@ import static junit.framework.Assert.*;
 public class ComparatorFactoryTest {
     
 	@Test
-    public static void testStringCollator() {
+    public void testStringCollator() {
         Comparator<String> stringComparator = ComparatorFactory.getComparator(String.class);
         assertNotNull(stringComparator);
         assertEquals(-1, stringComparator.compare("1", "2"));
     }
     
 	@Test
-    public static void testPersonComparator() {
+    public void testPersonComparator() {
         Comparator<Person> personComparator = ComparatorFactory.getComparator(Person.class);
         assertNotNull(personComparator);
         Person alice = new Person("Alice", 23);

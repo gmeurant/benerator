@@ -28,6 +28,7 @@ package org.databene.commons.tree;
 
 import org.databene.commons.TreeModel;
 import org.databene.commons.iterator.BidirectionalIteratorTest;
+import org.junit.Test;
 
 /**
  * Tests the {@link TreeIterator}.<br/><br/>
@@ -37,6 +38,7 @@ import org.databene.commons.iterator.BidirectionalIteratorTest;
  */
 public class TreeIteratorTest extends BidirectionalIteratorTest {
 	
+	@Test
 	@SuppressWarnings("unchecked")
     public void test() {
 		DefaultTreeNode<Integer> root = new DefaultTreeNode<Integer>(0);

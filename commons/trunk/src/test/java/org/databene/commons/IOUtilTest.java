@@ -281,7 +281,8 @@ public class IOUtilTest {
         }
     }
 
-	@Test    
+	// private helpers -------------------------------------------------------------------------------------------------
+    
     private void checkFileOutputStream(String filename, OutputStream out) throws IOException {
 	    try {
     		out.write("test".getBytes());
@@ -293,8 +294,6 @@ public class IOUtilTest {
         }
     }
 	
-	// private helpers -------------------------------------------------------------------------------------------------
-    
     private class URLConnectionMock extends URLConnection {
     	
     	String encoding;
