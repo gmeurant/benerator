@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,7 @@
 
 package org.databene.commons;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * Tests the {@link LoggerEscalator}.<br/><br/>
@@ -34,8 +34,9 @@ import junit.framework.TestCase;
  * @since 0.4.3
  * @author Volker Bergmann
  */
-public class LoggerEscalatorTest  extends TestCase {
+public class LoggerEscalatorTest {
 	
+	@Test
 	public void test() {
 		LoggerEscalator escalator = new LoggerEscalator();
 		escalator.escalate("mess", this, "cause");
@@ -46,4 +47,5 @@ public class LoggerEscalatorTest  extends TestCase {
 		// escalation with other message is added
 		escalator.escalate("mess2", this, "cause");
 	}
+	
 }

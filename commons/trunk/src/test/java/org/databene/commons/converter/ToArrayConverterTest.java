@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -32,7 +32,7 @@ import org.databene.commons.ArrayUtil;
 import org.databene.commons.Assert;
 import org.databene.commons.CollectionUtil;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * Tests the {@link ToArrayConverter}.<br/><br/>
@@ -40,28 +40,33 @@ import junit.framework.TestCase;
  * @since 0.5.3
  * @author Volker Bergmann
  */
-public class ToArrayConverterTest extends TestCase {
+public class ToArrayConverterTest {
 
+	@Test
 	public void testNull() {
 		check(new Object[0], null, Object.class);
 	}
 	
+	@Test
 	public void testArray() {
 		check(new Integer[0], new Integer[0], Integer.class);
 		check(ArrayUtil.toArray(1), ArrayUtil.toArray(1), Integer.class);
 	}
 
+	@Test
 	public void testList() {
 		check(new Integer[0], new ArrayList<Integer>(), Integer.class);
 		check(ArrayUtil.toArray(1), CollectionUtil.toList(1), Integer.class);
 		check(ArrayUtil.toArray(1, 2), CollectionUtil.toList(1, 2), Integer.class);
 	}
 
+	@Test
 	public void testString() {
 		check(new byte[0], "");
 		check(new byte[] { 'A', 'B' }, "AB");
 	}
 
+	@Test
 	public void testSingleObject() {
 		check(ArrayUtil.toArray("Alpha"), "Alpha", String.class);
 	}
@@ -76,4 +81,5 @@ public class ToArrayConverterTest extends TestCase {
 	private <T> void check(byte[] expected, Object source) {
 		Assert.equals(expected, (byte[]) ToArrayConverter.convert(source, byte.class));
 	}
+	
 }

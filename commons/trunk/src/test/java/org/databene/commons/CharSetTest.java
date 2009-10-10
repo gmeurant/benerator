@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,20 +28,23 @@ package org.databene.commons;
 
 import java.util.Locale;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
- * Tests the CharSet.<br/><br/>
+ * Tests the {@link CharSet}.<br/><br/>
  * Created: 21.06.2007 08:28:50
  * @author Volker Bergmann
  */
-public class CharSetTest extends TestCase {
+public class CharSetTest {
 
+	@Test
     public void testDefaultConstructor() {
         CharSet set = new CharSet();
         assertEquals("Set is expected to be empty after default construction.", 0, set.size());
     }
     
+	@Test
     public void testGerman() {
         CharSet set = new CharSet(Locale.GERMAN);
         assertEquals("Set is expected to be empty after construction with Locale.", 0, set.size());
@@ -58,6 +61,7 @@ public class CharSetTest extends TestCase {
         assertEquals(0, set.size());
     }
     
+	@Test
     public void testEqualsAndHashCode() {
         CharSet sg = new CharSet(Locale.GERMAN);
         CharSet se = new CharSet(Locale.ENGLISH);
@@ -67,8 +71,9 @@ public class CharSetTest extends TestCase {
         se.add('a');
         assertTrue(sg.equals(se));
         assertEquals(sg.hashCode(), se.hashCode());
-        sg.add('�');
+        sg.add('ä');
         assertFalse(sg.equals(se));
         assertTrue(sg.hashCode() != se.hashCode());
     }
+	
 }

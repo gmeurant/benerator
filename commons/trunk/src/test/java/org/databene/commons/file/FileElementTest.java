@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -29,23 +29,28 @@ package org.databene.commons.file;
 import java.io.File;
 import java.util.Arrays;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 import org.databene.commons.FileUtil;
 import org.databene.commons.Visitor;
 import org.databene.commons.file.FileElement;
 
 /**
  * Created: 04.02.2007 08:20:57
+ * @author Volker Bergmann
  */
-public class FileElementTest extends TestCase {
+public class FileElementTest {
 
+	@Test
     public void test() {
         File root = new File("target/classes/test");
         File alpha = new File(root, "alpha");
+        FileUtil.ensureDirectoryExists(alpha);
         File beta = new File(alpha, "beta");
         FileUtil.ensureDirectoryExists(beta);
-        Visitor visitor = new CheckVisitor(alpha, beta);
+        CheckVisitor visitor = new CheckVisitor(root, alpha, beta);
         new FileElement(root).accept(visitor);
+        assertTrue(visitor.allFound());
     }
 
     class CheckVisitor implements Visitor<File> {
@@ -61,7 +66,7 @@ public class FileElementTest extends TestCase {
 
         public void visit(File file) {
             int index = Arrays.binarySearch(expectedFiles, file);
-            if (index > 0)
+            if (index >= 0)
                 filesFound[index] = true;
         }
 
@@ -72,4 +77,5 @@ public class FileElementTest extends TestCase {
             return true;
         }
     }
+    
 }

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,9 @@
 
 package org.databene.commons.accessor;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static junit.framework.Assert.*;
 
 /**
  * Tests the ConstantAccessor.<br/><br/>
@@ -34,13 +36,15 @@ import junit.framework.TestCase;
  * @since 0.4.3
  * @author Volker Bergmann
  */
-public class ConstantAccessorTest extends TestCase {
+public class ConstantAccessorTest {
 
+	@Test
 	public void testGet() {
 		ConstantAccessor<Integer> accessor = new ConstantAccessor<Integer>(1);
 		assertEquals(1, (int) accessor.getValue(null));
 	}
 
+	@Test
 	public void testEquals() {
 		ConstantAccessor<Integer> a1 = new ConstantAccessor<Integer>(1);
 		// simple test
@@ -56,4 +60,5 @@ public class ConstantAccessorTest extends TestCase {
 		assertFalse(a1.equals(a2));
 		assertFalse(a2.equals(a1));
 	}
+	
 }

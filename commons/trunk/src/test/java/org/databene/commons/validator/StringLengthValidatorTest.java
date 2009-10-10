@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,13 +28,18 @@ package org.databene.commons.validator;
 
 import org.databene.commons.validator.StringLengthValidator;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
+ * Tests the StringLengthValidator.<br/><br/>
  * Created: 29.09.2006 16:32:44
+ * @since 0.1
+ * @author Volker Bergmann
  */
-public class StringLengthValidatorTest extends TestCase {
+public class StringLengthValidatorTest {
 
+	@Test
     public void testUnlimited() {
         StringLengthValidator validator = new StringLengthValidator();
         assertFalse(validator.valid(null));
@@ -44,6 +49,7 @@ public class StringLengthValidatorTest extends TestCase {
         assertTrue(validator.valid("abcdefghijklmnopqrstuvwxyz1234567890!"));
     }
 
+	@Test
     public void testMaxLength10() {
         StringLengthValidator validator = new StringLengthValidator(10);
         assertFalse(validator.valid(null));
@@ -52,6 +58,7 @@ public class StringLengthValidatorTest extends TestCase {
         assertFalse(validator.valid("abcdefghijklmnopqrstuvwxyz1234567890!"));
     }
 
+	@Test
     public void testMinLength5MaxLength10() {
         StringLengthValidator validator = new StringLengthValidator(5, 10);
         assertFalse(validator.valid(null));
@@ -63,6 +70,7 @@ public class StringLengthValidatorTest extends TestCase {
         assertFalse(validator.valid("abcdefghijklmnopqrstuvwxyz1234567890!"));
     }
 
+	@Test
     public void testMinLength5() {
         StringLengthValidator validator = new StringLengthValidator(5, null);
         assertFalse(validator.valid(null));
@@ -73,4 +81,5 @@ public class StringLengthValidatorTest extends TestCase {
         assertTrue(validator.valid("abcdefghijk"));
         assertTrue(validator.valid("abcdefghijklmnopqrstuvwxyz1234567890!"));
     }
+	
 }

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -33,15 +33,17 @@ import org.databene.commons.Context;
 import org.databene.commons.context.DefaultContext;
 import org.databene.commons.mutator.AnyMutator;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link AnyMutator}.<br/><br/>
  * Created: 01.02.2008 08:06:11
  * @author Volker Bergmann
  */
-public class AnyMutatorTest extends TestCase {
+public class AnyMutatorTest {
 
+	@Test
     public void testBeanProperty() {
         A a = new A();
         assertEquals(1, a.x);
@@ -49,6 +51,7 @@ public class AnyMutatorTest extends TestCase {
         assertEquals(2, a.x);
     }
     
+	@Test
     public void testBeanPropertyGraph() {
         A a = new A();
         a.setB(new B());
@@ -57,6 +60,7 @@ public class AnyMutatorTest extends TestCase {
         assertEquals("bravo", a.b.y);
     }
     
+	@Test
     public void testMap() {
         Map<String, String> map = new HashMap<String, String>();
         assertNull(map.get("alpha"));
@@ -64,6 +68,7 @@ public class AnyMutatorTest extends TestCase {
         assertEquals("bravo", map.get("alpha"));
     }
     
+	@Test
     public void testContext() {
         Context context = new DefaultContext();
         assertNull(context.get("alpha"));
@@ -71,6 +76,7 @@ public class AnyMutatorTest extends TestCase {
         assertEquals("bravo", context.get("alpha"));
     }
     
+	@Test
     public void testGraph() {
         Context context = new DefaultContext();
         Map<String, Object> map = new HashMap<String, Object>();
@@ -112,4 +118,5 @@ public class AnyMutatorTest extends TestCase {
             this.y = y;
         }
     }
+    
 }

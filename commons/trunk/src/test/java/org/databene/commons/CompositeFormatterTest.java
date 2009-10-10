@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,7 +30,8 @@ import java.util.TimeZone;
 
 import org.databene.commons.collection.MapEntry;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link CompositeFormatter}.<br/><br/>
@@ -38,14 +39,16 @@ import junit.framework.TestCase;
  * @since 0.4.3
  * @author Volker Bergmann
  */
-public class CompositeFormatterTest extends TestCase {
+public class CompositeFormatterTest {
 	
 	private CompositeFormatter formatter = new CompositeFormatter();
 	
+	@Test
 	public void testRenderNullComponent() {
 		checkRendering("name=[null]", "name", null);
 	}
 
+	@Test
 	public void testRenderDateComponent() {
 		TimeZone timeZone = TimeZone.getDefault();
 		try {
@@ -66,13 +69,17 @@ public class CompositeFormatterTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testRenderTimeComponent() {
 		checkRendering("time=1970-01-01T01:02:03", "time", TimeUtil.date(1970, 0, 1, 1, 2, 3, 0));
 	}
 
+	@Test
 	public void testRenderArray() {
 		checkRendering("array=[1, 2, 3]", "array", ArrayUtil.toArray(1, 2, 3));
 	}
+	
+	// private helpers -------------------------------------------------------------------------------------------------
 
 	private void checkRendering(String expected, String name, Object value) {
 		StringBuilder builder = new StringBuilder();

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.commons.comparator;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link BooleanComparator}.<br/><br/>
@@ -34,8 +35,9 @@ import junit.framework.TestCase;
  * @since 0.4.3
  * @author Volker Bergmann
  */
-public class BooleanComparatorTest extends TestCase {
+public class BooleanComparatorTest {
 
+	@Test
 	public void testCompare() {
 		BooleanComparator comparator = new BooleanComparator();
 		assertEquals(-1, comparator.compare(Boolean.FALSE, Boolean.TRUE));
@@ -43,4 +45,5 @@ public class BooleanComparatorTest extends TestCase {
 		assertEquals( 0, comparator.compare(Boolean.TRUE, Boolean.TRUE));
 		assertEquals( 1, comparator.compare(Boolean.TRUE, Boolean.FALSE));
 	}
+
 }

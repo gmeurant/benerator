@@ -32,7 +32,8 @@ import java.util.TimeZone;
 
 import org.databene.commons.Period;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link DateString2DurationConverter}.<br/>
@@ -42,8 +43,9 @@ import junit.framework.TestCase;
  * @author Volker Bergmann
  */
 
-public class DateString2DurationConverterTest extends TestCase {
+public class DateString2DurationConverterTest {
 	
+	@Test
 	public void testSimple() {
 		assertEquals(1L, convert("1970-01-01T00:00:00.001").longValue());
 		assertEquals(1L, convert("0000-00-00T00:00:00.001").longValue());
@@ -51,6 +53,7 @@ public class DateString2DurationConverterTest extends TestCase {
 		assertEquals(Period.DAY.getMillis() * 50, convert("0000-00-50").longValue());
 	}
 
+	@Test
 	public void testSG() throws Exception {
 		TimeZone timeZone = TimeZone.getDefault();
 		try {
@@ -70,4 +73,5 @@ public class DateString2DurationConverterTest extends TestCase {
 	private Long convert(String string) {
 		return new DateString2DurationConverter().convert(string);
 	}
+	
 }

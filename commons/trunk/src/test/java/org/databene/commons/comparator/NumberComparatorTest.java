@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -29,7 +29,8 @@ package org.databene.commons.comparator;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link NumberComparator}.<br/><br/>
@@ -37,58 +38,67 @@ import junit.framework.TestCase;
  * @since 0.4.2
  * @author Volker Bergmann
  */
-public class NumberComparatorTest extends TestCase {
+public class NumberComparatorTest {
 	
 	NumberComparator<Number> comparator = new NumberComparator<Number>();
 
+	@Test
 	public void testNull() {
 		expectExceptionFor(null, 0);
 		expectExceptionFor(0, null);
 		expectExceptionFor(null, null);
 	}
 	
+	@Test
 	public void testByte() {
 		expectEquality((byte)1, (byte)1);
 		expectLess((byte)1, (byte)2);
 		expectGreater((byte)2, (byte)1);
 	}
 
+	@Test
 	public void testShort() {
 		expectEquality((short)1, (short)1);
 		expectLess((short)1, (short)2);
 		expectGreater((short)2, (short)1);
 	}
 
+	@Test
 	public void testInteger() {
 		expectEquality(1, 1);
 		expectLess(1, 2);
 		expectGreater(2, 1);
 	}
 
+	@Test
 	public void testLong() {
 		expectEquality(1L, 1L);
 		expectLess(1L, 2L);
 		expectGreater(2L, 1L);
 	}
 	
+	@Test
 	public void testFloat() {
 		expectEquality((float)1, (float)1);
 		expectLess((float)1, (float)2);
 		expectGreater((float)2, (float)1);
 	}
 	
+	@Test
 	public void testDouble() {
 		expectEquality(1., 1.);
 		expectLess(1., 2.);
 		expectGreater(2., 1.);
 	}
 	
+	@Test
 	public void testBigInteger() {
 		expectEquality(new BigInteger("1"), new BigInteger("1"));
 		expectLess(new BigInteger("1"), new BigInteger("2"));
 		expectGreater(new BigInteger("2"), new BigInteger("1"));
 	}
 	
+	@Test
 	public void testBigDecimal() {
 		BigDecimal one = new BigDecimal(1);
 		BigDecimal two = new BigDecimal(2);
@@ -97,6 +107,7 @@ public class NumberComparatorTest extends TestCase {
 		expectGreater(two, one);
 	}
 	
+	@Test
 	public void testMixed() {
 		expectEquality(1, 1.);
 		expectLess(1., 2);

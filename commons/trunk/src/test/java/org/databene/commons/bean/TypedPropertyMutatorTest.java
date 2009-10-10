@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,16 +26,20 @@
 
 package org.databene.commons.bean;
 
-import junit.framework.TestCase;
+import static junit.framework.Assert.*;
 
 import org.databene.commons.UpdateFailedException;
 import org.databene.commons.bean.TypedPropertyMutator;
+import org.junit.Test;
 
 /**
+ * Tests the {@link TypedPropertyMutator}.<br/><br/>
  * Created: 20.02.2007 08:52:49
+ * @author Volker Bergmann
  */
-public class TypedPropertyMutatorTest extends TestCase {
+public class TypedPropertyMutatorTest {
 
+	@Test
     public void testLocalProperty() throws UpdateFailedException {
         TypedPropertyMutator aNameMutator = new TypedPropertyMutator(ABean.class, "name", true);
         ABean a = new ABean();

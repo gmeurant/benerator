@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,8 +27,7 @@
 package org.databene.commons.bean;
 
 /**
- * Interface for testing the {@link ObservableFactory}.<br/>
- * <br/>
+ * Interface for testing the {@link ObservableFactory}.<br/><br/>
  * Created at 17.07.2008 20:35:45
  * @since 0.4.5
  * @author Volker Bergmann

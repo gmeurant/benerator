@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,14 +28,15 @@ package org.databene.commons;
 
 import java.util.Arrays;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the Base64Codec.
  * @author Volker Bergmann
  * @since 0.2.04
  */
-public class Base64CodecTest extends TestCase {
+public class Base64CodecTest {
     
     private static final byte[] ALPHABET_BYTES  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".getBytes();
     private static final String ALPHABET_BASE64 = "QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVo=";
@@ -52,17 +53,22 @@ public class Base64CodecTest extends TestCase {
         for (int i = -128; i < 128; i++)
             ALL_BYTES[128 + i] = (byte)i;
     }
+    
+    // test methods ----------------------------------------------------------------------------------------------------
 
+	@Test
     public void testEncode() {
         assertEquals(ALPHABET_BASE64, Base64Codec.encode(ALPHABET_BYTES));
         assertEquals(ALL_BASE64, Base64Codec.encode(ALL_BYTES));
     }
     
+	@Test
     public void testDecode() {
         assertTrue(Arrays.equals(ALPHABET_BYTES, Base64Codec.decode(ALPHABET_BASE64)));
         assertTrue(Arrays.equals(ALL_BYTES, Base64Codec.decode(ALL_BASE64)));
     }
     
+	@Test
     public void testRecode() {
         checkRecodeBytes(ALPHABET_BYTES);
         checkRecodeString(ALPHABET_BASE64);
@@ -77,6 +83,8 @@ public class Base64CodecTest extends TestCase {
         checkRecodeString("AA==");
         checkRecodeString("ABCD");
     }
+    
+    // private helpers -------------------------------------------------------------------------------------------------
 
     private void checkRecodeString(String code) {
         assertEquals(code, Base64Codec.encode(Base64Codec.decode(code)));
@@ -85,4 +93,5 @@ public class Base64CodecTest extends TestCase {
     private void checkRecodeBytes(byte[] bytes) {
         assertTrue(Arrays.equals(bytes, Base64Codec.decode(Base64Codec.encode(bytes))));
     }
+    
 }

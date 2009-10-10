@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,67 +26,80 @@
 
 package org.databene.commons;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.util.*;
 
 /**
+ * Tests the {@link OrderedMap}.<br/><br/>
  * Created: 21.06.2007 08:32:53
+ * @author Volker Bergmann
  */
-public class OrderedMapTest extends TestCase {
+public class OrderedMapTest {
 
+	@Test
     public void testDefaultConstructor() {
         OrderedMap<Integer, Integer> map = createMap123();
         check(map, 1, 11, 2, 22, 3, 33);
     }
 
+	@Test
     public void testCopyConstructor() {
         OrderedMap<Integer, Integer> map = createMap123();
         OrderedMap<Integer, Integer> copy = new OrderedMap<Integer, Integer>(map);
         check(copy, 1, 11, 2, 22, 3, 33);
     }
 
+	@Test
     public void testEmptyMap() {
         OrderedMap<Integer, Integer> map = new OrderedMap<Integer, Integer>();
         check(map);
     }
 
+	@Test
     public void testClear() {
         OrderedMap<Integer, Integer> map = createMap123();
         map.clear();
         check(map);
     }
 
+	@Test
     public void testAppend() {
         OrderedMap<Integer, Integer> map = createMap123();
         map.put(4, 44);
         check(map, 1, 11, 2, 22, 3, 33, 4, 44);
     }
 
+	@Test
     public void testOverwrite() {
         OrderedMap<Integer, Integer> map = createMap123();
         map.put(2, 222);
         check(map, 1, 11, 2, 222, 3, 33);
     }
 
+	@Test
     public void testRemoveAtStart() {
         OrderedMap<Integer, Integer> map = createMap123();
         map.remove(1);
         check(map, 2, 22, 3, 33);
     }
 
+	@Test
     public void testRemoveInMiddle() {
         OrderedMap<Integer, Integer> map = createMap123();
         map.remove(2);
         check(map, 1, 11, 3, 33);
     }
 
+	@Test
     public void testRemoveAtEnd() {
         OrderedMap<Integer, Integer> map = createMap123();
         map.remove(3);
         check(map, 1, 11, 2, 22);
     }
 
+	@Test
     public void testPutAll() {
         OrderedMap<Integer, Integer> map = createMap123();
         OrderedMap<Integer, Integer> map2 = new OrderedMap<Integer, Integer>();
@@ -96,6 +109,7 @@ public class OrderedMapTest extends TestCase {
         check(map, 1, 11, 2, 22, 3, 33, 0, 0, 4, 44);
     }
 
+	@Test
     public void testEquals() {
         assertTrue(new OrderedMap<Integer, Integer>().equals(new OrderedMap<Integer, Integer>()));
         OrderedMap<Integer, Integer> map1 = createMap123();
@@ -106,6 +120,7 @@ public class OrderedMapTest extends TestCase {
         assertFalse(map1.equals(new OrderedMap<Integer, Integer>()));
     }
 
+	@Test
     public void testHashCode() {
         assertEquals(new OrderedMap<Integer, Integer>().hashCode(), new OrderedMap<Integer, Integer>().hashCode());
         OrderedMap<Integer, Integer> map1 = createMap123();
@@ -116,10 +131,12 @@ public class OrderedMapTest extends TestCase {
         assertTrue(map1.hashCode() != new OrderedMap<Integer, Integer>().hashCode());
     }
 
+	@Test
     public void testToString() {
         assertEquals("{1=11, 2=22, 3=33}", createMap123().toString());
     }
     
+	@Test
     public void testEqualsIgnoreOrder() {
     	OrderedMap<Integer, Integer> map123 = createMap123();
     	OrderedMap<Integer, Integer> map321 = new OrderedMap<Integer, Integer>();
@@ -132,6 +149,7 @@ public class OrderedMapTest extends TestCase {
     	assertTrue(map321.equalsIgnoreOrder(map123));
     }
     
+	@Test
     public void testUpdateEntry() {
     	OrderedMap<Integer, Integer> map = createMap123();
     	for (Map.Entry<Integer, Integer> entry : map.entrySet())

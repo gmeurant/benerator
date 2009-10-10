@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -29,7 +29,8 @@ package org.databene.commons.bean;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link ObservableFactory}.<br/>
@@ -38,20 +39,24 @@ import junit.framework.TestCase;
  * @since 0.4.5
  * @author Volker Bergmann
  */
-public class ObservableFactoryTest extends TestCase {
+public class ObservableFactoryTest {
 	
+	@Test
 	public void testToString() {
 		assertEquals("org.databene.commons.bean.IPerson{age=23, name=Alice}", createAlice().toString());
 	}
 
+	@Test
 	public void testEquals() {
 		assertTrue(createAlice().equals(createAlice()));
 	}
 
+	@Test
 	public void testHashCode() {
 		assertEquals(createAlice().hashCode(), createAlice().hashCode());
 	}
 
+	@Test
 	public void testEvents() {
 		IPerson person = createAlice();
 		Listener listener = new Listener();
@@ -69,7 +74,7 @@ public class ObservableFactoryTest extends TestCase {
 		return person;
 	}
 	
-	private static class Listener implements PropertyChangeListener {
+	public static class Listener implements PropertyChangeListener {
 		
 		private String name;
 

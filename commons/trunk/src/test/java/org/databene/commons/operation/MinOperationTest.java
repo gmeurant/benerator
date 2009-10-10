@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -29,28 +29,32 @@ package org.databene.commons.operation;
 import org.databene.commons.comparator.ReverseComparator;
 import org.databene.commons.operation.MinOperation;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
- * Tests the MinOperation.<br/>
- * <br/>
+ * Tests the MinOperation.<br/><br/>
  * Created: 25.01.2008 18:12:12
  * @author Volker Bergmann
  */
-public class MinOperationTest extends TestCase {
+public class MinOperationTest {
 
+	@Test
     public void testInteger() {
         MinOperation<Integer> op = new MinOperation<Integer>();
         assertEquals(Integer.valueOf(-1), op.perform(-1, 0, 1, 2));
     }
 
+	@Test
     public void testString() {
         MinOperation<String> op = new MinOperation<String>();
         assertEquals("alpha", op.perform("alpha", "bravo", "charly"));
     }
 
+	@Test
     public void testStringDesc() {
         MinOperation<String> op = new MinOperation<String>(new ReverseComparator<String>());
         assertEquals("charly", op.perform("alpha", "bravo", "charly"));
     }
+	
 }

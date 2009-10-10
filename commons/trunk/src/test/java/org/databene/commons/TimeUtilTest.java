@@ -26,7 +26,8 @@
 
 package org.databene.commons;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -40,8 +41,9 @@ import java.util.TimeZone;
  * @since 0.1
  * @author Volker Bergmann
  */
-public class TimeUtilTest extends TestCase {
+public class TimeUtilTest {
 
+	@Test
     public void testMax() {
         Date now = new Date();
         Date later = new Date(now.getTime() + Period.DAY.getMillis());
@@ -49,6 +51,7 @@ public class TimeUtilTest extends TestCase {
         assertEquals(later, TimeUtil.max(later, now));
     }
 
+	@Test
     public void testMin() {
         Date now = new Date();
         Date later = new Date(now.getTime() + Period.DAY.getMillis());
@@ -56,6 +59,7 @@ public class TimeUtilTest extends TestCase {
         assertEquals(now, TimeUtil.min(later, now));
     }
     
+	@Test
     public void testIsMidnight() {
     	TimeZone zone = TimeZone.getDefault();
     	try {
@@ -66,12 +70,14 @@ public class TimeUtilTest extends TestCase {
     	}
     }
     
+	@Test
     public void testDate() {
     	Date date = TimeUtil.date(2009, 6, 19);
     	Calendar calendar = new GregorianCalendar(2009, 6, 19);
     	assertEquals(calendar.getTime(), date);
     }
     
+	@Test
     public void testTimestamp() {
     	Timestamp timestamp = TimeUtil.timestamp(2009, 6, 19, 1, 34, 45, 123456789);
     	Calendar cal = new GregorianCalendar();

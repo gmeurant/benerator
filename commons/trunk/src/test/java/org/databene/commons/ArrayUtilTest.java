@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,14 +26,17 @@
 
 package org.databene.commons;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.util.*;
 
 /**
+ * Tests the {@link ArrayUtil} class.<br/><br/>
  * Created: 20.06.2007 18:03:10
+ * @author Volker Bergmann
  */
-public class ArrayUtilTest extends TestCase {
+public class ArrayUtilTest {
 
     private Integer[] NONE         = {            };
     private Integer[] ONE          = { 1          };
@@ -44,6 +47,7 @@ public class ArrayUtilTest extends TestCase {
     private Integer[] ONE_TO_FOUR  = { 1, 2, 3, 4 };
     private Integer[] FOUR_TO_ONE  = { 4, 3, 2, 1 };
 
+	@Test
     public void testCopyOfRange() {
         Integer[] array = new Integer[] { 0, 1, 2 };
         assertTrue(Arrays.equals(new Integer[0], ArrayUtil.copyOfRange(array, 0, 0)));
@@ -55,12 +59,14 @@ public class ArrayUtilTest extends TestCase {
         assertTrue(Arrays.equals(new Integer[] { 0, 1, 2 }, ArrayUtil.copyOfRange(array, 0, 3)));
     }
 
+	@Test
     public void testRemove() {
         assertTrue(Arrays.equals(new Integer[] { 2, 3 }, ArrayUtil.remove(ONE_TO_THREE, 0)));
         assertTrue(Arrays.equals(new Integer[] { 1, 3 }, ArrayUtil.remove(ONE_TO_THREE, 1)));
         assertTrue(Arrays.equals(new Integer[] { 1, 2 }, ArrayUtil.remove(ONE_TO_THREE, 2)));
     }
 
+	@Test
     public void testContains() {
         assertTrue( ArrayUtil.contains(ONE_TO_THREE, 1));
         assertTrue( ArrayUtil.contains(ONE_TO_THREE, 2));
@@ -69,6 +75,7 @@ public class ArrayUtilTest extends TestCase {
         assertFalse(ArrayUtil.contains(ONE_TO_THREE, 4));
     }
 
+	@Test
     public void testEndsWithSequence() {
         assertTrue(ArrayUtil.endsWithSequence(ONE_TO_THREE, new Integer[] { 1, 2, 3 }));
         assertTrue(ArrayUtil.endsWithSequence(ONE_TO_THREE, new Integer[] { 2, 3 }));
@@ -78,6 +85,7 @@ public class ArrayUtilTest extends TestCase {
         assertFalse(ArrayUtil.endsWithSequence(ONE_TO_THREE, new Integer[] { 2, 2 }));
     }
 
+	@Test
     public void testCommonElements() {
         assertTrue(Arrays.equals(ONE_TO_THREE, ArrayUtil.commonElements(ONE_TO_THREE, ONE_TO_THREE)));
         assertTrue(Arrays.equals(ONE, ArrayUtil.commonElements(new Integer[] {0, 1}, ONE_TO_THREE)));
@@ -85,12 +93,14 @@ public class ArrayUtilTest extends TestCase {
         assertTrue(Arrays.equals(NONE, ArrayUtil.commonElements(new Integer[0], ONE_TO_THREE)));
     }
 
+	@Test
     public void testEqualsIgnoreOrder() {
         assertTrue(ArrayUtil.equalsIgnoreOrder(ONE_TO_THREE, ONE_TO_THREE));
         assertTrue(ArrayUtil.equalsIgnoreOrder(new Integer[] { 3, 2, 1 }, ONE_TO_THREE));
         assertFalse(ArrayUtil.equalsIgnoreOrder(new Integer[] {2, 3, 4}, ONE_TO_THREE));
     }
 
+	@Test
     public void testIndexOf() {
         assertEquals(-1, ArrayUtil.indexOf(0, ONE_TO_THREE));
         assertEquals( 0, ArrayUtil.indexOf(1, ONE_TO_THREE));
@@ -99,26 +109,31 @@ public class ArrayUtilTest extends TestCase {
         assertEquals(-1, ArrayUtil.indexOf(4, ONE_TO_THREE));
     }
     
+	@Test
     public void testToArray() {
         assertTrue(Arrays.equals(ONE_TO_THREE, ArrayUtil.toArray(1, 2, 3)));
     }
     
+	@Test
     public void testRevertObjects() {
         assertTrue(Arrays.equals(TWO_ONE, ArrayUtil.revert(ONE_TWO)));
         assertTrue(Arrays.equals(THREE_TO_ONE, ArrayUtil.revert(ONE_TO_THREE)));
         assertTrue(Arrays.equals(FOUR_TO_ONE, ArrayUtil.revert(ONE_TO_FOUR)));
     }
     
+	@Test
     public void testRevertChars() {
         assertTrue(Arrays.equals(new char[] {'c', 'b', 'a'}, ArrayUtil.revert(new char[] {'a', 'b', 'c'})));
         assertTrue(Arrays.equals(new char[] {'a'}, ArrayUtil.revert(new char[] {'a'})));
         assertTrue(Arrays.equals(new char[0], ArrayUtil.revert(new char[0])));
     }
     
+	@Test
     public void testArrayType() {
         assertEquals(String[].class, ArrayUtil.arrayType(String.class));
     }
 
+	@Test
     public void testNewInstance() {
         Integer[] instance = ArrayUtil.newInstance(Integer.class, 3);
         assertTrue(Arrays.equals(new Integer[3], instance));

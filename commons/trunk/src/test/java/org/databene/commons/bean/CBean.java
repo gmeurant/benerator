@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,7 +27,9 @@
 package org.databene.commons.bean;
 
 /**
+ * Simple JavaBean for testing.<br/><br/>
  * Created: 21.07.2007 09:14:00
+ * @author Volker Bergmann
  */
 public class CBean extends AbstractObservableBean {
 	
@@ -49,4 +51,5 @@ public class CBean extends AbstractObservableBean {
     public void setN(int n) {
         this.n = n;
     }
+    
 }

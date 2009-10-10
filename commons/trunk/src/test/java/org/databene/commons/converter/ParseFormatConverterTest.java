@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.commons.converter;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -37,10 +38,13 @@ import org.databene.commons.TimeUtil;
 import org.databene.commons.converter.ParseFormatConverter;
 
 /**
+ * Tests the {@link ParseFormatConverter}.<br/><br/>
  * Created: 29.09.2006 15:55:35
+ * @author Volker Bergmann
  */
-public class ParseFormatConverterTest extends TestCase {
+public class ParseFormatConverterTest {
 
+	@Test
     public void testIntegerConversion() throws ConversionException {
         ParseFormatConverter<Long> converter = new ParseFormatConverter<Long>(Long.class, NumberFormat.getInstance());
         assertNull(converter.convert(null));
@@ -49,6 +53,7 @@ public class ParseFormatConverterTest extends TestCase {
         assertEquals(-1L, (long)converter.convert("-1"));
     }
 
+	@Test
     public void testDateConversion() throws ConversionException {
         ParseFormatConverter<Date> converter = new ParseFormatConverter<Date>(Date.class, new SimpleDateFormat("yyyy-MM-dd"));
         assertNull(converter.convert(null));
@@ -57,4 +62,5 @@ public class ParseFormatConverterTest extends TestCase {
         assertEquals(TimeUtil.date(2000, 11, 31), converter.convert("2000-12-31"));
         assertEquals(TimeUtil.date(2006,  8, 29), converter.convert("2006-09-29"));
     }
+	
 }

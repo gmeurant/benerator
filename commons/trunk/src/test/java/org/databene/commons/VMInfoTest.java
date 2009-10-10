@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,77 +26,99 @@
 
 package org.databene.commons;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
+ * Tests the {@link VMInfo} class.<br/><br/>
  * Created: 21.06.2007 08:35:45
+ * @author Volker Bergmann
  */
-public class VMInfoTest extends TestCase {
-
-    public void testJavaVendor() {
-        assertNotNull(System.getProperty("java.vendor"));
+public class VMInfoTest {
+	
+	@Test
+    public void testJavaVendor() { 
+        assertEquals(System.getProperty("java.vendor"), VMInfo.getJavaVendor());
     }
 
+	// TODO all these tests are nonsense!
+
+	@Test
     public void testJavaVendorUrl() {
         assertNotNull(System.getProperty("java.vendor.url"));
     }
 
+	@Test
     public void testJavaSpecificationVersion() {
         assertNotNull(System.getProperty("java.specification.version"));
     }
 
+	@Test
     public void testJavaSpecificationVendor() {
         assertNotNull(System.getProperty("java.specification.vendor"));
     }
 
+	@Test
     public void testJavaSpecificationName() {
         assertNotNull(System.getProperty("java.specification.name"));
     }
 
+	@Test
     public void testJavaClassVersion() {
         assertNotNull(System.getProperty("java.class.version"));
     }
 
+	@Test
     public void testJavaCompiler() {
         System.getProperty("java.compiler"); // may be null
     }
 
+	@Test
     public void testJavaHome() {
         assertNotNull(System.getProperty("java.home"));
     }
 
+	@Test
     public void testExtDirs() {
         assertNotNull(System.getProperty("java.ext.dirs"));
     }
 
+	@Test
     public void testClassPath() {
         assertNotNull(System.getProperty("java.class.path"));
     }
 
+	@Test
     public void testLibraryPath() {
         assertNotNull(System.getProperty("java.library.path"));
     }
 
+	@Test
     public void testJavaVMName() {
         assertNotNull(VMInfo.getJavaVmName());
     }
 
+	@Test
     public void testJavaVMSpecificationName() {
         assertNotNull(VMInfo.getJavaVmSpecificationName());
     }
 
+	@Test
     public void testJavaVMSpecificationVendor() {
         assertNotNull(VMInfo.getJavaVmSpecificationVendor());
     }
 
+	@Test
     public void testJavaVMSpecificationVarsion() {
         assertNotNull(VMInfo.getJavaVmSpecificationVersion());
     }
 
+	@Test
     public void testJavaVMVendor() {
         assertNotNull(VMInfo.getJavaVmVendor());
     }
 
+	@Test
     public void testJavaVersion() {
         assertNotNull(VMInfo.getJavaVmVersion());
     }

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.commons.collection;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link NamedValueList}.<br/><br/>
@@ -34,8 +35,9 @@ import junit.framework.TestCase;
  * @since 0.5.4
  * @author Volker Bergmann
  */
-public class NamedValueListTest extends TestCase {
+public class NamedValueListTest {
 
+	@Test
 	public void testCaseIgnorantList() {
 		NamedValueList<Integer> list = NamedValueList.createCaseIgnorantList();
 		list.add("ONE", 1);
@@ -51,6 +53,7 @@ public class NamedValueListTest extends TestCase {
 		assertEquals(11, list.someValueOfName("One").intValue());
 	}
 
+	@Test
 	public void testCaseInsensitiveList() {
 		NamedValueList<Integer> list = NamedValueList.createCaseInsensitiveList();
 		list.add("ONE", 1);
@@ -67,6 +70,7 @@ public class NamedValueListTest extends TestCase {
 		assertTrue(index == 11 || index == 1);
 	}
 
+	@Test
 	public void testCaseSensitiveList() {
 		NamedValueList<Integer> list = NamedValueList.createCaseSensitiveList();
 		list.add("ONE", 1);
@@ -83,4 +87,5 @@ public class NamedValueListTest extends TestCase {
 		assertEquals(11, list.someValueOfName("oNE").intValue());
 		assertEquals(1, list.someValueOfName("ONE").intValue());
 	}
+	
 }

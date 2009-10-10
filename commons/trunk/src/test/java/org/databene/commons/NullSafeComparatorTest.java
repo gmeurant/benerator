@@ -26,8 +26,8 @@
 
 package org.databene.commons;
 
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.util.Comparator;
 import java.util.Locale;
@@ -41,16 +41,14 @@ import org.databene.commons.NullSafeComparator;
  * Created: 20.04.2006 18:01:28
  * @author Volker Bergmann
  */
-public class NullSafeComparatorTest extends TestCase {
+public class NullSafeComparatorTest {
 
-    public static TestSuite suite() {
-        return new TestSuite(NullSafeComparatorTest.class);
-    }
-
+	@Test
     public void testInstantiation() {
         new NullSafeComparator<Integer>();
     }
 
+	@Test
     public void testComparableComparation() {
         Comparator<Integer> comparator = new NullSafeComparator<Integer>();
         Integer i1 = new Integer(1);
@@ -65,6 +63,7 @@ public class NullSafeComparatorTest extends TestCase {
         assertEquals(0, comparator.compare(null, null));
     }
 
+	@Test
     public void testStaticComparableComparation() {
         Integer i1 = new Integer(1);
         Integer i2 = new Integer(2);
@@ -78,6 +77,7 @@ public class NullSafeComparatorTest extends TestCase {
         assertEquals(0, NullSafeComparator.compare((Integer) null, (Integer) null, Integer.valueOf(-1)));
     }
 
+	@Test
     public void testDownwardComparation() {
         Comparator<Integer> comparator = new NullSafeComparator<Integer>(NullSafeComparator.NULL_IS_GREATER);
         Integer i1 = new Integer(1);
@@ -92,6 +92,7 @@ public class NullSafeComparatorTest extends TestCase {
         assertEquals(0, comparator.compare(null, null));
     }
 
+	@Test
     public void testCollatorComparation() {
         Collator collator = Collator.getInstance(Locale.GERMANY);
         Comparator<String> comparator = new NullSafeComparator<String>(collator);

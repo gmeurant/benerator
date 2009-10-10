@@ -28,7 +28,8 @@ package org.databene.commons.converter;
 
 import org.databene.commons.TimeUtil;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link Date2LongConverter}.<br/>
@@ -38,15 +39,18 @@ import junit.framework.TestCase;
  * @author Volker Bergmann
  */
 
-public class Date2LongConverterTest extends TestCase {
+public class Date2LongConverterTest {
 
+	@Test
 	public void testConvert() {
 		assertEquals(null, new Date2LongConverter().convert(null));
 		assertEquals(0L, new Date2LongConverter().convert(TimeUtil.date(1970, 0, 1, 0, 0, 0, 0)).longValue());
 	}
 
+	@Test
 	public void testRevert() {
 		assertEquals(null, new Date2LongConverter().revert(null));
 		assertEquals(TimeUtil.date(1970, 0, 1, 0, 0, 0, 0), new Date2LongConverter().revert(0L));
 	}
+	
 }

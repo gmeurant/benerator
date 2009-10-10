@@ -28,14 +28,16 @@ package org.databene.commons;
 
 import java.util.Arrays;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link ArrayBuilder}.
  * @author Volker Bergmann
  */
-public class ArrayBuilderTest extends TestCase {
+public class ArrayBuilderTest {
 
+	@Test
     public void test() {
         check(new String[] {});
         check(new String[] { "0" }, "0");

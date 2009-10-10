@@ -1,7 +1,7 @@
 package org.databene.commons;
 
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 import junit.framework.AssertionFailedError;
 
 import java.io.PushbackReader;
@@ -15,31 +15,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * (c) Copyright 2004 by Volker Bergmann
+ * Tests the {@link ParseUtil} class.
  * Created: 20.03.2005 16:32:47
+ * @author Volker Bergmann
  */
-public class ParseUtilTest extends TestCase {
+public class ParseUtilTest {
 
     private static final Logger logger = LoggerFactory.getLogger(ParseUtilTest.class);
 
     private static final double DELTA = 1e-4;
 
-    public static TestSuite suite() {
-        return new TestSuite(ParseUtilTest.class);
-    }
-
+	@Test
     public void testParseNonNegativeIntegerReader() throws Exception {
         assertEquals(0, ParseUtil.parseNonNegativeInteger(createReader("0")));
         assertEquals(1, ParseUtil.parseNonNegativeInteger(createReader("1")));
         assertEquals(123, ParseUtil.parseNonNegativeInteger(createReader("123")));
     }
 
+	@Test
     public void testParseNonNegativeIntegerString() throws Exception {
         assertEquals(0, ParseUtil.parseNonNegativeInteger("0", new ParsePosition(0)));
         assertEquals(1, ParseUtil.parseNonNegativeInteger("1", new ParsePosition(0)));
         assertEquals(123, ParseUtil.parseNonNegativeInteger("123", new ParsePosition(0)));
     }
 
+	@Test
     public void testParseInteger() throws Exception {
         assertEquals(1, ParseUtil.parseInteger(createReader("1")));
         assertEquals(0, ParseUtil.parseInteger(createReader("0")));
@@ -48,6 +48,7 @@ public class ParseUtilTest extends TestCase {
         assertEquals(-123, ParseUtil.parseInteger(createReader("-123")));
     }
 
+	@Test
     public void testParseDecimal() throws Exception {
         assertEquals(1., ParseUtil.parseDecimal(createReader("1")), DELTA);
         assertEquals(1., ParseUtil.parseDecimal(createReader("1.")), DELTA);
@@ -68,6 +69,7 @@ public class ParseUtilTest extends TestCase {
         assertEquals(-123.45, ParseUtil.parseDecimal(createReader("-123.45")), DELTA);
     }
 
+	@Test
     public void testParseEmptyLineSeparatedFile() throws Exception {
         checkParseEmptyLineSeparatedFile(new String[0][0], "");
         checkParseEmptyLineSeparatedFile(new String[][] {{"a"}}, "a");
@@ -77,6 +79,7 @@ public class ParseUtilTest extends TestCase {
         checkParseEmptyLineSeparatedFile(new String[][] {{"a", "b"}, {"c"}}, "a", "b", "", "c");
     }
 
+	@Test
     public void test() {
         assertEqualArrays(ParseUtil.splitNumbers("abc"), "abc");
         assertEqualArrays(ParseUtil.splitNumbers("abc1"), "abc", BigInteger.ONE);
@@ -84,6 +87,7 @@ public class ParseUtilTest extends TestCase {
         assertEqualArrays(ParseUtil.splitNumbers("abc12xyz"), "abc", new BigInteger("12"), "xyz");
     }
 
+	@Test
     public void testIsNMToken() {
     	assertFalse(ParseUtil.isNMToken(null));
     	assertFalse(ParseUtil.isNMToken(""));
@@ -95,6 +99,7 @@ public class ParseUtilTest extends TestCase {
     	assertTrue(ParseUtil.isNMToken("_.-:"));
     }
     
+	@Test
     public void testIsHex() {
     	checkHexChars("0123456789abcdefABCDEF");
     	checkNonHexChars("gG!%-.");

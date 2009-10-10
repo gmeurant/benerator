@@ -30,15 +30,17 @@ import java.util.TimeZone;
 
 import org.databene.commons.TimeUtil;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the String2TimeConverter.<br/><br/>
  * Created: 14.03.2008 22:23:51
  * @author Volker Bergmann
  */
-public class String2TimeConverterTest extends TestCase {
+public class String2TimeConverterTest {
 	
+	@Test
     public void testMillis() {
     	checkTimeZones(new Runnable() {
             public void run() {
@@ -52,6 +54,7 @@ public class String2TimeConverterTest extends TestCase {
     	});
     }
 
+	@Test
     public void testSeconds() {
     	checkTimeZones(new Runnable() {
             public void run() {
@@ -63,6 +66,7 @@ public class String2TimeConverterTest extends TestCase {
     	});
     }
 
+	@Test
     public void testMinutes() {
     	checkTimeZones(new Runnable() {
             public void run() {

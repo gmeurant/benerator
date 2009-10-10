@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008, 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -34,7 +34,8 @@ import org.databene.commons.ErrorHandler;
 import org.databene.commons.db.DBUtil;
 import org.databene.commons.db.hsql.HSQLUtil;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link DBUtil} class.<br/><br/>
@@ -42,8 +43,9 @@ import junit.framework.TestCase;
  * @since 0.5.3
  * @author Volker Bergmann
  */
-public class DBUtilTest extends TestCase {
+public class DBUtilTest {
 
+	@Test
 	public void testRunScript() throws Exception {
 		Connection connection = HSQLUtil.connectInMemoryDB(getClass().getSimpleName());
 		DBUtil.runScript("org/databene/commons/create_tables.hsql.sql", "iso-8859-1", connection, true, new ErrorHandler(getClass()));

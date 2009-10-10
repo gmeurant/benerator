@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,17 +26,20 @@
 
 package org.databene.commons;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.util.Locale;
 import java.util.Set;
 
 /**
- * (c) Copyright 2006 by Volker Bergmann
+ * Tests the {@link LocaleUtil} class.<br/><br/>
  * Created: 27.08.2006 21:13:29
+ * @author Volker Bergmann
  */
-public class LocaleUtilTest extends TestCase {
+public class LocaleUtilTest {
 
+	@Test
     public void testLetters() {
         check("de");
         check("de", "ch");
@@ -52,6 +55,7 @@ public class LocaleUtilTest extends TestCase {
         check("es");
     }
 
+	@Test
     public void testParent() {
         assertEquals(null, LocaleUtil.parent(new Locale("de")));
         assertEquals(new Locale("de"), LocaleUtil.parent(new Locale("de", "DE")));
@@ -60,10 +64,12 @@ public class LocaleUtilTest extends TestCase {
         assertEquals(new Locale("de", "DE", "BY_MUC"), LocaleUtil.parent(new Locale("de", "DE", "BY_MUC_SCHWABING")));
     }
 
+	@Test
     public void testGetFallbackLocale() {
         assertEquals(Locale.US, LocaleUtil.getFallbackLocale());
     }
 
+	@Test
     public void testGetLocale() {
         assertEquals(Locale.GERMAN, LocaleUtil.getLocale("de"));
         assertEquals(Locale.GERMANY, LocaleUtil.getLocale("de_DE"));
@@ -71,7 +77,8 @@ public class LocaleUtilTest extends TestCase {
         assertEquals(new Locale("de", "DE", "BY_MUC"), LocaleUtil.getLocale("de_DE_BY_MUC"));
         assertEquals(new Locale("de", "DE", "BY_MUC_SCHWABING"), LocaleUtil.getLocale("de_DE_BY_MUC_SCHWABING"));
     }
-    
+
+	@Test    
     public void testGetDefaultCountryCode() {
     	Locale defaultLocale = Locale.getDefault();
     	try {

@@ -26,7 +26,8 @@
 
 package org.databene.commons;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.util.Arrays;
 import java.util.Locale;
@@ -34,47 +35,56 @@ import java.util.Locale;
 import org.databene.commons.converter.ToStringConverter;
 
 /**
- * Tests the {@link ArrayFormat}.
+ * Tests the {@link ArrayFormat}.<br/><br/>
  * Created: 20.06.2007 08:52:26
  * @author Volker Bergmann
  */
-public class ArrayFormatTest extends TestCase {
+public class ArrayFormatTest {
 
     private static final Locale[] LOCALES = { Locale.GERMAN, Locale.ENGLISH, Locale.FRENCH };
 
+	@Test
     public void testInstanceFormat() {
         assertEquals("1, 2, 3", ArrayFormat.format(new Integer[] {1, 2, 3}));
     }
 
+	@Test
     public void testParse() {
         String[] tokens = ArrayFormat.parse("a, b, c", ", ", String.class);
         assertTrue(Arrays.equals(new String[] {"a", "b", "c"}, tokens));
     }
 
+	@Test
     public void testFormatSimple() {
         assertEquals("1, 2, 3", ArrayFormat.format(1, 2, 3));
     }
 
+	@Test
     public void testFormatWithSeparator() {
         assertEquals("de_DE_BY", ArrayFormat.formatStrings("_", "de", "DE", "BY"));
     }
 
+	@Test
     public void testFormatWithFormatAndSeparator() {
         assertEquals("de/en/fr", ArrayFormat.format(new ToStringConverter(), "/", LOCALES));
     }
 
+	@Test
     public void testFormatPartSimple() {
         assertEquals("de, en", ArrayFormat.formatPart(0, 2, LOCALES));
     }
 
+	@Test
     public void testFormatPartWithSeparator() {
         assertEquals("de/en", ArrayFormat.formatPart("/", 0, 2, LOCALES));
     }
 
+	@Test
     public void testFormatPartWithFormatAndSeparator() {
         assertEquals("de/en", ArrayFormat.formatPart(new ToStringConverter(), "/", 0, 2, LOCALES));
     }
 
+	@Test
     public void testFormatIntArray() {
         assertEquals("1.2.3", ArrayFormat.formatInts(".", 1, 2, 3));
     }

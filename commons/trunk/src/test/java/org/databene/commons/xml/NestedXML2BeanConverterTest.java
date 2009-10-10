@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.commons.xml;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import org.databene.commons.ConversionException;
 import org.databene.commons.IOUtil;
@@ -41,12 +42,13 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 /**
- * Tests the XMLElement2BeanConverter.<br/>
- * <br/>
+ * Tests the XMLElement2BeanConverter.<br/><br/>
  * Created: 19.08.2007 15:19:25
+ * @author Volker Bergmann
  */
-public class NestedXML2BeanConverterTest extends TestCase {
+public class NestedXML2BeanConverterTest {
 
+	@Test
     public void test() throws IOException, ConversionException {
         String xml = "<?xml version=\"1.0\"?><bean class=\"org.databene.SomeBean\">\r\n" +
                 "<property name=\"num\" value=\"10\"/>" +

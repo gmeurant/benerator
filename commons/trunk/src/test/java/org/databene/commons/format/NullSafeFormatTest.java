@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -29,7 +29,8 @@ package org.databene.commons.format;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link NullSafeFormat}.<br/><br/>
@@ -37,21 +38,23 @@ import junit.framework.TestCase;
  * @since 0.4.3
  * @author Volker Bergmann
  */
-public class NullSafeFormatTest extends TestCase {
+public class NullSafeFormatTest {
 
 	private static final String NULL = "[null]";
 
+	@Test
 	public void test() throws ParseException {
-		NullSafeFormat format = createFormat();
+		NullSafeFormat<?> format = createFormat();
 		assertNull(format.parseObject(null));
 		assertNull(format.parseObject(NULL));
 		assertEquals(1, ((Integer) format.parseObject("1")).intValue());
 	}
 
-	private NullSafeFormat createFormat() {
+	private NullSafeFormat<?> createFormat() {
 		DecimalFormat nf = new DecimalFormat();
 		nf.setGroupingUsed(false);
-		NullSafeFormat format = new NullSafeFormat<Integer>(nf, Integer.class, NULL);
+		NullSafeFormat<?> format = new NullSafeFormat<Integer>(nf, Integer.class, NULL);
 		return format;
 	}
+	
 }

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,7 +27,9 @@
 package org.databene.commons.bean;
 
 /**
+ * Test Bean.<br/><br/>
  * Created: 21.07.2007 09:13:38
+ * @author Volker Bergmann
  */
 public class ABean {
     public String name;

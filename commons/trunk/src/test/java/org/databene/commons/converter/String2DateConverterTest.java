@@ -28,7 +28,8 @@ package org.databene.commons.converter;
 
 import java.util.Date;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import org.databene.commons.TimeUtil;
 import org.databene.commons.converter.String2DateConverter;
@@ -37,9 +38,11 @@ import org.databene.commons.converter.String2DateConverter;
  * Tests the {@link String2DateConverter}.<br/>
  * <br/>
  * Created: 07.09.2007 18:00:32
+ * @author Volker Bergmann
  */
-public class String2DateConverterTest extends TestCase {
+public class String2DateConverterTest {
 
+	@Test
     public void testStandardDates() {
         String stringValue = "2007-09-06";
 		assertEquals(TimeUtil.date(2007, 8, 6), convert(stringValue));
@@ -48,6 +51,7 @@ public class String2DateConverterTest extends TestCase {
         assertEquals(TimeUtil.date(2007, 8, 6, 13, 28, 56, 123), convert("2007-09-06T13:28:56.123"));
     }
 
+	@Test
     public void testStrangeDates() {
         assertEquals(null, convert(null));
         assertEquals(null, convert(""));

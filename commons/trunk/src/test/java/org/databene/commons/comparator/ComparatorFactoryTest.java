@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,28 +24,30 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 package org.databene.commons.comparator;
 
 import java.util.Comparator;
 
 import org.databene.commons.Person;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
- * Tests the ComparatorFactory.<br/><br/>
+ * Tests the {@link ComparatorFactory}.<br/><br/>
  * Created: 16.03.2008 15:13:56
  * @author Volker Bergmann
  */
-public class ComparatorFactoryTest extends TestCase {
+public class ComparatorFactoryTest {
     
+	@Test
     public static void testStringCollator() {
         Comparator<String> stringComparator = ComparatorFactory.getComparator(String.class);
         assertNotNull(stringComparator);
         assertEquals(-1, stringComparator.compare("1", "2"));
     }
     
+	@Test
     public static void testPersonComparator() {
         Comparator<Person> personComparator = ComparatorFactory.getComparator(Person.class);
         assertNotNull(personComparator);
@@ -59,6 +61,6 @@ public class ComparatorFactoryTest extends TestCase {
         public int compare(Person p1, Person p2) {
             return IntComparator.compare(p1.getAge(), p2.getAge());
         }
-        
     }
+
 }

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.commons;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.util.Date;
 
@@ -34,11 +35,13 @@ import org.databene.commons.Timespan;
 import org.databene.commons.TimeUtil;
 
 /**
- * (c) Copyright 2004 by Volker Bergmann
+ * Tests the {@link Timespan} class.<br/><br/>
  * Created: 17.02.2005 21:29:24
+ * @author Volker Bergmann
  */
-public class TimespanTest extends TestCase {
+public class TimespanTest {
 
+	@Test
     public void testDuration() {
         Date now = new Date();
         Date tomorrow = new Date(now.getTime() + Period.DAY.getMillis());
@@ -46,6 +49,7 @@ public class TimespanTest extends TestCase {
         assertEquals((Long)Period.DAY.getMillis(), timespan.duration());
     }
 
+	@Test
     public void testContains() {
         Date d1 = TimeUtil.date(2005, 0, 1);
         Date d2 = TimeUtil.date(2005, 0, 2);
@@ -66,6 +70,7 @@ public class TimespanTest extends TestCase {
         assertFalse(s2.contains(l));
     }
 
+	@Test
     public void testOverlaps() {
         Date d1 = TimeUtil.date(2005, 0, 1);
         Date d2 = TimeUtil.date(2005, 0, 2);
@@ -94,6 +99,7 @@ public class TimespanTest extends TestCase {
         assertFalse(s3.overlaps(s1));
     }
     
+	@Test
     public void testUnite() {
         Date d1 = TimeUtil.date(2005, 0, 1);
         Date d2 = TimeUtil.date(2005, 0, 2);
@@ -111,6 +117,7 @@ public class TimespanTest extends TestCase {
         assertEquals(always, Timespan.unite(past, future));
     }
     
+	@Test
     public void testEquals() {
     	Timespan always = new Timespan(null, null);
     	assertFalse(always.equals(null));
@@ -121,5 +128,6 @@ public class TimespanTest extends TestCase {
     	assertFalse(always.equals(future));
     	assertFalse(future.equals(always));
     }
+	
 }
 

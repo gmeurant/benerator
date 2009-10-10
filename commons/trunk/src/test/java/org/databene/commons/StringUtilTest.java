@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007, 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.commons;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.util.Arrays;
 
@@ -34,11 +35,14 @@ import org.databene.commons.StringUtil;
 import org.databene.commons.ArrayUtil;
 
 /**
- * (c) Copyright 2006 by Volker Bergmann
+ * Tests the {@link StringUtil} class.<br/><br/>
  * Created: 21.07.2006 17:31:42
+ * @since 0.1
+ * @author Volker Bergmann
  */
-public class StringUtilTest extends TestCase {
+public class StringUtilTest {
 
+	@Test
     public void testEmpty() {
         assertTrue(StringUtil.isEmpty(null));
         assertTrue(StringUtil.isEmpty(""));
@@ -46,6 +50,7 @@ public class StringUtilTest extends TestCase {
         assertFalse(StringUtil.isEmpty("null"));
     }
 
+	@Test
     public void testSuffix() {
         assertEquals(null, StringUtil.suffix("a", '.'));
         assertEquals(null, StringUtil.suffix("a.", '.'));
@@ -54,6 +59,7 @@ public class StringUtilTest extends TestCase {
         assertEquals(null, StringUtil.suffix(null, '.'));
     }
 
+	@Test
     public void testLastToken() {
         assertEquals("a", StringUtil.lastToken("a", ','));
         assertEquals(null, StringUtil.lastToken("a,", ','));
@@ -62,6 +68,7 @@ public class StringUtilTest extends TestCase {
         assertEquals(null, StringUtil.lastToken(null, ','));
     }
 
+	@Test
     public void testEndsWithSequence() {
         assertTrue(ArrayUtil.endsWithSequence(new String[] {"a", "b", "c"}, new String[] {"c"}));
         assertTrue(ArrayUtil.endsWithSequence(new String[] {"a", "b", "c"}, new String[] {"b", "c"}));
@@ -70,6 +77,7 @@ public class StringUtilTest extends TestCase {
         assertFalse(ArrayUtil.endsWithSequence(new String[] {"a", "b", "c"}, new String[] {"a", "b"}));
     }
 
+	@Test
     public void testTokenize() {
         assertNull(StringUtil.tokenize(null, ','));
         assertTrue(Arrays.equals(new String[] { "" }, StringUtil.tokenize("", ',')));
@@ -81,10 +89,12 @@ public class StringUtilTest extends TestCase {
         assertTrue(Arrays.equals(new String[] { "a,b,c" }, StringUtil.tokenize("a,b,c", '.')));
     }
 
+	@Test
     public void testNormalize() {
         assertEquals("#Abc!", StringUtil.normalize("#Abc!"));
     }
 
+	@Test
     public void testIncrement() {
         assertEquals("0", StringUtil.increment(null));
         assertEquals("0", StringUtil.increment(""));
@@ -98,6 +108,7 @@ public class StringUtilTest extends TestCase {
         assertEquals("100", StringUtil.increment("zz"));
     }
 
+	@Test
     public void testNormalizeSpace() {
         assertEquals("abc", StringUtil.normalizeSpace("abc"));
         assertEquals("", StringUtil.normalizeSpace(""));
@@ -108,6 +119,7 @@ public class StringUtilTest extends TestCase {
         assertEquals("abc def", StringUtil.normalizeSpace(" abc \r\n def \r\n"));
     }
 
+	@Test
     public void testTrimEnd() {
         assertEquals(null, StringUtil.trimEnd(null));
         assertEquals("", StringUtil.trimEnd(""));
@@ -118,6 +130,7 @@ public class StringUtilTest extends TestCase {
         assertEquals(" abc", StringUtil.trimEnd(" abc "));
     }
 
+	@Test
     public void testPadRight() {
         assertEquals("", StringUtil.padRight(null, 0, ' '));
         assertEquals(" ", StringUtil.padRight(null, 1, ' '));
@@ -134,6 +147,7 @@ public class StringUtilTest extends TestCase {
         }
     }
 
+	@Test
     public void testPadLeft() {
         assertEquals("", StringUtil.padLeft(null, 0, ' '));
         assertEquals(" ", StringUtil.padLeft(null, 1, ' '));
@@ -150,6 +164,7 @@ public class StringUtilTest extends TestCase {
         }
     }
 
+	@Test
     public void testTrimRight() {
         assertEquals(null, StringUtil.trimRight(null, '0'));
         assertEquals("", StringUtil.trimRight("", '0'));
@@ -160,6 +175,7 @@ public class StringUtilTest extends TestCase {
         assertEquals("01", StringUtil.trimRight("0100", '0'));
     }
 
+	@Test
     public void testTrimLeft() {
         assertEquals(null, StringUtil.trimLeft(null, '0'));
         assertEquals("", StringUtil.trimLeft("", '0'));
@@ -170,6 +186,7 @@ public class StringUtilTest extends TestCase {
         assertEquals("100", StringUtil.trimLeft("0100", '0'));
     }
 
+	@Test
     public void testTrim() {
         assertEquals(null, StringUtil.trim(null, '0'));
         assertEquals("", StringUtil.trim("", '0'));
@@ -180,6 +197,7 @@ public class StringUtilTest extends TestCase {
         assertEquals("1", StringUtil.trim("00100", '0'));
     }
     
+	@Test
     public void testStartsWithIgnoreCase() {
     	assertFalse(StringUtil.startsWithIgnoreCase("", null));
     	assertTrue(StringUtil.startsWithIgnoreCase(null, null));
@@ -194,6 +212,7 @@ public class StringUtilTest extends TestCase {
     	assertFalse(StringUtil.startsWithIgnoreCase("Ali", "Alice"));
     }
     
+	@Test
     public void testEndsWithIgnoreCase() {
     	assertFalse(StringUtil.endsWithIgnoreCase("", null));
     	assertTrue(StringUtil.endsWithIgnoreCase(null, null));
@@ -208,6 +227,7 @@ public class StringUtilTest extends TestCase {
     	assertFalse(StringUtil.endsWithIgnoreCase("ice", "Alice"));
     }
     
+	@Test
     public void testNormalizeName() {
     	assertEquals("Alice", StringUtil.normalizeName("Alice"));
     	assertEquals("Alice", StringUtil.normalizeName("ALICE"));
@@ -220,6 +240,7 @@ public class StringUtilTest extends TestCase {
     	assertEquals("Alice Smith", StringUtil.normalizeName(" \r\n\taLICE \r sMITH \n\t "));
     }
     
+	@Test
     public void testSplitOnFirstSeparator() {
     	checkSplitFirst(null , null, null   );
     	checkSplitFirst(null , "x" , "x"    );
@@ -229,6 +250,7 @@ public class StringUtilTest extends TestCase {
     	checkSplitFirst("x", "(y=z)" , "x=(y=z)");
     }
     
+	@Test
     public void testSplitOnLastSeparator() {
     	checkSplitLast(null , null, null   );
     	checkSplitLast(null , "c" , "c"    );
@@ -238,6 +260,7 @@ public class StringUtilTest extends TestCase {
     	checkSplitLast("a.b", "c" , "a.b.c");
     }
     
+	@Test
     public void testJoinWithSeparator() {
     	assertEquals("", StringUtil.joinWithSeparator('.', (String[]) null));
     	assertEquals("", StringUtil.joinWithSeparator('.', null, null));
@@ -247,10 +270,12 @@ public class StringUtilTest extends TestCase {
     	assertEquals("A.B", StringUtil.joinWithSeparator('.', "A", null, "B"));
     }
     
+	@Test
     public void testReplaceTokens() {
     	assertEquals("A(alpha,bravo)", StringUtil.replaceTokens("A(XX,XX)", "XX", "alpha", "bravo"));
     }
     
+	@Test
     public void testEscape() {
     	assertEquals(null, StringUtil.escape(null));
     	assertEquals("", StringUtil.escape(""));
@@ -261,6 +286,7 @@ public class StringUtilTest extends TestCase {
     	assertEquals("\\'\\\"A\\rB\\nC\\tD\\\"\\'", StringUtil.escape("'\"A\rB\nC\tD\"'", true, true));
     }
     
+	@Test
     public void testUnescape() {
     	assertEquals(null, StringUtil.unescape(null));
     	assertEquals("", StringUtil.unescape(""));
@@ -268,6 +294,7 @@ public class StringUtilTest extends TestCase {
     	assertEquals("'A\rB\nC\tD\"", StringUtil.unescape("\\'A\\rB\\nC\\tD\\\""));
     }
     
+	@Test
     public void testEmptyToNull() {
     	assertEquals(" a ", StringUtil.emptyToNull(" a "));
     	assertEquals(null, StringUtil.emptyToNull(null));
@@ -275,6 +302,7 @@ public class StringUtilTest extends TestCase {
     	assertEquals(null, StringUtil.emptyToNull("   "));
     }
     
+	@Test
     public void testRemoveSection() {
     	// check valid settings
     	assertEquals("123789", StringUtil.removeSection("123456789", "45", "56"));
@@ -296,4 +324,5 @@ public class StringUtilTest extends TestCase {
 	private void checkSplitLast(String parent, String child, String path) {
 		assertTrue(Arrays.equals(ArrayUtil.buildArrayOfType(String.class, parent, child), StringUtil.splitOnLastSeparator(path, '.')));
 	}
+	
 }

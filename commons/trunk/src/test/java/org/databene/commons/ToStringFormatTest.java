@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,17 +26,22 @@
 
 package org.databene.commons;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
+ * Tests the {@link ToStringFormat} class.<br/><br/>
  * Created: 21.06.2007 08:35:30
+ * @author Volker Bergmann
  */
-public class ToStringFormatTest extends TestCase {
+public class ToStringFormatTest {
 
+	@Test
     public void test() {
         ToStringFormat format = new ToStringFormat("N/A");
         assertEquals("0", format.format("0"));
         assertEquals("N/A", format.format(null));
         assertEquals("1", format.format("1"));
     }
+	
 }

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,19 +26,24 @@
 
 package org.databene.commons;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.util.Comparator;
 
 /**
+ * Tests the {@link ComparableComparator}.<br/><br/>
  * Created: 21.06.2007 08:30:00
+ * @author Volker Bergmann
  */
-public class ComparableComparatorTest extends TestCase {
+public class ComparableComparatorTest {
 
+	@Test
     public void test() {
         Comparator<String> comparator = new ComparableComparator<String>();
         assertEquals( 0, comparator.compare("1", "1"));
         assertEquals( 1, comparator.compare("1", "0"));
         assertEquals(-1, comparator.compare("0", "1"));
     }
+	
 }

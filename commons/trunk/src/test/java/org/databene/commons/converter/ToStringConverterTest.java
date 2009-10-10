@@ -26,7 +26,8 @@
 
 package org.databene.commons.converter;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link ToStringConverter}.<br/>
@@ -36,8 +37,9 @@ import junit.framework.TestCase;
  * @author Volker Bergmann
  */
 
-public class ToStringConverterTest extends TestCase {
+public class ToStringConverterTest {
 
+	@Test
 	public void testDecimal() {
 		ToStringConverter converter = new ToStringConverter();
 		assertEquals("", converter.convert(null));
@@ -52,4 +54,5 @@ public class ToStringConverterTest extends TestCase {
 		converter.setDecimalPattern("#,##0.00");
 		assertEquals("1.000,00", converter.convert(1000.));
 	}
+	
 }

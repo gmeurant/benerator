@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -32,7 +32,8 @@ import java.sql.SQLException;
 import org.databene.commons.db.DBUtil;
 import org.databene.commons.db.hsql.HSQLUtil;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link HSQLUtil} class.<br/><br/>
@@ -40,8 +41,9 @@ import junit.framework.TestCase;
  * @since 0.5.3
  * @author Volker Bergmann
  */
-public class HSQLUtilTest extends TestCase {
+public class HSQLUtilTest {
 
+	@Test
 	public void test() throws SQLException {
 		Connection connection = null;
 		try {
@@ -51,4 +53,5 @@ public class HSQLUtilTest extends TestCase {
 			DBUtil.close(connection);
 		}
 	}
+	
 }

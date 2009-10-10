@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,19 +26,23 @@
 
 package org.databene.commons.bean;
 
-import junit.framework.TestCase;
+import static junit.framework.Assert.*;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.UpdateFailedException;
 import org.databene.commons.bean.PropertyGraphMutator;
 import org.databene.commons.bean.PropertyMutatorFactory;
 import org.databene.commons.bean.TypedPropertyMutator;
 import org.databene.commons.bean.UntypedPropertyMutator;
+import org.junit.Test;
 
 /**
+ * Tests the {@link PropertyMutatorFactory}.<br/><br/>
  * Created: 20.02.2007 08:52:49
+ * @author Volker Bergmann
  */
-public class PropertyMutatorFactoryTest extends TestCase {
+public class PropertyMutatorFactoryTest {
 
+	@Test
     public void testSimpleProperty() {
         assertEquals(TypedPropertyMutator.class, PropertyMutatorFactory.getPropertyMutator(ABean.class, "name", true).getClass());
         assertEquals(TypedPropertyMutator.class, PropertyMutatorFactory.getPropertyMutator(ABean.class, "doesntExsist", false).getClass());
@@ -51,6 +55,7 @@ public class PropertyMutatorFactoryTest extends TestCase {
         assertEquals(UntypedPropertyMutator.class, PropertyMutatorFactory.getPropertyMutator("name").getClass());
     }
 
+	@Test
     public void testNavigatedProperty() throws UpdateFailedException {
         assertEquals(PropertyGraphMutator.class, PropertyMutatorFactory.getPropertyMutator(ABean.class, "b.name").getClass());
         assertEquals(PropertyGraphMutator.class, PropertyMutatorFactory.getPropertyMutator("b.name").getClass());

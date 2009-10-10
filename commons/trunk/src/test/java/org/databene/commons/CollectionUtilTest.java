@@ -26,7 +26,8 @@
 
 package org.databene.commons;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -36,10 +37,13 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
+ * Tests the {@link CollectionUtil} class.<br/><br/>
  * Created: 21.06.2007 08:29:32
+ * @author Volker Bergmann
  */
-public class CollectionUtilTest extends TestCase {
+public class CollectionUtilTest {
 
+	@Test
     public void testToList() {
         List<Number> expectedList = new ArrayList<Number>();
         expectedList.add(1);
@@ -48,6 +52,7 @@ public class CollectionUtilTest extends TestCase {
         assertEquals(expectedList, CollectionUtil.toList(1, 2, 3));
     }
 
+	@Test
     public void testToSet() {
         Set<Integer> expectedSet = new HashSet<Integer>();
         expectedSet.add(1);
@@ -56,6 +61,7 @@ public class CollectionUtilTest extends TestCase {
         assertEquals(expectedSet, CollectionUtil.toSet(1, 2, 3));
     }
 
+	@Test
     public void testToSortedSet() {
         Set<Integer> expectedSet = new TreeSet<Integer>();
         expectedSet.add(1);
@@ -64,6 +70,7 @@ public class CollectionUtilTest extends TestCase {
         assertEquals(expectedSet, CollectionUtil.toSortedSet(3, 2, 1));
     }
 
+	@Test
     public void testAdd() {
         List<Integer> list = new ArrayList<Integer>();
         CollectionUtil.add(list, 1);
@@ -72,6 +79,7 @@ public class CollectionUtilTest extends TestCase {
         assertEquals(Arrays.asList(1, 2), list);
     }
 
+	@Test
     public void testCopy() {
         List<Integer> list = Arrays.asList(1, 2, 3);
         assertEquals(Arrays.asList(), CollectionUtil.copy(list, 0, 0));
@@ -80,6 +88,7 @@ public class CollectionUtilTest extends TestCase {
         assertEquals(Arrays.asList(2, 3), CollectionUtil.copy(list, 1, 2));
     }
 
+	@Test
     public void testEmpty() {
         assertTrue(CollectionUtil.isEmpty(null));
         assertTrue(CollectionUtil.isEmpty(new HashSet<String>()));
@@ -87,8 +96,10 @@ public class CollectionUtilTest extends TestCase {
         assertFalse(CollectionUtil.isEmpty(Arrays.asList(1)));
     }
 
+	@Test
     public void testToArray() {
         assertTrue(Arrays.equals(new Integer[] { 1 }, CollectionUtil.toArray(Arrays.asList(1), Integer.class)));
         assertTrue(Arrays.equals(new Integer[] { 1, 2, 3 }, CollectionUtil.toArray(Arrays.asList(1, 2, 3), Integer.class)));
     }
+	
 }

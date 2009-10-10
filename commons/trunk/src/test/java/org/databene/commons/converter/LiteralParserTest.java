@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008, 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,21 +30,24 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link LiteralParser}.<br/><br/>
  * Created: 20.03.2008 07:18:30
  * @author Volker Bergmann
  */
-public class LiteralParserTest extends TestCase {
+public class LiteralParserTest {
 	
+	@Test
     public void testNull() {
         assertEquals(null, LiteralParser.parse(null));
         assertEquals(null, LiteralParser.parse(""));
         assertEquals(null, LiteralParser.parse(" \t "));
     }
 
+	@Test
     public void testBoolean() {
         assertEquals(Boolean.TRUE, LiteralParser.parse("true"));
         assertEquals(Boolean.TRUE, LiteralParser.parse(" true "));
@@ -52,6 +55,7 @@ public class LiteralParserTest extends TestCase {
         assertEquals(Boolean.FALSE, LiteralParser.parse(" false "));
     }
 
+	@Test
     public void testString() {
         checkText("Alpha");
         checkText("'1'");
@@ -86,12 +90,14 @@ public class LiteralParserTest extends TestCase {
         checkText("01234");
     }
     
+	@Test
     public void testInteger() {
         assertEquals(0, LiteralParser.parse("0"));
         assertEquals(1, LiteralParser.parse("1"));
         assertEquals(-1, LiteralParser.parse("-1"));
     }
 
+	@Test
     public void testLong() {
         checkLong(Long.MAX_VALUE);
         checkLong(((long) Integer.MAX_VALUE) + 1);
@@ -99,6 +105,7 @@ public class LiteralParserTest extends TestCase {
         checkLong(Long.MIN_VALUE + 1);
     }
 
+	@Test
     public void testDouble() {
         assertEquals( 0., LiteralParser.parse("0.0"));
         assertEquals( 1., LiteralParser.parse("1."));
@@ -107,6 +114,7 @@ public class LiteralParserTest extends TestCase {
         assertEquals(-1., LiteralParser.parse("-1.0"));
     }
     
+	@Test
     public void testDate() throws ParseException {
         checkDate("1970-3-2", "yyyy-MM-dd");
         checkDate("1970-01-01", "yyyy-MM-dd");

@@ -26,16 +26,20 @@
 
 package org.databene.commons.bean;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 import org.databene.commons.UpdateFailedException;
 import org.databene.commons.bean.ABean;
 import org.databene.commons.bean.PropertyGraphMutator;
 
 /**
+ * Tests the {@link PropertyGraphMutator}.<br/><br/>
  * Created: 20.02.2007 08:52:49
+ * @author Volker Bergmann
  */
-public class PropertyGraphMutatorTest extends TestCase {
+public class PropertyGraphMutatorTest {
 
+	@Test
     public void testLocalProperty() throws UpdateFailedException {
         PropertyGraphMutator aNameMutator = new PropertyGraphMutator(ABean.class, "name", true);
         ABean a = new ABean();
@@ -45,6 +49,7 @@ public class PropertyGraphMutatorTest extends TestCase {
         assertEquals(null, a.name);
     }
 
+	@Test
     public void testNavigatedProperty() throws UpdateFailedException {
         PropertyGraphMutator bNameMutator = new PropertyGraphMutator(ABean.class, "b.name", true);
         ABean a = new ABean();
@@ -54,6 +59,7 @@ public class PropertyGraphMutatorTest extends TestCase {
         assertEquals(null, a.b.name);
     }
 
+	@Test
     public void testNavigatedGraph() throws UpdateFailedException {
         PropertyGraphMutator bNameMutator = new PropertyGraphMutator(ABean.class, "b.c.name", true);
         ABean a = new ABean();
@@ -62,6 +68,5 @@ public class PropertyGraphMutatorTest extends TestCase {
         bNameMutator.setValue(a, null);
         assertEquals(null, a.b.c.name);
     }
-
 
 }

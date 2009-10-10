@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.commons.format;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.text.ParseException;
 
@@ -34,10 +35,14 @@ import org.databene.commons.format.Alignment;
 import org.databene.commons.format.PadFormat;
 
 /**
+ * Tests the PadFormat.<br/><br/>
  * Created: 29.06.2007 19:44:11
+ * @since 0.1
+ * @author Volker Bergmann
  */
-public class PadFormatTest extends TestCase {
+public class PadFormatTest {
 
+	@Test
     public void testFormatLeftAligned() {
         PadFormat format = new PadFormat(3, Alignment.LEFT, '0');
         assertEquals("100", format.format("1"));
@@ -45,6 +50,7 @@ public class PadFormatTest extends TestCase {
         assertEquals("000", format.format(null));
     }
 
+	@Test
     public void testFormatRightAligned() {
         PadFormat format = new PadFormat(3, Alignment.RIGHT, '0');
         assertEquals("001", format.format("1"));
@@ -53,6 +59,7 @@ public class PadFormatTest extends TestCase {
         assertEquals("-01", format.format("-1"));
     }
 
+	@Test
     public void testFormatCentered() {
         PadFormat format = new PadFormat(3, Alignment.CENTER, '0');
         assertEquals("010", format.format("1"));
@@ -60,6 +67,7 @@ public class PadFormatTest extends TestCase {
         assertEquals("000", format.format(null));
     }
 
+	@Test
     public void testFormatNumber() {
         PadFormat format = new PadFormat(5, 2, Alignment.RIGHT, '0');
         assertEquals("00.01", format.format(0.01));
@@ -73,6 +81,7 @@ public class PadFormatTest extends TestCase {
         assertEquals("00001", format.format(1.));
     }
 
+	@Test
     public void testParseLeftAligned() throws ParseException {
         PadFormat format = new PadFormat(3, Alignment.LEFT, '0');
         assertEquals(null, format.parseObject(null));
@@ -82,6 +91,7 @@ public class PadFormatTest extends TestCase {
         assertEquals("01", format.parseObject("0100"));
     }
 
+	@Test
     public void testParseRightAligned() throws ParseException {
         PadFormat format = new PadFormat(3, Alignment.RIGHT, '0');
         assertEquals(null, format.parseObject(null));
@@ -100,6 +110,7 @@ public class PadFormatTest extends TestCase {
         assertEquals("1", format.parseObject("00100"));
     }
 
+	@Test
     public void testEquals() {
     	PadFormat p10ls = new PadFormat(1, 0, Alignment.LEFT, ' ');
        	PadFormat p20ls = new PadFormat(2, 0, Alignment.LEFT, ' ');
@@ -115,4 +126,5 @@ public class PadFormatTest extends TestCase {
         assertFalse(p10ls.equals(p10rs));
         assertFalse(p10ls.equals(p10l0));
     }
+	
 }

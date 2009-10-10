@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.commons.iterator;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.util.List;
 import java.util.Arrays;
@@ -37,10 +38,13 @@ import org.databene.commons.iterator.BidirectionalListIterator;
 import org.databene.commons.iterator.FilteringIterator;
 
 /**
+ * Tests the {@link FilteringIterator}.<br/><br/>
  * Created: 08.05.2007 19:03:28
+ * @author Volker Bergmann
  */
-public class FilteringBidirectionalIteratorTest extends TestCase {
+public class FilteringBidirectionalIteratorTest {
 
+	@Test
     public void testNext() {
         List<Character> list = Arrays.asList('1', 'a', '2', 'b', '3');
         BidirectionalIterator<Character> realIterator
@@ -51,13 +55,16 @@ public class FilteringBidirectionalIteratorTest extends TestCase {
                 return Character.isDigit(c);
             }
         };
-        BidirectionalIterator iterator = new FilteringIterator(realIterator, filter);
+        BidirectionalIterator<Character> iterator = new FilteringIterator<Character>(realIterator, filter);
         assertTrue(iterator.hasNext());
-        assertEquals('1', iterator.next());
         assertTrue(iterator.hasNext());
-        assertEquals('2', iterator.next());
+        assertEquals('1', iterator.next().charValue());
         assertTrue(iterator.hasNext());
-        assertEquals('3', iterator.next());
+        assertTrue(iterator.hasNext());
+        assertEquals('2', iterator.next().charValue());
+        assertTrue(iterator.hasNext());
+        assertTrue(iterator.hasNext());
+        assertEquals('3', iterator.next().charValue());
         assertFalse(iterator.hasNext());
         assertFalse(iterator.hasNext());
     }

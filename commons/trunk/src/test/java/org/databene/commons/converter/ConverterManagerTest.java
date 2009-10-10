@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.commons.converter;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.util.Locale;
 
@@ -37,13 +38,16 @@ import org.databene.commons.converter.String2LocaleConverter;
  * Tests the ConverterManager.<br/>
  * <br/>
  * Created: 05.08.2007 07:07:26
+ * @author Volker Bergmann
  */
-public class ConverterManagerTest extends TestCase {
+public class ConverterManagerTest {
 
+	@Test
     @SuppressWarnings("unchecked")
     public void test() {
         ConverterManager mgr = ConverterManager.getInstance();
         Converter converter = mgr.getConverter("DE", Locale.class);
 		assertEquals(String2LocaleConverter.class, converter.getClass());
     }
+	
 }

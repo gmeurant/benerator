@@ -28,7 +28,8 @@ package org.databene.commons;
 
 import java.io.File;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link FileUtil} class.<br/>
@@ -38,8 +39,9 @@ import junit.framework.TestCase;
  * @author Volker Bergmann
  */
 
-public class FileUtilTest extends TestCase {
+public class FileUtilTest {
 
+	@Test
 	public void testCopyFile() throws Exception {
 		File rootDir = new File("target");
 		File srcFile = new File(rootDir, getClass().getSimpleName() + ".original");
@@ -72,4 +74,5 @@ public class FileUtilTest extends TestCase {
         		srcFile.delete();
         }
 	}
+	
 }

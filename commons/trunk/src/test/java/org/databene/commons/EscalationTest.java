@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,17 +26,18 @@
 
 package org.databene.commons;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link Escalation} class.<br/><br/>
  * Created at 29.04.2008 18:51:28
- * @since 0.54.2
+ * @since 0.2.04
  * @author Volker Bergmann
- *
  */
-public class EscalationTest extends TestCase {
+public class EscalationTest {
 	
+	@Test    
 	public void testEquals() {
 		Escalation e1 = new Escalation("mess", "orig", "cause");
 		Escalation e2 = new Escalation("other message", "orig", "cause");
@@ -52,4 +53,5 @@ public class EscalationTest extends TestCase {
 		assertTrue(e1.equals(e5));
 		assertTrue(e5.equals(e1));
 	}
+	
 }

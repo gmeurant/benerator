@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,10 +26,11 @@
 
 package org.databene.commons.xml;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringBufferInputStream;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,33 +45,38 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the XMLUtil class.<br/><br/>
  * Created: 19.03.2008 09:11:08
  * @author Volker Bergmann
  */
-public class XMLUtilTest extends TestCase {
+public class XMLUtilTest {
     
     private static final String XML_TEXT = "<?xml version=\"1.0\"?><root att=\"1\"/>";
 
+	@Test
     public void testFormat() {
     	Document document = createDocument();
         String output = XMLUtil.format(createElementWithChildren(document, "ns:test"));
         assertTrue(output.startsWith("<ns:test"));
     }
  
+	@Test
     public void testLocalNameString() {
         assertEquals("test", XMLUtil.localName("ns:test"));
     }
 
+	@Test
     public void testLocalNameElement() {
     	Document document = createDocument();
         Element element = createElementWithChildren(document, "ns:test");
         assertEquals("test", XMLUtil.localName(element));
     }
 
+	@Test
     public void testGetChildElements() {
     	Document document = createDocument();
         Element child1 = createElementWithChildren(document, "c1");
@@ -81,6 +87,7 @@ public class XMLUtilTest extends TestCase {
         assertTrue(Arrays.equals(expectedChildren, actualChildren));
     }
     
+	@Test
     public void testGetChildElementsByName() {
     	Document document = createDocument();
         Element child1 = createElementWithChildren(document, "c1");
@@ -91,6 +98,7 @@ public class XMLUtilTest extends TestCase {
         assertTrue(Arrays.equals(expectedChildren, actualChildren));
     }
 
+	@Test
     public void testGetChildElementByName() {
     	Document document = createDocument();
         Element child1 = createElementWithChildren(document, "c1");
@@ -100,18 +108,22 @@ public class XMLUtilTest extends TestCase {
         assertEquals(child2, foundChild);
     }
 
+	@Test
     public void testGetIntegerAttribute() {
     	Document document = createDocument();
         Element element = createElement(document, "test", CollectionUtil.buildMap("value", "1"));
         assertEquals(1, (int) XMLUtil.getIntegerAttribute(element, "value", 2));
     }
 
+	@Test
     public void testGetLongAttribute() {
     	Document document = createDocument();
         Element element = createElement(document, "test", CollectionUtil.buildMap("value", "1"));
         assertEquals(1, (long) XMLUtil.getIntegerAttribute(element, "value", 2));
     }
 
+    @Test
+	@SuppressWarnings("unchecked")
     public void testGetAttributes() {
     	Document document = createDocument();
         Element element = createElementWithAttributes(document, "test", "name1", "value1", "name2", "");
@@ -120,6 +132,7 @@ public class XMLUtilTest extends TestCase {
         assertEquals(expectedAttributes, actualAttributes);
     }
 
+	@Test
     public void testNormalizedAttributeValue() {
     	Document document = createDocument();
         Element element = createElementWithAttributes(document, "test", "name1", "value1", "name2", "");
@@ -127,6 +140,7 @@ public class XMLUtilTest extends TestCase {
         assertEquals(null, XMLUtil.normalizedAttributeValue(element, "name2"));
     }
 
+	@Test
     public void testParseUri() throws IOException {
         File file = File.createTempFile("XMLUtilTest", ".xml");
         try {
@@ -140,16 +154,19 @@ public class XMLUtilTest extends TestCase {
         }
     }
 
+	@Test
     public void testParseStream() throws IOException {
-        StringBufferInputStream stream = new StringBufferInputStream(XML_TEXT); 
+        ByteArrayInputStream stream = new ByteArrayInputStream(XML_TEXT.getBytes(Charset.forName("UTF"))); 
         checkXML(XMLUtil.parse(stream));
     }
 
+	@Test
     public void testParseString() throws IOException {
         Document document = XMLUtil.parseString(XML_TEXT);
         checkXML(document);
     }
     
+	@Test
     public void testGetText() {
     	Document document = createDocument();
     	Text node = document.createTextNode("my text");
@@ -165,8 +182,9 @@ public class XMLUtilTest extends TestCase {
         assertEquals(1, root.getAttributes().getLength());
     }
     
+    @SuppressWarnings("unchecked")
     private Element createElementWithAttributes(Document document, String name, String... attKeysAndValues) {
-        Map attMap = CollectionUtil.buildMap((Object[]) attKeysAndValues);
+        Map<String, String> attMap = CollectionUtil.buildMap((Object[]) attKeysAndValues);
         return createElement(document, name, attMap);
     }
     

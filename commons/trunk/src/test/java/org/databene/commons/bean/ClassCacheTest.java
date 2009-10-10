@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,8 +27,9 @@
 package org.databene.commons.bean;
 
 import org.databene.commons.ConfigurationError;
+import org.junit.Test;
 
-import junit.framework.TestCase;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link ClassCache}.<br/>
@@ -37,18 +38,21 @@ import junit.framework.TestCase;
  * @since 0.4.6
  * @author Volker Bergmann
  */
-public class ClassCacheTest extends TestCase {
+public class ClassCacheTest {
 
+	@Test
 	public void testFqName() {
 		ClassCache cache = new ClassCache();
 		assertEquals(String.class, cache.forName("java.lang.String"));
 	}
 
+	@Test
 	public void testDefaultPackage() {
 		ClassCache cache = new ClassCache();
 		assertEquals(String.class, cache.forName("String"));
 	}
 
+	@Test
 	public void testUndefinedPackage() {
 		try {
 			ClassCache cache = new ClassCache();
@@ -59,18 +63,21 @@ public class ClassCacheTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testCustomPackage1() {
 		ClassCache cache = new ClassCache();
 		cache.importPackage("org.databene.commons.bean");
 		assertEquals(ClassCache.class, cache.forName("ClassCache"));
 	}
 
+	@Test
 	public void testCustomPackage2() {
 		ClassCache cache = new ClassCache();
 		cache.importClass("org.databene.commons.bean.*");
 		assertEquals(ClassCache.class, cache.forName("ClassCache"));
 	}
 
+	@Test
 	public void testUndefinedImportClass() {
 		try {
 			ClassCache cache = new ClassCache();
@@ -80,9 +87,11 @@ public class ClassCacheTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testCustomClass() {
 		ClassCache cache = new ClassCache();
 		cache.importClass("org.databene.commons.bean.ClassCache");
 		assertEquals(ClassCache.class, cache.forName("ClassCache"));
 	}
+
 }

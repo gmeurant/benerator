@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.commons.converter;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.util.Locale;
 
@@ -34,10 +35,13 @@ import org.databene.commons.ConversionException;
 import org.databene.commons.converter.CaseConverter;
 
 /**
+ * Tests the CaseConverter.<br/><br/>
  * Created: 29.09.2006 15:50:03
+ * @author Volker Bergmann
  */
-public class CaseConverterTest extends TestCase {
+public class CaseConverterTest {
 
+	@Test
     public void testToUpper() throws ConversionException {
         CaseConverter converter = new CaseConverter(true, Locale.ENGLISH);
         assertEquals("ABC,123", converter.convert("ABC,123"));
@@ -46,6 +50,7 @@ public class CaseConverterTest extends TestCase {
         assertEquals(null, converter.convert(null));
     }
 
+	@Test
     public void testToLower() throws ConversionException {
         CaseConverter converter = new CaseConverter(false, Locale.ENGLISH);
         assertEquals("abc,123", converter.convert("abc,123"));
@@ -53,4 +58,5 @@ public class CaseConverterTest extends TestCase {
         assertEquals("", converter.convert(""));
         assertEquals(null, converter.convert(null));
     }
+	
 }

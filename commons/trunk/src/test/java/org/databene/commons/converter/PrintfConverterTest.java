@@ -26,7 +26,8 @@
 
 package org.databene.commons.converter;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link PrintfConverter}.<br/>
@@ -36,8 +37,9 @@ import junit.framework.TestCase;
  * @author Volker Bergmann
  */
 
-public class PrintfConverterTest extends TestCase {
+public class PrintfConverterTest {
 	
+	@Test
 	public void test() {
 		PrintfConverter converter = new PrintfConverter("(%1$s)");
 		assertEquals("(X)", converter.convert("X"));

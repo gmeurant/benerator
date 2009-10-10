@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,22 +26,28 @@
 
 package org.databene.commons.bean;
 
-import junit.framework.TestCase;
+import static junit.framework.Assert.*;
 
 import org.databene.commons.ConversionException;
 import org.databene.commons.bean.BeanToPropertyArrayConverter;
+import org.junit.Test;
 
 import java.util.Arrays;
 
 /**
+ * Tests the {@link BeanToPropertyArrayConverter}.
  * Created: 21.07.2007 16:29:23
+ * @author Volker Bergmann
  */
-public class BeanToPropertyArrayConverterTest extends TestCase {
+public class BeanToPropertyArrayConverterTest {
 
+	@Test
     public void test() throws ConversionException {
         Bean bean = new Bean(42, "foobar");
-        BeanToPropertyArrayConverter converter = new BeanToPropertyArrayConverter(Bean.class, "number", "text");
+        BeanToPropertyArrayConverter<Bean> converter 
+        	= new BeanToPropertyArrayConverter<Bean>(Bean.class, "number", "text");
         Object[] expectedResult = new Object[]{42, "foobar"};
         assertTrue(Arrays.equals(expectedResult, converter.convert(bean)));
     }
+	
 }

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,16 +26,21 @@
 
 package org.databene.commons.bean;
 
-import junit.framework.TestCase;
+import static junit.framework.Assert.*;
 
 import org.databene.commons.UpdateFailedException;
 import org.databene.commons.bean.UntypedPropertyMutator;
+import org.junit.Test;
 
 /**
+ * Tests the {@link UntypedPropertyMutator}.<br/><br/>
  * Created: 20.02.2007 08:52:49
+ * @since 0.2
+ * @author Volker Bergmann
  */
-public class UntypedPropertyMutatorTest extends TestCase {
+public class UntypedPropertyMutatorTest {
 
+	@Test
     public void testLocalProperty() throws UpdateFailedException {
         UntypedPropertyMutator aNameMutator = new UntypedPropertyMutator("name", true);
         ABean a = new ABean();
@@ -45,6 +50,7 @@ public class UntypedPropertyMutatorTest extends TestCase {
         assertEquals(null, a.name);
     }
     
+	@Test
     public void testNonStrict() {
 	    UntypedPropertyMutator mutator = new UntypedPropertyMutator("bla", false);
 		mutator.setValue(null, null);
@@ -53,6 +59,7 @@ public class UntypedPropertyMutatorTest extends TestCase {
 	    readOnly.setValue(new ABean(), "bla");
     }
 
+	@Test
     public void testStrictSetOnNull() {
     	try {
 	    	UntypedPropertyMutator mutator = new UntypedPropertyMutator("bla", true);
@@ -63,6 +70,7 @@ public class UntypedPropertyMutatorTest extends TestCase {
     	}
     }
 
+	@Test
     public void testStrictMissingProperty() {
     	try {
 	    	UntypedPropertyMutator mutator = new UntypedPropertyMutator("bla", true);
@@ -73,6 +81,7 @@ public class UntypedPropertyMutatorTest extends TestCase {
     	}
     }
 
+	@Test
     public void testStrictReadOnlyProperty() {
     	try {
 	    	UntypedPropertyMutator mutator = new UntypedPropertyMutator("readOnly", true);
@@ -82,4 +91,5 @@ public class UntypedPropertyMutatorTest extends TestCase {
     		// expected
     	}
     }
+	
 }

@@ -28,7 +28,8 @@ package org.databene.commons.db;
 
 import java.util.Arrays;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link JDBCDriverInfo} class.<br/>
@@ -38,12 +39,14 @@ import junit.framework.TestCase;
  * @author Volker Bergmann
  */
 
-public class JDBCDriverInfoTest extends TestCase {
+public class JDBCDriverInfoTest {
 
+	@Test
 	public void testGetInstances() {
 		assertTrue(JDBCDriverInfo.getInstances().size() > 0);
 	}
 
+	@Test
 	public void testHSQL() {
 		JDBCDriverInfo hsql = JDBCDriverInfo.HSQL;
 		assertEquals("HSQL", hsql.getId());
@@ -59,4 +62,5 @@ public class JDBCDriverInfoTest extends TestCase {
 		assertNull(hsql.getDefaultDatabase());
 		assertEquals("jdbc:hsqldb:hsql://myhost:myport/mydb", hsql.jdbcURL("myhost", "myport", "mydb"));
 	}
+	
 }

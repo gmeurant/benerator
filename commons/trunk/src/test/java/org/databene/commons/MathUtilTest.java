@@ -1,9 +1,16 @@
 package org.databene.commons;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
-public class MathUtilTest extends TestCase {
+/**
+ * Tests the {@link MathUtil} class.<br/>
+ * <br/>
+ * @author Volker Bergmann
+ */
+public class MathUtilTest {
 
+	@Test
     public void testPrefixDigits() {
         assertEquals(1, MathUtil.prefixDigits(1));
         assertEquals(1, MathUtil.prefixDigits(0));
@@ -18,6 +25,7 @@ public class MathUtilTest extends TestCase {
         assertEquals(9, MathUtil.prefixDigits(100000000));
     }
 
+	@Test
     public void testFractionDigits() {
         assertEquals(0, MathUtil.fractionDigits(0));
         assertEquals(0, MathUtil.fractionDigits(1));
@@ -31,10 +39,12 @@ public class MathUtilTest extends TestCase {
         assertEquals(7, MathUtil.fractionDigits(0.0000009));
     }
     
+	@Test
     public void testSumOfDigits() {
     	assertEquals(0, MathUtil.sumOfDigits(0));
     	assertEquals(1, MathUtil.sumOfDigits(1));
     	assertEquals(1, MathUtil.sumOfDigits(10));
     	assertEquals(6, MathUtil.sumOfDigits(123));
     }
+	
 }

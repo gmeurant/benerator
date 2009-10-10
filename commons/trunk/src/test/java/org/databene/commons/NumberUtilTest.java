@@ -26,20 +26,23 @@
 
 package org.databene.commons;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 import static org.databene.commons.NumberUtil.*;
 
 /**
  * Created: 21.06.2007 08:32:34
  * @author Volker Bergmann
  */
-public class NumberUtilTest extends TestCase {
+public class NumberUtilTest {
 
+	@Test
     public void test() {
         assertEquals("1.23", NumberUtil.format(1.23, 2));
         assertEquals("1", NumberUtil.format(1.23, 0));
     }
 
+	@Test
     public void testBitsUsed() {
         assertEquals(1, bitsUsed(0));
         assertEquals(1, bitsUsed(1));
@@ -54,6 +57,7 @@ public class NumberUtilTest extends TestCase {
         assertEquals(64, bitsUsed(-1L));
     }
 
+	@Test
     public void testFormatHex() {
         assertEquals("0001", NumberUtil.formatHex( 1, 4));
         assertEquals("ffff", NumberUtil.formatHex(-1, 4));

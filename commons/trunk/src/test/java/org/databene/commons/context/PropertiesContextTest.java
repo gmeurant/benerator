@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,7 +30,8 @@ import java.util.Properties;
 
 import org.databene.commons.Context;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link PropertiesContext}.<br/><br/>
@@ -38,8 +39,9 @@ import junit.framework.TestCase;
  * @since 0.4.3
  * @author Volker Bergmann
  */
-public class PropertiesContextTest extends TestCase {
+public class PropertiesContextTest {
 	
+	@Test
 	public void testAtomic() {
 		Properties properties = new Properties();
 		properties.setProperty("a", "a");
@@ -47,6 +49,7 @@ public class PropertiesContextTest extends TestCase {
 		assertEquals("a", context.get("a"));
 	}
 	
+	@Test
 	public void testPath() {
 		Properties properties = new Properties();
 		properties.setProperty("b.c", "b.c");
@@ -54,4 +57,5 @@ public class PropertiesContextTest extends TestCase {
 		assertEquals("b.c", ((Context) context.get("b")).get("c"));
 		assertEquals("b.c", context.get("b.c"));
 	}
+	
 }

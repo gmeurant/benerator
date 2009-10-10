@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,7 +28,8 @@ package org.databene.commons.xml;
 
 import java.io.IOException;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.Person;
@@ -39,8 +40,9 @@ import org.w3c.dom.Element;
  * Created: 16.03.2008 13:02:55
  * @author Volker Bergmann
  */
-public class FlatXML2BeanConverterTest extends TestCase {
+public class FlatXML2BeanConverterTest {
     
+	@Test
     public void testNormal() throws IOException {
         // create XML element
         String text = "<person name='Alice' age=\"23\" />";
@@ -54,6 +56,7 @@ public class FlatXML2BeanConverterTest extends TestCase {
         assertEquals(new Person("Alice", 23), bean);
     }
     
+	@Test
     public void testUndefinedType() throws IOException {
         try {
             // create XML element

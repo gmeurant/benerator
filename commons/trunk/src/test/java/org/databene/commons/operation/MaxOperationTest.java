@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -29,28 +29,33 @@ package org.databene.commons.operation;
 import org.databene.commons.comparator.ReverseComparator;
 import org.databene.commons.operation.MaxOperation;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
- * Tests the MaxOperation.<br/>
+ * Tests the {@link MaxOperation}.<br/>
  * <br/>
  * Created: 25.01.2008 18:03:12
  * @author Volker Bergmann
  */
-public class MaxOperationTest extends TestCase {
+public class MaxOperationTest {
 
+	@Test
     public void testInteger() {
         MaxOperation<Integer> op = new MaxOperation<Integer>();
         assertEquals(Integer.valueOf(2), op.perform(-1, 0, 1, 2));
     }
 
+	@Test
     public void testString() {
         MaxOperation<String> op = new MaxOperation<String>();
         assertEquals("charly", op.perform("alpha", "bravo", "charly"));
     }
 
+	@Test
     public void testStringDesc() {
         MaxOperation<String> op = new MaxOperation<String>(new ReverseComparator<String>());
         assertEquals("alpha", op.perform("alpha", "bravo", "charly"));
     }
+
 }

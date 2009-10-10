@@ -26,7 +26,8 @@
 
 package org.databene.commons;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 import org.databene.commons.SystemInfo;
 
 import java.io.StringReader;
@@ -38,22 +39,25 @@ import java.io.Reader;
  * Created: 01.05.2007 09:36:47
  * @author Volker Bergmann
  */
-public class ReaderLineIteratorTest extends TestCase {
+public class ReaderLineIteratorTest {
 
     private static final String SEP = SystemInfo.getLineSeparator();
 
+	@Test
     public void testDefaultIteration() {
         Reader reader = new StringReader("alpha " + SEP + " beta" + SEP);
         ReaderLineIterator iterator = new ReaderLineIterator(reader);
         checkIteration(iterator);
     }
     
+	@Test
     public void testSkipEmptyLines() {
         Reader reader = new StringReader("alpha " + SEP + SEP + " beta" + SEP);
         ReaderLineIterator iterator = new ReaderLineIterator(reader, true);
         checkIteration(iterator);
     }
 
+	@Test
     private void checkIteration(ReaderLineIterator iterator) {
 	    assertTrue(iterator.hasNext());
         assertEquals("alpha ", iterator.next());

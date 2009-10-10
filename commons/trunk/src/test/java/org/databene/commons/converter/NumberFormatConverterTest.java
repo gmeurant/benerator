@@ -26,7 +26,8 @@
 
 package org.databene.commons.converter;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link NumberFormatConverter}.<br/>
@@ -36,8 +37,9 @@ import junit.framework.TestCase;
  * @author Volker Bergmann
  */
 
-public class NumberFormatConverterTest extends TestCase {
+public class NumberFormatConverterTest {
 
+	@Test
 	public void testConvert() {
 		NumberFormatConverter converter = new NumberFormatConverter();
 		assertEquals("", converter.convert(null));
@@ -53,6 +55,7 @@ public class NumberFormatConverterTest extends TestCase {
 		assertEquals("1.000,00", converter.convert(1000.));
 	}
 
+	@Test
 	public void testRevert() {
 		NumberFormatConverter converter = new NumberFormatConverter();
 		assertEquals(null, converter.revert(""));
@@ -67,4 +70,5 @@ public class NumberFormatConverterTest extends TestCase {
 		converter.setPattern("#,##0.00");
 		assertEquals(1000., converter.revert("1.000,00").doubleValue());
 	}
+	
 }

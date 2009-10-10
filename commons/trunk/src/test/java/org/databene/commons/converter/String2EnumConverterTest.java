@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.commons.converter;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 import org.databene.SomeEnum;
 import org.databene.commons.ConversionException;
 import org.databene.commons.converter.String2EnumConverter;
@@ -35,26 +36,25 @@ import org.databene.commons.converter.String2EnumConverter;
  * Tests the String2EnumConverter.<br/>
  * <br/>
  * Created: 20.08.2007 07:14:04
+ * @author Volker Bergmann
  */
-public class String2EnumConverterTest extends TestCase {
+public class String2EnumConverterTest {
 
+	@Test
     public void testNull() throws ConversionException {
         assertNull(String2EnumConverter.convert(null, SomeEnum.class));
     }
 
+	@Test
     public void testNormal() throws ConversionException {
         for (SomeEnum instance : SomeEnum.values()) {
             check(instance);
         }
     }
 
+	@Test(expected = ConversionException.class)
     public void testIllegalArgument() {
-        try {
-            String2EnumConverter.convert("0", SomeEnum.class);
-            fail("ConversionException expected");
-        } catch (ConversionException e) {
-            // this is the required result
-        }
+        String2EnumConverter.convert("0", SomeEnum.class);
     }
 
     // private helpers -------------------------------------------------------------------------------------------------
@@ -65,4 +65,5 @@ public class String2EnumConverterTest extends TestCase {
         assertEquals(instance, converter.convert(name));
         assertEquals(name, converter.revert(instance));
     }
+    
 }

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.commons;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link Assert} class.<br/><br/>
@@ -34,7 +35,9 @@ import junit.framework.TestCase;
  * @since 0.5.3
  * @author Volker Bergmann
  */
-public class AssertTest extends TestCase {
+public class AssertTest {
+	
+	@Test
 	public void testAssertEqualsStringArray() {
 		String[] a1 = new String[] { "Alpha", "Beta" };
 		expectNotEquals(a1, null);
@@ -45,6 +48,7 @@ public class AssertTest extends TestCase {
 		expectNotEquals(a2, a1);
 	}
 
+	@Test
 	public void testAssertEqualsByteArray() {
 		byte[] a1 = new byte[] { 1, 2 };
 		expectNotEquals(a1, null);

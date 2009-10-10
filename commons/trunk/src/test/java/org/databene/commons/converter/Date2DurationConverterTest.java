@@ -35,7 +35,8 @@ import org.databene.commons.ConversionException;
 import org.databene.commons.Period;
 import org.databene.commons.TimeUtil;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link Date2DurationConverter}.<br/>
@@ -45,25 +46,29 @@ import junit.framework.TestCase;
  * @author Volker Bergmann
  */
 
-public class Date2DurationConverterTest extends TestCase {
+public class Date2DurationConverterTest {
 	
+	@Test
 	public void testUK() throws Exception {
 		check(TimeUtil.GMT);
 	}
 	
+	@Test
 	public void testGermany() throws Exception {
 		check(TimeUtil.CENTRAL_EUROPEAN_TIME);
 	}
 	
+	@Test
 	public void testSingapore() throws Exception {
 		check(TimeUtil.SNGAPORE_TIME);
 	}
 	
+	@Test
 	public void testCalifornia() throws Exception {
 		check(TimeUtil.PACIFIC_STANDARD_TIME);
 	}
 	
-	public void check(TimeZone timeZone) throws Exception {
+	private void check(TimeZone timeZone) throws Exception {
 		TimeUtil.executeInTimeZone(timeZone, new Callable<Object>() {
 			public Object call() throws Exception {
 				assertEquals(1L, convert("1970-01-01T00:00:00.001").longValue());

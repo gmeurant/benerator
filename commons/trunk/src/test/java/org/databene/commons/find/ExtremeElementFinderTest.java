@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.commons.find;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.util.Collection;
 import java.util.Arrays;
@@ -36,15 +37,19 @@ import org.databene.commons.visitor.CollectionElement;
 import org.databene.commons.visitor.ExtremeElementFinder;
 
 /**
+ * Tests the {@link ExtremeElementFinder}.<br/><br/>
  * Created: 04.02.2007 09:33:01
+ * @author Volker Bergmann
  */
-public class ExtremeElementFinderTest extends TestCase {
+public class ExtremeElementFinderTest {
 
+	@Test
     public void test() {
-        Collection collection = Arrays.asList("Alpha", "Bravo");
+        Collection<String> collection = Arrays.asList("Alpha", "Bravo");
         Element<String> wrapper = new CollectionElement<String>(collection);
         String min = ExtremeElementFinder.findMin(wrapper);
         assertEquals("Alpha", min);
         assertEquals("Bravo", ExtremeElementFinder.findMax(wrapper));
     }
+	
 }

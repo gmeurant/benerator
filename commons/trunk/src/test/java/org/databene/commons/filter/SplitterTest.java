@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -31,7 +31,8 @@ import java.util.List;
 import org.databene.commons.CollectionUtil;
 import org.databene.commons.Filter;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link Splitter} class.<br/><br/>
@@ -40,8 +41,10 @@ import junit.framework.TestCase;
  * @author Volker Bergmann
  *
  */
-public class SplitterTest extends TestCase {
+public class SplitterTest {
 
+    @Test
+    @SuppressWarnings("unchecked")
 	public void test() {
 		EvenFilter evenFilter = new EvenFilter();
 		List<List<Integer>> groups = Splitter.filter(
@@ -52,9 +55,10 @@ public class SplitterTest extends TestCase {
 		assertEquals(CollectionUtil.toList(2), groups.get(1));
 	}
 	
-	private class EvenFilter implements Filter<Integer> {
+	public class EvenFilter implements Filter<Integer> {
 		public boolean accept(Integer i) {
 			return ((i % 2) == 0);
 		}
 	}
+	
 }

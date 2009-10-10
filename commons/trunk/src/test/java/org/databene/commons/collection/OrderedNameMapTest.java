@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.commons.collection;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link OrderedNameMap}.<br/><br/>
@@ -34,8 +35,9 @@ import junit.framework.TestCase;
  * @since 0.5.3
  * @author Volker Bergmann
  */
-public class OrderedNameMapTest extends TestCase {
+public class OrderedNameMapTest {
 	
+	@Test
 	public void testCaseSensitive() {
 		OrderedNameMap<Integer> map = OrderedNameMap.createCaseSensitiveMap();
 		map.put("a", 1);
@@ -46,6 +48,7 @@ public class OrderedNameMapTest extends TestCase {
 		assertEquals(1, (int) map.remove("a"));
 	}
 	
+	@Test
 	public void testCaseInsensitive() {
 		OrderedNameMap<Integer> map = OrderedNameMap.createCaseInsensitiveMap();
 		map.put("a", 1);
@@ -56,6 +59,7 @@ public class OrderedNameMapTest extends TestCase {
 		assertEquals(1, (int) map.remove("a"));
 	}
 	
+	@Test
 	public void testCaseIgnorant() {
 		OrderedNameMap<Integer> map = OrderedNameMap.createCaseIgnorantMap();
 		map.put("a", 1);
@@ -65,4 +69,5 @@ public class OrderedNameMapTest extends TestCase {
 		assertEquals(1, (int) map.get("A"));
 		assertEquals(1, (int) map.remove("a"));
 	}
+
 }

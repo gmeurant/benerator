@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.commons.bean;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.util.Properties;
 
@@ -34,13 +35,13 @@ import org.databene.commons.ConversionException;
 import org.databene.commons.bean.Properties2BeanConverter;
 
 /**
- * Tests the Properties2BeanConverter.<br/>
- * <br/>
+ * Tests the Properties2BeanConverter.<br/><br/>
  * Created: 09.08.2007 19:33:00
  * @author Volker Bergmann
  */
-public class Properties2BeanConverterTest extends TestCase {
+public class Properties2BeanConverterTest {
 
+	@Test
     public void test() throws ConversionException {
         Properties props = new Properties();
         props.put("name", "cName");
@@ -49,4 +50,5 @@ public class Properties2BeanConverterTest extends TestCase {
         assertEquals("cName", bean.getName());
         assertEquals(42, bean.getN());
     }
+
 }

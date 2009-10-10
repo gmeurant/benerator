@@ -26,7 +26,8 @@
 
 package org.databene.commons.log;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link LoggingProxyFactory}.<br/>
@@ -36,12 +37,15 @@ import junit.framework.TestCase;
  * @author Volker Bergmann
  */
 
-public class LoggingProxyFactoryTest extends TestCase {
+public class LoggingProxyFactoryTest {
 
+	@Test
 	public void test() {
 		Calc proxy = LoggingProxyFactory.createProxy(Calc.class, new CalcImpl());
 		assertEquals(3, proxy.add(1, 2));
 	}
+	
+	// helpers ---------------------------------------------------------------------------------------------------------
 	
 	public static interface Calc {
 		public int add(int a, int b);

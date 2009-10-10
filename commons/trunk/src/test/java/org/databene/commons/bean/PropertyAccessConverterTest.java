@@ -26,16 +26,20 @@
 
 package org.databene.commons.bean;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import org.databene.commons.ConversionException;
 import org.databene.commons.bean.PropertyAccessConverter;
 
 /**
+ * Tests the PropertyAccessConverter.<br/><br/>
  * Created: 21.07.2007 16:35:28
+ * @author Volker Bergmann
  */
-public class PropertyAccessConverterTest extends TestCase {
+public class PropertyAccessConverterTest {
 
+	@Test
     public void test() throws ConversionException {
         Bean bean = new Bean(42, "foobar");
         PropertyAccessConverter numberExtractor = new PropertyAccessConverter("number");
@@ -43,4 +47,5 @@ public class PropertyAccessConverterTest extends TestCase {
         PropertyAccessConverter textExtractor = new PropertyAccessConverter("text");
         assertEquals("foobar", textExtractor.convert(bean));
     }
+    
 }

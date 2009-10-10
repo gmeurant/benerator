@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,15 +26,18 @@
 
 package org.databene.commons;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the RoundedNumberFormat class.<br/>
  * <br/>
  * Created: 01.09.2007 16:30:06
+ * @author Volker Bergmann
  */
-public class RoundedNumberFormatTest extends TestCase {
+public class RoundedNumberFormatTest {
 
+	@Test
     public void test() {
         assertEquals("1,200", RoundedNumberFormat.format(1234, 0));
         assertEquals("1,200", RoundedNumberFormat.format(1234.45, 0));
@@ -43,4 +46,5 @@ public class RoundedNumberFormatTest extends TestCase {
         assertEquals("1,200,000", RoundedNumberFormat.format(1234567, 0));
         assertEquals("1,200,000", RoundedNumberFormat.format(1234567, 2));
     }
+	
 }

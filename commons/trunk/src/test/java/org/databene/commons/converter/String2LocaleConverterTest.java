@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.commons.converter;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
@@ -36,12 +37,14 @@ import org.databene.commons.converter.BidirectionalConverter;
 import java.util.Locale;
 
 /**
- * Tests the String2LocaleConverter.<br/>
+ * Tests the {@link String2LocaleConverter}.<br/>
  * <br/>
  * Created: 05.08.2007 06:32:38
+ * @author Volker Bergmann
  */
-public class String2LocaleConverterTest extends TestCase {
+public class String2LocaleConverterTest {
 
+	@Test
     public void testConvert() throws ConversionException {
         Converter<String, Locale> converter = new String2LocaleConverter();
         assertEquals(Locale.GERMAN, converter.convert("de"));
@@ -49,10 +52,12 @@ public class String2LocaleConverterTest extends TestCase {
         assertEquals(new Locale("de", "DE", "BY"), converter.convert("de_DE_BY"));
     }
 
+	@Test
     public void testRevert() throws ConversionException {
         BidirectionalConverter<String, Locale> converter = new String2LocaleConverter();
         assertEquals("de", converter.revert(Locale.GERMAN));
         assertEquals("de_DE", converter.revert(Locale.GERMANY));
         assertEquals(converter.convert("de_DE_BY"), new Locale("de", "DE", "BY"));
     }
+	
 }

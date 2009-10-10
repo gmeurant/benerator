@@ -26,7 +26,8 @@
 
 package org.databene.commons.converter;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -42,8 +43,9 @@ import org.databene.commons.converter.FormatFormatConverter;
  * Created: 29.09.2006 15:55:35
  * @author Volker Bergmann
  */
-public class FormatFormatConverterTest extends TestCase {
+public class FormatFormatConverterTest {
 
+	@Test
     public void testIntegerConversion() throws ConversionException {
         FormatFormatConverter<Integer> converter = new FormatFormatConverter<Integer>(Integer.class, NumberFormat.getInstance());
         assertNull(converter.convert(null));
@@ -52,6 +54,7 @@ public class FormatFormatConverterTest extends TestCase {
         assertEquals("-1", converter.convert(-1));
     }
 
+	@Test
     public void testDateConversion() throws ConversionException {
         FormatFormatConverter<Date> converter = new FormatFormatConverter<Date>(Date.class, new SimpleDateFormat("yyyy-MM-dd"));
         assertNull(converter.convert(null));
@@ -60,4 +63,5 @@ public class FormatFormatConverterTest extends TestCase {
         assertEquals("2000-12-31", converter.convert(TimeUtil.date(2000, 11, 31)));
         assertEquals("2006-09-29", converter.convert(TimeUtil.date(2006, 8, 29)));
     }
+	
 }

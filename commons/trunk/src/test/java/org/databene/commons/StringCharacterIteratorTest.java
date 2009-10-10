@@ -26,13 +26,17 @@
 
 package org.databene.commons;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
+ * Tests the {@link StringCharacterIterator}.
  * Created: 21.06.2007 08:34:31
+ * @author Volker Bergmann
  */
-public class StringCharacterIteratorTest extends TestCase {
+public class StringCharacterIteratorTest {
 
+	@Test
     public void testIteration() {
     	StringCharacterIterator iterator = new StringCharacterIterator("abc");
         assertTrue(iterator.hasNext());
@@ -44,6 +48,7 @@ public class StringCharacterIteratorTest extends TestCase {
         assertFalse(iterator.hasNext());
     }
 
+	@Test
     public void testLifeCycle() {
     	StringCharacterIterator iterator = new StringCharacterIterator("ab");
         assertTrue(iterator.hasNext());
@@ -56,6 +61,7 @@ public class StringCharacterIteratorTest extends TestCase {
         assertFalse(iterator.hasNext());
     }
 
+	@Test
     public void testLineColumn() {
     	StringCharacterIterator iterator = new StringCharacterIterator("a\nb");
     	assertPosition(1, 1, iterator);

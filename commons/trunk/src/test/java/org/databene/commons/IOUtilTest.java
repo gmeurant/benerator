@@ -26,7 +26,8 @@
 
 package org.databene.commons;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -46,10 +47,11 @@ import org.slf4j.LoggerFactory;
  * @since 0.1
  * @author Volker Bergmann
  */
-public class IOUtilTest extends TestCase {
+public class IOUtilTest {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(IOUtilTest.class);
 
+	@Test    
     public void testClose() {
         IOUtil.close(new ByteArrayInputStream(new byte[0]));
         IOUtil.close(new ByteArrayOutputStream());
@@ -57,14 +59,17 @@ public class IOUtilTest extends TestCase {
         IOUtil.close(new StringReader("abc"));
     }
 
+	@Test    
     public void testFlush() {
         IOUtil.flush(new StringWriter());
     }
 
+	@Test    
     public void testLocalFilename() {
         assertEquals("product-info.jsp", IOUtil.localFilename("http://localhost:80/shop/product-info.jsp"));
     }
 
+	@Test    
     public void testIsURIAvaliable() {
         assertTrue(IOUtil.isURIAvailable("file://org/databene/commons/names.csv"));
         assertTrue(IOUtil.isURIAvailable("file:org/databene/commons/names.csv"));
@@ -72,12 +77,14 @@ public class IOUtilTest extends TestCase {
         assertFalse(IOUtil.isURIAvailable("org/databene/commons/not.an.existing.file"));
     }
 
+	@Test    
     public void testGetContentOfURI() throws IOException {
         assertEquals("Alice,Bob\r\nCharly", IOUtil.getContentOfURI("file:org/databene/commons/names.csv"));
         assertEquals("Alice,Bob\r\nCharly", IOUtil.getContentOfURI("file://org/databene/commons/names.csv"));
         assertEquals("Alice,Bob\r\nCharly", IOUtil.getContentOfURI("org/databene/commons/names.csv"));
     }
 
+	@Test    
     public void testGetInputStreamForURIOfFileProtocol() throws Exception {
         InputStream stream = null;
         BufferedReader reader;
@@ -92,6 +99,7 @@ public class IOUtilTest extends TestCase {
         }
     }
     
+	@Test    
     public void testGetInputStreamForURIOfFtpProtocol() throws Exception {
     	if (!DatabeneTestUtil.isOnline()) {
     		LOGGER.info("offline mode: skipping test testGetInputStreamForURIOfFtpProtocol()");
@@ -109,6 +117,7 @@ public class IOUtilTest extends TestCase {
         }
     }
     
+	@Test    
     public void testGetInputStreamForURIOfStringProtocol() throws Exception {
         InputStream stream = IOUtil.getInputStreamForURI("string://Alice,Bob\r\nCharly");
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream, SystemInfo.getCharset()));
@@ -118,6 +127,7 @@ public class IOUtilTest extends TestCase {
         reader.close();
     }
 
+	@Test    
     public void testResolveLocalUri() {
     	assertEquals("test.html", IOUtil.resolveLocalUri("test.html", null));
     	assertEquals("test.html", IOUtil.resolveLocalUri("test.html", ""));
@@ -135,6 +145,7 @@ public class IOUtilTest extends TestCase {
     	assertEquals("/Users/user2/text.txt", IOUtil.resolveLocalUri("/Users/user2/text.txt", "/Users/user1/"));
     }
     
+	@Test    
     public void testGetContextUri() {
     	assertEquals(null, IOUtil.getContextUri(null));
     	assertEquals(null, IOUtil.getContextUri(""));
@@ -150,6 +161,7 @@ public class IOUtilTest extends TestCase {
     	}
     }
     
+	@Test    
     public void testGetProtocol() {
     	assertEquals(null, IOUtil.getProtocol(null));
     	assertEquals(null, IOUtil.getProtocol(""));
@@ -159,6 +171,7 @@ public class IOUtilTest extends TestCase {
     	assertEquals("xyz", IOUtil.getProtocol("xyz:///files/index.dat"));
     }
 
+	@Test    
     public void testGetReaderForURI_File() throws IOException, UnsupportedEncodingException {
         BufferedReader reader = IOUtil.getReaderForURI("org/databene/commons/names.csv");
         assertEquals("Alice,Bob", reader.readLine());
@@ -167,6 +180,7 @@ public class IOUtilTest extends TestCase {
         reader.close();
     }
 
+	@Test    
     public void testGetReaderForURI_StringProtocol() throws Exception {
     	BufferedReader reader = IOUtil.getReaderForURI("string://Alice,Bob\r\nCharly");
         assertEquals("Alice,Bob", reader.readLine());
@@ -175,12 +189,14 @@ public class IOUtilTest extends TestCase {
         reader.close();
     }
 
+	@Test    
     public void testGetReaderForURI_EmptyFile() throws IOException, UnsupportedEncodingException {
         BufferedReader reader = IOUtil.getReaderForURI("org/databene/commons/empty.txt");
         assertEquals(-1, reader.read());
         reader.close();
     }
 
+	@Test    
     public void testTransferStream() throws IOException {
         ByteArrayInputStream in = new ByteArrayInputStream("abcdefg".getBytes());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -188,6 +204,7 @@ public class IOUtilTest extends TestCase {
         assertTrue(Arrays.equals("abcdefg".getBytes(), out.toByteArray()));
     }
 
+	@Test    
     public void testTransferReaderWriter() throws IOException {
         StringReader in = new StringReader("abcdefg");
         StringWriter out = new StringWriter();
@@ -195,6 +212,7 @@ public class IOUtilTest extends TestCase {
         assertEquals("abcdefg", out.toString());
     }
 
+	@Test    
     public void testReadProperties() throws IOException {
         Map<String, String> properties = IOUtil.readProperties("org/databene/commons/test.properties");
         assertEquals(5, properties.size());
@@ -205,6 +223,7 @@ public class IOUtilTest extends TestCase {
         assertEquals("a\tb", properties.get("bla")); // unescaping
     }
 
+	@Test    
     public void testWriteProperties() throws IOException {
         File file = File.createTempFile("IOUtilTest", "properties");
         try {
@@ -224,6 +243,7 @@ public class IOUtilTest extends TestCase {
         }
     }
     
+	@Test    
     public void testEncoding() throws MalformedURLException {
     	URL URL = new URL("http://databene.org/");
     	String ENCODING = "iso-8859-15";
@@ -237,12 +257,14 @@ public class IOUtilTest extends TestCase {
     	assertEquals(SystemInfo.getFileEncoding(), IOUtil.encoding(c4, null));
     }
     
+	@Test    
     public void testOpenOutputStreamForURI_FileProtocol() throws Exception {
     	String filename = "target" + SystemInfo.getFileSeparator() + "testOpenOutputStreamForURI.txt";
     	checkFileOutputStream(filename, IOUtil.openOutputStreamForURI(filename));
     	checkFileOutputStream(filename, IOUtil.openOutputStreamForURI("file:" + filename));
     }
 
+	@Test    
     public void testOpenOutputStreamForURI_FtpProtocol() throws Exception {
     	if (!DatabeneTestUtil.isOnline()) {
     		LOGGER.info("Offline mode: skipping testOpenOutputStreamForURI_FtpProtocol()");
@@ -259,6 +281,7 @@ public class IOUtilTest extends TestCase {
         }
     }
 
+	@Test    
     private void checkFileOutputStream(String filename, OutputStream out) throws IOException {
 	    try {
     		out.write("test".getBytes());
@@ -269,6 +292,8 @@ public class IOUtilTest extends TestCase {
         	FileUtil.deleteIfExists(new File(filename));
         }
     }
+	
+	// private helpers -------------------------------------------------------------------------------------------------
     
     private class URLConnectionMock extends URLConnection {
     	

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,7 +30,8 @@ import org.databene.commons.Accessor;
 import org.databene.commons.Mutator;
 import org.databene.commons.UpdateFailedException;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link ConditionalMutator}.<br/><br/>
@@ -38,18 +39,20 @@ import junit.framework.TestCase;
  * @since 0.4.3
  * @author Volker Bergmann
  */
-public class ConditionalMutatorTest extends TestCase {
+public class ConditionalMutatorTest {
 
     public static final int OVERWRITE        = 1;
     public static final int SET_IF_UNDEFINED = 2;
     public static final int SET_IF_GREATER   = 3;
 
+	@Test
 	public void testAssertEqualsSuccess() throws UpdateFailedException {
 		ConnectorMock connector = new ConnectorMock(1);
 		ConditionalMutator mutator = createMutator(connector, ConditionalMutator.ASSERT_EQUALS);
 		mutator.setValue(null, 1);
 	}
 
+	@Test
 	public void testAssertEqualsFailure() throws UpdateFailedException {
 		try {
 			ConnectorMock connector = new ConnectorMock(1);
@@ -62,10 +65,7 @@ public class ConditionalMutatorTest extends TestCase {
 		}
 	}
 
-	private ConditionalMutator createMutator(ConnectorMock connector, int mode) {
-		return new ConditionalMutator(connector, connector, mode);
-	}
-
+	@Test
 	public void testOverwrite() throws UpdateFailedException {
 		ConnectorMock connector = new ConnectorMock(1);
 		ConditionalMutator mutator = createMutator(connector, ConditionalMutator.OVERWRITE);
@@ -73,6 +73,7 @@ public class ConditionalMutatorTest extends TestCase {
 		assertEquals(2, (int) connector.value);
 	}
 
+	@Test
 	public void testSetIfUndefinedTrue() throws UpdateFailedException {
 		ConnectorMock connector = new ConnectorMock(null);
 		ConditionalMutator mutator = createMutator(connector, ConditionalMutator.SET_IF_UNDEFINED);
@@ -80,6 +81,7 @@ public class ConditionalMutatorTest extends TestCase {
 		assertEquals(2, (int) connector.value);
 	}
 
+	@Test
 	public void testSetIfUndefinedFalse() throws UpdateFailedException {
 		ConnectorMock connector = new ConnectorMock(1);
 		ConditionalMutator mutator = createMutator(connector, ConditionalMutator.SET_IF_UNDEFINED);
@@ -87,6 +89,7 @@ public class ConditionalMutatorTest extends TestCase {
 		assertEquals(1, (int) connector.value);
 	}
 
+	@Test
 	public void testSetValueIfGreaterTrue() throws UpdateFailedException {
 		ConnectorMock connector = new ConnectorMock(1);
 		ConditionalMutator mutator = createMutator(connector, ConditionalMutator.SET_IF_GREATER);
@@ -94,12 +97,15 @@ public class ConditionalMutatorTest extends TestCase {
 		assertEquals(2, (int) connector.value);
 	}
 	
+	@Test
 	public void testSetValueIfGreaterFalse() throws UpdateFailedException {
 		ConnectorMock connector = new ConnectorMock(1);
 		ConditionalMutator mutator = createMutator(connector, ConditionalMutator.SET_IF_GREATER);
 		mutator.setValue(null, 0);
 		assertEquals(1, (int) connector.value);
 	}
+	
+	// helper code -----------------------------------------------------------------------------------------------------
 	
 	public static class ConnectorMock implements Mutator<Object, Integer>, Accessor<Object, Integer> {
 		
@@ -118,4 +124,9 @@ public class ConditionalMutatorTest extends TestCase {
 		}
 		
 	}
+	
+	private ConditionalMutator createMutator(ConnectorMock connector, int mode) {
+		return new ConditionalMutator(connector, connector, mode);
+	}
+
 }

@@ -29,7 +29,8 @@ package org.databene.commons;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Test the {@link OrderedSet}.<br/>
@@ -39,8 +40,9 @@ import junit.framework.TestCase;
  * @author Volker Bergmann
  */
 
-public class OrderedSetTest extends TestCase {
+public class OrderedSetTest {
 
+	@Test
 	public void testAdd() {
 		OrderedSet<Integer> set = create123();
 		assertFalse(set.add(1));
@@ -49,6 +51,7 @@ public class OrderedSetTest extends TestCase {
 		assertEquals(4, set.size());
 	}
 
+	@Test
 	public void testAddAll() {
 		OrderedSet<Integer> set = create123();
 		assertFalse(set.addAll(CollectionUtil.toList(1, 2, 3)));
@@ -57,6 +60,7 @@ public class OrderedSetTest extends TestCase {
 		assertEquals(5, set.size());
 	}
 
+	@Test
 	public void testContains() {
 		OrderedSet<Integer> set = create123();
 		assertFalse(set.contains(0));
@@ -69,6 +73,7 @@ public class OrderedSetTest extends TestCase {
 		assertEquals(0, set.size());
 	}
 
+	@Test
 	public void testContainsAll() {
 		OrderedSet<Integer> set = create123();
 		assertFalse(set.containsAll(CollectionUtil.toList(0, 4)));
@@ -76,6 +81,7 @@ public class OrderedSetTest extends TestCase {
 		assertFalse(set.containsAll(CollectionUtil.toList(0, 1)));
 	}
 
+	@Test
 	public void testClearAndIsEmpty() {
 		OrderedSet<Integer> set = create123();
 		assertFalse(set.isEmpty());
@@ -84,6 +90,7 @@ public class OrderedSetTest extends TestCase {
 		assertEquals(0, set.size());
 	}
 	
+	@Test
 	public void testIterator() {
 		OrderedSet<Integer> set = create123();
 		Iterator<Integer> iterator = set.iterator();
@@ -96,6 +103,7 @@ public class OrderedSetTest extends TestCase {
 		assertFalse(iterator.hasNext());
 	}
 	
+	@Test
 	public void testRemove() {
 		OrderedSet<Integer> set = create123();
 		assertTrue(set.remove(1));
@@ -103,6 +111,7 @@ public class OrderedSetTest extends TestCase {
 		assertEquals(2, set.size());
 	}
 	
+	@Test
 	public void testRemoveAll() {
 		OrderedSet<Integer> set = create123();
 		assertFalse(set.removeAll(CollectionUtil.toList(0, 4)));
@@ -112,6 +121,7 @@ public class OrderedSetTest extends TestCase {
 		assertEquals(0, set.size());
 	}
 	
+	@Test
 	public void testRetainAll() {
 		OrderedSet<Integer> set = create123();
 		assertFalse(set.retainAll(CollectionUtil.toList(0, 1, 2, 3, 4)));
@@ -123,11 +133,13 @@ public class OrderedSetTest extends TestCase {
 		assertFalse(set.contains(1));
 	}
 	
+	@Test
 	public void testToArrayDefault() {
 		OrderedSet<Integer> set = create123();
 		assertTrue(Arrays.equals(new Integer[] { 1, 2, 3}, set.toArray()));
 	}
 	
+	@Test
 	public void testToArrayParametrized() {
 		OrderedSet<Integer> set = create123();
 		assertTrue(Arrays.equals(new Integer[] { 1, 2, 3}, set.toArray(new Integer[3])));

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,36 +24,41 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.commons.tree;
+package org.databene.commons.iterator;
 
-import junit.framework.TestCase;
-
-import org.databene.commons.TreeModel;
-import org.databene.commons.tree.DefaultTreeNode;
-import org.databene.commons.tree.TreeIterator;
+import static org.junit.Assert.*;
 
 /**
- * Created: 08.05.2007 19:03:28
+ * Provides functionality for testing classes that implement the {@link BidirectionalIterator} interface.<br/><br/>
+ * Created at 04.05.2008 09:37:07
+ * @since 0.4.3
+ * @author Volker Bergmann
  */
-public class BidirectionalTreeIteratorTest extends TestCase {
+public abstract class BidirectionalIteratorTest extends IteratorTestCase {
 
-    public void testNext() {
-        TreeModel<DefaultTreeNode<String>> model = TreeCreator.createTreeModel();
-        TreeIterator<DefaultTreeNode<String>> iterator = new TreeIterator<DefaultTreeNode<String>>(model);
-        assertTrue(iterator.hasNext());
-        assertEquals("root", iterator.next().getObject());
-        assertTrue(iterator.hasNext());
-        assertEquals("a1l", iterator.next().getObject());
-        assertTrue(iterator.hasNext());
-        assertEquals("a2f", iterator.next().getObject());
-        assertTrue(iterator.hasNext());
-        assertEquals("b1f", iterator.next().getObject());
-        assertTrue(iterator.hasNext());
-        assertEquals("c1l", iterator.next().getObject());
-        assertTrue(iterator.hasNext());
-        assertEquals("a3l", iterator.next().getObject());
-        assertFalse(iterator.hasNext());
-        assertFalse(iterator.hasNext());
-    }
+	public static <T> PreviousHelper<T> expectPreviousElements(BidirectionalIterator<T> iterator, T... elements) {
+		for (T element : elements) {
+			assertTrue(iterator.hasPrevious());
+			assertEquals(element, iterator.previous());
+		}
+		return new PreviousHelper<T>(iterator);
+	}
+	
+	public static class PreviousHelper<T> {
+		
+		BidirectionalIterator<T> iterator;
 
+		public PreviousHelper(BidirectionalIterator<T> iterator) {
+			this.iterator = iterator;
+		}
+		
+		public void withPrevious() {
+			assertTrue(iterator.hasNext());
+		}
+		
+		public void withNoPrevious() {
+			assertFalse(iterator.hasPrevious());
+		}
+	}
+	
 }

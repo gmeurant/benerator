@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,13 +28,18 @@ package org.databene.commons.bean;
 
 import org.databene.commons.bean.PropertyAccessorFactory;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
+ * Tests the {@link PropertyAccessorFactory}.<br/><br/>
  * Created: 21.07.2007 15:03:40
+ * @author Volker Bergmann
  */
-public class PropertyAccessorFactoryTest extends TestCase {
+public class PropertyAccessorFactoryTest {
 
+	@SuppressWarnings("unchecked")
+    @Test
     public void test() {
         ABean a = new ABean();
         a.name = "aName";
@@ -64,4 +69,5 @@ public class PropertyAccessorFactoryTest extends TestCase {
         assertEquals(null, PropertyAccessorFactory.getAccessor(ABean.class, "b.c.doesntExist", false).getValue(a));
         assertEquals(null, PropertyAccessorFactory.getAccessor(ABean.class, "b.c.doesntExist", false).getValue(null));
     }
+    
 }

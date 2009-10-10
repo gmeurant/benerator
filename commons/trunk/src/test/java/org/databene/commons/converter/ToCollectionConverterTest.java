@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.commons.converter;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.util.*;
 
@@ -40,16 +41,19 @@ import org.databene.commons.converter.ToCollectionConverter;
  * Tests the ToCollectionConverter.<br/>
  * <br/>
  * Created: 28.08.2007 17:35:50
+ * @author Volker Bergmann
  */
-public class ToCollectionConverterTest extends TestCase {
+public class ToCollectionConverterTest {
 
     // tests -----------------------------------------------------------------------------------------------------------
 
+	@Test
     public void testNull() {
         assertNull(ToCollectionConverter.convert(null, List.class));
     }
 
-    @SuppressWarnings("unchecked")
+    @Test
+	@SuppressWarnings("unchecked")
     public void testToList() throws ConversionException {
         Converter<Object, ArrayList> toArrayListConverter = new ToCollectionConverter<ArrayList>(ArrayList.class);
         Converter<Object, List> toListConverter = new ToCollectionConverter<List>(List.class);
@@ -68,7 +72,8 @@ public class ToCollectionConverterTest extends TestCase {
     }
 
 
-    @SuppressWarnings("unchecked")
+    @Test
+	@SuppressWarnings("unchecked")
     public void testToSet() throws ConversionException {
         Converter<Object, HashSet> toHashSetConverter = new ToCollectionConverter<HashSet>(HashSet.class);
         Converter<Object, Set> toSetConverter = new ToCollectionConverter<Set>(Set.class);
@@ -86,7 +91,8 @@ public class ToCollectionConverterTest extends TestCase {
         assertEquals(set, toSetConverter.convert(sortedSet));
     }
 
-    @SuppressWarnings("unchecked")
+	@Test
+	@SuppressWarnings("unchecked")
     public void testToSortedSet() throws ConversionException {
         Converter<Object, TreeSet> toTreeSetConverter = new ToCollectionConverter<TreeSet>(TreeSet.class);
         Converter<Object, SortedSet> toSortedSetConverter = new ToCollectionConverter<SortedSet>(SortedSet.class);
@@ -125,4 +131,5 @@ public class ToCollectionConverterTest extends TestCase {
         set.add(3);
         return set;
     }
+    
 }

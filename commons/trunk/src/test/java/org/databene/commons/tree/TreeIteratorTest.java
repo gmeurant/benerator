@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -37,7 +37,8 @@ import org.databene.commons.iterator.BidirectionalIteratorTest;
  */
 public class TreeIteratorTest extends BidirectionalIteratorTest {
 	
-	public void test() {
+	@SuppressWarnings("unchecked")
+    public void test() {
 		DefaultTreeNode<Integer> root = new DefaultTreeNode<Integer>(0);
 		DefaultTreeNode<Integer> c1 = new DefaultTreeNode<Integer>(root, 1);
 		root.addChild(c1);
@@ -52,4 +53,5 @@ public class TreeIteratorTest extends BidirectionalIteratorTest {
 		expectNextElements(iterator, root, c1, c11, c2, c3).withNoNext();
 		expectPreviousElements(iterator, c2, c11, c1, root).withNoPrevious();
 	}
+	
 }

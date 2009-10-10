@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.commons;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,58 +36,71 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Tests the {@link SystemInfo} class.<br/><br/>
  * Created: 21.06.2007 08:35:00
+ * @author Volker Bergmann
  */
-public class SystemInfoTest extends TestCase {
+public class SystemInfoTest {
 
     private static final Logger logger = LoggerFactory.getLogger(SystemInfoTest.class);
 
+	@Test
     public void testVersion() {
         assertNotNull(SystemInfo.getOsVersion());
     }
 
+	@Test
     public void testOSArchitecture() {
         assertNotNull(SystemInfo.getOsArchitecture());
     }
 
+	@Test
     public void testOSName() {
         assertNotNull(SystemInfo.getOsName());
     }
 
+	@Test
     public void testLineSeparator() {
         assertNotNull(SystemInfo.getLineSeparator());
     }
 
+	@Test
     public void testPathSeparator() {
         assertNotNull(SystemInfo.getPathSeparator());
     }
 
+	@Test
     public void testFileSeparator() {
         char fileSeparator = SystemInfo.getFileSeparator();
         assertEquals(File.separatorChar, fileSeparator);
     }
 
+	@Test
     public void testCurrentDir() throws IOException {
         String currentDir = SystemInfo.getCurrentDir();
         assertNotNull(currentDir);
         assertEquals(new File(".").getCanonicalPath(), currentDir);
     }
 
+	@Test
     public void testUserName() {
         assertNotNull(SystemInfo.getUserName());
     }
 
+	@Test
     public void testUserHome() {
         File userHome = new File(SystemInfo.getUserHome());
         assertTrue(userHome.exists());
     }
 
+	@Test
     public void testTempDir() {
         String tempDir = SystemInfo.getTempDir();
         assertNotNull(tempDir);
         assertTrue(new File(tempDir).exists());
     }
 
+	@Test
     public void testUserLanguage() {
         String userLanguage = SystemInfo.getUserLanguage();
         logger.debug("user language: " + userLanguage);
