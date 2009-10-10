@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,8 +27,7 @@
 package org.databene.gui.swing;
 
 import org.databene.gui.swing.ProgressMonitor;
-
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * Tests the {@link ProgressMonitor}.<br/>
@@ -38,10 +37,11 @@ import junit.framework.TestCase;
  * @author Volker Bergmann
  */
 
-public class ProgressMonitorTest extends TestCase {
+public class ProgressMonitorTest {
 	
 	private static final int STEPS = 1;
 	
+	@Test
 	public void test() throws Exception {
 		ProgressMonitor monitor = new ProgressMonitor(null, "Message", "note", 0, STEPS);
 		for (int i = 1; i <= STEPS; i++) {
@@ -50,4 +50,5 @@ public class ProgressMonitorTest extends TestCase {
 			monitor.advance();
 		}
 	}
+	
 }
