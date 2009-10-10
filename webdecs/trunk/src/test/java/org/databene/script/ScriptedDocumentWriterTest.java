@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2008 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,22 +26,27 @@
 
 package org.databene.script;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 import org.databene.commons.SystemInfo;
 
 import java.io.IOException;
 import java.io.StringWriter;
 
 /**
+ * Tests the {@link ScriptedDocumentWriter}.<br/><br/>
  * Created: 16.06.2007 06:07:52
+ * @since 0.1
+ * @author Volker Bergmann
  */
-public class ScriptedDocumentWriterTest extends TestCase {
+public class ScriptedDocumentWriterTest {
 
     private static final String SEP = SystemInfo.getLineSeparator();
 
     private static String RESULT =
             "header" + SEP + "row" + SEP + "footer";
 
+    @Test
     public void test() throws IOException {
         StringWriter out = new StringWriter();
         ScriptedDocumentWriter<String> writer = new ScriptedDocumentWriter<String>(
@@ -53,4 +58,5 @@ public class ScriptedDocumentWriterTest extends TestCase {
         writer.close();
         assertEquals(RESULT, out.toString());
     }
+    
 }

@@ -26,7 +26,8 @@
 
 package org.databene.document.csv;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.io.StringWriter;
 import java.io.IOException;
@@ -39,16 +40,17 @@ import org.databene.commons.SystemInfo;
  * Tests the {@link ArrayCSVWriter}.<br/>
  * <br/>
  * Created: 16.06.2007 06:07:52
- * @since 0.2
+ * @since 0.1
  * @author Volker Bergmann
  */
-public class ArrayCSVWriterTest extends TestCase {
+public class ArrayCSVWriterTest {
 
     private static final String SEP = SystemInfo.getLineSeparator();
 
     private static String RESULT =
             "header" + SEP + "1;2;3" + SEP + "4;5;6" + SEP + "footer";
 
+    @Test
     public void test() throws IOException {
         StringWriter out = new StringWriter();
         ArrayCSVWriter writer = new ArrayCSVWriter(out, ';',
@@ -58,4 +60,5 @@ public class ArrayCSVWriterTest extends TestCase {
         writer.close();
         assertEquals(RESULT, out.toString());
     }
+    
 }

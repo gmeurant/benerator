@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,16 +26,21 @@
 
 package org.databene.document.csv;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.io.IOException;
 import java.util.Arrays;
 
 /**
+ * Tests the {@link CSVLineIterator}.<br/><br/>
  * Created: 29.09.2006 16:15:23
+ * @since 0.1
+ * @author Volker Bergmann
  */
-public class CSVLineIteratorTest extends TestCase {
+public class CSVLineIteratorTest {
 
+	@Test
     public void testIgnoringEmptyLines() throws IOException {
         CSVLineIterator iterator = new CSVLineIterator("file://org/databene/csv/names.csv", ',', true);
         assertTrue(iterator.hasNext());
@@ -48,6 +53,7 @@ public class CSVLineIteratorTest extends TestCase {
         iterator.close();
     }
 
+	@Test
     public void testIncludingEmptyLines() throws IOException {
         CSVLineIterator iterator = new CSVLineIterator("file://org/databene/csv/names.csv");
         assertTrue(iterator.hasNext());
@@ -61,4 +67,5 @@ public class CSVLineIteratorTest extends TestCase {
         assertFalse(iterator.hasNext());
         iterator.close();
     }
+	
 }

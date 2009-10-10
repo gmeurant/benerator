@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,21 +24,21 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 package org.databene.script;
 
 import org.databene.commons.Context;
 import org.databene.commons.context.DefaultContext;
-
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Test the ScriptSupport class.<br/><br/>
  * Created: 27.01.2008 17:38:51
  * @author Volker Bergmann
  */
-public class ScriptSupportTest extends TestCase {
+public class ScriptSupportTest {
 
+	@Test
     public void testRender() {
         assertEquals("xyz", ScriptUtil.render("xyz", null));
         assertEquals("xyz${var}xyz", ScriptUtil.render("xyz${var}xyz", null));
@@ -47,4 +47,5 @@ public class ScriptSupportTest extends TestCase {
         assertEquals("xyz!!!xyz", ScriptUtil.render("{xyz${var}xyz}", context));
         assertEquals("xyz!!!xyz", ScriptUtil.render("{ftl:xyz${var}xyz}", context));
     }
+	
 }

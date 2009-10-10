@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.document.flat;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.io.StringWriter;
 import java.io.IOException;
@@ -36,15 +37,19 @@ import org.databene.commons.SystemInfo;
 import org.databene.commons.format.Alignment;
 
 /**
+ * Tests the {@link ArrayFlatFileWriter}.<br/><br/>
  * Created: 16.06.2007 06:07:52
+ * @since 0.1
+ * @author Volker Bergmann
  */
-public class ArrayFlatFileWriterTest extends TestCase {
+public class ArrayFlatFileWriterTest {
 
     private static final String SEP = SystemInfo.getLineSeparator();
 
     private static String RESULT =
             "header" + SEP + "1   23" + SEP + "14 156" + SEP + "footer";
 
+    @Test
     public void test() throws IOException {
         StringWriter out = new StringWriter();
         ArrayFlatFileWriter<Integer> writer = new ArrayFlatFileWriter<Integer>(
@@ -60,4 +65,5 @@ public class ArrayFlatFileWriterTest extends TestCase {
         writer.close();
         assertEquals(RESULT, out.toString());
     }
+
 }

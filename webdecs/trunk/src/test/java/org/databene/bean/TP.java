@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,7 +27,9 @@
 package org.databene.bean;
 
 /**
+ * JavaBean for testing.<br/><br/>
  * Created: 16.06.2007 06:52:56
+ * @author Volker Bergmann
  */
 public final class TP {
 

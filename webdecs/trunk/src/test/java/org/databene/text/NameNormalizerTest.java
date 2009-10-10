@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,20 +26,22 @@
 
 package org.databene.text;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
+
+import org.junit.Test;
 
 /**
- * Tests the {@link NameNormalizer}.<br/>
- * <br/>
+ * Tests the {@link NameNormalizer}.<br/><br/>
  * Created at 20.11.2008 19:43:30
  * @since 0.4.6
  * @author Volker Bergmann
  */
 
-public class NameNormalizerTest extends TestCase {
+public class NameNormalizerTest {
 	
 	private NameNormalizer normalizer = new NameNormalizer();
 
+	@Test
 	public void test() {
 		assertEquals("Alice", normalizer.convert("alice"));
 		assertEquals("Alice", normalizer.convert("  ALICE  "));

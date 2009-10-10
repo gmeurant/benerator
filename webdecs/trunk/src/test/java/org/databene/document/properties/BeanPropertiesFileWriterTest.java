@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.document.properties;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -40,9 +41,10 @@ import org.databene.commons.SystemInfo;
  * Tests the BeanPropertiesFileWriter.<br/>
  * <br/>
  * Created: 16.06.2007 06:07:52
+ * @since 0.1
  * @author Volker Bergmann
  */
-public class BeanPropertiesFileWriterTest extends TestCase {
+public class BeanPropertiesFileWriterTest {
 
     private static final String SEP = SystemInfo.getLineSeparator();
 
@@ -55,6 +57,7 @@ public class BeanPropertiesFileWriterTest extends TestCase {
             "person2.class=org.databene.bean.TP" + SEP + "person2.name=Carl" + SEP + "person2.age=48" + SEP +
             "# footer";
 
+    @Test
     public void testEscaping() throws IOException {
         StringWriter out = new StringWriter();
         DocumentWriter<TP> writer = new BeanPropertiesFileWriter<TP>(
@@ -66,6 +69,7 @@ public class BeanPropertiesFileWriterTest extends TestCase {
         assertEquals("class=org.databene.bean.TP" + SEP + "name=Al\\\\f" + SEP + "age=48" + SEP, out.toString());
     }
 
+    @Test
     public void testUnprefixed() throws IOException {
         StringWriter out = new StringWriter();
         DocumentWriter<TP> writer = new BeanPropertiesFileWriter<TP>(
@@ -81,6 +85,7 @@ public class BeanPropertiesFileWriterTest extends TestCase {
         assertEquals(UNPREFIXED_RESULT, out.toString());
     }
 
+    @Test
     public void testPrefixed() throws IOException {
         StringWriter out = new StringWriter();
         DocumentWriter<TP> writer = new BeanPropertiesFileWriter<TP>(

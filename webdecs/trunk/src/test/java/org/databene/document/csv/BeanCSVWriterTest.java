@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.document.csv;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -37,15 +38,19 @@ import org.databene.commons.DocumentWriter;
 import org.databene.commons.SystemInfo;
 
 /**
+ * Tests the {@link BeanCSVWriter}.<br/><br/>
  * Created: 16.06.2007 06:07:52
+ * @since 0.1
+ * @author Volker Bergmann
  */
-public class BeanCSVWriterTest extends TestCase {
+public class BeanCSVWriterTest {
 
     private static final String SEP = SystemInfo.getLineSeparator();
 
     private static String RESULT =
             "header" + SEP + "Carl;48" + SEP + "Carl;48" + SEP + "footer";
 
+    @Test
     public void test() throws IOException {
         StringWriter out = new StringWriter();
         DocumentWriter<TP> writer = new BeanCSVWriter<TP>(out, ';',

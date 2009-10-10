@@ -26,7 +26,8 @@
 
 package org.databene.html;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.io.*;
 import java.text.ParseException;
@@ -38,9 +39,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Tests the {@link DefaultHTMLTokenizer}.<br/><br/>
  * Created: 25.01.2007 13:29:54
+ * @since 0.1
+ * @author Volker Bergmann
  */
-public class DefaultHTMLTokenizerTest extends TestCase {
+public class DefaultHTMLTokenizerTest {
 
     private Logger logger = LoggerFactory.getLogger(DefaultHTMLTokenizerTest.class);
 
@@ -144,11 +148,13 @@ public class DefaultHTMLTokenizerTest extends TestCase {
 
     // testUnprefixed methods ----------------------------------------------------------------------------------------------------
 
+    @Test
     public void testText() throws IOException, ParseException {
         for (TestSetup testString : TESTS)
             checkText(testString);
     }
 
+    @Test
     public void testTokens() throws IOException, ParseException {
         for (TestSetup test : TESTS)
             checkTokens(test);
@@ -170,6 +176,7 @@ public class DefaultHTMLTokenizerTest extends TestCase {
 */
     // private helpers -------------------------------------------------------------------------------------------------
 
+    @Test
     public void checkText(TestSetup test) throws IOException, ParseException {
         Reader in = new StringReader(test.html);
         Writer out = new StringWriter();
@@ -181,6 +188,7 @@ public class DefaultHTMLTokenizerTest extends TestCase {
         assertEquals(test.html, out.toString());
     }
 
+    @Test
     public void checkTokens(TestSetup test) throws IOException, ParseException {
         logger.debug("checking: " + test.html);
         Reader in = new StringReader(test.html);

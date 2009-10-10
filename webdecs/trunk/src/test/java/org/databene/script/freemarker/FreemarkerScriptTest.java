@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,8 +26,6 @@
 
 package org.databene.script.freemarker;
 
-import junit.framework.TestCase;
-
 import java.io.StringWriter;
 import java.io.IOException;
 
@@ -35,12 +33,18 @@ import org.databene.commons.Context;
 import org.databene.commons.context.DefaultContext;
 import org.databene.script.ScriptException;
 import org.databene.script.Script;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
+ * Tests the {@link FreeMarkerScript}.<br/><br/>
  * Created: 12.06.2007 17:36:30
+ * @since 0.1
+ * @author Volker Bergmann
  */
-public class FreemarkerScriptTest extends TestCase {
+public class FreemarkerScriptTest {
 
+	@Test
     public void testScriptGetInstance() throws IOException, ScriptException {
         Script script = new FreeMarkerScript("org/databene/script/freemarker/test.ftl");
         Context context = new DefaultContext();
@@ -49,4 +53,5 @@ public class FreemarkerScriptTest extends TestCase {
         script.execute(context, writer);
         assertEquals("TestXYZTest", writer.toString());
     }
+	
 }

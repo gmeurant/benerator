@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,18 +26,20 @@
 
 package org.databene.html;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.io.*;
-import java.text.ParseException;
 
 import org.databene.commons.SystemInfo;
 
-
 /**
+ * Tests the {@link HTML2XML} class.<br/><br/>
  * Created: 25.01.2007 17:31:28
+ * @since 0.1
+ * @author Volker Bergmann
  */
-public class HTML2XMLTest extends TestCase {
+public class HTML2XMLTest {
 
     private static String SEP = SystemInfo.getLineSeparator();
 
@@ -82,21 +84,27 @@ public class HTML2XMLTest extends TestCase {
     private static final String XML3 =
         "<?xml version=\"1.0\"?>" + SEP +
         "<html>R&amp;B</html>";
+    
+    // tests -----------------------------------------------------------------------------------------------------------
 
-    public void testNormal() throws IOException, ParseException {
+    @Test
+    public void testNormal() throws Exception {
 		check(HTML1, XML1);
     }
 
-    public void testMissingHtml() throws IOException, ParseException {
+    @Test
+    public void testMissingHtml() throws Exception {
 		check(HTML2, XML2);
     }
 
-    public void testAmpersand() throws IOException, ParseException {
+    @Test
+    public void testAmpersand() throws Exception {
 		check(HTML3, XML3);
     }
+    
+    // helpers ---------------------------------------------------------------------------------------------------------
 
-	private void check(String source, String result) throws IOException,
-			ParseException {
+	private void check(String source, String result) throws Exception {
 		StringReader in = new StringReader(source);
         StringWriter out = new StringWriter();
         HTML2XML.convert(in, out);
@@ -104,4 +112,5 @@ public class HTML2XMLTest extends TestCase {
         out.close();
 		assertEquals(result, out.toString());
 	}
+	
 }

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -29,8 +29,8 @@ package org.databene.document.flat;
 import java.util.Arrays;
 
 import org.databene.commons.format.Alignment;
-
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link FlatFileUtil}.<br/><br/>
@@ -38,8 +38,9 @@ import junit.framework.TestCase;
  * @since 0.4.2
  * @author Volker Bergmann
  */
-public class FlatFileUtilTest extends TestCase {
+public class FlatFileUtilTest {
 
+	@Test
 	public void testLeft() {
 		FlatFileColumnDescriptor d3l = new FlatFileColumnDescriptor("name", 3, Alignment.LEFT, ' ');
 		FlatFileColumnDescriptor[] array = new FlatFileColumnDescriptor[] { d3l };
@@ -48,6 +49,7 @@ public class FlatFileUtilTest extends TestCase {
 		assertTrue(Arrays.equals(array, parse("name[3l ]")));
 	}
 
+	@Test
 	public void testRight() {
 		FlatFileColumnDescriptor d3r = new FlatFileColumnDescriptor("name", 3, Alignment.RIGHT, ' ');
 		FlatFileColumnDescriptor[] array = new FlatFileColumnDescriptor[] { d3r };
@@ -55,6 +57,7 @@ public class FlatFileUtilTest extends TestCase {
 		assertTrue(Arrays.equals(array, parse("name[3r ]")));
 	}
 
+	@Test
 	public void testCenter() {
 		FlatFileColumnDescriptor d3c = new FlatFileColumnDescriptor("name", 3, Alignment.CENTER, ' ');
 		FlatFileColumnDescriptor[] array = new FlatFileColumnDescriptor[] { d3c };
@@ -62,6 +65,7 @@ public class FlatFileUtilTest extends TestCase {
 		assertTrue(Arrays.equals(array, parse("name[3c ]")));
 	}
 
+	@Test
 	public void testMultiple() {
 		FlatFileColumnDescriptor n3l = new FlatFileColumnDescriptor("name", 3, Alignment.LEFT, ' ');
 		FlatFileColumnDescriptor a3r = new FlatFileColumnDescriptor("age",  3, Alignment.RIGHT, '0');
@@ -69,6 +73,7 @@ public class FlatFileUtilTest extends TestCase {
 		assertTrue(Arrays.equals(array, parse("name[3l],age[3r0]")));
 	}
 
+	@Test
 	public void testParsePadChar() {
 		FlatFileColumnDescriptor d3l = new FlatFileColumnDescriptor("name", 3, Alignment.LEFT, '_');
 		FlatFileColumnDescriptor[] d3l_a = new FlatFileColumnDescriptor[] { d3l };
@@ -78,4 +83,5 @@ public class FlatFileUtilTest extends TestCase {
 	private FlatFileColumnDescriptor[] parse(String pattern) {
 		return FlatFileUtil.parseProperties(pattern);
 	}
+	
 }

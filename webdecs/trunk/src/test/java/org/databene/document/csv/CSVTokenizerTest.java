@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,18 +26,21 @@
 
 package org.databene.document.csv;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.io.StringReader;
 import java.io.IOException;
 import static org.databene.document.csv.CSVTokenType.*;
 
 /**
- * (c) Copyright 2006 by Volker Bergmann
+ * Tests the {@link CSVTokenizer}.<br/><br/>
  * Created: 26.08.2006 17:51:14
+ * @author Volker Bergmann
  */
-public class CSVTokenizerTest extends TestCase {
+public class CSVTokenizerTest {
 
+	@Test
     public void testA() throws IOException {
     	CSVTokenizer tokenizer = createTokenizer("A");
         assertNextToken(tokenizer, CELL, "A");
@@ -45,6 +48,7 @@ public class CSVTokenizerTest extends TestCase {
         assertNextToken(tokenizer, EOF, null);
     }
 
+	@Test
     public void testAB() throws IOException {
     	CSVTokenizer tokenizer = createTokenizer("A\tv,B");
         assertNextToken(tokenizer, CELL, "A\tv");
@@ -53,6 +57,7 @@ public class CSVTokenizerTest extends TestCase {
         assertNextToken(tokenizer, EOF, null);
     }
 
+	@Test
     public void testABTab() throws IOException {
     	CSVTokenizer tokenizer = createTokenizer("A\tB", '\t');
         assertNextToken(tokenizer, CELL, "A");
@@ -61,6 +66,7 @@ public class CSVTokenizerTest extends TestCase {
         assertNextToken(tokenizer, EOF, null);
     }
 
+	@Test
     public void testABL() throws IOException {
     	CSVTokenizer tokenizer = createTokenizer("A,B\r\n");
         assertNextToken(tokenizer, CELL, "A");
@@ -70,6 +76,7 @@ public class CSVTokenizerTest extends TestCase {
         assertNextToken(tokenizer, EOF, null);
     }
 
+	@Test
     public void testABLC() throws IOException {
     	CSVTokenizer tokenizer = createTokenizer("A,B\r\nC");
         assertNextToken(tokenizer, CELL, "A");
@@ -80,6 +87,7 @@ public class CSVTokenizerTest extends TestCase {
         assertNextToken(tokenizer, EOF, null);
     }
 
+	@Test
     public void testABLCL() throws IOException {
     	CSVTokenizer tokenizer = createTokenizer("A,B\r\nC\r\n");
         assertNextToken(tokenizer, CELL, "A");
@@ -91,6 +99,7 @@ public class CSVTokenizerTest extends TestCase {
         assertNextToken(tokenizer, EOF, null);
     }
 
+	@Test
     public void testQuotes() throws IOException {
     	CSVTokenizer tokenizer = createTokenizer("\"A\",B\r\n\"C\"\r\n");
         assertNextToken(tokenizer, CELL, "A");
@@ -102,6 +111,7 @@ public class CSVTokenizerTest extends TestCase {
         assertNextToken(tokenizer, EOF, null);
     }
 
+	@Test
     public void testQuoteEscaping() throws IOException {
     	CSVTokenizer tokenizer = createTokenizer("\"A\"\"A\",\"\"\"B\"\" is B\"\r\n" +
                 "\"C was \"\"C\"\"\",\"\"\"D\"\" is \"\"D\"\"\"\r\n");
@@ -115,6 +125,7 @@ public class CSVTokenizerTest extends TestCase {
         assertNextToken(tokenizer, EOF, null);
     }
 
+	@Test
     public void testLFInQuote() throws IOException {
         CSVTokenizer tokenizer = createTokenizer("\"A\r\nB\"");
         assertNextToken(tokenizer, CELL, "A\r\nB");
@@ -122,6 +133,7 @@ public class CSVTokenizerTest extends TestCase {
         assertNextToken(tokenizer, EOF, null);
     }
 
+	@Test
     public void testFile() throws IOException {
         CSVTokenizer tokenizer = new CSVTokenizer("file://org/databene/csv/names.csv", ',');
         assertNextToken(tokenizer, CELL, "Alice");
@@ -136,6 +148,7 @@ public class CSVTokenizerTest extends TestCase {
         assertNextToken(tokenizer, EOF, null);
     }
     
+	@Test
     public void testSkipLine() throws IOException {
     	// testing \r
     	CSVTokenizer tokenizer = createTokenizer("1\r2");

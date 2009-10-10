@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,8 @@
 
 package org.databene.document.flat;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.io.StringReader;
 import java.util.Arrays;
@@ -39,11 +40,13 @@ import org.databene.commons.format.PadFormat;
  * Tests the FlatFileLineIterator.<br/>
  * <br/>
  * Created: 27.08.2007 07:20:05
+ * @author Volker Bergmann
  */
-public class FlatFileLineIteratorTest extends TestCase {
+public class FlatFileLineIteratorTest {
 
     private static final String SEP = SystemInfo.getLineSeparator();
 
+    @Test
     public void testProcessingEmptyLines() throws Exception {
         FlatFileLineIterator iterator = createIterator(true);
         assertTrue(Arrays.equals(new String[] {"Alice", "23"}, iterator.next()));
@@ -52,6 +55,7 @@ public class FlatFileLineIteratorTest extends TestCase {
         assertTrue(Arrays.equals(new String[] {"Dieter", "-1"}, iterator.next()));
     }
 
+    @Test
     public void testIgnoringEmptyLines() throws Exception {
         FlatFileLineIterator iterator = createIterator(false);
         assertTrue(Arrays.equals(new String[] {"Alice", "23"}, iterator.next()));
@@ -60,6 +64,8 @@ public class FlatFileLineIteratorTest extends TestCase {
         assertTrue(Arrays.equals(new String[] {"Charly", "45"}, iterator.next()));
         assertTrue(Arrays.equals(new String[] {"Dieter", "-1"}, iterator.next()));
     }
+    
+    // helper ----------------------------------------------------------------------------------------------------------
 
     private FlatFileLineIterator createIterator(boolean ignoreEmptyLines) {
         PadFormat[] formats = new PadFormat[] {
@@ -76,6 +82,5 @@ public class FlatFileLineIteratorTest extends TestCase {
         FlatFileLineIterator iterator = new FlatFileLineIterator(reader, formats, ignoreEmptyLines);
         return iterator;
     }
-
 
 }

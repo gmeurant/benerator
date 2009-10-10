@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,22 +26,27 @@
 
 package org.databene.html;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.io.StringReader;
 import java.io.IOException;
 import java.text.ParseException;
 
 /**
+ * Tests the {@link FilteringHTMLTokenizer}.<br/><br/>
  * Created: 16.06.2007 05:53:50
+ * @since 0.1
+ * @author Volker Bergmann
  */
-public class FilteringHTMLTokenizerTest extends TestCase {
+public class FilteringHTMLTokenizerTest {
 
     private static final String HTML = "<html><body>Links<ul>" +
             "<li><a href='http://databene.org'>Great Tools</a></li>" +
             "<li><a href='http://bergmann-it.de'>Volker Bergmann</a></li>" +
             "</ul></body></html>";
 
+    @Test
     public void testLinkIteration() throws IOException, ParseException {
         HTMLTokenizer source = new DefaultHTMLTokenizer(new StringReader(HTML));
         HTMLTokenFilter filter = new HTMLTokenFilter(HTMLTokenizer.START_TAG, "a");

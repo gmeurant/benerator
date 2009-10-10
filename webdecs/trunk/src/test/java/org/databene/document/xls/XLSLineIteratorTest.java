@@ -30,21 +30,22 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import org.databene.document.xls.XLSLineIterator;
+import org.junit.Test;
 
-import junit.framework.TestCase;
+import static junit.framework.Assert.*;
 
 /**
- * Tests the {@link XLSLineIterator}.<br/>
- * <br/>
+ * Tests the {@link XLSLineIterator}.<br/><br/>
  * Created at 28.01.2009 09:10:26
  * @since 0.4.8
  * @author Volker Bergmann
  */
 
-public class XLSLineIteratorTest extends TestCase {
+public class XLSLineIteratorTest {
 
 	private static final String XLS_FILENAME = "org/databene/document/xls/person_lines.xls";
 
+    @Test
 	public void testDefaultSheetWithFormula() throws IOException {
 		// test default sheet
 		XLSLineIterator iterator = new XLSLineIterator(XLS_FILENAME);
@@ -62,6 +63,7 @@ public class XLSLineIteratorTest extends TestCase {
 		}
 	}
 	
+    @Test
 	public void testSheet1() throws IOException {
 		// test sheet 1
 		XLSLineIterator iterator = new XLSLineIterator(XLS_FILENAME, 1);

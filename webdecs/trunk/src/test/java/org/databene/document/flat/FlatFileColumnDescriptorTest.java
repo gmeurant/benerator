@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,7 +28,8 @@ package org.databene.document.flat;
 
 import org.databene.commons.format.Alignment;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Tests the {@link FlatFileColumnDescriptor}.<br/><br/>
@@ -36,8 +37,9 @@ import junit.framework.TestCase;
  * @since 0.5.3
  * @author Volker Bergmann
  */
-public class FlatFileColumnDescriptorTest extends TestCase {
+public class FlatFileColumnDescriptorTest {
 
+	@Test
 	public void testEquals() {
 		FlatFileColumnDescriptor d1 = new FlatFileColumnDescriptor("name", 8, Alignment.LEFT, ' ');
 		// simple tests
@@ -49,4 +51,5 @@ public class FlatFileColumnDescriptorTest extends TestCase {
 		assertFalse(d1.equals(new FlatFileColumnDescriptor("name4", 8, Alignment.RIGHT, ' ')));
 		assertFalse(d1.equals(new FlatFileColumnDescriptor("name5", 8, Alignment.LEFT, '_')));
 	}
+	
 }

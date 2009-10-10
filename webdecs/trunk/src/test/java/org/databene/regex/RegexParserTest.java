@@ -26,7 +26,8 @@
 
 package org.databene.regex;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 import java.text.ParseException;
 
@@ -42,7 +43,7 @@ import org.slf4j.LoggerFactory;
  * @since 0.1
  * @author Volker Bergmann
  */
-public class RegexParserTest extends TestCase {
+public class RegexParserTest {
 
 	private static final CharSet CS_DIGIT = new CharSet("\\d", '0', '9');
     private static final CharSet CS_POS_DIGIT = new CharSet("1-9", '1', '9');
@@ -52,11 +53,13 @@ public class RegexParserTest extends TestCase {
 
 	private static Logger logger = LoggerFactory.getLogger(RegexParserTest.class);
     
+	@Test
     public void testEmpty() throws ParseException {
         check(null, null);
         check("", "");
     }
 
+	@Test
     public void testSpecialCharacters() throws ParseException {
         check("\\+", '+');
         check("\\-", '-');
@@ -77,19 +80,23 @@ public class RegexParserTest extends TestCase {
         check("\\e", '\u001B');
     }
 
+	@Test
     public void testHexCharacter() throws ParseException {
         check("\\xfe",   (char) 0xfe);
         check("\\ufedc", (char) 0xfedc);
     }
 
+	@Test
     public void testOctalCharacter() throws ParseException {
         check("\\0123",  (char) 0123);
     }
 
+	@Test
     public void testCodedCharacter() throws ParseException {
         check("\\cB",    (char) 1);
     }
 
+	@Test
     public void testCustomClasses() throws ParseException {
         check("[a-c]", new CustomCharClass(CollectionUtil.toList(new CharSet('a', 'c'))));
         check("[a-cA-C]", new CustomCharClass(CollectionUtil.toList(new CharSet('a', 'c'), new CharSet('A', 'C'))));
@@ -99,6 +106,7 @@ public class RegexParserTest extends TestCase {
         	));
     }
 
+	@Test
     public void testInvalidCustomClass() {
         try {
 			new RegexParser().parseRegex("[a-f");
@@ -108,6 +116,7 @@ public class RegexParserTest extends TestCase {
 		}
     }
 
+	@Test
     public void testPredefClasses() throws ParseException {
         check(".", new CharSet().addAnyCharacters());
         check("\\d", new CharSet().addDigits());
@@ -115,6 +124,7 @@ public class RegexParserTest extends TestCase {
         check("\\w", new CharSet().addWordChars());
     }
 
+	@Test
     public void testInvalidPredefClass() {
         try {
 			new RegexParser().parseRegex("\\X");
@@ -124,6 +134,7 @@ public class RegexParserTest extends TestCase {
 		}
     }
 
+	@Test
     public void testQuantifiers() throws ParseException {
         check("a",      'a');
         check("a?",     new Factor('a', 0, 1));
@@ -145,6 +156,7 @@ public class RegexParserTest extends TestCase {
 		}
     }
 */
+	@Test
     public void testClassAndQuantifierSequences() throws ParseException {
         check("\\w+\\d+", new Sequence(
                 new Factor(new CharSet().addWordChars(), 1, null),
@@ -176,6 +188,7 @@ public class RegexParserTest extends TestCase {
     	));
     }
 
+	@Test
     public void testGroups() throws ParseException {
         check("(a)", new Group('a'));
 
@@ -201,6 +214,7 @@ public class RegexParserTest extends TestCase {
         );
     }
 
+	@Test
     public void testChoices() throws ParseException {
         check("(a|b)", new Group(new Choice('a', 'b')));
         check("(a?|b+)*", 
@@ -213,6 +227,7 @@ public class RegexParserTest extends TestCase {
         	));
     }
 
+	@Test
     public void testRecursion() throws ParseException {
         check("(a{1,2}|b){1,3}", 
         	new Factor(

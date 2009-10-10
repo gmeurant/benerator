@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2005-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,26 +26,24 @@
 
 package org.databene.text;
 
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.util.Locale;
 import java.text.ParseException;
 import java.text.FieldPosition;
 
 import org.databene.text.AbbreviatedNumberFormat;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
- * (c) Copyright 2004 by Volker Bergmann
+ * Tests the {@link AbbreviatedNumberFormat}.
  * Created: 16.05.2005 22:04:10
+ * @since 0.1
+ * @author Volker Bergmann
  */
-public class AbbreviatedNumberFormatTest extends TestCase {
+public class AbbreviatedNumberFormatTest {
     private static final double DELTA = 0.0001;
 
-    public static TestSuite suite() {
-        return new TestSuite(AbbreviatedNumberFormatTest.class);
-    }
-
+    @Test
     public void testParse() throws Exception {
         checkParse("1", 1, Locale.US);
         checkParse("1 Tsd", 1000, Locale.US);
@@ -60,6 +58,7 @@ public class AbbreviatedNumberFormatTest extends TestCase {
         checkParse("1.234,56 Mio", 1234560000, Locale.GERMANY);
     }
 
+    @Test
     public void testFormat() throws Exception {
         checkFormat(1, "1.00", Locale.US);
         checkFormat(1000, "1.00 Tsd", Locale.US);
@@ -71,6 +70,7 @@ public class AbbreviatedNumberFormatTest extends TestCase {
         checkFormatFixed(1234560000, "1.234,56 Mio", 1000000, Locale.GERMANY);
     }
 
+    @Test
     public void testFormatFixed() throws Exception {
         checkFormatFixed(1, "1.00", 1, Locale.US);
         checkFormatFixed(123, "0.12 Tsd", 1000, Locale.US);
