@@ -42,11 +42,11 @@ public interface Patterns {
 
 	// time patterns ---------------------------------------------------------------------------------------------------
 	
-	public static final String DEFAULT_TIME_MILLIS_PATTERN = "HH:MM:ss.SSS";
+	public static final String DEFAULT_TIME_MILLIS_PATTERN = "HH:mm:ss.SSS";
 
-	public static final String DEFAULT_TIME_SECONDS_PATTERN = "HH:MM:ss";
+	public static final String DEFAULT_TIME_SECONDS_PATTERN = "HH:mm:ss";
 
-	public static final String DEFAULT_TIME_MINUTES_PATTERN = "HH:MM";
+	public static final String DEFAULT_TIME_MINUTES_PATTERN = "HH:mm";
 
 	public static final String DEFAULT_TIME_PATTERN = DEFAULT_TIME_SECONDS_PATTERN;
 
