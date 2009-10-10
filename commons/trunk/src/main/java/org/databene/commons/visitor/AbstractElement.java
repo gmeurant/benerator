@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -47,9 +47,11 @@ public abstract class AbstractElement<E> implements Element<E> {
                 child.accept(visitor);
     }
 
+    @SuppressWarnings("unchecked")
     protected void acceptImpl(Visitor<E> visitor) {
         visitor.visit((E) this);
     }
 
     protected abstract Collection<Element<E>> getChildren(Visitor<E> visitor);
+    
 }
