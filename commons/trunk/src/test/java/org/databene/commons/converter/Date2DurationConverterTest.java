@@ -29,9 +29,11 @@ package org.databene.commons.converter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
+import java.util.concurrent.Callable;
 
 import org.databene.commons.ConversionException;
 import org.databene.commons.Period;
+import org.databene.commons.TimeUtil;
 
 import junit.framework.TestCase;
 
@@ -46,37 +48,36 @@ import junit.framework.TestCase;
 public class Date2DurationConverterTest extends TestCase {
 	
 	public void testUK() throws Exception {
-		check("GMT");
+		check(TimeUtil.GMT);
 	}
 	
 	public void testGermany() throws Exception {
-		check("CET");
+		check(TimeUtil.CENTRAL_EUROPEAN_TIME);
 	}
 	
 	public void testSingapore() throws Exception {
-		check("Asia/Singapore");
+		check(TimeUtil.SNGAPORE_TIME);
 	}
 	
 	public void testCalifornia() throws Exception {
-		check("PST");
+		check(TimeUtil.PACIFIC_STANDARD_TIME);
 	}
 	
-	public void check(String timeZoneName) throws Exception {
-		TimeZone defaultTimeZone = TimeZone.getDefault();
-		try {
-			TimeZone.setDefault(TimeZone.getTimeZone(timeZoneName));
-			assertEquals(timeZoneName, TimeZone.getDefault().getID());
-			assertEquals(1L, convert("1970-01-01T00:00:00.001").longValue());
-			assertEquals(0L, convert("0000-00-00T00:00:00.000").longValue());
-			assertEquals(1L, convert("0000-00-00T00:00:00.001").longValue());
-			assertEquals(Period.DAY.getMillis(), convert("0000-00-01T00:00:00.000").longValue());
-			assertEquals(Period.DAY.getMillis() * 50, convert("0000-00-50T00:00:00.000").longValue());
-		} finally {
-			TimeZone.setDefault(defaultTimeZone);
-		}		
+	public void check(TimeZone timeZone) throws Exception {
+		TimeUtil.executeInTimeZone(timeZone, new Callable<Object>() {
+			public Object call() throws Exception {
+				assertEquals(1L, convert("1970-01-01T00:00:00.001").longValue());
+				assertEquals(0L, convert("0000-00-00T00:00:00.000").longValue());
+				assertEquals(1L, convert("0000-00-00T00:00:00.001").longValue());
+				assertEquals(Period.DAY.getMillis(), convert("0000-00-01T00:00:00.000").longValue());
+				assertEquals(Period.DAY.getMillis() * 50, convert("0000-00-50T00:00:00.000").longValue());
+				return null;
+            }
+		});
 	}
 	
-	private Long convert(String string) throws ConversionException, ParseException {
+	public static Long convert(String string) throws ConversionException, ParseException {
 		return new Date2DurationConverter().convert(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse(string));
 	}
+	
 }
