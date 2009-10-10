@@ -22,7 +22,11 @@ Improvements
 - new test helper class SimpleValidatorTest
 - new LoggingProxyFactory that creates logging wrappers for arbitrary classes which implement an interface
 - AnyConverter supports timePattern and timestampPattern
-
+- new test support methods in TimeUtil
+  - executeInTimeZone(Runnable)
+  - executeInTimeZone(Callable)
+- BeanUtil: new methods getFieldValue() for object attribute access
+- FeatureAccessor can read normal and static attributes
 
 Changes
 -------
@@ -32,3 +36,4 @@ Changes
 Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
 --------------------------------------------------------------------------------------------
 - fixed support for String-to-Class conversion in AnyConverter and StringConverter
+- Bug fixe in handling and converting Time and Timestamp values
