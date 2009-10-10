@@ -28,6 +28,8 @@ package org.databene.commons.converter;
 
 import java.util.TimeZone;
 
+import org.databene.commons.TimeUtil;
+
 import junit.framework.TestCase;
 
 /**
@@ -38,31 +40,55 @@ import junit.framework.TestCase;
 public class String2TimeConverterTest extends TestCase {
 	
     public void testMillis() {
-        check("00:00:00.000", 0);
-        check("00:00:00.001", 1);
-        check("00:00:00.123", 123);
-        check("00:00:01.001", 1001);
-        check("00:01:00.001", 60001);
-        check("01:00:00.001", 3600001);
+    	checkTimeZones(new Runnable() {
+            public void run() {
+                check("00:00:00.000", 0);
+                check("00:00:00.001", 1);
+                check("00:00:00.123", 123);
+                check("00:00:01.001", 1001);
+                check("00:01:00.001", 60001);
+                check("01:00:00.001", 3600001);
+            }
+    	});
     }
 
     public void testSeconds() {
-        check("00:00:00", 0);
-        check("00:00:01", 1000);
-        check("00:01:00", 60000);
-        check("01:01:01", 3661000);
+    	checkTimeZones(new Runnable() {
+            public void run() {
+		        check("00:00:00", 0);
+		        check("00:00:01", 1000);
+		        check("00:01:00", 60000);
+		        check("01:01:01", 3661000);
+            }
+    	});
     }
 
     public void testMinutes() {
-        check("00:00", 0);
-        check("00:01", 60000);
-        check("01:00", 3600000);
+    	checkTimeZones(new Runnable() {
+            public void run() {
+		        check("00:00", 0);
+		        check("00:01", 60000);
+		        check("01:00", 3600000);
+            }
+    	});
+    }
+    
+    // test helpers ----------------------------------------------------------------------------------------------------
+
+    private void checkTimeZones(Runnable action) {
+	    TimeUtil.executeInTimeZone(TimeUtil.GMT,					action);
+    	TimeUtil.executeInTimeZone(TimeUtil.CENTRAL_EUROPEAN_TIME,	action);
+    	TimeUtil.executeInTimeZone(TimeUtil.SNGAPORE_TIME,			action);
+    	TimeUtil.executeInTimeZone(TimeUtil.PACIFIC_STANDARD_TIME,	action);
     }
 
-    private void check(String timeString, long expectedLocalMillis) {
+    protected static void check(String timeString, long expectedLocalMillis) {
     	// Half-hour time zone fix, see http://mail-archives.apache.org/mod_mbox/struts-user/200502.mbox/%3C42158AA9.3050001@gridnode.com%3E
-        long expectedUTCMillis = expectedLocalMillis + (TimeZone.getDefault().getOffset(0L) % 3600000L);
+        TimeZone timeZone = TimeZone.getDefault();
+		int offset = timeZone.getOffset(0L);
+		long expectedUTCMillis = expectedLocalMillis - offset;
 		long actualMillis = new String2TimeConverter().convert(timeString).getTime();
 		assertEquals(expectedUTCMillis, actualMillis);
     }
+
 }
