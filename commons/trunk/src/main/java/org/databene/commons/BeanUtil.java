@@ -875,13 +875,41 @@ public final class BeanUtil {
         }
     }
 
+    public static Object getFieldValue(Object target, String name, boolean strict) {
+        Class<? extends Object> type = target.getClass();
+        try {
+			Field field = type.getField(name);
+            return getFieldValue(field, target, strict);
+        } catch (NoSuchFieldException e) {
+        	if (strict)
+        		throw ExceptionMapper.configurationException(e, type.getName() + '.' + name);
+        	else {
+        		escalator.escalate("Class '" + type + "' does not have a field '" + name + "'", type, name);
+        		return null;
+        	}
+        }
+    }
+
+    public static Object getFieldValue(Field field, Object target, boolean strict) {
+        try {
+            if ((field.getModifiers() & Modifier.STATIC) == Modifier.STATIC)
+            	return field.get(null);
+            else
+            	return field.get(target);
+        } catch (IllegalArgumentException e) {
+        	throw new ConfigurationError(e);
+        } catch (IllegalAccessException e) {
+        	throw new ConfigurationError(e);
+        }
+    }
+
     /**
      * Returns a Field object that represents an attribute of a class
      * @param type the class that holds the attribute
      * @param name the name of the attribute
      * @return a Field object that represents the attribute
      */
-    private static Field getField(Class<? extends Object> type, String name) {
+    public static Field getField(Class<? extends Object> type, String name) {
         try {
             return type.getField(name);
         } catch (NoSuchFieldException e) {
@@ -955,8 +983,10 @@ public final class BeanUtil {
 		return builder.toString();
 	}
 
-	public static <T> String simpleName(Class<T> type) {
-		return (type != null ? type.getSimpleName() : null);
+	public static <T> String simpleClassName(Object o) {
+		if (o == null)
+			return null;
+		return (o instanceof Class ? ((Class<?>) o).getName() : o.getClass().getSimpleName());
 	}
 	
 	/** Tries to convert both arguments to the same type and then compares them */
