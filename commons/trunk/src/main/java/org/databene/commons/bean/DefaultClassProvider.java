@@ -27,6 +27,7 @@
 package org.databene.commons.bean;
 
 import org.databene.commons.BeanUtil;
+import org.databene.commons.Context;
 
 /**
  * Default implementation of the {@link ClassProvider} interface.
@@ -48,4 +49,13 @@ public class DefaultClassProvider implements ClassProvider {
 		return BeanUtil.forName(className);
 	}
 
+    public static Class<?> resolveByObjectOrDefaultInstance(String className, Object context) {
+        ClassProvider classProvider;
+		if (context instanceof ClassProvider)
+			classProvider = (ClassProvider) context;
+		else
+			classProvider = DefaultClassProvider.getInstance();
+        return classProvider.forName(className);
+    }
+    
 }
