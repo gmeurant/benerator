@@ -176,7 +176,6 @@ public class DefaultHTMLTokenizerTest {
 */
     // private helpers -------------------------------------------------------------------------------------------------
 
-    @Test
     public void checkText(TestSetup test) throws IOException, ParseException {
         Reader in = new StringReader(test.html);
         Writer out = new StringWriter();
@@ -188,7 +187,6 @@ public class DefaultHTMLTokenizerTest {
         assertEquals(test.html, out.toString());
     }
 
-    @Test
     public void checkTokens(TestSetup test) throws IOException, ParseException {
         logger.debug("checking: " + test.html);
         Reader in = new StringReader(test.html);
