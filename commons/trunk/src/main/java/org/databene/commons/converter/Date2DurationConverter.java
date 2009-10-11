@@ -51,8 +51,8 @@ public class Date2DurationConverter extends FixedSourceTypeConverter<Date, Long>
 			return null;
 		long source = sourceValue.getTime();
 		// for time zone problems, see http://mail-archives.apache.org/mod_mbox/struts-user/200502.mbox/%3C42158AA9.3050001@gridnode.com%3E 
-		Long result = source + TimeZone.getDefault().getOffset(0L);
-		if (result < 0)
+		Long result = source + TimeZone.getDefault().getOffset(0L); // That's relative to 1970-01-01
+		if (result < 0) // if it's before 1970-01-01, interpret it relative to 0001-01-01
 			result = source + TimeZone.getDefault().getOffset(-62170156800000L) + 62170156800000L;
 		return result;
 	}
