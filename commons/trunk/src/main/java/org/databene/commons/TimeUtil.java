@@ -244,4 +244,8 @@ public final class TimeUtil implements Patterns {
     	}
     }
 
+    public static long millisSinceOwnEpoch(Date date) {
+    	return date.getTime() + TimeZone.getDefault().getOffset(0);
+    }
+    
 }
