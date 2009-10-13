@@ -132,6 +132,20 @@ public class LiteralParserTest {
         checkDate("1969-3-2T1:3:4.123", "yyyy-MM-dd'T'HH:mm:ss.SSS");
     }
 
+	@Test
+    public void testTime() throws ParseException {
+        checkTime("00:01", "HH:mm");
+        checkTime("00:01", "HH:mm");
+        checkTime("23:59", "HH:mm");
+        checkTime("00:01:01", "HH:mm:ss");
+        checkTime("00:01:01", "HH:mm:ss");
+        checkTime("23:59:59", "HH:mm:ss");
+        checkTime("00:01:01.123", "HH:mm:ss.SSS");
+        checkTime("00:01:01.123", "HH:mm:ss.SSS");
+        checkTime("23:59:59.123", "HH:mm:ss.SSS");
+        checkTime("1:3:4.123", "HH:mm:ss.SSS");
+    }
+
     // private helper methods ------------------------------------------------------------------------------------------
     
     private void checkText(String text) {
@@ -143,6 +157,12 @@ public class LiteralParserTest {
     }
 
     private void checkDate(String dateString, String pattern) throws ParseException {
+        SimpleDateFormat f = new SimpleDateFormat(pattern);
+        Date date = f.parse(dateString);
+        assertEquals(date, LiteralParser.parse(dateString));
+    }
+
+    private void checkTime(String dateString, String pattern) throws ParseException {
         SimpleDateFormat f = new SimpleDateFormat(pattern);
         Date date = f.parse(dateString);
         assertEquals(date, LiteralParser.parse(dateString));

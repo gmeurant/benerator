@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008, 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -25,6 +25,9 @@
  */
 
 package org.databene.commons.converter;
+
+import java.sql.Time;
+import java.util.Date;
 
 import org.databene.commons.ConversionException;
 import org.databene.commons.StringCharacterIterator;
@@ -100,13 +103,16 @@ public class LiteralParser extends FixedSourceTypeConverter<String, Object> {
             tmp = parseDate(trimmed);
             if (tmp != null)
                 return tmp;
+            tmp = parseTime(trimmed);
+            if (tmp != null)
+                return tmp;
         }
         return trimmed;
     }
     
     // private helpers -------------------------------------------------------------------------------------------------
 
-    private static Object parseDate(String trimmed) { // TODO support parsing times
+    private static Object parseDate(String trimmed) {
         StringCharacterIterator iterator = new StringCharacterIterator(trimmed);
         // parse day
         Long year = parseNonNegativeIntegerPart(iterator, true);
@@ -123,10 +129,19 @@ public class LiteralParser extends FixedSourceTypeConverter<String, Object> {
         Long day = parseNonNegativeIntegerPart(iterator, true);
         if (day == null || day == 0)
         	return null;
+        Date baseDate = TimeUtil.date(year.intValue(), month.intValue(), day.intValue());
         if (!iterator.hasNext())
-            return TimeUtil.date(year.intValue(), month.intValue(), day.intValue());
+            return baseDate;
         if (iterator.next() != 'T')
             return null;
+        if (!iterator.hasNext())
+            return null;
+        Object time = parseTime(iterator.remainingText());
+        return (time != null && time instanceof Time ? TimeUtil.add(baseDate, (Time) time) : null);
+    }
+    
+    private static Object parseTime(String trimmed) {
+        StringCharacterIterator iterator = new StringCharacterIterator(trimmed);
         // parse hours:minutes
         Long hours = parseNonNegativeIntegerPart(iterator, true);
         if (hours == null || !iterator.hasNext() || iterator.next() != ':')
@@ -135,7 +150,7 @@ public class LiteralParser extends FixedSourceTypeConverter<String, Object> {
         if (minutes == null)
         	return null;
         if (!iterator.hasNext())
-            return TimeUtil.date(year.intValue(), month.intValue(), day.intValue(), hours.intValue(), minutes.intValue(), 0, 0);
+            return TimeUtil.time(hours.intValue(), minutes.intValue(), 0, 0);
         // parse seconds
         if (iterator.next() != ':')
             return null;
@@ -143,7 +158,7 @@ public class LiteralParser extends FixedSourceTypeConverter<String, Object> {
         if (seconds == null)
         	return null;
         if (!iterator.hasNext())
-            return TimeUtil.date(year.intValue(), month.intValue(), day.intValue(), hours.intValue(), minutes.intValue(), seconds.intValue(), 0);
+            return TimeUtil.time(hours.intValue(), minutes.intValue(), seconds.intValue(), 0);
         // parse second fractions
         if (iterator.next() != '.')
             return null;
@@ -151,7 +166,7 @@ public class LiteralParser extends FixedSourceTypeConverter<String, Object> {
         if (f == null)
         	return null;
         if (!iterator.hasNext())
-            return TimeUtil.date(year.intValue(), month.intValue(), day.intValue(), hours.intValue(), minutes.intValue(), seconds.intValue(), (int)(f * 1000));
+            return TimeUtil.time(hours.intValue(), minutes.intValue(), seconds.intValue(), (int)(f * 1000));
         else
             return trimmed;
     }
@@ -224,4 +239,5 @@ public class LiteralParser extends FixedSourceTypeConverter<String, Object> {
         }
         return (negative ? -p : p);
     }
+    
 }
