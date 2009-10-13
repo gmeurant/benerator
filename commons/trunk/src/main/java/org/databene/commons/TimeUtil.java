@@ -170,6 +170,10 @@ public final class TimeUtil implements Patterns {
         calendar.add(field, i);
         return calendar.getTime();
     }
+    
+    public static Date add(Date date, Date time) {
+    	return new Date(date.getTime() + millisSinceOwnEpoch(time));
+    }
 
     public static int yearsBetween(Date from, Date until) {
         Calendar fromCalendar = calendar(from);
