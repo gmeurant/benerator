@@ -37,90 +37,129 @@ import static junit.framework.Assert.*;
 public class VMInfoTest {
 	
 	@Test
-    public void testJavaVendor() { 
-        assertEquals(System.getProperty("java.vendor"), VMInfo.getJavaVendor());
-    }
-
-	// TODO all these tests are nonsense!
-
-	@Test
-    public void testJavaVendorUrl() {
-        assertNotNull(System.getProperty("java.vendor.url"));
-    }
-
-	@Test
-    public void testJavaSpecificationVersion() {
-        assertNotNull(System.getProperty("java.specification.version"));
-    }
-
-	@Test
-    public void testJavaSpecificationVendor() {
-        assertNotNull(System.getProperty("java.specification.vendor"));
-    }
-
-	@Test
-    public void testJavaSpecificationName() {
-        assertNotNull(System.getProperty("java.specification.name"));
-    }
-
-	@Test
     public void testJavaClassVersion() {
-        assertNotNull(System.getProperty("java.class.version"));
+		String value = System.getProperty("java.class.version");
+		assertNotNull(value);
+		assertEquals(value, VMInfo.getJavaClassVersion());
     }
 
 	@Test
     public void testJavaCompiler() {
-        System.getProperty("java.compiler"); // may be null
+        String value = System.getProperty("java.compiler"); // may be null
+		assertEquals(value, VMInfo.getJavaCompiler());
     }
 
 	@Test
     public void testJavaHome() {
-        assertNotNull(System.getProperty("java.home"));
+		String value = System.getProperty("java.home");
+		assertNotNull(value);
+		assertEquals(value, VMInfo.getJavaHome());
     }
 
 	@Test
     public void testExtDirs() {
-        assertNotNull(System.getProperty("java.ext.dirs"));
+		String value = System.getProperty("java.ext.dirs");
+		assertNotNull(value);
+		assertEquals(value, VMInfo.getExtDirs());
     }
 
 	@Test
     public void testClassPath() {
-        assertNotNull(System.getProperty("java.class.path"));
+		String value = System.getProperty("java.class.path");
+		assertNotNull(value);
+		assertEquals(value, VMInfo.getClassPath());
     }
 
 	@Test
     public void testLibraryPath() {
-        assertNotNull(System.getProperty("java.library.path"));
+		String value = System.getProperty("java.library.path");
+		assertNotNull(value);
+		assertEquals(value, VMInfo.getLibraryPath());
     }
 
+	// vendor ----------------------------------------------------------------------------------------------------------
+	
+	@Test
+    public void testJavaVendor() { 
+        String value = System.getProperty("java.vendor");
+		assertNotNull(value);
+		assertEquals(value, VMInfo.getJavaVendor());
+    }
+
+	@Test
+    public void testJavaVendorUrl() {
+		String value = System.getProperty("java.vendor.url");
+		assertNotNull(value);
+		assertEquals(value, VMInfo.getJavaVendorUrl());
+    }
+
+	// specification ---------------------------------------------------------------------------------------------------
+	
+	@Test
+    public void testJavaSpecificationVersion() {
+		String value = System.getProperty("java.specification.version");
+		assertNotNull(value);
+		assertEquals(value, VMInfo.getJavaSpecificationVersion());
+    }
+
+	@Test
+    public void testJavaSpecificationVendor() {
+		String value = System.getProperty("java.specification.vendor");
+		assertNotNull(value);
+		assertEquals(value, VMInfo.getJavaSpecificationVendor());
+    }
+
+	@Test
+    public void testJavaSpecificationName() {
+		String value = System.getProperty("java.specification.name");
+		assertNotNull(value);
+		assertEquals(value, VMInfo.getJavaSpecificationName());
+    }
+
+	// VM --------------------------------------------------------------------------------------------------------------
+	
 	@Test
     public void testJavaVMName() {
-        assertNotNull(VMInfo.getJavaVmName());
+		String value = System.getProperty("java.vm.name");
+		assertNotNull(value);
+		assertEquals(value, VMInfo.getJavaVmName());
     }
-
+	
 	@Test
-    public void testJavaVMSpecificationName() {
-        assertNotNull(VMInfo.getJavaVmSpecificationName());
-    }
-
-	@Test
-    public void testJavaVMSpecificationVendor() {
-        assertNotNull(VMInfo.getJavaVmSpecificationVendor());
-    }
-
-	@Test
-    public void testJavaVMSpecificationVarsion() {
-        assertNotNull(VMInfo.getJavaVmSpecificationVersion());
+    public void testJavaVersion() {
+		String value = System.getProperty("java.vm.version");
+		assertNotNull(value);
+		assertEquals(value, VMInfo.getJavaVmVersion());
     }
 
 	@Test
     public void testJavaVMVendor() {
-        assertNotNull(VMInfo.getJavaVmVendor());
+		String value = System.getProperty("java.vm.vendor");
+		assertNotNull(value);
+		assertEquals(value, VMInfo.getJavaVmVendor());
+    }
+
+	// VM specification ------------------------------------------------------------------------------------------------
+
+	@Test
+    public void testJavaVMSpecificationName() {
+		String value = System.getProperty("java.vm.specification.name");
+		assertNotNull(value);
+		assertEquals(value, VMInfo.getJavaVmSpecificationName());
     }
 
 	@Test
-    public void testJavaVersion() {
-        assertNotNull(VMInfo.getJavaVmVersion());
+    public void testJavaVMSpecificationVersion() {
+		String value = System.getProperty("java.vm.specification.version");
+		assertNotNull(value);
+		assertEquals(value, VMInfo.getJavaVmSpecificationVersion());
+    }
+
+	@Test
+    public void testJavaVMSpecificationVendor() {
+		String value = System.getProperty("java.vm.specification.vendor");
+		assertNotNull(value);
+		assertEquals(value, VMInfo.getJavaVmSpecificationVendor());
     }
 
 }
