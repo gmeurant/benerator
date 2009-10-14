@@ -27,6 +27,7 @@
 package org.databene.commons;
 
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.io.IOException;
 
 /**
@@ -186,6 +187,26 @@ public final class LocaleUtil {
 
     private static Set<Character> latinSet() {
         return new CharSet('A', 'Z').addRange('a', 'z').getSet();
+    }
+
+	public static void runInLocale(Locale locale, Runnable task) {
+	    Locale realLocale = Locale.getDefault();
+	    try {
+	    	Locale.setDefault(locale);
+	    	task.run();
+	    } finally {
+	    	Locale.setDefault(realLocale);
+	    }
+    }
+
+	public static <T> T callInLocale(Locale locale, Callable<T> task) throws Exception {
+	    Locale realLocale = Locale.getDefault();
+	    try {
+	    	Locale.setDefault(locale);
+	    	return task.call();
+	    } finally {
+	    	Locale.setDefault(realLocale);
+	    }
     }
 
 }
