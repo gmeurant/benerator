@@ -241,7 +241,7 @@ public final class ParseUtil {
             return null;
         return new String[] {
                 line.substring(0, sep).trim(),
-                (sep < line.length() - 1 ? line.substring(sep + 1).trim() : null)
+                (sep < line.length() - 1 ? line.substring(sep + 1) : null)
         };
     }
     

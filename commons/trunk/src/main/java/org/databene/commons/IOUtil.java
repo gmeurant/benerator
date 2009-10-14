@@ -369,18 +369,21 @@ public final class IOUtil {
                 line = line.trim();
                 if (line.startsWith("#"))
                     continue;
+                boolean incomplete = (line.endsWith("\\") && line.charAt(line.length() - 2) != '\\');
+                if (incomplete)
+                	line = line.substring(0, line.length() - 1);
                 line = StringUtil.unescape(line);
                 if (key != null) {
-                    value += normalizeLine(line);
+                    value += line;
                 } else {
                     String[] assignment = ParseUtil.parseAssignment(line, "=", false);
                     if (assignment != null && assignment[1] != null) {
                         key = assignment[0];
-                        value = normalizeLine(assignment[1]);
+                        value = assignment[1];
                     } else
                         continue;
                 }
-                if (!line.endsWith("\\")) {
+                if (!incomplete) {
                     if (converter != null) {
                         Map.Entry entry = new MapEntry(key, value);
                         entry = converter.convert(entry);
@@ -398,10 +401,6 @@ public final class IOUtil {
                 IOUtil.close(reader);
         }
         return target;
-    }
-
-    private static String normalizeLine(String line) {
-        return (line.endsWith("\\") ? line.substring(0, line.length() - 1) : line);
     }
 
     public static void writeProperties(Map<String, String> properties, String filename) throws IOException {
