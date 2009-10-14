@@ -47,7 +47,7 @@ public class HeavyweightIterableAdapter<E> implements HeavyweightIterable<E> {
 	}
 
 	public HeavyweightIterator<E> iterator() {
-		return new HeavyweightIteratorAdapter<E>(source.iterator());
+		return new HeavyweightIteratorProxy<E>(source.iterator());
 	}
 
 }

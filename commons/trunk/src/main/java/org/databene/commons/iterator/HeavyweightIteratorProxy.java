@@ -30,36 +30,24 @@ import java.io.Closeable;
 import java.util.Iterator;
 
 import org.databene.commons.HeavyweightIterator;
-import org.databene.commons.IOUtil;
 
 /**
  * Wraps an {@link Iterator} with a {@link HeavyweightIterator}. 
  * If the wrapped iterator implements {@link Closeable}, calls to 
  * <code>close()</code> are forwarded, otherwise ignored<br/>.
  * <br/>
- * Created at 17.10.2008 01:27:08
- * @since 0.4.6
+ * Created: 14.10.2009 11:50:43
+ * @since 0.6.0
  * @author Volker Bergmann
  */
-public abstract class HeavyweightIteratorAdapter<S,P> implements HeavyweightIterator<P> {
+public class HeavyweightIteratorProxy<E> extends HeavyweightIteratorAdapter<E, E> {
 	
-	protected Iterator<S> source;
-	
-	public HeavyweightIteratorAdapter(Iterator<S> source) {
-		this.source = source;
+	public HeavyweightIteratorProxy(Iterator<E> source) {
+		super(source);
 	}
 
-	public boolean hasNext() {
-		return source.hasNext();
-	}
-
-	public void remove() {
-		 source.remove();
-	}
-
-    public void close() {
-		 if (source instanceof Closeable)
-			 IOUtil.close((Closeable) source);
+	public E next() {
+		return source.next();
 	}
 
 }
