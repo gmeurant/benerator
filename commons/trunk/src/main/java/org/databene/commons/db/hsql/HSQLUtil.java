@@ -29,6 +29,7 @@ package org.databene.commons.db.hsql;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.databene.commons.ConfigurationError;
 
@@ -63,4 +64,15 @@ public class HSQLUtil {
 	    String url = IN_MEMORY_URL_PREFIX + dbName;
 	    return url;
     }
+	
+	public static Statement shutdown(String url, String user, String password) 
+			throws ClassNotFoundException, SQLException {
+		Statement statement;
+		Class.forName("org.hsqldb.jdbcDriver");
+		Connection con = DriverManager.getConnection(url, user, password);
+		statement = con.createStatement();
+		statement.executeUpdate("SHUTDOWN");
+		return statement;
+	}
+
 }
