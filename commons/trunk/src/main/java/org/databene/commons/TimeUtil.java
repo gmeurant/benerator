@@ -175,6 +175,10 @@ public final class TimeUtil implements Patterns {
     	return new Date(date.getTime() + millisSinceOwnEpoch(time));
     }
 
+	public static Object subtract(Date minuend, Date subtrahend) {
+    	return new Date(minuend.getTime() - millisSinceOwnEpoch(subtrahend));
+    }
+    
     public static int yearsBetween(Date from, Date until) {
         Calendar fromCalendar = calendar(from);
         Calendar untilCalendar = calendar(until);
@@ -228,7 +232,7 @@ public final class TimeUtil implements Patterns {
 	    return time(now.get(Calendar.HOUR), now.get(Calendar.MINUTE), now.get(Calendar.SECOND), now.get(Calendar.MILLISECOND));
     }
 
-    public static void executeInTimeZone(TimeZone timeZone, Runnable action) {
+    public static void runInTimeZone(TimeZone timeZone, Runnable action) {
     	TimeZone originalZone = TimeZone.getDefault();
     	try {
     		TimeZone.setDefault(timeZone);
@@ -238,7 +242,7 @@ public final class TimeUtil implements Patterns {
     	}
     }
 
-    public static <T> T executeInTimeZone(TimeZone timeZone, Callable<T> action) throws Exception {
+    public static <T> T callInTimeZone(TimeZone timeZone, Callable<T> action) throws Exception {
     	TimeZone originalZone = TimeZone.getDefault();
     	try {
     		TimeZone.setDefault(timeZone);
@@ -251,5 +255,5 @@ public final class TimeUtil implements Patterns {
     public static long millisSinceOwnEpoch(Date date) {
     	return date.getTime() + TimeZone.getDefault().getOffset(0);
     }
-    
+
 }

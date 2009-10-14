@@ -80,10 +80,10 @@ public class String2TimeConverterTest {
     // test helpers ----------------------------------------------------------------------------------------------------
 
     private void checkTimeZones(Runnable action) {
-	    TimeUtil.executeInTimeZone(TimeUtil.GMT,					action);
-    	TimeUtil.executeInTimeZone(TimeUtil.CENTRAL_EUROPEAN_TIME,	action);
-    	TimeUtil.executeInTimeZone(TimeUtil.SNGAPORE_TIME,			action);
-    	TimeUtil.executeInTimeZone(TimeUtil.PACIFIC_STANDARD_TIME,	action);
+	    TimeUtil.runInTimeZone(TimeUtil.GMT,					action);
+    	TimeUtil.runInTimeZone(TimeUtil.CENTRAL_EUROPEAN_TIME,	action);
+    	TimeUtil.runInTimeZone(TimeUtil.SNGAPORE_TIME,			action);
+    	TimeUtil.runInTimeZone(TimeUtil.PACIFIC_STANDARD_TIME,	action);
     }
 
     protected static void check(String timeString, long expectedLocalMillis) {

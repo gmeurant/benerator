@@ -69,7 +69,7 @@ public class Date2DurationConverterTest {
 	}
 	
 	private void check(TimeZone timeZone) throws Exception {
-		TimeUtil.executeInTimeZone(timeZone, new Callable<Object>() {
+		TimeUtil.callInTimeZone(timeZone, new Callable<Object>() {
 			public Object call() throws Exception {
 				assertEquals(1L, convert("1970-01-01T00:00:00.001").longValue());
 				assertEquals(0L, convert("0000-00-00T00:00:00.000").longValue());
