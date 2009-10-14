@@ -559,15 +559,24 @@ public final class StringUtil {
 	}
 
 	public static String unescape(String text) {
-		if (text != null) {
-			text = text.replace("\\r", CR);
-			text = text.replace("\\n", LF);
-			text = text.replace("\\t", TAB);
-			text = text.replace("\\'", "'");
-			text = text.replace("\\\"", "\"");
-			text = text.replace("\\\\", "\\");
+		if (text == null)
+			return null;
+		StringBuilder builder = new StringBuilder(text.length());
+		for (int i = 0; i < text.length(); i++) {
+			char c = text.charAt(i);
+			if (c != '\\')
+				builder.append(c);
+			else {
+				c = text.charAt(++i);
+				switch (c) {
+					case 'r' : builder.append(CR); break;
+					case 'n' : builder.append(LF); break;
+					case 't' : builder.append(TAB); break;
+					default  : builder.append(c); break;
+				}
+			}
 		}
-		return text;
+		return builder.toString();
 	}
 
 	public static String replaceTokens(String src, String token, String ... values) {

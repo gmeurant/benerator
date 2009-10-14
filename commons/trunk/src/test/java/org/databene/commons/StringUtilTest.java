@@ -292,6 +292,7 @@ public class StringUtilTest {
     	assertEquals("", StringUtil.unescape(""));
     	assertEquals("ABCD", StringUtil.unescape("ABCD"));
     	assertEquals("'A\rB\nC\tD\"", StringUtil.unescape("\\'A\\rB\\nC\\tD\\\""));
+    	assertEquals("C:\\temp", StringUtil.unescape("C:\\\\temp")); // testing bug #2879250
     }
     
 	@Test
