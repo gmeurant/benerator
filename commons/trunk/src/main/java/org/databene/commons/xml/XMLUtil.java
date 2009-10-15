@@ -284,10 +284,12 @@ public class XMLUtil {
 		return Double.parseDouble(element.getAttribute(name));
 	}
 
-	public static void mapAttributesToProperties(Element element, Object bean, boolean strict) {
+	public static void mapAttributesToProperties(Element element, Object bean, boolean strict, boolean unescape) {
 		for (Map.Entry<String, String> attribute : getAttributes(element).entrySet()) {
 			String name = StringUtil.lastToken(attribute.getKey(), ':');
 			String value = attribute.getValue();
+			if (unescape)
+				value = StringUtil.unescape(value);
 			Class<? extends Object> type = bean.getClass();
 			if (BeanUtil.hasProperty(type, name))
 				BeanUtil.setPropertyValue(bean, name, value, false);
