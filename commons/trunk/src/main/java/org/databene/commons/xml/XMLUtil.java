@@ -105,7 +105,7 @@ public class XMLUtil {
         for (int i = 0; i < n; i++) {
             Node item = childNodes.item(i);
             if (item instanceof Element)
-                builder.append((Element) item);
+                builder.add((Element) item);
         }
         return builder.toArray();
     }
@@ -121,11 +121,11 @@ public class XMLUtil {
             String fqName = item.getNodeName();
             if (namespaceAware) {
                 if (fqName.equals(name))
-                    builder.append((Element) item);
+                    builder.add((Element) item);
             } else {
                 String[] tokens = StringUtil.tokenize(fqName, ':');
                 if (tokens[tokens.length - 1].equals(name))
-                    builder.append((Element) item);
+                    builder.add((Element) item);
             }
         }
         return builder.toArray();
