@@ -45,7 +45,7 @@ public final class StringUtil {
      * @param s the string argument to check
      * @return true if the String is null or isEmpty, otherwise false.
      */
-    public static boolean isEmpty(String s) {
+    public static boolean isEmpty(CharSequence s) {
         return s == null || s.length() == 0;
     }
 
