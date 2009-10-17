@@ -47,11 +47,13 @@ public abstract class SimpleValidatorTest<E> {
     }
 
 	protected void assertValid(E candidate) {
-	    assertTrue(validator.valid(candidate));
+	    assertTrue("Object was checked invalid, but expected to be valid: " + candidate, 
+	    		validator.valid(candidate));
     }
 
     protected void assertInvalid(E candidate) {
-	    assertFalse(validator.valid(candidate));
+	    assertFalse("Object was checked valid, but expected to be invalid: " + candidate, 
+	    		validator.valid(candidate));
     }
 
 }
