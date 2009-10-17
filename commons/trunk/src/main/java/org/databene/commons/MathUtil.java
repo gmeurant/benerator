@@ -83,7 +83,7 @@ public class MathUtil {
 	    return sum;
     }
 
-	public static int weightedSumOfDigits(String number, int startIndex, int... weights) {
+	public static int weightedSumOfDigits(CharSequence number, int startIndex, int... weights) {
 	    int sum = 0;
 	    for (int i = 0; i < weights.length; i++)
 	    	sum += weights[i] * (number.charAt(startIndex + i) - '0');
