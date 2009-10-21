@@ -49,7 +49,9 @@ public class MinExpression<E extends Comparable<E>> implements Expression<E> {
 	    E min = argumentExpressions[0].evaluate(context);
 	    for (int i = 1; i < argumentExpressions.length; i++) {
 	    	E tmp = argumentExpressions[i].evaluate(context);
-	    	if (tmp.compareTo(min) < 0)
+	    	if (min == null)
+	    		min = tmp;
+	    	else if (tmp != null && tmp.compareTo(min) < 0)
 	    		min = tmp;
 	    }
 	    return min;
