@@ -333,7 +333,7 @@ public final class BeanUtil {
 		return classLoader;
 	}
 	
-	public static void executeInJarClassLoader(File jarFile, Runnable action) throws MalformedURLException {
+	public static void runWithJarClassLoader(File jarFile, Runnable action) throws MalformedURLException {
 		Thread currentThread = Thread.currentThread();
 		ClassLoader contextClassLoader = currentThread.getContextClassLoader();
 		try {
@@ -344,7 +344,7 @@ public final class BeanUtil {
 		}
 	}
     
-	public static <T> T executeInJarClassLoader(File jarFile, Callable<T> action) throws Exception {
+	public static <T> T callWithJarClassLoader(File jarFile, Callable<T> action) throws Exception {
 		Thread currentThread = Thread.currentThread();
 		ClassLoader contextClassLoader = currentThread.getContextClassLoader();
 		try {
@@ -470,7 +470,7 @@ public final class BeanUtil {
     public static Method getMethod(Class<? extends Object> type, String methodName, Class<? extends Object> ... paramTypes) {
         Method method = findMethod(type, methodName, paramTypes);
         if (method == null)
-            throw new ConfigurationError("method not found: " + methodName 
+            throw new ConfigurationError("method not found in class " + type.getName() + ": " + methodName 
                     + '(' + ArrayFormat.format(paramTypes) + ')');
         return method;
     }
@@ -511,7 +511,11 @@ public final class BeanUtil {
      */
     @SuppressWarnings("unchecked")
     public static Object invoke(Object target, String methodName, Object ... args) {
+        return invoke(true, target, methodName, args);
+    }
 
+    @SuppressWarnings("unchecked")
+    public static Object invoke(boolean strict, Object target, String methodName, Object ... args) {
     	if (target == null)
             throw new IllegalArgumentException("target is null");
         Class[] argTypes = null;
@@ -521,7 +525,7 @@ public final class BeanUtil {
                 argTypes[i] = (args[i] != null ? args[i].getClass() : null);
         }
         Method method = getMethod(target.getClass(), methodName, argTypes);
-        return invoke(target, method, args);
+        return invoke(target, method, strict, args);
     }
 
     @SuppressWarnings("unchecked")
@@ -621,6 +625,14 @@ public final class BeanUtil {
         }
         propertyDescriptors.put(propertyId, result);
         return result;
+    }
+
+    public static PropertyDescriptor getPropertyDescriptor(
+    		Class<? extends Object> type, String propertyName, boolean required) {
+    	PropertyDescriptor descriptor = getPropertyDescriptor(type, propertyName);
+    	if (required && descriptor == null)
+    		throw new UnsupportedOperationException(type.getName() + " does not have a property " + propertyName);
+    	return descriptor;
     }
 
     public static boolean hasProperty(Class<? extends Object> beanClass, String propertyName) {
@@ -761,6 +773,9 @@ public final class BeanUtil {
                 else
                     return;
             writeMethod = propertyDescriptor.getWriteMethod();
+            if (writeMethod == null)
+            	throw new UnsupportedOperationException("Cannot write read-only property '" 
+            			+ propertyDescriptor.getName() + "' of " + beanClass);
             Class<?> propertyType = propertyDescriptor.getPropertyType();
 			if (argument != null) {
 	            Class<? extends Object> argType = argument.getClass();
