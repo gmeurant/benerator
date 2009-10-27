@@ -509,7 +509,6 @@ public final class BeanUtil {
      * @param args
      * @return the invoked method's return value.
      */
-    @SuppressWarnings("unchecked")
     public static Object invoke(Object target, String methodName, Object ... args) {
         return invoke(true, target, methodName, args);
     }
