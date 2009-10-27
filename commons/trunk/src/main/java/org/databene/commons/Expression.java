@@ -33,6 +33,6 @@ package org.databene.commons;
  * @since 0.2
  * @author Volker Bergmann
  */
-public interface Expression<E> {
+public interface Expression<E> { // TODO remove generic parameter?
 	E evaluate(Context context);
 }
