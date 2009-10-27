@@ -39,17 +39,17 @@ import org.databene.commons.Expression;
 
 public class ExpressionUtil {
 
-    public static Object[] evaluateAll(Expression<?>[] expressions, Context context) {
+    public static Object[] evaluateAll(Expression[] expressions, Context context) {
 	    Object[] args = new Object[expressions.length];
 		for (int i = 0; i < expressions.length; i++)
 			args[i] = expressions[i].evaluate(context);
 	    return args;
     }
 
-    public static boolean isNull(Expression<?> ex) {
+    public static boolean isNull(Expression ex) {
     	if (ex == null)
     		return true;
-    	return (ex instanceof ConstantExpression<?> && ((ConstantExpression<?>) ex).getValue() == null);   
+    	return (ex instanceof ConstantExpression && ((ConstantExpression) ex).getValue() == null);   
     }
 
 }

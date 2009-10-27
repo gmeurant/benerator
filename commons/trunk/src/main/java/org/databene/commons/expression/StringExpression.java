@@ -3,12 +3,7 @@
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
- * GNU General Public License.
- *
- * For redistributing this software or a derivative work under a license other
- * than the GPL-compatible Free Software License as defined by the Free
- * Software Foundation or approved by OSI, you must first obtain a commercial
- * license to this software product from Volker Bergmann.
+ * GNU General Public License (GPL).
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * WITHOUT A WARRANTY OF ANY KIND. ALL EXPRESS OR IMPLIED CONDITIONS,
@@ -28,26 +23,26 @@ package org.databene.commons.expression;
 
 import org.databene.commons.Context;
 import org.databene.commons.Expression;
-import org.databene.commons.accessor.FeatureAccessor;
+import org.databene.commons.converter.ToStringConverter;
 
 /**
- * {@link Expression} implementation that evaluates a feature value of an object.<br/>
- * <br/>
- * Created at 23.07.2009 14:59:41
+ * TODO Document class.<br/><br/>
+ * Created: 27.10.2009 13:35:29
  * @since 0.5.0
  * @author Volker Bergmann
  */
-
-public class FeatureAccessExpression implements Expression {
-
-	private String featureName;
+public class StringExpression extends ExpressionProxy {
 	
-	public FeatureAccessExpression(String featureName) {
-		this.featureName = featureName;
-	}
-	
-	public Object evaluate(Context context) {
-		return FeatureAccessor.getValue(context, featureName);
+	private ToStringConverter converter;
+
+	public StringExpression(Expression source) {
+	    super(source);
     }
 
+	@Override
+    public String evaluate(Context context) {
+		Object result = super.evaluate(context);
+		return (result instanceof String ? (String) result : converter.convert(result));
+	}
+	
 }

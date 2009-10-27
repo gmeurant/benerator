@@ -31,18 +31,19 @@ import org.databene.commons.Expression;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class MaxExpression<E extends Comparable<E>> implements Expression<E> {
+public class MaxExpression implements Expression {
 
-	private Expression<E>[] argumentExpressions;
+	private Expression[] argumentExpressions;
 
-	public MaxExpression(Expression<E>... argumentExpressions) {
+	public MaxExpression(Expression... argumentExpressions) {
 	    this.argumentExpressions = argumentExpressions;
     }
 
-    public E evaluate(Context context) {
-	    E max = argumentExpressions[0].evaluate(context);
+    @SuppressWarnings("unchecked")
+    public Object evaluate(Context context) {
+    	Comparable max = (Comparable) argumentExpressions[0].evaluate(context);
 	    for (int i = 1; i < argumentExpressions.length; i++) {
-	    	E tmp = argumentExpressions[i].evaluate(context);
+	    	Comparable tmp = (Comparable) argumentExpressions[i].evaluate(context);
 	    	if (tmp.compareTo(max) > 0)
 	    		max = tmp;
 	    }

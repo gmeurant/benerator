@@ -34,11 +34,11 @@ import org.databene.commons.Expression;
  * Created: 18.06.2007 17:02:17
  * @author Volker Bergmann
  */
-public abstract class CompositeExpression<E> implements Expression<E> {
+public abstract class CompositeExpression implements Expression {
 
-    protected Expression<? extends E>[] sources;
+    protected Expression[] sources;
 
-    protected CompositeExpression(Expression<? extends E> ... sources) {
+    protected CompositeExpression(Expression ... sources) {
         this.sources = sources;
     }
 

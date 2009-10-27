@@ -30,15 +30,15 @@ import org.databene.commons.Expression;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class ExpressionProxy<E> implements Expression<E> {
+public class ExpressionProxy implements Expression {
 	
-	protected final Expression<E> source;
+	protected final Expression source;
 
-	public ExpressionProxy(Expression<E> source) {
+	public ExpressionProxy(Expression source) {
 	    this.source = source;
     }
 	
-	public E evaluate(Context context) {
+	public Object evaluate(Context context) {
 	    return source.evaluate(context);
     }
 

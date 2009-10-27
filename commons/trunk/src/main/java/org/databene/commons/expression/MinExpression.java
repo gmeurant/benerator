@@ -37,18 +37,19 @@ import org.databene.commons.Expression;
  * @author Volker Bergmann
  */
 
-public class MinExpression<E extends Comparable<E>> implements Expression<E> {
+public class MinExpression implements Expression {
 
-	private Expression<E>[] argumentExpressions;
+	private Expression[] argumentExpressions;
 
-	public MinExpression(Expression<E>... argumentExpressions) {
+	public MinExpression(Expression... argumentExpressions) {
 	    this.argumentExpressions = argumentExpressions;
     }
 
-    public E evaluate(Context context) {
-	    E min = argumentExpressions[0].evaluate(context);
+    @SuppressWarnings("unchecked")
+    public Object evaluate(Context context) {
+    	Comparable min = (Comparable) argumentExpressions[0].evaluate(context);
 	    for (int i = 1; i < argumentExpressions.length; i++) {
-	    	E tmp = argumentExpressions[i].evaluate(context);
+	    	Comparable tmp = (Comparable) argumentExpressions[i].evaluate(context);
 	    	if (min == null)
 	    		min = tmp;
 	    	else if (tmp != null && tmp.compareTo(min) < 0)

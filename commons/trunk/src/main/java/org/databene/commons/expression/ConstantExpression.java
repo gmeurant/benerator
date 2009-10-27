@@ -35,23 +35,23 @@ import org.databene.commons.Expression;
  * Created: 18.06.2007 17:38:58
  * @author Volker Bergmann
  */
-public class ConstantExpression<E> implements Expression<E> {
+public class ConstantExpression implements Expression {
 
-    private E value;
+    private Object value;
 
-    public ConstantExpression(E value) {
+    public ConstantExpression(Object value) {
         this.value = value;
     }
 
-    public E getValue() {
+    public Object getValue() {
         return value;
     }
 
-    public void setValue(E value) {
+    public void setValue(Object value) {
         this.value = value;
     }
 
-    public E evaluate(Context context) {
+    public Object evaluate(Context context) {
         return value;
     }
     
