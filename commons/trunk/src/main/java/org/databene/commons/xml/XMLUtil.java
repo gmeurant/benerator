@@ -42,10 +42,12 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.databene.commons.ArrayBuilder;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
+import org.databene.commons.Converter;
 import org.databene.commons.ErrorHandler;
 import org.databene.commons.IOUtil;
 import org.databene.commons.Level;
 import org.databene.commons.StringUtil;
+import org.databene.commons.converter.NoOpConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -284,15 +286,20 @@ public class XMLUtil {
 		return Double.parseDouble(element.getAttribute(name));
 	}
 
-	public static void mapAttributesToProperties(Element element, Object bean, boolean strict, boolean unescape) {
+	public static void mapAttributesToProperties(Element element, Object bean, boolean unescape) {
+		mapAttributesToProperties(element, bean, unescape, new NoOpConverter<String>());
+	}
+	
+	public static void mapAttributesToProperties(Element element, Object bean, boolean unescape, Converter<String, String> nameNormalizer) {
 		for (Map.Entry<String, String> attribute : getAttributes(element).entrySet()) {
 			String name = StringUtil.lastToken(attribute.getKey(), ':');
+			name = nameNormalizer.convert(name);
 			String value = attribute.getValue();
 			if (unescape)
 				value = StringUtil.unescape(value);
 			Class<? extends Object> type = bean.getClass();
 			if (BeanUtil.hasProperty(type, name))
-				BeanUtil.setPropertyValue(bean, name, value, false);
+				BeanUtil.setPropertyValue(bean, name, value, true, true);
 		}
 	}
 	
