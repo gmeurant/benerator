@@ -31,7 +31,6 @@ import org.databene.commons.ConfigurationError;
 import org.databene.commons.Context;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
-import org.databene.commons.bean.BeanFactory;
 import org.databene.commons.bean.ClassProvider;
 import org.databene.commons.bean.DefaultClassProvider;
 import org.databene.commons.converter.FixedSourceTypeConverter;
@@ -40,11 +39,7 @@ import org.databene.commons.converter.NoOpConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
 
-import java.util.Map;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.beans.PropertyDescriptor;
@@ -55,7 +50,7 @@ import java.beans.PropertyDescriptor;
  * Created: 19.08.2007 15:12:40
  * @author Volker Bergmann
  */
-public class XMLElement2BeanConverter extends FixedSourceTypeConverter<Element, Object> {
+public class XMLElement2BeanConverter extends FixedSourceTypeConverter<Element, Object> { // TODO remove?
 
     private static final Logger logger = LoggerFactory.getLogger(XMLElement2BeanConverter.class);
 
@@ -112,10 +107,15 @@ public class XMLElement2BeanConverter extends FixedSourceTypeConverter<Element, 
         String className = element.getAttribute("class");
         logger.debug("instantiating class '" + className + "'");
         Class beanClass = factory.forName(className);
-        NodeList propertyElements = element.getElementsByTagName("property");
-        Map<String, Object> props = new HashMap<String, Object>(propertyElements.getLength());
-        for (int i = 0; i < propertyElements.getLength(); i++) {
-            Element propertyElement = (Element)propertyElements.item(i);
+        Object bean = BeanUtil.newInstance(beanClass);
+        mapPropertyElements(element, context, preprocessor, factory, bean);
+        return bean;
+    }
+
+	public static void mapPropertyElements(Element element, Context context,
+            Converter<? super String, Object> preprocessor, ClassProvider factory, Object bean) {
+	    Element[] propertyElements = XMLUtil.getChildElements(element, false, "property");
+        for (Element propertyElement : propertyElements) {
             String propertyName = propertyElement.getAttribute("name");
             Object propertyValue;
             if (propertyElement.hasAttribute("value")) {
@@ -123,25 +123,19 @@ public class XMLElement2BeanConverter extends FixedSourceTypeConverter<Element, 
             } else if (propertyElement.hasAttribute("ref")) {
                 String ref = String.valueOf(preprocessor.convert(propertyElement.getAttribute("ref")));
                 propertyValue = context.get(ref);
-            } else {
-                NodeList childNodes = propertyElement.getChildNodes();
-                List subElements = new ArrayList();
-                for (int j = 0; j < childNodes.getLength(); j++) {
-                    Node node = childNodes.item(j);
-                    if (!(node instanceof Element))
-                        continue;
-                    Element childElement = (Element) node;
-                    subElements.add(convert(childElement, context, preprocessor));
-                }
+            } else { // map child elements to a collection or array
+                Element[] childElements = XMLUtil.getChildElements(propertyElement);
+                List subElements = new ArrayList(childElements.length);
+                for (Element childElement : childElements)
+                    subElements.add(convert(childElement, context, preprocessor, factory)); // TODO this fails if nested beans have a spec="new ..."
                 if (subElements.size() == 0)
                     throw new ConfigurationError("No valid property spec in: " + XMLUtil.format(element));
-                PropertyDescriptor propertyDescriptor = BeanUtil.getPropertyDescriptor(beanClass, propertyName);
+                PropertyDescriptor propertyDescriptor = BeanUtil.getPropertyDescriptor(bean.getClass(), propertyName, true);
                 Class<?> propertyType = propertyDescriptor.getPropertyType();
                 propertyValue = AnyConverter.convert(subElements, propertyType);
             }
-            props.put(propertyName, propertyValue);
+            BeanUtil.setPropertyValue(bean, propertyName, propertyValue, true, true);
         }
-        return BeanFactory.newBean(className, props, factory);
     }
     
 }
