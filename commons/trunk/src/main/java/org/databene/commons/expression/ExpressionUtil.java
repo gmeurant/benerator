@@ -46,7 +46,7 @@ public class ExpressionUtil {
 	    return args;
     }
 
-    public static boolean isNull(Expression<Long> ex) {
+    public static boolean isNull(Expression<?> ex) {
     	if (ex == null)
     		return true;
     	return (ex instanceof ConstantExpression<?> && ((ConstantExpression<?>) ex).getValue() == null);   
