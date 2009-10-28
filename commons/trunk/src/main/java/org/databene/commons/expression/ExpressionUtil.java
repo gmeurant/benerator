@@ -26,6 +26,9 @@
 
 package org.databene.commons.expression;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.databene.commons.Context;
 import org.databene.commons.Expression;
 
@@ -40,16 +43,23 @@ import org.databene.commons.Expression;
 public class ExpressionUtil {
 
     public static Object[] evaluateAll(Expression[] expressions, Context context) {
-	    Object[] args = new Object[expressions.length];
+	    Object[] result = new Object[expressions.length];
 		for (int i = 0; i < expressions.length; i++)
-			args[i] = expressions[i].evaluate(context);
-	    return args;
+			result[i] = expressions[i].evaluate(context);
+	    return result;
     }
 
     public static boolean isNull(Expression ex) {
     	if (ex == null)
     		return true;
     	return (ex instanceof ConstantExpression && ((ConstantExpression) ex).getValue() == null);   
+    }
+
+	public static List<Object> evaluateAll(List<Expression> expressions, Context context) {
+	    List<Object> result = new ArrayList<Object>(expressions.size());
+		for (Expression expression : expressions)
+			result.add(expression.evaluate(context));
+	    return result;
     }
 
 }
