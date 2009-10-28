@@ -38,7 +38,7 @@ import org.databene.commons.accessor.FeatureAccessor;
  * @author Volker Bergmann
  */
 
-public class FeatureAccessExpression implements Expression {
+public class FeatureAccessExpression<E> implements Expression<E> {
 
 	private String featureName;
 	
@@ -46,8 +46,9 @@ public class FeatureAccessExpression implements Expression {
 		this.featureName = featureName;
 	}
 	
-	public Object evaluate(Context context) {
-		return FeatureAccessor.getValue(context, featureName);
+	@SuppressWarnings("unchecked")
+    public E evaluate(Context context) {
+		return (E) FeatureAccessor.getValue(context, featureName);
     }
 
 }

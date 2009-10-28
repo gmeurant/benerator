@@ -42,22 +42,22 @@ import org.databene.commons.Expression;
 
 public class ExpressionUtil {
 
-    public static Object[] evaluateAll(Expression[] expressions, Context context) {
+    public static Object[] evaluateAll(Expression<?>[] expressions, Context context) {
 	    Object[] result = new Object[expressions.length];
 		for (int i = 0; i < expressions.length; i++)
 			result[i] = expressions[i].evaluate(context);
 	    return result;
     }
 
-    public static boolean isNull(Expression ex) {
+    public static boolean isNull(Expression<?> ex) {
     	if (ex == null)
     		return true;
-    	return (ex instanceof ConstantExpression && ((ConstantExpression) ex).getValue() == null);   
+    	return (ex instanceof ConstantExpression && ((ConstantExpression<?>) ex).getValue() == null);   
     }
 
-	public static List<Object> evaluateAll(List<Expression> expressions, Context context) {
+	public static List<Object> evaluateAll(List<Expression<?>> expressions, Context context) {
 	    List<Object> result = new ArrayList<Object>(expressions.size());
-		for (Expression expression : expressions)
+		for (Expression<?> expression : expressions)
 			result.add(expression.evaluate(context));
 	    return result;
     }

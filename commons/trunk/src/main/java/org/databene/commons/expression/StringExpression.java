@@ -31,11 +31,11 @@ import org.databene.commons.converter.ToStringConverter;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class StringExpression extends ExpressionProxy {
+public class StringExpression extends ExpressionProxy<String> {
 	
 	private ToStringConverter converter;
 
-	public StringExpression(Expression source) {
+	public StringExpression(Expression<String> source) {
 	    super(source);
     }
 

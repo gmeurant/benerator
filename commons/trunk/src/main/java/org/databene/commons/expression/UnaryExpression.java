@@ -36,11 +36,11 @@ import org.databene.commons.Expression;
  * @author Volker Bergmann
  */
 
-public abstract class UnaryExpression implements Expression {
+public abstract class UnaryExpression<E> implements Expression<E> {
 
-	protected Expression term;
+	protected Expression<E> term;
 
-	public UnaryExpression(Expression term) {
+	public UnaryExpression(Expression<E> term) {
 	    this.term = term;
     }
 	

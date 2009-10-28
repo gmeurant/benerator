@@ -33,6 +33,6 @@ package org.databene.commons;
  * @since 0.2
  * @author Volker Bergmann
  */
-public interface Expression {
-	Object evaluate(Context context);
+public interface Expression<E> {
+	E evaluate(Context context);
 }
