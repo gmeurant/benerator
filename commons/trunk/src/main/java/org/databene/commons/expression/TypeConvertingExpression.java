@@ -38,18 +38,18 @@ import org.databene.commons.converter.AnyConverter;
  * @author Volker Bergmann
  */
 
-public class TypeConvertingExpression<S,P> implements Expression<P> {
+public class TypeConvertingExpression<E> implements Expression<E> {
 	
-	private Expression<S> source;
-	private AnyConverter<S, P> converter;
+	private Expression<E> source;
+	private AnyConverter<?, E> converter;
 
     @SuppressWarnings("unchecked")
-    public TypeConvertingExpression(Expression source, Class<P> resultType) {
+    public TypeConvertingExpression(Expression source, Class<E> resultType) {
     	this.source = source;
-	    this.converter = new AnyConverter<S, P>(resultType);
+	    this.converter = new AnyConverter<Object, E>(resultType);
     }
 
-	public P evaluate(Context context) {
+	public E evaluate(Context context) {
 	    return converter.convert(source.evaluate(context));
     }
 

@@ -38,10 +38,10 @@ import org.databene.commons.Expression;
 
 public abstract class BinaryExpression<E> implements Expression<E> {
 
-	protected Expression<E> term1;
-	protected Expression<E> term2;
+	protected Expression<?> term1;
+	protected Expression<?> term2;
 
-	public BinaryExpression(Expression<E> term1, Expression<E> term2) {
+	public BinaryExpression(Expression<?> term1, Expression<?> term2) {
 	    this.term1 = term1;
 	    this.term2 = term2;
     }
