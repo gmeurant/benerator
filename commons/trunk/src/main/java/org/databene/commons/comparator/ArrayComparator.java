@@ -34,12 +34,14 @@ import java.util.Comparator;
  * Compares two arrays by the first <min-length> array elements with a Comparator.<br/>
  * <br/>
  * Created: 22.05.2007 07:07:17
+ * @since 0.1
  * @author Volker Bergmann
  */
 public class ArrayComparator<E> implements Comparator<E[]> {
 
     private Comparator<E> elementComparator;
 
+    @SuppressWarnings("unchecked")
     public ArrayComparator() {
         this(new ComparableComparator());
     }
@@ -69,4 +71,5 @@ public class ArrayComparator<E> implements Comparator<E[]> {
         else // the arrays have equal size and equal elements
             return 0;
     }
+    
 }
