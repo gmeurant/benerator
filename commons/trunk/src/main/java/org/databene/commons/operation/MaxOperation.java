@@ -32,7 +32,7 @@ import org.databene.commons.Operation;
 import java.util.Comparator;
 
 /**
- * Returns the minimum of two values. If a Comparaotr is provided, that one is used,
+ * Returns the minimum of two values. If a Comparator is provided, that one is used,
  * else it is assumed that E implements Comparable.<br/>
  * <br/>
  * Created: 03.08.2007 07:40:14
@@ -42,6 +42,7 @@ public class MaxOperation<E> implements Operation<E, E> {
 
     private Comparator<E> comparator;
 
+    @SuppressWarnings("unchecked")
     public MaxOperation() {
         this(new ComparableComparator());
     }

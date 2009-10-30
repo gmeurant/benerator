@@ -39,10 +39,6 @@ public class ArrayIntersectionOperation<E> implements Operation<E[], E[]>{
 
     private Class<E> componentType;
 
-    public ArrayIntersectionOperation() {
-        this((Class<E>) Object.class);
-    }
-
     public ArrayIntersectionOperation(Class<E> componentType) {
         this.componentType = componentType;
     }
@@ -50,4 +46,5 @@ public class ArrayIntersectionOperation<E> implements Operation<E[], E[]>{
     public E[] perform(E[]... sources) {
         return ArrayUtil.commonElements(componentType, sources);
     }
+    
 }

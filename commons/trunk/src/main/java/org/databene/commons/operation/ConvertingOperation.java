@@ -45,6 +45,7 @@ public class ConvertingOperation<E, C> extends OperationWrapper<E, E, C, C> {
         this.converter = converter;
     }
 
+    @SuppressWarnings("unchecked")
     public E perform(E... args) {
         C[] rArgs = (C[]) new Object[args.length];
         for (int i = 0; i < args.length; i++)

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -42,6 +42,7 @@ public class MinOperation<E> implements Operation<E, E> {
 
     private Comparator<E> comparator;
 
+    @SuppressWarnings("unchecked")
     public MinOperation() {
         this(new ComparableComparator());
     }
@@ -59,4 +60,5 @@ public class MinOperation<E> implements Operation<E, E> {
                 result = args[i];
         return result;
     }
+    
 }
