@@ -87,7 +87,7 @@ public class DefaultTreeNode<E> {
         return leaf;
     }
 
-    public int getIndexOfChild(DefaultTreeNode child) {
+    public int getIndexOfChild(DefaultTreeNode<E> child) {
         return children.indexOf(child);
     }
 
