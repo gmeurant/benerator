@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -44,7 +44,7 @@ public class FormatConverter<E> extends AbstractBidirectionalConverter<E, String
 
     private Format format;
 
-    public FormatConverter(TypedFormat format) {
+    public FormatConverter(TypedFormat<E> format) {
         super(format.getSourceType(), String.class);
         this.format = format;
     }
@@ -58,6 +58,7 @@ public class FormatConverter<E> extends AbstractBidirectionalConverter<E, String
         return format.format(target);
     }
 
+    @SuppressWarnings("unchecked")
     public E revert(String source) throws ConversionException {
         try {
             return (E) format.parseObject(source);
