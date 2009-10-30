@@ -40,16 +40,16 @@ import java.util.Comparator;
  * @author Volker Bergmann
  * @see ComparatorFactory
  */
-public class BeanComparator<C, V> implements Comparator<C> {
+public class BeanComparator implements Comparator<Object> {
 
-    private Comparator<V> beanComparator;
-	private PropertyAccessor<C, V> propertyAccessor;
+    private Comparator<Object> propertyComparator;
+	private PropertyAccessor<Object, ?> propertyAccessor;
 
     // constructor -----------------------------------------------------------------------------------------------------
 
     @SuppressWarnings("unchecked")
     public BeanComparator(String propertyName) {
-        this.beanComparator = new ComparableComparator();
+        this.propertyComparator = new ComparableComparator();
         try {
             this.propertyAccessor = PropertyAccessorFactory.getAccessor(propertyName);
         } catch (Exception e) {
@@ -57,14 +57,13 @@ public class BeanComparator<C, V> implements Comparator<C> {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public BeanComparator(Class<C> comparedClass, String propertyName) {
-        this(comparedClass, propertyName, (Comparator<V>) getComparator(comparedClass, propertyName));
+    public BeanComparator(Class<?> comparedClass, String propertyName) {
+        this(comparedClass, propertyName, getComparator(comparedClass, propertyName));
     }
 
     @SuppressWarnings("unchecked")
-    public BeanComparator(Class<C> comparedClass, String propertyName, Comparator<V> comparator) {
-        this.beanComparator = comparator;
+    public BeanComparator(Class<?> comparedClass, String propertyName, Comparator<?> comparator) {
+        this.propertyComparator = (Comparator<Object>) comparator;
         try {
             this.propertyAccessor = PropertyAccessorFactory.getAccessor(comparedClass, propertyName);
         } catch (Exception e) {
@@ -74,11 +73,11 @@ public class BeanComparator<C, V> implements Comparator<C> {
 
     // interface -------------------------------------------------------------------------------------------------------
 
-    public int compare(C o1, C o2) {
+    public int compare(Object o1, Object o2) {
         try {
-            V v1 = propertyAccessor.getValue(o1);
-            V v2 = propertyAccessor.getValue(o2);
-            return beanComparator.compare(v1, v2);
+        	Object v1 = propertyAccessor.getValue(o1);
+        	Object v2 = propertyAccessor.getValue(o2);
+            return propertyComparator.compare(v1, v2);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -87,9 +86,9 @@ public class BeanComparator<C, V> implements Comparator<C> {
     // private helpers -------------------------------------------------------------------------------------------------
 
     @SuppressWarnings("unchecked")
-    private static <T> Comparator<T> getComparator(Class<T> comparedClass, String propertyName) {
+    private static Comparator getComparator(Class<?> comparedClass, String propertyName) {
         PropertyAccessor propertyAccessor = PropertyAccessorFactory.getAccessor(comparedClass, propertyName);
-        Comparator<T> beanComparator = ComparatorFactory.getComparator(propertyAccessor.getValueType());
+        Comparator<?> beanComparator = ComparatorFactory.getComparator(propertyAccessor.getValueType());
         if (beanComparator == null)
             throw new IllegalArgumentException("Property '" + comparedClass.getName() + '.' + propertyName + "' " +
                     "is expected to implement Comparable");
