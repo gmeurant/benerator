@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -36,12 +36,14 @@ import java.math.BigInteger;
  * Splits texts into tokens of words and numbers and compares them element-wise.<br/>
  * <br/>
  * Created: 22.05.2007 07:04:10
+ * @since 0.1
  * @author Volker Bergmann
  */
 public class CompositeTextComparator implements Comparator<String> {
 
     private ArrayComparator<Object> arrayComparator;
 
+    @SuppressWarnings("unchecked")
     public CompositeTextComparator() {
         this.arrayComparator = new ArrayComparator<Object>(new ComparatorChain<Object>(
                 new ObjectTypeComparator(BigInteger.class, String.class),
@@ -54,4 +56,5 @@ public class CompositeTextComparator implements Comparator<String> {
         Object[] s2Parts = ParseUtil.splitNumbers(s2);
         return arrayComparator.compare(s1Parts, s2Parts);
     }
+    
 }
