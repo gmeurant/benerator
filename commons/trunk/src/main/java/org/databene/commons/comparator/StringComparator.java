@@ -35,9 +35,10 @@ import java.util.Comparator;
  * it uses the default Collator of the default Locale.<br/>
  * <br/>
  * Created: 03.06.2005 16:13:15
+ * @since 0.1
  * @author Volker Bergmann
  */
-public class StringComparator implements Comparator {
+public class StringComparator implements Comparator<String> {
 
     private Collator collator;
 
@@ -49,11 +50,8 @@ public class StringComparator implements Comparator {
         this.collator = Collator.getInstance(locale);
     }
 
-    public int compare(Object o1, Object o2) {
-        if (o1 instanceof String && o2 instanceof String)
-            return collator.compare(o1, o2);
-        else
-            throw new IllegalArgumentException("compared objects need to be of class java.lang.String");
+    public int compare(String o1, String o2) {
+        return collator.compare(o1, o2);
     }
 
 }
