@@ -35,6 +35,7 @@ import org.databene.commons.converter.FixedSourceTypeConverter;
  * Created: 25.06.2007 08:04:22
  * @author Volker Bergmann
  */
+@SuppressWarnings("unchecked")
 public class PropertyAccessConverter extends FixedSourceTypeConverter {
 
     private PropertyAccessor accessor;

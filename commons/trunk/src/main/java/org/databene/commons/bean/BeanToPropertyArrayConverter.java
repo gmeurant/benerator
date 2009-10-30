@@ -43,6 +43,7 @@ public class BeanToPropertyArrayConverter<E> extends FixedSourceTypeConverter<E,
         this(null, propertyNames);
     }
 
+    @SuppressWarnings("unchecked")
     public BeanToPropertyArrayConverter(Class<E> beanClass, String ... propertyNames) {
     	super(beanClass, Object[].class);
         this.accessors = new PropertyAccessor[propertyNames.length];

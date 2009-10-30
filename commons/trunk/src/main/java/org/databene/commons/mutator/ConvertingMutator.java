@@ -27,20 +27,21 @@
 package org.databene.commons.mutator;
 
 import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
 import org.databene.commons.Mutator;
 import org.databene.commons.UpdateFailedException;
-import org.databene.commons.converter.BidirectionalConverter;
 
 /**
  * Converts its input by a Converter object and forwards the result to another Mutator.<br/>
  * <br/>
  * Created: 12.05.2005 19:08:30
  */
+@SuppressWarnings("unchecked")
 public class ConvertingMutator extends MutatorWrapper {
 
-    private BidirectionalConverter converter;
+    private Converter converter;
 
-    public ConvertingMutator(Mutator realMutator, BidirectionalConverter converter) {
+    public ConvertingMutator(Mutator realMutator, Converter converter) {
         super(realMutator);
         this.converter = converter;
     }
