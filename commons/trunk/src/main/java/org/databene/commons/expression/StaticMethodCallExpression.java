@@ -42,16 +42,17 @@ public class StaticMethodCallExpression<E> implements Expression<E> {
 	
 	private Class<?> targetClass;
 	private String methodName;
-	private Expression<?>[] args;
+	private Expression<?>[] argExpressions;
 	
-	public StaticMethodCallExpression(Class<?> targetClass, String methodName, Expression<?> ... args) {
+	public StaticMethodCallExpression(Class<?> targetClass, String methodName, Expression<?> ... argExpressions) {
 	    this.targetClass = targetClass;
 	    this.methodName = methodName;
-	    this.args = args;
+	    this.argExpressions = argExpressions;
     }
 
 	public E evaluate(Context context) {
-    	return BeanUtil.invokeStatic(targetClass, methodName, (Object[]) args);
+    	Object[] args = ExpressionUtil.evaluateAll(argExpressions, context);
+		return BeanUtil.invokeStatic(targetClass, methodName, args);
     }
 
 }
