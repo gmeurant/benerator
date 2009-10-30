@@ -37,6 +37,7 @@ public class StringExpression extends ExpressionProxy<String> {
 
 	public StringExpression(Expression<String> source) {
 	    super(source);
+	    this.converter = new ToStringConverter();
     }
 
 	@Override
