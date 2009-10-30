@@ -36,6 +36,7 @@ import org.databene.commons.accessor.TypedAccessorChain;
  * Created: 21.07.2007 10:18:17
  * @author Volker Bergmann
  */
+@SuppressWarnings("unchecked")
 class PropertyGraphAccessor extends TypedAccessorChain implements PropertyAccessor {
 
     private String propertyName;

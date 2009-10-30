@@ -31,8 +31,6 @@ import org.databene.commons.ConversionException;
 import org.databene.commons.converter.FixedSourceTypeConverter;
 import org.databene.commons.converter.AnyConverter;
 
-import java.lang.reflect.Array;
-
 /**
  * Extracts property values from an array of JavaBeans in a way that
  * processing n beans results in an array of n elements with the property values.<br/>
@@ -55,14 +53,16 @@ public class ArrayPropertyExtractor<E> extends FixedSourceTypeConverter<Object[]
         return convert(sourceValue, propertyName, propertyType);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T[] convert(Object[] sourceValue, String propertyName, Class<T> propertyType)
             throws ConversionException {
-        T[] array = (T[]) Array.newInstance(propertyType, sourceValue.length);
-        PropertyAccessor propertyAccessor = PropertyAccessorFactory.getAccessor(propertyName);
+        T[] array = ArrayUtil.newInstance(propertyType, sourceValue.length);
+        PropertyAccessor<Object, T> propertyAccessor = PropertyAccessorFactory.getAccessor(propertyName);
         for (int i = 0; i < sourceValue.length; i++) {
             Object value = propertyAccessor.getValue(sourceValue[i]);
             array[i] = AnyConverter.convert(value, propertyType);
         }
         return array;
     }
+    
 }

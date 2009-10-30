@@ -32,11 +32,12 @@ import org.databene.commons.ConfigurationError;
 import java.beans.PropertyDescriptor;
 
 /**
- * Retrieves values of a JavaBean property without knowing the property type.<br/>
+ * Retrieves values of a JavaBean property without knowing the bean type.<br/>
  * <br/>
  * Created: 21.07.2007 10:18:09
  * @author Volker Bergmann
  */
+@SuppressWarnings("unchecked")
 class UntypedPropertyAccessor implements PropertyAccessor {
 
     private String propertyName;

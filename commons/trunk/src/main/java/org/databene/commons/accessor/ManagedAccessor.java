@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -40,29 +40,31 @@ import java.util.Arrays;
  */
 public abstract class ManagedAccessor<C, V> implements DependentAccessor<C, V> {
 
-    protected List<? extends Accessor> dependencies;
+    protected List<? extends Accessor<?, ?>> dependencies;
     
     // constructors ----------------------------------------------------------------------------------------------------
 
     protected ManagedAccessor() {
-        this(new ArrayList<Accessor>());
+        this(new ArrayList<Accessor<?, ?>>());
     }
 
-    protected ManagedAccessor(Accessor dependency) {
+    @SuppressWarnings("unchecked")
+    protected ManagedAccessor(Accessor<?, ?> dependency) {
         this(Arrays.asList(dependency));
     }
 
-    protected ManagedAccessor(List<? extends Accessor> dependencies) {
+    protected ManagedAccessor(List<? extends Accessor<?, ?>> dependencies) {
         this.dependencies = dependencies;
     }
     
     // DependentAccessor interface -------------------------------------------------------------------------------------
 
-    public List<? extends Accessor> getDependencies() {
+    public List<? extends Accessor<?, ?>> getDependencies() {
         return dependencies;
     }
 
-    public void setDependencies(List<? extends Accessor> dependencies) {
+    public void setDependencies(List<? extends Accessor<?, ?>> dependencies) {
         this.dependencies = dependencies;
     }
+    
 }

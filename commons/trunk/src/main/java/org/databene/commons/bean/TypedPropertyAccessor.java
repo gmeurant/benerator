@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -33,18 +33,18 @@ import java.lang.reflect.Method;
 import java.beans.PropertyDescriptor;
 
 /**
- * Retrieves the value of a JavaBean property with knowledge of the property type.<br/>
+ * Retrieves the value of a JavaBean property with knowledge of the bean type.<br/>
  * <br/>
  * Created: 21.07.2007 10:18:00
  * @author Volker Bergmann
  */
-class TypedPropertyAccessor implements PropertyAccessor {
+class TypedPropertyAccessor<E> implements PropertyAccessor<E, Object> {
 
     private String propertyName;
     private Method accessorMethod;
     private boolean strict;
 
-    public TypedPropertyAccessor(Class<?> beanClass, String propertyName, boolean strict) {
+    public TypedPropertyAccessor(Class<E> beanClass, String propertyName, boolean strict) {
         this.propertyName = propertyName;
         this.strict = strict;
         try {

@@ -44,7 +44,7 @@ class PropertyGraphMutator implements NamedMutator {
     private static Logger logger = LoggerFactory.getLogger(PropertyGraphMutator.class);
 
     private boolean strict;
-    private PropertyAccessor[] subAccessors;
+    private PropertyAccessor<Object, ?>[] subAccessors;
     private NamedMutator lastMutator;
     private String propertyName;
 
@@ -62,6 +62,7 @@ class PropertyGraphMutator implements NamedMutator {
         this(beanClass, propertyName, true);
     }
 
+    @SuppressWarnings("unchecked")
     public PropertyGraphMutator(Class<?> beanClass, String propertyName, boolean strict) {
         this.propertyName = propertyName;
         this.strict = strict;
@@ -99,7 +100,7 @@ class PropertyGraphMutator implements NamedMutator {
         logger.debug("setting property '" + getName() + "' to '" + propertyValue + "' on bean " + bean);
         Object superBean = bean;
         if (subAccessors != null) {
-            for (PropertyAccessor subAccessor : subAccessors) {
+            for (PropertyAccessor<Object, ?> subAccessor : subAccessors) {
                 Object subBean = subAccessor.getValue(superBean);
                 if (subBean == null && propertyValue != null) {
                     // bean is null but since there is something to set create one

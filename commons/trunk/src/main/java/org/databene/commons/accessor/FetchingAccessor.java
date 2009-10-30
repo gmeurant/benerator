@@ -34,6 +34,7 @@ import org.databene.commons.Accessor;
  * Created: 12.06.2007 18:43:28
  * @author Volker Bergmann
  */
+@SuppressWarnings("unchecked")
 public class FetchingAccessor implements Accessor {
 
     private Accessor provider;

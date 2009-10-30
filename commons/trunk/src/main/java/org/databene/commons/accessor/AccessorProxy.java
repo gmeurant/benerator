@@ -49,11 +49,12 @@ public abstract class AccessorProxy<C, V> implements DependentAccessor<C, V> {
         return realAccessor.getValue(item);
     }
 
-    public List<? extends Accessor> getDependencies() {
+    @SuppressWarnings("unchecked")
+    public List<? extends Accessor<?, ?>> getDependencies() {
         if (realAccessor instanceof DependentAccessor)
             return ((DependentAccessor)realAccessor).getDependencies();
         else
-            return new ArrayList<Accessor>();
+            return new ArrayList();
     }
 
 }

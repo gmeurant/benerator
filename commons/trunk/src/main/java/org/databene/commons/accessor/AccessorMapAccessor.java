@@ -38,14 +38,15 @@ import java.util.ArrayList;
  * Created: 11.03.2006 12:45:26
  * @author Volker Bergmann
  */
+@SuppressWarnings("unchecked")
 public class AccessorMapAccessor implements DependentAccessor {
 
-    private static final List EMPTY_LIST = new ArrayList();
+    private static final List<Accessor<?, ?>> EMPTY_LIST = new ArrayList<Accessor<?, ?>>();
 
-    private Map map;
+    private Map<Object, Accessor<?, ?>> map;
     private Object key;
 
-    public AccessorMapAccessor(Map map, Object key) {
+    public AccessorMapAccessor(Map<Object, Accessor<?, ?>> map, Object key) {
         this.map = map;
         this.key = key;
     }
@@ -63,15 +64,15 @@ public class AccessorMapAccessor implements DependentAccessor {
         return accessor.getValue(target);
     }
 
-    public List getDependencies() {
-        Accessor accessor = getAccessor();
+    public List<Accessor<?, ?>> getDependencies() {
+        Accessor<?, ?> accessor = getAccessor();
         if (accessor instanceof DependentAccessor)
-            return ((DependentAccessor)accessor).getDependencies();
+            return ((DependentAccessor) accessor).getDependencies();
         else
             return EMPTY_LIST;
     }
 
-    public Accessor getAccessor() {
-        return (Accessor) map.get(key);
+    public Accessor<?, ?> getAccessor() {
+        return map.get(key);
     }
 }

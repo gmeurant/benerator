@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,6 +30,8 @@ package org.databene.commons;
  * Models an object that queries an object of type C for an object aof type V.<br/>
  * <br/>
  * Created: 07.01.2005 11:49:23
+ * @since 0.1
+ * @author Volker Bergmann
  */
 public interface Accessor<C, V> {
     V getValue(C target);

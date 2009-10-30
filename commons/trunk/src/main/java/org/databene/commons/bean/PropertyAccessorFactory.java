@@ -41,6 +41,7 @@ import java.beans.PropertyDescriptor;
  * Created: 06.01.2005 20:04:36
  * @author Volker Bergmann
  */
+@SuppressWarnings("unchecked")
 public class PropertyAccessorFactory {
 
     /** private constructor for preventing that the class is instantiated */
