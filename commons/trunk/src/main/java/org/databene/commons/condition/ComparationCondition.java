@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -36,6 +36,7 @@ import java.util.Comparator;
  * with one of different available operators.<br/>
  * <br/>
  * Created: 06.03.2006 17:49:06
+ * @since 0.1
  * @author Volker Bergmann
  */
 public class ComparationCondition<E> implements Condition<E[]> {
@@ -48,17 +49,18 @@ public class ComparationCondition<E> implements Condition<E[]> {
     public static final int LESS = 5;
 
     private int operator;
-    private Comparator comparator;
+    private Comparator<E> comparator;
 
     public ComparationCondition() {
         this(EQUAL);
     }
 
+    @SuppressWarnings("unchecked")
     public ComparationCondition(int operator) {
         this(operator, new ComparableComparator());
     }
 
-    public ComparationCondition(int operator, Comparator comparator) {
+    public ComparationCondition(int operator, Comparator<E> comparator) {
         this.operator = operator;
         this.comparator = comparator;
     }
@@ -71,11 +73,11 @@ public class ComparationCondition<E> implements Condition<E[]> {
         this.operator = operator;
     }
 
-    public Comparator getComparator() {
+    public Comparator<E> getComparator() {
         return comparator;
     }
 
-    public void setComparator(Comparator comparator) {
+    public void setComparator(Comparator<E> comparator) {
         this.comparator = comparator;
     }
 
