@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -38,6 +38,7 @@ import java.lang.reflect.InvocationTargetException;
  * Filter that matches a JavaBean by checking a Condition for one of its property values.<br/>
  * <br/>
  * Created: 04.02.2007 00:47:13
+ * @since 0.1
  * @author Volker Bergmann
  */
 public class PropertyFilter<E, P> implements Filter<E> {
@@ -54,9 +55,10 @@ public class PropertyFilter<E, P> implements Filter<E> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public boolean accept(E candidate) {
         try {
-            P propertyValue = (P)propertyReadMethod.invoke(candidate);
+            P propertyValue = (P) propertyReadMethod.invoke(candidate);
             return propertyCondition.evaluate(propertyValue);
         } catch (IllegalAccessException e) {
             throw ExceptionMapper.configurationException(e, propertyReadMethod);
@@ -64,4 +66,5 @@ public class PropertyFilter<E, P> implements Filter<E> {
             throw ExceptionMapper.configurationException(e, propertyReadMethod);
         }
     }
+    
 }
