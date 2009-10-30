@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -276,7 +276,7 @@ public final class StringUtil {
         return result;
     }
 
-    public static String padLeft(String text, int length, char c) {
+    public static String padLeft(String text, int length, char c) { // TODO meaningful error message when string is longer than 'length'
         if (text == null)
             text = "";
         int textLength = text.length();

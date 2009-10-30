@@ -40,7 +40,7 @@ import java.util.Collection;
  * Created: 16.06.2007 11:34:42
  * @author Volker Bergmann
  */
-public class AnyConverter<S, T> extends AbstractFormatter implements Converter<S, T> {
+public class AnyConverter<S, T> extends AbstractFormatter implements Converter<S, T> { // Can't we drop param S?
 
     private static final Logger logger = LoggerFactory.getLogger(AnyConverter.class);
 

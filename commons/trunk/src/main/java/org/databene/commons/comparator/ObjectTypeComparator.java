@@ -38,24 +38,25 @@ import java.util.HashMap;
  */
 public class ObjectTypeComparator implements Comparator<Object> {
 
-    private Map<Class, Integer> indexes;
+    private Map<Class<?>, Integer> indexes;
 
-    public ObjectTypeComparator(Class ... orderedClasses) {
-        indexes = new HashMap<Class, Integer>();
+    public ObjectTypeComparator(Class<?> ... orderedClasses) {
+        indexes = new HashMap<Class<?>, Integer>();
         int count = 0;
-        for (Class type : orderedClasses)
+        for (Class<?> type : orderedClasses)
             indexes.put(type, ++count);
     }
 
     public int compare(Object o1, Object o2) {
-        Class c1 = o1.getClass();
+        Class<?> c1 = o1.getClass();
         int i1 = indexOfClass(c1);
-        Class c2 = o2.getClass();
+        Class<?> c2 = o2.getClass();
         int i2 = indexOfClass(c2);
         return IntComparator.compare(i1, i2);
     }
 
-    private int indexOfClass(Class type) {
+    private int indexOfClass(Class<?> type) {
         return indexes.get(type);
     }
+    
 }

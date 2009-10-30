@@ -60,7 +60,7 @@ public class NumberToNumberConverter<S extends Number, T extends Number> extends
         else if (BigDecimal.class.equals(targetType))
             return (TT) BigDecimal.valueOf(src.doubleValue());
         else {
-            Class<? extends Number> primitiveClass = JavaType.getPrimitiveClass(targetType);
+            Class<?> primitiveClass = JavaType.getPrimitiveClass(targetType);
             return (TT) convertNumberToPrimitive(src, primitiveClass);
         }
     }

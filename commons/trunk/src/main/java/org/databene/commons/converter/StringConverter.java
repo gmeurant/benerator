@@ -71,7 +71,7 @@ public class StringConverter<T> extends FixedSourceTypeConverter<String, T> {
             return (T) ArrayFormat.parse(src, ",", targetType.getComponentType());
         // Try to convert to wrapper class
         T result = null;
-        Class<? extends Number> wrapperClass = JavaType.getWrapperClass(targetType);
+        Class<?> wrapperClass = JavaType.getWrapperClass(targetType);
         if (wrapperClass != null)
             result = (T) FactoryConverter.convert(src, wrapperClass);
         if (result != null)

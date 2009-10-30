@@ -27,7 +27,6 @@
 package org.databene.commons.bean;
 
 import org.databene.commons.BeanUtil;
-import org.databene.commons.Context;
 
 /**
  * Default implementation of the {@link ClassProvider} interface.

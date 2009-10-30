@@ -52,7 +52,7 @@ public class JavaType {
     /** Maps the NumberTypes by wrapper class */
     private static Map<Class<?>,JavaType> instancesByWrapper = new HashMap<Class<?>,JavaType>();
 
-    /** Maps the NumberTypes by wrapper class */
+    /** Collects all Number types, primitives and wrappers */
     private static Set<Class<? extends Number>> numberTypes = new HashSet<Class<? extends Number>>();
 
     // instances -------------------------------------------------------------------------------------------------------
@@ -82,6 +82,7 @@ public class JavaType {
     // private constructor ---------------------------------------------------------------------------------------------
 
     /** Initializes a JavaType instance and puts it into all lookup maps */
+    @SuppressWarnings("unchecked")
     private JavaType(String name, Class<?> primitiveClass, Class<?> objectClass) {
         this.name = name;
         this.primitiveClass = primitiveClass;
@@ -91,7 +92,7 @@ public class JavaType {
         instancesByWrapper.put(objectClass, this);
         if (Number.class.isAssignableFrom(wrapperClass))
             numberTypes.add((Class<? extends Number>) wrapperClass);
-        if (Number.class.isAssignableFrom(wrapperClass))
+        if (Number.class.isAssignableFrom(primitiveClass))
             numberTypes.add((Class<? extends Number>) primitiveClass);
     }
 
@@ -124,7 +125,7 @@ public class JavaType {
     }
 
     /** finds the wrapper class for primitive number types */
-    public static Class getWrapperClass(Class<?> numberType) {
+    public static Class<?> getWrapperClass(Class<?> numberType) {
         JavaType resultType = instancesByPrimitive.get(numberType);
         if (resultType == null)
             resultType = instancesByWrapper.get(numberType);
@@ -132,7 +133,7 @@ public class JavaType {
     }
 
     /** finds the primitive class for primitive number types */
-    public static Class getPrimitiveClass(Class<?> numberType) {
+    public static Class<?> getPrimitiveClass(Class<?> numberType) {
         JavaType resultType = instancesByWrapper.get(numberType);
         if (resultType == null)
             resultType = instancesByPrimitive.get(numberType);
