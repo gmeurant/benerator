@@ -71,7 +71,7 @@ public class FileField extends Box {
         this(columns, null, FileTypeSupport.filesOnly, FileOperation.open);
     }
 
-    public FileField(int columns, File file, FileTypeSupport fileTypeSupport, String approveButtonText) {
+    public FileField(int columns, File file, FileTypeSupport fileTypeSupport) {
     	this(columns, file, fileTypeSupport, (FileOperation) null);
     }
 

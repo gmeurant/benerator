@@ -64,11 +64,6 @@ public class PropertyFileField extends FileField {
 		init(bean, propertyName);
 	}
 
-	public PropertyFileField(Object bean, String propertyName, int length, FileTypeSupport typeSupport, String approveButtonText) {
-		super(length, null, typeSupport, approveButtonText);
-		init(bean, propertyName);
-	}
-	
 	private void init(Object bean, String propertyName) {
 		this.bean = bean;
 		this.propertyName = propertyName;
