@@ -68,7 +68,7 @@ public class ItemColumnModel extends DefaultTableColumnModel implements ListData
     private void rebuildColumns() {
         // remove current table columns
         for (int i = tableColumns.size() - 1; i >= 0; i--) {
-            TableColumn tableColumn = (TableColumn) tableColumns.get(i);
+            TableColumn tableColumn = tableColumns.get(i);
             removeColumn(tableColumn);
         }
         // set connectors

@@ -42,7 +42,7 @@ import javax.swing.*;
  */
 public class ConnectorColumnModel extends DefaultTableColumnModel {
 
-    private ListModel connectors;
+    ListModel connectors;
     private Listener listener;
 //    private JTable table;
 
@@ -70,16 +70,17 @@ public class ConnectorColumnModel extends DefaultTableColumnModel {
         rebuildColumns();
     }
 
+    @Override
     public TableColumn getColumn(int columnIndex) {
         return super.getColumn(columnIndex);
     }
 
     // implementation --------------------------------------------------------------------------------------------------
 
-    private void rebuildColumns() {
+    void rebuildColumns() {
         // remove current table columns
         for (int i = tableColumns.size() - 1; i >= 0; i--) {
-            TableColumn tableColumn = (TableColumn) tableColumns.get(i);
+            TableColumn tableColumn = tableColumns.get(i);
             removeColumn(tableColumn);
         }
         // set connectors
@@ -96,17 +97,17 @@ public class ConnectorColumnModel extends DefaultTableColumnModel {
         super.addColumn(tColumn);
     }
 
-    private void insertConnectorColumn(FieldConnector connector, int i) {
+    void insertConnectorColumn(FieldConnector connector, int i) {
         TableColumn tColumn = new ConnectorTableColumn(connector, i);
         insertTableColumn(tColumn, i);
     }
 
-    private void insertTableColumn(TableColumn column, int index) {
+    void insertTableColumn(TableColumn column, int index) {
         if (column == null)
             throw new IllegalArgumentException("column is null");
 
         for (int i = 0; i < tableColumns.size(); i++) {
-            TableColumn col = (TableColumn) tableColumns.get(i);
+            TableColumn col = tableColumns.get(i);
             int modelIndex = col.getModelIndex();
             if (modelIndex >= index)
                 col.setModelIndex(modelIndex + 1);
@@ -120,10 +121,10 @@ public class ConnectorColumnModel extends DefaultTableColumnModel {
         //printColumns();
     }
 
-    private void removeTableColumn(int index) {
+    void removeTableColumn(int index) {
         super.removeColumn(getColumn(index));
         for (int i = 0; i < tableColumns.size(); i++) {
-            TableColumn col = (TableColumn) tableColumns.get(i);
+            TableColumn col = tableColumns.get(i);
             int modelIndex = col.getModelIndex();
             if (modelIndex > index)
                 col.setModelIndex(modelIndex - 1);
@@ -131,7 +132,7 @@ public class ConnectorColumnModel extends DefaultTableColumnModel {
         //printColumns();
     }
 
-    private class Listener implements ListDataListener {
+    class Listener implements ListDataListener {
         public void intervalAdded(ListDataEvent e) {
             for (int i = e.getIndex0(); i <= e.getIndex1(); i++)
                 insertConnectorColumn((FieldConnector) connectors.getElementAt(i), i);
@@ -145,6 +146,6 @@ public class ConnectorColumnModel extends DefaultTableColumnModel {
         public void contentsChanged(ListDataEvent e) {
             rebuildColumns();
         }
-
     }
+
 }

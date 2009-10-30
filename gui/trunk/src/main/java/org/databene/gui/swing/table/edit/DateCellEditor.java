@@ -40,8 +40,9 @@ import java.util.Date;
  */
 public class DateCellEditor extends DefaultCellEditor {
 
-    private DateFormat df;
-    private Class type;
+	private static final long serialVersionUID = -1314425083360573730L;
+	private DateFormat df;
+    private Class<?> type;
 
     public DateCellEditor() {
         this(DateFormat.getInstance(), Date.class);
@@ -55,11 +56,11 @@ public class DateCellEditor extends DefaultCellEditor {
         this(dateFormat, Date.class);
     }
 
-    private DateCellEditor(String pattern, Class type) {
+    private DateCellEditor(String pattern, Class<?> type) {
         this(new SimpleDateFormat(pattern), type);
     }
 
-    private DateCellEditor(DateFormat dateFormat, Class type) {
+    private DateCellEditor(DateFormat dateFormat, Class<?> type) {
         super(new JTextField());
         this.df = dateFormat;
         this.type = type;
@@ -77,6 +78,7 @@ public class DateCellEditor extends DefaultCellEditor {
         return new DateCellEditor(pattern, Long.class);
     }
 
+    @Override
     public Object getCellEditorValue() {
         try {
             JTextField field = (JTextField) getComponent();
@@ -89,14 +91,15 @@ public class DateCellEditor extends DefaultCellEditor {
             else if (Long.class.equals(type))
                 return new Long(date.getTime());
             else
-                throw new RuntimeException("unsupported type: " + type);
+                throw new RuntimeException("Not a supported type: " + type);
 
         } catch (ParseException e) {
-            JOptionPane.showMessageDialog(getComponent(), "Unzulässiges Datum", "Fehler", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(getComponent(), "Illegal date", "Error", JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException(e);
         }
     }
 
+    @Override
     public Component getTableCellEditorComponent(JTable table, Object value,
         boolean isSelected,
         int row, int column) {
@@ -105,4 +108,5 @@ public class DateCellEditor extends DefaultCellEditor {
             text = df.format((Date) value);
         return super.getTableCellEditorComponent(table, text, isSelected, row, column);
     }
+    
 }

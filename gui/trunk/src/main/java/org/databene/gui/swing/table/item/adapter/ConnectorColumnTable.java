@@ -46,7 +46,9 @@ import java.awt.*;
  */
 public class ConnectorColumnTable extends JTable {
 
-    public ConnectorColumnTable(ItemModel model) {
+    private static final long serialVersionUID = 8005254612373558613L;
+
+	public ConnectorColumnTable(ItemModel model) {
         super(new ConnectorColumnTableModel(model), new ConnectorColumnModel((model != null ? model.getConnectors(): null)));
         setAutoCreateColumnsFromModel(true);
         setRowHeight(16);
@@ -67,6 +69,7 @@ public class ConnectorColumnTable extends JTable {
         return ((ConnectorColumnTableModel)getModel()).getItemModel();
     }
 
+    @Override
     public void createDefaultColumnsFromModel() {
         if (getItemModel() != null)
             setConnectors(getItemModel().getConnectors());
@@ -76,12 +79,14 @@ public class ConnectorColumnTable extends JTable {
         return super.rowAtPoint(new Point(x, y));
     }
 
+    @Override
     public ListSelectionModel getSelectionModel() {
         return super.getSelectionModel();
     }
 
     // implementation --------------------------------------------------------------------------------------------------
 
+    @Override
     public Component prepareEditor(TableCellEditor editor, int row, int column) {
         Component component = super.prepareEditor(editor, row, column);
         if (component instanceof JTextComponent)
@@ -95,7 +100,7 @@ public class ConnectorColumnTable extends JTable {
         initColumnWidths();
     }
 
-    private void initColumnWidths() {
+    void initColumnWidths() {
         TableCellRenderer headerRenderer = getTableHeader().getDefaultRenderer();
         ConnectorColumnModel columnModel = (ConnectorColumnModel) getColumnModel();
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
@@ -108,7 +113,7 @@ public class ConnectorColumnTable extends JTable {
         }
     }
 
-    private class Listener implements TableColumnModelListener {
+    class Listener implements TableColumnModelListener {
 
         public void columnAdded(TableColumnModelEvent e) {
             initColumnWidths();
