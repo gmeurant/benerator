@@ -165,6 +165,18 @@ public final class TimeUtil implements Patterns {
         return calendar.get(Calendar.YEAR);
     }
 
+    public static int month(Date date) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        return calendar.get(Calendar.MONTH);
+    }
+
+    public static int dayOfMonth(Date date) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        return calendar.get(Calendar.DAY_OF_MONTH) + 1;
+    }
+
     public static Date add(Date date, int field, int i) {
         Calendar calendar = calendar(date);
         calendar.add(field, i);
