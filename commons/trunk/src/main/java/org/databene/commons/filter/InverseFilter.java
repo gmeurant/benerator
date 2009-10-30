@@ -36,13 +36,14 @@ import org.databene.commons.Filter;
  */
 public class InverseFilter<E> implements Filter<E> {
 
-	private Filter realFilter;
+	private Filter<E> realFilter;
 
-	public InverseFilter(Filter realFilter) {
+	public InverseFilter(Filter<E> realFilter) {
 		this.realFilter = realFilter;
 	}
 
 	public boolean accept(E candidate) {
 		return !realFilter.accept(candidate);
 	}
+	
 }
