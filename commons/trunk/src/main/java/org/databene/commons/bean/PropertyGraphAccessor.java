@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -40,7 +40,7 @@ class PropertyGraphAccessor extends TypedAccessorChain implements PropertyAccess
 
     private String propertyName;
 
-    public PropertyGraphAccessor(Class beanClass, String propertyName, boolean strict) {
+    public PropertyGraphAccessor(Class<?> beanClass, String propertyName, boolean strict) {
         super(createSubAccessors(beanClass, propertyName, strict));
         this.propertyName = propertyName;
     }
@@ -49,10 +49,10 @@ class PropertyGraphAccessor extends TypedAccessorChain implements PropertyAccess
         return propertyName;
     }
 
-    private static TypedAccessor[] createSubAccessors(Class beanClass, String propertyName, boolean strict) {
+    private static TypedAccessor[] createSubAccessors(Class<?> beanClass, String propertyName, boolean strict) {
         String[] nodeNames = StringUtil.tokenize(propertyName, '.');
         PropertyAccessor[] nodes = new PropertyAccessor[nodeNames.length];
-        Class intermediateClass = beanClass;
+        Class<?> intermediateClass = beanClass;
         for (int i = 0; i < nodeNames.length; i++) {
             PropertyAccessor node = PropertyAccessorFactory.getAccessor(intermediateClass, nodeNames[i], strict);
             nodes[i] = node;

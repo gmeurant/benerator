@@ -41,8 +41,9 @@ public class ReverseComparator<E> implements Comparator<E> {
 
     private Comparator<E> subject;
 
+    @SuppressWarnings("unchecked")
     public ReverseComparator() {
-        this((Comparator<E>)new ComparableComparator<Comparable>());
+        this((Comparator<E>)new ComparableComparator<Comparable<E>>());
     }
 
     public ReverseComparator(Comparator<E> subject) {

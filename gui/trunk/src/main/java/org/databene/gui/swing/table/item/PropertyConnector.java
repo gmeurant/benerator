@@ -55,11 +55,11 @@ public class PropertyConnector extends FieldConnector {
 
     // constructors ----------------------------------------------------------------------------------------------------
 
-    public PropertyConnector(Class beanClass, String propertyName) {
+    public PropertyConnector(Class<?> beanClass, String propertyName) {
         this(beanClass, propertyName, false);
     }
 
-    public PropertyConnector(Class beanClass, String propertyName, boolean editable) {
+    public PropertyConnector(Class<?> beanClass, String propertyName, boolean editable) {
         super(getDisplayName(beanClass, propertyName),
                 PropertyAccessorFactory.getAccessor(beanClass, propertyName),
                 new DefaultTableCellRenderer(),
@@ -70,7 +70,7 @@ public class PropertyConnector extends FieldConnector {
         );
     }
 
-    private static String getDisplayName(Class beanClass, String propertyName) {
+    private static String getDisplayName(Class<?> beanClass, String propertyName) {
         PropertyDescriptor propertyDescriptor = BeanUtil.getPropertyDescriptor(beanClass, propertyName);
         if (propertyDescriptor == null)
             return "???";
@@ -78,22 +78,21 @@ public class PropertyConnector extends FieldConnector {
     }
 
 
-    public PropertyConnector(String title, String propertyName, Class propertyType) {
+    public PropertyConnector(String title, String propertyName, Class<?> propertyType) {
         this(title, propertyName, propertyType, (TableCellRenderer)null);
     }
 
-    public PropertyConnector(String title, String propertyName, Class propertyType, TableCellRenderer renderer) {
+    public PropertyConnector(String title, String propertyName, Class<?> propertyType, TableCellRenderer renderer) {
         this(title, propertyName, propertyType, renderer, null);
     }
 
-    public PropertyConnector(String title, String propertyName, Class propertyType,
+    public PropertyConnector(String title, String propertyName, Class<?> propertyType,
                              TableCellRenderer renderer, TableCellEditor editor) {
-        this(title, propertyName, propertyType,
-                renderer, editor,
+        this(title, propertyName, propertyType, renderer, editor,
             new NullSafeComparator(new BeanComparator(propertyName)));
     }
 
-    public PropertyConnector(String title, String propertyName, Class propertyType,
+    public PropertyConnector(String title, String propertyName, Class<?> propertyType,
                              TableCellRenderer renderer, TableCellEditor editor, Comparator comparator) {
         super(
             title,
@@ -104,7 +103,7 @@ public class PropertyConnector extends FieldConnector {
             comparator);
     }
 
-    public PropertyConnector(String title, String propertyName, Class propertyType, Class itemClass) {
+    public PropertyConnector(String title, String propertyName, Class<?> propertyType, Class<?> itemClass) {
         this(title, propertyName, propertyType, itemClass,
                 getDefaultRenderer(propertyType),
             getDefaultEditor(propertyType),
@@ -112,13 +111,13 @@ public class PropertyConnector extends FieldConnector {
         );
     }
 
-    public PropertyConnector(String title, String propertyName, Class propertyType, Class itemClass, TableCellRenderer renderer, TableCellEditor editor) {
+    public PropertyConnector(String title, String propertyName, Class<?> propertyType, Class<?> itemClass, TableCellRenderer renderer, TableCellEditor editor) {
         this(title, propertyName, propertyType,
                 renderer, editor, new BeanComparator(itemClass, propertyName, getDefaultComparator(propertyType))
         );
     }
 
-    public PropertyConnector(String title, String propertyName, Class propertyType, Class itemClass, TableCellRenderer renderer, TableCellEditor editor, boolean comparable) {
+    public PropertyConnector(String title, String propertyName, Class<?> propertyType, Class<?> itemClass, TableCellRenderer renderer, TableCellEditor editor, boolean comparable) {
         this(title, propertyName, propertyType, itemClass, renderer, editor,
             (comparable ?
                     new BeanComparator(itemClass, propertyName, ComparatorFactory.getComparator(propertyType)) :
@@ -126,8 +125,8 @@ public class PropertyConnector extends FieldConnector {
         );
     }
 
-    public PropertyConnector(String title, String propertyName, Class propertyType, Class itemClass,
-                             TableCellRenderer renderer, TableCellEditor editor, Comparator comparator) {
+    public PropertyConnector(String title, String propertyName, Class<?> propertyType, Class<?> itemClass,
+                             TableCellRenderer renderer, TableCellEditor editor, Comparator<?> comparator) {
         super(
             title,
             PropertyAccessorFactory.getAccessor(itemClass, propertyName, true),
@@ -139,7 +138,7 @@ public class PropertyConnector extends FieldConnector {
 
     // implementation --------------------------------------------------------------------------------------------------
 
-    private static TableCellEditor getDefaultEditor(Class type) {
+    private static TableCellEditor getDefaultEditor(Class<?> type) {
         if (boolean.class.equals(type) || Boolean.class.equals(type))
             return new DefaultCellEditor(new JCheckBox());
         else if (int.class.equals(type) || Integer.class.equals(type))
@@ -148,14 +147,14 @@ public class PropertyConnector extends FieldConnector {
             return new DefaultCellEditor(new JTextField());
     }
 
-    private static TableCellRenderer getDefaultRenderer(Class type) {
+    private static TableCellRenderer getDefaultRenderer(Class<?> type) {
         if (boolean.class.equals(type) || Boolean.class.equals(type))
             return new CheckBoxTableCellRenderer();
         else
             return new DefaultTableCellRenderer();
     }
 
-    private static NullSafeComparator getDefaultComparator(Class type) {
+    private static NullSafeComparator<?> getDefaultComparator(Class<?> type) {
         if (boolean.class.equals(type) || Boolean.class.equals(type))
             return new NullSafeComparator(new BooleanComparator());
         else

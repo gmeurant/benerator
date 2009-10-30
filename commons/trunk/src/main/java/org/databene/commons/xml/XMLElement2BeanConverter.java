@@ -125,7 +125,7 @@ public class XMLElement2BeanConverter extends FixedSourceTypeConverter<Element, 
                 propertyValue = context.get(ref);
             } else { // map child elements to a collection or array
                 Element[] childElements = XMLUtil.getChildElements(propertyElement);
-                List subElements = new ArrayList(childElements.length);
+                List<Object> subElements = new ArrayList<Object>(childElements.length);
                 for (Element childElement : childElements)
                     subElements.add(convert(childElement, context, preprocessor, factory)); // TODO this fails if nested beans have a spec="new ..."
                 if (subElements.size() == 0)

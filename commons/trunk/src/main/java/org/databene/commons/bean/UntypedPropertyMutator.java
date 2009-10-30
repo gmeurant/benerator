@@ -74,8 +74,8 @@ public class UntypedPropertyMutator extends AbstractNamedMutator {
                 return;
         }
         if (!strict && propertyValue != null) {
-            Class sourceType = propertyValue.getClass();
-            Class targetType = writeMethod.getParameterTypes()[0];
+            Class<?> sourceType = propertyValue.getClass();
+            Class<?> targetType = writeMethod.getParameterTypes()[0];
             try {
                 if (!targetType.isAssignableFrom(sourceType))
                     propertyValue = AnyConverter.convert(propertyValue, targetType);

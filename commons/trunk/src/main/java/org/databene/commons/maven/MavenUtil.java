@@ -48,16 +48,16 @@ public class MavenUtil {
 		
 		// maven invocation
 		if (SystemInfo.isWindows())
-			cmdBuilder.append("mvn.bat");
+			cmdBuilder.add("mvn.bat");
 		else
-			cmdBuilder.append("mvn");
+			cmdBuilder.add("mvn");
 		
 		// offline parameter?
 		if (!online)
-			cmdBuilder.append("-o");
+			cmdBuilder.add("-o");
 		
 		// goal
-		cmdBuilder.append(goal);
+		cmdBuilder.add(goal);
 		
 		// run
 		ShellUtil.runShellCommand(cmdBuilder.toArray(), folder, new ErrorHandler(MavenUtil.class));

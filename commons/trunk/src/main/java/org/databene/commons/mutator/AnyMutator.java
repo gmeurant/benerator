@@ -42,7 +42,7 @@ import org.databene.commons.accessor.FeatureAccessor;
  * @since 0.3.0
  * @author Volker Bergmann
  */
-public class AnyMutator<C, V> implements Mutator<C, V>{
+public class AnyMutator implements Mutator {
     
     private String path;
     private boolean strict;
@@ -56,15 +56,15 @@ public class AnyMutator<C, V> implements Mutator<C, V>{
         this.strict = strict;
     }
 
-    public void setValue(C target, V value) throws UpdateFailedException {
+    public void setValue(Object target, Object value) throws UpdateFailedException {
         setValue(target, path, value, strict);
     }
     
-    public static <C, V>void setValue(C target, String path, V value) {
+    public static <C, V> void setValue(C target, String path, V value) {
         setValue(target, path, value, true);
     }
     
-    public static <C, V>void setValue(C target, String path, V value, boolean strict) {
+    public static <C, V> void setValue(C target, String path, V value, boolean strict) {
         int sep = path.indexOf('.');
         if (sep < 0)
             setLocal(target, path, value, strict);
@@ -78,6 +78,7 @@ public class AnyMutator<C, V> implements Mutator<C, V>{
         }
     }
     
+    @SuppressWarnings("unchecked")
     private static <C, V> void setLocal(C target, String featureName, V value, boolean strict) {
         if (target instanceof Context)
             ((Context)target).set(featureName, value);

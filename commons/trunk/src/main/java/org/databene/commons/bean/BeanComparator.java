@@ -47,6 +47,7 @@ public class BeanComparator<C, V> implements Comparator<C> {
 
     // constructor -----------------------------------------------------------------------------------------------------
 
+    @SuppressWarnings("unchecked")
     public BeanComparator(String propertyName) {
         this.beanComparator = new ComparableComparator();
         try {
@@ -56,11 +57,13 @@ public class BeanComparator<C, V> implements Comparator<C> {
         }
     }
 
-    public BeanComparator(Class comparedClass, String propertyName) {
-        this(comparedClass, propertyName, getComparator(comparedClass, propertyName));
+    @SuppressWarnings("unchecked")
+    public BeanComparator(Class<C> comparedClass, String propertyName) {
+        this(comparedClass, propertyName, (Comparator<V>) getComparator(comparedClass, propertyName));
     }
 
-    public BeanComparator(Class comparedClass, String propertyName, Comparator<V> comparator) {
+    @SuppressWarnings("unchecked")
+    public BeanComparator(Class<C> comparedClass, String propertyName, Comparator<V> comparator) {
         this.beanComparator = comparator;
         try {
             this.propertyAccessor = PropertyAccessorFactory.getAccessor(comparedClass, propertyName);
@@ -83,6 +86,7 @@ public class BeanComparator<C, V> implements Comparator<C> {
 
     // private helpers -------------------------------------------------------------------------------------------------
 
+    @SuppressWarnings("unchecked")
     private static <T> Comparator<T> getComparator(Class<T> comparedClass, String propertyName) {
         PropertyAccessor propertyAccessor = PropertyAccessorFactory.getAccessor(comparedClass, propertyName);
         Comparator<T> beanComparator = ComparatorFactory.getComparator(propertyAccessor.getValueType());

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2005-2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2005-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -39,7 +39,9 @@ import java.awt.*;
  */
 public class ItemColumnTable extends JTable {
 
-    private static final Dimension PREFERRED_SIZE = new Dimension(200, 0);
+    private static final long serialVersionUID = 8183313593646441010L;
+    
+	private static final Dimension PREFERRED_SIZE = new Dimension(200, 0);
 
     // constructors ----------------------------------------------------------------------------------------------------
 
@@ -64,6 +66,7 @@ public class ItemColumnTable extends JTable {
         ((ItemColumnModel)getColumnModel()).setItemModel(itemModel, headerConnector);
     }
 
+    @Override
     public void createDefaultColumnsFromModel() {
         ItemColumnModel columnModel = (ItemColumnModel) getColumnModel();
         if (getItemModel() != null)
@@ -74,10 +77,12 @@ public class ItemColumnTable extends JTable {
         return super.rowAtPoint(new Point(x, y));
     }
 
+    @Override
     public ListSelectionModel getSelectionModel() {
         return super.getSelectionModel();
     }
 
+    @Override
     public Dimension getPreferredSize() {
         return PREFERRED_SIZE;
     }

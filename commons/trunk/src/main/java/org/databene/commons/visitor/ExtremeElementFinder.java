@@ -41,16 +41,16 @@ import java.util.Comparator;
  */
 public class ExtremeElementFinder<E> {
 
-    public static <E> E findMax(Element<E> root) {
-        return findMax(root, (Comparator<E>) new ComparableComparator());
+    public static <E extends Comparable<E>> E findMax(Element<E> root) {
+        return findMax(root, new ComparableComparator<E>());
     }
 
     public static <E> E findMax(Element<E> root, Comparator<E> comparator) {
         return findExtreme(root, comparator, 1);
     }
 
-    public static <E> E findMin(Element<E> root) {
-        return findMin(root, (Comparator<E>) new ComparableComparator());
+    public static <E extends Comparable<E>> E findMin(Element<E> root) {
+        return findMin(root, new ComparableComparator<E>());
     }
 
     public static <E> E findMin(Element<E> root, Comparator<E> comparator) {
@@ -63,11 +63,11 @@ public class ExtremeElementFinder<E> {
         return visitor.extremeElement;
     }
 
-    private static final class ExtremeVisitor<E> implements Visitor<E> {
+    static final class ExtremeVisitor<E> implements Visitor<E> {
 
         private Comparator<E> comparator;
         private int extreme;
-        private E extremeElement;
+        E extremeElement;
 
         public ExtremeVisitor(Comparator<E> comparator, int extreme) {
             this.comparator = comparator;

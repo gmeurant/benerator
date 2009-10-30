@@ -58,17 +58,17 @@ class PropertyGraphMutator implements NamedMutator {
         this(null, propertyName, strict);
     }
 
-    public PropertyGraphMutator(Class beanClass, String propertyName) {
+    public PropertyGraphMutator(Class<?> beanClass, String propertyName) {
         this(beanClass, propertyName, true);
     }
 
-    public PropertyGraphMutator(Class beanClass, String propertyName, boolean strict) {
+    public PropertyGraphMutator(Class<?> beanClass, String propertyName, boolean strict) {
         this.propertyName = propertyName;
         this.strict = strict;
         int separatorIndex = propertyName.indexOf('.');
         if (separatorIndex >= 0) {
             String[] nodeNames = StringUtil.tokenize(propertyName, '.');
-            Class nodeClass = beanClass;
+            Class<?> nodeClass = beanClass;
             subAccessors = new PropertyAccessor[nodeNames.length - 1];
             for (int i = 0; i < nodeNames.length - 1; i++) {
                 subAccessors[i] = PropertyAccessorFactory.getAccessor(nodeClass, nodeNames[i], strict);
@@ -103,7 +103,7 @@ class PropertyGraphMutator implements NamedMutator {
                 Object subBean = subAccessor.getValue(superBean);
                 if (subBean == null && propertyValue != null) {
                     // bean is null but since there is something to set create one
-                    Class propertyType = subAccessor.getValueType();
+                    Class<?> propertyType = subAccessor.getValueType();
                     subBean = BeanUtil.newInstance(propertyType);
                     BeanUtil.setPropertyValue(superBean, subAccessor.getPropertyName(), subBean);
                 }

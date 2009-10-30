@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2005-2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2005-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -43,7 +43,9 @@ import java.util.EventObject;
  */
 public class ItemColumn extends TableColumn {
 
-    public ItemColumn(int index, int minWidth, ListModel connectorListModel) {
+    private static final long serialVersionUID = -2356993997677902454L;
+
+	public ItemColumn(int index, int minWidth, ListModel connectorListModel) {
         super(index);
         if (minWidth == 0)
             minWidth = 64;

@@ -40,7 +40,9 @@ import javax.swing.event.ListDataEvent;
  */
 public class ItemColumnTableModel extends AbstractTableModel implements ListDataListener {
 
-    private ItemModel itemModel;
+    private static final long serialVersionUID = 9160449788189575039L;
+
+	private ItemModel itemModel;
 
     private FieldConnector headerConnector;
 

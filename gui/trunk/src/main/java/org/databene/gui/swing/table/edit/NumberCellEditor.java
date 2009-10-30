@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2006 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2006-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -37,13 +37,13 @@ import org.databene.commons.converter.AnyConverter;
  * @since 0.1.6
  * @author Volker Bergmann
  */
-public class NumberCellEditor<E extends Number> extends DefaultCellEditor {
+public class NumberCellEditor extends DefaultCellEditor {
 
 	private static final long serialVersionUID = -5495992838827155827L;
 	
-	private Class<E> targetType;
+	private Class<? extends Number> targetType;
 
-    public NumberCellEditor(Class<E> targetType) {
+    public NumberCellEditor(Class<? extends Number> targetType) {
         super(new JTextField());
         this.targetType = targetType;
     }
@@ -52,4 +52,5 @@ public class NumberCellEditor<E extends Number> extends DefaultCellEditor {
 	public Object getCellEditorValue() {
         return AnyConverter.convert(super.getCellEditorValue(), targetType);
     }
+    
 }

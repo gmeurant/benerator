@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,7 +30,9 @@ package org.databene.commons;
  * Models an object that mutates a target object of type C by specification of a value of type V.<br/>
  * <br/>
  * Created: 08.05.2005 06:24:04
+ * @since 0.1
+ * @author Volker Bergmann
  */
-public interface Mutator<C, V> {
-    void setValue(C target, V value) throws UpdateFailedException;
+public interface Mutator {
+    void setValue(Object target, Object value) throws UpdateFailedException;
 }

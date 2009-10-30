@@ -42,7 +42,9 @@ import javax.swing.*;
  */
 public class ConnectorColumnModel extends DefaultTableColumnModel {
 
-    ListModel connectors;
+    private static final long serialVersionUID = 4982628270881546700L;
+    
+	ListModel connectors;
     private Listener listener;
 //    private JTable table;
 

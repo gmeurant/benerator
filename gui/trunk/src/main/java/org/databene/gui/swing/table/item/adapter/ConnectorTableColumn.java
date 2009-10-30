@@ -40,7 +40,8 @@ import javax.swing.*;
  */
 public class ConnectorTableColumn extends TableColumn {
 
-    private FieldConnector connector;
+    private static final long serialVersionUID = 7889497773878324784L;
+	private FieldConnector connector;
 
     public ConnectorTableColumn(FieldConnector connector, int index) {
         super(index);
@@ -56,14 +57,17 @@ if (connector.getMinWidth() > 0) {
 }*/
     }
 
+    @Override
     public Object getHeaderValue() {
         return connector.getDisplayName();
     }
 
+    @Override
     public TableCellRenderer getCellRenderer() {
         return connector.getRenderer();
     }
 
+    @Override
     public TableCellEditor getCellEditor() {
         return connector.getEditor();
     }
@@ -85,6 +89,7 @@ if (connector.getMinWidth() > 0) {
         }
 */
 
+    @Override
     public String toString() {
         return getClass().getName() + "['" + getHeaderValue() + "', " + getModelIndex() + "]";
     }

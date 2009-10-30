@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -33,6 +33,7 @@ import org.databene.commons.mutator.NamedMutator;
  * bean class name and/or property name and/or property type.<br/>
  * <br/>
  * Created: 13.05.2005 09:26:14
+ * @since 0.1
  * @author Volker Bergmann
  */
 public class PropertyMutatorFactory {
@@ -41,11 +42,11 @@ public class PropertyMutatorFactory {
         return getPropertyMutator(null, propertyName, true);
     }
 
-    public static NamedMutator getPropertyMutator(Class beanClass, String propertyName) {
+    public static NamedMutator getPropertyMutator(Class<?> beanClass, String propertyName) {
         return getPropertyMutator(beanClass, propertyName, true);
     }
 
-    public static NamedMutator getPropertyMutator(Class beanClass, String propertyName, boolean strict) {
+    public static NamedMutator getPropertyMutator(Class<?> beanClass, String propertyName, boolean strict) {
         if (propertyName.contains("."))
             return new PropertyGraphMutator(beanClass, propertyName, strict);
         else if (beanClass != null)

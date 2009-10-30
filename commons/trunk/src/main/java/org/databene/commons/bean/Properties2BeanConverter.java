@@ -53,7 +53,6 @@ public class Properties2BeanConverter<E> extends FixedSourceTypeConverter<Proper
         return convert(sourceValue, targetType);
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> T convert(Properties props, Class<T> targetClass) throws ConversionException {
         try {
             T bean = BeanUtil.newInstance(targetClass);

@@ -46,7 +46,7 @@ public class TypedPropertyMutator extends AbstractNamedMutator {
     private boolean strict;
     private Method writeMethod;
 
-    public TypedPropertyMutator(Class beanClass, String propertyName, boolean strict) {
+    public TypedPropertyMutator(Class<?> beanClass, String propertyName, boolean strict) {
         super(propertyName);
         this.strict = strict;
         PropertyDescriptor propertyDescriptor = BeanUtil.getPropertyDescriptor(beanClass, propertyName);
@@ -75,8 +75,8 @@ public class TypedPropertyMutator extends AbstractNamedMutator {
         if (writeMethod == null)
             return;
         if (!strict && propertyValue != null) {
-            Class sourceType = propertyValue.getClass();
-            Class targetType = writeMethod.getParameterTypes()[0];
+            Class<?> sourceType = propertyValue.getClass();
+            Class<?> targetType = writeMethod.getParameterTypes()[0];
             try {
                 if (!targetType.isAssignableFrom(sourceType))
                     propertyValue = AnyConverter.convert(propertyValue, targetType);

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -32,9 +32,12 @@ import org.databene.commons.Mutator;
  * Empty implementation of the Mutator interface.<br/>
  * <br/>
  * Created: 11.05.2005 20:14:02
+ * @since 0.1
+ * @author Volker Bergmann
  */
-public class EmptyMutator<C, V> implements Mutator<C, V> {
+public class EmptyMutator implements Mutator {
 
-    public void setValue(C target, V value) {
+    public void setValue(Object target, Object value) {
     }
+    
 }

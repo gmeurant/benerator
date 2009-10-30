@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2006 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2006-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -40,7 +40,6 @@ import java.awt.Point;
 import java.util.List;
 import java.util.ArrayList;
 
-
 /**
  * Created: 05.01.2005 18:51:27
  * @since 0.1.6
@@ -48,7 +47,9 @@ import java.util.ArrayList;
  */
 public class ItemTable extends JComponent {
 
-    protected ConnectorColumnTable table;
+    private static final long serialVersionUID = 366077924240561257L;
+    
+	protected ConnectorColumnTable table;
 
     // constructors ----------------------------------------------------------------------------------------------------
 
@@ -77,14 +78,14 @@ public class ItemTable extends JComponent {
         return getItemListModel().getElementAt(this.table.rowAtPoint(new Point(x, y)));
     }
 
-    public List getSelectedItems() {
+    public List<?> getSelectedItems() {
         ListSelectionModel selectionModel = table.getSelectionModel();
         int fromIndex = selectionModel.getMinSelectionIndex();
         int toIndex = selectionModel.getMaxSelectionIndex();
         return copy(getItemListModel(), fromIndex, toIndex);
     }
 
-    public void setSelectedItems(List list) {
+    public void setSelectedItems(List<?> list) {
         for (int i = 0; i < list.size(); i++) {
             int index = indexOf(list.get(i));
             table.getSelectionModel().addSelectionInterval(index, index);
@@ -98,7 +99,7 @@ public class ItemTable extends JComponent {
         selectionModel.addSelectionInterval(index, index);
     }
 
-    private List listSelectionListeners = new ArrayList();
+    private List<ItemSelectionListener> listSelectionListeners = new ArrayList<ItemSelectionListener>();
 
     public void addItemSelectionListener(ItemSelectionListener listener) {
         listSelectionListeners.add(listener);
@@ -111,7 +112,7 @@ public class ItemTable extends JComponent {
     protected void fireSelectionChanged() {
         ItemSelectionEvent event = new ItemSelectionEvent(this, getSelectedItems());
         for (int i = 0; i < listSelectionListeners.size(); i++) {
-            ItemSelectionListener listener = (ItemSelectionListener) listSelectionListeners.get(i);
+            ItemSelectionListener listener = listSelectionListeners.get(i);
             listener.selectionChanged(event);
         }
     }
@@ -150,13 +151,12 @@ public class ItemTable extends JComponent {
         return table;
     }
 
-    private static List copy(ListModel src, int fromIndex, int toIndex) {
+    private static List<Object> copy(ListModel src, int fromIndex, int toIndex) {
         int size = (fromIndex >= 0 && toIndex >= 0 ? toIndex - fromIndex + 1 : 0);
-        List dst = new ArrayList(size);
+        List<Object> dst = new ArrayList<Object>(size);
         for (int i = fromIndex; i <= toIndex && fromIndex >= 0 && toIndex >= 0 ; i++)
             dst.add(src.getElementAt(i));
         return dst;
     }
-
 
 }

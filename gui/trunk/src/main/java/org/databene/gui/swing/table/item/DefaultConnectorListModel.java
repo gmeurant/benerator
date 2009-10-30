@@ -36,15 +36,17 @@ import java.util.List;
  */
 public class DefaultConnectorListModel extends AbstractListModel implements ConfigurableListModel {
 
-    private List connectors;
+    private static final long serialVersionUID = 8777778284082740252L;
+    
+	private List<FieldConnector> connectors;
     private ColumnListener columnListener;
     private Object displaySettings;
 
-    public DefaultConnectorListModel(List connectors) {
+    public DefaultConnectorListModel(List<FieldConnector> connectors) {
         this(connectors, null);
     }
 
-    public DefaultConnectorListModel(List connectors, Object displaySettings) {
+    public DefaultConnectorListModel(List<FieldConnector> connectors, Object displaySettings) {
         this.connectors = connectors;
         this.displaySettings = displaySettings;
         columnListener = new ColumnListener();
@@ -76,7 +78,7 @@ public class DefaultConnectorListModel extends AbstractListModel implements Conf
     private void registerColumnListener() {
         // register ColumnListener for each accessor
         for (int i = 0; i < this.connectors.size(); i++) {
-            FieldConnector accessor = (FieldConnector) connectors.get(i);
+            FieldConnector accessor = connectors.get(i);
             accessor.addConnectorListener(columnListener);
         }
     }
@@ -84,12 +86,13 @@ public class DefaultConnectorListModel extends AbstractListModel implements Conf
     private void unregisterColumnListener() {
         // unregister ColumnListener for each accessor
         for (int i = 0; i < this.connectors.size(); i++) {
-            FieldConnector accessor = (FieldConnector) connectors.get(i);
+            FieldConnector accessor = connectors.get(i);
             accessor.removeConnectorListener(columnListener);
         }
     }
 
-    private class ColumnListener implements ConnectorListener {
+    class ColumnListener implements ConnectorListener {
+        @SuppressWarnings("synthetic-access")
         public void connectorChanged(FieldConnector accessor) {
             int index = connectors.indexOf(accessor);
             fireContentsChanged(DefaultConnectorListModel.this, index, index);

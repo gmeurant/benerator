@@ -34,16 +34,16 @@ import org.databene.commons.UpdateFailedException;
  * <br/>
  * Created: 12.05.2005 18:54:36
  */
-public abstract class MutatorProxy<C, V> extends MutatorWrapper<C, V> implements Mutator<C, V> {
+public abstract class MutatorProxy extends MutatorWrapper {
 
-    public MutatorProxy(Mutator<C, V> realMutator) {
+    public MutatorProxy(Mutator realMutator) {
         super(realMutator);
     }
 
     /**
      * @see org.databene.commons.Mutator#setValue(java.lang.Object, java.lang.Object)
      */
-    public void setValue(C target, V value) throws UpdateFailedException {
+    public void setValue(Object target, Object value) throws UpdateFailedException {
         realMutator.setValue(target, value);
     }
 

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2005-2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2005-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -39,18 +39,19 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
+ * Provides read and write access to a field for Swing tables.
  * Created: 06.01.2005 18:08:26
  * @since 0.1.6
  * @author Volker Bergmann
  */
-public class FieldConnector<C, V> {
+public class FieldConnector {
 
     private String displayName;
 
-	private Accessor<C, V> accessor;
+	private Accessor accessor;
     private TableCellRenderer renderer;
 
-	private Mutator<C, V> mutator;
+	private Mutator mutator;
     private TableCellEditor editor;
 
     private Comparator comparator;
@@ -59,15 +60,15 @@ public class FieldConnector<C, V> {
 /*
     public FieldConnector(
             String displayName,
-            Accessor<C, V> accessor, TableCellRenderer renderer,
+            Accessor accessor, TableCellRenderer renderer,
             Comparator comparator) {
         this(displayName, accessor, renderer, null, null, comparator);
     }
 */
     public FieldConnector(
             String displayName,
-            Accessor<C, V> accessor, TableCellRenderer renderer,
-            Mutator<C, V> mutator, TableCellEditor editor,
+            Accessor accessor, TableCellRenderer renderer,
+            Mutator mutator, TableCellEditor editor,
             Comparator comparator) {
         this.displayName = displayName;
         this.accessor = accessor;
@@ -107,11 +108,11 @@ public class FieldConnector<C, V> {
         this.comparator = comparator;
     }
 
-    public V getValueFor(C item) {
+    public Object getValueFor(Object item) {
         return accessor.getValue(item);
     }
 
-    public void setValueFor(C item, V value) {
+    public void setValueFor(Object item, Object value) {
         try {
             mutator.setValue(item, value);
         } catch (UpdateFailedException e) {

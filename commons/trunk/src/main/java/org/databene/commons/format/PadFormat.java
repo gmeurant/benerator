@@ -69,6 +69,7 @@ public class PadFormat extends Format {
         this.padChar = padChar;
     }
 
+    @Override
     public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
         String text;
         if (obj instanceof Number)
@@ -88,6 +89,7 @@ public class PadFormat extends Format {
         }
     }
 
+    @Override
     public Object parseObject(String source, ParsePosition pos) {
         if (StringUtil.isEmpty(source))
             pos.setIndex(1);

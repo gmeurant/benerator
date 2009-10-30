@@ -36,7 +36,7 @@ import org.databene.commons.mutator.NamedMutator;
  * @since 0.4.6
  * @author Volker Bergmann
  */
-public abstract class AbstractNamedMutator<C, V> implements Named, NamedMutator<C, V> {
+public abstract class AbstractNamedMutator implements Named, NamedMutator {
 
     protected String name;
 

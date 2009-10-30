@@ -35,11 +35,11 @@ import org.databene.commons.Mutator;
  * @author Volker Bergmann
  * @since 0.3.0
  */
-public abstract class MutatorWrapper<C, V> {
+public abstract class MutatorWrapper implements Mutator {
 
-    protected Mutator<C, V> realMutator;
+    protected Mutator realMutator;
 
-    public MutatorWrapper(Mutator<C, V> realMutator) {
+    public MutatorWrapper(Mutator realMutator) {
         this.realMutator = realMutator;
     }
 

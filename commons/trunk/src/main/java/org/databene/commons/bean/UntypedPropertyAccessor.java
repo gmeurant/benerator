@@ -40,7 +40,7 @@ import java.beans.PropertyDescriptor;
 class UntypedPropertyAccessor implements PropertyAccessor {
 
     private String propertyName;
-    private Class propertyType;
+    private Class<?> propertyType;
     private boolean strict;
 
     public UntypedPropertyAccessor(String propertyName, boolean strict) {
@@ -65,11 +65,12 @@ class UntypedPropertyAccessor implements PropertyAccessor {
         return BeanUtil.invoke(bean, descriptor.getReadMethod());
     }
 
-    public Class getValueType() {
+    public Class<?> getValueType() {
         return propertyType;
     }
 
     public String getPropertyName() {
         return propertyName;
     }
+    
 }

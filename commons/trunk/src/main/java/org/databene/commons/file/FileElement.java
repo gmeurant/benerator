@@ -47,6 +47,7 @@ public class FileElement extends WrapperElement<File> {
         super(file);
     }
 
+    @Override
     protected Collection<Element<File>> getChildren(Visitor<File> visitor) {
         if (wrappedObject.isFile())
             return new ArrayList<Element<File>>();

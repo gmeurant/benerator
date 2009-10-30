@@ -45,7 +45,7 @@ public class TypedAccessorChain implements TypedAccessor {
         return subAccessors;
     }
 
-    public Class getValueType() {
+    public Class<?> getValueType() {
         return subAccessors[subAccessors.length - 1].getValueType();
     }
 

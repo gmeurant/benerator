@@ -43,6 +43,7 @@ public abstract class NullSafeAccessor<C, V> extends AccessorProxy<C, V> {
         this.nullValue = nullValue;
     }
 
+    @Override
     public V getValue(C source) {
         return (source != null ? super.getValue(source) : nullValue);
     }

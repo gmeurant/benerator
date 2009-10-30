@@ -45,11 +45,11 @@ public class PropertyAccessConverter extends FixedSourceTypeConverter {
         this(propertyName, null, true);
     }
 
-    public PropertyAccessConverter(String propertyName, Class propertyType) {
+    public PropertyAccessConverter(String propertyName, Class<?> propertyType) {
         this(propertyName, propertyType, true);
     }
 
-    public PropertyAccessConverter(String propertyName, Class propertyType, boolean strict) {
+    public PropertyAccessConverter(String propertyName, Class<?> propertyType, boolean strict) {
     	super(Object.class, propertyType);
         this.accessor = PropertyAccessorFactory.getAccessor(propertyName, strict);
     }

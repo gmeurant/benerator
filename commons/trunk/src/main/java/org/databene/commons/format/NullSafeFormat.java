@@ -61,10 +61,12 @@ public class NullSafeFormat<S> extends TypedFormat<S> {
         this.reconverter = new NumberConverter<S>(sourceType);
     }
 
+    @Override
     public Class<S> getSourceType() {
         return sourceType;
     }
 
+    @Override
     public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
         if (obj == null)
             return new StringBuffer(nullString);
@@ -72,10 +74,12 @@ public class NullSafeFormat<S> extends TypedFormat<S> {
             return format(obj, toAppendTo, pos);
     }
 
+    @Override
     public Object parseObject(String source) throws ParseException {
     	return (source != null ? super.parseObject(source) : null);
     }
     
+    @Override
     public Object parseObject(String source, ParsePosition pos) {
         if (source == null)
             return null;

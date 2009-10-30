@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2006 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2006-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -35,10 +35,13 @@ import javax.swing.*;
  */
 public class DoubleCellEditor extends DefaultCellEditor {
 
-    public DoubleCellEditor() {
+    private static final long serialVersionUID = -386459515997971327L;
+
+	public DoubleCellEditor() {
         super(new JTextField());
     }
 
+    @Override
     public Object getCellEditorValue() {
         String stringValue = (String) super.getCellEditorValue();
         return new Double(stringValue);

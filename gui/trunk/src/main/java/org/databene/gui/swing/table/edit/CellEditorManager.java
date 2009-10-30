@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2006 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2006-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -38,11 +38,12 @@ import java.util.Date;
  */
 public class CellEditorManager {
 
+    @SuppressWarnings("unchecked")
     public static DefaultCellEditor createEditor(Class<?> targetType) {
         if (String.class.isAssignableFrom(targetType))
             return new DefaultCellEditor(new JTextField());
         else if (Number.class.isAssignableFrom(targetType) || BeanUtil.isPrimitiveNumberType(targetType.getName()))
-            return new NumberCellEditor(targetType);
+            return new NumberCellEditor((Class<Number>) targetType);
         else if (Boolean.class.equals(targetType))
             return new CheckBoxTableCellEditor();
         else if (targetType.isAssignableFrom(Date.class))
@@ -50,4 +51,5 @@ public class CellEditorManager {
         else
             throw new UnsupportedOperationException("Unsupported type: " + targetType);
     }
+    
 }

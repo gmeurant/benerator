@@ -44,7 +44,9 @@ import java.text.DateFormat;
  */
 public class DateTableCellRenderer extends DefaultTableCellRenderer{
 
-    private DateFormat df;
+    private static final long serialVersionUID = 3986911369478882246L;
+    
+	private DateFormat df;
 
     public DateTableCellRenderer() {
         this.df = SimpleDateFormat.getDateInstance();
@@ -54,6 +56,7 @@ public class DateTableCellRenderer extends DefaultTableCellRenderer{
         this.df = new SimpleDateFormat(pattern);
     }
 
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
         boolean isSelected, boolean hasFocus, int row, int column) {
         String text = null;

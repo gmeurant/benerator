@@ -59,8 +59,8 @@ public class FileList extends JPanel {
 
 	private static final long serialVersionUID = -5042653089516904515L;
 	
-	private I18NSupport i18n;
-	private JList list;
+	I18NSupport i18n;
+	JList list;
 	protected ArrayListModel model;
 	private JFileChooser chooser;
 	
@@ -143,6 +143,8 @@ public class FileList extends JPanel {
 	
 	abstract class I18NAction extends AbstractAction {
 
+		private static final long serialVersionUID = -2715029879380393355L;
+
 		public I18NAction(String name, Icon icon) {
 			super(i18n.getString(name), icon);
 		}
@@ -153,6 +155,8 @@ public class FileList extends JPanel {
 	}
 	
 	abstract class ItemAction extends I18NAction implements ListSelectionListener {
+
+		private static final long serialVersionUID = -8786683453337626445L;
 
 		public ItemAction(String name, Icon icon) {
 			super(name, icon);
@@ -170,6 +174,9 @@ public class FileList extends JPanel {
 	}
 
 	class AddAction extends I18NAction {
+		
+		private static final long serialVersionUID = -3461862378813809410L;
+
 		public AddAction() {
 			super("add");
 		}
@@ -180,6 +187,9 @@ public class FileList extends JPanel {
 	}
 
 	private class RemoveAction extends ItemAction {
+		
+		private static final long serialVersionUID = 5780452799713264135L;
+
 		public RemoveAction() {
 			super("remove");
 		}
@@ -190,6 +200,9 @@ public class FileList extends JPanel {
 	}
 
 	private class UpAction extends ItemAction {
+		
+		private static final long serialVersionUID = 7999681931602008188L;
+
 		public UpAction() {
 			super("up");
 		}
@@ -200,6 +213,9 @@ public class FileList extends JPanel {
 	}
 
 	private class DownAction extends ItemAction {
+		
+		private static final long serialVersionUID = 7651483775902229133L;
+
 		public DownAction() {
 			super("down");
 		}

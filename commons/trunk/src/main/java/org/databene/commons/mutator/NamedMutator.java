@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -36,5 +36,5 @@ import org.databene.commons.Named;
  * @since 0.4.6
  * @author Volker Bergmann
  */
-public interface NamedMutator<C, V> extends Named, Mutator<C, V> {
+public interface NamedMutator extends Named, Mutator {
 }

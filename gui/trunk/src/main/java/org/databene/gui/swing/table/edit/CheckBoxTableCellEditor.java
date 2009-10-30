@@ -35,7 +35,9 @@ import javax.swing.*;
  */
 public class CheckBoxTableCellEditor extends DefaultCellEditor implements SwingConstants {
 
-    public CheckBoxTableCellEditor() {
+    private static final long serialVersionUID = 1717878142550782153L;
+
+	public CheckBoxTableCellEditor() {
         super(createCheckBox());
     }
 

@@ -36,10 +36,12 @@ import java.util.List;
  */
 public class DefaultItemListModel extends DefaultListModel {
 
-    public DefaultItemListModel() {
+    private static final long serialVersionUID = 4913299263292207710L;
+
+	public DefaultItemListModel() {
     }
 
-    public DefaultItemListModel(List items) {
+    public DefaultItemListModel(List<?> items) {
         for (int i = 0; i < items.size(); i++) {
             Object o = items.get(i);
             addElement(o);

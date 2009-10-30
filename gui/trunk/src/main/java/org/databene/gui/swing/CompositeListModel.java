@@ -72,7 +72,7 @@ public class CompositeListModel extends AbstractListModel {
         return (index < items.size() ? items.get(index) : null);
     }
 
-    private void synch() {
+    void synch() {
         items.clear();
         for (ListModel subListModel : subListModels) {
             for (int j = 0; j < subListModel.getSize(); j++) {
@@ -82,7 +82,7 @@ public class CompositeListModel extends AbstractListModel {
         }
     }
 
-    private int indexOfFirstElement(ListModel listModel) {
+    int indexOfFirstElement(ListModel listModel) {
         int base = 0;
         for (ListModel test : subListModels) {
             if (test == listModel)
@@ -92,6 +92,7 @@ public class CompositeListModel extends AbstractListModel {
         return base;
     }
 
+    @SuppressWarnings("synthetic-access")
     class Listener implements ListDataListener {
         public void contentsChanged(ListDataEvent e) {
             synch();

@@ -196,7 +196,7 @@ public class JDBCDriverInfo {
 	        	driver.setDefaultUser(driverElement.getAttribute("user"));
 	        	ArrayBuilder<String> builder = new ArrayBuilder<String>(String.class);
 	        	for (Element dependencyElement : XMLUtil.getChildElements(driverElement, false, "dependency"))
-	        		builder.append(dependencyElement.getAttribute("lib"));
+	        		builder.add(dependencyElement.getAttribute("lib"));
 	        	driver.setJars(builder.toArray());
 	        	instances.put(driver.getId(), driver);
 	        }

@@ -40,7 +40,9 @@ import java.awt.Color;
  */
 public class PercentageTableCellRenderer extends DefaultTableCellRenderer {
 
-    private Color GREEN = new Color(0, 192, 0);
+    private static final long serialVersionUID = -4103463633854620900L;
+
+	private Color GREEN = new Color(0, 192, 0);
 
     private int fractionDigits;
 
@@ -53,6 +55,7 @@ public class PercentageTableCellRenderer extends DefaultTableCellRenderer {
         setHorizontalAlignment(RIGHT);
     }
 
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int row, int column) {
         String text = "0";

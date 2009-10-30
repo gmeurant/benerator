@@ -46,10 +46,12 @@ public abstract class WrapperElement<E> extends AbstractElement<E> {
         return wrappedObject;
     }
 
+    @Override
     protected void acceptImpl(Visitor<E> visitor) {
         visitor.visit(wrappedObject);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object o) {
         if (this == o)

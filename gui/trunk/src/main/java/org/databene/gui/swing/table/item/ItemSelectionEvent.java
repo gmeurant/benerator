@@ -36,14 +36,16 @@ import java.util.List;
  */
 public class ItemSelectionEvent extends EventObject {
 
-    private List selectedItems;
+    private static final long serialVersionUID = 4516471923400313180L;
+    
+	private List<?> selectedItems;
 
-    public ItemSelectionEvent(Object source, List selectedItems) {
+    public ItemSelectionEvent(Object source, List<?> selectedItems) {
         super(source);
         this.selectedItems = selectedItems;
     }
 
-    public List getSelectedItems() {
+    public List<?> getSelectedItems() {
         return selectedItems;
     }
 }

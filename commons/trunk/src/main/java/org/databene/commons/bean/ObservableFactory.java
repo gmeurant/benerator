@@ -47,7 +47,8 @@ import org.databene.commons.StringUtil;
  */
 public class ObservableFactory {
 	
-	public static <E extends ObservableBean> E create(Class<E> type) {
+	@SuppressWarnings("unchecked")
+    public static <E extends ObservableBean> E create(Class<E> type) {
 		if (!type.isInterface())
 			throw new ConfigurationError("Not an interface: " + type);
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -56,13 +57,13 @@ public class ObservableFactory {
 		return bean;
 	}
 	
-	private static class ObservableBeanInvocationHandler<E> implements InvocationHandler {
+	private static class ObservableBeanInvocationHandler implements InvocationHandler {
 		
 		private Map<String, Object> propertyValues = new HashMap<String, Object>();
 		private PropertyChangeSupport support;
-		private Class<E> type;
+		private Class<?> type;
 		
-		public ObservableBeanInvocationHandler(Class<E> type) {
+		public ObservableBeanInvocationHandler(Class<?> type) {
 			this.type = type;
 		}
 

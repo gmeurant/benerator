@@ -46,7 +46,6 @@ public class CSVToJavaBeanMapper<E> implements Iterator<E> {
     private Class<E> type;
     private String emptyValue;
     
-    @SuppressWarnings("unchecked")
     private NamedMutator[] mutators;
 
     public CSVToJavaBeanMapper(Reader reader, Class<E> type) throws IOException {
@@ -69,7 +68,6 @@ public class CSVToJavaBeanMapper<E> implements Iterator<E> {
         return iterator.hasNext();
     }
 
-    @SuppressWarnings("unchecked")
     public E next() {
         int i = 0;
         try {

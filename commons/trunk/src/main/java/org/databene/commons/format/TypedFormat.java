@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -32,8 +32,11 @@ import java.text.Format;
  * {@link Format} that exhibits the information which Java class it can format and parse.<br/>
  * <br/>
  * Created: 11.05.2005 22:04:05
+ * @since 0.1
  * @author Volker Bergmann
  */
+@SuppressWarnings("serial")
 public abstract class TypedFormat<S> extends Format {
-    public abstract Class<S> getSourceType();
+	
+	public abstract Class<S> getSourceType();
 }

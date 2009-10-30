@@ -37,7 +37,9 @@ import java.awt.*;
  */
 public class CheckBoxTableCellRenderer extends JCheckBox implements TableCellRenderer {
 
-    public CheckBoxTableCellRenderer() {
+    private static final long serialVersionUID = 7249133265395605113L;
+
+	public CheckBoxTableCellRenderer() {
         setOpaque(true);
         setHorizontalAlignment(CENTER);
     }

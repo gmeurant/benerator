@@ -36,19 +36,19 @@ import org.databene.commons.converter.BidirectionalConverter;
  * <br/>
  * Created: 12.05.2005 19:08:30
  */
-public class ConvertingMutator<C, VI, VO> extends MutatorWrapper<C, VO> implements Mutator<C, VI> {
+public class ConvertingMutator extends MutatorWrapper {
 
-    private BidirectionalConverter<VI, VO> converter;
+    private BidirectionalConverter converter;
 
-    public ConvertingMutator(Mutator<C, VO> realMutator, BidirectionalConverter<VI, VO> converter) {
+    public ConvertingMutator(Mutator realMutator, BidirectionalConverter converter) {
         super(realMutator);
         this.converter = converter;
     }
 
-    public void setValue(C target, VI value) throws UpdateFailedException {
+    public void setValue(Object target, Object value) throws UpdateFailedException {
         try {
-            VO vo = converter.convert(value);
-            realMutator.setValue(target, vo);
+            Object convertedValue = converter.convert(value);
+            realMutator.setValue(target, convertedValue);
         } catch (ConversionException e) {
             throw new UpdateFailedException(e);
         }

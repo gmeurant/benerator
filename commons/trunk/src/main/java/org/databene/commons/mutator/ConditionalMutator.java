@@ -42,6 +42,7 @@ import java.util.Comparator;
  * <br/>
  * Created: 08.05.2005 06:47:17
  */
+@SuppressWarnings("unchecked")
 public class ConditionalMutator extends MutatorProxy {
 
     public static final int ASSERT_EQUALS    = 0;
@@ -63,6 +64,7 @@ public class ConditionalMutator extends MutatorProxy {
         comparator = new ComparableComparator();
     }
 
+    @Override
     public void setValue(Object target, Object value) throws UpdateFailedException {
         Object oldValue = accessor.getValue(target);
         switch (mode) {
@@ -103,4 +105,5 @@ public class ConditionalMutator extends MutatorProxy {
     private static boolean isEmpty(Object value) {
         return (value instanceof String ? StringUtil.isEmpty((String)value) : value == null);
     }
+    
 }

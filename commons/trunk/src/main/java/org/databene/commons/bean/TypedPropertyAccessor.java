@@ -44,7 +44,7 @@ class TypedPropertyAccessor implements PropertyAccessor {
     private Method accessorMethod;
     private boolean strict;
 
-    public TypedPropertyAccessor(Class beanClass, String propertyName, boolean strict) {
+    public TypedPropertyAccessor(Class<?> beanClass, String propertyName, boolean strict) {
         this.propertyName = propertyName;
         this.strict = strict;
         try {
@@ -76,7 +76,7 @@ class TypedPropertyAccessor implements PropertyAccessor {
         }
     }
 
-    public Class getValueType() {
+    public Class<?> getValueType() {
         return (accessorMethod != null ? accessorMethod.getReturnType() : null);
     }
 

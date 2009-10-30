@@ -39,7 +39,9 @@ import java.awt.Component;
  */
 public class FloatTableCellRenderer extends DefaultTableCellRenderer {
 
-    private NumberFormat format;
+    private static final long serialVersionUID = 1628805385067179328L;
+    
+	private NumberFormat format;
     private final static Float nullValue = new Float(0);
 
     public FloatTableCellRenderer(int precision) {
@@ -49,6 +51,8 @@ public class FloatTableCellRenderer extends DefaultTableCellRenderer {
         format.setMaximumFractionDigits(precision);
     }
 
+    @SuppressWarnings("null")
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
         boolean isSelected, boolean hasFocus, int row, int column) {
         if (value == null)
@@ -59,4 +63,5 @@ public class FloatTableCellRenderer extends DefaultTableCellRenderer {
             value = format.format(value);
         return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
     }
+    
 }

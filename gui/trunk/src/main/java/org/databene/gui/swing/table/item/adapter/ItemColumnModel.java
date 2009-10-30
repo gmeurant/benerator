@@ -43,7 +43,9 @@ import javax.swing.*;
  */
 public class ItemColumnModel extends DefaultTableColumnModel implements ListDataListener {
 
-    private ItemModel itemModel;
+    private static final long serialVersionUID = -8158503734742028013L;
+    
+	private ItemModel itemModel;
     private FieldConnector headerConnector;
 
     public ItemColumnModel(ItemModel itemModel, FieldConnector headerConnector) {
@@ -111,8 +113,5 @@ public class ItemColumnModel extends DefaultTableColumnModel implements ListData
         rebuildColumns();
     }
 
-    public int getColumnCount() {
-        return super.getColumnCount();
-    }
 }
 

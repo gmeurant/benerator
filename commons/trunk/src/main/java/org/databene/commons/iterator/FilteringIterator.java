@@ -53,6 +53,7 @@ public class FilteringIterator<E> extends IteratorProxy<E> {
         this.filter = filter;
     }
 
+    @Override
     public boolean hasNext() {
         if (next != null)
             return true;
@@ -66,6 +67,7 @@ public class FilteringIterator<E> extends IteratorProxy<E> {
         return false;
     }
 
+    @Override
     public E next() {
         if (next == null && !hasNext())
             throw new IllegalStateException("Nothing more to iterate");
@@ -75,6 +77,7 @@ public class FilteringIterator<E> extends IteratorProxy<E> {
         return result;
     }
 
+    @Override
     public E first() {
         next = null;
         previous = null;
@@ -90,6 +93,7 @@ public class FilteringIterator<E> extends IteratorProxy<E> {
         return null;
     }
 
+    @Override
     public boolean hasPrevious() {
         if (previous != null)
             return true;
@@ -103,6 +107,7 @@ public class FilteringIterator<E> extends IteratorProxy<E> {
         return false;
     }
 
+    @Override
     public E previous() {
         if (previous == null && !hasPrevious())
             throw new IllegalStateException("Nothing more to iterate");
@@ -112,6 +117,7 @@ public class FilteringIterator<E> extends IteratorProxy<E> {
         return result;
     }
 
+    @Override
     public E last() {
         next = null;
         previous = null;

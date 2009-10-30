@@ -42,6 +42,7 @@ public class NotAccessor<E> extends AccessorProxy<E, Boolean> {
     
     // Accessor interface ----------------------------------------------------------------------------------------------
 
+    @Override
     public Boolean getValue(E target) {
         Boolean value = super.getValue(target);
         if (value == null)
@@ -54,15 +55,18 @@ public class NotAccessor<E> extends AccessorProxy<E, Boolean> {
 
     // java.lang.Object overrides --------------------------------------------------------------------------------------
 
+    @SuppressWarnings("unchecked")
+    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        final NotAccessor<E> that = (NotAccessor<E>) o;
+        final NotAccessor that = (NotAccessor) o;
         return this.realAccessor.equals(that.realAccessor);
     }
 
+    @Override
     public int hashCode() {
         return realAccessor.hashCode();
     }

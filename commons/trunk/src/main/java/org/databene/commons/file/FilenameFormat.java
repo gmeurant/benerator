@@ -59,6 +59,7 @@ public class FilenameFormat extends Format {
         this.fullPathUsed = fullPathUsed;
     }
 
+    @Override
     public StringBuffer format(Object fileObject, StringBuffer toAppendTo, FieldPosition pos) {
         File file = (File) fileObject;
         String filename;
@@ -69,6 +70,7 @@ public class FilenameFormat extends Format {
         return toAppendTo.append(filename);
     }
 
+    @Override
     public Object parseObject(String filename, ParsePosition pos) {
         return new File(filename);
     }

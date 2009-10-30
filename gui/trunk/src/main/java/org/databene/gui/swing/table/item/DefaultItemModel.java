@@ -39,15 +39,15 @@ public class DefaultItemModel implements ItemModel {
     protected ListModel items;
     protected ListModel connectors;
 
-    public DefaultItemModel(List items, List connectorList) {
+    public DefaultItemModel(List<?> items, List<FieldConnector> connectorList) {
         this(new DefaultItemListModel(items), new DefaultConnectorListModel(connectorList));
     }
 
-    public DefaultItemModel(ListModel itemListModel, List connectorList) {
+    public DefaultItemModel(ListModel itemListModel, List<FieldConnector> connectorList) {
         this(itemListModel, new DefaultConnectorListModel(connectorList));
     }
 
-    public DefaultItemModel(List items, ListModel connectorListModel) {
+    public DefaultItemModel(List<?> items, ListModel connectorListModel) {
         this(new DefaultItemListModel(items), connectorListModel);
     }
 

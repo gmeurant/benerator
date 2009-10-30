@@ -48,6 +48,7 @@ public class FetchingAccessor implements Accessor {
         return accessor.getValue(provider.getValue(o));
     }
 
+    @Override
     public String toString() {
         return getClass().getSimpleName() + "[accessor=" + accessor + ", provider=" + provider + "]";
     }

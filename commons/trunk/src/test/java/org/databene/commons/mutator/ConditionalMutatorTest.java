@@ -107,7 +107,7 @@ public class ConditionalMutatorTest {
 	
 	// helper code -----------------------------------------------------------------------------------------------------
 	
-	public static class ConnectorMock implements Mutator<Object, Integer>, Accessor<Object, Integer> {
+	public static class ConnectorMock implements Mutator, Accessor<Object, Integer> {
 		
 		public Integer value;
 
@@ -115,8 +115,8 @@ public class ConditionalMutatorTest {
 			this.value = value;
 		}
 		
-		public void setValue(Object target, Integer value) {
-			this.value = value;
+		public void setValue(Object target, Object value) {
+			this.value = (Integer) value;
 		}
 
 		public Integer getValue(Object target) {

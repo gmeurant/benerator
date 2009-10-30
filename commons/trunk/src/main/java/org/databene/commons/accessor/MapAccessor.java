@@ -56,6 +56,8 @@ public class MapAccessor<C extends Map<K, V>, K, V extends Object> implements Ac
     
     // java.lang.Object overrides --------------------------------------------------------------------------------------
 
+    @SuppressWarnings("unchecked")
+    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -65,6 +67,7 @@ public class MapAccessor<C extends Map<K, V>, K, V extends Object> implements Ac
         return NullSafeComparator.equals(this.key, that.key);
     }
 
+    @Override
     public int hashCode() {
         return (key != null ? key.hashCode() : 0);
     }

@@ -42,6 +42,7 @@ public class StringMutator extends MutatorProxy {
         super(realMutator);
     }
 
+    @Override
     public void setValue(Object target, Object value) throws UpdateFailedException {
         String s;
         if (value == null)

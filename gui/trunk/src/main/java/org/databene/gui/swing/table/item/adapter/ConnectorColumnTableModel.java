@@ -40,7 +40,9 @@ import javax.swing.event.ListDataEvent;
  */
 public class ConnectorColumnTableModel extends AbstractTableModel {
 
-    private ItemModel itemModel;
+    private static final long serialVersionUID = -822031163138507804L;
+    
+	private ItemModel itemModel;
 
     public ConnectorColumnTableModel(ItemModel model) {
         setItemModel(model);
@@ -85,18 +87,21 @@ public class ConnectorColumnTableModel extends AbstractTableModel {
         return (FieldConnector) itemModel.getConnectors().getElementAt(columnIndex);
     }
 
+    @Override
     public String getColumnName(int columnIndex) {
         if (itemModel == null)
             return null;
         return getConnector(columnIndex).getDisplayName();
     }
 
+    @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         if (itemModel == null)
             return false;
         return getConnector(columnIndex).getEditor() != null;
     }
 
+    @Override
     public void setValueAt(Object value, int rowIndex, int columnIndex) {
         if (itemModel == null)
             return;
@@ -112,7 +117,8 @@ public class ConnectorColumnTableModel extends AbstractTableModel {
         return itemModel.getItems().getElementAt(row);
     }
 
-    private class Listener implements ListDataListener {
+    class Listener implements ListDataListener {
+    	
         public void intervalAdded(ListDataEvent e) {
             fireTableRowsInserted(e.getIndex0(), e.getIndex1());
         }

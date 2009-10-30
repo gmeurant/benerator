@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2005-2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2005-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -37,6 +37,7 @@ import java.awt.Component;
  * @since 0.1.6
  * @author Volker Bergmann
  */
+@SuppressWarnings("serial")
 public class DoubleTableCellRenderer extends DefaultTableCellRenderer {
 
     private NumberFormat format;
@@ -49,6 +50,8 @@ public class DoubleTableCellRenderer extends DefaultTableCellRenderer {
         format.setMaximumFractionDigits(precision);
     }
 
+    @SuppressWarnings("null")
+    @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
         boolean isSelected, boolean hasFocus, int row, int column) {
         if (value == null)
