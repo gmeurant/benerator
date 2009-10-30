@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -84,8 +84,9 @@ public class NullSafeFormat<S> extends TypedFormat<S> {
         if (source == null)
             return null;
         int i;
-        for (i = pos.getIndex(); i < source.length() && StringUtil.isWhitespace(source.charAt(i)); i++)
-            ;
+        for (i = pos.getIndex(); i < source.length() && StringUtil.isWhitespace(source.charAt(i)); i++) {
+        	// simply use the loop construct to proceed to the appropriate position
+        }
         if (source.substring(i).startsWith(nullString)) {
             pos.setIndex(i + nullString.length());
             return null;
