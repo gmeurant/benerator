@@ -62,4 +62,8 @@ public class ExpressionUtil {
 	    return result;
     }
 
+	public static <T> T evaluate(Expression<T> expression, Context context) {
+	    return (expression != null ? expression.evaluate(context) : null);
+    }
+
 }
