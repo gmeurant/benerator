@@ -12,6 +12,7 @@ import java.util.HashMap;
 
 import org.antlr.runtime.tree.*;
 
+@SuppressWarnings("all")
 public class RegexParser extends Parser {
     public static final String[] tokenNames = new String[] {
         "<invalid>", "<EOR>", "<DOWN>", "<UP>", "PREDEFINEDCLASS", "ALPHANUM", "SPECIALCHARACTER", "ESCAPEDEDCHARACTER", "NONTYPEABLECHARACTER", "OCTALCHAR", "HEXCHAR", "CODEDCHAR", "SIMPLEQUANTIFIER", "INT", "GROUP", "CHOICE", "SEQUENCE", "FACTOR", "CLASS", "RANGE", "INCL", "EXCL", "QUANT", "LETTER", "DIGIT", "OCTALDIGIT", "HEXDIGIT", "LBRACE", "RBRACE", "LBRACKET", "RBRACKET", "'^'", "'$'", "'|'", "'-'", "'('", "')'", "','"
