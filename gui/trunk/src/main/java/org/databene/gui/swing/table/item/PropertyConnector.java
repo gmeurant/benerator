@@ -52,13 +52,13 @@ import java.beans.PropertyDescriptor;
  * */
 public class PropertyConnector extends FieldConnector {
 
-
     // constructors ----------------------------------------------------------------------------------------------------
 
     public PropertyConnector(Class<?> beanClass, String propertyName) {
         this(beanClass, propertyName, false);
     }
 
+    @SuppressWarnings("unchecked")
     public PropertyConnector(Class<?> beanClass, String propertyName, boolean editable) {
         super(getDisplayName(beanClass, propertyName),
                 PropertyAccessorFactory.getAccessor(beanClass, propertyName),
@@ -86,14 +86,16 @@ public class PropertyConnector extends FieldConnector {
         this(title, propertyName, propertyType, renderer, null);
     }
 
+    @SuppressWarnings("unchecked")
     public PropertyConnector(String title, String propertyName, Class<?> propertyType,
                              TableCellRenderer renderer, TableCellEditor editor) {
         this(title, propertyName, propertyType, renderer, editor,
             new NullSafeComparator(new BeanComparator(propertyName)));
     }
 
+    @SuppressWarnings("unchecked")
     public PropertyConnector(String title, String propertyName, Class<?> propertyType,
-                             TableCellRenderer renderer, TableCellEditor editor, Comparator comparator) {
+                             TableCellRenderer renderer, TableCellEditor editor, Comparator<?> comparator) {
         super(
             title,
             PropertyAccessorFactory.getAccessor(propertyType, propertyName),
@@ -117,7 +119,8 @@ public class PropertyConnector extends FieldConnector {
         );
     }
 
-    public PropertyConnector(String title, String propertyName, Class<?> propertyType, Class<?> itemClass, TableCellRenderer renderer, TableCellEditor editor, boolean comparable) {
+    public PropertyConnector(String title, String propertyName, Class<?> propertyType, Class<?> itemClass, 
+    		TableCellRenderer renderer, TableCellEditor editor, boolean comparable) {
         this(title, propertyName, propertyType, itemClass, renderer, editor,
             (comparable ?
                     new BeanComparator(itemClass, propertyName, ComparatorFactory.getComparator(propertyType)) :
@@ -125,6 +128,7 @@ public class PropertyConnector extends FieldConnector {
         );
     }
 
+    @SuppressWarnings({ "unused", "unchecked" })
     public PropertyConnector(String title, String propertyName, Class<?> propertyType, Class<?> itemClass,
                              TableCellRenderer renderer, TableCellEditor editor, Comparator<?> comparator) {
         super(
@@ -156,9 +160,9 @@ public class PropertyConnector extends FieldConnector {
 
     private static NullSafeComparator<?> getDefaultComparator(Class<?> type) {
         if (boolean.class.equals(type) || Boolean.class.equals(type))
-            return new NullSafeComparator(new BooleanComparator());
+            return new NullSafeComparator<Boolean>(new BooleanComparator());
         else
-            return new NullSafeComparator(new ComparableComparator());
+            return new NullSafeComparator<Comparable<?>>(new ComparableComparator<Comparable<?>>());
     }
 /*
     private static final class MyPropertyAccessor implements Accessor {

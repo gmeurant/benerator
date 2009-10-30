@@ -48,13 +48,13 @@ public class FieldConnector {
 
     private String displayName;
 
-	private Accessor accessor;
+	private Accessor<Object, ?> accessor;
     private TableCellRenderer renderer;
 
 	private Mutator mutator;
     private TableCellEditor editor;
 
-    private Comparator comparator;
+    private Comparator<?> comparator;
 
     // constructors ----------------------------------------------------------------------------------------------------
 /*
@@ -65,11 +65,12 @@ public class FieldConnector {
         this(displayName, accessor, renderer, null, null, comparator);
     }
 */
+    @SuppressWarnings("unchecked")
     public FieldConnector(
             String displayName,
-            Accessor accessor, TableCellRenderer renderer,
+            Accessor<Object, ?> accessor, TableCellRenderer renderer,
             Mutator mutator, TableCellEditor editor,
-            Comparator comparator) {
+            Comparator<?> comparator) {
         this.displayName = displayName;
         this.accessor = accessor;
         this.renderer = new ShadowTableCellRenderer(renderer);
@@ -100,11 +101,11 @@ public class FieldConnector {
         this.editor = editor;
     }
 
-	public Comparator getComparator() {
+	public Comparator<?> getComparator() {
 		return comparator;
 	}
 
-    public void setComparator(Comparator comparator) {
+    public void setComparator(Comparator<?> comparator) {
         this.comparator = comparator;
     }
 
@@ -120,7 +121,7 @@ public class FieldConnector {
         }
     }
 
-	public Accessor getAccessor() {
+	public Accessor<Object, ?> getAccessor() {
 		return accessor;
 	}
 
