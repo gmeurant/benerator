@@ -37,19 +37,19 @@ import org.databene.commons.ConversionException;
  * @author Volker Bergmann
  */
 
-public class BooleanConverter<T> extends FixedSourceTypeConverter<Boolean, T> {
+public class BooleanMapper<T> extends FixedSourceTypeConverter<Boolean, T> {
 
     private T trueValue;
 	private T falseValue;
 	private T nullValue;
 
 	@SuppressWarnings("unchecked")
-    public BooleanConverter() {
+    public BooleanMapper() {
 	    this((T) "true", (T) "false", null);
     }
 
 	@SuppressWarnings("unchecked")
-    public BooleanConverter(T trueValue, T falseValue, T nullValue) {
+    public BooleanMapper(T trueValue, T falseValue, T nullValue) {
 	    super(Boolean.class, (Class<T>) trueValue.getClass());
 	    this.trueValue = trueValue;
 	    this.falseValue = falseValue;
