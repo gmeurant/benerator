@@ -27,6 +27,7 @@
 package org.databene.commons.converter;
 
 import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
 
 /**
  * Converts Numbers to other types.<br/>
@@ -47,20 +48,22 @@ public class NumberConverter<T> extends FixedSourceTypeConverter<Number, T> {
 
     /**
      * Converts a number object to a target type.
-     * @param src the number to convert
+     * @param sourceValue the number to convert
      * @param targetType the target type of the conversion
      * @return an object of the target type
      */
     @SuppressWarnings("unchecked")
-    public static <TT> TT convert(Number src, Class<TT> targetType) {
-    	if (src == null)
+    public static <TT> TT convert(Number sourceValue, Class<TT> targetType) {
+    	if (sourceValue == null)
     		return null;
         if (String.class.equals(targetType))
-            return (TT) ToStringConverter.convert(src, null);
+            return (TT) ToStringConverter.convert(sourceValue, null);
         else if (Number.class.isAssignableFrom(targetType) || targetType.isPrimitive())
-            return (TT) NumberToNumberConverter.convert(src, (Class<Number>) targetType);
-        else
-            throw new UnsupportedOperationException("Can't convert " + src.getClass() + " to " + targetType);
+            return (TT) NumberToNumberConverter.convert(sourceValue, (Class<Number>) targetType);
+        Converter converter = ConverterManager.getInstance().getConverter(sourceValue, targetType);
+        if (converter != null)
+                return (TT) converter.convert(sourceValue);
+        return FactoryConverter.convert(sourceValue, targetType);
     }
 
 }

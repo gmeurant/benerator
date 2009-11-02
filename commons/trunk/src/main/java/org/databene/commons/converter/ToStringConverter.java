@@ -45,7 +45,7 @@ import org.databene.commons.Converter;
  * @since 0.1
  * @author Volker Bergmann
  */
-public class ToStringConverter extends AbstractFormatter implements Converter<Object, String> {
+public class ToStringConverter extends FormatHolder implements Converter<Object, String> {
 	
 	private static ToStringConverter singletonInstance = new ToStringConverter();
 

@@ -26,7 +26,6 @@
 
 package org.databene.commons.converter;
 
-import org.databene.commons.BeanUtil;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 import org.slf4j.Logger;
@@ -40,22 +39,22 @@ import java.util.Collection;
  * Created: 16.06.2007 11:34:42
  * @author Volker Bergmann
  */
-public class AnyConverter<S, T> extends AbstractFormatter implements Converter<S, T> { // Can't we drop param S?
+public class AnyConverter<E> extends FormatHolder implements Converter<Object, E> {
 
     private static final Logger logger = LoggerFactory.getLogger(AnyConverter.class);
 
-    private Class<T> targetType;
+    private Class<E> targetType;
     
-    public AnyConverter(Class<T> targetType) {
+    public AnyConverter(Class<E> targetType) {
         this(targetType, "yyyyMMdd");
     }
 
-    public AnyConverter(Class<T> targetType, String datePattern) {
+    public AnyConverter(Class<E> targetType, String datePattern) {
     	this.targetType = targetType;
         this.datePattern = datePattern;
     }
 
-    public Class<T> getTargetType() {
+    public Class<E> getTargetType() {
 	    return targetType;
     }
 
@@ -63,7 +62,7 @@ public class AnyConverter<S, T> extends AbstractFormatter implements Converter<S
 		return true;
 	}
 
-	public T convert(Object sourceValue) throws ConversionException {
+	public E convert(Object sourceValue) throws ConversionException {
         return convert(sourceValue, targetType, datePattern, timePattern, timestampPattern);
     }
 
@@ -111,7 +110,7 @@ public class AnyConverter<S, T> extends AbstractFormatter implements Converter<S
 
         // from boolean conversion
         if (source instanceof Boolean)
-            return convertBoolean((Boolean) source, targetType);
+            return BooleanConverter.convert((Boolean) source, targetType);
 
         if (targetType.isArray())
             return (TT) ToArrayConverter.convert(source, targetType.getComponentType());
@@ -120,26 +119,6 @@ public class AnyConverter<S, T> extends AbstractFormatter implements Converter<S
             return (TT) ToCollectionConverter.convert(source, targetType);
 
         return FactoryConverter.convert(source, targetType);
-    }
-
-    // private hepler methods ------------------------------------------------------------------------------------------
-
-    /**
-     * Converts a boolean to a target type.
-     * @param src the object to convert
-     * @param targetType the target type of the conversion
-     * @return an object of the target type
-     */
-    @SuppressWarnings("unchecked")
-    private static <TT> TT convertBoolean(Boolean src, Class<TT> targetType) {
-        if (boolean.class.equals(targetType))
-            return (TT)src;
-        else if (Number.class.isAssignableFrom(targetType))
-            return convert((src ? 1 : 0), targetType);
-        else if (Number.class.isAssignableFrom(BeanUtil.getWrapper(targetType.getName())))
-            return convert((src ? 1 : 0), targetType);
-        else
-            throw new UnsupportedOperationException("Can't convert " + src.getClass() + " to " + targetType);
     }
 
 }

@@ -41,12 +41,12 @@ import org.databene.commons.converter.AnyConverter;
 public class TypeConvertingExpression<E> implements Expression<E> {
 	
 	private Expression<E> source;
-	private AnyConverter<?, E> converter;
+	private AnyConverter<E> converter;
 
     @SuppressWarnings("unchecked")
     public TypeConvertingExpression(Expression source, Class<E> resultType) {
     	this.source = source;
-	    this.converter = new AnyConverter<Object, E>(resultType);
+	    this.converter = new AnyConverter<E>(resultType);
     }
 
 	public E evaluate(Context context) {

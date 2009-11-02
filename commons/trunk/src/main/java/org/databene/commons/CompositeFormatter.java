@@ -31,7 +31,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.databene.commons.converter.AbstractFormatter;
+import org.databene.commons.converter.FormatHolder;
 import org.databene.commons.converter.ToStringConverter;
 
 /**
@@ -39,7 +39,7 @@ import org.databene.commons.converter.ToStringConverter;
  * Created: 14.03.2008 22:47:57
  * @author Volker Bergmann
  */
-public class CompositeFormatter extends AbstractFormatter {
+public class CompositeFormatter extends FormatHolder {
     
 	private static final String INDENT_DELTA = "    ";
     
