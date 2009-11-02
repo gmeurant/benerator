@@ -36,7 +36,7 @@ import org.databene.commons.Patterns;
  * @author Volker Bergmann
  */
 
-public abstract class AbstractFormatter implements Patterns {
+public abstract class FormatHolder implements Patterns { 
 
     // attributes ------------------------------------------------------------------------------------------------------
 
@@ -58,7 +58,7 @@ public abstract class AbstractFormatter implements Patterns {
     // constructors ----------------------------------------------------------------------------------------------------
 
     /** Default constructor that uses an isEmpty String as null representation */
-    public AbstractFormatter() {
+    public FormatHolder() {
         this(DEFAULT_NULL_STRING);
     }
 
@@ -66,11 +66,11 @@ public abstract class AbstractFormatter implements Patterns {
      * Constructor that initializes the null replacement to the specified parameter.
      * @param nullString the String to use for replacing null values.
      */
-    public AbstractFormatter(String nullString) {
+    public FormatHolder(String nullString) {
         this(nullString, DEFAULT_DATE_PATTERN, DEFAULT_TIMESTAMP_PATTERN);
     }
 
-    public AbstractFormatter(String nullString, String datePattern, String timestampPattern) {
+    public FormatHolder(String nullString, String datePattern, String timestampPattern) {
         this.nullString = nullString;
         this.datePattern = datePattern;
         this.timestampPattern = timestampPattern;
