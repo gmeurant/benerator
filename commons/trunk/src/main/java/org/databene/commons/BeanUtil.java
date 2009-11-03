@@ -528,14 +528,14 @@ public final class BeanUtil {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T invokeStatic(Class<? extends Object> targetClass, String methodName, Object ... args) {
+    public static Object invokeStatic(Class<? extends Object> targetClass, String methodName, Object ... args) {
         if (targetClass == null)
             throw new IllegalArgumentException("target is null");
         Class<? extends Object>[] argClasses = new Class[args.length];
         for (int i = 0; i < args.length; i++)
             argClasses[i] = (args[i] != null ? args[i].getClass() : null);
         Method method = getMethod(targetClass, methodName, argClasses);
-        return (T) invoke(null, method, args);
+        return invoke(null, method, args);
     }
 
     /**
