@@ -203,6 +203,8 @@ public class ScriptUtil {
 	}
 
 	public static void setDefaultScriptEngine(String defaultScriptEngine) {
+		if (factories.get(defaultScriptEngine) == null)
+			throw new RuntimeException("Unknown script engine id: " + defaultScriptEngine);
 		ScriptUtil.defaultScriptEngine = defaultScriptEngine;
 	}
 
