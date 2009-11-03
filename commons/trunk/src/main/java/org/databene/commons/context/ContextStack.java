@@ -31,6 +31,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.Map.Entry;
 
+import org.databene.commons.Assert;
 import org.databene.commons.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,6 +98,7 @@ public class ContextStack implements Context {
     }
 
     public synchronized void set(String key, Object value) {
+    	Assert.notNull(key, "key");
         if (contexts.size() > 0)
             contexts.peek().set(key, value);
         else
