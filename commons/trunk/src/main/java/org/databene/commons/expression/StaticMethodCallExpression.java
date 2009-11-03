@@ -38,7 +38,7 @@ import org.databene.commons.Expression;
  * @author Volker Bergmann
  */
 
-public class StaticMethodCallExpression<E> implements Expression<E> {
+public class StaticMethodCallExpression implements Expression<Object> {
 	
 	private Class<?> targetClass;
 	private String methodName;
@@ -50,7 +50,7 @@ public class StaticMethodCallExpression<E> implements Expression<E> {
 	    this.argExpressions = argExpressions;
     }
 
-	public E evaluate(Context context) {
+	public Object evaluate(Context context) {
     	Object[] args = ExpressionUtil.evaluateAll(argExpressions, context);
 		return BeanUtil.invokeStatic(targetClass, methodName, args);
     }
