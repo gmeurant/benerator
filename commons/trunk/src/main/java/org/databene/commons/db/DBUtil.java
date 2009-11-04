@@ -56,6 +56,8 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.ArrayList;
 
+import javax.sql.PooledConnection;
+
 /**
  * Provides database related utility methods.<br/>
  * <br/>
@@ -319,6 +321,8 @@ public class DBUtil {
 		jdbcLogger.debug("preparing statement: " + sql);
 		checkReadOnly(sql, readOnly);
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        if (connection instanceof PooledConnection)
+        	connection = ((PooledConnection) connection).getConnection();
 		PreparedStatement realStatement = connection.prepareStatement(sql);
 		return (PreparedStatement) Proxy.newProxyInstance(classLoader, 
 				new Class[] { PreparedStatement.class }, 
