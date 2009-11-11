@@ -162,6 +162,42 @@ public final class BeanUtil {
 
     // type info methods -----------------------------------------------------------------------------------------------
 
+    public static Class<?> commonSuperType(Collection<?> objects) {
+    	Iterator<?> iterator = objects.iterator();
+    	if (!iterator.hasNext())
+    		return null;
+    	Class<?> result = null;
+    	while (iterator.hasNext()) {
+    		Object candidate = iterator.next();
+    		if (candidate != null) {
+    			Class<?> candidateClass = candidate.getClass();
+    			if (result == null)
+    				result = candidateClass;
+    			else if (candidateClass != result && candidateClass.isAssignableFrom(result))
+    				result = candidateClass;
+    		}
+    	}
+    	return result;
+    }
+    
+    public static Class<?> commonSubType(Collection<?> objects) {
+    	Iterator<?> iterator = objects.iterator();
+    	if (!iterator.hasNext())
+    		return null;
+    	Class<?> result = null;
+    	while (iterator.hasNext()) {
+    		Object candidate = iterator.next();
+    		if (candidate != null) {
+    			Class<?> candidateClass = candidate.getClass();
+    			if (result == null)
+    				result = candidateClass;
+    			else if (candidateClass != result && result.isAssignableFrom(candidateClass))
+    				result = candidateClass;
+    		}
+    	}
+    	return result;
+    }
+    
     /**
      * Tells if the provided class name is the name of a simple Java type
      * @param className the name to check
