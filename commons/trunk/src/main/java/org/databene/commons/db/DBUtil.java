@@ -36,6 +36,7 @@ import org.databene.commons.LogCategories;
 import org.databene.commons.ReaderLineIterator;
 import org.databene.commons.StringUtil;
 import org.databene.commons.SystemInfo;
+import org.databene.commons.converter.AnyConverter;
 import org.databene.commons.converter.ToStringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -202,6 +203,10 @@ public class DBUtil {
         } catch (SQLException e) {
             throw new RuntimeException("Database query failed: ", e);
         }
+    }
+    
+    public static long queryLong(String query, Connection connection) {
+    	return AnyConverter.convert(queryScalar(query, connection), Long.class);
     }
 
     public static Object queryScalar(String query, Connection connection) {
