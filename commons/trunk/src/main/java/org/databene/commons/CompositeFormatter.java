@@ -109,7 +109,7 @@ public class CompositeFormatter extends FormatHolder {
     }
 
     @SuppressWarnings("unchecked")
-    void renderComponent(StringBuilder builder, String indent, Map.Entry<String, ? extends Object> component) {
+    void renderComponent(StringBuilder builder, String indent, Map.Entry<String, ?> component) {
         builder.append(indent);
         if (renderNames)
             builder.append(component.getKey()).append('=');

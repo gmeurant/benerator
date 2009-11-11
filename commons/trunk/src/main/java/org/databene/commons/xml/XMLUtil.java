@@ -297,7 +297,7 @@ public class XMLUtil {
 			String value = attribute.getValue();
 			if (unescape)
 				value = StringUtil.unescape(value);
-			Class<? extends Object> type = bean.getClass();
+			Class<?> type = bean.getClass();
 			if (BeanUtil.hasProperty(type, name))
 				BeanUtil.setPropertyValue(bean, name, value, true, true);
 		}

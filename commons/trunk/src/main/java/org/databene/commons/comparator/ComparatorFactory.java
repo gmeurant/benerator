@@ -55,10 +55,10 @@ public class ComparatorFactory {
     private static final Logger logger = LoggerFactory.getLogger(ComparatorFactory.class);
     private static final String CONFIG_FILE_URI = "org/databene/commons/comparator/comparators.txt";
     
-    private static Map<Class<? extends Object>, Comparator<? extends Object>> comparators;
+    private static Map<Class<?>, Comparator<?>> comparators;
 
     static {
-        comparators = new HashMap<Class<? extends Object>, Comparator<? extends Object>>();
+        comparators = new HashMap<Class<?>, Comparator<?>>();
         addComparator(String.class, Collator.getInstance());
         readConfigFileIfExists(CONFIG_FILE_URI);
         

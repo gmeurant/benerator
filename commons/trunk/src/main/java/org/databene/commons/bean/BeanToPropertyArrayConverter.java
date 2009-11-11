@@ -37,7 +37,7 @@ import org.databene.commons.converter.FixedSourceTypeConverter;
  */
 public class BeanToPropertyArrayConverter<E> extends FixedSourceTypeConverter<E, Object[]> {
 
-    private PropertyAccessor<E, ? extends Object>[] accessors;
+    private PropertyAccessor<E, ?>[] accessors;
 
     public BeanToPropertyArrayConverter(String ... propertyNames) {
         this(null, propertyNames);

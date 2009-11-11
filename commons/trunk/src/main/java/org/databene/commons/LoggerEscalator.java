@@ -48,7 +48,7 @@ public class LoggerEscalator implements Escalator {
     @SuppressWarnings("unchecked")
     public void escalate(String message, Object originator, Object cause) {
         // determine logger by the originator
-        Class<? extends Object> category = null;
+        Class<?> category = null;
         if (originator != null)
             if (originator instanceof Class)
                 category = (Class) originator;

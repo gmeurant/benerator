@@ -37,7 +37,7 @@ import java.util.Map;
  * Created: 11.03.2006 12:39:07
  * @author Volker Bergmann
  */
-public class MapAccessor<C extends Map<K, V>, K, V extends Object> implements Accessor<C, V> {
+public class MapAccessor<C extends Map<K, V>, K, V> implements Accessor<C, V> {
 
     /**
      * the key of the object to look up; null is supported.

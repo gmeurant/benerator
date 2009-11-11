@@ -139,8 +139,8 @@ public final class BeanUtil {
         simpleTypeMap = map(simpleTypes);
         integralNumberTypeMap = map(integralNumberTypes);
         decimalNumberTypeMap = map(decimalNumberTypes);
-        primitiveNumberTypeMap = new HashMap<String, Class<? extends Object>>();
-        primitiveTypeMap = new HashMap<String, Class<? extends Object>>();
+        primitiveNumberTypeMap = new HashMap<String, Class<?>>();
+        primitiveTypeMap = new HashMap<String, Class<?>>();
         for (PrimitiveTypeMapping mapping : primitiveNumberTypes) {
             primitiveNumberTypeMap.put(mapping.primitiveType.getName(), mapping.wrapperType);
             primitiveTypeMap.put(mapping.primitiveType.getName(), mapping.wrapperType);
@@ -151,7 +151,7 @@ public final class BeanUtil {
 
 	private static Map<String, Class<?>> map(Class<?>[] array) {
 		Map<String, Class<?>> result = new HashMap<String, Class<?>>();
-        for (Class<? extends Object> type : array)
+        for (Class<?> type : array)
         	result.put(type.getName(), type);
         return result;
     }
@@ -231,7 +231,7 @@ public final class BeanUtil {
         return decimalNumberTypeMap.containsKey(className);
     }
 
-    public static Class<? extends Object> getWrapper(String primitiveClassName) {
+    public static Class<?> getWrapper(String primitiveClassName) {
         return primitiveTypeMap.get(primitiveClassName);
     }
 
@@ -280,7 +280,7 @@ public final class BeanUtil {
      * @param attributeName the name of the attribute
      * @return the attribute value
      */
-    public static Object getStaticAttributeValue(Class<? extends Object> objectType, String attributeName) {
+    public static Object getStaticAttributeValue(Class<?> objectType, String attributeName) {
         Field field = getField(objectType, attributeName);
         try {
             return field.get(null);
@@ -295,7 +295,7 @@ public final class BeanUtil {
      * @param fieldName the name of the attribute to set
      * @param value the value to assign to the field
      */
-    public static void setStaticAttributeValue(Class<? extends Object> objectType, String fieldName, Object value) {
+    public static void setStaticAttributeValue(Class<?> objectType, String fieldName, Object value) {
         Field field = getField(objectType, fieldName);
         setAttributeValue(null, field, value);
     }
@@ -320,13 +320,13 @@ public final class BeanUtil {
      * @return an array of types that are used to parameterize the attribute.
      */
     @SuppressWarnings("unchecked")
-    public static Class<? extends Object>[] getGenericTypes(Field field) {
+    public static Class<?>[] getGenericTypes(Field field) {
         Type genericFieldType = field.getGenericType();
         if (!(genericFieldType instanceof ParameterizedType))
             return null; // type is not generic
         ParameterizedType pType = (ParameterizedType) genericFieldType;
         Type[] args = pType.getActualTypeArguments();
-        Class<? extends Object>[] types = new Class[args.length];
+        Class<?>[] types = new Class[args.length];
         System.arraycopy(args, 0, types, 0, args.length);
         return types;
     }
@@ -397,7 +397,7 @@ public final class BeanUtil {
      * @return an instance of the class
      */
     public static Object newInstance(String className) {
-        Class<? extends Object> type = BeanUtil.forName(className);
+        Class<?> type = BeanUtil.forName(className);
         return newInstanceFromDefaultConstructor(type);
     }
 
@@ -429,7 +429,7 @@ public final class BeanUtil {
     			throw new ConfigurationError("No constructor with " + paramCount + " parameters found for " + type);
             else {
             	// there are several candidates - find the first one with matching types
-                Class<? extends Object>[] paramTypes = new Class[parameters.length];
+                Class<?>[] paramTypes = new Class[parameters.length];
                 for (int i = 0; i < parameters.length; i++)
                     paramTypes[i] = parameters[i].getClass();
                 for (Constructor c : type.getConstructors()) {
@@ -503,7 +503,7 @@ public final class BeanUtil {
      * @param paramTypes
      * @return a method with matching names and parameters
      */
-    public static Method getMethod(Class<? extends Object> type, String methodName, Class<? extends Object> ... paramTypes) {
+    public static Method getMethod(Class<?> type, String methodName, Class<?> ... paramTypes) {
         Method method = findMethod(type, methodName, paramTypes);
         if (method == null)
             throw new ConfigurationError("method not found in class " + type.getName() + ": " + methodName 
@@ -520,7 +520,7 @@ public final class BeanUtil {
      * @param paramTypes
      * @return a method with matching names and parameters
      */
-    public static Method findMethod(Class<? extends Object> type, String methodName, Class<? extends Object> ... paramTypes) {
+    public static Method findMethod(Class<?> type, String methodName, Class<?> ... paramTypes) {
         Method[] methods = type.getMethods();
         for (Method method : methods) {
             if (methodName.equals(method.getName()) && typesMatch(paramTypes, method.getParameterTypes()))
@@ -529,7 +529,7 @@ public final class BeanUtil {
         return null;
     }
 
-    public static Method[] findMethodsByName(Class<? extends Object> type, String methodName) {
+    public static Method[] findMethodsByName(Class<?> type, String methodName) {
         ArrayBuilder<Method> builder = new ArrayBuilder<Method>(Method.class);
         for (Method method : type.getMethods()) {
             if (methodName.equals(method.getName()))
@@ -564,10 +564,10 @@ public final class BeanUtil {
     }
 
     @SuppressWarnings("unchecked")
-    public static Object invokeStatic(Class<? extends Object> targetClass, String methodName, Object ... args) {
+    public static Object invokeStatic(Class<?> targetClass, String methodName, Object ... args) {
         if (targetClass == null)
             throw new IllegalArgumentException("target is null");
-        Class<? extends Object>[] argClasses = new Class[args.length];
+        Class<?>[] argClasses = new Class[args.length];
         for (int i = 0; i < args.length; i++)
             argClasses[i] = (args[i] != null ? args[i].getClass() : null);
         Method method = getMethod(targetClass, methodName, argClasses);
@@ -597,7 +597,7 @@ public final class BeanUtil {
         }
     }
 
-    public static boolean typesMatch(Class<? extends Object>[] foundTypes, Class<? extends Object>[] expectedTypes) {
+    public static boolean typesMatch(Class<?>[] foundTypes, Class<?>[] expectedTypes) {
     	if (foundTypes == null)
     		return (expectedTypes == null || expectedTypes.length == 0);
         if (foundTypes.length != expectedTypes.length)
@@ -605,8 +605,8 @@ public final class BeanUtil {
         if (expectedTypes.length == 0)
             return true;
         for (int i = 0; i < foundTypes.length; i++) {
-            Class<? extends Object> expectedType = expectedTypes[i];
-            Class<? extends Object> foundType = foundTypes[i];
+            Class<?> expectedType = expectedTypes[i];
+            Class<?> foundType = foundTypes[i];
             if (expectedType.isAssignableFrom(foundType))
                 return true;
             if (isPrimitiveType(expectedType.getName()) &&
@@ -628,7 +628,7 @@ public final class BeanUtil {
      * @param propertyName the name of the property
      * @return the attribute's property descriptor
      */
-    public static PropertyDescriptor getPropertyDescriptor(Class<? extends Object> beanClass, String propertyName) {
+    public static PropertyDescriptor getPropertyDescriptor(Class<?> beanClass, String propertyName) {
         if (beanClass == null)
             throw new IllegalArgumentException("beanClass is null");
         String propertyId = beanClass.getName() + '#' + propertyName;
@@ -641,7 +641,7 @@ public final class BeanUtil {
         if (separatorIndex >= 0) {
             String localProperty = propertyName.substring(0, separatorIndex);
             String remoteProperty = propertyName.substring(separatorIndex + 1);
-            Class<? extends Object> localPropertyType = getPropertyDescriptor(beanClass, localProperty).getPropertyType();
+            Class<?> localPropertyType = getPropertyDescriptor(beanClass, localProperty).getPropertyType();
             result = getPropertyDescriptor(localPropertyType, remoteProperty);
         } else {
             try {
@@ -663,14 +663,14 @@ public final class BeanUtil {
     }
 
     public static PropertyDescriptor getPropertyDescriptor(
-    		Class<? extends Object> type, String propertyName, boolean required) {
+    		Class<?> type, String propertyName, boolean required) {
     	PropertyDescriptor descriptor = getPropertyDescriptor(type, propertyName);
     	if (required && descriptor == null)
     		throw new UnsupportedOperationException(type.getName() + " does not have a property " + propertyName);
     	return descriptor;
     }
 
-    public static boolean hasProperty(Class<? extends Object> beanClass, String propertyName) {
+    public static boolean hasProperty(Class<?> beanClass, String propertyName) {
         return (getPropertyDescriptor(beanClass, propertyName) != null);
     }
 
@@ -680,7 +680,7 @@ public final class BeanUtil {
      * @param propertyType the type of the property
      * @return the name of the property read method
      */
-    public static String readMethodName(String propertyName, Class<? extends Object> propertyType) {
+    public static String readMethodName(String propertyName, Class<?> propertyType) {
         if (boolean.class.equals(propertyType) || Boolean.class.equals(propertyType))
             return "is" + Character.toUpperCase(propertyName.charAt(0)) + propertyName.substring(1);
         else
@@ -740,7 +740,7 @@ public final class BeanUtil {
      * @param type the class to check
      * @return all found property descriptors
      */
-    public static PropertyDescriptor[] getPropertyDescriptors(Class<? extends Object> type) {
+    public static PropertyDescriptor[] getPropertyDescriptors(Class<?> type) {
         try {
             return Introspector.getBeanInfo(type).getPropertyDescriptors();
         } catch (IntrospectionException e) {
@@ -800,7 +800,7 @@ public final class BeanUtil {
     public static void setPropertyValue(Object bean, String propertyName, Object argument, boolean required, boolean autoConvert) {
         Method writeMethod = null;
         try {
-            Class<? extends Object> beanClass = bean.getClass();
+            Class<?> beanClass = bean.getClass();
             PropertyDescriptor propertyDescriptor = getPropertyDescriptor(beanClass, propertyName);
             if (propertyDescriptor == null)
                 if (required)
@@ -813,7 +813,7 @@ public final class BeanUtil {
             			+ propertyDescriptor.getName() + "' of " + beanClass);
             Class<?> propertyType = propertyDescriptor.getPropertyType();
 			if (argument != null) {
-	            Class<? extends Object> argType = argument.getClass();
+	            Class<?> argType = argument.getClass();
 	            if (!propertyType.isAssignableFrom(argType) && !isWrapperTypeOf(propertyType, argument) && !autoConvert)
                     throw new IllegalArgumentException("ArgumentType mismatch: expected " 
                             + propertyType.getName() + ", found " + argument.getClass().getName());
@@ -854,7 +854,7 @@ public final class BeanUtil {
             printer.println("null");
             return;
         }
-        Class<? extends Object> type = object.getClass();
+        Class<?> type = object.getClass();
         printer.println(type);
         if (type.getSuperclass() != null)
             printer.println("extends " + type.getSuperclass());
@@ -869,9 +869,9 @@ public final class BeanUtil {
      * Checks if a class fulfills the JavaBeans contract.
      * @param cls the class to check
      */
-    public static void checkJavaBean(Class<? extends Object> cls) {
+    public static void checkJavaBean(Class<?> cls) {
         try {
-            Constructor<? extends Object> constructor = cls.getDeclaredConstructor();
+            Constructor<?> constructor = cls.getDeclaredConstructor();
             int classModifiers = cls.getModifiers();
             if (Modifier.isInterface(classModifiers))
                 throw new RuntimeException(cls.getName() + " is an interface");
@@ -894,7 +894,7 @@ public final class BeanUtil {
      * @return true if the class is deprecated, else false
      * @since 0.2.05
      */
-    public static boolean deprecated(Class<? extends Object> type) {
+    public static boolean deprecated(Class<?> type) {
         Annotation[] annotations = type.getDeclaredAnnotations();
         for (Annotation annotation : annotations)
             if (annotation instanceof Deprecated)
@@ -926,7 +926,7 @@ public final class BeanUtil {
     }
 
     public static Object getFieldValue(Object target, String name, boolean strict) {
-        Class<? extends Object> type = target.getClass();
+        Class<?> type = target.getClass();
         try {
 			Field field = type.getField(name);
             return getFieldValue(field, target, strict);
@@ -959,7 +959,7 @@ public final class BeanUtil {
      * @param name the name of the attribute
      * @return a Field object that represents the attribute
      */
-    public static Field getField(Class<? extends Object> type, String name) {
+    public static Field getField(Class<?> type, String name) {
         try {
             return type.getField(name);
         } catch (NoSuchFieldException e) {
@@ -971,17 +971,17 @@ public final class BeanUtil {
      * Represents a primitive-to-wrapper mapping.
      */
     private static final class PrimitiveTypeMapping {
-        public Class<? extends Object> primitiveType;
-        public Class<? extends Object> wrapperType;
+        public Class<?> primitiveType;
+        public Class<?> wrapperType;
 
-        public PrimitiveTypeMapping(Class<? extends Object> primitiveType, Class<? extends Object> wrapperType) {
+        public PrimitiveTypeMapping(Class<?> primitiveType, Class<?> wrapperType) {
             this.primitiveType = primitiveType;
             this.wrapperType = wrapperType;
         }
     }
 
     public static Method[] findMethodsByAnnotation(
-            Class<? extends Object> owner, Class<? extends Annotation> annotationClass) {
+            Class<?> owner, Class<? extends Annotation> annotationClass) {
         Method[] methods = owner.getMethods();
         ArrayBuilder<Method> builder = new ArrayBuilder<Method>(Method.class);
         for (Method method : methods)
@@ -1010,7 +1010,7 @@ public final class BeanUtil {
 	public static String toString(Object bean, boolean simple) {
 		if (bean == null)
 			return null;
-		Class<? extends Object> beanClass = bean.getClass();
+		Class<?> beanClass = bean.getClass();
 		StringBuilder builder = new StringBuilder(simple ? beanClass.getSimpleName() : bean.getClass().getName());
 		PropertyDescriptor[] descriptors = getPropertyDescriptors(bean.getClass());
 		boolean first = true;

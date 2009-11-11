@@ -37,7 +37,7 @@ import java.lang.reflect.Modifier;
  */
 public final class CollectionUtil {
 
-    public static boolean isEmpty(Collection<? extends Object> collection) {
+    public static boolean isEmpty(Collection<?> collection) {
         return (collection == null || collection.size() == 0);
     }
 

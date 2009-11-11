@@ -45,20 +45,20 @@ import org.w3c.dom.NamedNodeMap;
  */
 public class FlatXML2BeanConverter extends FixedSourceTypeConverter<Element, Object> {
 
-    private Map<String, Class<? extends Object>> types;
+    private Map<String, Class<?>> types;
     
     public FlatXML2BeanConverter() {
     	super(Element.class, Object.class);
-        this.types = new HashMap<String, Class<? extends Object>>();
+        this.types = new HashMap<String, Class<?>>();
     }
     
-    public void addMapping(String name, Class<? extends Object> type) {
+    public void addMapping(String name, Class<?> type) {
         types.put(name, type);
     }
 
     public Object convert(Element element) {
         String elementName = element.getNodeName();
-        Class<? extends Object> type = types.get(elementName);
+        Class<?> type = types.get(elementName);
         if (type == null)
             throw new ConfigurationError("Element type not mapped: " + elementName);
         Object bean = BeanUtil.newInstance(type);
