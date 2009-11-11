@@ -63,12 +63,12 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 		this(uri, sheetIndex, null);
 	}
 	
-    public XLSLineIterator(String uri, int sheetIndex, Converter<String, ? extends Object> preprocessor) throws IOException {
+    public XLSLineIterator(String uri, int sheetIndex, Converter<String, ?> preprocessor) throws IOException {
 		this(sheet(uri, sheetIndex), preprocessor);
 	}
 	
 	@SuppressWarnings("unchecked")
-    public XLSLineIterator(HSSFSheet sheet, Converter<String, ? extends Object> preprocessor) {
+    public XLSLineIterator(HSSFSheet sheet, Converter<String, ?> preprocessor) {
 		if (preprocessor == null)
 			preprocessor = new NoOpConverter();
 		this.preprocessor = preprocessor;
