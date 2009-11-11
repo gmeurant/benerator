@@ -31,6 +31,7 @@ import org.databene.commons.Context;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.Set;
 
 /**
@@ -46,14 +47,26 @@ public class DefaultContext implements Context {
     protected Map<String, Object> map;
 
     public DefaultContext() {
-        this(null);
+        this((Context) null);
     }
 
     public DefaultContext(Context defaults) {
-        this.map = new HashMap<String, Object>();
         this.defaults = defaults;
+        this.map = new HashMap<String, Object>();
     }
 
+    public DefaultContext(Map<String, ?> map) {
+    	this.defaults = null;
+        this.map = new HashMap<String, Object>(map);
+    }
+    
+    public DefaultContext(Properties props) {
+    	this.defaults = null;
+        this.map = new HashMap<String, Object>(props.size());
+        for (Map.Entry<?, ?> entry : props.entrySet())
+        	this.map.put((String) entry.getKey(), entry.getValue());
+    }
+    
     public synchronized Object get(String key) {
         Object value = map.get(key);
         if (value == null && defaults != null)
