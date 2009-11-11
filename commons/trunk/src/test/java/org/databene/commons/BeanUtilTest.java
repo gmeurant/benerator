@@ -48,6 +48,20 @@ public class BeanUtilTest {
     // type info tests -------------------------------------------------------------------------------------------------
 
 	@Test
+	public void testCommonSuperType() {
+		assertNull(BeanUtil.commonSuperType(CollectionUtil.toList()));
+		assertEquals(Integer.class, BeanUtil.commonSuperType(CollectionUtil.toList(1, 2, 3)));
+		assertEquals(Object.class, BeanUtil.commonSuperType(CollectionUtil.toList(new Object(), 3)));
+	}
+	
+	@Test
+	public void testCommonSubType() {
+		assertNull(BeanUtil.commonSubType(CollectionUtil.toList()));
+		assertEquals(Integer.class, BeanUtil.commonSubType(CollectionUtil.toList(1, 2, 3)));
+		assertEquals(Integer.class, BeanUtil.commonSubType(CollectionUtil.toList(new Object(), 3)));
+	}
+	
+	@Test
     public void testIsSimpleTypeByName() {
         assertTrue(BeanUtil.isSimpleType("int"));
         assertTrue(BeanUtil.isSimpleType("java.lang.Integer"));
