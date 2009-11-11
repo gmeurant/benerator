@@ -35,7 +35,11 @@ Improvements
   - SysUtil.runiWithSysProp(String, String, Runnable)
   - SysUtil.callWithSysProp(String, String, Callable)
 - new methods TimeUtil.month() ...dayOfMonth()
-
+- new class BoolenConverter
+- new method DBUtil.queryLong()
+- BeanUtil:
+  - new method commonSuperType()
+  - new method commonSubType()
 
 Changes
 -------
@@ -47,3 +51,4 @@ Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&a
 - fixed support for String-to-Class conversion in AnyConverter and StringConverter
 - Bug fixe in handling and converting Time and Timestamp values
 - 2879250 Error processing C:\\temp
+- Bug fix for avoiding duplicate logs
