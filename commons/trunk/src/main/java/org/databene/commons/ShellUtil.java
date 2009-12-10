@@ -31,6 +31,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Executes a shell file.<br/>
  * <br/>
@@ -40,6 +43,8 @@ import java.io.InputStreamReader;
  */
 public class ShellUtil {
 	
+	private static Logger logger = LoggerFactory.getLogger(ShellUtil.class);
+
 	public static int runShellCommands(ReaderLineIterator iterator, ErrorHandler errorHandler) {
 		int result = 0;
 		while (iterator.hasNext()) {
@@ -55,6 +60,7 @@ public class ShellUtil {
 	}
 	
 	public static int runShellCommand(String command, File directory, ErrorHandler errorHandler) {
+		logger.debug(command);
 		try {
 			String s = null;
 			Process p = Runtime.getRuntime().exec(command, null, directory);
@@ -83,6 +89,8 @@ public class ShellUtil {
 	}
 
 	public static void runShellCommand(String[] cmdArray, File directory, ErrorHandler errorHandler) {
+		if (logger.isDebugEnabled())
+			logger.debug(renderCmdArray(cmdArray));
 		try {
 			String s = null;
 			Process p = Runtime.getRuntime().exec(cmdArray, null, directory);
@@ -98,13 +106,19 @@ public class ShellUtil {
 			}
 			p.waitFor();
 			if (p.exitValue() != 0) {
-				String command = ArrayFormat.format(" ", cmdArray);
+				String command = renderCmdArray(cmdArray);
 				errorHandler.handleError("Process (" + command + ") did not terminate normally: Return code " + p.exitValue());
 			}
 		} catch (Exception e) {
-			String command = ArrayFormat.format(" ", cmdArray);
+			String command = renderCmdArray(cmdArray);
 			errorHandler.handleError("Error in shell invocation: " + command, e);
 		}
 	}
+	
+	// private helpers ---------------------------------------------------------
+
+	private static String renderCmdArray(String[] cmdArray) {
+	    return ArrayFormat.format(" ", cmdArray);
+    }
 
 }
