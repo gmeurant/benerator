@@ -265,7 +265,11 @@ public final class TimeUtil implements Patterns {
     }
 
     public static long millisSinceOwnEpoch(Date date) {
-    	return date.getTime() + TimeZone.getDefault().getOffset(0);
+    	return millisSinceOwnEpoch(date.getTime());
+    }
+
+    public static long millisSinceOwnEpoch(long millis) {
+    	return millis + TimeZone.getDefault().getOffset(0);
     }
 
 }
