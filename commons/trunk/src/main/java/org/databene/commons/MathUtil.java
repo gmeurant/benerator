@@ -122,6 +122,13 @@ public class MathUtil {
 	public static <T extends Number> BigInteger toBigInteger(T value) {
 	    return NumberConverter.convert(value, BigInteger.class);
     }
-	
 
+	public static boolean rangeIncludes(long x, long min, long max) {
+	    return (min <= x && x <= max);
+    }
+	
+	public static boolean rangeIncludes(double x, double min, double max) {
+	    return (min <= x && x <= max);
+    }
+	
 }
