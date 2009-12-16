@@ -40,6 +40,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.databene.commons.ArrayUtil;
 import org.databene.commons.CollectionUtil;
+import org.databene.commons.Encodings;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -156,7 +157,7 @@ public class XMLUtilTest {
 
 	@Test
     public void testParseStream() throws IOException {
-        ByteArrayInputStream stream = new ByteArrayInputStream(XML_TEXT.getBytes(Charset.forName("UTF-8"))); 
+        ByteArrayInputStream stream = new ByteArrayInputStream(XML_TEXT.getBytes(Charset.forName(Encodings.UTF_8))); 
         checkXML(XMLUtil.parse(stream));
     }
 

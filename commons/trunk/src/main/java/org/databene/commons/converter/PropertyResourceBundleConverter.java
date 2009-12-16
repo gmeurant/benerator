@@ -34,6 +34,7 @@ import java.util.PropertyResourceBundle;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.databene.commons.Encodings;
 import org.databene.commons.IOUtil;
 import org.databene.commons.LocaleUtil;
 
@@ -65,7 +66,7 @@ public class PropertyResourceBundleConverter extends FixedSourceTypeConverter<St
     		String bundleName = toBundleName(baseName, locale);
     		String resourceName = toResourceName(bundleName, "properties");
     		InputStream stream = IOUtil.getInputStreamForURI(resourceName, true);
-			Charset utf8 = Charset.forName("UTF-8");
+			Charset utf8 = Charset.forName(Encodings.UTF_8);
 			return new PropertyResourceBundle(new InputStreamReader(stream, utf8)); 
     	}
     	

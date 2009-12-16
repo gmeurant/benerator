@@ -29,6 +29,7 @@ package org.databene.commons.converter;
 import java.net.URLEncoder;
 
 import org.databene.commons.ConversionException;
+import org.databene.commons.Encodings;
 
 /**
  * Decodes a String from the <code>application/x-www-form-urlencoded</code>  MIME format.
@@ -44,7 +45,7 @@ public class URLDecodeConverter extends FixedSourceTypeConverter<String, String>
 	private String encoding;
 	
     public URLDecodeConverter() {
-	    this("UTF-8");
+	    this(Encodings.UTF_8);
     }
 
     public URLDecodeConverter(String encoding) {

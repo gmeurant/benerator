@@ -577,7 +577,7 @@ public final class IOUtil {
             in.unread(b1);
             return defaultEncoding;
         }
-        return "UTF-8";
+        return Encodings.UTF_8;
     }
 
 }

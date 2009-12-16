@@ -29,6 +29,7 @@ package org.databene.commons.converter;
 import java.net.URLEncoder;
 
 import org.databene.commons.ConversionException;
+import org.databene.commons.Encodings;
 
 /**
  * Converts Strings to their URL-encoded representation.<br/>
@@ -43,7 +44,7 @@ public class URLEncodeConverter extends FixedSourceTypeConverter<String, String>
 	private String encoding;
 	
     public URLEncodeConverter() {
-	    this("UTF-8");
+	    this(Encodings.UTF_8);
     }
 
     public URLEncodeConverter(String encoding) {
