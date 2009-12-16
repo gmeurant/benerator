@@ -28,6 +28,7 @@ package org.databene.commons.iterator;
 
 import java.util.Iterator;
 
+import org.databene.commons.ArrayFormat;
 import org.databene.commons.TypedIterable;
 
 /**
@@ -56,4 +57,9 @@ public class ArrayIterable<E> implements TypedIterable<E> {
 	    return new ArrayIterator<E>(source);
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + '[' + ArrayFormat.format(source) + ']';
+    }
+    
 }
