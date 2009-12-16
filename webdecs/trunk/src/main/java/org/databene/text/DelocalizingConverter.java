@@ -29,6 +29,7 @@ package org.databene.text;
 import org.databene.document.csv.CSVLineIterator;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.Converter;
+import org.databene.commons.Encodings;
 import org.databene.commons.converter.FixedSourceTypeConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,7 +83,7 @@ public class DelocalizingConverter extends FixedSourceTypeConverter<String, Stri
      */
     private void init() throws IOException {
         replacements = new HashMap<Character, String>();
-        CSVLineIterator iterator = new CSVLineIterator(CONFIG_FILENAME, ',', true, "utf-8");
+        CSVLineIterator iterator = new CSVLineIterator(CONFIG_FILENAME, ',', true, Encodings.UTF_8);
 
         while (iterator.hasNext()) {
             String[] tokens = iterator.next();
