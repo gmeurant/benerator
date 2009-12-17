@@ -35,17 +35,18 @@ public class CSVIteratorFactory {
 
 	private CSVIteratorFactory() { }
 	
-	public static HeavyweightIterator<String> createCSVCellIterator(String uri, char separator) throws IOException { 
+	public static HeavyweightIterator<String> createCSVCellIterator(
+			String uri, char separator) throws IOException { 
 		return new CSVCellIterator(uri, separator);
 	} 
 
-	public static HeavyweightIterator<String> createCSVVellIteratorForColumn(String uri, int column, char separator) 
-			throws IOException { 
-		return new SingleColumCSVIterator(uri, column, separator);
+	public static HeavyweightIterator<String> createCSVVellIteratorForColumn(
+			String uri, int column, char separator, boolean ignoreEmptyLines, String encoding) throws IOException { 
+		return new CSVSingleColumIterator(uri, column, separator, ignoreEmptyLines, encoding);
 	} 
 
-	public static HeavyweightIterator<String[]> createCSVLineIterator(String uri, char separator, boolean ignoreEmptyLines, String encoding) 
-			throws IOException { 
+	public static HeavyweightIterator<String[]> createCSVLineIterator(
+			String uri, char separator, boolean ignoreEmptyLines, String encoding) throws IOException { 
 		return new CSVLineIterator(uri, separator, ignoreEmptyLines, encoding);
 	}
 
