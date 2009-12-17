@@ -26,9 +26,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
- * TODO Document class.<br/><br/>
+ * Tests the {@link ToHexConverter}.<br/><br/>
  * Created: 29.10.2009 10:26:04
- * @since TODO version
+ * @since 0.5.0
  * @author Volker Bergmann
  */
 public class ToHexConverterTest {
