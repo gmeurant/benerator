@@ -30,11 +30,10 @@ import org.databene.commons.ConversionException;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class BooleanConverter<E> extends FixedSourceTypeConverter<Boolean, E> { // TODO test
+public class BooleanConverter<E> extends FixedSourceTypeConverter<Boolean, E> {
 
-	@SuppressWarnings("unchecked")
-    public BooleanConverter() {
-	    super(Boolean.class, (Class<E>) Object.class);
+    public BooleanConverter(Class<E> targetType) {
+	    super(Boolean.class, targetType);
     }
 
 	public E convert(Boolean sourceValue) throws ConversionException {
@@ -45,13 +44,18 @@ public class BooleanConverter<E> extends FixedSourceTypeConverter<Boolean, E> { 
     public static <T> T convert(Boolean sourceValue, Class<T> targetType) throws ConversionException {
 		if (sourceValue == null || Boolean.class == targetType || boolean.class == targetType)
             return (T) sourceValue;
+		else if (targetType == String.class)
+			return (T) sourceValue.toString();
         else if (Number.class.isAssignableFrom(targetType))
             return NumberConverter.convert((sourceValue ? 1 : 0), targetType);
-        else if (Number.class.isAssignableFrom(BeanUtil.getWrapper(targetType.getName())))
-            return NumberConverter.convert((sourceValue ? 1 : 0), targetType);
-        else // TODO support configured and heuristic conversion
-            throw new UnsupportedOperationException("Can't convert " + sourceValue.getClass() + 
-            		" to " + targetType);
+        else {
+        	Class<?> wrapper = BeanUtil.getWrapper(targetType.getName());
+			if (wrapper != null && Number.class.isAssignableFrom(wrapper))
+	            return NumberConverter.convert((sourceValue ? 1 : 0), targetType);
+	        else // TODO support configured and heuristic conversion
+	            throw new UnsupportedOperationException("Can't convert " + sourceValue.getClass() + 
+	            		" to " + targetType);
+        }
     }
 
 }
