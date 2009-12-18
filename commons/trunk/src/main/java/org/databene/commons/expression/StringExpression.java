@@ -26,7 +26,8 @@ import org.databene.commons.Expression;
 import org.databene.commons.converter.ToStringConverter;
 
 /**
- * TODO Document class.<br/><br/>
+ * Wrapper for an {@link Expression} that converts its result to a {@link String} 
+ * using the {@link ToStringConverter}.<br/><br/>
  * Created: 27.10.2009 13:35:29
  * @since 0.5.0
  * @author Volker Bergmann
