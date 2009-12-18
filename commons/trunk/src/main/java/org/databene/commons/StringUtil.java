@@ -276,7 +276,7 @@ public final class StringUtil {
         return result;
     }
 
-    public static String padLeft(String text, int length, char c) { // TODO meaningful error message when string is longer than 'length'
+    public static String padLeft(String text, int length, char c) {
         if (text == null)
             text = "";
         int textLength = text.length();
