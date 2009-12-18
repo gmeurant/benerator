@@ -56,6 +56,8 @@ public class NumberConverter<T> extends FixedSourceTypeConverter<Number, T> {
     public static <TT> TT convert(Number sourceValue, Class<TT> targetType) {
     	if (sourceValue == null)
     		return null;
+    	if (sourceValue.getClass() == targetType)
+    		return (TT) sourceValue;
         if (String.class.equals(targetType))
             return (TT) ToStringConverter.convert(sourceValue, null);
         else if (Number.class.isAssignableFrom(targetType) || targetType.isPrimitive())
