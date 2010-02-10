@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,6 +26,7 @@
 
 package org.databene.commons.validator;
 
+import org.databene.commons.Resettable;
 import org.databene.commons.Validator;
 
 import java.util.Set;
@@ -38,7 +39,7 @@ import java.util.HashSet;
  * Created: 20.11.2007 09:55:16
  * @author Volker Bergmann
  */
-public class UniqueValidator<E> implements Validator<E> {
+public class UniqueValidator<E> implements Validator<E>, Resettable {
 
     private Set<E> instances = new HashSet<E>();
 
@@ -49,8 +50,13 @@ public class UniqueValidator<E> implements Validator<E> {
         return true;
     }
     
+	public void reset() {
+	    instances.clear();
+    }
+    
     @Override
     public String toString() {
         return getClass().getSimpleName();
     }
+
 }
