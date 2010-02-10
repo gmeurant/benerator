@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -190,7 +190,6 @@ public class BeanUtilTest {
     // method tests ----------------------------------------------------------------------------------------------------
 
 	@Test
-    @SuppressWarnings("unchecked")
     public void testGetMethod() throws IllegalAccessException, InvocationTargetException {
         Method method = BeanUtil.getMethod(P.class, "getVal");
         P p = new P();
@@ -206,7 +205,6 @@ public class BeanUtilTest {
     }
 
 	@Test
-    @SuppressWarnings("unchecked")
     public void testFindMethod() throws IllegalAccessException, InvocationTargetException {
         Method method = BeanUtil.findMethod(P.class, "getVal");
         P p = new P();
@@ -234,7 +232,6 @@ public class BeanUtilTest {
     }
 
 	@Test
-    @SuppressWarnings("unchecked")
     public void testTypesMatch() {
         assertTrue(BeanUtil.typesMatch(new Class[] {  }, new Class[] {  }));
         assertFalse(BeanUtil.typesMatch(new Class[] { String.class }, new Class[] {  }));
