@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -319,7 +319,6 @@ public final class BeanUtil {
      * @param field the field representation of the attribute.
      * @return an array of types that are used to parameterize the attribute.
      */
-    @SuppressWarnings("unchecked")
     public static Class<?>[] getGenericTypes(Field field) {
         Type genericFieldType = field.getGenericType();
         if (!(genericFieldType instanceof ParameterizedType))
@@ -491,6 +490,22 @@ public final class BeanUtil {
             throw ExceptionMapper.configurationException(e, type);
         }
     }
+    
+	@SuppressWarnings("unchecked")
+    public static <T> T clone(T object) {
+        try {
+            Method cloneMethod = object.getClass().getMethod("clone");
+            return (T) cloneMethod.invoke(object);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException("Unexpected exception", e); // This is not supposed to happen
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException("Unexpected exception", e); // This is not supposed to happen
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException("Execption occured in clone() method", e);
+        }
+    }
+
+
 
     // method operations -----------------------------------------------------------------------------------------------
 
@@ -563,7 +578,6 @@ public final class BeanUtil {
         return invoke(target, method, strict, args);
     }
 
-    @SuppressWarnings("unchecked")
     public static Object invokeStatic(Class<?> targetClass, String methodName, Object ... args) {
         if (targetClass == null)
             throw new IllegalArgumentException("target is null");
