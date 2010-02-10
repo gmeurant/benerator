@@ -7,7 +7,10 @@ Summary
 
 Improvements
 ------------
-- new BeanUtil methods: isIntegralNumber(className), isDecimalNumber(className)
+- new BeanUtil methods: 
+  - isIntegralNumber(className)
+  - isDecimalNumber(className)
+  - clone(Object)
 - new DBUtil method new method logMetaData()
 - IOUtil: Unified close() and flush() methods to work on any Closeable and Flushable
 - new Converters
@@ -40,6 +43,11 @@ Improvements
 - BeanUtil:
   - new method commonSuperType()
   - new method commonSubType()
+- New interfaces:
+  - ContextAware, Resettable
+- New Enums: 
+  - ThreadSupport
+
 
 Changes
 -------
