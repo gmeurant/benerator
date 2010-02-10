@@ -109,4 +109,24 @@ public class ErrorHandler {
 		this.loggingStackTrace = loggingStackTrace;
 	}
 	
+	// static utilities ------------------------------------------------------------------------------------------------
+
+	private static ErrorHandler defaultInstance = new ErrorHandler(ErrorHandler.class);
+	
+	public static ErrorHandler getDefault() {
+		return defaultInstance;
+    }
+
+	private static Level defaultLevel = Level.fatal;
+	
+	public static Level getDefaultLevel() {
+		return defaultLevel;
+	}
+	
+	public static void setDefaultLevel(Level level) {
+		defaultLevel = level;
+		if (defaultInstance.getLevel() != level)
+			defaultInstance = new ErrorHandler(defaultInstance.logger.getName(), level);
+	}
+
 }
