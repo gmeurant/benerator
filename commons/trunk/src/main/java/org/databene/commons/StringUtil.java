@@ -197,9 +197,10 @@ public final class StringUtil {
      * @param array an array of the Strings to trim
      * @since 0.2.05
      */
-    public static void trimAll(String[] array) {
+    public static String[] trimAll(String[] array) {
         for (int i = 0; i < array.length; i++)
             array[i] = trim(array[i]);
+        return array;
     }
 
     /** Returns the platform dependent line separator */
@@ -479,9 +480,16 @@ public final class StringUtil {
         return (s1 != null ? s1.equalsIgnoreCase(s2) : s2 == null);
 	}
 
-    public static boolean containsIgnoreCase(Collection<String> names, String searched) {
-        for (String name : names)
-            if (name.equalsIgnoreCase(searched))
+    public static boolean containsIgnoreCase(String searchedWord, Collection<String> words) {
+        for (String name : words)
+            if (name.equalsIgnoreCase(searchedWord))
+                return true;
+        return false;
+    }
+
+    public static boolean containsIgnoreCase(String searchedWord, String[] words) {
+        for (String name : words)
+            if (name.equalsIgnoreCase(searchedWord))
                 return true;
         return false;
     }
