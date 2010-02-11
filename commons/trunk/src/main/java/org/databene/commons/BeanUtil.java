@@ -333,12 +333,13 @@ public final class BeanUtil {
     // instantiation ---------------------------------------------------------------------------------------------------
 
     /**
-     * Instatiates the specified class.
+     * Instantiates the specified class.
      * @param name the name of the class to instantiate
      * @return the Class instance
      */
     @SuppressWarnings("unchecked")
     public static <T> Class<T> forName(String name) {
+    	Assert.notNull(name, "class name");
         Class type = simpleTypeMap.get(name);
         if (type != null)
             return type;
