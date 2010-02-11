@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.databene.commons.db.JDBCConnectData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,6 +93,18 @@ public class DatabeneTestUtil {
 	
 	public static String ftpUploadUrl() {
 		return properties.get("ftp.upload.url");
+	}
+	
+	public static JDBCConnectData getConnectData(String db) {
+		String prefix = "db." + db + ".";
+		if (!"true".equals(properties.get(prefix + "online")))
+			return null;
+		return new JDBCConnectData(
+				properties.get(prefix + "driver"),
+				properties.get(prefix + "url"),
+				properties.get(prefix + "user"),
+				properties.get(prefix + "password")
+			);
 	}
 	
 }
