@@ -206,6 +206,7 @@ public class JDBCDriverInfo {
 	}
 	
 	public static final JDBCDriverInfo HSQL = getInstance("HSQL");
+	public static final JDBCDriverInfo FIREBIRD = getInstance("FIREBIRD");
 	
 	public static Collection<JDBCDriverInfo> getInstances() {
 		return instances.values();
