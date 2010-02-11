@@ -26,6 +26,7 @@
 
 package org.databene.commons.db;
 
+import org.databene.commons.ArrayBuilder;
 import org.databene.commons.ArrayFormat;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
@@ -74,6 +75,10 @@ public class DBUtil {
     /** private constructor for preventing instantiation. */
     private DBUtil() {}
     
+	public static Connection connect(JDBCConnectData data) throws ConnectFailedException {
+	    return connect(data.url, data.driver, data.user, data.password);
+    }
+
     public static Connection connect(String url, String driverClassName, String user, String password) throws ConnectFailedException {
 		try {
 			// Instantiate driver
@@ -296,6 +301,22 @@ public class DBUtil {
                 statement.close();
         }
         return result;
+    }
+
+    public static <T> T[] queryScalarArray(String query, Class<T> componentType, Connection connection) throws SQLException {
+    	Statement statement = null;
+    	ResultSet resultSet = null;
+    	try {
+	    	statement = connection.createStatement();
+	    	resultSet = statement.executeQuery(query);
+	        ArrayBuilder<T> builder = new ArrayBuilder<T>(componentType);
+	        while (resultSet.next())
+	        	builder.add(AnyConverter.convert(resultSet.getObject(1), componentType));
+	        return builder.toArray();
+    	} finally {
+	    	DBUtil.close(resultSet);
+	    	DBUtil.close(statement);
+    	}
     }
 
     public static Object query(String query, Connection connection) throws SQLException {
