@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,12 +28,14 @@ package org.databene.script;
 
 import java.io.IOException;
 
+import org.databene.commons.ParseException;
+
 /**
  * Factory class for {@link Script} objects.<br/><br/>
  * @since 0.3.0
  * @author Volker Bergmann
  */
 public interface ScriptFactory {
-    Script readFile(String uri) throws IOException;
-    Script parseText(String text);
+    Script readFile(String uri) throws ParseException, IOException;
+    Script parseText(String text) throws ParseException;
 }
