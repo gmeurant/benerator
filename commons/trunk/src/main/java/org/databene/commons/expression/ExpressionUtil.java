@@ -66,4 +66,20 @@ public class ExpressionUtil {
 	    return (expression != null ? expression.evaluate(context) : null);
     }
 
+	public static ConstantExpression<String> stringEx(String text) {
+		return new ConstantExpression<String>(text);
+	}
+	
+	public static ConstantExpression<Boolean> booleanEx(boolean value) {
+		return new ConstantExpression<Boolean>(value);
+	}
+	
+	public static ConstantExpression<Integer> intEx(int value) {
+		return new ConstantExpression<Integer>(value);
+	}
+	
+	public static ConstantExpression<Double> doubleEx(double value) {
+		return new ConstantExpression<Double>(value);
+	}
+	
 }
