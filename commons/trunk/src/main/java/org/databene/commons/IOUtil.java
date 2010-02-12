@@ -198,7 +198,7 @@ public final class IOUtil {
     		return getInputStreamForURI(localUri, required);
     	
     	// now resolve the relative uri
-    	String uri = resolveLocalUri(localUri, contextUri);
+    	String uri = resolveRelativeUri(localUri, contextUri);
     	
     	if (localUri.startsWith("http://")) {
             try {
@@ -219,22 +219,22 @@ public final class IOUtil {
             throw new ConfigurationError("Can't to handle URL " + localUri);
     }
 
-    public static String resolveLocalUri(String localUri, String contextUri) {
+    public static String resolveRelativeUri(String relativeUri, String contextUri) {
     	if (logger.isDebugEnabled())
-    		logger.debug("resolveLocalUri(" + localUri + ", " + contextUri + ')');
-    	if (StringUtil.isEmpty(contextUri) || getProtocol(localUri) != null)
-    		return localUri;
+    		logger.debug("resolveLocalUri(" + relativeUri + ", " + contextUri + ')');
+    	if (StringUtil.isEmpty(contextUri) || getProtocol(relativeUri) != null)
+    		return relativeUri;
     	String protocol = getProtocol(contextUri);
     	try {
     		URL contextUrl = new URL((protocol == null ? "file:" : "")  + contextUri);
-    		URL absoluteUrl = new URL(contextUrl, localUri);
+    		URL absoluteUrl = new URL(contextUrl, relativeUri);
     		String result = absoluteUrl.toString();
     		if (protocol == null) // cut off 'file:'
     			result = result.substring(5);
     		if (!"./".equals(contextUri) && (protocol == null || protocol.startsWith("file:"))) {
     			File file = new File(result);
-    			if (!file.exists() && isURIAvailable(localUri))
-    					result = localUri;
+    			if (!file.exists() && isURIAvailable(relativeUri))
+    					result = relativeUri;
     		}
 			return result;
     	} catch (MalformedURLException e) {
