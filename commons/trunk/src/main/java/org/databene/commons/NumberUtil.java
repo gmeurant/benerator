@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,15 +26,37 @@
 
 package org.databene.commons;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Provides convenience methods for formatting Numbers.
  * Created: 12.02.2005 18:24:47
  * @author Volker Bergmann
  */
+@SuppressWarnings("unchecked")
 public class NumberUtil {
+	
+	private static final Map<Class<? extends Number>, ? extends Number> maxValues = 
+		CollectionUtil.buildMap(
+				byte.class, Byte.MAX_VALUE, 
+				Byte.class, Byte.MAX_VALUE, 
+				short.class, Byte.MAX_VALUE, 
+				Short.class, Short.MAX_VALUE, 
+				int.class, Short.MAX_VALUE, 
+				Integer.class, Integer.MAX_VALUE, 
+				long.class, Integer.MAX_VALUE, 
+				Long.class, Byte.MAX_VALUE, 
+				float.class, Float.MAX_VALUE, 
+				Float.class, Float.MAX_VALUE, 
+				double.class, Double.MAX_VALUE, 
+				Double.class, Double.MAX_VALUE, 
+				BigDecimal.class, Double.MAX_VALUE, 
+				BigInteger.class, Long.MAX_VALUE 
+		);
 
     public static String formatHex(int value, int digits) {
         String tmp = Integer.toHexString(value);
@@ -67,4 +89,11 @@ public class NumberUtil {
         return nf.format(number);
     }
 
+    public static <T extends Number> T maxValue(Class<T> numberType) {
+    	Number value = maxValues.get(numberType);
+    	if (value == null)
+    		throw new IllegalArgumentException("Not a supported number type: " + numberType);
+		return (T) value;
+    }
+    
 }
