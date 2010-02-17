@@ -38,7 +38,7 @@ import java.io.*;
 public final class FileUtil {
 
     public static void ensureDirectoryExists(File directory) {
-        if (!directory.exists()) {
+        if (directory != null && !directory.exists()) {
             File parent = directory.getParentFile();
             if (parent != null)
                 ensureDirectoryExists(parent);
