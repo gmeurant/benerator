@@ -265,11 +265,15 @@ public final class IOUtil {
 
     public static PrintWriter getPrinterForURI(String uri, String encoding)
 			throws FileNotFoundException, UnsupportedEncodingException {
-    	return getPrinterForURI(uri, encoding, false, SystemInfo.getLineSeparator());
+    	return getPrinterForURI(uri, encoding, false, SystemInfo.getLineSeparator(), false);
     }
 
-    public static PrintWriter getPrinterForURI(String uri, String encoding, boolean append, final String lineSeparator)
+    public static PrintWriter getPrinterForURI(String uri, String encoding, boolean append, 
+    			final String lineSeparator, boolean autoCreateFolder)
 	    	throws FileNotFoundException, UnsupportedEncodingException {
+    	File file = new File(uri);
+    	if (autoCreateFolder)
+    		FileUtil.ensureDirectoryExists(file.getParentFile());
     	return new PrintWriter(new OutputStreamWriter(new FileOutputStream(uri, append), encoding)) {
     		@Override
     		public void println() {
