@@ -41,8 +41,8 @@ import java.util.Iterator;
  */
 public class ConvertingIterator<S, T> implements HeavyweightIterator<T> {
 
-    private Iterator<S> source;
-    private Converter<S, T> converter;
+    protected Iterator<S> source;
+    protected Converter<S, T> converter;
 
     public ConvertingIterator(Iterator<S> source, Converter<S, T> converter) {
         this.source = source;
