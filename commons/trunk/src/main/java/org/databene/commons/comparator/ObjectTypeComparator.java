@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,8 +27,6 @@
 package org.databene.commons.comparator;
 
 import java.util.Comparator;
-import java.util.Map;
-import java.util.HashMap;
 
 /**
  * Comparator that compares objects by its Java type with a predefined order.<br/>
@@ -38,25 +36,14 @@ import java.util.HashMap;
  */
 public class ObjectTypeComparator implements Comparator<Object> {
 
-    private Map<Class<?>, Integer> indexes;
+    private TypeComparator typeComparator;
 
     public ObjectTypeComparator(Class<?> ... orderedClasses) {
-        indexes = new HashMap<Class<?>, Integer>();
-        int count = 0;
-        for (Class<?> type : orderedClasses)
-            indexes.put(type, ++count);
+    	typeComparator = new TypeComparator(orderedClasses);
     }
 
     public int compare(Object o1, Object o2) {
-        Class<?> c1 = o1.getClass();
-        int i1 = indexOfClass(c1);
-        Class<?> c2 = o2.getClass();
-        int i2 = indexOfClass(c2);
-        return IntComparator.compare(i1, i2);
+        return typeComparator.compare(o1.getClass(), o2.getClass());
     }
 
-    private int indexOfClass(Class<?> type) {
-        return indexes.get(type);
-    }
-    
 }
