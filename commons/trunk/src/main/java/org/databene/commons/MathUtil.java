@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -129,6 +129,14 @@ public class MathUtil {
 	
 	public static boolean rangeIncludes(double x, double min, double max) {
 	    return (min <= x && x <= max);
+    }
+	
+	public static boolean between(long x, long min, long max) {
+	    return (min < x && x < max);
+    }
+	
+	public static boolean between(double x, double min, double max) {
+	    return (min < x && x < max);
     }
 	
 }
