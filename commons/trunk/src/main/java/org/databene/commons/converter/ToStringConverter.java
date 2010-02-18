@@ -99,9 +99,9 @@ public class ToStringConverter extends FormatHolder implements Converter<Object,
             return ((Class<?>) source).getName();
         } else if (source instanceof Timestamp) {
         	if (timestampPattern != null)
-        		return new SimpleDateFormat(timestampPattern).format((Date) source);
+        		return new TimestampFormatter(timestampPattern).format((Timestamp) source);
         	else
-        		return new SimpleDateFormat().format((Date) source);
+        		return new TimestampFormatter().format((Timestamp) source);
         } else if (source instanceof Time) {
         	if (timePattern != null)
         		return new SimpleDateFormat(timePattern).format((Date) source);
