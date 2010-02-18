@@ -61,7 +61,7 @@ public class ToStringConverter extends FormatHolder implements Converter<Object,
      * @param nullString the String to use for replacing null values.
      */
     public ToStringConverter(String nullString) {
-        this(nullString, DEFAULT_DATE_PATTERN, DEFAULT_TIMESTAMP_PATTERN);
+        this(nullString, DEFAULT_DATE_PATTERN, DEFAULT_DATETIME_SECONDS_PATTERN + '.');
     }
 
     public ToStringConverter(String nullString, String datePattern, String timestampPattern) {
