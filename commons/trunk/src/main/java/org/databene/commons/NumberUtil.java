@@ -32,32 +32,57 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Map;
 
+import org.databene.commons.converter.NumberConverter;
+
 /**
- * Provides convenience methods for formatting Numbers.
+ * Provides convenience methods for the Java number types.
  * Created: 12.02.2005 18:24:47
+ * @since 0.1
  * @author Volker Bergmann
  */
 @SuppressWarnings("unchecked")
 public class NumberUtil {
 	
+	// constants -------------------------------------------------------------------------------------------------------
+	
 	private static final Map<Class<? extends Number>, ? extends Number> maxValues = 
 		CollectionUtil.buildMap(
-				byte.class, Byte.MAX_VALUE, 
-				Byte.class, Byte.MAX_VALUE, 
-				short.class, Byte.MAX_VALUE, 
-				Short.class, Short.MAX_VALUE, 
-				int.class, Short.MAX_VALUE, 
-				Integer.class, Integer.MAX_VALUE, 
-				long.class, Integer.MAX_VALUE, 
-				Long.class, Byte.MAX_VALUE, 
-				float.class, Float.MAX_VALUE, 
-				Float.class, Float.MAX_VALUE, 
-				double.class, Double.MAX_VALUE, 
-				Double.class, Double.MAX_VALUE, 
+				byte.class,       Byte.MAX_VALUE, 
+				Byte.class,       Byte.MAX_VALUE, 
+				short.class,      Byte.MAX_VALUE, 
+				Short.class,      Short.MAX_VALUE, 
+				int.class,        Short.MAX_VALUE, 
+				Integer.class,    Integer.MAX_VALUE, 
+				long.class,       Integer.MAX_VALUE, 
+				Long.class,       Byte.MAX_VALUE, 
+				float.class,      Float.MAX_VALUE, 
+				Float.class,      Float.MAX_VALUE, 
+				double.class,     Double.MAX_VALUE, 
+				Double.class,     Double.MAX_VALUE, 
 				BigDecimal.class, Double.MAX_VALUE, 
 				BigInteger.class, Long.MAX_VALUE 
 		);
-
+	
+	public static <T extends Number> Byte toByte(T value) {
+	    return NumberConverter.convert(value, Byte.class);
+    }
+	
+	public static <T extends Number> Integer toInteger(T value) {
+	    return NumberConverter.convert(value, Integer.class);
+    }
+	
+	public static <T extends Number> Long toLong(T value) {
+	    return NumberConverter.convert(value, Long.class);
+    }
+	
+	public static <T extends Number> Float toFloat(T value) {
+	    return NumberConverter.convert(value, Float.class);
+    }
+	
+	public static <T extends Number> Double toDouble(T value) {
+	    return NumberConverter.convert(value, Double.class);
+    }
+	
     public static String formatHex(int value, int digits) {
         String tmp = Integer.toHexString(value);
         if (tmp.length() > digits)
