@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2006-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2006-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -158,10 +158,10 @@ public class StringCharacterIterator implements CharacterIterator {
 
 	public void assertNext(char c) {
 		if (!hasNext())
-			throw new ParseException("Expected '" + c + "', but no more character is available", line, column);
+			throw new ParseException("Expected '" + c + "', but no more character is available", source, line, column);
 		char next = next();
 		if (next != c)
-			throw new ParseException("Expected '" + c + "', but found '" + next + "'", line, column);
+			throw new ParseException("Expected '" + c + "', but found '" + next + "'", source, line, column);
 	}
 	
 	public int line() {

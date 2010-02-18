@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008, 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -36,21 +36,19 @@ package org.databene.commons;
 
 public class ParseException extends RuntimeException {
 	
-	private int line;
-	private int column;
+	private final String parsedText;
+	private final int line;
+	private final int column;
 	
 	// constructors ----------------------------------------------------------------------------------------------------
 
-	public ParseException() {
-		this(null);
+	public ParseException(String message, String parsedText) {
+		this(message, parsedText, -1, -1);
 	}
 
-	public ParseException(String message) {
-		this(message, -1, -1);
-	}
-
-	public ParseException(String message, int line, int column) {
+	public ParseException(String message, String parsedText, int line, int column) {
 		super(message);
+		this.parsedText = parsedText;
 		this.line = line;
 		this.column = column;
 	}
@@ -65,6 +63,21 @@ public class ParseException extends RuntimeException {
 		return column;
 	}
 	
-	private static final long serialVersionUID = -870521745029612145L;
+	public String getParsedText() {
+    	return parsedText;
+    }
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder(getMessage());
+		if (line >= 0 && column >= 0)
+			builder.append(" at line ").append(line).append(", column ").append(column).append(" of ");
+		else
+			builder.append(" in ");
+		builder.append(parsedText);
+	    return builder.toString();
+	}
 	
+	private static final long serialVersionUID = -3893735778927506664L;
+
 }
