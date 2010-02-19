@@ -40,7 +40,7 @@ import org.databene.commons.converter.AnyConverter;
 
 public class TypeConvertingExpression<E> implements Expression<E> {
 	
-	private Expression<E> source;
+	private Expression<?> source;
 	private AnyConverter<E> converter;
 
     @SuppressWarnings("unchecked")
