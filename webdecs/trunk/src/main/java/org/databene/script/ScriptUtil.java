@@ -134,6 +134,8 @@ public class ScriptUtil {
     }
 
     public static Script parseScriptText(String text, boolean removeBrackets) {
+    	if (text == null)
+    		return null;
         if (removeBrackets && text.startsWith("{") && text.endsWith("}"))
         	text = text.substring(1, text.length() - 1);
         String[] tokens = StringUtil.splitOnFirstSeparator(text, ':');
