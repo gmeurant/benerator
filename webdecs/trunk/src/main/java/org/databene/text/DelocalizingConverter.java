@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,7 +30,7 @@ import org.databene.document.csv.CSVLineIterator;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.Converter;
 import org.databene.commons.Encodings;
-import org.databene.commons.converter.FixedSourceTypeConverter;
+import org.databene.commons.converter.AbstractConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +44,7 @@ import java.util.HashMap;
  * <br/>
  * Created: 12.06.2006 18:53:55
  */
-public class DelocalizingConverter extends FixedSourceTypeConverter<String, String> {
+public class DelocalizingConverter extends AbstractConverter<String, String> {
 
     /** File that contains the character mapping */
     private static final String CONFIG_FILENAME = "org/databene/text/DelocalizingConverter.csv";

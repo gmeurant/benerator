@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,7 @@ import java.text.MessageFormat;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 import org.databene.commons.StringUtil;
-import org.databene.commons.converter.FixedSourceTypeConverter;
+import org.databene.commons.converter.AbstractConverter;
 
 /**
  * {@link Converter} that transforms an object into its hexadecimal representation.
@@ -35,7 +35,7 @@ import org.databene.commons.converter.FixedSourceTypeConverter;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class ToHexConverter extends FixedSourceTypeConverter<Object, String> {
+public class ToHexConverter extends AbstractConverter<Object, String> {
 	
 	private boolean upperCase;
 	private String pattern;
