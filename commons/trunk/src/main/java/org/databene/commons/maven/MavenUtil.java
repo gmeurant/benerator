@@ -60,7 +60,7 @@ public class MavenUtil {
 		cmdBuilder.add(goal);
 		
 		// run
-		ShellUtil.runShellCommand(cmdBuilder.toArray(), folder, new ErrorHandler(MavenUtil.class));
+		ShellUtil.runShellCommand(cmdBuilder.toArray(), null, folder, new ErrorHandler(MavenUtil.class));
 	}
 	
 }
