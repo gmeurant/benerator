@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -139,6 +139,14 @@ public final class LocaleUtil {
 		String result = Locale.getDefault().getCountry();
 		if (StringUtil.isEmpty(result))
 			result = getFallbackLocale().getCountry();
+		return result;
+	}
+	
+	public static Locale language(Locale locale) {
+		Locale result = locale;
+		Locale parent;
+		while ((parent = parent(result)) != null)
+			result = parent;
 		return result;
 	}
 
