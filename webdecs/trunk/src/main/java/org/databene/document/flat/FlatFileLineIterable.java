@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -36,6 +36,7 @@ import java.io.IOException;
  * Creates Iterators that iterate through the lines of a flat file and returns each line as array of Strings.<br/>
  * <br/>
  * Created: 27.08.2007 19:16:26
+ * @author Volker Bergmann
  */
 public class FlatFileLineIterable implements TypedIterable<String[]> {
 

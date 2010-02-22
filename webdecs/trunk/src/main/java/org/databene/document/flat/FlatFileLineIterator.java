@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -41,13 +41,14 @@ import java.text.ParseException;
  * Tests the FlatFileLineIterator.<br/>
  * <br/>
  * Created: 27.08.2007 06:43:50
+ * @author Volker Bergmann
  */
 public class FlatFileLineIterator implements HeavyweightIterator<String[]> {
 
-    private PadFormat[] formats;
     private boolean ignoreEmptyLines;
 
     private ReaderLineIterator lineIterator;
+    private FlatLineParser parser;
     private int lineCount;
     private String[] nextLine;
 
@@ -75,7 +76,7 @@ public class FlatFileLineIterator implements HeavyweightIterator<String[]> {
 
     public FlatFileLineIterator(Reader reader, PadFormat[] formats, boolean ignoreEmptyLines) {
         this.lineIterator = new ReaderLineIterator(reader);
-        this.formats = formats;
+        parser = new FlatLineParser(formats);
         this.ignoreEmptyLines = ignoreEmptyLines;
         this.lineCount = 0;
         nextLine = fetchNextLine();
@@ -120,15 +121,14 @@ public class FlatFileLineIterator implements HeavyweightIterator<String[]> {
 
     // private helpers -------------------------------------------------------------------------------------------------
 
-    @SuppressWarnings("null")
     private String[] fetchNextLine() {
         try {
             if (lineIterator == null)
                 return null;
-            String[] cells = new String[formats.length];
-            int offset = 0;
             String line = null;
             boolean success = false;
+            
+            // fetch next appropriate lines skipping empty lines if they shall be ignored
             while (lineIterator.hasNext()) {
                 lineCount++;
                 line = lineIterator.next();
@@ -143,16 +143,11 @@ public class FlatFileLineIterator implements HeavyweightIterator<String[]> {
             } else if (StringUtil.isEmpty(line)) {
                 return new String[0];
             } else {
-                for (int i = 0; i < formats.length; i++) {
-                    PadFormat format = formats[i];
-                    String cell = line.substring(offset, Math.min(offset + format.getLength(), line.length()));
-                    cells[i] = (String) format.parseObject(cell);
-                    offset += format.getLength();
-                }
-                return cells;
+            	return parser.parse(line);
             }
         } catch (ParseException e) {
             throw new RuntimeException("Unexpected error. ", e);
         }
     }
+    
 }
