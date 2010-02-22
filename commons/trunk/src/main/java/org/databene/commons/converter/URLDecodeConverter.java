@@ -40,7 +40,7 @@ import org.databene.commons.Encodings;
  * @author Volker Bergmann
  */
 
-public class URLDecodeConverter extends FixedSourceTypeConverter<String, String> {
+public class URLDecodeConverter extends AbstractConverter<String, String> {
 	
 	private String encoding;
 	

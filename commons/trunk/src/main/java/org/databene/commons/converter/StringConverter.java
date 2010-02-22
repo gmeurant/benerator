@@ -37,7 +37,7 @@ import org.databene.commons.Converter;
  * @since 0.2
  * @author Volker Bergmann
  */
-public class StringConverter<T> extends FixedSourceTypeConverter<String, T> {
+public class StringConverter<T> extends AbstractConverter<String, T> {
 
     public StringConverter(Class<T> targetType) {
         super(String.class, targetType);

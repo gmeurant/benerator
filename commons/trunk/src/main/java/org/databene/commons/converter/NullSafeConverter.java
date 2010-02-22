@@ -33,7 +33,7 @@ import org.databene.commons.ConversionException;
  * <br/>
  * Created: 26.07.2007 06:59:35
  */
-public abstract class NullSafeConverter<S, T> extends FixedSourceTypeConverter<S, T> {
+public abstract class NullSafeConverter<S, T> extends AbstractConverter<S, T> {
 
     protected T nullResult;
 

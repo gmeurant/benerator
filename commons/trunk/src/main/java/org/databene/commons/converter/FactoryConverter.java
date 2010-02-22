@@ -49,7 +49,7 @@ import java.lang.reflect.Modifier;
  * Created: 03.09.2007 20:17:16
  * @author Volker Bergmann
  */
-public class FactoryConverter<S, T> extends FixedSourceTypeConverter<S, T> {
+public class FactoryConverter<S, T> extends AbstractConverter<S, T> {
 
     private static final Logger logger = LoggerFactory.getLogger(FactoryConverter.class);
 

@@ -36,7 +36,7 @@ import org.databene.commons.Converter;
  * Created: 07.06.2007 14:35:18
  * @author Volker Bergmann
  */
-public class ArrayConverter<S, T> extends FixedSourceTypeConverter<S[], T[]> {
+public class ArrayConverter<S, T> extends AbstractConverter<S[], T[]> {
 
     private Class<T> componentType;
     private Converter<S, T>[] converters;

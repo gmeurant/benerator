@@ -39,7 +39,7 @@ import org.databene.commons.bean.PropertyAccessorFactory;
  * @author Volker Bergmann
  */
 
-public class PropertyExtractor<B, P> extends FixedSourceTypeConverter<B, P> {
+public class PropertyExtractor<B, P> extends AbstractConverter<B, P> {
 	
 	PropertyAccessor<B, P> accessor;
 

@@ -41,7 +41,7 @@ import java.text.DateFormat;
  * Created: 07.09.2007 09:07:12
  * @author Volker Bergmann
  */
-public class String2DateConverter<E extends Date> extends FixedSourceTypeConverter<String, E> implements Patterns {
+public class String2DateConverter<E extends Date> extends AbstractConverter<String, E> implements Patterns {
     
     // TODO v0.6.0 support time zones (like 'Z', '+01:00' or '-01:30')
 

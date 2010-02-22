@@ -40,7 +40,7 @@ import org.databene.commons.TimeUtil;
  * @author Volker Bergmann
  */
 
-public class String2GregorianCalendarConverter extends FixedSourceTypeConverter<String, GregorianCalendar> {
+public class String2GregorianCalendarConverter extends AbstractConverter<String, GregorianCalendar> {
 	
 	private String2DateConverter<Date> helper = new String2DateConverter<Date>();
 

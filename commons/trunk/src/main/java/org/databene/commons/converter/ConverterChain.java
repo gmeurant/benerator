@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -63,13 +63,13 @@ public class ConverterChain<S, T> implements Converter<S, T> {
 	
 	// Converter interface implementation ------------------------------------------------------------------------------
 
+	public Class<S> getSourceType() {
+		return (converters.length > 0 ? converters[0].getSourceType() : Object.class);
+	}
+
 	public Class<T> getTargetType() {
         return (converters.length > 0 ? converters[converters.length - 1].getTargetType() : Object.class);
     }
-
-	public boolean canConvert(Object sourceValue) {
-		return (converters.length > 0 ? converters[0].canConvert(sourceValue) : false);
-	}
 
 	public T convert(S source) throws ConversionException {
         Object result = source;

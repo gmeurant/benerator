@@ -57,7 +57,7 @@ public class PrintfConverter extends AbstractConverter<Object, String> {
     }
     
     public PrintfConverter(String pattern, Locale locale) {
-	    super(String.class);
+	    super(Object.class, String.class);
 	    this.pattern = pattern;
 	    this.locale = locale;
     }
@@ -81,10 +81,6 @@ public class PrintfConverter extends AbstractConverter<Object, String> {
     }
 
 	// converter interface ---------------------------------------------------------------------------------------------
-
-	public boolean canConvert(Object sourceValue) {
-	    return (sourceValue instanceof String || sourceValue == null);
-    }
 
     public String convert(Object sourceValue) throws ConversionException {
 	    if (sourceValue == null)

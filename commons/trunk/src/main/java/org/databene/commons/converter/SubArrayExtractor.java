@@ -35,7 +35,7 @@ import java.lang.reflect.Array;
  * <br/>
  * Created: 30.07.2007 21:05:07
  */
-public class SubArrayExtractor extends FixedSourceTypeConverter<Object[], Object[]> {
+public class SubArrayExtractor extends AbstractConverter<Object[], Object[]> {
 
     private int[] indexes;
 

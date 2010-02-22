@@ -36,7 +36,7 @@ import org.databene.commons.ConversionException;
  * @since 0.4.6
  * @author Volker Bergmann
  */
-public class ToHashCodeConverter extends FixedSourceTypeConverter<Object, Integer>{
+public class ToHashCodeConverter extends AbstractConverter<Object, Integer>{
 
 	public ToHashCodeConverter() {
 		super(Object.class, Integer.class);

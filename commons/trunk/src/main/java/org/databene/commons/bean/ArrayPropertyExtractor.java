@@ -28,7 +28,7 @@ package org.databene.commons.bean;
 
 import org.databene.commons.ArrayUtil;
 import org.databene.commons.ConversionException;
-import org.databene.commons.converter.FixedSourceTypeConverter;
+import org.databene.commons.converter.AbstractConverter;
 import org.databene.commons.converter.AnyConverter;
 
 /**
@@ -38,7 +38,7 @@ import org.databene.commons.converter.AnyConverter;
  * Created: 02.08.2007 20:47:35
  * @author Volker Bergmann
  */
-public class ArrayPropertyExtractor<E> extends FixedSourceTypeConverter<Object[], E[]> {
+public class ArrayPropertyExtractor<E> extends AbstractConverter<Object[], E[]> {
 
     private String propertyName;
     private Class<E> propertyType;

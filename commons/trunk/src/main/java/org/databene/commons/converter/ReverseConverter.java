@@ -32,6 +32,7 @@ import org.databene.commons.ConversionException;
  * Reverses the conversion directions of another TypedConverter.<br/>
  * <br/>
  * Created: 04.08.2007 19:45:18
+ * @author Volker Bergmann
  */
 public class ReverseConverter<S, T> extends AbstractConverter<S,T> implements BidirectionalConverter<S, T> {
 
@@ -44,19 +45,11 @@ public class ReverseConverter<S, T> extends AbstractConverter<S,T> implements Bi
     }
     
     public ReverseConverter(BidirectionalConverter<T, S> realConverter) {
-    	super(realConverter.getSourceType());
+    	super(realConverter.getTargetType(), realConverter.getSourceType());
         this.realConverter = realConverter;
     }
     
     // BidirectionalConverter interface --------------------------------------------------------------------------------
-
-	public boolean canConvert(Object sourceValue) {
-		return realConverter.canConvert(sourceValue);
-	}
-
-	public Class<S> getSourceType() {
-        return realConverter.getTargetType();
-    }
 
     public T convert(S source) throws ConversionException {
         return realConverter.revert(source);

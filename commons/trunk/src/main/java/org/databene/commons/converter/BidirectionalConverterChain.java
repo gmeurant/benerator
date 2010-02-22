@@ -51,8 +51,8 @@ public class BidirectionalConverterChain<S, T> extends AbstractBidirectionalConv
     public void add(AbstractBidirectionalConverter converter) {
         list.add(converter);
         if (list.size() == 1)
-            setSourceType(converter.getSourceType());
-        setTargetType(converter.getTargetType());
+            sourceType = converter.getSourceType();
+        targetType = converter.getTargetType();
     }
 
     public T convert(S source) throws ConversionException {

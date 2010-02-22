@@ -37,7 +37,7 @@ import org.databene.commons.ConversionException;
  * @author Volker Bergmann
  */
 
-public class BooleanMapper<T> extends FixedSourceTypeConverter<Boolean, T> {
+public class BooleanMapper<T> extends AbstractConverter<Boolean, T> {
 
     private T trueValue;
 	private T falseValue;

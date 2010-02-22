@@ -39,7 +39,7 @@ import org.databene.commons.TimeUtil;
  * Created: 19.03.2008 20:05:25
  * @author Volker Bergmann
  */
-public class LiteralParser extends FixedSourceTypeConverter<String, Object> {
+public class LiteralParser extends AbstractConverter<String, Object> {
 
 	public LiteralParser() {
 		super(String.class,Object.class);

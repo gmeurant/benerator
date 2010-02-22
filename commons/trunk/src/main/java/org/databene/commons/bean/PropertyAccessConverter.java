@@ -27,7 +27,7 @@
 package org.databene.commons.bean;
 
 import org.databene.commons.ConversionException;
-import org.databene.commons.converter.FixedSourceTypeConverter;
+import org.databene.commons.converter.AbstractConverter;
 
 /**
  * Wraps an Accessor with a Converter interface implementation.<br/>
@@ -36,7 +36,7 @@ import org.databene.commons.converter.FixedSourceTypeConverter;
  * @author Volker Bergmann
  */
 @SuppressWarnings("unchecked")
-public class PropertyAccessConverter extends FixedSourceTypeConverter {
+public class PropertyAccessConverter extends AbstractConverter {
 
     private PropertyAccessor accessor;
     

@@ -30,7 +30,7 @@ import org.databene.commons.ConversionException;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class BooleanConverter<E> extends FixedSourceTypeConverter<Boolean, E> {
+public class BooleanConverter<E> extends AbstractConverter<Boolean, E> {
 
     public BooleanConverter(Class<E> targetType) {
 	    super(Boolean.class, targetType);

@@ -74,7 +74,7 @@ public class ConverterManager {
             return new NoOpConverter();
         Converter poorMatch = null;
         for (Converter converter : converters) {
-            if (converter.canConvert(sourceValue)) {
+            if (converter.getSourceType() == srcType) {
             	Class converterTargetType = converter.getTargetType();
             	if (dstType == converterTargetType)
             		return converter; // perfect match

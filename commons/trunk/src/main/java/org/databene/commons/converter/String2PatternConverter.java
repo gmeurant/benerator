@@ -38,7 +38,7 @@ import org.databene.commons.ConversionException;
  * @author Volker Bergmann
  */
 
-public class String2PatternConverter extends FixedSourceTypeConverter<String, Pattern> 
+public class String2PatternConverter extends AbstractConverter<String, Pattern> 
 		implements BidirectionalConverter<String, Pattern> {
 
     public String2PatternConverter() {

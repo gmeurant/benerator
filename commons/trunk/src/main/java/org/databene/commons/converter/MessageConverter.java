@@ -37,7 +37,7 @@ import java.util.Locale;
  * <br/>
  * Created: 12.11.2007 20:46:31
  */
-public class MessageConverter extends FixedSourceTypeConverter<Object, String> {
+public class MessageConverter extends AbstractConverter<Object, String> {
 
     private String pattern;
     private Locale locale;

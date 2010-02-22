@@ -33,7 +33,7 @@ import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 import org.databene.commons.bean.ClassProvider;
 import org.databene.commons.bean.DefaultClassProvider;
-import org.databene.commons.converter.FixedSourceTypeConverter;
+import org.databene.commons.converter.AbstractConverter;
 import org.databene.commons.converter.AnyConverter;
 import org.databene.commons.converter.NoOpConverter;
 import org.slf4j.Logger;
@@ -50,7 +50,7 @@ import java.beans.PropertyDescriptor;
  * Created: 19.08.2007 15:12:40
  * @author Volker Bergmann
  */
-public class XMLElement2BeanConverter extends FixedSourceTypeConverter<Element, Object> { // TODO remove?
+public class XMLElement2BeanConverter extends AbstractConverter<Element, Object> { // TODO remove?
 
     private static final Logger logger = LoggerFactory.getLogger(XMLElement2BeanConverter.class);
 

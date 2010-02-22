@@ -26,6 +26,7 @@
 
 package org.databene.commons.converter;
 
+import org.databene.commons.ArrayUtil;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 
@@ -41,24 +42,24 @@ public class ArrayElementExtractor<E> implements Converter<E[], E>{
 	
 	private Class<E> componentType;
 	private int index;
+	private Class<E[]> arrayType;
 	
     public ArrayElementExtractor(Class<E> componentType, int index) {
 	    this.componentType = componentType;
+	    this.arrayType = ArrayUtil.arrayType(componentType);
 	    this.index = index;
     }
 
-    public boolean canConvert(Object sourceValue) {
-	    return (sourceValue != null 
-	    		&& sourceValue.getClass().isArray() 
-	    		&& componentType.isAssignableFrom(sourceValue.getClass().getComponentType()));
+    public Class<E[]> getSourceType() {
+        return arrayType;
+    }
+    
+    public Class<E> getTargetType() {
+	    return componentType;
     }
 
     public E convert(E[] sourceValue) throws ConversionException {
 	    return sourceValue[index];
-    }
-
-    public Class<E> getTargetType() {
-	    return componentType;
     }
 
 }

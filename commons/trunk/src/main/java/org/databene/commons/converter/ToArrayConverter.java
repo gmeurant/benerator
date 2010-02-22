@@ -41,7 +41,7 @@ import java.util.Collection;
  * @author Volker Bergmann
  */
 @SuppressWarnings("unchecked")
-public class ToArrayConverter extends FixedSourceTypeConverter {
+public class ToArrayConverter extends AbstractConverter {
 
     private Class componentType;
     private boolean nullToEmpty;

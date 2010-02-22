@@ -74,6 +74,10 @@ public class ToStringConverter extends FormatHolder implements Converter<Object,
 	    return true;
     }
 
+    public Class<Object> getSourceType() {
+        return Object.class;
+    }
+    
     public Class<String> getTargetType() {
 	    return String.class;
     }

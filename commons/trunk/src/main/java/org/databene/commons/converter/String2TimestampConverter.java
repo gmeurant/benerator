@@ -40,7 +40,7 @@ import org.databene.commons.StringUtil;
  * @author Volker Bergmann
  */
 
-public class String2TimestampConverter extends FixedSourceTypeConverter<String, Timestamp> {
+public class String2TimestampConverter extends AbstractConverter<String, Timestamp> {
 
     private String2DateConverter<Date> helper = new String2DateConverter<Date>();
 

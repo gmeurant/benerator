@@ -40,7 +40,7 @@ import org.databene.commons.ConversionException;
  * @author Volker Bergmann
  */
 
-public class Date2DurationConverter extends FixedSourceTypeConverter<Date, Long> {
+public class Date2DurationConverter extends AbstractConverter<Date, Long> {
 
 	public Date2DurationConverter() {
 		super(Date.class, Long.class);

@@ -37,7 +37,7 @@ import java.util.Collection;
  * Created: 26.08.2007 16:16:15
  */
 @SuppressWarnings("unchecked")
-public class ToCollectionConverter<C extends Collection> extends FixedSourceTypeConverter<Object, C> {
+public class ToCollectionConverter<C extends Collection> extends AbstractConverter<Object, C> {
 
     public ToCollectionConverter(Class<C> targetType) {
         super(Object.class, targetType);

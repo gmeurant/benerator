@@ -54,13 +54,13 @@ public class AnyConverter<E> extends FormatHolder implements Converter<Object, E
         this.datePattern = datePattern;
     }
 
+    public Class<Object> getSourceType() {
+        return Object.class;
+    }
+    
     public Class<E> getTargetType() {
 	    return targetType;
     }
-
-	public boolean canConvert(Object sourceValue) {
-		return true;
-	}
 
 	public E convert(Object sourceValue) throws ConversionException {
         return convert(sourceValue, targetType, datePattern, timePattern, timestampPattern);

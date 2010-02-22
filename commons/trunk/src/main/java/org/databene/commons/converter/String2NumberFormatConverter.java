@@ -39,7 +39,7 @@ import org.databene.commons.ConversionException;
  * @author Volker Bergmann
  */
 
-public class String2NumberFormatConverter extends FixedSourceTypeConverter<String, NumberFormat> {
+public class String2NumberFormatConverter extends AbstractConverter<String, NumberFormat> {
 
     public String2NumberFormatConverter() {
 	    super(String.class, NumberFormat.class);

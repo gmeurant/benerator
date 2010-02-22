@@ -39,7 +39,7 @@ import org.databene.commons.ConversionException;
  * @author Volker Bergmann
  */
 
-public class String2DateFormatConverter extends FixedSourceTypeConverter<String, DateFormat> {
+public class String2DateFormatConverter extends AbstractConverter<String, DateFormat> {
 
     public String2DateFormatConverter() {
 	    super(String.class, DateFormat.class);
