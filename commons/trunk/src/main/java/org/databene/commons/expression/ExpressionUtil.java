@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -66,20 +66,8 @@ public class ExpressionUtil {
 	    return (expression != null ? expression.evaluate(context) : null);
     }
 
-	public static ConstantExpression<String> stringEx(String text) {
-		return new ConstantExpression<String>(text);
-	}
-	
-	public static ConstantExpression<Boolean> booleanEx(boolean value) {
-		return new ConstantExpression<Boolean>(value);
-	}
-	
-	public static ConstantExpression<Integer> intEx(int value) {
-		return new ConstantExpression<Integer>(value);
-	}
-	
-	public static ConstantExpression<Double> doubleEx(double value) {
-		return new ConstantExpression<Double>(value);
-	}
+	public static <T> Expression<T> constant(T value) {
+	    return new ConstantExpression<T>(value);
+    }
 	
 }
