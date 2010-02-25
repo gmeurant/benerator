@@ -27,6 +27,11 @@
 package org.databene.commons;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.databene.commons.file.DirectoryFileFilter;
+import org.databene.commons.file.PatternFileFilter;
 
 /**
  * File Utility class.<br/>
@@ -120,6 +125,26 @@ public final class FileUtil {
     public static void deleteIfExists(File file) {
 	    if (file.exists())
 	    	file.delete();
+    }
+
+	public static List<File> listFiles(File dir, String regex, 
+			boolean recursive, boolean acceptingFiles, boolean acceptingFolders) {
+		PatternFileFilter filter = new PatternFileFilter(regex, acceptingFiles, acceptingFolders);
+		return addFilenames(dir, filter, recursive, new ArrayList<File>());
+    }
+
+	private static List<File> addFilenames(File dir, FileFilter filter, boolean recursive, List<File> buffer) {
+		File[] matches = dir.listFiles(filter);
+		if (matches != null)
+			for (File match : matches)
+				buffer.add(match);
+		if (recursive) {
+	        File[] subDirs = dir.listFiles(DirectoryFileFilter.instance());
+	        if (subDirs != null)
+		        for (File subFolder : subDirs)
+					addFilenames(subFolder, filter, recursive, buffer);
+        }
+		return buffer;
     }
 
 }
