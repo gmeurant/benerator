@@ -44,12 +44,14 @@ public class FlatFileLineIterable implements TypedIterable<String[]> {
     private PadFormat[] formats;
     private boolean ignoreEmptyLines;
     private String encoding;
+    private String lineFilter;
 
-    public FlatFileLineIterable(String uri, PadFormat[] formats, boolean ignoreEmptyLines, String encoding) {
+    public FlatFileLineIterable(String uri, PadFormat[] formats, boolean ignoreEmptyLines, String encoding, String lineFilter) {
         this.uri = uri;
         this.formats = formats;
         this.ignoreEmptyLines = ignoreEmptyLines;
         this.encoding = encoding;
+        this.lineFilter = lineFilter;
     }
 
     public Class<String[]> getType() {
@@ -58,7 +60,7 @@ public class FlatFileLineIterable implements TypedIterable<String[]> {
 
     public HeavyweightIterator<String[]> iterator() {
         try {
-            return new FlatFileLineIterator(uri, formats, ignoreEmptyLines, encoding);
+            return new FlatFileLineIterator(uri, formats, ignoreEmptyLines, encoding, lineFilter);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

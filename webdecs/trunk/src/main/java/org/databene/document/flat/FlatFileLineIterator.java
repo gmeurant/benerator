@@ -36,6 +36,7 @@ import org.databene.commons.format.PadFormat;
 import java.io.IOException;
 import java.io.Reader;
 import java.text.ParseException;
+import java.util.regex.Pattern;
 
 /**
  * Tests the FlatFileLineIterator.<br/>
@@ -51,34 +52,29 @@ public class FlatFileLineIterator implements HeavyweightIterator<String[]> {
     private FlatLineParser parser;
     private int lineCount;
     private String[] nextLine;
+    private Pattern lineFilter;
 
     // constructors ----------------------------------------------------------------------------------------------------
 
     public FlatFileLineIterator(String uri, PadFormat[] formats) throws IOException {
-        this(uri, formats, SystemInfo.getFileEncoding());
+        this(uri, formats, false, SystemInfo.getFileEncoding(), null);
     }
 
-    public FlatFileLineIterator(String uri, PadFormat[] formats, String encoding) throws IOException {
-        this(uri, formats, false, encoding);
-    }
-
-    public FlatFileLineIterator(String uri, PadFormat[] formats, boolean ignoreEmptyLines) throws IOException {
-        this(uri, formats, ignoreEmptyLines, SystemInfo.getFileEncoding());
-    }
-
-    public FlatFileLineIterator(String uri, PadFormat[] formats, boolean ignoreEmptyLines, String encoding) throws IOException {
-        this(IOUtil.getReaderForURI(uri, encoding), formats, ignoreEmptyLines);
+    public FlatFileLineIterator(String uri, PadFormat[] formats, boolean ignoreEmptyLines, String encoding, 
+    		String lineFilter) throws IOException {
+        this(IOUtil.getReaderForURI(uri, encoding), formats, ignoreEmptyLines, lineFilter);
     }
 
     public FlatFileLineIterator(Reader reader, PadFormat[] formats) {
-        this(reader, formats, false);
+        this(reader, formats, false, null);
     }
 
-    public FlatFileLineIterator(Reader reader, PadFormat[] formats, boolean ignoreEmptyLines) {
+    public FlatFileLineIterator(Reader reader, PadFormat[] formats, boolean ignoreEmptyLines, String lineFilter) {
         this.lineIterator = new ReaderLineIterator(reader);
         parser = new FlatLineParser(formats);
         this.ignoreEmptyLines = ignoreEmptyLines;
         this.lineCount = 0;
+        this.lineFilter = (lineFilter != null ? Pattern.compile(lineFilter) : null);
         nextLine = fetchNextLine();
     }
 
@@ -132,7 +128,8 @@ public class FlatFileLineIterator implements HeavyweightIterator<String[]> {
             while (lineIterator.hasNext()) {
                 lineCount++;
                 line = lineIterator.next();
-                if (line.length() > 0 || !ignoreEmptyLines) {
+                if ((line.length() > 0 || !ignoreEmptyLines) 
+                		&& (lineFilter == null || lineFilter.matcher(line).matches())) {
                     success = true;
                     break;
                 }
