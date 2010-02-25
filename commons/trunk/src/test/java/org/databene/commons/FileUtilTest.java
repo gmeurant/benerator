@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,6 +27,8 @@
 package org.databene.commons;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 import org.junit.Test;
 import static junit.framework.Assert.*;
@@ -40,6 +42,11 @@ import static junit.framework.Assert.*;
  */
 
 public class FileUtilTest {
+	
+	protected File ROOT_DIR = new File("target" + File.separator + "filetest");
+	protected File SUB_DIR = new File(ROOT_DIR, "sub");
+	protected File ROOT_DIR_FILE = new File(ROOT_DIR, "fr.txt");
+	protected File SUB_DIR_FILE = new File(SUB_DIR, "fs.txt");
 
 	@Test
 	public void testCopyFile() throws Exception {
@@ -68,11 +75,49 @@ public class FileUtilTest {
 
         } finally {
         	// remove the used files
-        	if (targetFile.exists())
-        		targetFile.delete();
-        	if (srcFile.exists())
-        		srcFile.delete();
+        	FileUtil.deleteIfExists(targetFile);
+        	FileUtil.deleteIfExists(srcFile);
         }
 	}
+	
+	@Test
+	public void testListFiles() throws Exception {
+		createTestFolders();
+		try {
+			check(null, true, false, false, ROOT_DIR_FILE); // non-recursive, only files, w/o pattern
+			check("fr.*", true, false, false, ROOT_DIR_FILE); // non-recursive, only files,  w/ pattern
+			check("x.*", true, false, false); // non-recursive, only files, w/ pattern
+			check(null, false, true, false, SUB_DIR); // non-recursive, only folders, w/o pattern
+			check(null, true, true, false, SUB_DIR, ROOT_DIR_FILE); // non-recursive, files and folders, w/o pattern
+			check(null, true, true, true, SUB_DIR, ROOT_DIR_FILE, SUB_DIR_FILE); // recursive, files and folders, w/o pattern
+			check(null, false, true, true, SUB_DIR); // recursive, only folders, w/o pattern
+			check("f.*", true, true, true, ROOT_DIR_FILE, SUB_DIR_FILE); // recursive, files and folders, "f.*" pattern
+			check("s.*", false, true, true, SUB_DIR); // recursive, only folders, "s.*" pattern
+        } finally {
+        	// remove the used files
+        	removeTestFolders();
+        }
+	}
+
+	private void check(String regex, boolean acceptingFiles, boolean acceptingFolders, boolean recursive, 
+			File... expectedResult) {
+        List<File> actual = FileUtil.listFiles(ROOT_DIR, regex, recursive, acceptingFiles, acceptingFolders);
+        List<File> expected = CollectionUtil.toList(expectedResult);
+		assertTrue("Expected " + expected + ", but was " + actual, CollectionUtil.equalsIgnoreOrder(expected, actual));
+    }
+
+	protected void createTestFolders() throws IOException {
+		FileUtil.ensureDirectoryExists(ROOT_DIR);
+		FileUtil.ensureDirectoryExists(SUB_DIR);
+	    IOUtil.writeTextFile(ROOT_DIR_FILE.getAbsolutePath(), "rfc");
+		IOUtil.writeTextFile(SUB_DIR_FILE.getAbsolutePath(), "sfc");
+    }
+
+	protected void removeTestFolders() {
+	    FileUtil.deleteIfExists(SUB_DIR_FILE);
+	    FileUtil.deleteIfExists(SUB_DIR);
+	    FileUtil.deleteIfExists(ROOT_DIR_FILE);
+	    FileUtil.deleteIfExists(ROOT_DIR);
+    }
 	
 }
