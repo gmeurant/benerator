@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2005-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -35,6 +35,8 @@ import java.util.ArrayList;
  * Chains typed converters in a way that the output of each converter is the input of the next converter in the chain.<br/>
  * <br/>
  * Created: 13.05.2005 17:43:04
+ * @since 0.1
+ * @author Volker Bergmann
  */
 @SuppressWarnings("unchecked")
 public class BidirectionalConverterChain<S, T> extends AbstractBidirectionalConverter<S, T> {
@@ -72,4 +74,5 @@ public class BidirectionalConverterChain<S, T> extends AbstractBidirectionalConv
         }
         return (S)result;
     }
+
 }
