@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -35,7 +35,15 @@ import java.io.File;
  * @author Volker Bergmann
  */
 public class DirectoryFileFilter implements FileFilter {
+	
+	private static final DirectoryFileFilter INSTANCE = new DirectoryFileFilter();
+	
     public boolean accept(File file) {
         return file.isDirectory();
     }
+
+	public static FileFilter instance() {
+	    return INSTANCE;
+    }
+
 }
