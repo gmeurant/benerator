@@ -79,7 +79,7 @@ public class FlatFileLineIteratorTest {
                 "Charly045" + SEP +
                 "Dieter-01"
         );
-        FlatFileLineIterator iterator = new FlatFileLineIterator(reader, formats, ignoreEmptyLines);
+        FlatFileLineIterator iterator = new FlatFileLineIterator(reader, formats, ignoreEmptyLines, null);
         return iterator;
     }
 
