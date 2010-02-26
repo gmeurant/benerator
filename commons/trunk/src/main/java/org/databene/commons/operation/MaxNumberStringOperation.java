@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,12 +24,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 package org.databene.commons.operation;
 
-import java.math.BigDecimal;
-
-import org.databene.commons.converter.String2NumberConverter;
+import org.databene.commons.Converter;
+import org.databene.commons.Operation;
+import org.databene.commons.converter.NumberParser;
 
 /**
  * Returns the maximum value of several number literals.<br/><br/>
@@ -37,9 +36,21 @@ import org.databene.commons.converter.String2NumberConverter;
  * @since 0.4.0
  * @author Volker Bergmann
  */
-public class MinNumberLiteral extends ConvertingOperation<String, BigDecimal> {
+@SuppressWarnings("unchecked")
+public class MaxNumberStringOperation implements Operation<String, String> {
 
-    public MinNumberLiteral() {
-        super(new String2NumberConverter<BigDecimal>(BigDecimal.class), new MinOperation<BigDecimal>());
+    private MaxOperation<ComparableWrapper> operation;
+	private Converter<String, ?> parser;
+
+    public MaxNumberStringOperation() {
+        this.operation = new MaxOperation<ComparableWrapper>();
+        this.parser = new NumberParser();
     }
+
+	public String perform(String... args) {
+	    ComparableWrapper<String>[] wrappers = ComparableWrapper.wrapAll(args, parser);
+	    ComparableWrapper<String> min = operation.perform(wrappers);
+		return min.realObject;
+    }
+    
 }
