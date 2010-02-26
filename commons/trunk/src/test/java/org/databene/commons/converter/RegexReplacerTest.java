@@ -41,7 +41,7 @@ public class RegexReplacerTest {
 	
 	@Test
 	public void testConvertTwoArg() {
-		RegexReplacer replacer = new RegexReplacer("\\d");
+		RegexReplacer replacer = new RegexReplacer("\\d", null);
 		assertEquals("AxBxCxD", replacer.convert("A1B2C3D", "x"));
 	}
 	

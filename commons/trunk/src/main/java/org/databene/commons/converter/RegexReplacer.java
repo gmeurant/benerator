@@ -38,14 +38,22 @@ public class RegexReplacer extends AbstractConverter<String, String> {
 	private Pattern pattern;
 	private String replacement;
 
-	public RegexReplacer(String pattern) {
-	    this(pattern, null);
+	public RegexReplacer() {
+	    this(null, null);
     }
 
 	public RegexReplacer(String pattern, String replacement) {
 	    super(String.class, String.class);
-	    this.pattern = Pattern.compile(pattern);
+	    setPattern(pattern);
+	    setReplacement(replacement);
+    }
+
+	private void setReplacement(String replacement) {
 	    this.replacement = replacement;
+    }
+
+	public void setPattern(String pattern) {
+	    this.pattern = Pattern.compile(pattern);
     }
 
 	public String convert(String input) throws ConversionException {
