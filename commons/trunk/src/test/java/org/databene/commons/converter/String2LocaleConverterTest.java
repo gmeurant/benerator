@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -32,7 +32,6 @@ import static junit.framework.Assert.*;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 import org.databene.commons.converter.String2LocaleConverter;
-import org.databene.commons.converter.BidirectionalConverter;
 
 import java.util.Locale;
 
@@ -52,12 +51,4 @@ public class String2LocaleConverterTest {
         assertEquals(new Locale("de", "DE", "BY"), converter.convert("de_DE_BY"));
     }
 
-	@Test
-    public void testRevert() throws ConversionException {
-        BidirectionalConverter<String, Locale> converter = new String2LocaleConverter();
-        assertEquals("de", converter.revert(Locale.GERMAN));
-        assertEquals("de_DE", converter.revert(Locale.GERMANY));
-        assertEquals(converter.convert("de_DE_BY"), new Locale("de", "DE", "BY"));
-    }
-	
 }

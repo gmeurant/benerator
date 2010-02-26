@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -33,11 +33,11 @@ import org.databene.commons.ConversionException;
 import org.databene.commons.SystemInfo;
 
 /**
- * Converts strings to byte arrays and vice versa based on a character encoding, e.g. UTF-8.
+ * Converts strings to byte arrays based on a character encoding, e.g. UTF-8.
  * @author Volker Bergmann
  * @since 0.2.04
  */
-public class String2ByteArrayConverter extends AbstractBidirectionalConverter<String, byte[]> {
+public class String2ByteArrayConverter extends AbstractConverter<String, byte[]> {
 
     private String encoding;
     
@@ -58,11 +58,4 @@ public class String2ByteArrayConverter extends AbstractBidirectionalConverter<St
         }
     }
 
-    public String revert(byte[] target) throws ConversionException {
-        try {
-            return new String(target, encoding);
-        } catch (UnsupportedEncodingException e) {
-            throw new ConfigurationError(e);
-        }
-    }
 }

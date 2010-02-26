@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -29,44 +29,20 @@ package org.databene.commons.converter;
 import org.databene.commons.ConversionException;
 
 /**
- * Reverses the conversion directions of another TypedConverter.<br/>
- * <br/>
- * Created: 04.08.2007 19:45:18
+ * Converts {@link Number} objects to {@link Integer}s.<br/><br/>
+ * Created at 14.04.2008 10:48:53
+ * @since 0.4.2
  * @author Volker Bergmann
+ *
  */
-public class ReverseConverter<S, T> extends AbstractConverter<S,T> implements BidirectionalConverter<S, T> {
+public class Number2IntegerConverter extends AbstractConverter<Number, Integer> {
 
-    private BidirectionalConverter<T, S> realConverter;
-    
-    // constructors ----------------------------------------------------------------------------------------------------
-
-    public ReverseConverter() {
-        this(null);
-    }
-    
-    public ReverseConverter(BidirectionalConverter<T, S> realConverter) {
-    	super(realConverter.getTargetType(), realConverter.getSourceType());
-        this.realConverter = realConverter;
-    }
-    
-    // BidirectionalConverter interface --------------------------------------------------------------------------------
-
-    public T convert(S source) throws ConversionException {
-        return realConverter.revert(source);
-    }
-
-    public S revert(T target) throws ConversionException {
-        return realConverter.convert(target);
-    }
-    
-    // properties ------------------------------------------------------------------------------------------------------
-
-	public BidirectionalConverter<T, S> getRealConverter() {
-		return realConverter;
+	public Number2IntegerConverter() {
+		super(Number.class, Integer.class);
 	}
 
-	public void setRealConverter(BidirectionalConverter<T, S> realConverter) {
-		this.realConverter = realConverter;
+	public Integer convert(Number sourceValue) throws ConversionException {
+		return (sourceValue != null ? sourceValue.intValue() : null); 
 	}
 
 }

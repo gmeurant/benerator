@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -36,15 +36,12 @@ import java.util.GregorianCalendar;
  * Converts Date into Calendar Objects and back.<br/>
  * <br/>
  * Created: 05.08.2007 06:42:16
+ * @author Volker Bergmann
  */
-public class Date2CalendarConverter extends AbstractBidirectionalConverter<Date, Calendar> {
+public class Date2CalendarConverter extends AbstractConverter<Date, Calendar> {
 
     public Date2CalendarConverter() {
         super(Date.class, Calendar.class);
-    }
-
-    public Date revert(Calendar target) throws ConversionException {
-        return target.getTime();
     }
 
     public Calendar convert(Date sourceValue) throws ConversionException {
@@ -52,4 +49,5 @@ public class Date2CalendarConverter extends AbstractBidirectionalConverter<Date,
         calendar.setTime(sourceValue);
         return calendar;
     }
+
 }

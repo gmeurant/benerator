@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,26 +26,32 @@
 
 package org.databene.commons.converter;
 
-import java.util.regex.Pattern;
+import java.text.DecimalFormat;
 
 import org.databene.commons.ConversionException;
 
 /**
- * Converts a String to a {@link Pattern}.<br/>
- * <br/>
- * Created at 01.10.2009 10:09:38
- * @since 0.5.0
+ * Converts Strings to Numbers using a {@link DecimalFormat}.<br/><br/>
+ * Created: 23.06.2008 18:49:17
+ * @since 0.4.4
  * @author Volker Bergmann
  */
+public class NumberParser extends NumberFormatConverter<String, Number> {
+	
+    // constructors ----------------------------------------------------------------------------------------------------
 
-public class String2PatternConverter extends AbstractConverter<String, Pattern> {
+    public NumberParser() {
+		super(String.class, Number.class);
+	}
 
-    public String2PatternConverter() {
-	    super(String.class, Pattern.class);
-    }
+	public NumberParser(String pattern) {
+		super(String.class, Number.class);
+	}
+	
+	// Converter interface implementation ------------------------------------------------------------------------------
 
-	public Pattern convert(String regex) throws ConversionException {
-	    return Pattern.compile(regex);
-    }
-
+	public Number convert(String target) throws ConversionException {
+		return parse(target);
+	}
+	
 }

@@ -1,14 +1,9 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
- * GNU General Public License.
- *
- * For redistributing this software or a derivative work under a license other
- * than the GPL-compatible Free Software License as defined by the Free
- * Software Foundation or approved by OSI, you must first obtain a commercial
- * license to this software product from Volker Bergmann.
+ * GNU General Public License (GPL).
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * WITHOUT A WARRANTY OF ANY KIND. ALL EXPRESS OR IMPLIED CONDITIONS,
@@ -28,45 +23,45 @@ package org.databene.commons.converter;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.ParseException;
 
 import org.databene.commons.ConversionException;
 import org.databene.commons.NullSafeComparator;
 
 /**
- * Converts Strings to Numbers using a {@link DecimalFormat}.<br/>
- * <br/>
- * Created: 23.06.2008 18:49:17
- * @since 0.4.4
+ * Holds a {@link NumberFormat} and exhibits properties for its configuration.<br/><br/>
+ * Created: 26.02.2010 08:37:23
+ * @since 0.5.0
  * @author Volker Bergmann
  */
-public class NumberFormatConverter extends AbstractBidirectionalConverter<Number, String> {
+public abstract class NumberFormatConverter<S, T> extends AbstractConverter<S, T> {
 	
 	// constants -------------------------------------------------------------------------------------------------------
 	
-	private static final String DEFAULT_DECIMAL_PATTERN = "";
+	protected static final String DEFAULT_DECIMAL_PATTERN = "";
     
-	private static final char DEFAULT_DECIMAL_SEPARATOR = '.';
+	protected static final char DEFAULT_DECIMAL_SEPARATOR = '.';
 
-	private static final String DEFAULT_NULL_STRING = "";
+	protected static final String DEFAULT_NULL_STRING = "";
 	
 	// attributes ------------------------------------------------------------------------------------------------------
 
 	private String pattern;
 	private char decimalSeparator;
-	private DecimalFormat format;
+	protected DecimalFormat format;
 
 	/** The string used to represent null values */
     private String nullString;
     
     // constructors ----------------------------------------------------------------------------------------------------
 
-    public NumberFormatConverter() {
-		this(DEFAULT_DECIMAL_PATTERN);
+    public NumberFormatConverter(Class<S> sourceType, Class<T> targetType) {
+		this(sourceType, targetType, DEFAULT_DECIMAL_PATTERN);
 	}
 
-	public NumberFormatConverter(String pattern) {
-		super(Number.class, String.class);
+	public NumberFormatConverter(Class<S> sourceType, Class<T> targetType, String pattern) {
+		super(sourceType, targetType);
 		setPattern(pattern);
 		setDecimalSeparator(DEFAULT_DECIMAL_SEPARATOR);
 		setNullString(DEFAULT_NULL_STRING);
@@ -102,21 +97,19 @@ public class NumberFormatConverter extends AbstractBidirectionalConverter<Number
 	public void setNullString(String nullString) {
     	this.nullString = nullString;
     }
-
-	// Converter interface implementation ------------------------------------------------------------------------------
-
-	public String convert(Number sourceNumber) throws ConversionException {
-		return (sourceNumber != null ? format.format(sourceNumber) : nullString);
-	}
 	
-	public Number revert(String target) throws ConversionException {
-		if (NullSafeComparator.equals(target, nullString))
+	protected String format(Number input) {
+		return (input != null ? format.format(input) : nullString);
+	}
+
+	protected Number parse(String input) throws ConversionException {
+		if (NullSafeComparator.equals(input, nullString))
 			return null;
 		try {
-			Number result = format.parse(target);
+			Number result = format.parse(input);
 			return result;
 		} catch (ParseException e) {
-			throw new ConversionException("Error converting " + target);
+			throw new ConversionException("Error parsing " + input + " as number");
 		}
 	}
 	
@@ -126,4 +119,5 @@ public class NumberFormatConverter extends AbstractBidirectionalConverter<Number
 	public String toString() {
 	    return getClass().getSimpleName() + '[' + pattern + ']';
 	}
+	
 }

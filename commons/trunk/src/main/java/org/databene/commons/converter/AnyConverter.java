@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -40,6 +40,8 @@ import java.util.Collection;
  * @author Volker Bergmann
  */
 public class AnyConverter<E> extends FormatHolder implements Converter<Object, E> {
+	
+	// TODO v0.5.1 Move logic to ConverterManager, and make this a converter proxy which is lazily initialized 
 
     private static final Logger logger = LoggerFactory.getLogger(AnyConverter.class);
 

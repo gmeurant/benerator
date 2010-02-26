@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,7 +27,6 @@
 package org.databene.commons.converter;
 
 import java.sql.Time;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,37 +41,49 @@ import org.databene.commons.StringUtil;
  * Created: 14.03.2008 22:15:58
  * @author Volker Bergmann
  */
-public class String2TimeConverter extends AbstractBidirectionalConverter<String, Time> implements Patterns {
+public class String2TimeConverter extends AbstractConverter<String, Time> implements Patterns {
 
+	private String pattern;
+	
     public String2TimeConverter() {
+        this(null);
+    }
+
+    public String2TimeConverter(String pattern) {
         super(String.class, Time.class);
+        this.pattern = pattern;
     }
 
     public Time convert(String sourceValue) throws ConversionException {
-        return parse(sourceValue);
+        return parse(sourceValue, pattern);
     }
 
-    public static Time parse(String sourceValue) throws ConversionException {
-        if (StringUtil.isEmpty(sourceValue))
+    public static Time parse(String value) throws ConversionException {
+        return parse(value, null);
+    }
+
+    public static Time parse(String value, String pattern) throws ConversionException {
+        if (StringUtil.isEmpty(value))
             return null;
-        try {
-            DateFormat format;
+        pattern = choosePattern(value, pattern);
+	    try {
+	        Date simpleDate = new SimpleDateFormat(pattern).parse(value);
+	        long millis = simpleDate.getTime();
+	        return new Time(millis);
+	    } catch (ParseException e) {
+	        throw new ConversionException(e);
+	    }
+    }
+
+	private static String choosePattern(String sourceValue, String pattern) {
+	    if (pattern == null)
             switch (sourceValue.length()) {
-                case 12 : format = new SimpleDateFormat(DEFAULT_TIME_MILLIS_PATTERN);  break;
-                case  8 : format = new SimpleDateFormat(DEFAULT_TIME_SECONDS_PATTERN); break;
-                case  5 : format = new SimpleDateFormat(DEFAULT_TIME_MINUTES_PATTERN); break;
+                case 12 : pattern = DEFAULT_TIME_MILLIS_PATTERN;  break;
+                case  8 : pattern = DEFAULT_TIME_SECONDS_PATTERN; break;
+                case  5 : pattern = DEFAULT_TIME_MINUTES_PATTERN; break;
                 default : throw new IllegalArgumentException("Not a supported time format: " + sourceValue);
             }
-            Date simpleDate = format.parse(sourceValue);
-            long millis = simpleDate.getTime();
-            return new Time(millis);
-        } catch (ParseException e) {
-            throw new ConversionException(e);
-        }
-    }
-
-    public String revert(Time target) throws ConversionException {
-        return new SimpleDateFormat(DEFAULT_TIME_MILLIS_PATTERN).format(new Date(target.getTime()));
+	    return pattern;
     }
 
 }

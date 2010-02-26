@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -32,23 +32,17 @@ import org.databene.commons.ConversionException;
  * Instantiates enum instances by their name.<br/>
  * <br/>
  * Created: 20.08.2007 07:11:16
+ * @author Volker Bergmann
  */
 @SuppressWarnings("unchecked")
-public class String2EnumConverter<E extends Enum> extends AbstractBidirectionalConverter<String, E> {
-
-    private Class<E> enumClass;
+public class String2EnumConverter<E extends Enum> extends AbstractConverter<String, E> {
 
     public String2EnumConverter(Class<E> enumClass) {
         super(String.class, enumClass);
-        this.enumClass = enumClass;
     }
 
     public E convert(String sourceValue) throws ConversionException {
-        return convert(sourceValue, enumClass);
-    }
-
-    public String revert(E target) throws ConversionException {
-        return String.valueOf(target);
+        return convert(sourceValue, targetType);
     }
 
     public static <T extends Enum> T convert(String sourceValue, Class<T> enumClass) throws ConversionException {

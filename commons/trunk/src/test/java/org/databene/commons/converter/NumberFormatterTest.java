@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,18 +30,18 @@ import org.junit.Test;
 import static junit.framework.Assert.*;
 
 /**
- * Tests the {@link NumberFormatConverter}.<br/>
+ * Tests the {@link NumberParser}.<br/>
  * <br/>
  * Created at 22.03.2009 08:02:42
  * @since 0.4.9
  * @author Volker Bergmann
  */
 
-public class NumberFormatConverterTest {
+public class NumberFormatterTest {
 
 	@Test
 	public void testConvert() {
-		NumberFormatConverter converter = new NumberFormatConverter();
+		NumberFormatter converter = new NumberFormatter();
 		assertEquals("", converter.convert(null));
 		assertEquals("0", converter.convert(0.));
 		assertEquals("0", converter.convert(0));
@@ -55,20 +55,4 @@ public class NumberFormatConverterTest {
 		assertEquals("1.000,00", converter.convert(1000.));
 	}
 
-	@Test
-	public void testRevert() {
-		NumberFormatConverter converter = new NumberFormatConverter();
-		assertEquals(null, converter.revert(""));
-		assertEquals(0., converter.revert("0.0").doubleValue());
-		assertEquals(0, converter.revert("0").intValue());
-		converter.setPattern("0.00");
-		assertEquals(0., converter.revert("0.00").doubleValue());
-		converter.setDecimalSeparator(',');
-		assertEquals(0., converter.revert("0,00").doubleValue());
-		converter.setPattern("#,##0");
-		assertEquals(1000, converter.revert("1.000").intValue());
-		converter.setPattern("#,##0.00");
-		assertEquals(1000., converter.revert("1.000,00").doubleValue());
-	}
-	
 }

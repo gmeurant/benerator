@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -31,10 +31,10 @@ import org.databene.commons.ConversionException;
 
 /**
  * Converts byte arrays to base64 strings and vice versa.
- * @author Volker Bergmann
  * @since 0.2.04
+ * @author Volker Bergmann
  */
-public class ByteArrayToBase64Converter extends AbstractBidirectionalConverter<byte[], String> {
+public class ByteArrayToBase64Converter extends AbstractConverter<byte[], String> {
 
     public ByteArrayToBase64Converter() {
         super(byte[].class, String.class);
@@ -44,7 +44,4 @@ public class ByteArrayToBase64Converter extends AbstractBidirectionalConverter<b
         return Base64Codec.encode(sourceValue);
     }
 
-    public byte[] revert(String target) throws ConversionException {
-        return Base64Codec.decode(target);
-    }
 }

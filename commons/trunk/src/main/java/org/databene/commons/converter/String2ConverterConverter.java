@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -41,9 +41,9 @@ import org.databene.commons.StringUtil;
  * @author Volker Bergmann
  */
 @SuppressWarnings("unchecked")
-public class String2ConverterConverter extends AbstractBidirectionalConverter<String, Converter> {
+public class String2ConverterConverter extends AbstractConverter<String, Converter> {
 
-	// TODO v0.6 resolve scripts
+	// TODO v0.5.1 resolve scripts
 	
     public String2ConverterConverter() {
         super(String.class, Converter.class);
@@ -59,13 +59,6 @@ public class String2ConverterConverter extends AbstractBidirectionalConverter<St
             return (Converter) result;
         else
             throw new ConfigurationError("Class is neither Converter nor Format: " + result.getClass());
-    }
-
-    public String revert(Converter target) throws ConversionException {
-        if (target == null)
-            return null;
-        Class<? extends Converter> targetClass = target.getClass();
-        return targetClass.getName();
     }
 
 }

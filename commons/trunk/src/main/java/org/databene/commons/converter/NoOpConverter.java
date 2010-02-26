@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -32,10 +32,12 @@ import org.databene.commons.ConversionException;
  * Returns the argument to be converted.<br/>
  * <br/>
  * Created: 27.09.2006 23:26:25
+ * @since 0.1
+ * @author Volker Bergmann
  */
-public class NoOpConverter<E> extends AbstractBidirectionalConverter<E,E> {
+public class NoOpConverter<E> extends AbstractConverter<E,E> {
 
-    private static NoOpConverter<?> instance = new NoOpConverter<Object>();
+    private static final NoOpConverter<?> instance = new NoOpConverter<Object>();
 
     @SuppressWarnings("unchecked")
     public static NoOpConverter getInstance() {
@@ -55,12 +57,9 @@ public class NoOpConverter<E> extends AbstractBidirectionalConverter<E,E> {
         return source;
     }
 
-    public E revert(E target) throws ConversionException {
-        return target;
-    }
-
     @Override
     public String toString() {
         return getClass().getSimpleName();
     }
+    
 }

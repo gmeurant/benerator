@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -63,7 +63,6 @@ public class String2EnumConverterTest {
         String2EnumConverter<SomeEnum> converter = new String2EnumConverter<SomeEnum>(SomeEnum.class);
         String name = instance.name();
         assertEquals(instance, converter.convert(name));
-        assertEquals(name, converter.revert(instance));
     }
     
 }

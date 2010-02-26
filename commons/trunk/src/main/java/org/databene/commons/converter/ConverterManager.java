@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -67,6 +67,7 @@ public class ConverterManager {
     }
 
     public Converter getConverter(Object sourceValue, Class dstType) {
+    	// TODO v0.5.1 Take over feature set of AnyConverter
         if (sourceValue == null)
             return new NoOpConverter();
     	Class srcType = sourceValue.getClass();
@@ -80,14 +81,6 @@ public class ConverterManager {
             		return converter; // perfect match
             	else if (dstType.isAssignableFrom(converterTargetType) && poorMatch == null)
             		poorMatch = converter; // sub optimal match
-            } else if (converter instanceof BidirectionalConverter) {
-            	BidirectionalConverter bc = (BidirectionalConverter) converter;
-            	if (bc.getTargetType() == srcType) {
-            		if (bc.getSourceType() == dstType)
-            			return new ReverseConverter((BidirectionalConverter) converter); // perfect match
-            		else if (dstType.isAssignableFrom(bc.getSourceType()) && poorMatch == null)
-            			poorMatch = new ReverseConverter((BidirectionalConverter) converter); // sub optimal match;
-            	}
             }
         }
         return poorMatch; // that's null or a sub optimal match
@@ -95,6 +88,13 @@ public class ConverterManager {
 
     public void register(Converter converter) {
         converters.add(converter);
+    }
+    
+    public static <S, T> T[] convertAll(S[] input, Converter<S, T> converter) {
+        T[] output = (T[]) new Object[input.length];
+        for (int i = 0; i < input.length; i++)
+            output[i] = converter.convert(input[i]);
+        return output;
     }
 
     // private helpers -------------------------------------------------------------------------------------------------

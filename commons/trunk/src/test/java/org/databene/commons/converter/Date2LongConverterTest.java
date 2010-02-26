@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -47,10 +47,4 @@ public class Date2LongConverterTest {
 		assertEquals(0L, new Date2LongConverter().convert(TimeUtil.date(1970, 0, 1, 0, 0, 0, 0)).longValue());
 	}
 
-	@Test
-	public void testRevert() {
-		assertEquals(null, new Date2LongConverter().revert(null));
-		assertEquals(TimeUtil.date(1970, 0, 1, 0, 0, 0, 0), new Date2LongConverter().revert(0L));
-	}
-	
 }

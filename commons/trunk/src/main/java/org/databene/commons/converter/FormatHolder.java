@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -51,9 +51,9 @@ public abstract class FormatHolder implements Patterns {
 
     protected String timestampPattern;
     
-    protected NumberFormatConverter decimalConverter;
+    protected NumberFormatter decimalConverter;
     
-    protected NumberFormatConverter integralConverter;
+    protected NumberFormatter integralConverter;
     
     // constructors ----------------------------------------------------------------------------------------------------
 
@@ -119,7 +119,7 @@ public abstract class FormatHolder implements Patterns {
 
 	public void setDecimalPattern(String pattern) {
 		if (decimalConverter == null)
-			decimalConverter = new NumberFormatConverter(pattern);
+			decimalConverter = new NumberFormatter(pattern);
 		decimalConverter.setPattern(pattern);
 	}
 
@@ -129,7 +129,7 @@ public abstract class FormatHolder implements Patterns {
 
 	public void setDecimalSeparator(char separator) {
 		if (decimalConverter == null)
-			decimalConverter = new NumberFormatConverter();
+			decimalConverter = new NumberFormatter();
 		decimalConverter.setDecimalSeparator(separator);
     }
 
@@ -147,7 +147,7 @@ public abstract class FormatHolder implements Patterns {
 
     public void setIntegralPattern(String pattern) {
     	if (integralConverter == null)
-    		integralConverter = new NumberFormatConverter();
+    		integralConverter = new NumberFormatter();
     	integralConverter.setPattern(pattern);
     }
     

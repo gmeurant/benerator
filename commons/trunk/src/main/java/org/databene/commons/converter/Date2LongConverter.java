@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -36,8 +36,9 @@ import java.util.TimeZone;
  * By default it uses the system's default time zone.<br/>
  * <br/>
  * Created: 05.08.2007 07:10:25
+ * @author Volker Bergmann
  */
-public class Date2LongConverter extends AbstractBidirectionalConverter<Date, Long>{
+public class Date2LongConverter extends AbstractConverter<Date, Long>{
 
 	private TimeZone timeZone;
 	
@@ -73,12 +74,6 @@ public class Date2LongConverter extends AbstractBidirectionalConverter<Date, Lon
 		if (sourceValue == null)
 			return null;
 		return sourceValue.getTime() + timeZone.getRawOffset();
-	}
-
-	public Date revert(Long target) throws ConversionException {
-		if (target == null)
-			return null;
-		return new Date(target - timeZone.getRawOffset());
 	}
 
 }

@@ -1,14 +1,9 @@
 /*
- * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
- * GNU General Public License.
- *
- * For redistributing this software or a derivative work under a license other
- * than the GPL-compatible Free Software License as defined by the Free
- * Software Foundation or approved by OSI, you must first obtain a commercial
- * license to this software product from Volker Bergmann.
+ * GNU General Public License (GPL).
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * WITHOUT A WARRANTY OF ANY KIND. ALL EXPRESS OR IMPLIED CONDITIONS,
@@ -26,26 +21,25 @@
 
 package org.databene.commons.converter;
 
-import java.util.regex.Pattern;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.databene.commons.ConversionException;
 
 /**
- * Converts a String to a {@link Pattern}.<br/>
- * <br/>
- * Created at 01.10.2009 10:09:38
+ * Converts {@link Calendar} objects to {@link Date}s.<br/><br/>
+ * Created: 25.02.2010 23:34:02
  * @since 0.5.0
  * @author Volker Bergmann
  */
+public class Calendar2DateConverter extends AbstractConverter<Calendar, Date> {
 
-public class String2PatternConverter extends AbstractConverter<String, Pattern> {
-
-    public String2PatternConverter() {
-	    super(String.class, Pattern.class);
+    public Calendar2DateConverter() {
+        super(Calendar.class, Date.class);
     }
 
-	public Pattern convert(String regex) throws ConversionException {
-	    return Pattern.compile(regex);
+    public Date convert(Calendar target) throws ConversionException {
+        return target.getTime();
     }
 
 }

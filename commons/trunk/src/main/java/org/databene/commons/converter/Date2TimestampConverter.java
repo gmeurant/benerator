@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -32,23 +32,20 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 /**
- * Converts Date to Timestamp Objects and back.<br/>
+ * Converts {@link Date} to {@link Timestamp} Objects.<br/>
  * <br/>
  * Created: 28.11.2007 20:07:16
  * @author Volker Bergmann
  * @since 0.2.04
  */
-public class Date2TimestampConverter extends AbstractBidirectionalConverter<Date, Timestamp> {
+public class Date2TimestampConverter extends AbstractConverter<Date, Timestamp> {
 
     public Date2TimestampConverter() {
         super(Date.class, Timestamp.class);
     }
 
-    public Date revert(Timestamp target) throws ConversionException {
-        return new Date(target.getTime());
-    }
-
     public Timestamp convert(Date sourceValue) throws ConversionException {
         return new Timestamp(sourceValue.getTime());
     }
+
 }

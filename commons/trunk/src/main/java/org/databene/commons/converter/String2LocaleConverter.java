@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -32,11 +32,12 @@ import org.databene.commons.LocaleUtil;
 import java.util.Locale;
 
 /**
- * Instantiates locales by their code, e.g. de_DE.<br/>
+ * Instantiates {@link Locale}s by their code, e.g. de_DE.<br/>
  * <br/>
  * Created: 05.08.2007 06:29:58
+ * @author Volker Bergmann
  */
-public class String2LocaleConverter extends AbstractBidirectionalConverter<String, Locale> {
+public class String2LocaleConverter extends AbstractConverter<String, Locale> {
 
     public String2LocaleConverter() {
         super(String.class, Locale.class);
@@ -46,7 +47,4 @@ public class String2LocaleConverter extends AbstractBidirectionalConverter<Strin
         return LocaleUtil.getLocale(sourceValue);
     }
 
-    public String revert(Locale target) throws ConversionException {
-        return target.toString();
-    }
 }

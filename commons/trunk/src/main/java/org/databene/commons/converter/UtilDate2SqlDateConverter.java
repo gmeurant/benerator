@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -36,7 +36,7 @@ import java.util.Date;
  * Created: 09.09.2007 12:51:17
  * @author Volker Bergmann
  */
-public class UtilDate2SqlDateConverter extends AbstractBidirectionalConverter<Date, java.sql.Date> {
+public class UtilDate2SqlDateConverter extends AbstractConverter<Date, java.sql.Date> {
 
 	public UtilDate2SqlDateConverter() {
 		super(Date.class, java.sql.Date.class);
@@ -46,7 +46,4 @@ public class UtilDate2SqlDateConverter extends AbstractBidirectionalConverter<Da
         return new java.sql.Date(sourceValue.getTime());
     }
 
-    public Date revert(java.sql.Date target) throws ConversionException {
-        return new java.util.Date(target.getTime());
-    }
 }
