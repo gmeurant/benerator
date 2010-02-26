@@ -21,32 +21,47 @@
 
 package org.databene.commons.file;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
-import java.util.regex.Pattern;
+
+import org.databene.commons.FileUtil;
+import org.databene.commons.IOUtil;
+import org.junit.Test;
 
 /**
- * {@link FileFilter} that can be configured to accepted files and/or folders 
- * based on a regular expression.<br/><br/>
- * Created: 24.02.2010 07:09:52
+ * Tests the {@link PatternFileFilter}.<br/><br/>
+ * Created: 26.02.2010 10:05:08
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class PatternFileFilter implements FileFilter {
+public class PatternFileFilterTest {
 	
-	private Pattern pattern;
-	private boolean acceptingFiles;
-	private boolean acceptingFolders;
+	File targetDir = new File("target");
+	File targetFile = new File("target", getClass().getSimpleName() + ".txt");
 
-	public PatternFileFilter(String regex, boolean acceptingFiles, boolean acceptingFolders) {
-	    this.pattern = (regex != null ? Pattern.compile(regex) : null);
-	    this.acceptingFiles = acceptingFiles;
-	    this.acceptingFolders = acceptingFolders;
-    }
+	@Test
+	public void testPattern() {
+		assertTrue(new PatternFileFilter(null, true, true).accept(targetDir));
+		assertTrue(new PatternFileFilter("t.*", true, true).accept(targetDir));
+		assertFalse(new PatternFileFilter("x.*", true, true).accept(targetDir));
+	}
 
-	public boolean accept(File file) {
-		if (pattern != null && !pattern.matcher(file.getName()).matches())
-	    	return false;
-		return (acceptingFiles && file.isFile()) || (acceptingFolders && file.isDirectory());
-    }
+	@Test
+	public void testAcceptFolders() {
+		assertTrue(new PatternFileFilter(null, false, true).accept(targetDir));
+		assertFalse(new PatternFileFilter(null, true, false).accept(targetDir));
+	}
+
+	@Test
+	public void testAcceptFiles() throws Exception {
+		IOUtil.writeTextFile(targetFile.getAbsolutePath(), "test");
+		try {
+			assertFalse(new PatternFileFilter(null, false, true).accept(targetFile));
+			assertTrue(new PatternFileFilter(null, true, false).accept(targetFile));
+		} finally {
+			FileUtil.deleteIfExists(targetFile);
+		}
+	}
 
 }
