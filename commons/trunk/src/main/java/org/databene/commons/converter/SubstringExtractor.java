@@ -29,7 +29,7 @@ import org.databene.commons.ConversionException;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class SubstringExtractor extends AbstractConverter<String, String> {
+public class SubstringExtractor extends ThreadSafeConverter<String, String> {
 	
 	private int from;
 	private Integer to;

@@ -31,7 +31,11 @@ import org.junit.Test;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class SubstringExtractorTest {
+public class SubstringExtractorTest extends ConverterTest {
+
+	public SubstringExtractorTest() {
+	    super(SubstringExtractor.class);
+    }
 
 	@Test
 	public void testDefault() {

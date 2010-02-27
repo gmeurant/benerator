@@ -34,7 +34,11 @@ import org.junit.Test;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class Enum2StringConverterTest {
+public class Enum2StringConverterTest extends ConverterTest {
+
+	public Enum2StringConverterTest() {
+	    super(Enum2StringConverter.class);
+    }
 
 	@Test
     public void testNull() throws ConversionException {

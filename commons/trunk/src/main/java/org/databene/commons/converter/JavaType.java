@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -145,11 +145,17 @@ public class JavaType {
         return numberTypes;
     }
     
-    public static boolean isDecimalType(Object value) {
-    	if (value == null)
-    		return false;
-    	Class<?> type = value.getClass();
-    	return (type == Double.class || type == Float.class || type == BigDecimal.class);
+    public static boolean isIntegralType(Class<?> type) {
+    	return (type == Integer.class  || type == int.class 
+    			|| type == Long.class  || type == long.class 
+    			|| type == Byte.class  || type == byte.class 
+    			|| type == Short.class || type == short.class 
+    			|| type == BigInteger.class);
+    }
+
+    public static boolean isDecimalType(Class<?> type) {
+    	return (type == Double.class || type == double.class || type == Float.class 
+    			|| type == float.class || type == BigDecimal.class);
     }
 
 }

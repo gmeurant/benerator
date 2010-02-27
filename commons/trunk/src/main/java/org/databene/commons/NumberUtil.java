@@ -32,8 +32,6 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Map;
 
-import org.databene.commons.converter.NumberConverter;
-
 /**
  * Provides convenience methods for the Java number types.
  * Created: 12.02.2005 18:24:47
@@ -63,24 +61,32 @@ public class NumberUtil {
 				BigInteger.class, Long.MAX_VALUE 
 		);
 	
-	public static <T extends Number> Byte toByte(T value) {
-	    return NumberConverter.convert(value, Byte.class);
+	public static <T extends Number> byte toByte(T value) {
+		return (value != null ? value.byteValue() : null);
     }
 	
 	public static <T extends Number> Integer toInteger(T value) {
-	    return NumberConverter.convert(value, Integer.class);
+	    return (value != null ? value.intValue() : null);
     }
 	
 	public static <T extends Number> Long toLong(T value) {
-	    return NumberConverter.convert(value, Long.class);
+	    return (value != null ? value.longValue() : null);
     }
 	
 	public static <T extends Number> Float toFloat(T value) {
-	    return NumberConverter.convert(value, Float.class);
+	    return (value != null ? value.floatValue() : null);
     }
 	
 	public static <T extends Number> Double toDouble(T value) {
-	    return NumberConverter.convert(value, Double.class);
+	    return (value != null ? value.doubleValue() : null);
+    }
+	
+	public static <T extends Number> BigDecimal toBigDecimal(T value) {
+	    return (value != null ? BigDecimal.valueOf(value.doubleValue()) : null);
+    }
+	
+	public static <T extends Number> BigInteger toBigInteger(T value) {
+	    return (value != null ? BigInteger.valueOf(value.longValue()) : null);
     }
 	
     public static String formatHex(int value, int digits) {

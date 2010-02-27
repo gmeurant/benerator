@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -70,6 +70,16 @@ public class FlatXML2BeanConverter extends AbstractConverter<Element, Object> {
             BeanUtil.setPropertyValue(bean, propertyName, propertyValue, false);
         }
         return bean;
+    }
+
+	public boolean isParallelizable() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	public boolean isThreadSafe() {
+	    // TODO Auto-generated method stub
+	    return false;
     }
 
 }

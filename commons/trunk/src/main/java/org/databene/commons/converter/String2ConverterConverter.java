@@ -41,7 +41,7 @@ import org.databene.commons.StringUtil;
  * @author Volker Bergmann
  */
 @SuppressWarnings("unchecked")
-public class String2ConverterConverter extends AbstractConverter<String, Converter> {
+public class String2ConverterConverter extends ThreadSafeConverter<String, Converter> {
 
 	// TODO v0.5.1 resolve scripts
 	
@@ -54,7 +54,7 @@ public class String2ConverterConverter extends AbstractConverter<String, Convert
             return null;
         Object result = BeanUtil.newInstance(sourceValue);
         if (result instanceof Format)
-            return new ParseFormatConverter(Object.class, (Format) result);
+            return new ParseFormatConverter(Object.class, (Format) result, false);
         else if (result instanceof Converter)
             return (Converter) result;
         else

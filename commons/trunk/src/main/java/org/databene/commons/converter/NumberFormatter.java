@@ -31,7 +31,7 @@ import org.databene.commons.ConversionException;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class NumberFormatter extends NumberFormatConverter<Number, String> {
+public class NumberFormatter extends NumberFormatBasedConverter<Number, String> {
 	
     // constructors ----------------------------------------------------------------------------------------------------
 

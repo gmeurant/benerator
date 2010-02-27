@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -42,9 +42,13 @@ import org.databene.commons.converter.JavaType;
  * Created: 29.09.2006 12:12:22<br/>
  * @author Volker Bergmann
  */
-public class AnyConverterTest {
+public class AnyConverterTest extends ConverterTest {
 
-    public static final double DELTA = 0.001;
+    public AnyConverterTest() {
+	    super(AnyConverter.class);
+    }
+
+	public static final double DELTA = 0.001;
 
 	@Test
     public void testFromNullConversion() throws ConversionException {

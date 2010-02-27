@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,7 +27,7 @@
 package org.databene.commons.bean;
 
 import org.databene.commons.ConversionException;
-import org.databene.commons.converter.AbstractConverter;
+import org.databene.commons.converter.ThreadSafeConverter;
 
 /**
  * Converter implementation that extracts all property values of a JavaBean to a Properties object.<br/>
@@ -35,7 +35,7 @@ import org.databene.commons.converter.AbstractConverter;
  * Created: 07.06.2007 14:11:58
  * @author Volker Bergmann
  */
-public class BeanToPropertyArrayConverter<E> extends AbstractConverter<E, Object[]> {
+public class BeanToPropertyArrayConverter<E> extends ThreadSafeConverter<E, Object[]> {
 
     private PropertyAccessor<E, ?>[] accessors;
 
@@ -57,4 +57,5 @@ public class BeanToPropertyArrayConverter<E> extends AbstractConverter<E, Object
             propertyValues[i] = accessors[i].getValue(bean);
         return propertyValues;
     }
+    
 }

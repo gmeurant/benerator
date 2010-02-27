@@ -46,8 +46,12 @@ import static junit.framework.Assert.*;
  * @author Volker Bergmann
  */
 
-public class Date2DurationConverterTest {
+public class Date2DurationConverterTest extends ConverterTest {
 	
+	public Date2DurationConverterTest() {
+	    super(Date2DurationConverter.class);
+    }
+
 	@Test
 	public void testUK() throws Exception {
 		check(TimeUtil.GMT);

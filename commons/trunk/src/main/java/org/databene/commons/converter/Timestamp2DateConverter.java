@@ -32,7 +32,7 @@ import org.databene.commons.ConversionException;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class Timestamp2DateConverter extends AbstractConverter<Timestamp, Date> {
+public class Timestamp2DateConverter extends ThreadSafeConverter<Timestamp, Date> {
 
     public Timestamp2DateConverter() {
         super(Timestamp.class, Date.class);

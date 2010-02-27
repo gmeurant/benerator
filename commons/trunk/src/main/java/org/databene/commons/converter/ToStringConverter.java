@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -29,11 +29,8 @@ package org.databene.commons.converter;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 
-import org.databene.commons.ArrayFormat;
-import org.databene.commons.Base64Codec;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 
@@ -45,7 +42,7 @@ import org.databene.commons.Converter;
  * @since 0.1
  * @author Volker Bergmann
  */
-public class ToStringConverter extends FormatHolder implements Converter<Object, String> {
+public class ToStringConverter extends FormatHolder implements Converter<Object, String>, Cloneable {
 	
 	private static ToStringConverter singletonInstance = new ToStringConverter();
 
@@ -82,25 +79,18 @@ public class ToStringConverter extends FormatHolder implements Converter<Object,
 	    return String.class;
     }
 
-	public String convert(Object source) throws ConversionException {
-        if (source == null) {
+	@SuppressWarnings("unchecked")
+    public String convert(Object source) throws ConversionException {
+        if (source == null)
             return nullString;
-        } else if (source instanceof String) {
+        else if (source instanceof String)
         	return (String) source;
-        } else if (integralConverter != null && JavaType.isDecimalType(source)) {
+        
+        Class<?> sourceType = source.getClass();
+        if (integralConverter != null && JavaType.isIntegralType(sourceType)) {
+        	return integralConverter.convert((Number) source);
+        } else if (decimalConverter != null && JavaType.isDecimalType(sourceType)) {
         	return decimalConverter.convert((Number) source);
-        } else if (decimalConverter != null && JavaType.isDecimalType(source)) {
-        	return decimalConverter.convert((Number) source);
-        } else if (source.getClass().isArray()) {
-        	Class<?> componentType = source.getClass().getComponentType();
-			if (componentType == byte.class)
-        		return Base64Codec.encode((byte[]) source);
-        	else if (componentType == char.class)
-        		return String.valueOf((char[])source);
-        	else
-        		return ArrayFormat.format((Object[])source);
-        } else if (source instanceof Class) {
-            return ((Class<?>) source).getName();
         } else if (source instanceof Timestamp) {
         	if (timestampPattern != null)
         		return new TimestampFormatter(timestampPattern).format((Timestamp) source);
@@ -116,10 +106,19 @@ public class ToStringConverter extends FormatHolder implements Converter<Object,
         		return new SimpleDateFormat(datePattern).format((Date) source);
         	else
         		return new SimpleDateFormat().format((Date) source);
-        } else if (source instanceof Collection) {
-        	return "{" + ArrayFormat.format(((Collection<?>) source).toArray()) + "}";
-        } else
-            return source.toString();
+        } else {
+	        ConverterManager manager = ConverterManager.getInstance();
+			Converter converter = manager.createConverter(sourceType, String.class);
+	        return (String) converter.convert(source);
+        }
+    }
+
+	public boolean isThreadSafe() {
+	    return true;
+    }
+	
+	public boolean isParallelizable() {
+	    return true;
     }
 
 	// utility methods -------------------------------------------------------------------------------------------------

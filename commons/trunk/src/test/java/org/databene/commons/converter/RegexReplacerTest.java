@@ -31,7 +31,11 @@ import org.junit.Test;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class RegexReplacerTest {
+public class RegexReplacerTest extends ConverterTest {
+
+	public RegexReplacerTest() {
+	    super(RegexReplacer.class);
+    }
 
 	@Test
 	public void testConvertOneArg() {

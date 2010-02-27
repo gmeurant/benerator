@@ -33,7 +33,7 @@ import org.databene.commons.ConversionException;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class Long2DateConverter  extends AbstractConverter<Long, Date>{
+public class Long2DateConverter extends ThreadSafeConverter<Long, Date>{
 
 	private TimeZone timeZone;
 	

@@ -35,7 +35,7 @@ import org.databene.commons.NullSafeComparator;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public abstract class NumberFormatConverter<S, T> extends AbstractConverter<S, T> {
+public abstract class NumberFormatBasedConverter<S, T> extends AbstractConverter<S, T> implements Cloneable {
 	
 	// constants -------------------------------------------------------------------------------------------------------
 	
@@ -56,11 +56,11 @@ public abstract class NumberFormatConverter<S, T> extends AbstractConverter<S, T
     
     // constructors ----------------------------------------------------------------------------------------------------
 
-    public NumberFormatConverter(Class<S> sourceType, Class<T> targetType) {
+    public NumberFormatBasedConverter(Class<S> sourceType, Class<T> targetType) {
 		this(sourceType, targetType, DEFAULT_DECIMAL_PATTERN);
 	}
 
-	public NumberFormatConverter(Class<S> sourceType, Class<T> targetType, String pattern) {
+	public NumberFormatBasedConverter(Class<S> sourceType, Class<T> targetType, String pattern) {
 		super(sourceType, targetType);
 		setPattern(pattern);
 		setDecimalSeparator(DEFAULT_DECIMAL_SEPARATOR);
@@ -118,6 +118,26 @@ public abstract class NumberFormatConverter<S, T> extends AbstractConverter<S, T
 	@Override
 	public String toString() {
 	    return getClass().getSimpleName() + '[' + pattern + ']';
+	}
+	
+	public boolean isThreadSafe() {
+	    return false;
+	}
+	
+	public boolean isParallelizable() {
+	    return true;
+	}
+	
+	@SuppressWarnings("unchecked")
+    @Override
+	public Object clone() {
+	    try {
+	        NumberFormatBasedConverter<S, T> copy = (NumberFormatBasedConverter<S, T>) super.clone();
+	        copy.format = (DecimalFormat) format.clone();
+	        return copy;
+        } catch (CloneNotSupportedException e) {
+        	throw new RuntimeException(e);
+        }
 	}
 	
 }

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,7 +27,7 @@
 package org.databene.commons.bean;
 
 import org.databene.commons.ConversionException;
-import org.databene.commons.converter.AbstractConverter;
+import org.databene.commons.converter.ThreadSafeConverter;
 
 /**
  * Wraps an Accessor with a Converter interface implementation.<br/>
@@ -36,7 +36,7 @@ import org.databene.commons.converter.AbstractConverter;
  * @author Volker Bergmann
  */
 @SuppressWarnings("unchecked")
-public class PropertyAccessConverter extends AbstractConverter {
+public class PropertyAccessConverter extends ThreadSafeConverter {
 
     private PropertyAccessor accessor;
     
@@ -60,4 +60,5 @@ public class PropertyAccessConverter extends AbstractConverter {
     public Object convert(Object sourceValue) throws ConversionException {
         return accessor.getValue(sourceValue);
     }
+    
 }

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -44,10 +44,10 @@ import org.databene.commons.LocaleUtil;
  * Created: 07.06.2007 07:48:35
  * @author Volker Bergmann
  */
-public class PropertyResourceBundleConverter extends AbstractConverter<String, String> {
+public class PropertyResourceBundleConverter extends ThreadSafeConverter<String, String> {
 
-    private ResourceBundle bundle;
-    private ResourceBundle.Control control = new UTF8Control();
+    private final ResourceBundle bundle;
+    private final ResourceBundle.Control control = new UTF8Control();
 
     public PropertyResourceBundleConverter(String baseName, Locale locale) {
     	super(String.class, String.class);
@@ -76,4 +76,5 @@ public class PropertyResourceBundleConverter extends AbstractConverter<String, S
     	    return (fallback.equals(locale) ? null : fallback);
     	}
     }
+    
 }

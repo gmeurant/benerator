@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,7 +28,6 @@ package org.databene.commons.converter;
 
 import org.databene.commons.ArrayUtil;
 import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
 
 /**
  * Retrieves the value at a given array index from an array.<br/>
@@ -38,24 +37,14 @@ import org.databene.commons.Converter;
  * @author Volker Bergmann
  */
 
-public class ArrayElementExtractor<E> implements Converter<E[], E>{
+public class ArrayElementExtractor<E> extends ThreadSafeConverter<E[], E>{
 	
-	private Class<E> componentType;
 	private int index;
-	private Class<E[]> arrayType;
 	
+    @SuppressWarnings("unchecked")
     public ArrayElementExtractor(Class<E> componentType, int index) {
-	    this.componentType = componentType;
-	    this.arrayType = ArrayUtil.arrayType(componentType);
+    	super(ArrayUtil.arrayType(componentType), componentType);
 	    this.index = index;
-    }
-
-    public Class<E[]> getSourceType() {
-        return arrayType;
-    }
-    
-    public Class<E> getTargetType() {
-	    return componentType;
     }
 
     public E convert(E[] sourceValue) throws ConversionException {

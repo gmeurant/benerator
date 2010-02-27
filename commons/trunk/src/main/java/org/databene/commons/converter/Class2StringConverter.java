@@ -30,14 +30,14 @@ import org.databene.commons.ConversionException;
  * @author Volker Bergmann
  */
 @SuppressWarnings("unchecked")
-public class Class2StringConverter extends AbstractConverter<Class, String> {
+public class Class2StringConverter extends ThreadSafeConverter<Class, String> {
 
     public Class2StringConverter() {
         super(Class.class, String.class);
     }
 
-    public String convert(Class object) throws ConversionException {
-        return object.getClass().getName();
+    public String convert(Class clazz) throws ConversionException {
+        return clazz.getName();
     }
 
 }

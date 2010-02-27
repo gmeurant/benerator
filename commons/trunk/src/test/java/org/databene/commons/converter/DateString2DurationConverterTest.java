@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -43,14 +43,18 @@ import static junit.framework.Assert.*;
  * @author Volker Bergmann
  */
 
-public class DateString2DurationConverterTest {
+public class DateString2DurationConverterTest extends ConverterTest {
 	
+	public DateString2DurationConverterTest() {
+	    super(DateString2DurationConverter.class);
+    }
+
 	@Test
 	public void testSimple() {
-		assertEquals(1L, convert("1970-01-01T00:00:00.001").longValue());
-		assertEquals(1L, convert("0000-00-00T00:00:00.001").longValue());
-		assertEquals(Period.DAY.getMillis(), convert("0000-00-01").longValue());
-		assertEquals(Period.DAY.getMillis() * 50, convert("0000-00-50").longValue());
+		assertEquals(1L, convert("1970-01-01T00:00:00.001"));
+		assertEquals(1L, convert("0000-00-00T00:00:00.001"));
+		assertEquals(Period.DAY.getMillis(), convert("0000-00-01"));
+		assertEquals(Period.DAY.getMillis() * 50, convert("0000-00-50"));
 	}
 
 	@Test
@@ -61,16 +65,16 @@ public class DateString2DurationConverterTest {
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			System.out.println(df.parse("1970-01-01").getTime() / 3600000.);
 			System.out.println(new Date(0).getTime());
-			assertEquals(1L, convert("1970-01-01T00:00:00.001").longValue());
-			assertEquals(1L, convert("0000-00-00T00:00:00.001").longValue());
-			assertEquals(Period.DAY.getMillis(), convert("0000-00-01").longValue());
-			assertEquals(Period.DAY.getMillis() * 50, convert("0000-00-50").longValue());
+			assertEquals(1L, convert("1970-01-01T00:00:00.001"));
+			assertEquals(1L, convert("0000-00-00T00:00:00.001"));
+			assertEquals(Period.DAY.getMillis(), convert("0000-00-01"));
+			assertEquals(Period.DAY.getMillis() * 50, convert("0000-00-50"));
 		} finally {
 			TimeZone.setDefault(timeZone);
 		}
 	}
 
-	private Long convert(String string) {
+	private long convert(String string) {
 		return new DateString2DurationConverter().convert(string);
 	}
 	

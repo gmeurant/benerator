@@ -31,7 +31,7 @@ import org.databene.commons.ConversionException;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class SqlDate2UtilDateConverter extends AbstractConverter<java.sql.Date, Date> {
+public class SqlDate2UtilDateConverter extends ThreadSafeConverter<java.sql.Date, Date> {
 
 	public SqlDate2UtilDateConverter() {
 		super(java.sql.Date.class, Date.class);

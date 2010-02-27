@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -35,40 +35,25 @@ import java.text.ParseException;
  * Converts a String to an object by using a java.lang.Format object's format() method.<br/>
  * <br/>
  * Created: 30.08.2006 19:48:09
+ * @since 0.1
+ * @author Volker Bergmann
  */
-public class ParseFormatConverter<S> extends NullSafeConverter<String, S> {
+public class ParseFormatConverter<T> extends FormatBasedConverter<String, T> {
 
-    /**
-     * The java.text.Format object used for conversion
-     */
-    private Format format;
-
-    public ParseFormatConverter(Class<S> targetType, Format format) {
-        this(targetType, format, null);
+    public ParseFormatConverter(Class<T> targetType, Format format, boolean threadSafe) {
+        super(String.class, targetType, format, threadSafe);
     }
 
-    public ParseFormatConverter(Class<S> targetType, Format format, S nullResult) {
-        super(String.class, targetType, nullResult);
-        this.format = format;
-    }
-
-    /**
-     * Converts an object to a String by using the format's format() method.
-     */
+    /** Converts an object to a String by using the format's format() method. */
     @SuppressWarnings("unchecked")
-    @Override
-	public S convertImpl(String source) throws ConversionException {
+	public T convert(String source) throws ConversionException {
         if (source == null)
             return null;
         try {
-            return (S) format.parseObject(source);
+            return (T) format.parseObject(source);
         } catch (ParseException e) {
             throw new ConversionException(e);
         }
     }
 
-    @Override
-    public String toString() {
-    	return getClass().getSimpleName() + '[' + format + ']';
-    }
 }

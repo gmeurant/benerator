@@ -38,7 +38,7 @@ import java.util.GregorianCalendar;
  * Created: 05.08.2007 06:42:16
  * @author Volker Bergmann
  */
-public class Date2CalendarConverter extends AbstractConverter<Date, Calendar> {
+public class Date2CalendarConverter extends ThreadSafeConverter<Date, Calendar> {
 
     public Date2CalendarConverter() {
         super(Date.class, Calendar.class);

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -44,10 +44,6 @@ public class ToLowerCaseConverter extends CaseConverter {
 
 	public ToLowerCaseConverter(Locale locale) {
 	    super(false, locale);
-    }
-	
-	public ToLowerCaseConverter(Locale locale, String nullResult) {
-	    super(false, locale, nullResult);
     }
 
 }

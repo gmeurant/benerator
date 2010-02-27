@@ -34,14 +34,14 @@ import org.databene.commons.Converter;
  */
 public abstract class AbstractConverter<S, T> implements Converter<S, T> {
 
-	protected Class<T> targetType;
-	
 	protected Class<S> sourceType;
-	
-	public AbstractConverter(Class<S> sourceType, Class<T> targetType) {
-		this.sourceType = sourceType;
-		this.targetType = targetType;
-	}
+
+	protected Class<T> targetType;
+
+	protected AbstractConverter(Class<S> sourceType, Class<T> targetType) {
+	    this.sourceType = sourceType;
+	    this.targetType = targetType;
+    }
 
 	public Class<T> getTargetType() {
 		return targetType;

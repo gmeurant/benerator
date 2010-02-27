@@ -42,11 +42,15 @@ import org.databene.commons.iterator.ArrayIterator;
  */
 public final class ArrayUtil {
 
-    @SuppressWarnings("unchecked")
     public static <T> T[] copyOfRange(T[] array, int offset, int length) {
-        Class<T[]> resultType = (Class<T[]>) array.getClass();
+        return copyOfRange(array, offset, length, componentType(array));
+    }
+
+	@SuppressWarnings("unchecked")
+    public static <T> Class<T> componentType(T[] array) {
+	    Class<T[]> resultType = (Class<T[]>) array.getClass();
         Class<T> componentType = (Class<T>) resultType.getComponentType();
-        return copyOfRange(array, offset, length, componentType);
+	    return componentType;
     }
 
     @SuppressWarnings("unchecked")
@@ -58,8 +62,7 @@ public final class ArrayUtil {
 
     @SuppressWarnings("unchecked")
     public static <T> T[] remove(T[] array, int indexToRemove) {
-        Class<T[]> resultType = (Class<T[]>) array.getClass();
-        Class<T> componentType = (Class<T>) resultType.getComponentType();
+        Class<T> componentType = componentType(array);
         T[] result = (T[]) Array.newInstance(componentType, array.length - 1);
         if (indexToRemove > 0)
             System.arraycopy(array, 0, result, 0, indexToRemove);
@@ -169,9 +172,21 @@ public final class ArrayUtil {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T[] toArray(T ... values) {
+    public static <T> T[] toArray(T... values) {
     	Class<T> componentType = (Class<T>) (values.length > 0 ? values[0].getClass() : Object.class);
     	return buildArrayOfType(componentType, values);
+    }
+
+    public static int[] toIntArray(int... values) {
+        int[] array = new int[values.length];
+        System.arraycopy(values, 0, array, 0, values.length);
+        return array;
+    }
+
+    public static char[] toCharArray(char... values) {
+        char[] array = new char[values.length];
+        System.arraycopy(values, 0, array, 0, values.length);
+        return array;
     }
 
     @SuppressWarnings("unchecked")
@@ -204,9 +219,25 @@ public final class ArrayUtil {
     }
     
     @SuppressWarnings("unchecked")
-    public static <T> Class<T[]> arrayType(Class<T> componentType) {
-        T[] array = (T[]) Array.newInstance(componentType, 0);
-        return (Class<T[]>) array.getClass();
+    public static Class arrayType(Class componentType) {
+    	if (componentType == byte.class)
+    		return byte[].class;
+    	else if (componentType == char.class)
+    		return char[].class;
+    	else if (componentType == int.class)
+    		return int[].class;
+    	else if (componentType == long.class)
+    		return long[].class;
+    	else if (componentType == short.class)
+    		return short[].class;
+    	else if (componentType == double.class)
+    		return double[].class;
+    	else if (componentType == float.class)
+    		return float[].class;
+    	else if (componentType == boolean.class)
+    		return boolean[].class;
+        Object[] array = (Object[]) Array.newInstance(componentType, 0);
+        return array.getClass();
     }
 
     @SuppressWarnings("unchecked")
@@ -219,8 +250,7 @@ public final class ArrayUtil {
         if (array == null) {
             return toArray(value);
         } else {
-            Class<T> componentType = (Class<T>) array.getClass().getComponentType();
-            T[] newArray = newInstance(componentType, array.length + 1);
+            T[] newArray = newInstance(componentType(array), array.length + 1);
             System.arraycopy(array, 0, newArray, 0, array.length);
             newArray[array.length] = value;
             return newArray;

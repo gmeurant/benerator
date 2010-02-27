@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,6 +30,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
 import org.databene.commons.StringUtil;
 
 /**
@@ -40,12 +41,19 @@ import org.databene.commons.StringUtil;
  * @author Volker Bergmann
  */
 
-public class String2TimestampConverter extends AbstractConverter<String, Timestamp> {
-
-    private String2DateConverter<Date> helper = new String2DateConverter<Date>();
+public class String2TimestampConverter extends ConverterWrapper<String, Date> 
+		implements Converter<String, Timestamp> {
 
     public String2TimestampConverter() {
-        super(String.class, Timestamp.class);
+        super(new String2DateConverter<Date>());
+    }
+
+	public Class<String> getSourceType() {
+	    return String.class;
+    }
+
+	public Class<Timestamp> getTargetType() {
+	    return Timestamp.class;
     }
 
     public Timestamp convert(String sourceValue) throws ConversionException {
@@ -66,7 +74,7 @@ public class String2TimestampConverter extends AbstractConverter<String, Timesta
         }
         
         // calculate date part
-        Date date = helper.convert(datePart);
+        Date date = realConverter.convert(datePart);
         Timestamp result = new Timestamp(date.getTime());
             
         // calculate nano part

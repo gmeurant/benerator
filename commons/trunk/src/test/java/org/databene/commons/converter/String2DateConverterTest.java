@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -40,7 +40,11 @@ import org.databene.commons.converter.String2DateConverter;
  * Created: 07.09.2007 18:00:32
  * @author Volker Bergmann
  */
-public class String2DateConverterTest {
+public class String2DateConverterTest extends ConverterTest {
+
+	public String2DateConverterTest() {
+	    super(String2DateConverter.class);
+    }
 
 	@Test
     public void testStandardDates() {

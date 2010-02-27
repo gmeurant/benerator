@@ -31,8 +31,6 @@ import org.databene.commons.Converter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
-
 /**
  * Converts any source type to any target type. It also makes use of the ConverterManager.<br/>
  * <br/>
@@ -41,8 +39,8 @@ import java.util.Collection;
  */
 public class AnyConverter<E> extends FormatHolder implements Converter<Object, E> {
 	
-	// TODO v0.5.1 Move logic to ConverterManager, and make this a converter proxy which is lazily initialized 
-
+	// TODO check which usages of this class can be avoided
+	
     private static final Logger logger = LoggerFactory.getLogger(AnyConverter.class);
 
     private Class<E> targetType;
@@ -68,6 +66,14 @@ public class AnyConverter<E> extends FormatHolder implements Converter<Object, E
         return convert(sourceValue, targetType, datePattern, timePattern, timestampPattern);
     }
 
+	public boolean isParallelizable() {
+	    return true;
+    }
+
+	public boolean isThreadSafe() {
+	    return true;
+    }
+	
     public static <TT> TT convert(Object source, Class<TT> targetType) throws ConversionException {
         return convert(source, targetType, null, null, null);
     }
@@ -83,44 +89,10 @@ public class AnyConverter<E> extends FormatHolder implements Converter<Object, E
     		String timePattern, String timestampPattern) throws ConversionException {
         if (logger.isDebugEnabled())
             logger.debug("Converting " + source + (source != null ? " (" + source.getClass().getName() + ")" : "") + " to " + targetType);
-        // check preconditions
-        if (targetType == null)
-            throw new ConversionException("targetType must be specified");
-
-        // trivial cases: no conversion necessary
         if (source == null)
-            return null;
-        if (targetType.isAssignableFrom(source.getClass()) && !targetType.isPrimitive())
-            return (TT) source;
-
-        // search for exact converters
-        Converter converter = ConverterManager.getInstance().getConverter(source, targetType);
-        if (converter != null)
-                return (TT)converter.convert(source);
-
-        // to string conversion
-        if (String.class.equals(targetType))
-            return (TT) ToStringConverter.convert(source, null);
-
-        // from string conversion
-        if (String.class.equals(source.getClass()))
-            return StringConverter.convert((String) source, targetType);
-
-        // from number conversion
-        if (source instanceof Number)
-            return NumberConverter.convert((Number) source, targetType);
-
-        // from boolean conversion
-        if (source instanceof Boolean)
-            return BooleanConverter.convert((Boolean) source, targetType);
-
-        if (targetType.isArray())
-            return (TT) ToArrayConverter.convert(source, targetType.getComponentType());
-
-        if (Collection.class.isAssignableFrom(targetType))
-            return (TT) ToCollectionConverter.convert(source, targetType);
-
-        return FactoryConverter.convert(source, targetType);
+        	return null;
+        Converter converter = ConverterManager.getInstance().createConverter(source.getClass(), targetType);
+		return (TT) converter.convert(source);
     }
 
 }

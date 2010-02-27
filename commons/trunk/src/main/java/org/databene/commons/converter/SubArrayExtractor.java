@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,6 +26,7 @@
 
 package org.databene.commons.converter;
 
+import org.databene.commons.ArrayUtil;
 import org.databene.commons.ConversionException;
 
 import java.lang.reflect.Array;
@@ -34,8 +35,9 @@ import java.lang.reflect.Array;
  * Extracts a sub array from another array.<br/>
  * <br/>
  * Created: 30.07.2007 21:05:07
+ * @author Volker Bergmann
  */
-public class SubArrayExtractor extends AbstractConverter<Object[], Object[]> {
+public class SubArrayExtractor extends ThreadSafeConverter<Object[], Object[]> {
 
     private int[] indexes;
 
@@ -44,12 +46,12 @@ public class SubArrayExtractor extends AbstractConverter<Object[], Object[]> {
         this.indexes = indexes;
     }
 
-    @SuppressWarnings("unchecked")
     public Object[] convert(Object[] sourceValue) throws ConversionException {
-        Class<Object> componentType = (Class<Object>) sourceValue.getClass().getComponentType();
+        Class<Object> componentType = ArrayUtil.componentType(sourceValue);
         Object[] array = (Object[]) Array.newInstance(componentType, indexes.length);
         for (int i = 0; i < indexes.length; i++)
             array[i] = sourceValue[indexes[i]];
         return array;
     }
+    
 }

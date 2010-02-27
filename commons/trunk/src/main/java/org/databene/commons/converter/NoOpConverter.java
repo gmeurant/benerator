@@ -35,7 +35,7 @@ import org.databene.commons.ConversionException;
  * @since 0.1
  * @author Volker Bergmann
  */
-public class NoOpConverter<E> extends AbstractConverter<E,E> {
+public class NoOpConverter<E> extends ThreadSafeConverter<E,E> {
 
     private static final NoOpConverter<?> instance = new NoOpConverter<Object>();
 

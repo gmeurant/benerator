@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,6 +30,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
 import org.databene.commons.TimeUtil;
 
 /**
@@ -40,17 +41,24 @@ import org.databene.commons.TimeUtil;
  * @author Volker Bergmann
  */
 
-public class String2GregorianCalendarConverter extends AbstractConverter<String, GregorianCalendar> {
+public class String2GregorianCalendarConverter extends ConverterWrapper<String, Date> 
+		implements Converter<String, GregorianCalendar> {
 	
-	private String2DateConverter<Date> helper = new String2DateConverter<Date>();
-
     public String2GregorianCalendarConverter() {
-	    super(String.class, GregorianCalendar.class);
+	    super(new String2DateConverter<Date>());
     }
 
     public GregorianCalendar convert(String sourceValue) throws ConversionException {
-	    Date date = helper.convert(sourceValue);
+	    Date date = realConverter.convert(sourceValue);
 		return TimeUtil.gregorianCalendar(date);
+    }
+
+	public Class<String> getSourceType() {
+	    return String.class;
+    }
+
+	public Class<GregorianCalendar> getTargetType() {
+	    return GregorianCalendar.class;
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -33,14 +33,16 @@ import org.databene.commons.Converter;
  * Wraps another Converter and adds the feature of converting null values to a predefined value.<br/>
  * <br/>
  * Created: 26.07.2007 06:59:35
+ * @author Volker Bergmann
  */
-public class NullSafeConverterProxy<S, T> extends NullSafeConverter<S, T> {
+public class NullSafeConverterProxy<S, T> extends ConverterProxy<S, T> {
 
     protected Converter<S, T> realConverter;
+    protected T nullResult;
 
     public NullSafeConverterProxy(Converter<S, T> realConverter, T nullResult) {
-        super(null, null, nullResult);
-        this.realConverter = realConverter;
+        super(realConverter);
+        this.nullResult = nullResult;
     }
 
     @Override
@@ -48,8 +50,8 @@ public class NullSafeConverterProxy<S, T> extends NullSafeConverter<S, T> {
         return realConverter.getTargetType();
     }
 
-    @Override
-	public T convertImpl(S sourceValue) throws ConversionException {
-        return realConverter.convert(sourceValue);
+	public T convert(S sourceValue) throws ConversionException {
+        return (sourceValue != null ? realConverter.convert(sourceValue) : nullResult);
     }
+
 }

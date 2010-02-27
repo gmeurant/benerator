@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -37,7 +37,7 @@ import java.util.Locale;
  * Created: 10.09.2007 07:35:18
  * @author Volker Bergmann
  */
-public class Number2StringConverter extends AbstractConverter<Number, String> {
+public class Number2StringConverter extends ThreadSafeConverter<Number, String> {
 
     private int minimumFractionDigits;
     private int maximumFractionDigits;
@@ -58,4 +58,5 @@ public class Number2StringConverter extends AbstractConverter<Number, String> {
         format.setMaximumFractionDigits(maximumFractionDigits);
         return format.format(sourceValue);
     }
+    
 }

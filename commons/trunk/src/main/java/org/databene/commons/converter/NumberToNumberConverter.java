@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -37,7 +37,7 @@ import java.math.BigDecimal;
  * Created: 16.06.2007 11:51:14
  * @author Volker Bergmann
  */
-public class NumberToNumberConverter<S extends Number, T extends Number> extends AbstractConverter<S, T> {
+public class NumberToNumberConverter<S extends Number, T extends Number> extends ThreadSafeConverter<S, T> {
 
     public NumberToNumberConverter(Class<S> sourceType, Class<T> targetType) {
         super(sourceType, targetType);
@@ -55,6 +55,18 @@ public class NumberToNumberConverter<S extends Number, T extends Number> extends
      */
     @SuppressWarnings("unchecked")
     public static <TT extends Number> TT convert(Number src, Class<TT> targetType) {
+    	if (src == null)
+    		return null;
+        if (Integer.class == targetType)
+            return (TT) Integer.valueOf(src.intValue());
+        if (Long.class == targetType)
+            return (TT) Long.valueOf(src.longValue());
+        if (Byte.class == targetType)
+            return (TT) Byte.valueOf(src.byteValue());
+        if (Double.class == targetType)
+            return (TT) Double.valueOf(src.doubleValue());
+        if (Float.class.equals(targetType))
+            return (TT) Float.valueOf(src.floatValue());
         if (BigInteger.class.equals(targetType))
             return (TT) BigInteger.valueOf(src.longValue());
         else if (BigDecimal.class.equals(targetType))

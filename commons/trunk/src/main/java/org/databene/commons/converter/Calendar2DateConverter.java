@@ -32,7 +32,7 @@ import org.databene.commons.ConversionException;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class Calendar2DateConverter extends AbstractConverter<Calendar, Date> {
+public class Calendar2DateConverter extends ThreadSafeConverter<Calendar, Date> {
 
     public Calendar2DateConverter() {
         super(Calendar.class, Date.class);

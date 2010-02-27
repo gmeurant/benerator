@@ -43,9 +43,13 @@ import org.databene.commons.converter.ToCollectionConverter;
  * Created: 28.08.2007 17:35:50
  * @author Volker Bergmann
  */
-public class ToCollectionConverterTest {
+public class ToCollectionConverterTest extends ConverterTest {
 
     // tests -----------------------------------------------------------------------------------------------------------
+
+	public ToCollectionConverterTest() {
+	    super(ToCollectionConverter.class);
+    }
 
 	@Test
     public void testNull() {

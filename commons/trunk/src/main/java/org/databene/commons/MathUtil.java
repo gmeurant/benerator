@@ -26,11 +26,6 @@
 
 package org.databene.commons;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
-import org.databene.commons.converter.NumberConverter;
-
 /**
  * Provides mathematical utility methods.
  * @since 0.4.0
@@ -89,38 +84,6 @@ public class MathUtil {
 	    for (int i = 0; i < weights.length; i++)
 	    	sum += weights[i] * (number.charAt(startIndex + i) - '0');
 	    return sum;
-    }
-
-	public static <T extends Number> Byte toByte(T value) {
-	    return NumberConverter.convert(value, Byte.class);
-    }
-	
-	public static <T extends Number> Short toShort(T value) {
-	    return NumberConverter.convert(value, Short.class);
-    }
-	
-	public static <T extends Number> Integer toInteger(T value) {
-	    return NumberConverter.convert(value, Integer.class);
-    }
-	
-	public static <T extends Number> Long toLong(T value) {
-	    return NumberConverter.convert(value, Long.class);
-    }
-	
-	public static <T extends Number> Float toFloat(T value) {
-	    return NumberConverter.convert(value, Float.class);
-    }
-	
-	public static <T extends Number> Double toDouble(T value) {
-	    return NumberConverter.convert(value, Double.class);
-    }
-	
-	public static <T extends Number> BigDecimal toBigDecimal(T value) {
-	    return NumberConverter.convert(value, BigDecimal.class);
-    }
-	
-	public static <T extends Number> BigInteger toBigInteger(T value) {
-	    return NumberConverter.convert(value, BigInteger.class);
     }
 
 	public static boolean rangeIncludes(long x, long min, long max) {

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -41,7 +41,7 @@ import java.util.Collection;
  * @author Volker Bergmann
  */
 @SuppressWarnings("unchecked")
-public class ToArrayConverter extends AbstractConverter {
+public class ToArrayConverter extends ThreadSafeConverter {
 
     private Class componentType;
     private boolean nullToEmpty;
@@ -97,10 +97,11 @@ public class ToArrayConverter extends AbstractConverter {
                 return (byte[]) BeanUtil.invoke(sourceValue, method);
             else
                 throw new UnsupportedOperationException("Conversion not supported: " + sourceValue.getClass() + " -> " + componentType + "[]");
-        } else if (sourceValue.getClass().isArray())
+        } else if (sourceValue.getClass().isArray()) {
             return ArrayUtil.buildArrayOfType(componentType, (Object[]) sourceValue);
-	    else 
+	    } else  {
 	        return ArrayUtil.buildArrayOfType(componentType, sourceValue);
+	    }
     }
 
 }

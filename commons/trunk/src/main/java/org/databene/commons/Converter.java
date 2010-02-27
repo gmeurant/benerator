@@ -34,7 +34,7 @@ package org.databene.commons;
  * @since 0.1
  * @author Volker Bergmann
  */
-public interface Converter<S, T> {
+public interface Converter<S, T> extends ThreadAware {
 
 	Class<S> getSourceType();
 	

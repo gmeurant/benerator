@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -40,7 +40,7 @@ import org.databene.commons.ConversionException;
  * @author Volker Bergmann
  */
 
-public class Date2DurationConverter extends AbstractConverter<Date, Long> {
+public class Date2DurationConverter extends ThreadSafeConverter<Date, Long> {
 
 	public Date2DurationConverter() {
 		super(Date.class, Long.class);

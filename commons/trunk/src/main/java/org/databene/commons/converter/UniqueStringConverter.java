@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008, 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -48,7 +48,7 @@ public class UniqueStringConverter extends AbstractConverter<String, String> {
 		usedStrings = new HashSet<String>();
 	}
 
-	public String convert(String sourceValue) throws ConversionException {
+	public synchronized String convert(String sourceValue) throws ConversionException {
 		String resultValue = sourceValue;
 		if (usedStrings.contains(sourceValue)) {
 			boolean ok = false;
@@ -64,5 +64,13 @@ public class UniqueStringConverter extends AbstractConverter<String, String> {
 		usedStrings.add(resultValue);
 		return resultValue;
 	}
+
+	public boolean isParallelizable() {
+	    return false;
+    }
+
+	public boolean isThreadSafe() {
+	    return true;
+    }
 
 }

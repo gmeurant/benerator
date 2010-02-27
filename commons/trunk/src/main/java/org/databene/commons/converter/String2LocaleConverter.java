@@ -37,7 +37,7 @@ import java.util.Locale;
  * Created: 05.08.2007 06:29:58
  * @author Volker Bergmann
  */
-public class String2LocaleConverter extends AbstractConverter<String, Locale> {
+public class String2LocaleConverter extends ThreadSafeConverter<String, Locale> {
 
     public String2LocaleConverter() {
         super(String.class, Locale.class);

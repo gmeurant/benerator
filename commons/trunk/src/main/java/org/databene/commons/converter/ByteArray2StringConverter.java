@@ -33,7 +33,7 @@ import org.databene.commons.SystemInfo;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class ByteArray2StringConverter extends AbstractConverter<byte[], String> {
+public class ByteArray2StringConverter extends ThreadSafeConverter<byte[], String> {
 
     private String encoding;
     

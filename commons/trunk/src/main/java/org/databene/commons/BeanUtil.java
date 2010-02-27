@@ -506,6 +506,13 @@ public final class BeanUtil {
         }
     }
 
+	public static <T> T[] cloneAll(T[] input) {
+	    T[] output = ArrayUtil.newInstance(ArrayUtil.componentType(input), input.length);
+	    for (int i = 0; i < input.length; i++)
+	    	output[i] = clone(input[i]);
+	    return output;
+    }
+
 
 
     // method operations -----------------------------------------------------------------------------------------------
@@ -527,6 +534,16 @@ public final class BeanUtil {
         return method;
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T> Constructor<T> findConstructor(Class<T> type, Class<?> ... paramTypes) {
+    	Constructor<T>[] ctors = (Constructor<T>[]) type.getConstructors();
+        for (Constructor<T> ctor : ctors)
+            if (typesMatch(paramTypes, ctor.getParameterTypes()))
+                return ctor;
+        return null;
+    }
+
+    
     /**
      * Finds a method by reflection. This iterates all methods of the class, comparing names and parameter types.
      * Unlike the method Class.getMethod(String, Class ...), this method is able to match primitive and wrapper types.

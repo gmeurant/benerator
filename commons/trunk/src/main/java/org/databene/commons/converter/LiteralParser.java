@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -39,10 +39,10 @@ import org.databene.commons.TimeUtil;
  * Created: 19.03.2008 20:05:25
  * @author Volker Bergmann
  */
-public class LiteralParser extends AbstractConverter<String, Object> {
+public class LiteralParser extends ThreadSafeConverter<String, Object> {
 
 	public LiteralParser() {
-		super(String.class,Object.class);
+		super(String.class, Object.class);
 	}
 
 	// Converter interface implementation ------------------------------------------------------------------------------

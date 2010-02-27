@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -34,34 +34,24 @@ import org.databene.commons.ConversionException;
  * Converts an object to a String by using a java.lang.Format object's format() method.<br/>
  * <br/>
  * Created: 30.08.2006 19:43:09
+ * @since 0.1
+ * @author Volker Bergmann
  */
-public class FormatFormatConverter<S> extends NullSafeConverter<S, String> {
-
-    /**
-     * The java.text.Format object used for conversion
-     */
-    private Format format;
+public class FormatFormatConverter<S> extends FormatBasedConverter<S, String> {
 
     /**
      * Constructor that initializes the format object.
-     *
      * @param format the format object to use.
      */
-    public FormatFormatConverter(Class<S> sourceType, Format format) {
-        this(sourceType, format, null);
-    }
-
-    public FormatFormatConverter(Class<S> sourceType, Format format, String nullResult) {
-        super(sourceType, String.class, nullResult);
-        this.format = format;
+    public FormatFormatConverter(Class<S> sourceType, Format format, boolean threadSafe) {
+        super(sourceType, String.class, format, threadSafe);
     }
 
     /**
      * Converts an object to a String by using the format's format() method.
      * @see org.databene.commons.Converter
      */
-    @Override
-	public String convertImpl(S source) {
+	public synchronized String convert(S source) {
         if (source == null)
             return null;
         try {

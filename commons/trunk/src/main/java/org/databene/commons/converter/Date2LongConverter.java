@@ -38,7 +38,7 @@ import java.util.TimeZone;
  * Created: 05.08.2007 07:10:25
  * @author Volker Bergmann
  */
-public class Date2LongConverter extends AbstractConverter<Date, Long>{
+public class Date2LongConverter extends ThreadSafeConverter<Date, Long>{
 
 	private TimeZone timeZone;
 	

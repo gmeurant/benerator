@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -136,6 +136,16 @@ public class XMLElement2BeanConverter extends AbstractConverter<Element, Object>
             }
             BeanUtil.setPropertyValue(bean, propertyName, propertyValue, true, true);
         }
+    }
+
+	public boolean isParallelizable() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	public boolean isThreadSafe() {
+	    // TODO Auto-generated method stub
+	    return false;
     }
     
 }

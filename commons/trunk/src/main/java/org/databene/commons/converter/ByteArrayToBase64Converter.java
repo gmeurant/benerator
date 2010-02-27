@@ -34,7 +34,7 @@ import org.databene.commons.ConversionException;
  * @since 0.2.04
  * @author Volker Bergmann
  */
-public class ByteArrayToBase64Converter extends AbstractConverter<byte[], String> {
+public class ByteArrayToBase64Converter extends ThreadSafeConverter<byte[], String> {
 
     public ByteArrayToBase64Converter() {
         super(byte[].class, String.class);

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -36,26 +36,37 @@ import org.databene.commons.Converter;
  * Created: 07.06.2007 14:35:18
  * @author Volker Bergmann
  */
-public class ArrayConverter<S, T> extends AbstractConverter<S[], T[]> {
+public class ArrayConverter<S, T> extends MultiConverterWrapper<S, T> implements Converter<S[], T[]>{
 
-    private Class<T> componentType;
-    private Converter<S, T>[] converters;
+    private Class<T> targetComponentType;
+    private Class<S[]> sourceType;
+    private Class<T[]> targetType;
 
+    @SuppressWarnings("unchecked")
     public ArrayConverter(Class<S> sourceComponentType, Class<T> targetComponentType, Converter<S, T> ... converters) {
-    	super(ArrayUtil.arrayType(sourceComponentType), ArrayUtil.arrayType(targetComponentType));
-        this.componentType = targetComponentType;
-        this.converters = converters;
+    	super(converters);
+        this.targetComponentType = targetComponentType;
+        this.sourceType = ArrayUtil.arrayType(sourceComponentType);
+        this.targetType = ArrayUtil.arrayType(targetComponentType);
     }
 
+	public Class<S[]> getSourceType() {
+	    return sourceType;
+    }
+
+	public Class<T[]> getTargetType() {
+	    return targetType;
+    }
+    
     public T[] convert(S[] sourceValues) throws ConversionException {
         if (sourceValues == null)
             return null;
-        if (converters.length == 1)
-        	return convert(sourceValues, converters[0], componentType);
+        if (components.length == 1)
+        	return convert(sourceValues, components[0], targetComponentType);
         else {
-            T[] result = ArrayUtil.newInstance(componentType, converters.length);
-            for (int i = 0; i < converters.length; i++)
-                result[i] = converters[i].convert(sourceValues[i]);
+            T[] result = ArrayUtil.newInstance(targetComponentType, components.length);
+            for (int i = 0; i < components.length; i++)
+	            result[i] = components[i].convert(sourceValues[i]);
             return result;
         }
     }
@@ -67,4 +78,5 @@ public class ArrayConverter<S, T> extends AbstractConverter<S[], T[]> {
             result[i] = (converter != null ? converter.convert(sourceValues[i]) : (T) sourceValues[i]);
         return result;
     }
+
 }

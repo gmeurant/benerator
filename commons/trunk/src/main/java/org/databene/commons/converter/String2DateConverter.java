@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -31,9 +31,9 @@ import org.databene.commons.Patterns;
 import org.databene.commons.StringUtil;
 
 import java.util.Date;
-import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 /**
  * Converts Strings of standard date(time) format (yyyy-MM-dd[Thh:mm[:ss[.SSS]]]) to dates.<br/>
@@ -41,8 +41,8 @@ import java.text.DateFormat;
  * Created: 07.09.2007 09:07:12
  * @author Volker Bergmann
  */
-public class String2DateConverter<E extends Date> extends AbstractConverter<String, E> implements Patterns {
-    
+public class String2DateConverter<E extends Date> extends ThreadSafeConverter<String, E> implements Patterns {
+	
     // TODO v0.6.0 support time zones (like 'Z', '+01:00' or '-01:30')
 
     private static final String MILLI   = DEFAULT_DATETIME_MILLIS_PATTERN;

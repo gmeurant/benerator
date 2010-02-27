@@ -37,7 +37,11 @@ import static junit.framework.Assert.*;
  * @author Volker Bergmann
  */
 
-public class NumberFormatterTest {
+public class NumberFormatterTest extends ConverterTest {
+
+	public NumberFormatterTest() {
+	    super(NumberFormatter.class);
+    }
 
 	@Test
 	public void testConvert() {

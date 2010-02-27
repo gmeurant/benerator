@@ -33,7 +33,7 @@ import org.databene.commons.ConversionException;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class RegexReplacer extends AbstractConverter<String, String> {
+public class RegexReplacer extends ThreadSafeConverter<String, String> {
 	
 	private Pattern pattern;
 	private String replacement;

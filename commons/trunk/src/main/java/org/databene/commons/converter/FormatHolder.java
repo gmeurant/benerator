@@ -151,4 +151,16 @@ public abstract class FormatHolder implements Patterns {
     	integralConverter.setPattern(pattern);
     }
     
+	@Override
+    public Object clone() {
+		try {
+	        FormatHolder copy = (FormatHolder) super.clone();
+	        copy.decimalConverter = (NumberFormatter) decimalConverter.clone();
+	        copy.integralConverter = (NumberFormatter) integralConverter.clone();
+			return copy;
+        } catch (CloneNotSupportedException e) {
+        	throw new RuntimeException(e);
+        }
+	}
+
 }

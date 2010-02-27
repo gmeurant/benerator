@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -39,7 +39,7 @@ import org.databene.commons.bean.PropertyAccessorFactory;
  * @author Volker Bergmann
  */
 
-public class PropertyExtractor<B, P> extends AbstractConverter<B, P> {
+public class PropertyExtractor<B, P> extends ThreadSafeConverter<B, P> {
 	
 	PropertyAccessor<B, P> accessor;
 

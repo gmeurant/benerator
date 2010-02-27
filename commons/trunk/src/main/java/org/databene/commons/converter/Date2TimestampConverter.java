@@ -38,7 +38,7 @@ import java.util.Date;
  * @author Volker Bergmann
  * @since 0.2.04
  */
-public class Date2TimestampConverter extends AbstractConverter<Date, Timestamp> {
+public class Date2TimestampConverter extends ThreadSafeConverter<Date, Timestamp> {
 
     public Date2TimestampConverter() {
         super(Date.class, Timestamp.class);

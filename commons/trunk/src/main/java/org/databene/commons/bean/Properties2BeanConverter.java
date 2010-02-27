@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -68,4 +68,15 @@ public class Properties2BeanConverter<E> extends AbstractConverter<Properties, E
             throw new ConversionException(e);
         }
     }
+
+	public boolean isParallelizable() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	public boolean isThreadSafe() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+    
 }

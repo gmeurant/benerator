@@ -31,7 +31,11 @@ import org.junit.Test;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class NumberParserTest {
+public class NumberParserTest extends ConverterTest {
+
+	public NumberParserTest() {
+	    super(NumberParser.class);
+    }
 
 	@Test
 	public void testRevert() {

@@ -34,7 +34,7 @@ import org.databene.commons.Patterns;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class Time2StringConverter extends AbstractConverter<Time, String> implements Patterns {
+public class Time2StringConverter extends ThreadSafeConverter<Time, String> implements Patterns {
 
     public Time2StringConverter() {
         super(Time.class, String.class);

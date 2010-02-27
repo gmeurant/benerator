@@ -37,8 +37,12 @@ import static junit.framework.Assert.*;
  * @author Volker Bergmann
  */
 
-public class PrintfConverterTest {
+public class PrintfConverterTest extends ConverterTest {
 	
+	public PrintfConverterTest() {
+	    super(PrintfConverter.class);
+    }
+
 	@Test
 	public void test() {
 		PrintfConverter converter = new PrintfConverter("(%1$s)");

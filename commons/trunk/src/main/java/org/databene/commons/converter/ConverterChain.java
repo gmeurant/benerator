@@ -26,7 +26,6 @@
 
 package org.databene.commons.converter;
 
-import org.databene.commons.ArrayUtil;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 
@@ -39,44 +38,28 @@ import org.databene.commons.Converter;
  * @author Volker Bergmann
  */
 @SuppressWarnings("unchecked")
-public class ConverterChain<S, T> implements Converter<S, T> {
+public class ConverterChain<S, T> extends MultiConverterWrapper implements Converter<S, T> {
 
-	private Converter[] converters;
-
-	public ConverterChain(Converter ... converters) {
-        this.converters = converters;
-    }
-	
-	// properties ------------------------------------------------------------------------------------------------------
-
-	public Converter[] getComponents() {
-        return converters;
-    }
-	
-	public void setComponents(Converter[] converters) {
-        this.converters = converters;
-    }
-	
-	public void addComponent(Converter converter) {
-        this.converters = ArrayUtil.append(this.converters, converter);
+	public ConverterChain(Converter... components) {
+		super(components);
     }
 	
 	// Converter interface implementation ------------------------------------------------------------------------------
 
 	public Class<S> getSourceType() {
-		return (converters.length > 0 ? converters[0].getSourceType() : Object.class);
+		return (components.length > 0 ? components[0].getSourceType() : Object.class);
 	}
 
 	public Class<T> getTargetType() {
-        return (converters.length > 0 ? converters[converters.length - 1].getTargetType() : Object.class);
+        return (components.length > 0 ? components[components.length - 1].getTargetType() : Object.class);
     }
 
-	public T convert(S source) throws ConversionException {
-        Object result = source;
-        for (Converter converter : converters) {
-            result = converter.convert(result);
+	public T convert(Object source) throws ConversionException {
+        Object tmp = source;
+        for (Converter converter : components) {
+            tmp = converter.convert(tmp);
         }
-        return (T)result;
+        return (T) tmp;
     }
 
 }

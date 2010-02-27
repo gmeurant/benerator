@@ -31,7 +31,7 @@ import org.databene.commons.ConversionException;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class Locale2StringConverter extends AbstractConverter<Locale, String> {
+public class Locale2StringConverter extends ThreadSafeConverter<Locale, String> {
 
     public Locale2StringConverter() {
         super(Locale.class, String.class);

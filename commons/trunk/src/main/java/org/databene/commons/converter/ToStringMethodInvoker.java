@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -21,37 +21,23 @@
 
 package org.databene.commons.converter;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
+import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
 
 /**
- * Tests the {@link BooleanConverter}.<br/><br/>
- * Created: 17.12.2009 15:45:11
+ * {@link Converter} implementation which invokes the toString() method on the source object.<br/><br/>
+ * Created: 27.02.2010 09:44:10
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class BooleanConverterTest {
-	
-	@Test
-	public void testToBoolean() {
-		BooleanConverter<Boolean> converter = new BooleanConverter<Boolean>(Boolean.class);
-		assertEquals(true, converter.convert(true).booleanValue());
-		assertEquals(false, converter.convert(false).booleanValue());
-	}
+public class ToStringMethodInvoker<E> extends ThreadSafeConverter<E, String> {
 
-	@Test
-	public void testToInt() {
-		BooleanConverter<Integer> converter = new BooleanConverter<Integer>(Integer.class);
-		assertEquals(1, converter.convert(true).intValue());
-		assertEquals(0, converter.convert(false).intValue());
-	}
+	protected ToStringMethodInvoker(Class<E> sourceType) {
+	    super(sourceType, String.class);
+    }
 
-	@Test
-	public void testToString() {
-		BooleanConverter<String> converter = new BooleanConverter<String>(String.class);
-		assertEquals("true",  converter.convert(true));
-		assertEquals("false", converter.convert(false));
-	}
+	public String convert(E sourceValue) throws ConversionException {
+	    return (sourceValue != null ? sourceValue.toString() : null);
+    }
 
 }

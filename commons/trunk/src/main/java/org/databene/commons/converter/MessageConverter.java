@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -36,13 +36,12 @@ import java.util.Locale;
  * Renders a single object or an array of objects into a String, similar to the java.text.MessageFormat.<br/>
  * <br/>
  * Created: 12.11.2007 20:46:31
+ * @author Volker Bergmann
  */
-public class MessageConverter extends AbstractConverter<Object, String> {
+public class MessageConverter extends ThreadSafeConverter<Object, String> {
 
     private String pattern;
     private Locale locale;
-
-    private MessageFormat format;
 
     public MessageConverter() {
         this("{0}", LocaleUtil.getFallbackLocale());
@@ -52,38 +51,21 @@ public class MessageConverter extends AbstractConverter<Object, String> {
     	super(Object.class, String.class);
         this.pattern = pattern;
         this.locale = locale;
-        buildFormat();
-    }
-
-    public String getPattern() {
-        return pattern;
     }
 
     public void setPattern(String pattern) {
         this.pattern = pattern;
-        buildFormat();
-    }
-
-    public Locale getLocale() {
-        return locale;
     }
 
     public void setLocale(Locale locale) {
         this.locale = locale;
-        buildFormat();
     }
 
     public String convert(Object sourceValue) throws ConversionException {
         Object tmp = sourceValue;
         if (tmp != null && !tmp.getClass().isArray())
             tmp = new Object[] { tmp };
-        return format.format(tmp);
-    }
-
-    // private helpers -------------------------------------------------------------------------------------------------
-
-    private void buildFormat() {
-        format = new MessageFormat(pattern, locale);
+        return new MessageFormat(pattern, locale).format(tmp);
     }
 
 }

@@ -32,7 +32,11 @@ import org.junit.Test;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class Long2DateConverterTest {
+public class Long2DateConverterTest extends ConverterTest {
+
+	public Long2DateConverterTest() {
+	    super(Long2DateConverter.class);
+    }
 
 	@Test
 	public void testRevert() {

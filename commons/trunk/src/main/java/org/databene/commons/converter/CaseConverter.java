@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -37,7 +37,12 @@ import java.util.Locale;
  * @since 0.1
  * @author Volker Bergmann
  */
-public class CaseConverter extends NullSafeConverterProxy<String, String> {
+public class CaseConverter extends ThreadSafeConverter<String, String> {
+	
+    /** Mode flag for the Converter. If set to true, it converts to upper case, else to lower case */
+    private boolean toUpper;
+
+    private Locale locale;
 
 	// Constructors ----------------------------------------------------------------------------------------------------
 	
@@ -46,64 +51,38 @@ public class CaseConverter extends NullSafeConverterProxy<String, String> {
     }
 
     public CaseConverter(boolean toUpper) {
-        this(toUpper, LocaleUtil.getFallbackLocale(), null);
+        this(toUpper, LocaleUtil.getFallbackLocale());
     }
 
     public CaseConverter(boolean toUpper, Locale locale) {
-        this(toUpper, locale, null);
-    }
-
-    public CaseConverter(boolean toUpper, Locale locale, String nullResult) {
-        super(new ConverterImpl(toUpper, locale), nullResult);
+        super(String.class, String.class);
+        this.toUpper = toUpper;
+        this.locale = locale;
     }
 
 	// Properties ------------------------------------------------------------------------------------------------------
 	
-    public Locale getLocale() {
-    	return ((ConverterImpl) realConverter).getLocale();
-    }
-    
+	/**
+	 * Sets the Locale of the CaseConverter.ConverterImpl.
+	 * @param locale the Locale to set
+	 */
 	public void setLocale(Locale locale) {
-		((ConverterImpl) realConverter).setLocale(locale);
+		this.locale = locale;
 	}
-	
-	// Helper class ----------------------------------------------------------------------------------------------------
-	
-    private static final class ConverterImpl extends AbstractConverter<String, String> {
-        /** Mode flag for the Converter. If set to true, it converts to upper case, else to lower case */
-        private boolean toUpper;
 
-        private Locale locale;
-
-        /**
-         * @param toUpper If set to true, the instance converts to upper case, else to lower case
-         */
-        public ConverterImpl(boolean toUpper, Locale locale) {
-        	super(String.class, String.class);
-            this.toUpper = toUpper;
-            this.locale = locale;
-        }
-
-        public Locale getLocale() {
-	        return locale;
-        }
-
-		/**
-		 * Sets the Locale of the CaseConverter.ConverterImpl.
-		 * @param locale the Locale to set
-		 */
-		public void setLocale(Locale locale) {
-			this.locale = locale;
-		}
-
-        /**
-         * @see org.databene.commons.Converter
-         */
-        public String convert(String source) {
-            if (source == null)
-                return null;
-            return (toUpper ? source.toUpperCase(locale) : source.toLowerCase(locale));
-        }
+	public void setToUpper(boolean toUpper) {
+    	this.toUpper = toUpper;
     }
-    
+
+	// Converter interface ---------------------------------------------------------------------------------------------
+	
+    /**
+     * @see org.databene.commons.Converter
+     */
+    public String convert(String source) {
+        if (source == null)
+            return null;
+        return (toUpper ? source.toUpperCase(locale) : source.toLowerCase(locale));
+    }
+
 }

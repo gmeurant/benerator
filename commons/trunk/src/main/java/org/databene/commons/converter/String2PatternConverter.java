@@ -38,7 +38,7 @@ import org.databene.commons.ConversionException;
  * @author Volker Bergmann
  */
 
-public class String2PatternConverter extends AbstractConverter<String, Pattern> {
+public class String2PatternConverter extends ThreadSafeConverter<String, Pattern> {
 
     public String2PatternConverter() {
 	    super(String.class, Pattern.class);

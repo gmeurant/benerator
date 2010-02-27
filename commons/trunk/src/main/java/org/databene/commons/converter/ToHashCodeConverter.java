@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008, 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -36,7 +36,7 @@ import org.databene.commons.ConversionException;
  * @since 0.4.6
  * @author Volker Bergmann
  */
-public class ToHashCodeConverter extends AbstractConverter<Object, Integer>{
+public class ToHashCodeConverter extends ThreadSafeConverter<Object, Integer>{
 
 	public ToHashCodeConverter() {
 		super(Object.class, Integer.class);

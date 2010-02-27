@@ -35,7 +35,7 @@ import org.databene.commons.ConversionException;
  * @author Volker Bergmann
  *
  */
-public class Number2IntegerConverter extends AbstractConverter<Number, Integer> {
+public class Number2IntegerConverter extends ThreadSafeConverter<Number, Integer> {
 
 	public Number2IntegerConverter() {
 		super(Number.class, Integer.class);

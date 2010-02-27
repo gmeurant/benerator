@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,6 +30,7 @@ import org.databene.commons.CollectionUtil;
 import org.databene.commons.ConversionException;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Converts arrays and collections to collections of same content, everything else is converted to a collection of size 1.<br/>
@@ -37,7 +38,11 @@ import java.util.Collection;
  * Created: 26.08.2007 16:16:15
  */
 @SuppressWarnings("unchecked")
-public class ToCollectionConverter<C extends Collection> extends AbstractConverter<Object, C> {
+public class ToCollectionConverter<C extends Collection> extends ThreadSafeConverter<Object, C> {
+
+    public ToCollectionConverter() {
+        this((Class<C>) List.class);
+    }
 
     public ToCollectionConverter(Class<C> targetType) {
         super(Object.class, targetType);

@@ -36,7 +36,7 @@ import java.util.Date;
  * Created: 09.09.2007 12:51:17
  * @author Volker Bergmann
  */
-public class UtilDate2SqlDateConverter extends AbstractConverter<Date, java.sql.Date> {
+public class UtilDate2SqlDateConverter extends ThreadSafeConverter<Date, java.sql.Date> {
 
 	public UtilDate2SqlDateConverter() {
 		super(Date.class, java.sql.Date.class);

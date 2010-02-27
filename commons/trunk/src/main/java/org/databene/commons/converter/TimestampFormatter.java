@@ -23,9 +23,10 @@ package org.databene.commons.converter;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
+import org.databene.commons.ConversionException;
 import org.databene.commons.Patterns;
+import org.databene.commons.format.ConcurrentDateFormat;
 
 /**
  * Formats a {@link Timestamp} as {@link String}.<br/><br/>
@@ -33,7 +34,7 @@ import org.databene.commons.Patterns;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class TimestampFormatter {
+public class TimestampFormatter extends ThreadSafeConverter<Timestamp, String> {
 	
 	private DateFormat prefixFormat;
 	
@@ -42,11 +43,16 @@ public class TimestampFormatter {
     }
 
 	public TimestampFormatter(String prefixPattern) {
-	    this(new SimpleDateFormat(prefixPattern));
+	    this(new ConcurrentDateFormat(prefixPattern));
     }
 
 	public TimestampFormatter(DateFormat format) {
+		super(Timestamp.class, String.class);
 	    this.prefixFormat = format;
+    }
+
+	public String convert(Timestamp sourceValue) throws ConversionException {
+	    return format(sourceValue);
     }
 
 	public String format(Timestamp timestamp) {
