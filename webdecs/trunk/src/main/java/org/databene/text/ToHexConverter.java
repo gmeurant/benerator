@@ -26,7 +26,7 @@ import java.text.MessageFormat;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 import org.databene.commons.StringUtil;
-import org.databene.commons.converter.AbstractConverter;
+import org.databene.commons.converter.ThreadSafeConverter;
 
 /**
  * {@link Converter} that transforms an object into its hexadecimal representation.
@@ -35,7 +35,7 @@ import org.databene.commons.converter.AbstractConverter;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class ToHexConverter extends AbstractConverter<Object, String> {
+public class ToHexConverter extends ThreadSafeConverter<Object, String> {
 	
 	private boolean upperCase;
 	private String pattern;

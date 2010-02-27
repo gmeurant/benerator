@@ -89,7 +89,8 @@ public class BeanFlatFileWriter<E> extends ScriptedDocumentWriter<E> {
                 propertyConverters[i] = new ConverterChain(
                     new ToStringConverter(),
                     new FormatFormatConverter(String.class, 
-                            new PadFormat(descriptor.getWidth(), descriptor.getAlignment(), ' ')
+                            new PadFormat(descriptor.getWidth(), descriptor.getAlignment(), ' '),
+                            true
                             )
                 );
             }

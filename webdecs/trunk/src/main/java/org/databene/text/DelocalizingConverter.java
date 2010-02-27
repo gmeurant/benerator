@@ -30,7 +30,7 @@ import org.databene.document.csv.CSVLineIterator;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.Converter;
 import org.databene.commons.Encodings;
-import org.databene.commons.converter.AbstractConverter;
+import org.databene.commons.converter.ThreadSafeConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,8 +43,9 @@ import java.util.HashMap;
  * For example the umlaut 'ä' is replaced with 'ae'.<br/>
  * <br/>
  * Created: 12.06.2006 18:53:55
+ * @author Volker Bergmann
  */
-public class DelocalizingConverter extends AbstractConverter<String, String> {
+public class DelocalizingConverter extends ThreadSafeConverter<String, String> {
 
     /** File that contains the character mapping */
     private static final String CONFIG_FILENAME = "org/databene/text/DelocalizingConverter.csv";

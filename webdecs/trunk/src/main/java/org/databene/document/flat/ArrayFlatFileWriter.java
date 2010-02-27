@@ -87,7 +87,8 @@ public class ArrayFlatFileWriter<E> extends ScriptedDocumentWriter<E[]> {
                 this.converters[i] = new ConverterChain(
                         new ToStringConverter(),
                         new FormatFormatConverter(String.class, 
-                                new PadFormat(descriptor.getWidth(), descriptor.getAlignment(), ' ')
+                                new PadFormat(descriptor.getWidth(), descriptor.getAlignment(), ' '),
+                                true
                                 )
                 );
             }

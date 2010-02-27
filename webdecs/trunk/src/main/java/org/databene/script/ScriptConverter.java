@@ -28,14 +28,14 @@ package org.databene.script;
 
 import org.databene.commons.Context;
 import org.databene.commons.ConversionException;
-import org.databene.commons.converter.AbstractConverter;
+import org.databene.commons.converter.ThreadSafeConverter;
 
 /**
  * Converter that uses a {@link Script} for String conversion.<br/><br/>
  * @since 0.3.0
  * @author Volker Bergmann
  */
-public class ScriptConverter extends AbstractConverter<String, Object>{
+public class ScriptConverter extends ThreadSafeConverter<String, Object>{
     
     private Context context;
     
