@@ -83,8 +83,17 @@ public class ToStringConverter extends FormatHolder implements Converter<Object,
     public String convert(Object source) throws ConversionException {
         if (source == null)
             return nullString;
-        else if (source instanceof String)
-        	return (String) source;
+        else if (source instanceof String) {
+        	if (stringQuote == null)
+        		return (String) source;
+        	else
+        		return stringQuote + source + stringQuote;
+        } else if (source instanceof Character) {
+        	if (charQuote == null)
+        		return String.valueOf(source);
+        	else
+        		return charQuote + source + charQuote;
+        }
         
         Class<?> sourceType = source.getClass();
         if (integralConverter != null && JavaType.isIntegralType(sourceType)) {
