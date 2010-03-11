@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -54,8 +54,14 @@ public class LoggingPreparedStatementHandler implements InvocationHandler {
 	
     private static final Logger sqlLogger = LoggerFactory.getLogger(LogCategories.SQL); 
     private static final Logger jdbcLogger = LoggerFactory.getLogger(LogCategories.JDBC);
-    private static final Converter<Object[], String[]> toStringArrayConverter 
-    	= new ArrayConverter<Object, String>(Object.class, String.class, new ToStringConverter("null"));
+    private static final Converter<Object[], String[]> toStringArrayConverter;
+    
+    static {
+    	ToStringConverter toStringConverter = new ToStringConverter("null");
+    	toStringConverter.setCharQuote("'");
+    	toStringConverter.setStringQuote("'");
+    	toStringArrayConverter = new ArrayConverter<Object, String>(Object.class, String.class, toStringConverter);
+    }
 
 	private String sql;
 	private PreparedStatement realStatement;
@@ -189,6 +195,8 @@ public class LoggingPreparedStatementHandler implements InvocationHandler {
 	@Override
 	public String toString() {
 		String[] paramStrings = toStringArrayConverter.convert(params);
+		// TODO v1.0 use DatabaseDialect to render arbitrary data types
 		return StringUtil.replaceTokens(sql, "?", paramStrings);
 	}
+
 }
