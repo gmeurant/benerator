@@ -55,6 +55,10 @@ public abstract class FormatHolder implements Patterns {
     
     protected NumberFormatter integralConverter;
     
+    protected String charQuote;
+    
+    protected String stringQuote;
+    
     // constructors ----------------------------------------------------------------------------------------------------
 
     /** Default constructor that uses an isEmpty String as null representation */
@@ -77,6 +81,8 @@ public abstract class FormatHolder implements Patterns {
         this.timePattern = DEFAULT_TIME_PATTERN;
         this.dateTimePattern = DEFAULT_DATETIME_PATTERN;
         this.decimalConverter = null;
+        this.stringQuote = null;
+        this.charQuote = null;
     }
     
     // properties ------------------------------------------------------------------------------------------------------
@@ -151,6 +157,22 @@ public abstract class FormatHolder implements Patterns {
     	integralConverter.setPattern(pattern);
     }
     
+	public String getCharQuote() {
+    	return charQuote;
+    }
+
+	public void setCharQuote(String charQuote) {
+    	this.charQuote = charQuote;
+    }
+
+	public String getStringQuote() {
+    	return stringQuote;
+    }
+
+	public void setStringQuote(String stringQuote) {
+    	this.stringQuote = stringQuote;
+    }
+
 	@Override
     public Object clone() {
 		try {
