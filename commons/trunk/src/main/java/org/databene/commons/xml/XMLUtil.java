@@ -57,6 +57,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
+import org.xml.sax.EntityResolver;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
@@ -200,27 +201,27 @@ public class XMLUtil {
     // XML operations --------------------------------------------------------------------------------------------------
 
     public static Document parse(String uri) throws IOException {
-        return parse(uri, false);
+        return parse(uri, null);
     }
 
-    public static Document parse(String uri, boolean validate) throws IOException {
+    public static Document parse(String uri, EntityResolver resolver) throws IOException {
         InputStream stream = null;
         try {
             stream = IOUtil.getInputStreamForURI(uri);
-            return parse(stream, DEFAULT_ERROR_HANDLER, validate);
+            return parse(stream, DEFAULT_ERROR_HANDLER, resolver);
         } finally {
             IOUtil.close(stream);
         }
     }
 
     public static Document parseString(String text) throws IOException {
-        return parseString(text, false);
+        return parseString(text, null);
     }
         
-    public static Document parseString(String text, boolean validate) throws IOException {
+    public static Document parseString(String text, EntityResolver resolver) throws IOException {
         if (logger.isDebugEnabled())
             logger.debug(text);
-        return parse(new ByteArrayInputStream(text.getBytes()), DEFAULT_ERROR_HANDLER, validate);
+        return parse(new ByteArrayInputStream(text.getBytes()), DEFAULT_ERROR_HANDLER, resolver);
     }
 
 	public static Element parseStringAsElement(String xml) throws IOException {
@@ -228,17 +229,19 @@ public class XMLUtil {
 	}
 	
     public static Document parse(InputStream stream) throws IOException {
-        return parse(stream, DEFAULT_ERROR_HANDLER, false);
+        return parse(stream, DEFAULT_ERROR_HANDLER, null);
     }
 
-    public static Document parse(InputStream stream, final ErrorHandler errorHandler, boolean validate) throws IOException {
+    public static Document parse(InputStream stream, final ErrorHandler errorHandler, EntityResolver resolver) throws IOException {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setNamespaceAware(true);
-            factory.setValidating(validate);
-            if (validate)
+            if (resolver != null) {
+	            factory.setValidating(true);
 				activateXmlSchemaValidation(factory);
+            }
             DocumentBuilder builder = factory.newDocumentBuilder();
+            builder.setEntityResolver(resolver);
             builder.setErrorHandler(createSaxErrorHandler(errorHandler));
             return builder.parse(stream);
         } catch (ParserConfigurationException e) {
