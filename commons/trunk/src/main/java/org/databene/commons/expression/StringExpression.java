@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -32,19 +32,19 @@ import org.databene.commons.converter.ToStringConverter;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class StringExpression extends ExpressionProxy<String> {
+public class StringExpression implements Expression<String> {
 	
+	private Expression<?> source;
 	private ToStringConverter converter;
 
-	public StringExpression(Expression<String> source) {
-	    super(source);
+	public StringExpression(Expression<?> source) {
+	    this.source = source;
 	    this.converter = new ToStringConverter(null);
     }
 
-	@Override
     public String evaluate(Context context) {
-		Object result = super.evaluate(context);
-		return (result instanceof String ? (String) result : converter.convert(result));
+		Object tmp = source.evaluate(context);
+		return (tmp instanceof String ? (String) tmp : converter.convert(tmp));
 	}
 	
 }
