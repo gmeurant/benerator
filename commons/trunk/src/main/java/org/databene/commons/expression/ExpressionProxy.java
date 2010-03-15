@@ -42,4 +42,8 @@ public class ExpressionProxy<E> implements Expression<E> {
 	    return source.evaluate(context);
     }
 
+	public boolean isConstant() {
+	    return source.isConstant();
+	}
+	
 }

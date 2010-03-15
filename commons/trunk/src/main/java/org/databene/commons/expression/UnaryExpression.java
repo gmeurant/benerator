@@ -44,4 +44,8 @@ public abstract class UnaryExpression<E> implements Expression<E> {
 	    this.term = term;
     }
 	
+	public boolean isConstant() {
+	    return term.isConstant();
+	}
+	
 }

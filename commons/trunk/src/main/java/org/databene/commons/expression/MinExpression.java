@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -40,25 +40,24 @@ import org.databene.commons.Expression;
  * @author Volker Bergmann
  */
 
-public class MinExpression<E> implements Expression<E> {
+public class MinExpression<E> extends CompositeExpression<E> {
 
-	private Expression<E>[] argumentExpressions;
 	private Comparator<E> comparator;
 
 	@SuppressWarnings("unchecked")
-    public MinExpression(Expression<E>... argumentExpressions) {
-	    this(new ComparableComparator(), argumentExpressions);
+    public MinExpression(Expression<E>... terms) {
+	    this(new ComparableComparator(), terms);
     }
 
-	public MinExpression(Comparator<E> comparator, Expression<E>... argumentExpressions) {
-	    this.argumentExpressions = argumentExpressions;
+	public MinExpression(Comparator<E> comparator, Expression<E>... terms) {
+	    super(terms);
 	    this.comparator = comparator;
     }
 
     public E evaluate(Context context) {
-    	E min = argumentExpressions[0].evaluate(context);
-	    for (int i = 1; i < argumentExpressions.length; i++) {
-	    	E tmp = argumentExpressions[i].evaluate(context);
+    	E min = terms[0].evaluate(context);
+	    for (int i = 1; i < terms.length; i++) {
+	    	E tmp = terms[i].evaluate(context);
 	    	if (min == null)
 	    		min = tmp;
 	    	else if (tmp != null && comparator.compare(tmp, min) < 0)

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -21,29 +21,18 @@
 
 package org.databene.commons.expression;
 
-import org.databene.commons.Context;
 import org.databene.commons.Expression;
-import org.databene.commons.converter.ToStringConverter;
 
 /**
- * Wrapper for an {@link Expression} that converts its result to a {@link String} 
- * using the {@link ToStringConverter}.<br/><br/>
- * Created: 27.10.2009 13:35:29
- * @since 0.5.0
+ * Non-constant {@link Expression}.<br/><br/>
+ * Created: 15.03.2010 12:05:32
+ * @since 0.6.0
  * @author Volker Bergmann
  */
-public class StringExpression extends UnaryExpression<String> {
-	
-	private ToStringConverter converter;
+public abstract class DynamicExpression<E> implements Expression<E> {
 
-	public StringExpression(Expression<?> term) {
-	    super(term);
-	    this.converter = new ToStringConverter(null);
+	public boolean isConstant() {
+	    return false;
     }
 
-    public String evaluate(Context context) {
-		Object tmp = term.evaluate(context);
-		return (tmp instanceof String ? (String) tmp : converter.convert(tmp));
-	}
-	
 }

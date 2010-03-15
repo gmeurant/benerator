@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -34,29 +34,28 @@ import org.databene.commons.Expression;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class MaxExpression<E> implements Expression<E> {
+public class MaxExpression<E> extends CompositeExpression<E> {
 
-	private Expression<E>[] argumentExpressions;
 	private Comparator<E> comparator;
 
 	@SuppressWarnings("unchecked")
-    public MaxExpression(Expression<E>... argumentExpressions) {
-	    this(new ComparableComparator(), argumentExpressions);
+    public MaxExpression(Expression<E>... terms) {
+	    this(new ComparableComparator(), terms);
     }
 
-	public MaxExpression(Comparator<E> comparator, Expression<E>... argumentExpressions) {
-	    this.argumentExpressions = argumentExpressions;
+	public MaxExpression(Comparator<E> comparator, Expression<E>... terms) {
+	    super(terms);
 	    this.comparator = comparator;
     }
 
     public E evaluate(Context context) {
-    	E max = argumentExpressions[0].evaluate(context);
-	    for (int i = 1; i < argumentExpressions.length; i++) {
-	    	E tmp = argumentExpressions[i].evaluate(context);
+    	E max = terms[0].evaluate(context);
+	    for (int i = 1; i < terms.length; i++) {
+	    	E tmp = terms[i].evaluate(context);
 	    	if (comparator.compare(tmp, max) > 0)
 	    		max = tmp;
 	    }
 	    return max;
     }
-	
+
 }

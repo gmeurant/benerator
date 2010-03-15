@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -38,7 +38,7 @@ import org.databene.commons.Expression;
  * @author Volker Bergmann
  */
 
-public class StaticMethodCallExpression implements Expression<Object> {
+public class StaticMethodCallExpression extends DynamicExpression<Object> {
 	
 	private Class<?> targetClass;
 	private String methodName;

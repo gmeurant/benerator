@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -36,10 +36,17 @@ import org.databene.commons.Expression;
  */
 public abstract class CompositeExpression<E> implements Expression<E> {
 
-    protected Expression<E>[] sources;
+    protected Expression<E>[] terms;
 
-    protected CompositeExpression(Expression<E>... sources) {
-        this.sources = sources;
+    protected CompositeExpression(Expression<E>... terms) {
+        this.terms = terms;
     }
 
+    public boolean isConstant() {
+        for (Expression<E> term : terms)
+        	if (!term.isConstant())
+        		return false;
+        return true;
+    }
+    
 }

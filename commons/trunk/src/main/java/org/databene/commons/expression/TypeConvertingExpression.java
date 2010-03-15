@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -38,19 +38,18 @@ import org.databene.commons.converter.AnyConverter;
  * @author Volker Bergmann
  */
 
-public class TypeConvertingExpression<E> implements Expression<E> {
+public class TypeConvertingExpression<E> extends UnaryExpression<E> {
 	
-	private Expression<?> source;
 	private AnyConverter<E> converter;
 
     @SuppressWarnings("unchecked")
     public TypeConvertingExpression(Expression source, Class<E> resultType) {
-    	this.source = source;
+    	super(source);
 	    this.converter = new AnyConverter<E>(resultType);
     }
 
 	public E evaluate(Context context) {
-	    return converter.convert(source.evaluate(context));
+	    return converter.convert(term.evaluate(context));
     }
 
 }

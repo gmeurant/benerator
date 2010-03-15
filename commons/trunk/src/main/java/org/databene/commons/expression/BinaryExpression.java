@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -45,5 +45,9 @@ public abstract class BinaryExpression<E> implements Expression<E> {
 	    this.term1 = term1;
 	    this.term2 = term2;
     }
+	
+	public boolean isConstant() {
+	    return term1.isConstant() && term2.isConstant();
+	}
 	
 }
