@@ -43,7 +43,7 @@ import java.text.SimpleDateFormat;
  * @since 0.1
  * @author Volker Bergmann
  */
-public final class TimeUtil implements Patterns {
+public final class TimeUtil {
 	
 	public static TimeZone GMT = TimeZone.getTimeZone("GMT");
 	public static TimeZone CENTRAL_EUROPEAN_TIME = TimeZone.getTimeZone("CET");
@@ -226,7 +226,7 @@ public final class TimeUtil implements Patterns {
     }
 
 	public static DateFormat createDefaultDateFormat() {
-		return new SimpleDateFormat(DEFAULT_DATE_PATTERN);
+		return new SimpleDateFormat(Patterns.DEFAULT_DATE_PATTERN);
 	}
 
 	public static boolean isMidnight(Date date) {
