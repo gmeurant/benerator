@@ -28,6 +28,7 @@ package org.databene.commons.converter;
 
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
+import org.databene.commons.Patterns;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +47,7 @@ public class AnyConverter<E> extends FormatHolder implements Converter<Object, E
     private Class<E> targetType;
     
     public AnyConverter(Class<E> targetType) {
-        this(targetType, "yyyyMMdd");
+        this(targetType, Patterns.DEFAULT_DATE_PATTERN);
     }
 
     public AnyConverter(Class<E> targetType, String datePattern) {
