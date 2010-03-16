@@ -34,14 +34,14 @@ import org.databene.commons.Patterns;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class Time2StringConverter extends ThreadSafeConverter<Time, String> implements Patterns {
+public class Time2StringConverter extends ThreadSafeConverter<Time, String> {
 
     public Time2StringConverter() {
         super(Time.class, String.class);
     }
 
     public String convert(Time target) throws ConversionException {
-        return new SimpleDateFormat(DEFAULT_TIME_MILLIS_PATTERN).format(new Date(target.getTime()));
+        return new SimpleDateFormat(Patterns.DEFAULT_TIME_MILLIS_PATTERN).format(new Date(target.getTime()));
     }
 
 }
