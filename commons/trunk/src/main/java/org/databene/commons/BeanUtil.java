@@ -215,6 +215,10 @@ public final class BeanUtil {
         return primitiveNumberTypeMap.containsKey(className);
     }
 
+    public static boolean isNumberType(Class<?> type) {
+    	return (isIntegralNumberType(type) || isDecimalNumberType(type));
+    }
+    
     public static boolean isIntegralNumberType(Class<?> type) {
         return isIntegralNumberType(type.getName());
     }
