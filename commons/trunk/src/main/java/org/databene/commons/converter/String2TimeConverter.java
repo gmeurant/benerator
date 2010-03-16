@@ -41,7 +41,7 @@ import org.databene.commons.StringUtil;
  * Created: 14.03.2008 22:15:58
  * @author Volker Bergmann
  */
-public class String2TimeConverter extends ThreadSafeConverter<String, Time> implements Patterns {
+public class String2TimeConverter extends ThreadSafeConverter<String, Time> {
 
 	private String pattern;
 	
@@ -78,9 +78,9 @@ public class String2TimeConverter extends ThreadSafeConverter<String, Time> impl
 	private static String choosePattern(String sourceValue, String pattern) {
 	    if (pattern == null)
             switch (sourceValue.length()) {
-                case 12 : pattern = DEFAULT_TIME_MILLIS_PATTERN;  break;
-                case  8 : pattern = DEFAULT_TIME_SECONDS_PATTERN; break;
-                case  5 : pattern = DEFAULT_TIME_MINUTES_PATTERN; break;
+                case 12 : pattern = Patterns.DEFAULT_TIME_MILLIS_PATTERN;  break;
+                case  8 : pattern = Patterns.DEFAULT_TIME_SECONDS_PATTERN; break;
+                case  5 : pattern = Patterns.DEFAULT_TIME_MINUTES_PATTERN; break;
                 default : throw new IllegalArgumentException("Not a supported time format: " + sourceValue);
             }
 	    return pattern;
