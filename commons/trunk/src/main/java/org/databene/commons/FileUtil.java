@@ -123,8 +123,10 @@ public final class FileUtil {
 	}
 
     public static void deleteIfExists(File file) {
-	    if (file.exists())
-	    	file.delete();
+	    if (file.exists()) {
+	    	if (!file.delete())
+	    		file.deleteOnExit();
+	    }
     }
 
 	public static List<File> listFiles(File dir, String regex, 
