@@ -29,17 +29,17 @@ import org.databene.commons.Converter;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public abstract class UnsafeConverter<S, T> extends AbstractConverter<S, T> {
+public abstract class SimpleConverter<S, T> extends AbstractConverter<S, T> {
 
-	protected UnsafeConverter(Class<S> sourceType, Class<T> targetType) {
+	protected SimpleConverter(Class<S> sourceType, Class<T> targetType) {
 	    super(sourceType, targetType);
     }
 
-	final public boolean isParallelizable() {
+	public boolean isParallelizable() {
 	    return false;
     }
 
-	final public boolean isThreadSafe() {
+	public boolean isThreadSafe() {
 	    return false;
     }
 
