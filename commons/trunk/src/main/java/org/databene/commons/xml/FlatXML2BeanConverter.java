@@ -73,13 +73,11 @@ public class FlatXML2BeanConverter extends AbstractConverter<Element, Object> {
     }
 
 	public boolean isParallelizable() {
-	    // TODO Auto-generated method stub
-	    return false;
+	    return true;
     }
 
 	public boolean isThreadSafe() {
-	    // TODO Auto-generated method stub
-	    return false;
+	    return true;
     }
 
 }
