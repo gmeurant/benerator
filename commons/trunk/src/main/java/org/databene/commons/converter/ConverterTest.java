@@ -61,6 +61,6 @@ public class ConverterTest {
 	    }
     }
 	
-	// TODO add further common test features, e.g. multithreaded tests for predefined samples
+	// TODO v0.5.1 add further common test features, e.g. multithreaded tests for predefined samples
 
 }
