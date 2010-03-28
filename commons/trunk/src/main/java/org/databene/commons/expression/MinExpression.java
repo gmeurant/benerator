@@ -28,6 +28,7 @@ package org.databene.commons.expression;
 
 import java.util.Comparator;
 
+import org.databene.commons.ArrayFormat;
 import org.databene.commons.ComparableComparator;
 import org.databene.commons.Context;
 import org.databene.commons.Expression;
@@ -66,4 +67,9 @@ public class MinExpression<E> extends CompositeExpression<E> {
 	    return min;
     }
 	
+    @Override
+    public String toString() {
+        return "min(" + ArrayFormat.format(terms) + ')';
+    }
+    
 }

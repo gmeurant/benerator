@@ -96,4 +96,9 @@ public class AnyConverter<E> extends FormatHolder implements Converter<Object, E
 		return (TT) converter.convert(source);
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + '(' + targetType.getSimpleName() + ')';
+    }
+    
 }

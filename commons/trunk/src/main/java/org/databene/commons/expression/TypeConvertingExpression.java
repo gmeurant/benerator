@@ -52,4 +52,9 @@ public class TypeConvertingExpression<E> extends UnaryExpression<E> {
 	    return converter.convert(term.evaluate(context));
     }
 
+	@Override
+	public String toString() {
+	    return getClass().getSimpleName() + '[' + term + " -> " + converter + ']';
+	}
+	
 }
