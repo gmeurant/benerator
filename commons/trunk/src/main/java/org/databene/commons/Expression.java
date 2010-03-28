@@ -27,13 +27,13 @@
 package org.databene.commons;
 
 /**
- * Represents an Expression that evaluates some internal state and returns the result.<br/>
- * <br/>
+ * Represents an Expression that evaluates some internal state and returns the result.<br/><br/>
  * Created: 18.06.2007 17:00:22
  * @since 0.2
  * @author Volker Bergmann
  */
 public interface Expression<E> {
 	E evaluate(Context context);
+	// TODO v0.5.1 Class<E> getResultType() ?
 	boolean isConstant();
 }
