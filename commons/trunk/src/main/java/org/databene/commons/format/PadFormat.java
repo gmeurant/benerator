@@ -77,6 +77,8 @@ public class PadFormat extends Format {
         else
             text = ToStringConverter.convert(obj, "");
         int padLength = length - text.length();
+        if (padLength < 0)
+        	throw new IllegalArgumentException("Text is longer that the required pad length of " + length + ": " + text);
         switch (alignment) {
             case LEFT   : return toAppendTo.append(text).append(StringUtil.padString(padChar, padLength));
             case RIGHT  : boolean neg = (padChar == '0' && text.length() > 0 && text.charAt(0) == '-');
