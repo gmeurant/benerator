@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<!-- (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+<!-- (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, is permitted under the terms of the
@@ -106,6 +106,18 @@ POSSIBILITY OF SUCH DAMAGE. -->
             class="org.hsqldb.jdbcDriver" 
             port="9001"
             url="jdbc:hsqldb:hsql://{0}:{1}/{2}"
+            defaultSchema="PUBLIC"
+            user="sa"
+            info="http://hsqldb.sourceforge.net/">
+        <dependency lib="hsqldb.jar" artifact="hsqldb:hsqldb:1.8.0.7" official="yes" />
+    </driver>
+    
+    <driver id="H2"
+    		system="H2" 
+            name="H2" 
+            class="org.h2.Driver" 
+            port="9001"
+            url="jdbc:h2:{2}"
             defaultSchema="PUBLIC"
             user="sa"
             info="http://hsqldb.sourceforge.net/">
