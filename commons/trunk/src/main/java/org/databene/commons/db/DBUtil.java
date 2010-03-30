@@ -94,7 +94,11 @@ public class DBUtil {
 			
 			// connect
             jdbcLogger.debug("opening connection to " + url);
-            return driver.connect(url, info);
+            Connection connection = driver.connect(url, info);
+            if (connection == null)
+            	throw new ConnectFailedException("Connecting the database failed silently - " +
+            			"probably due to wrong driver (" + driverClassName + ") or wrong URL format (" + url + ")");
+			return connection;
         } catch (Exception e) {
 			throw new ConnectFailedException("Connecting " + url + " failed: ", e);
 		}
