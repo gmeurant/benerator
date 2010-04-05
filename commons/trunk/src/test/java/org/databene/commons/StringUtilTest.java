@@ -318,10 +318,28 @@ public class StringUtilTest {
 	
 	@Test
 	public void testNormalizeLineSeparators() {
+		// no line sep
+		assertEquals(null, StringUtil.normalizeLineSeparators(null, "\r\n"));
 		assertEquals("", StringUtil.normalizeLineSeparators("", "\r\n"));
+		assertEquals("abc", StringUtil.normalizeLineSeparators("abc", "\r\n"));
+		// \r\n
 		assertEquals("\r\n", StringUtil.normalizeLineSeparators("\r", "\r\n"));
 		assertEquals("\r\n", StringUtil.normalizeLineSeparators("\n", "\r\n"));
 		assertEquals("\r\n", StringUtil.normalizeLineSeparators("\r\n", "\r\n"));
+		assertEquals("\r\nx\r\n", StringUtil.normalizeLineSeparators("\r\nx\r\n", "\r\n"));
+		assertEquals("x\r\ny", StringUtil.normalizeLineSeparators("x\r\ny", "\r\n"));
+		// \r
+		assertEquals("\r", StringUtil.normalizeLineSeparators("\r", "\r"));
+		assertEquals("\r", StringUtil.normalizeLineSeparators("\n", "\r"));
+		assertEquals("\r", StringUtil.normalizeLineSeparators("\r\n", "\r"));
+		assertEquals("\rx\r", StringUtil.normalizeLineSeparators("\r\nx\r\n", "\r"));
+		assertEquals("x\ry", StringUtil.normalizeLineSeparators("x\r\ny", "\r"));
+		// \n
+		assertEquals("\n", StringUtil.normalizeLineSeparators("\r", "\n"));
+		assertEquals("\n", StringUtil.normalizeLineSeparators("\n", "\n"));
+		assertEquals("\n", StringUtil.normalizeLineSeparators("\r\n", "\n"));
+		assertEquals("\nx\n", StringUtil.normalizeLineSeparators("\r\nx\r\n", "\n"));
+		assertEquals("x\ny", StringUtil.normalizeLineSeparators("x\r\ny", "\n"));
 	}
     
     // helpers ---------------------------------------------------------------------------------------------------------
