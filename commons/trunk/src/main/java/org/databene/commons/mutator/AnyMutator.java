@@ -80,12 +80,12 @@ public class AnyMutator implements Mutator {
     
     @SuppressWarnings("unchecked")
     private static <C, V> void setLocal(C target, String featureName, V value, boolean strict) {
-        if (target instanceof Context)
+    	if (BeanUtil.hasProperty(target.getClass(), featureName))
+            BeanUtil.setPropertyValue(target, featureName, value, false);
+    	else if (target instanceof Context)
             ((Context)target).set(featureName, value);
         else if (target instanceof Map)
             ((Map)target).put(featureName, value);
-        else if (BeanUtil.hasProperty(target.getClass(), featureName))
-            BeanUtil.setPropertyValue(target, featureName, value, false);
         else {
             String message = "No feature '" + featureName + "' found in " + target;
             if (strict)
