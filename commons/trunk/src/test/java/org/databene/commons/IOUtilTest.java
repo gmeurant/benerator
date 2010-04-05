@@ -281,6 +281,15 @@ public class IOUtilTest {
         }
     }
 
+	@Test
+	public void testCopy_jarUrl() throws Exception {
+		URL url = Test.class.getClassLoader().getResource("org/junit");
+		File targetFolder = new File("target/IOUtilTest");
+		FileUtil.ensureDirectoryExists(targetFolder);
+		IOUtil.copyDirectory(url, targetFolder, null);
+		assertTrue(ArrayUtil.contains(targetFolder.list(), "Test.class"));
+	}
+
 	// private helpers -------------------------------------------------------------------------------------------------
     
     private void checkFileOutputStream(String filename, OutputStream out) throws IOException {

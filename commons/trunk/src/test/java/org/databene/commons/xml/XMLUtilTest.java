@@ -89,6 +89,12 @@ public class XMLUtilTest {
     }
     
 	@Test
+    public void testGetChildElements_empty() {
+    	Document document = createDocument();
+        assertTrue(Arrays.equals(new Element[0], XMLUtil.getChildElements(document.getDocumentElement())));
+    }
+    
+	@Test
     public void testGetChildElementsByName() {
     	Document document = createDocument();
         Element child1 = createElementWithChildren(document, "c1");

@@ -315,6 +315,14 @@ public class StringUtilTest {
     	assertEquals("123456789", StringUtil.removeSection("123456789", "32", "56"));
     	assertEquals("123456789", StringUtil.removeSection("123456789", "45", "34"));
     }
+	
+	@Test
+	public void testNormalizeLineSeparators() {
+		assertEquals("", StringUtil.normalizeLineSeparators("", "\r\n"));
+		assertEquals("\r\n", StringUtil.normalizeLineSeparators("\r", "\r\n"));
+		assertEquals("\r\n", StringUtil.normalizeLineSeparators("\n", "\r\n"));
+		assertEquals("\r\n", StringUtil.normalizeLineSeparators("\r\n", "\r\n"));
+	}
     
     // helpers ---------------------------------------------------------------------------------------------------------
 

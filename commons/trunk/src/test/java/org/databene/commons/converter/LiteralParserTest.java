@@ -48,7 +48,7 @@ public class LiteralParserTest extends ConverterTest {
     public void testNull() {
         assertEquals(null, LiteralParser.parse(null));
         assertEquals(null, LiteralParser.parse(""));
-        assertEquals(null, LiteralParser.parse(" \t "));
+        assertEquals(" \t ", LiteralParser.parse(" \t "));
     }
 
 	@Test
