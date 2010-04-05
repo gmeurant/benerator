@@ -74,7 +74,9 @@ public class PropertyFileField extends FileField {
 			((ObservableBean) bean).addPropertyChangeListener(propertyName, listener);
 		this.addActionListener(listener);
 		this.locked = false;
-		setFile((File) BeanUtil.getPropertyValue(bean, propertyName));
+		File value = (File) BeanUtil.getPropertyValue(bean, propertyName);
+		if (value != null)
+			setFile(value);
 	}
 	
 	// event handlers --------------------------------------------------------------------------------------------------
