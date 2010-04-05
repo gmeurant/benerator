@@ -101,7 +101,7 @@ public class ScriptUtil {
     public static Object render(String text, Context context) {
 		if (text.startsWith("{{") && text.endsWith("}}"))
             return text.substring(1, text.length() - 1);
-        else if (text.startsWith("{") && text.endsWith("}")) {
+        else if (isScript(text)) {
             Script script = parseUnspecificText(text);
             return execute(script, context);
         } else
@@ -124,9 +124,15 @@ public class ScriptUtil {
     }
 
     public static Script parseUnspecificText(String text) {
-        if (text.startsWith("{") && text.endsWith("}"))
+        if (isScript(text))
         	return parseScriptText(text.substring(1, text.length() - 1), false);
         return new ConstantScript(text);
+    }
+
+	public static boolean isScript(String text) {
+		if (StringUtil.isEmpty(text))
+			return false;
+	    return text.startsWith("{") && text.endsWith("}");
     }
 
     public static Script parseScriptText(String text) {
