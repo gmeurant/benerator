@@ -27,6 +27,8 @@
 package org.databene.gui.swing.delegate;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -65,6 +67,7 @@ public class PropertyComboBox extends JComboBox {
 		this.propertyName = propertyName;
 		this.locked = true;
 		Listener listener = new Listener();
+		this.addActionListener(listener);
 		if (bean instanceof ObservableBean)
 			((ObservableBean) bean).addPropertyChangeListener(propertyName, listener);
 		this.getModel().addListDataListener(listener);
@@ -101,7 +104,7 @@ public class PropertyComboBox extends JComboBox {
 		}
 	}
 	
-	class Listener implements PropertyChangeListener, ListDataListener {
+	class Listener implements PropertyChangeListener, ListDataListener, ActionListener {
 
 		public void propertyChange(PropertyChangeEvent evt) {
 			refresh();
@@ -118,6 +121,10 @@ public class PropertyComboBox extends JComboBox {
 		public void intervalRemoved(ListDataEvent evt) {
 			update();
 		}
+
+		public void actionPerformed(ActionEvent e) {
+	        update();
+        }
 		
 	}
 	
@@ -136,7 +143,7 @@ public class PropertyComboBox extends JComboBox {
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value,
 				int index, boolean isSelected, boolean cellHasFocus) {
-			String text = i18n.getString(prefix + converter.convert(value));
+			String text = (i18n != null ? i18n.getString(prefix + converter.convert(value)) : String.valueOf(value));
 			return super.getListCellRendererComponent(list, text, index, isSelected, cellHasFocus);
 		}
 	}
