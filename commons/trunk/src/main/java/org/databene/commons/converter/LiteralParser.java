@@ -65,11 +65,11 @@ public class LiteralParser extends ThreadSafeConverter<String, Object> {
      * @return a date, number, boolean or String that is the object representation of the specified text
      */
     public static Object parse(String text) {
-        if (text == null)
+        if (text == null || text.length() == 0)
             return null;
         String trimmed = text.trim();
         if (trimmed.length() == 0)
-            return null;
+            return text;
 
         // test for boolean
         if ("true".equals(trimmed))
