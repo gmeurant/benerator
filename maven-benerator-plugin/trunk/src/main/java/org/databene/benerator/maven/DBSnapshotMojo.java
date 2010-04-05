@@ -28,6 +28,7 @@ package org.databene.benerator.maven;
 
 import org.databene.benerator.main.DBSnapshotTool;
 import org.databene.commons.Assert;
+import org.databene.commons.StringUtil;
 
 /**
  * Creates a database snapshot in DbUnit data file format.<br/>
@@ -72,6 +73,28 @@ public class DBSnapshotMojo extends AbstractBeneratorMojo {
 	 */
 	protected String dbSchema;
 	
+	/**
+	 * The file format to use in the export file.
+	 * Available values: dbunit, sql, xls.
+	 * If left blank, dbunit is used.
+	 * @parameter expression="${user.name}"
+	 */
+	protected String snapshotFormat;
+	
+	/**
+	 * The database dialect to use in a snapshot file of SQL format.
+	 * If left blank, the database's own dialect will be used.
+	 * @parameter
+	 */
+	protected String snapshotDialect;
+	
+	/**
+	 * The file name to use for the snapshot file.
+	 * If left blank, 'export' + file type suffix is used.
+	 * @parameter
+	 */
+	protected String snapshotFilename;
+	
 	@Override
 	protected void setSystemProperties() {
 		super.setSystemProperties();
@@ -91,8 +114,18 @@ public class DBSnapshotMojo extends AbstractBeneratorMojo {
 		Assert.notNull(dbUrl, "dbUrl");
 		Assert.notNull(dbDriver, "dbDriver");
 		Assert.notNull(dbUser, "dbUser");
-		DBSnapshotTool.export(dbUrl, dbDriver, dbSchema, dbUser, dbPassword, "snapshot.dbunit.xml", "dbunit");
-		// TODO support different export formats
+		// check format
+		if (StringUtil.isEmpty(snapshotFormat))
+			snapshotFormat = DBSnapshotTool.DBUNIT_FORMAT;
+		// check file name
+		if (StringUtil.isEmpty(snapshotFilename)) {
+			if (DBSnapshotTool.DBUNIT_FORMAT.equals(snapshotFormat))
+				snapshotFilename = "snapshot.dbunit.xml";
+			else
+				snapshotFilename = "snapshot." + snapshotFormat;
+		}
+		DBSnapshotTool.export(dbUrl, dbDriver, dbSchema, dbUser, dbPassword, 
+				snapshotFilename, snapshotFormat, snapshotDialect);
 	}
 
 }
