@@ -69,6 +69,7 @@ public class FileList extends JPanel {
 		this.i18n = i18n;
 		model = new ArrayListModel();
 		list = new JList(model);
+		list.setVisibleRowCount(4);
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		list.setCellRenderer(new FilePathListCellRenderer());
 		add(new JScrollPane(list), BorderLayout.CENTER);
