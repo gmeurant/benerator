@@ -71,6 +71,7 @@ public class DBUtil {
     private static final Logger logger = LoggerFactory.getLogger(DBUtil.class);
 
     private static final Logger jdbcLogger = LoggerFactory.getLogger(LogCategories.JDBC);
+    private static final Logger sqlLogger = LoggerFactory.getLogger(LogCategories.SQL);
     
     /** private constructor for preventing instantiation. */
     private DBUtil() {}
@@ -353,10 +354,12 @@ public class DBUtil {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         if (connection instanceof PooledConnection)
         	connection = ((PooledConnection) connection).getConnection();
-		PreparedStatement realStatement = connection.prepareStatement(sql);
-		return (PreparedStatement) Proxy.newProxyInstance(classLoader, 
+		PreparedStatement statement = connection.prepareStatement(sql);
+		if (sqlLogger.isDebugEnabled() || jdbcLogger.isDebugEnabled())
+			statement = (PreparedStatement) Proxy.newProxyInstance(classLoader, 
 				new Class[] { PreparedStatement.class }, 
-				new LoggingPreparedStatementHandler(realStatement, sql));
+				new LoggingPreparedStatementHandler(statement, sql));
+		return statement;
 	}
 
 	public static String escape(String text) {
