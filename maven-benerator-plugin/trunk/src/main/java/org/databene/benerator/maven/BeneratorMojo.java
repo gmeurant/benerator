@@ -75,7 +75,7 @@ public class BeneratorMojo extends AbstractBeneratorMojo {
 	/**
 	 * The path of the descriptor file relative to the project's root. 
 	 * This defaults to <code>src/test/benerator/benerator.ben.xml</code>.
-	 * @parameter default-value="src/test/benerator/benerator.ben.xml"
+	 * @parameter default-value="benerator.xml"
 	 */
     private File descriptor;
     
