@@ -521,6 +521,8 @@ public final class IOUtil {
     
     public static void copyDirectory(URL srcUrl, File targetDirectory, Filter<String> filenameFilter) 
     		throws IOException {
+    	if (logger.isDebugEnabled())
+    		logger.debug("copyDirectory(" + srcUrl + ", " + targetDirectory + ", " + filenameFilter + ")");
         String protocol = srcUrl.getProtocol();
 		if (protocol.equals("file")) {
 			try {
@@ -542,19 +544,26 @@ public final class IOUtil {
     }
     
     public static void extractFolderFromJar(String jarPath, String directory, File targetDirectory, 
-    		Filter<String> fileNameFilter) throws IOException {
+    		Filter<String> filenameFilter) throws IOException {
+    	if (logger.isDebugEnabled())
+    		logger.debug("extractFolderFromJar(" + jarPath + ", " + directory + ", " + 
+    				targetDirectory + ", " + filenameFilter + ")");
 		JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
 		Enumeration<JarEntry> entries = jar.entries();
 		while (entries.hasMoreElements()) {
 			JarEntry entry = entries.nextElement();
 			String name = entry.getName();
-			if (name.startsWith(directory) && !directory.equals(name) && (fileNameFilter == null || fileNameFilter.accept(name))) {
+			if (name.startsWith(directory) && !directory.equals(name) && (filenameFilter == null || filenameFilter.accept(name))) {
 				String relativeName = name.substring(directory.length());
 				if (entry.isDirectory()) {
-					File target = new File(targetDirectory, relativeName);
-					target.mkdir();
+					File subDir = new File(targetDirectory, relativeName);
+					if (logger.isDebugEnabled())
+						logger.debug("creating sub directory " + subDir);
+					subDir.mkdir();
 				} else {
 					File targetFile = new File(targetDirectory, relativeName);
+					if (logger.isDebugEnabled())
+						logger.debug("copying file " + name + " to " + targetFile);
 					InputStream in = jar.getInputStream(entry);
 					OutputStream out = new FileOutputStream(targetFile);
 					transfer(in, out);
@@ -566,12 +575,16 @@ public final class IOUtil {
     }
 
 	public static String[] listResources(URL url) throws IOException {
+		if (logger.isDebugEnabled())
+			logger.debug("listResources(" + url + ")");
         String protocol = url.getProtocol();
 		if (protocol.equals("file")) {
 			try {
 				String[] result = new File(url.toURI()).list();
 				if (result == null)
 					result = new String[0];
+				if (logger.isDebugEnabled())
+					logger.debug("found file resources: " + result);
 				return result;
 			} catch (URISyntaxException e) {
 				throw new RuntimeException("Unexpected exception", e);
@@ -580,7 +593,7 @@ public final class IOUtil {
 			String path = url.getPath();
 			int separatorIndex = path.indexOf("!");
 			String jarPath = path.substring(5, separatorIndex); // extract jar file name
-			String relativePath = path.substring(separatorIndex + 1); // extract path inside jar file
+			String relativePath = path.substring(separatorIndex + 2); // extract path inside jar file
 			JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
 			Enumeration<JarEntry> entries = jar.entries();
 			Set<String> result = new HashSet<String>();
@@ -594,6 +607,8 @@ public final class IOUtil {
 					result.add(entry);
 				}
 			}
+			if (logger.isDebugEnabled())
+				logger.debug("found jar resources: " + result);
 			return result.toArray(new String[result.size()]);
         } else          
         	throw new UnsupportedOperationException("Protocol not supported: "+ protocol + 
