@@ -102,9 +102,11 @@ public class XMLUtil {
     }
 
     public static Element[] getChildElements(Element parent) {
-        ArrayBuilder<Element> builder = new ArrayBuilder<Element>(Element.class);
         NodeList childNodes = parent.getChildNodes();
+        if (childNodes == null)
+        	return new Element[0];
         int n = childNodes.getLength();
+        ArrayBuilder<Element> builder = new ArrayBuilder<Element>(Element.class, n);
         for (int i = 0; i < n; i++) {
             Node item = childNodes.item(i);
             if (item instanceof Element)
@@ -116,6 +118,8 @@ public class XMLUtil {
     public static Element[] getChildElements(Element parent, boolean namespaceAware, String name) {
         ArrayBuilder<Element> builder = new ArrayBuilder<Element>(Element.class);
         NodeList childNodes = parent.getChildNodes();
+        if (childNodes == null)
+        	return new Element[0];
         int n = childNodes.getLength();
         for (int i = 0; i < n; i++) {
             Node item = childNodes.item(i);
