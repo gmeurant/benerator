@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -621,4 +621,27 @@ public final class StringUtil {
 	    	return text;
 	    return text.substring(0, beginIndex) + text.substring(endIndex + endMark.length());
     }
+
+	public static String normalizeLineSeparators(String text, String lineSeparator) {
+		if (StringUtil.isEmpty(text))
+			return text;
+		StringBuilder builder = new StringBuilder();
+		StringCharacterIterator iterator = new StringCharacterIterator(text);
+		while (iterator.hasNext()) {
+			char c = iterator.next();
+			if (c != '\r' && c != '\n')
+				builder.append(c);
+			else {
+				// swallow the \n part of of \r\n
+				if (c == '\r' && iterator.hasNext()) {
+					char c2 = iterator.next();
+					if (c2 != '\n') // oops, it was only a \r
+						iterator.pushBack();
+				}
+				builder.append(lineSeparator);
+			}
+		}
+	    return builder.toString();
+    }
+
 }
