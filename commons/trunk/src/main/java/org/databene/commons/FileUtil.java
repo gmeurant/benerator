@@ -96,7 +96,7 @@ public final class FileUtil {
     	if (srcFile.isFile())
     		copyFile(srcFile, targetFile);
     	else
-    		copyDirectory(srcFile, targetFile);
+    		copyDirectory(srcFile, targetFile, overwrite, filter);
     }
     
 	// private helpers -------------------------------------------------------------------------------------------------
@@ -114,11 +114,11 @@ public final class FileUtil {
         }
 	}
 
-	private static void copyDirectory(File srcDirectory, File targetDirectory) throws FileNotFoundException, IOException {
+	private static void copyDirectory(File srcDirectory, File targetDirectory, boolean overwrite, FileFilter filter) throws FileNotFoundException, IOException {
 		ensureDirectoryExists(targetDirectory);
 		for (File src : srcDirectory.listFiles()) {
 			File dstFile = new File(targetDirectory, src.getName());
-			copy(src, dstFile, true);
+			copy(src, dstFile, overwrite, filter);
 		}
 	}
 
