@@ -35,12 +35,13 @@ import org.databene.commons.Assert;
 import org.databene.commons.StringUtil;
 
 /**
- * Creates XML files from an XML Schema file, supporting XML Schema annotations for generation setup.
+ * Creates XML files from an XML Schema file, supporting XML Schema annotations for generation setup.<br/><br/>
+ * Created at 13.07.2008 08:05:11
  * @since 0.5.4
  * @author Volker Bergmann
  * @goal createxml
  */
-public class CreateXMLMojo extends AbstractBeneratorMojo { // Created at 13.07.2008 08:05:11
+public class CreateXMLMojo extends AbstractBeneratorMojo {
 
 	/**
 	 * The path of the XML Schema file relative to the project's root. 
