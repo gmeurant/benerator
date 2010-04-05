@@ -60,6 +60,7 @@ public class FileField extends Box {
     private List<ActionListener> actionListeners;
     FileOperation operation;
     String approveButtonText;
+    JButton button;
     
     // constructors ----------------------------------------------------------------------------------------------------
 
@@ -91,7 +92,7 @@ public class FileField extends Box {
         }
         filenameField.setEditable(false);
         add(filenameField, BorderLayout.CENTER);
-        JButton button = new JButton("...");
+        button = new JButton("...");
         add(button, BorderLayout.EAST);
         button.addActionListener(new Listener());
         filenameFormat = new FilenameFormat(true);
@@ -123,6 +124,13 @@ public class FileField extends Box {
 
     public void removeActionListener(ActionListener listener) {
         actionListeners.remove(listener);
+    }
+    
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        filenameField.setEnabled(enabled);
+        button.setEnabled(enabled);
     }
     
     // private helpers -------------------------------------------------------------------------------------------------
