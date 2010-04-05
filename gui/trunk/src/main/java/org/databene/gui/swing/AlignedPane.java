@@ -89,6 +89,8 @@ public class AlignedPane extends JPanel implements SwingConstants {
             add(label);
             add(component);
         } else {
+        	if (gbc.gridx > 0)
+        		label.setHorizontalAlignment(RIGHT);
             addElement(label, 1);
             addElement(component, gridwidth);
         }
@@ -167,4 +169,5 @@ public class AlignedPane extends JPanel implements SwingConstants {
     public void addLabelRow(String text) {
         addRow(new JLabel(text));
     }
+    
 }
