@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,6 +27,7 @@
 package org.databene.commons.db;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.HashMap;
@@ -45,9 +46,11 @@ import org.w3c.dom.Element;
  * @author Volker Bergmann
  */
 
-public class JDBCDriverInfo {
+public class JDBCDriverInfo implements Serializable {
 
-    private static final String DB_DEFINITION_FILE = "org/databene/commons/db/jdbc-driver-info.xml";
+    private static final long serialVersionUID = 190436633421519236L;
+
+	private static final String DB_DEFINITION_FILE = "org/databene/commons/db/jdbc-driver-info.xml";
 
     private String id;
 	private String name;
@@ -151,8 +154,6 @@ public class JDBCDriverInfo {
     	this.defaultDatabase = normalizeNull(defaultDatabase);
     }
 
-	// operations ------------------------------------------------------------------------------------------------------
-	
 	public String getDefaultSchema() {
     	return defaultSchema;
     }
@@ -161,6 +162,13 @@ public class JDBCDriverInfo {
     	this.defaultSchema = defaultSchema;
     }
 
+	public String getUrlPrefix() {
+		int check = urlPattern.indexOf('{');
+		return (check > 0 ? urlPattern.substring(0, check) : urlPattern);
+    }
+
+	// operations ------------------------------------------------------------------------------------------------------
+	
 	public String jdbcURL(String host, String port, String database) {
 		return MessageFormat.format(urlPattern, host, port, database);
 	}
@@ -205,6 +213,26 @@ public class JDBCDriverInfo {
         }
 	}
 	
+	@Override
+	public String toString() {
+	    return dbSystem;
+	}
+	
+	@Override
+    public int hashCode() {
+	    return id.hashCode();
+    }
+
+	@Override
+    public boolean equals(Object obj) {
+	    if (this == obj)
+		    return true;
+	    if (obj == null || getClass() != obj.getClass())
+		    return false;
+	    JDBCDriverInfo that = (JDBCDriverInfo) obj;
+	    return this.id.equals(that.id);
+    }
+
 	public static final JDBCDriverInfo HSQL = getInstance("HSQL");
 	public static final JDBCDriverInfo FIREBIRD = getInstance("FIREBIRD");
 	
@@ -215,4 +243,5 @@ public class JDBCDriverInfo {
 	public static JDBCDriverInfo getInstance(String name) {
 		return instances.get(name);
 	}
+
 }
