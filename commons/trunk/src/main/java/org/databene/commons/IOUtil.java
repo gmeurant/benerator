@@ -27,15 +27,23 @@
 package org.databene.commons;
 
 import org.databene.commons.collection.MapEntry;
+import org.databene.commons.file.FileByNameFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.MalformedURLException;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 /**
  * Provides stream operations.<br/>
@@ -308,8 +316,8 @@ public final class IOUtil {
         return totalChars;
     }
 
-    public static void copy(String srcUri, String targetUri) throws IOException {
-        logger.info("downloading " + srcUri + " --> " + targetUri);
+    public static void copyFile(String srcUri, String targetUri) throws IOException {
+        logger.info("copying " + srcUri + " --> " + targetUri);
         InputStream in = getInputStreamForURI(srcUri);
         OutputStream out = openOutputStreamForURI(targetUri);
         IOUtil.transfer(in, out);
@@ -510,6 +518,89 @@ public final class IOUtil {
         transfer(in, out);
         return out.toByteArray();
     }
+    
+    public static void copyDirectory(URL srcUrl, File targetDirectory, Filter<String> filenameFilter) 
+    		throws IOException {
+        String protocol = srcUrl.getProtocol();
+		if (protocol.equals("file")) {
+			try {
+				FileUtil.copy(new File(srcUrl.toURI()), targetDirectory, true, new FileByNameFilter(filenameFilter));
+			} catch (URISyntaxException e) {
+				throw new RuntimeException("Unexpected exception", e);
+			}
+		} else if (protocol.equals("jar")) {
+			String path = srcUrl.getPath();
+			int separatorIndex = path.indexOf("!");
+			String jarPath = path.substring(5, separatorIndex); // extract jar file name
+			String relativePath = path.substring(separatorIndex + 2); // extract path inside jar file
+			if (!relativePath.endsWith("/"))
+				relativePath += "/";
+			extractFolderFromJar(jarPath, relativePath, targetDirectory, filenameFilter);
+        } else          
+        	throw new UnsupportedOperationException("Protocol not supported: "+ protocol + 
+        			" (URL: " + srcUrl + ")");
+    }
+    
+    public static void extractFolderFromJar(String jarPath, String directory, File targetDirectory, 
+    		Filter<String> fileNameFilter) throws IOException {
+		JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
+		Enumeration<JarEntry> entries = jar.entries();
+		while (entries.hasMoreElements()) {
+			JarEntry entry = entries.nextElement();
+			String name = entry.getName();
+			if (name.startsWith(directory) && !directory.equals(name) && (fileNameFilter == null || fileNameFilter.accept(name))) {
+				String relativeName = name.substring(directory.length());
+				if (entry.isDirectory()) {
+					File target = new File(targetDirectory, relativeName);
+					target.mkdir();
+				} else {
+					File targetFile = new File(targetDirectory, relativeName);
+					InputStream in = jar.getInputStream(entry);
+					OutputStream out = new FileOutputStream(targetFile);
+					transfer(in, out);
+					out.close();
+					in.close();
+				}
+			}
+		}
+    }
+
+	public static String[] listResources(URL url) throws IOException {
+        String protocol = url.getProtocol();
+		if (protocol.equals("file")) {
+			try {
+				String[] result = new File(url.toURI()).list();
+				if (result == null)
+					result = new String[0];
+				return result;
+			} catch (URISyntaxException e) {
+				throw new RuntimeException("Unexpected exception", e);
+			}
+		} else if (protocol.equals("jar")) {
+			String path = url.getPath();
+			int separatorIndex = path.indexOf("!");
+			String jarPath = path.substring(5, separatorIndex); // extract jar file name
+			String relativePath = path.substring(separatorIndex + 1); // extract path inside jar file
+			JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
+			Enumeration<JarEntry> entries = jar.entries();
+			Set<String> result = new HashSet<String>();
+			while (entries.hasMoreElements()) {
+				String name = entries.nextElement().getName();
+				if (name.startsWith(relativePath)) {
+					String entry = name.substring(relativePath.length());
+					int checkSubdir = entry.indexOf("/");
+					if (checkSubdir >= 0) // return only the top directory name of all sub directory entries
+						entry = entry.substring(0, checkSubdir);
+					result.add(entry);
+				}
+			}
+			return result.toArray(new String[result.size()]);
+        } else          
+        	throw new UnsupportedOperationException("Protocol not supported: "+ protocol + 
+        			" (URL: " + url + ")");
+    }
+    
+    // helpers ---------------------------------------------------------------------------------------------------------
 
     private static BufferedReader getFileReader(String filename, String defaultEncoding) 
     		throws IOException, UnsupportedEncodingException {
