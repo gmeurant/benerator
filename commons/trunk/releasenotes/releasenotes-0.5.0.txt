@@ -11,7 +11,10 @@ Improvements
   - isIntegralNumber(className)
   - isDecimalNumber(className)
   - clone(Object)
-- new DBUtil method new method logMetaData()
+- new DBUtil methods:
+  - logMetaData()
+  - connect(JDBCConnectData)
+  - queryScalarArray()
 - IOUtil: Unified close() and flush() methods to work on any Closeable and Flushable
 - new Converters
   - PrintfConverter
@@ -20,6 +23,7 @@ Improvements
   - String2GregorianCalendarConverter
   - String2NumberFormatConverter
   - String2PatternConverter
+  - RegexReplacer
 - new Validators
   - RegexValidator
 - new test helper class SimpleValidatorTest
@@ -47,6 +51,7 @@ Improvements
   - ContextAware, Resettable
 - New Enums: 
   - ThreadSupport
+- New method NumberUtil.maxValue()
 
 
 Changes
