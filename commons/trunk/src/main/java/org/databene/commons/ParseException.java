@@ -53,6 +53,13 @@ public class ParseException extends RuntimeException {
 		this.column = column;
 	}
 	
+	public ParseException(String message, Throwable cause, String parsedText, int line, int column) {
+		super(message, cause);
+		this.parsedText = parsedText;
+		this.line = line;
+		this.column = column;
+	}
+	
 	// properties ------------------------------------------------------------------------------------------------------
 
 	public int getLine() {
