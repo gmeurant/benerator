@@ -90,7 +90,6 @@ public class FileField extends Box {
             chooser.setSelectedFile(file);
             filenameField.setText(file.getAbsolutePath());
         }
-        filenameField.setEditable(false);
         add(filenameField, BorderLayout.CENTER);
         button = new JButton("...");
         add(button, BorderLayout.EAST);
