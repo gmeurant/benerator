@@ -44,7 +44,7 @@ public class NumberToNumberConverter<S extends Number, T extends Number> extends
     }
 
     public T convert(S sourceValue) throws ConversionException {
-        return convert(sourceValue, targetType);
+        return convert(sourceValue, targetType); // TODO improve performance
     }
 
     /**
