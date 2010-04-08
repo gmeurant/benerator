@@ -73,6 +73,8 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 			preprocessor = new NoOpConverter();
 		this.preprocessor = preprocessor;
 		rowIterator = sheet.rowIterator();
+		
+		// read headers
 		Row headerRow = rowIterator.next();
 		ArrayBuilder<String> builder = new ArrayBuilder<String>(String.class);
 		for (int cellnum = 0; cellnum <= headerRow.getLastCellNum(); cellnum++) {
