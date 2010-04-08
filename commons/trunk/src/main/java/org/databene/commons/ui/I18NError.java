@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -25,8 +25,6 @@
  */
 
 package org.databene.commons.ui;
-
-import java.text.MessageFormat;
 
 /**
  * Error with localizable message.<br/>
@@ -58,8 +56,9 @@ public class I18NError extends RuntimeException {
 		super(code, cause);
 		this.parameters = parameters;
 	}
-
+	
 	public String renderMessage(I18NSupport i18n) {
-		return MessageFormat.format(i18n.getString("error." + getMessage()), parameters);
+		return i18n.format("error." + getMessage(), parameters);
 	}
+	
 }
