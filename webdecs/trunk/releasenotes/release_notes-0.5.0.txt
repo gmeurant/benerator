@@ -20,6 +20,7 @@ Enhancements
   - added CSVCellIterable from Benerator which creates CSVCellIterators
   - new SingleColumnCSVIterator which iterates through the cells of a single CSV column
 - ToHexConverter
+- FlatLineParser
 
 
 Changes
