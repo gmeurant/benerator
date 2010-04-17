@@ -1,0 +1,94 @@
+				--------
+				features
+				--------
+
+features
+
+*utilities: org.databene.commons
+
+**utility classes
+
+    [ArrayFormat] java.lang.text.Format implementation for formatting arrays
+
+    [ArrayUtil] utilities for array access, manipulation and comparation
+
+    [BeanUtil] wrappers for JDK reflection and reflection features (with unchecked exceptions) and more
+
+    [CharSet] Character Collection class, that can handle addition/removal on character ranges and types like digits,
+        locale-dependent letters and more
+
+    [CollectionUtil] utilities on collection access, manipulation and conversion
+
+    [ComparableComparator] Comparator implementation for Comparable classes
+
+    [IOUtil] URN/URL access for files, silent close for streams, text file and properties file import, piping streams
+
+    [LocaleUtil] Locale creation and navigation, locale-specific letters
+
+    [NullsafeComparator] Comparator decorator that adds support for null-value comparison
+
+    [Period] Represents a duration in milliseconds
+
+    [StringUtil] String utilities
+
+    [SystemInfo] Provides the java system properties concerned with the runtime system
+
+    [Timespan] Representation of and operations on time spans
+
+    [TimeUtil] Utilities around Date and Calendar creation and manipulation
+
+    [ToStringFormat] java.lang.text.Format implementation that uses String.valueOf() for formatting objects
+
+    [VMInfo] Provides the java system properties concerned with the virtual machine
+
+**exceptions
+
+    [ConfigurationError] Unchecked wrapper for checked exceptions that stem from misconfiguration
+
+    [ExceptionMapper] Maps checked exceptions to (unchecked) ConfigurationErrors with explanatory messages
+
+
+
+*common concepts: org.databene.model
+
+    [Accessor] Provides data from an object (e.g. Map or property values). Core method: Object getValue(Object target);
+
+    [Mutator] Changes data of an object (e.g. property values). Core method: void setValue(Object target, Object value)
+
+    [Comparator] compares objects (e.g. primitives, arrays, texts). Implementations for java.util.Comparator
+
+    [Filter] is queried to check single objects for acceptance. Core method: boolean accept(Object candidate)
+
+    [Converter] Converts data (e.g. primitive types into each other). Core method: Object convert(Object sourceValue)
+
+    [Iterator] Goes through a collection ob objects (e.g. characters, lines in a text file) and provides decorators
+        (CyclicIterator, FilteringIterator, ReverseIterator). Implementations of java.util.Iterator
+
+    [Tree] TreeModel and TreeIterator can map arbitrary objects to a tree structure and sequentially iterate through them.
+
+    [Visitor] Implementation of the Visitor design pattern (GoF)
+
+    [Validator] Checks objects for validity. Core method: boolean valid(Object object)
+
+*JavaBeans platform utilities: org.databene.platform.bean
+
+    [BeanComparator] Compares JavaBeans by property value
+
+    [PropertyAccessorFactory] Creates Accessor objects for JavaBean properties
+
+    [PropertyMutatorFactory] Creates Mutator objects for JavaBean properties
+
+    [BeanToPropertyArrayConverter] Converts a JavaBean to an array of properties
+
+    [PropertyAccessConverter] beahaves like a property accessor, but with Converter interface
+
+*file platform utilities: org.databene.platform.file
+
+    [FileFilter] Merges the JDK file filter class with the databene Filter<File>
+
+    [FilenameComparator] Compares File objects by their names
+
+    [FilenameFormat] formats files by their name or full path
+
+    [FileTreeModel] maps a file structure to an org.databene.model.TreeModel
+
