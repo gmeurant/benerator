@@ -168,7 +168,7 @@ public class XMLUtilTest {
     }
 
 	@Test
-    public void testParseString() throws IOException {
+    public void testParseString() {
         Document document = XMLUtil.parseString(XML_TEXT);
         checkXML(document);
     }
