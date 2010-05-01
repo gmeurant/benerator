@@ -218,20 +218,24 @@ public class XMLUtil {
         }
     }
 
-    public static Document parseString(String text) throws IOException {
+    public static Document parseString(String text) {
         return parseString(text, null);
     }
         
-    public static Document parseString(String text, EntityResolver resolver) throws IOException {
-        if (logger.isDebugEnabled())
-            logger.debug(text);
-        return parse(new ByteArrayInputStream(text.getBytes()), DEFAULT_ERROR_HANDLER, resolver);
-    }
-
-	public static Element parseStringAsElement(String xml) throws IOException {
+	public static Element parseStringAsElement(String xml) {
 		return XMLUtil.parseString(xml).getDocumentElement();
 	}
 	
+    public static Document parseString(String text, EntityResolver resolver) {
+        if (logger.isDebugEnabled())
+            logger.debug(text);
+        try {
+	        return parse(new ByteArrayInputStream(text.getBytes()), DEFAULT_ERROR_HANDLER, resolver);
+        } catch (IOException e) {
+        	throw new RuntimeException("Unexpected error", e);
+        }
+    }
+
     public static Document parse(InputStream stream) throws IOException {
         return parse(stream, DEFAULT_ERROR_HANDLER, null);
     }
