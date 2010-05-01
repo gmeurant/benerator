@@ -833,7 +833,7 @@ public final class BeanUtil {
     	setPropertyValue(bean, propertyName, propertyValue, strict, !strict);
     }
 
-    public static void setPropertyValue(Object bean, String propertyName, Object argument, boolean required, boolean autoConvert) {
+    public static void setPropertyValue(Object bean, String propertyName, Object propertyValue, boolean required, boolean autoConvert) {
         Method writeMethod = null;
         try {
             Class<?> beanClass = bean.getClass();
@@ -848,15 +848,15 @@ public final class BeanUtil {
             	throw new UnsupportedOperationException("Cannot write read-only property '" 
             			+ propertyDescriptor.getName() + "' of " + beanClass);
             Class<?> propertyType = propertyDescriptor.getPropertyType();
-			if (argument != null) {
-	            Class<?> argType = argument.getClass();
-	            if (!propertyType.isAssignableFrom(argType) && !isWrapperTypeOf(propertyType, argument) && !autoConvert)
+			if (propertyValue != null) {
+	            Class<?> argType = propertyValue.getClass();
+	            if (!propertyType.isAssignableFrom(argType) && !isWrapperTypeOf(propertyType, propertyValue) && !autoConvert)
                     throw new IllegalArgumentException("ArgumentType mismatch: expected " 
-                            + propertyType.getName() + ", found " + argument.getClass().getName());
+                            + propertyType.getName() + ", found " + propertyValue.getClass().getName());
                 else
-                    argument = AnyConverter.convert(argument, propertyType);
+                	propertyValue = AnyConverter.convert(propertyValue, propertyType);
 			}
-            writeMethod.invoke(bean, argument);
+            writeMethod.invoke(bean, propertyValue);
         } catch (IllegalAccessException e) {
             throw ExceptionMapper.configurationException(e, writeMethod);
         } catch (InvocationTargetException e) {
