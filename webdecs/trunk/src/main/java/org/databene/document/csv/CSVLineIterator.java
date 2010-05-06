@@ -151,6 +151,7 @@ public class CSVLineIterator implements HeavyweightIterator<String[]> {
         if (tokenizer != null)
             tokenizer.close();
         tokenizer = null;
+        nextLine = null;
     }
 
     public int lineCount() {
@@ -193,4 +194,5 @@ public class CSVLineIterator implements HeavyweightIterator<String[]> {
         else
             return null;
     }
+    
 }
