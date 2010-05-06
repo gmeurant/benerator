@@ -74,6 +74,11 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 		this.preprocessor = preprocessor;
 		rowIterator = sheet.rowIterator();
 		
+		if (!rowIterator.hasNext()) {
+			close();
+			return;
+		}
+			
 		// read headers
 		Row headerRow = rowIterator.next();
 		ArrayBuilder<String> builder = new ArrayBuilder<String>(String.class);
@@ -97,10 +102,12 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 	}
 
 	public boolean hasNext() {
-		return rowIterator.hasNext();
+		return (rowIterator != null && rowIterator.hasNext());
 	}
 
 	public Object[] next() {
+		if (rowIterator == null)
+			return null;
 		Row row = rowIterator.next();
 		Object[] result = new Object[headers.length];
 		for (int cellnum = 0; cellnum < headers.length; cellnum++)
