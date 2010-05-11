@@ -59,7 +59,16 @@ public final class TimeUtil {
         return (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY);
     }
 
-    public static Calendar today() {
+    public static Date today() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        return calendar.getTime();
+    }
+
+    public static Calendar todayCalendar() {
         Calendar today = Calendar.getInstance();
         today.set(Calendar.MILLISECOND, 0);
         today.set(Calendar.SECOND, 0);
@@ -68,16 +77,16 @@ public final class TimeUtil {
         return today;
     }
 
-    public static Calendar yesterday() {
-        Calendar result = today();
-        result.add(Calendar.DAY_OF_MONTH, -1);
-        return result;
+    public static Date yesterday() {
+        Calendar calendar = todayCalendar();
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        return calendar.getTime();
     }
 
-    public static Calendar tomorrow() {
-        Calendar result = yesterday();
-        result.add(Calendar.DAY_OF_MONTH, 1);
-        return result;
+    public static Date tomorrow() {
+        Calendar calendar = todayCalendar();
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        return calendar.getTime();
     }
 
     public static Date date(int year, int month, int day) {
