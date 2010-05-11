@@ -268,7 +268,7 @@ public class DBUtil {
 			        String sql = cmd.toString().trim();
 			        if (sql.length() > 0 && (!ignoreComments || !StringUtil.startsWithIgnoreCase(sql, "COMMENT"))) {
 			        	try {
-				        	if (sql.toLowerCase().startsWith("select"))
+				        	if (sql.toLowerCase().startsWith("select")) // TODO 'select into' causes execption
 				        		result = query(sql, connection);
 				        	else
 				        		result = executeUpdate(sql, connection);
