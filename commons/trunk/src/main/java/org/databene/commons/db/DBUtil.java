@@ -57,6 +57,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import javax.sql.PooledConnection;
 
@@ -393,7 +394,7 @@ public class DBUtil {
     }
 
 	public static void checkReadOnly(String sql, boolean readOnly) {
-		if (readOnly && !sql.trim().toLowerCase().startsWith("select"))
+		if (readOnly && mutates(sql))
 			throw new IllegalStateException("Tried to mutate a database with read-only settings: " + sql);
 	}
 
@@ -407,6 +408,17 @@ public class DBUtil {
         } catch (SQLException e) {
         	logger.error("Failed to fetch metadata from connection " + connection);
         }
+    }
+
+	private static boolean mutates(String sql) {
+		sql = sql.trim().toLowerCase();
+	    if (!sql.startsWith("select"))
+	    	return true;
+	    StringTokenizer t = new StringTokenizer(sql);
+	    while (t.hasMoreTokens())
+	    	if ("into".equals(t.nextToken()))
+	    		return true;
+	    return false;
     }
 
 }

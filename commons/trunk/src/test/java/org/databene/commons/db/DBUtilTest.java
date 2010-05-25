@@ -55,5 +55,35 @@ public class DBUtilTest {
 		int count = (Integer) DBUtil.query("select count(*) from T1", connection);
 		assertEquals(1, count);
 	}
+	
+	// testing checkReadOnly() -----------------------------------------------------------------------------------------
 
+	@Test
+	public void testReadOnly_false() {
+		DBUtil.checkReadOnly("insert into xyz (id) values (3)", false);
+		DBUtil.checkReadOnly("update xyz set id = 3", false);
+		DBUtil.checkReadOnly("select * from xyz", false);
+		DBUtil.checkReadOnly("select into xyz2 from xyz", false);
+	}
+	
+	@Test(expected = IllegalStateException.class)
+	public void testReadOnly_true_insert() {
+		DBUtil.checkReadOnly("insert into xyz (id) values (3)", true);
+	}
+	
+	@Test(expected = IllegalStateException.class)
+	public void testReadOnly_true_update() {
+		DBUtil.checkReadOnly("update xyz set id = 3", true);
+	}
+	
+	@Test
+	public void testReadOnly_true_select() {
+		DBUtil.checkReadOnly("select * from xyz", true);
+	}
+	
+	@Test(expected = IllegalStateException.class)
+	public void testReadOnly_true_select_into() {
+		DBUtil.checkReadOnly("select into xyz2 from xyz", true);
+	}
+	
 }
