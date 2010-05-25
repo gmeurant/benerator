@@ -269,10 +269,10 @@ public class DBUtil {
 			        String sql = cmd.toString().trim();
 			        if (sql.length() > 0 && (!ignoreComments || !StringUtil.startsWithIgnoreCase(sql, "COMMENT"))) {
 			        	try {
-				        	if (sql.toLowerCase().startsWith("select")) // TODO 'select into' causes execption
-				        		result = query(sql, connection);
-				        	else
+				        	if (mutates(sql))
 				        		result = executeUpdate(sql, connection);
+				        	else
+				        		result = query(sql, connection);
 						} catch (SQLException e) {
 							if (errorHandler == null)
 								errorHandler = new ErrorHandler(DBUtil.class);
