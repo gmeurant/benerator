@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
  */
 public class AnyConverter<E> extends FormatHolder implements Converter<Object, E> {
 	
-	// TODO v0.5.1 check which usages of this class can be avoided
+	// TODO v0.5.x check which usages of this class can be avoided
 	
     private static final Logger logger = LoggerFactory.getLogger(AnyConverter.class);
 

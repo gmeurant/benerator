@@ -43,7 +43,7 @@ import org.databene.commons.StringUtil;
 @SuppressWarnings("unchecked")
 public class String2ConverterConverter extends ThreadSafeConverter<String, Converter> {
 
-	// TODO v0.5.1 resolve scripts
+	// TODO v0.5.x resolve scripts
 	
     public String2ConverterConverter() {
         super(String.class, Converter.class);

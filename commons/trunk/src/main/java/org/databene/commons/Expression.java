@@ -34,6 +34,6 @@ package org.databene.commons;
  */
 public interface Expression<E> {
 	E evaluate(Context context);
-	// TODO v0.5.1 Class<E> getResultType() ?
+	// TODO v0.5.x Class<E> getResultType() ?
 	boolean isConstant();
 }

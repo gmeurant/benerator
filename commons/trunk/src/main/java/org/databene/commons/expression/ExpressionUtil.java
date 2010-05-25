@@ -71,7 +71,7 @@ public class ExpressionUtil {
     }
 	
 	public static <T> Expression<T> simplify(Expression<T> expression, Context context) {
-		// TODO v0.6.1 apply where appropriate
+		// TODO v0.5.x apply where appropriate
 		if (expression.isConstant() && !(expression instanceof ConstantExpression)) 
 			return new ConstantExpression<T>(evaluate(expression, context));
 		else
