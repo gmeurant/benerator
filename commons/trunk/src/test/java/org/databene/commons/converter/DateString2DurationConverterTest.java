@@ -26,8 +26,6 @@
 
 package org.databene.commons.converter;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.TimeZone;
 
 import org.databene.commons.Period;
@@ -62,9 +60,6 @@ public class DateString2DurationConverterTest extends ConverterTest {
 		TimeZone timeZone = TimeZone.getDefault();
 		try {
 			TimeZone.setDefault(TimeZone.getTimeZone("Asia/Singapore"));
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			System.out.println(df.parse("1970-01-01").getTime() / 3600000.);
-			System.out.println(new Date(0).getTime());
 			assertEquals(1L, convert("1970-01-01T00:00:00.001"));
 			assertEquals(1L, convert("0000-00-00T00:00:00.001"));
 			assertEquals(Period.DAY.getMillis(), convert("0000-00-01"));
