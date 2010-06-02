@@ -47,6 +47,7 @@ import org.databene.commons.ErrorHandler;
 import org.databene.commons.IOUtil;
 import org.databene.commons.Level;
 import org.databene.commons.StringUtil;
+import org.databene.commons.Visitor;
 import org.databene.commons.converter.NoOpConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -314,6 +315,25 @@ public class XMLUtil {
 		}
 	}
 	
+	public static void visit(Node element, Visitor<Node> visitor) {
+	    visitor.visit(element);
+	    NodeList childNodes = element.getChildNodes();
+	    for (int i = 0; i < childNodes.getLength(); i++)
+	    	visit(childNodes.item(i), visitor);
+    }
+
+	public static Element getElementById(String id, Element element) {
+		if (id.equals(element.getAttribute("id")))
+			return element;
+		else
+			for (Element child : XMLUtil.getChildElements(element)) {
+				Element candidate = getElementById(id, child);
+				if (candidate != null)
+					return candidate;
+			}
+		return null;
+    }
+
 	// private helpers -------------------------------------------------------------------------------------------------
 
 	private static void activateXmlSchemaValidation(
