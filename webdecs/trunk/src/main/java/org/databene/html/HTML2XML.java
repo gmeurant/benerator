@@ -80,7 +80,7 @@ public class HTML2XML {
                 case (HTMLTokenizer.START_TAG) :
                     if ("script".equalsIgnoreCase(context.tokenizer.name())) // TODO v0.5.x test script handling
                         continue;
-                    if (!context.rootCreated && !"html".equals(context.tokenizer.name()))
+                    if (!context.rootCreated && !"html".equals(context.tokenizer.name().toLowerCase()))
                         ensureRootElement(context);
                     else {
                         if (context.path.size() > 0) {
@@ -114,8 +114,10 @@ public class HTML2XML {
                         return;
                     break;
                 case HTMLTokenizer.TEXT:
-                	ensureRootElement(context);
-                    writeText(context.writer, context.tokenizer.text());
+                	String text = context.tokenizer.text();
+                	if (text != null && text.trim().length() > 0)
+                		ensureRootElement(context);
+                    writeText(context.writer, text);
                     break;
                 case HTMLTokenizer.COMMENT:
                 	ensureRootElement(context);
