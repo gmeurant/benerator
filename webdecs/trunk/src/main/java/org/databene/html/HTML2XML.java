@@ -121,13 +121,13 @@ public class HTML2XML {
                     break;
                 case HTMLTokenizer.COMMENT:
                 	ensureRootElement(context);
-                    writeText(context.writer, context.tokenizer.text());
+                    writeXml(context.writer, context.tokenizer.text());
                     break;
                 case HTMLTokenizer.DOCUMENT_TYPE:
                     // leave out doc type
                     break;
                 case HTMLTokenizer.PROCESSING_INSTRUCTION:
-                    writeText(context.writer, context.tokenizer.text());
+                	writeXml(context.writer, context.tokenizer.text());
                     break;
                 case HTMLTokenizer.SCRIPT:
                     // ignore this
@@ -195,8 +195,20 @@ public class HTML2XML {
         }
     }
 
+    private static void writeXml(Writer writer, String s) throws IOException {
+        s = resolveEntities(writer, s);
+        writer.write(s);
+    }
+
     private static void writeText(Writer writer, String s) throws IOException {
-        int i;
+        s = resolveEntities(writer, s);
+        s = s.replace("<", "&lt;");
+        s = s.replace(">", "&gt;");
+        writer.write(s);
+    }
+
+	private static String resolveEntities(Writer writer, String s) throws IOException {
+	    int i;
         while ((i = s.indexOf('&')) >= 0) {
             HTMLEntity entity = HTMLEntity.getEntity(s, i);
             if (entity != null) {
@@ -209,7 +221,7 @@ public class HTML2XML {
                 s = s.substring(i + 1);
             }
         }
-        writer.write(s);
+	    return s;
     }
 
 }
