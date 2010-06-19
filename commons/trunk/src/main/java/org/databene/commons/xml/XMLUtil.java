@@ -44,6 +44,7 @@ import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.Converter;
 import org.databene.commons.ErrorHandler;
+import org.databene.commons.Filter;
 import org.databene.commons.IOUtil;
 import org.databene.commons.Level;
 import org.databene.commons.StringUtil;
@@ -328,6 +329,18 @@ public class XMLUtil {
 		else
 			for (Element child : XMLUtil.getChildElements(element)) {
 				Element candidate = getElementById(id, child);
+				if (candidate != null)
+					return candidate;
+			}
+		return null;
+    }
+
+	public static Element firstAccepted(Filter<Element> filter, Element element) {
+		if (filter.accept(element))
+			return element;
+		else
+			for (Element child : XMLUtil.getChildElements(element)) {
+				Element candidate = firstAccepted(filter, child);
 				if (candidate != null)
 					return candidate;
 			}
