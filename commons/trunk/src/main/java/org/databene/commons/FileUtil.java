@@ -99,6 +99,15 @@ public final class FileUtil {
     		copyDirectory(srcFile, targetFile, overwrite, filter);
     }
     
+	public static String localFilename(String filePath) {
+		if (filePath == null)
+			return null;
+		int i = filePath.lastIndexOf(File.separatorChar);
+		if (File.separatorChar != '/')
+			i = Math.max(i, filePath.indexOf('/'));
+		return (i >= 0 ? filePath.substring(i + 1) : filePath);
+    }
+
 	// private helpers -------------------------------------------------------------------------------------------------
 
 	private static void copyFile(File srcFile, File targetFile)
