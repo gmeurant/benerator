@@ -98,6 +98,16 @@ public class FileUtilTest {
         	removeTestFolders();
         }
 	}
+	
+	@Test
+	public void testLocalFilename() {
+		assertEquals(null, FileUtil.localFilename(null));
+		assertEquals("", FileUtil.localFilename(""));
+		assertEquals("x", FileUtil.localFilename("x"));
+		assertEquals("x", FileUtil.localFilename("/x"));
+		assertEquals("x", FileUtil.localFilename("y/z/x"));
+		assertEquals("x", FileUtil.localFilename("y" + File.separator + "z" + File.separator + "x"));
+	}
 
 	private void check(String regex, boolean acceptingFiles, boolean acceptingFolders, boolean recursive, 
 			File... expectedResult) {
