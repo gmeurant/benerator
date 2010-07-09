@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2006 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2006-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,15 +26,16 @@
 
 package org.databene.commons;
 
-import java.util.Map;
+import org.databene.commons.collection.OrderedNameMap;
 
 /**
  * Models an Object that is composed of other objects.<br/>
  * <br/>
  * Created: 26.08.2007 08:08:02
+ * @author Volker Bergmann
  */
-public interface Composite<E> {
-    E getComponent(String key);
-    void setComponent(String key, E value);
-    Map<String, E> getComponents();
+public interface Composite {
+    Object getComponent(String key);
+    void setComponent(String key, Object value);
+    OrderedNameMap<Object> getComponents();
 }

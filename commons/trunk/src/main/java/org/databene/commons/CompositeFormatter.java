@@ -58,31 +58,31 @@ public class CompositeFormatter extends FormatHolder {
     
     // interface -------------------------------------------------------------------------------------------------------
 
-   	public <T> String render(String head, Composite<T> composite, String tail) {
+   	public String render(String head, Composite composite, String tail) {
         if (flat)
             return renderFlat(head, composite, tail);
         else
             return renderHierarchical(head, composite, tail);
     }
     
-    public <T> String renderHierarchical(String head, Composite<T> composite, String tail, String indent) {
+    public String renderHierarchical(String head, Composite composite, String tail, String indent) {
         return head + renderComponentsHierarchical(composite, indent) + tail;
     }
     
     // private helpers -------------------------------------------------------------------------------------------------
     
-	private <T> String renderFlat(String head, Composite<T> composite, String tail) {
+	private String renderFlat(String head, Composite composite, String tail) {
         return head + renderComponentsFlat(composite) + tail;
     }
     
-    private <T> String renderHierarchical(String head, Composite<T> composite, String tail) {
+    private String renderHierarchical(String head, Composite composite, String tail) {
         return renderHierarchical(head, composite, tail, "");
     }
     
-    private <T> String renderComponentsFlat(Composite<T> composite) {
+    private String renderComponentsFlat(Composite composite) {
         StringBuilder builder = new StringBuilder();
-        Map<String, T> components = composite.getComponents();
-        Iterator<Map.Entry<String, T>> iterator = components.entrySet().iterator();
+        Map<String, Object> components = composite.getComponents();
+        Iterator<Map.Entry<String, Object>> iterator = components.entrySet().iterator();
         if (iterator.hasNext())
             renderComponent(builder, "", iterator.next());
         while (iterator.hasNext()) {
@@ -92,12 +92,12 @@ public class CompositeFormatter extends FormatHolder {
         return builder.toString();
     }
 
-    private <T> String renderComponentsHierarchical(Composite<T> composite, String indent) {
+    private String renderComponentsHierarchical(Composite composite, String indent) {
         String lineSeparator = SystemInfo.getLineSeparator();
         StringBuilder builder = new StringBuilder();
         indent += INDENT_DELTA;
-        Map<String, T> components = composite.getComponents();
-        Iterator<Map.Entry<String, T>> iterator = components.entrySet().iterator();
+        Map<String, Object> components = composite.getComponents();
+        Iterator<Map.Entry<String, Object>> iterator = components.entrySet().iterator();
         while (iterator.hasNext()) {
 			builder.append(lineSeparator);
             renderComponent(builder, indent, iterator.next());
@@ -108,7 +108,6 @@ public class CompositeFormatter extends FormatHolder {
         return builder.toString();
     }
 
-    @SuppressWarnings("unchecked")
     void renderComponent(StringBuilder builder, String indent, Map.Entry<String, ?> component) {
         builder.append(indent);
         if (renderNames)
