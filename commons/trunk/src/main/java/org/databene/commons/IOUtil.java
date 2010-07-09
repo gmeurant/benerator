@@ -450,6 +450,8 @@ public final class IOUtil {
     }
 
     public static void writeTextFile(String filename, String content, String encoding) throws IOException {
+    	if (encoding == null)
+    		encoding = SystemInfo.getCharset().name();
         Writer writer = null;
         try {
             writer = new OutputStreamWriter(openOutputStreamForURI(filename), encoding);
