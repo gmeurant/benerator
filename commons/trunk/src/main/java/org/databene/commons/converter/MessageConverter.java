@@ -44,7 +44,11 @@ public class MessageConverter extends ThreadSafeConverter<Object, String> {
     private Locale locale;
 
     public MessageConverter() {
-        this("{0}", LocaleUtil.getFallbackLocale());
+        this("{0}");
+    }
+
+    public MessageConverter(String pattern) {
+    	this(pattern, LocaleUtil.getFallbackLocale());
     }
 
     public MessageConverter(String pattern, Locale locale) {
