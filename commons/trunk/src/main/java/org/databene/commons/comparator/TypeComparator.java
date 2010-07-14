@@ -43,6 +43,8 @@ public class TypeComparator implements Comparator<Class<?>> {
     }
 
 	public int compare(Class<?> c1, Class<?> c2) {
+		if (c1 == c2)
+			return 0;
         int i1 = indexOfClass(c1);
         int i2 = indexOfClass(c2);
         return IntComparator.compare(i1, i2);
