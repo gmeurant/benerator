@@ -52,7 +52,7 @@ public class NumberUtil {
 				int.class,        Short.MAX_VALUE, 
 				Integer.class,    Integer.MAX_VALUE, 
 				long.class,       Integer.MAX_VALUE, 
-				Long.class,       Byte.MAX_VALUE, 
+				Long.class,       Long.MAX_VALUE, 
 				float.class,      Float.MAX_VALUE, 
 				Float.class,      Float.MAX_VALUE, 
 				double.class,     Double.MAX_VALUE, 
