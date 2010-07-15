@@ -154,7 +154,7 @@ public class XMLUtilTest {
             FileWriter writer = new FileWriter(file);
             writer.write(XML_TEXT);
             writer.close();
-            Document document = XMLUtil.parse(file.getAbsolutePath(), null);
+            Document document = XMLUtil.parse(file.getAbsolutePath());
             checkXML(document);
         } finally {
             file.delete();
