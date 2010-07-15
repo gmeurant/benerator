@@ -1,0 +1,9 @@
+release notes databene commons 0.5.3
+------------------------------------
+
+Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
+--------------------------------------------------------------------------------------------
+3028976: IllegalArgumentException on enum comparison
+3029298: Default Id generation limited to 127 elements
+3029926: Benerator does not validate descriptor files
+3029944: Benerator does not build on Windows
