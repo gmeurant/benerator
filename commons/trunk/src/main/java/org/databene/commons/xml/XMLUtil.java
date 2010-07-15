@@ -32,12 +32,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 
 import org.databene.commons.ArrayBuilder;
 import org.databene.commons.BeanUtil;
@@ -70,11 +74,9 @@ import org.xml.sax.SAXParseException;
  * @author Volker Bergmann
  */
 public class XMLUtil {
-    
-	private static final String XML_SCHEMA_URL = "http://www.w3.org/2001/XMLSchema";
-	private static final String SCHEMA_LANGUAGE_KEY = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
+
 	private static final ErrorHandler DEFAULT_ERROR_HANDLER = new ErrorHandler(XMLUtil.class.getSimpleName(), Level.error);
-	private static final Logger logger = LoggerFactory.getLogger(XMLUtil.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(XMLUtil.class);
     
     private XMLUtil() {}
 
@@ -162,8 +164,8 @@ public class XMLUtil {
     }
 
     public static Integer getIntegerAttribute(Element element, String name, Integer defaultValue) {
-        if (logger.isDebugEnabled())
-            logger.debug("getIntegerAttribute(" + element.getNodeName() + ", " + name + ')');
+        if (LOGGER.isDebugEnabled())
+            LOGGER.debug("getIntegerAttribute(" + element.getNodeName() + ", " + name + ')');
         String stringValue = element.getAttribute(name);
         if (StringUtil.isEmpty(stringValue))
             return defaultValue;
@@ -171,8 +173,8 @@ public class XMLUtil {
     }
 
     public static Long getLongAttribute(Element element, String name, long defaultValue) {
-        if (logger.isDebugEnabled())
-            logger.debug("getLongAttribute(" + element.getNodeName() + ", " + name + ')');
+        if (LOGGER.isDebugEnabled())
+            LOGGER.debug("getLongAttribute(" + element.getNodeName() + ", " + name + ')');
         String stringValue = element.getAttribute(name);
         if (StringUtil.isEmpty(stringValue))
             return defaultValue;
@@ -207,14 +209,14 @@ public class XMLUtil {
     // XML operations --------------------------------------------------------------------------------------------------
 
     public static Document parse(String uri) throws IOException {
-        return parse(uri, null);
+        return parse(uri, null, null);
     }
 
-    public static Document parse(String uri, EntityResolver resolver) throws IOException {
+    public static Document parse(String uri, EntityResolver resolver, String schemaUri) throws IOException {
         InputStream stream = null;
         try {
             stream = IOUtil.getInputStreamForURI(uri);
-            return parse(stream, DEFAULT_ERROR_HANDLER, resolver);
+            return parse(stream, resolver, schemaUri, DEFAULT_ERROR_HANDLER);
         } finally {
             IOUtil.close(stream);
         }
@@ -229,27 +231,28 @@ public class XMLUtil {
 	}
 	
     public static Document parseString(String text, EntityResolver resolver) {
-        if (logger.isDebugEnabled())
-            logger.debug(text);
+        if (LOGGER.isDebugEnabled())
+            LOGGER.debug(text);
         try {
-	        return parse(new ByteArrayInputStream(text.getBytes()), DEFAULT_ERROR_HANDLER, resolver);
+	        return parse(new ByteArrayInputStream(text.getBytes()), resolver, null, DEFAULT_ERROR_HANDLER);
         } catch (IOException e) {
         	throw new RuntimeException("Unexpected error", e);
         }
     }
 
     public static Document parse(InputStream stream) throws IOException {
-        return parse(stream, DEFAULT_ERROR_HANDLER, null);
+        return parse(stream, null, null, DEFAULT_ERROR_HANDLER);
     }
 
-    public static Document parse(InputStream stream, final ErrorHandler errorHandler, EntityResolver resolver) throws IOException {
+    /**
+     * @param resolver an {@link EntityResolver} implementation or null, in the latter case, no validation is applied
+     */
+    public static Document parse(InputStream stream, EntityResolver resolver, String schemaUri, final ErrorHandler errorHandler) throws IOException {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setNamespaceAware(true);
-            if (resolver != null) {
-	            factory.setValidating(true);
-				activateXmlSchemaValidation(factory);
-            }
+            if (resolver != null)
+            	activateXmlSchemaValidation(factory, schemaUri);
             DocumentBuilder builder = factory.newDocumentBuilder();
             builder.setEntityResolver(resolver);
             builder.setErrorHandler(createSaxErrorHandler(errorHandler));
@@ -349,13 +352,16 @@ public class XMLUtil {
 
 	// private helpers -------------------------------------------------------------------------------------------------
 
-	private static void activateXmlSchemaValidation(
-			DocumentBuilderFactory factory) {
+	private static Schema activateXmlSchemaValidation(DocumentBuilderFactory factory, String schemaUrl) {
 		try {
-			factory.setAttribute(SCHEMA_LANGUAGE_KEY, XML_SCHEMA_URL);
+			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+			Schema schema = schemaFactory.newSchema(new URL(schemaUrl));
+			factory.setSchema(schema);
+			return schema;
 		} catch (Exception e) {
 			// some XML parsers may not support attributes in general or especially XML Schema 
-			logger.error("Error activating schema validation", e);
+			LOGGER.error("Error activating schema validation", e);
+			return null;
 		}
 	}
 
