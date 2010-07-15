@@ -38,7 +38,10 @@ public class ShellUtilTest {
 	@Test
 	public void test() {
 		StringWriter writer = new StringWriter();
-		ShellUtil.runShellCommand("echo 42", writer, ErrorHandler.getDefault());
+		String command = "echo 42";
+		if (SystemInfo.isWindows())
+			command = "cmd.exe " + command;
+		ShellUtil.runShellCommand(command, writer, ErrorHandler.getDefault());
 		assertEquals("42", writer.toString());
 	}
 	
