@@ -121,7 +121,7 @@ public final class CollectionUtil {
         return source.subList(fromIndex, toIndex).toArray(array);
     }
 
-    public static char[] toArray(Collection<Character> source) {
+    public static char[] toCharArray(Collection<Character> source) {
         char[] result = new char[source.size()];
         int i = 0;
         for (Character c : source)
