@@ -105,7 +105,8 @@ public class ShellUtil {
 		        outputWriter.write(s);
 	    	}	        
 	    }
-	    outputWriter.flush();
+	    if (outputWriter != null)
+	    	outputWriter.flush();
 	    // read any errors from the attempted command
 	    while ((s = stdErr.readLine()) != null) {
 	        errorHandler.handleError(s);
