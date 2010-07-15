@@ -82,7 +82,7 @@ public class DatabeneTestUtil {
 	public static boolean isOnline() {
 		String setting = properties.get("online");
 		if (StringUtil.isEmpty(setting))
-			return true;
+			return false;
 		else
 			return setting.toLowerCase().equals("true");
 	}

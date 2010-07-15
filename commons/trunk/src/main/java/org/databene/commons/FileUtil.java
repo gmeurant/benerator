@@ -104,7 +104,7 @@ public final class FileUtil {
 			return null;
 		int i = filePath.lastIndexOf(File.separatorChar);
 		if (File.separatorChar != '/')
-			i = Math.max(i, filePath.indexOf('/'));
+			i = Math.max(i, filePath.lastIndexOf('/'));
 		return (i >= 0 ? filePath.substring(i + 1) : filePath);
     }
 
