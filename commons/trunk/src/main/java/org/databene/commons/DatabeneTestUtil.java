@@ -76,7 +76,7 @@ public class DatabeneTestUtil {
 	
     private static void createDefaultProperties() {
 	    properties = new HashMap<String, String>();
-	    properties.put("online", "true");
+	    properties.put("online", "false");
     }
 
 	public static boolean isOnline() {
