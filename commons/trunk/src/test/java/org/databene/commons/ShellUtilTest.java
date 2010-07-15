@@ -40,7 +40,7 @@ public class ShellUtilTest {
 		StringWriter writer = new StringWriter();
 		String command = "echo 42";
 		if (SystemInfo.isWindows())
-			command = "cmd.exe " + command;
+			command = "cmd.exe /C " + command;
 		ShellUtil.runShellCommand(command, writer, ErrorHandler.getDefault());
 		assertEquals("42", writer.toString());
 	}
