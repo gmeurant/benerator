@@ -326,24 +326,24 @@ public class XMLUtil {
 	    	visit(childNodes.item(i), visitor);
     }
 
-	public static Element getElementById(String id, Element element) {
-		if (id.equals(element.getAttribute("id")))
-			return element;
+	public static Element findElementByAttribute(String attributeName, String attributeValue, Element root) {
+		if (attributeValue.equals(root.getAttribute(attributeName)))
+			return root;
 		else
-			for (Element child : XMLUtil.getChildElements(element)) {
-				Element candidate = getElementById(id, child);
+			for (Element child : XMLUtil.getChildElements(root)) {
+				Element candidate = findElementByAttribute(attributeName, attributeValue, child);
 				if (candidate != null)
 					return candidate;
 			}
 		return null;
     }
 
-	public static Element firstAccepted(Filter<Element> filter, Element element) {
+	public static Element findFirstAccepted(Filter<Element> filter, Element element) {
 		if (filter.accept(element))
 			return element;
 		else
 			for (Element child : XMLUtil.getChildElements(element)) {
-				Element candidate = firstAccepted(filter, child);
+				Element candidate = findFirstAccepted(filter, child);
 				if (candidate != null)
 					return candidate;
 			}
