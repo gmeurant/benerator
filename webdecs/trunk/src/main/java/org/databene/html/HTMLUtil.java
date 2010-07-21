@@ -38,7 +38,7 @@ import java.util.Set;
  */
 public class HTMLUtil {
 
-    private static final Set<String> EMPTY_TAGS = CollectionUtil.toSet("br", "img", "meta");
+    private static final Set<String> EMPTY_TAGS = CollectionUtil.toSet("br", "img", "meta", "link");
 
     public static boolean isEmptyTag(String tagName) {
         return EMPTY_TAGS.contains(tagName.toLowerCase());
