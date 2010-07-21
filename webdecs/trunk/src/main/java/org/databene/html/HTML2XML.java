@@ -28,6 +28,8 @@ package org.databene.html;
 
 import org.databene.commons.IOUtil;
 import org.databene.commons.SystemInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.text.ParseException;
@@ -41,6 +43,8 @@ import java.util.Map;
  * @author Volker Bergmann
  */
 public class HTML2XML {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(HTML2XML.class);
 
     public static String convert(String html) throws ParseException {
         Reader reader = new StringReader(html);
@@ -78,11 +82,17 @@ public class HTML2XML {
         while ((token = context.tokenizer.nextToken()) != HTMLTokenizer.END) {
             switch (token) {
                 case (HTMLTokenizer.START_TAG) :
+                	// ignore scripts
                     if ("script".equalsIgnoreCase(context.tokenizer.name())) // TODO v0.5.x test script handling
                         continue;
-                    if (!context.rootCreated && !"html".equals(context.tokenizer.name().toLowerCase()))
+                    String lcTagName = context.tokenizer.name().toLowerCase();
+					if (!"html".equals(lcTagName) && !context.rootCreated)
                         ensureRootElement(context);
-                    else {
+					else if ("html".equals(lcTagName) && context.rootCreated) {
+						// ignore html element if there already was one
+						LOGGER.warn("Malformed HTML document: misplaced <HTML> element");
+						break;
+					} else {
                         if (context.path.size() > 0) {
                             String lastTagName = context.path.peek();
                             if (HTMLUtil.isEmptyTag(lastTagName) && !context.tokenizer.name().equals(lastTagName)) {
@@ -121,7 +131,11 @@ public class HTML2XML {
                     break;
                 case HTMLTokenizer.COMMENT:
                 	ensureRootElement(context);
-                    writeXml(context.writer, context.tokenizer.text());
+                	String comment = context.tokenizer.text();
+                	int s = comment.indexOf("<!--") + "<!--".length();
+                	int e = comment.lastIndexOf("-->");
+                	comment = "<!--" + comment.substring(s, e).replace("--", "- ") + "-->";
+                    writeXml(context.writer, comment);
                     break;
                 case HTMLTokenizer.DOCUMENT_TYPE:
                     // leave out doc type
