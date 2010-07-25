@@ -91,4 +91,13 @@ public class TimeUtilTest {
     	assertEquals(123, cal.get(Calendar.MILLISECOND));
     }
     
+	@Test
+	public void testYearsBetween() {
+		Date base = TimeUtil.date(2002, 2, 2);
+		Date oneLater = TimeUtil.date(2003, 2, 2);
+		assertEquals(1, TimeUtil.yearsBetween(base, oneLater));
+		Date lessThanOneLater = TimeUtil.date(2003, 2, 1);
+		assertEquals(0, TimeUtil.yearsBetween(base, lessThanOneLater));
+	}
+	
 }
