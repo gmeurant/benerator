@@ -266,4 +266,13 @@ public final class ArrayUtil {
     		return null;
     	return array[array.length - 1];
     }
+
+	public static boolean allNull(Object[] values) {
+		if (values == null)
+			return true;
+		for (Object value : values)
+			if (value != null)
+				return false;
+	    return true;
+    }
 }
