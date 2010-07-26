@@ -75,9 +75,10 @@ import org.xml.sax.SAXParseException;
  */
 public class XMLUtil {
 
+	private static final String DOCUMENT_BUILDER_FACTORY_IMPL = "org.apache.xerces.jaxp.DocumentBuilderFactoryImpl";
 	private static final ErrorHandler DEFAULT_ERROR_HANDLER = new ErrorHandler(XMLUtil.class.getSimpleName(), Level.error);
 	private static final Logger LOGGER = LoggerFactory.getLogger(XMLUtil.class);
-    
+	
     private XMLUtil() {}
 
     public static String format(Element element) {
@@ -249,7 +250,8 @@ public class XMLUtil {
      */
     public static Document parse(InputStream stream, EntityResolver resolver, String schemaUri, final ErrorHandler errorHandler) throws IOException {
         try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(DOCUMENT_BUILDER_FACTORY_IMPL, classLoader);
             factory.setNamespaceAware(true);
             if (resolver != null)
             	activateXmlSchemaValidation(factory, schemaUri);
@@ -360,7 +362,7 @@ public class XMLUtil {
 			return schema;
 		} catch (Exception e) {
 			// some XML parsers may not support attributes in general or especially XML Schema 
-			LOGGER.error("Error activating schema validation", e);
+			LOGGER.error("Error activating schema validation, possibly you are offline or behind a proxy?", e.getMessage());
 			return null;
 		}
 	}
