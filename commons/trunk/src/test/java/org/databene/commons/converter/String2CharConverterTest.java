@@ -21,28 +21,35 @@
 
 package org.databene.commons.converter;
 
-import org.databene.commons.ConversionException;
+import static org.junit.Assert.*;
+
+import org.junit.Test;
 
 /**
- * Converts {@link String}s of length 1 to {@link Character}s, Strings of length 0 to <code>null</code>.<br/><br/>
- * Created: 27.02.2010 10:16:03
- * @since 0.5.0
+ * Tests the {@link String2CharConverter}.<br/><br/>
+ * Created: 29.07.2010 17:24:32
+ * @since 0.6.3
  * @author Volker Bergmann
  */
-public class String2CharConverter extends ThreadSafeConverter<String, Character> {
+public class String2CharConverterTest {
 
-	public String2CharConverter() {
-	    super(String.class, Character.class);
-    }
+	private static final String2CharConverter CONVERTER = new String2CharConverter();
 
-	public Character convert(String sourceValue) throws ConversionException {
-		if (sourceValue == null)
-			return null;
-    	switch (sourceValue.length()) {
-			case 0 : return null; 
-			case 1 : return Character.valueOf(sourceValue.charAt(0));
-			default: throw new ConversionException("'" + sourceValue + "' cannot be converted to a character");
-    	}
-    }
-
+	@Test
+	public void testTypes() {
+		assertEquals(String.class, CONVERTER.getSourceType());
+		assertEquals(Character.class, CONVERTER.getTargetType());
+	}
+	
+	@Test
+	public void testStandardConversions() {
+		assertEquals('A', CONVERTER.convert("A"));
+		assertEquals('1', CONVERTER.convert("1"));
+	}
+	
+	@Test
+	public void testNullConversion() {
+		assertNull(CONVERTER.convert(null));
+	}
+	
 }
