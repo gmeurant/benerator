@@ -47,18 +47,18 @@ public class NumberUtil {
 		CollectionUtil.buildMap(
 				byte.class,       Byte.MAX_VALUE, 
 				Byte.class,       Byte.MAX_VALUE, 
-				short.class,      Byte.MAX_VALUE, 
+				short.class,      Short.MAX_VALUE, 
 				Short.class,      Short.MAX_VALUE, 
-				int.class,        Short.MAX_VALUE, 
+				int.class,        Integer.MAX_VALUE, 
 				Integer.class,    Integer.MAX_VALUE, 
-				long.class,       Integer.MAX_VALUE, 
+				long.class,       Long.MAX_VALUE, 
 				Long.class,       Long.MAX_VALUE, 
 				float.class,      Float.MAX_VALUE, 
 				Float.class,      Float.MAX_VALUE, 
 				double.class,     Double.MAX_VALUE, 
 				Double.class,     Double.MAX_VALUE, 
-				BigDecimal.class, Double.MAX_VALUE, 
-				BigInteger.class, Long.MAX_VALUE 
+				BigDecimal.class, new BigDecimal(Double.MAX_VALUE), 
+				BigInteger.class, BigInteger.valueOf(Long.MAX_VALUE) 
 		);
 	
 	public static <T extends Number> byte toByte(T value) {
