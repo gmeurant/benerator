@@ -8,3 +8,4 @@ Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&a
 3029926: Benerator does not validate descriptor files
 3029944: Benerator does not build on Windows
 String2CharConverter does not support conversion of null values
+NumberUtil.maxValue() provides wrong results for short, int and long
