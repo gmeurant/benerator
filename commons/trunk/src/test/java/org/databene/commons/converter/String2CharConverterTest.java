@@ -43,8 +43,8 @@ public class String2CharConverterTest {
 	
 	@Test
 	public void testStandardConversions() {
-		assertEquals('A', CONVERTER.convert("A"));
-		assertEquals('1', CONVERTER.convert("1"));
+		assertEquals('A', CONVERTER.convert("A").charValue());
+		assertEquals('1', CONVERTER.convert("1").charValue());
 	}
 	
 	@Test
