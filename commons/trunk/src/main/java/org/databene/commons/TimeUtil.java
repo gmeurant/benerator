@@ -192,8 +192,11 @@ public final class TimeUtil {
         return calendar.getTime();
     }
     
-    public static Date add(Date date, Date time) {
-    	return new Date(date.getTime() + millisSinceOwnEpoch(time));
+    public static Date add(Date date, Date offset) {
+    	long millis = millisSinceOwnEpoch(offset);
+    	if (millis < 0)
+    		millis -= millisSinceOwnEpoch(TimeUtil.date(0, 0, 0));
+		return new Date(date.getTime() + millis);
     }
 
 	public static Object subtract(Date minuend, Date subtrahend) {

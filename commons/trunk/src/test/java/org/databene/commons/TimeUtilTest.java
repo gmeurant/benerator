@@ -100,4 +100,14 @@ public class TimeUtilTest {
 		assertEquals(0, TimeUtil.yearsBetween(base, lessThanOneLater));
 	}
 	
+	@Test
+	public void testAdd_epoche() {
+		assertEquals(TimeUtil.date(2010, 7, 31), TimeUtil.add(TimeUtil.date(2010, 7, 30), TimeUtil.date(1970, 0, 2)));
+	}
+
+	@Test
+	public void testAdd_AC() {
+		assertEquals(TimeUtil.date(2010, 7, 31), TimeUtil.add(TimeUtil.date(2010, 7, 30), TimeUtil.date(0, 0, 1)));
+	}
+
 }
