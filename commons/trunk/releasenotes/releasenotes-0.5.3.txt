@@ -7,5 +7,7 @@ Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&a
 3029298: Default Id generation limited to 127 elements
 3029926: Benerator does not validate descriptor files
 3029944: Benerator does not build on Windows
+3037947: Wrong handling of zero-based date calculation
 String2CharConverter does not support conversion of null values
 NumberUtil.maxValue() provides wrong results for short, int and long
+Error in constructor evaluation of BeanUtil.newInstance()
