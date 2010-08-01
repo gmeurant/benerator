@@ -261,13 +261,15 @@ public class StringUtilTest {
     }
     
 	@Test
-    public void testJoinWithSeparator() {
-    	assertEquals("", StringUtil.joinWithSeparator('.', (String[]) null));
-    	assertEquals("", StringUtil.joinWithSeparator('.', null, null));
-    	assertEquals("A", StringUtil.joinWithSeparator('.', "A"));
-    	assertEquals("A", StringUtil.joinWithSeparator('.', null, "A"));
-    	assertEquals("A", StringUtil.joinWithSeparator('.', "A", null));
-    	assertEquals("A.B", StringUtil.joinWithSeparator('.', "A", null, "B"));
+    public void testConcat() {
+    	assertEquals("", StringUtil.concat('.', (String[]) null));
+    	assertEquals("", StringUtil.concat('.', null, null));
+    	assertEquals("A", StringUtil.concat('.', "A"));
+    	assertEquals("A", StringUtil.concat('.', null, "A"));
+    	assertEquals("A", StringUtil.concat('.', "A", null));
+    	assertEquals("A.B", StringUtil.concat('.', "A", null, "B"));
+    	assertEquals("A-B", StringUtil.concat('-', "A", null, "B"));
+    	assertEquals("AB", StringUtil.concat(null, "A", null, "B"));
     }
     
 	@Test
