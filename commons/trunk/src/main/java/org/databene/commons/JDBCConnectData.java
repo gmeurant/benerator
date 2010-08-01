@@ -19,7 +19,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.commons.db;
+package org.databene.commons;
 
 /**
  * Data Object that contains the typical data required for a JDBC database login.<br/><br/>
