@@ -79,13 +79,6 @@
         </dependency>
 
         <dependency>
-            <groupId>hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>1.8.0.4</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>xerces</groupId>
             <artifactId>XercesImpl</artifactId>
             <version>2.9.1</version>
