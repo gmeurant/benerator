@@ -446,17 +446,21 @@ public final class BeanUtil {
                 if (constructorToUse == null) { 
                 	if (strict)
                 		throw new NoSuchMethodException("No appropriate constructor found: " + type + '(' + ArrayFormat.format(", ", paramTypes) + ')');
+                	Exception mostRecentException = null;
                 	for (Constructor<T> candidate : candidates) {
                 		try {
-                			return newInstance(constructorToUse, strict, parameters);
+                			return newInstance(candidate, strict, parameters);
                 		} catch (Exception e) {
-                			if (logger.isDebugEnabled())
-                				logger.debug("Exception in constructor call: " + candidate, e);
+                			mostRecentException = e;
+                			logger.warn("Exception in constructor call: " + candidate, e);
                 			continue; // ignore exception and try next constructor
                 		}
                 	}
                 	// no constructor could be called without exception
-                	throw new ConfigurationError("None of these constructors could be called without exception: " + candidates);
+                	String errMsg = (mostRecentException != null ? 
+            			"None of these constructors could be called without exception: " + candidates + ", latest exception: " + mostRecentException :
+            			type + " has no appropriate constructor for the arguments " + ArrayFormat.format(", ", parameters));
+                	throw new ConfigurationError(errMsg);
                 }
             }
     		if (!strict)
