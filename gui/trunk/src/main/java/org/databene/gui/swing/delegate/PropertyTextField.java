@@ -107,7 +107,7 @@ public class PropertyTextField extends JTextField {
 			} catch (BadLocationException e) {
 				throw new RuntimeException(e);
 			}
-			text = StringUtil.escape(text);
+			text = StringUtil.unescape(text);
 			if (!text.equals(BeanUtil.getPropertyValue(bean, propertyName)))
 				BeanUtil.setPropertyValue(bean, propertyName, text);
 			locked = false;
