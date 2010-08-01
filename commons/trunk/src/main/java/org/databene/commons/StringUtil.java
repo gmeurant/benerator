@@ -462,14 +462,14 @@ public final class StringUtil {
             return new String[] { path.substring(0, sepIndex), path.substring(sepIndex + 1) };
     }
 
-	public static String joinWithSeparator(char separator, String... parts) {
+	public static String concat(Character separator, String... parts) {
 		if (parts == null)
 			return "";
 		StringBuilder builder = new StringBuilder();
 		for (String part : parts) {
 			if (!isEmpty(part)) {
-				if (builder.length() > 0)
-					builder.append('.');
+				if (builder.length() > 0 && separator != null)
+					builder.append(separator);
 				builder.append(part);
 			}
 		}
@@ -574,7 +574,7 @@ public final class StringUtil {
 			char c = text.charAt(i);
 			if (c != '\\')
 				builder.append(c);
-			else {
+			else if (i < text.length() - 1) {
 				c = text.charAt(++i);
 				switch (c) {
 					case 'r' : builder.append(CR); break;
@@ -582,7 +582,8 @@ public final class StringUtil {
 					case 't' : builder.append(TAB); break;
 					default  : builder.append(c); break;
 				}
-			}
+			} else
+				builder.append('\\');
 		}
 		return builder.toString();
 	}
