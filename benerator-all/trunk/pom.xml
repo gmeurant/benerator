@@ -5,7 +5,7 @@
 
     <groupId>org.databene</groupId>
     <artifactId>databene-benerator-all</artifactId>
-    <version>0.6.0-alpha</version>
+    <version>0.6.3</version>
 
     <packaging>pom</packaging>
     <name>databene benerator multiproject</name>
@@ -14,8 +14,10 @@
 
  	<modules>
  		<module>../commons</module>
+ 		<module>../jdbacl</module>
  		<module>../gui</module>
  		<module>../webdecs</module>
+                <module>../contiperf</module>
  		<module>../benerator</module>
  		<module>../maven-benerator-plugin</module>
  	</modules>
