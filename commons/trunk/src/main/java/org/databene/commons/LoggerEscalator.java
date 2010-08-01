@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -45,13 +45,12 @@ public class LoggerEscalator implements Escalator {
         this.escalations = new HashSet<Escalation>();
     }
     
-    @SuppressWarnings("unchecked")
     public void escalate(String message, Object originator, Object cause) {
         // determine logger by the originator
         Class<?> category = null;
         if (originator != null)
             if (originator instanceof Class)
-                category = (Class) originator;
+                category = (Class<?>) originator;
             else
                 category = originator.getClass();
         else
