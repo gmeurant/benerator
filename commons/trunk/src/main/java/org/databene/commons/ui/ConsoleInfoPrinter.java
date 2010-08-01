@@ -37,7 +37,7 @@ package org.databene.commons.ui;
 public class ConsoleInfoPrinter extends InfoPrinter {
 
 	@Override
-	public void showHelp(Object owner, String... helpLines) {
+	public void printLines(Object owner, String... helpLines) {
 		printHelp(helpLines);
 	}
 

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008, 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -36,9 +36,9 @@ package org.databene.commons.ui;
 
 public abstract class InfoPrinter {
 	
-	public void showHelp(String... helpLines) {
-		showHelp(null, helpLines);
+	public void printLines(String... helpLines) {
+		printLines(null, helpLines);
 	}
 	
-	public abstract void showHelp(Object owner, String... helpLines);
+	public abstract void printLines(Object owner, String... helpLines);
 }
