@@ -80,7 +80,7 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 		}
 			
 		// read headers
-		Row headerRow = rowIterator.next(); // TODO read headers only if indicated by a flag
+		Row headerRow = rowIterator.next(); // TODO v0.5.4 read headers only if indicated by a flag
 		ArrayBuilder<String> builder = new ArrayBuilder<String>(String.class);
 		for (int cellnum = 0; cellnum <= headerRow.getLastCellNum(); cellnum++) {
 			Cell cell = headerRow.getCell(cellnum);

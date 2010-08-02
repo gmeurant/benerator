@@ -146,16 +146,13 @@ public class RegexParserTest {
         check("a{3,5}", new Factor('a', 3,  5));
     }
     
-/* TODO make the RegexParser fail on illegal syntax
-    public void testInvalidQuantifier() {
-        try {
-			new RegexParser().parse("a{,4}");
-			fail("ParseException expected");
-		} catch (ParseException e) {
-			// this is expected
-		}
+/* TODO v0.5.x make the RegexParser fail on illegal syntax
+	@Test(expected = ParseException.class)
+    public void testInvalidQuantifier() throws ParseException {
+		new RegexParser().parseRegex("a{,4}");
     }
 */
+
 	@Test
     public void testClassAndQuantifierSequences() throws ParseException {
         check("\\w+\\d+", new Sequence(
