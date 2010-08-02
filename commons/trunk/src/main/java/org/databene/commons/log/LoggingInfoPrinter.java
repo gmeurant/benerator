@@ -26,14 +26,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link InfoPrinter} implementation that writes text to a logger category.<br/><br/>
  * Created: 01.08.2010 17:13:04
  * @since 0.5.3
  * @author Volker Bergmann
  */
 public class LoggingInfoPrinter extends InfoPrinter {
 	
-    Logger logger;
+    private final Logger logger;
 	
 	public LoggingInfoPrinter(Class<?> clazz) {
 		this.logger = LoggerFactory.getLogger(clazz);

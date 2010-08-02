@@ -25,7 +25,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * TODO Document class.<br/><br/>
+ * Validates objects against a set of blacklisted instances.<br/><br/>
  * Created: 01.08.2010 15:44:59
  * @since 0.5.3
  * @author Volker Bergmann
