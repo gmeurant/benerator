@@ -11,3 +11,4 @@ Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&a
 String2CharConverter does not support conversion of null values
 NumberUtil.maxValue() provides wrong results for short, int and long
 Error in constructor evaluation of BeanUtil.newInstance()
+Error in GeneratorFactory's generic getInstance() method handling
