@@ -27,7 +27,7 @@ import com.apple.eawt.ApplicationAdapter;
 import com.apple.eawt.ApplicationEvent;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link ApplicationAdapter} implementation for Mac OS X.<br/><br/>
  * Created: 09.06.2010 13:56:54
  * @since 0.2.3
  * @author Volker Bergmann
