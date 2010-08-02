@@ -224,7 +224,7 @@ public class ConverterManager {
     	// find static getInstance() method in target type
         Method getInstanceMethod = BeanUtil.findMethod(targetType, "getInstance", sourceType);
         if (getInstanceMethod != null && (getInstanceMethod.getModifiers() & Modifier.STATIC) == Modifier.STATIC)
-            return new StaticTargetClassMethodInvoker(sourceType, targetType, valueOfMethod);
+            return new StaticTargetClassMethodInvoker(sourceType, targetType, getInstanceMethod);
 
     	// find target type constructor which takes source type argument
         Constructor constructor = BeanUtil.findConstructor(targetType, sourceType);
