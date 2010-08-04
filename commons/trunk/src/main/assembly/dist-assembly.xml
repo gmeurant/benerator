@@ -39,6 +39,16 @@
             <directory>src/test/resources</directory>
             <outputDirectory>test</outputDirectory>
         </fileSet>
+	    <fileSet>
+			<directory>target</directory>
+			<outputDirectory>lib</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+			<excludes>
+				<exclude>*-sources.jar</exclude>
+			</excludes>
+	    </fileSet>
     </fileSets>
 
     <dependencySets>
