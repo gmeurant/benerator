@@ -30,7 +30,7 @@ import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 
 /**
- * Aggregates other (sub) converters and implements conversion by subsequent invocation of the sub generators,
+ * Aggregates other (sub) converters and implements conversion by subsequent invocation of the sub converters,
  * each converting the result of the preceding converter.<br/>
  * <br/>
  * Created: 13.05.2005 17:43:04
