@@ -42,24 +42,27 @@
             <directory>src/test/resources</directory>
             <outputDirectory>test</outputDirectory>
         </fileSet>
+	    <fileSet>
+			<directory>target</directory>
+			<outputDirectory>lib</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+			<excludes>
+				<exclude>*-sources.jar</exclude>
+			</excludes>
+	    </fileSet>
     </fileSets>
 
     <dependencySets>
         <dependencySet>
+			<useProjectArtifact>false</useProjectArtifact>
+            <scope>compile</scope>
             <outputDirectory>lib</outputDirectory>
             <unpack>false</unpack>
-            <scope>runtime</scope>
-            <excludes>
-                <exclude>junit:junit</exclude>
-                <exclude>databene:databene-gui</exclude>
-            </excludes>
-        </dependencySet>
-        <dependencySet>
-            <outputDirectory>/</outputDirectory>
-            <unpack>false</unpack>
-            <scope>runtime</scope>
             <includes>
-                <include>databene:databene-gui</include>
+                <include>org.databene:databene-commons:jar</include>
+                <include>org.slf4j:slf4j-api:jar</include>
             </includes>
         </dependencySet>
     </dependencySets>
