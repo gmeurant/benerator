@@ -43,22 +43,9 @@
 
     <dependencySets>
         <dependencySet>
+			<useProjectArtifact>false</useProjectArtifact>
             <outputDirectory>lib</outputDirectory>
             <unpack>false</unpack>
-            <scope>runtime</scope>
-            <excludes>
-                <exclude>junit:junit</exclude>
-                <exclude>databene:databene-commons</exclude>
-            </excludes>
-        </dependencySet>
-        <dependencySet>
-            <outputDirectory>/</outputDirectory>
-            <unpack>false</unpack>
-            <scope>runtime</scope>
-            <includes>
-                <include>databene:databene-commons:jar</include>
-                <include>databene:databene-commons:sources</include>
-            </includes>
         </dependencySet>
     </dependencySets>
 </assembly>
