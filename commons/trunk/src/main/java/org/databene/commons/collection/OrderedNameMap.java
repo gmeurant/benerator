@@ -40,6 +40,8 @@ import org.databene.commons.OrderedMap;
  */
 public class OrderedNameMap<E> extends OrderedMap<String, E> {
 	
+	private static final long serialVersionUID = 3325805664883631735L;
+	
 	private static final int CASE_SENSITIVE = 0;
 	private static final int CASE_INSENSITIVE = 1;
 	private static final int CASE_IGNORANT = 2;
