@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,6 +26,7 @@
 
 package org.databene.commons;
 
+import java.io.Serializable;
 import java.util.*;
 
 import org.databene.commons.collection.ListBasedSet;
@@ -40,9 +41,11 @@ import org.databene.commons.collection.ListBasedSet;
  * Created: 06.01.2007 09:04:17
  * @author Volker Bergmann
  */
-public class OrderedMap<K,V> implements Map<K,V> {
+public class OrderedMap<K,V> implements Map<K,V>, Serializable {
 
-    private Map<K, Integer> keyIndices;
+    private static final long serialVersionUID = -6081918861041975388L;
+    
+	private Map<K, Integer> keyIndices;
     protected List<V> values;
 
     // constructors ----------------------------------------------------------------------------------------------------
@@ -258,4 +261,5 @@ public class OrderedMap<K,V> implements Map<K,V> {
         buffer.append('}');
         return buffer.toString();
     }
+    
 }
