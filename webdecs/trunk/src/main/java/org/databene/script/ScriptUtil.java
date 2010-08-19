@@ -163,11 +163,64 @@ public class ScriptUtil {
             return new ConstantScript(text);
     }
     
-	private static ScriptFactory getFactory(String engineId) {
+    public static void addFactory(String name, ScriptFactory factory) {
+	    factories.put(name, factory);
+    }
+
+	public static String getDefaultScriptEngine() {
+		return defaultScriptEngine;
+	}
+
+	public static void setDefaultScriptEngine(String defaultScriptEngine) {
+		if (factories.get(defaultScriptEngine) == null)
+			throw new RuntimeException("Unknown script engine id: " + defaultScriptEngine);
+		ScriptUtil.defaultScriptEngine = defaultScriptEngine;
+	}
+	
+	public static String combineScriptableParts(String... parts) {
+		String scriptEngine = getCommonScriptEngine(parts);
+		boolean template = ("ftl".equals(scriptEngine));
+		boolean language = (scriptEngine != null && !template);
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < parts.length; i++) {
+			if (i > 0 && language)
+				builder.append(" + ");
+			String part = parts[i];
+			ScriptDescriptor descriptor = new ScriptDescriptor(part);
+			if (descriptor.level != ScriptLevel.NONE || !language) {
+				builder.append(descriptor.text);
+			} else
+				builder.append("'").append(descriptor.text).append("'");	
+		}
+		if (scriptEngine != null) {
+			builder.insert(0, '{');
+			if (!ScriptUtil.getDefaultScriptEngine().equals(scriptEngine))
+				builder.insert(1, scriptEngine + ":");
+			builder.append('}');
+		}
+		return builder.toString();
+	}
+
+    // private helpers -------------------------------------------------------------------------------------------------
+    
+	static String getCommonScriptEngine(String... parts) {
+	    ScriptDescriptor[] descriptors = describe(parts);
+	    for (int i = 0; i < parts.length; i++)
+	    	if (descriptors[i].scriptEngine != null)
+	    		return descriptors[i].scriptEngine;
+	    return null;
+    }
+
+	static ScriptDescriptor[] describe(String... parts) {
+	    ScriptDescriptor[] descriptors = new ScriptDescriptor[parts.length];
+	    for (int i = 0; i < parts.length; i++)
+	    	descriptors[i] = new ScriptDescriptor(parts[i]);
+	    return descriptors;
+    }
+
+	static ScriptFactory getFactory(String engineId) {
 		return factories.get(engineId);
 	}
-    
-    // private helpers -------------------------------------------------------------------------------------------------
     
     private static void parseConfigFile() {
         String className = null;
@@ -201,19 +254,5 @@ public class ScriptUtil {
             throw new ConfigurationError("I/O Error while reading file: " + SETUP_FILE_NAME, e);
         }
     }
-
-    public static void addFactory(String name, ScriptFactory factory) {
-	    factories.put(name, factory);
-    }
-
-	public static String getDefaultScriptEngine() {
-		return defaultScriptEngine;
-	}
-
-	public static void setDefaultScriptEngine(String defaultScriptEngine) {
-		if (factories.get(defaultScriptEngine) == null)
-			throw new RuntimeException("Unknown script engine id: " + defaultScriptEngine);
-		ScriptUtil.defaultScriptEngine = defaultScriptEngine;
-	}
 
 }
