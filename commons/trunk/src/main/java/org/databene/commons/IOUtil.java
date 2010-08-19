@@ -617,7 +617,23 @@ public final class IOUtil {
         			" (URL: " + url + ")");
     }
     
-    // helpers ---------------------------------------------------------------------------------------------------------
+	public static void download(URL url, File targetFile) throws IOException {
+		logger.info("downloading {}", url);
+		FileUtil.ensureDirectoryExists(targetFile.getParentFile());
+	    InputStream in = url.openStream();
+	    try {
+			OutputStream out = new FileOutputStream(targetFile);
+			try {
+				IOUtil.transfer(in, out);
+			} finally {
+				IOUtil.close(out);
+			}
+	    } finally {
+	    	IOUtil.close(in);
+	    }
+    }
+
+	// helpers ---------------------------------------------------------------------------------------------------------
 
     private static BufferedReader getFileReader(String filename, String defaultEncoding) 
     		throws IOException, UnsupportedEncodingException {
