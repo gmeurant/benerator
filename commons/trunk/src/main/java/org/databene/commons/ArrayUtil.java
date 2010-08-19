@@ -60,6 +60,11 @@ public final class ArrayUtil {
         return result;
     }
 
+    public static <T> T[] removeElement(T[] array, T item) {
+    	int index = indexOf(item, array);
+        return remove(array, index);
+    }
+
     @SuppressWarnings("unchecked")
     public static <T> T[] remove(T[] array, int indexToRemove) {
         Class<T> componentType = componentType(array);
