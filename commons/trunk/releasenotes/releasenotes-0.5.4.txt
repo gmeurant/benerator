@@ -1,0 +1,16 @@
+release notes databene commons 0.5.4
+------------------------------------
+
+
+
+Enhancements
+------------
+- new DownloadCache
+- new NameUtil and NameComparator
+- IOUtil.download(URL url, File targetFile)
+- ArrayUtil.removeElement(T[] array, T item)
+
+
+
+Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
+--------------------------------------------------------------------------------------------
