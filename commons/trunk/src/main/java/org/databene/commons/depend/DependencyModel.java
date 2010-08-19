@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -160,6 +160,7 @@ public class DependencyModel<E extends Dependent<E>> {
                 case PARTIALLY_INITIALIZABLE: node.initializePartially(); break;
                 case INITIALIZED: node.initializePartially(); break;
                 case INITIALIZABLE: node.initialize(); iterator.remove(); break;
+                default: break;
             }
         }
     }
