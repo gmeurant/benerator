@@ -53,7 +53,10 @@ public class DownloadCache {
 	
 	public File get(URL url) throws IOException {
 	    File cacheSubDir = new File(rootFolder, url.getHost());
-	    File cacheFile = new File(cacheSubDir, url.getFile());
+	    String filename = url.getFile();
+	    if (filename.endsWith("/"))
+	    	filename = filename.substring(0, filename.length() - 1);
+		File cacheFile = new File(cacheSubDir, filename);
 		if (!cacheFile.exists())
 			IOUtil.download(url, cacheFile);
 		else
