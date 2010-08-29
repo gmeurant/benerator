@@ -646,9 +646,9 @@ public final class StringUtil {
     }
 
 	public static String extract(String text, String beginMark, String endMark) {
-	    int beginIndex = text.indexOf(beginMark) + beginMark.length();
+	    int beginIndex = (beginMark != null ? text.indexOf(beginMark) + beginMark.length() : 0);
 	    if (endMark != null) {
-		    int endIndex = text.indexOf(endMark);
+		    int endIndex = text.indexOf(endMark, beginIndex + 1);
 		    return text.substring(beginIndex, endIndex);
 	    } else
 	    	return text.substring(beginIndex);
