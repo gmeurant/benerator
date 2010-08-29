@@ -33,7 +33,9 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.XMLConstants;
@@ -352,7 +354,20 @@ public class XMLUtil {
 		return null;
     }
 
+	public static List<Element> findElementsByName(String name, boolean caseSensitive, Element root) {
+	    return findElementsByName(name, caseSensitive, root, new ArrayList<Element>());
+    }
+
 	// private helpers -------------------------------------------------------------------------------------------------
+
+	private static List<Element> findElementsByName(String name, boolean caseSensitive, Element root, List<Element> result) {
+		if (root.getNodeName().equals(name))
+			result.add(root);
+		else
+			for (Element child : getChildElements(root))
+				findElementsByName(name, caseSensitive, child, result);
+	    return result;
+    }
 
 	private static Schema activateXmlSchemaValidation(DocumentBuilderFactory factory, String schemaUrl) {
 		try {
