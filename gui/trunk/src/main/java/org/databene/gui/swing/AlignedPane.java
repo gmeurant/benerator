@@ -105,10 +105,10 @@ public class AlignedPane extends JPanel implements SwingConstants {
             add(component);
         else {
             gbc.weightx = (component instanceof JLabel ? 0 : 1);
-            gbc.weighty = 0;
+            gbc.weighty = (component instanceof JTextArea ? 1 : 0);
             gbc.gridwidth = gridwidth;
             add(component, gbc);
-            gbc.gridx++;
+            gbc.gridx += gridwidth;
         }
     }
 
@@ -141,10 +141,9 @@ public class AlignedPane extends JPanel implements SwingConstants {
         } else {
             endRow();
             gbc.weightx = 1;
-            gbc.weighty = 0;
+            gbc.weighty = (component instanceof JTextArea ? 1 : 0);
             gbc.gridwidth = columns;
             add(component, gbc);
-            gbc.gridx++;
             newRow();
         }
     }
@@ -158,7 +157,7 @@ public class AlignedPane extends JPanel implements SwingConstants {
             gbc.weighty = 1;
             gbc.gridwidth = columns;
             add(component, gbc);
-            endRow();
+            newRow();
         }
     }
 
