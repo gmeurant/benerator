@@ -343,6 +343,14 @@ public class StringUtilTest {
 		assertEquals("\nx\n", StringUtil.normalizeLineSeparators("\r\nx\r\n", "\n"));
 		assertEquals("x\ny", StringUtil.normalizeLineSeparators("x\r\ny", "\n"));
 	}
+	
+	@Test
+	public void testExtract() {
+		assertEquals("b", StringUtil.extract("a[b]c", "[", "]"));
+		assertEquals("b", StringUtil.extract("a-b-c", "-", "-"));
+		assertEquals("a[b", StringUtil.extract("a[b]c", null, "]"));
+		assertEquals("b]c", StringUtil.extract("a[b]c", "[", null));
+	}
     
     // helpers ---------------------------------------------------------------------------------------------------------
 
