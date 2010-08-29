@@ -24,7 +24,6 @@ package org.databene.gui.swing.delegate;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -37,9 +36,9 @@ import org.databene.commons.bean.ObservableBean;
 import org.databene.commons.converter.ToStringConverter;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link JTextArea} implementation that serves as delegate of a property of a JavaBean object.<br/><br/>
  * Created: 22.08.2010 07:29:11
- * @since TODO version
+ * @since 0.2.4
  * @author Volker Bergmann
  */
 public class PropertyTextArea extends JTextArea {
