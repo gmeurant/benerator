@@ -26,6 +26,8 @@
 
 package org.databene.html;
 
+import java.util.HashMap;
+
 /**
  * Entity enumeration.<br/>
  * <br/>
@@ -33,6 +35,9 @@ package org.databene.html;
  * @author Volker Bergmann
  */
 public class HTMLEntity {
+	
+	private static HashMap<String, HTMLEntity> HTML_CODES = new HashMap<String, HTMLEntity>();
+	private static HashMap<Integer, HTMLEntity> NUMBERS = new HashMap<Integer, HTMLEntity>();
 
 	private static HTMLEntity[] ENTITIES = {
 	    new HTMLEntity("nbsp",   160),
@@ -289,22 +294,41 @@ public class HTMLEntity {
 	    new HTMLEntity("euro",    8364)
     };
 
-    public String htmlCode;
-    public int xmlCode;
+    public final String htmlCode;
+    public final int xmlCode;
+    public final char character;
 
     public HTMLEntity(String htmlCode, int xmlCode) {
         this.htmlCode = htmlCode;
         this.xmlCode = xmlCode;
+        this.character = (char) xmlCode;
+        HTML_CODES.put(htmlCode, this);
+        NUMBERS.put(xmlCode, this);
     }
 
     public static HTMLEntity[] getAllInstances() {
         return ENTITIES;
     }
 
-    public static HTMLEntity getEntity(String s, int i) {
-        for (HTMLEntity entity : ENTITIES)
-            if (i + entity.htmlCode.length() + 2 < s.length() && s.charAt(i) == '&' && s.charAt(i + entity.htmlCode.length() + 1) == ';' && s.substring(i + 1, i + 1 + entity.htmlCode.length()).equals(entity.htmlCode))
-                return entity;
-        return null;
+    public static HTMLEntity getEntity(String s, int position) {
+    	int semIndex = s.indexOf(';', position);
+    	if (semIndex < 0)
+    		return null;
+    	boolean num = (s.charAt(position + 1) == '#');
+    	String code = s.substring(position + 1 + (num ? 1 : 0), semIndex);
+    	return (num ? findByNumber(Integer.parseInt(code)) : findByHtmlCode(code));
+    }
+    
+    private static HTMLEntity findByHtmlCode(String code) {
+	    return HTML_CODES.get(code);
+    }
+
+	private static HTMLEntity findByNumber(int number) {
+	    return NUMBERS.get(number);
+    }
+
+	@Override
+    public String toString() {
+        return htmlCode;
     }
 }
