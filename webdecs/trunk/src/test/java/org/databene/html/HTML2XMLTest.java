@@ -42,6 +42,8 @@ import org.databene.commons.SystemInfo;
 public class HTML2XMLTest {
 
     private static String SEP = SystemInfo.getLineSeparator();
+    private static String XML_HEADER_ROW = 
+    	"<?xml version=\"1.0\" encoding=\"" + SystemInfo.getFileEncoding() + "\"?>" + SEP;
 
     private static final String HTML1 = "<html>" + SEP +
             "\t<?XXX level=\"3\"?>" + SEP +
@@ -57,7 +59,7 @@ public class HTML2XMLTest {
             "</html>";
 
     private static final String XML1 =
-        "<?xml version=\"1.0\"?>" + SEP +
+        XML_HEADER_ROW +
         "<html>" + SEP +
         "\t<?XXX level=\"3\"?>" + SEP +
         "\t<!-- some comment -->" + SEP +
@@ -75,14 +77,14 @@ public class HTML2XMLTest {
     	"<a><img src=\"http://databene.org\"><br></a>";
 
     private static final String XML2 =
-        "<?xml version=\"1.0\"?>" + SEP +
+        XML_HEADER_ROW +
         "<html><a><img src=\"http://databene.org\"></img><br></br></a></html>";
 
     private static final String HTML3 = 
     	"R&B";
 
     private static final String XML3 =
-        "<?xml version=\"1.0\"?>" + SEP +
+        XML_HEADER_ROW +
         "<html>R&amp;B</html>";
     
     // tests -----------------------------------------------------------------------------------------------------------

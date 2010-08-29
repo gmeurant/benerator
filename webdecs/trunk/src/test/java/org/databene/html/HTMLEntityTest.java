@@ -36,7 +36,17 @@ import junit.framework.TestCase;
  */
 public class HTMLEntityTest extends TestCase {
 	
-	public void test() {
+	public void testXmlCode() {
 		assertEquals(38, HTMLEntity.getEntity("_&amp;_", 1).xmlCode);
 	}
+
+	public void testCharacter() {
+		assertEquals('Ö', HTMLEntity.getEntity("&Ouml;", 0).xmlCode);
+		assertEquals('ì', HTMLEntity.getEntity("&igrave;", 0).xmlCode);
+	}
+
+	public void testNumberCode() {
+		assertEquals('Ö', HTMLEntity.getEntity("&#214;", 0).xmlCode);
+	}
+
 }
