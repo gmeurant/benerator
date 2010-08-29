@@ -64,11 +64,13 @@ public class HTML2XML {
     	Writer writer;
     	HTMLTokenizer tokenizer;
     	Stack<String> path;
+    	boolean xmlHeaderCreated;
     	boolean rootCreated;
     	
     	ConversionContext(Reader reader, Writer writer) {
     		this.tokenizer = new DefaultHTMLTokenizer(reader);
     		this.path = new Stack<String>();
+    		this.xmlHeaderCreated = false;
     		this.rootCreated = false;
     		this.writer = writer;
     	}
@@ -76,12 +78,12 @@ public class HTML2XML {
 
     public static void convert(Reader reader, Writer writer) throws IOException, ParseException {
     	// TODO v0.5.x use XML serializer
-        writeHeader(writer);
     	ConversionContext context = new ConversionContext(reader, writer);
         int token;
         while ((token = context.tokenizer.nextToken()) != HTMLTokenizer.END) {
             switch (token) {
                 case (HTMLTokenizer.START_TAG) :
+                	ensureXmlHeader(context);
                 	// ignore scripts
                     if ("script".equalsIgnoreCase(context.tokenizer.name())) // TODO v0.5.x test script handling
                         continue;
@@ -124,6 +126,7 @@ public class HTML2XML {
                         return;
                     break;
                 case HTMLTokenizer.TEXT:
+                	ensureXmlHeader(context);
                 	String text = context.tokenizer.text();
                 	if (text != null && text.trim().length() > 0)
                 		ensureRootElement(context);
@@ -141,7 +144,10 @@ public class HTML2XML {
                     // leave out doc type
                     break;
                 case HTMLTokenizer.PROCESSING_INSTRUCTION:
-                	writeXml(context.writer, context.tokenizer.text());
+                	String piText = context.tokenizer.text();
+                	writeXml(context.writer, piText);
+                	if (piText.startsWith("<?xml"))
+                		context.xmlHeaderCreated = true;
                     break;
                 case HTMLTokenizer.SCRIPT:
                     // ignore this
@@ -156,7 +162,18 @@ public class HTML2XML {
         }
     }
 
-	private static void ensureRootElement(ConversionContext context) throws IOException {
+    private static void ensureXmlHeader(ConversionContext context) throws IOException {
+		if (!context.xmlHeaderCreated) {
+			context.writer.write("<?xml " +
+					"version=\"1.0\" " +
+					"encoding=\"" + SystemInfo.getFileEncoding() + 
+					"\"?>" + SystemInfo.getLineSeparator());
+			context.xmlHeaderCreated = true;
+		}
+    }
+
+    private static void ensureRootElement(ConversionContext context) throws IOException {
+    	ensureXmlHeader(context);
 		// ensure that there is an html root tag
 		if (!context.rootCreated && !"html".equals(context.tokenizer.name())) {
 			writeStartTag(context.writer, "html");
@@ -170,10 +187,6 @@ public class HTML2XML {
             if (tagName.equals(name))
                 return true;
         return false;
-    }
-
-    private static void writeHeader(Writer writer) throws IOException {
-        writer.write("<?xml version=\"1.0\"?>" + SystemInfo.getLineSeparator());
     }
 
     private static void writeEmptyTag(Writer writer, HTMLTokenizer tokenizer) throws IOException {
