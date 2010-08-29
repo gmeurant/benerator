@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -44,4 +44,28 @@ public class HTMLUtil {
         return EMPTY_TAGS.contains(tagName.toLowerCase());
     }
 
+	public static String resolveEntities(String text) {
+		StringBuilder result = new StringBuilder(text.length());
+	    int i;
+        while ((i = text.indexOf('&')) >= 0) {
+            HTMLEntity entity = HTMLEntity.getEntity(text, i);
+            if (entity != null) {
+                result.append(text.substring(0, i));
+                if ("nbsp".equals(entity.htmlCode))
+                	result.append(' ');
+                else if ("ndash".equals(entity.htmlCode))
+                    	result.append('-');
+                    else
+                	result.append(entity.character);
+                text = text.substring(i + entity.htmlCode.length() + 2);
+            } else {
+                result.append(text.substring(0, i));
+                result.append("&");
+                text = text.substring(i + 1);
+            }
+        }
+        result.append(text);
+        return result.toString();
+    }
+	
 }
