@@ -21,7 +21,9 @@
 
 package org.databene.commons;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,6 +41,13 @@ public class NameUtil {
     	String[] result = new String[objects.length];
     	for (int i = 0; i < objects.length; i++)
     		result[i] = objects[i].getName();
+    	return result;
+    }
+
+    public static <T extends Collection<? extends Named>> List<String> getNames(T objects) {
+    	List<String> result = new ArrayList<String>(objects.size());
+    	for (Named object : objects)
+    		result.add(object.getName());
     	return result;
     }
 
