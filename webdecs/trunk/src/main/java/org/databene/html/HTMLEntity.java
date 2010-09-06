@@ -315,8 +315,13 @@ public class HTMLEntity {
     	if (semIndex < 0)
     		return null;
     	boolean num = (s.charAt(position + 1) == '#');
-    	String code = s.substring(position + 1 + (num ? 1 : 0), semIndex);
-    	return (num ? findByNumber(Integer.parseInt(code)) : findByHtmlCode(code));
+    	boolean hex = (num ? s.charAt(position + 2) == 'x' : false);
+    	if (hex)
+    		return findByNumber(Integer.parseInt(s.substring(position + 3, semIndex), 16));
+    	else if (num)
+    		return findByNumber(Integer.parseInt(s.substring(position + 2, semIndex)));
+    	else
+    		return findByHtmlCode(s.substring(position + 1, semIndex));
     }
     
     private static HTMLEntity findByHtmlCode(String code) {
