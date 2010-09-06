@@ -352,6 +352,16 @@ public class StringUtilTest {
 		assertEquals("b]c", StringUtil.extract("a[b]c", "[", null));
 	}
     
+	@Test
+	public void testBuildPhrase() {
+		assertEquals("", StringUtil.buildPhrase());
+		assertEquals("", StringUtil.buildPhrase((String[]) null));
+		assertEquals("", StringUtil.buildPhrase(""));
+		assertEquals("Test", StringUtil.buildPhrase("Test"));
+		assertEquals("Test this", StringUtil.buildPhrase("Test", "this"));
+		assertEquals("Test this", StringUtil.buildPhrase("Test", null, "this", null));
+	}
+	
     // helpers ---------------------------------------------------------------------------------------------------------
 
 	private void checkSplitFirst(String parent, String child, String path) {

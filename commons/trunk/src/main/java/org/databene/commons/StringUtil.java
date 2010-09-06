@@ -654,4 +654,18 @@ public final class StringUtil {
 	    	return text.substring(beginIndex);
     }
 
+	public static String buildPhrase(String... parts) {
+		if (parts == null)
+			return "";
+		StringBuilder builder = new StringBuilder();
+		for (String part : parts) {
+			if (!StringUtil.isEmpty(part)) {
+				if (builder.length() > 0)
+					builder.append(' ');
+				builder.append(part);
+			}
+		}
+		return builder.toString();
+	}
+	
 }
