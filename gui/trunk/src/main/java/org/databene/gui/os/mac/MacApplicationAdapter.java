@@ -21,7 +21,7 @@
 
 package org.databene.gui.os.mac;
 
-import org.databene.gui.os.Application;
+import org.databene.gui.os.JavaApplication;
 
 import com.apple.eawt.ApplicationAdapter;
 import com.apple.eawt.ApplicationEvent;
@@ -34,9 +34,9 @@ import com.apple.eawt.ApplicationEvent;
  */
 public class MacApplicationAdapter extends ApplicationAdapter {
 
-	private Application application;
+	private JavaApplication application;
 	
-	public MacApplicationAdapter(Application application) {
+	public MacApplicationAdapter(JavaApplication application) {
 	    this.application = application;
     }
 
