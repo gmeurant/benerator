@@ -27,7 +27,7 @@ package org.databene.gui.os;
  * @since 0.2.3
  * @author Volker Bergmann
  */
-public interface Application {
+public interface JavaApplication {
 	void about();
 	void exit();
 }
