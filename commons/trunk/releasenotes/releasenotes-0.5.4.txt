@@ -9,6 +9,8 @@ Enhancements
 - new NameUtil and NameComparator
 - IOUtil.download(URL url, File targetFile)
 - ArrayUtil.removeElement(T[] array, T item)
+- Supporting varargs in BeanUtil
+- new method StringUtil.buildPhrase()
 
 
 
