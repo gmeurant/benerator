@@ -628,7 +628,28 @@ public final class BeanUtil {
     @SuppressWarnings("unchecked")
     public static <T> T invoke(Object target, Method method, boolean strict, Object ... args) {
         try {
-            Object[] params = (strict ? args : ArrayTypeConverter.convert(args, method.getParameterTypes()));
+            Object[] params;
+            if (method.getParameterTypes().length == 0) {
+            	params = null;
+            } else if (args.length == method.getParameterTypes().length) {
+            	// map one to one
+            	params = (strict ? args : ArrayTypeConverter.convert(args, method.getParameterTypes()));
+        	} else {
+        		// map varargs
+        		Class<?>[] paramTypes = method.getParameterTypes();
+        		params = new Object[paramTypes.length];
+        		for (int i = 0; i < paramTypes.length - 1; i++)
+        			params[i] = (strict ? args[i] : AnyConverter.convert(args[i], paramTypes[i]));
+        		Class<?> varargsComponentType = paramTypes[paramTypes.length - 1].getComponentType();
+        		Object[] varargs = (Object[]) Array.newInstance(varargsComponentType, args.length - paramTypes.length + 1);
+        		for (int i = 0; i < args.length - paramTypes.length + 1; i++) {
+	                Object param = args[paramTypes.length - 1 + i];
+	                if (strict)
+	                	param = AnyConverter.convert(param, varargsComponentType);
+	                varargs[i] = param;
+                }
+				params[params.length - 1] = varargs;
+            }
             return (T) method.invoke(target, params);
         } catch (IllegalAccessException e) {
             throw ExceptionMapper.configurationException(e, method);
@@ -640,27 +661,41 @@ public final class BeanUtil {
     public static boolean typesMatch(Class<?>[] foundTypes, Class<?>[] expectedTypes) {
     	if (foundTypes == null)
     		return (expectedTypes == null || expectedTypes.length == 0);
+        if (expectedTypes.length == 1 && expectedTypes[0].isArray()) { // TODO support methods which have parameters additionally to the varargs param
+        	Class<?> componentType = expectedTypes[0].getComponentType();
+        	for (Class<?> foundType : foundTypes)
+        		if (!typeMatches(foundType, componentType))
+        			return false;
+        	return true;
+        }
         if (foundTypes.length != expectedTypes.length)
             return false;
-        if (expectedTypes.length == 0)
+        if (expectedTypes.length == 0 && foundTypes.length == 0)
             return true;
         for (int i = 0; i < foundTypes.length; i++) {
             Class<?> expectedType = expectedTypes[i];
             Class<?> foundType = foundTypes[i];
-            if (expectedType.isAssignableFrom(foundType))
-                return true;
-            if (isPrimitiveType(expectedType.getName()) &&
-                    foundType.equals(getWrapper(expectedType.getName())))
-                return true;
-            if (isPrimitiveType(foundType.getName()) &&
-                    expectedType.equals(getWrapper(foundType.getName())))
-                return true;
+            if (!typeMatches(foundType, expectedType))
+            	return false;
         }
-        return false;
+        return true;
     }
 
+    private static boolean typeMatches(Class<?> foundType, Class<?> expectedType) {
+    	if (foundType == null)
+    		return true;
+        if (expectedType.isAssignableFrom(foundType))
+            return true;
+        if (isPrimitiveType(expectedType.getName()) &&
+                foundType.equals(getWrapper(expectedType.getName())))
+            return true;
+        if (isPrimitiveType(foundType.getName()) &&
+                expectedType.equals(getWrapper(foundType.getName())))
+            return true;
+	    return false;
+    }
 
-    // JavaBean operations ---------------------------------------------------------------------------------------------
+	// JavaBean operations ---------------------------------------------------------------------------------------------
 
     /**
      * Returns the bean property descriptor of an attribute
