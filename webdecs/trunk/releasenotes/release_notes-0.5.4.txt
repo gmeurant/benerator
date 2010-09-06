@@ -1,0 +1,15 @@
+release notes databene webdecs 0.5.4
+------------------------------------
+
+Summary
+-------
+
+
+
+Enhancements
+------------
+- Supporting hexadecimal entity codes
+
+
+Changes
+-------
