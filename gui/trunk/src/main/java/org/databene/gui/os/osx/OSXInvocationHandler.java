@@ -19,39 +19,36 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.gui.os;
+package org.databene.gui.os.osx;
 
-import javax.swing.UIManager;
-import org.databene.commons.SystemInfo;
-import org.databene.gui.os.osx.OSXUtil;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+
+import org.databene.commons.BeanUtil;
+import org.databene.gui.os.JavaApplication;
 
 /**
  * TODO Document class.<br/><br/>
- * Created: 03.09.2010 16:16:12
+ * Created: 10.09.2010 09:18:57
  * @since 0.2.4
  * @author Volker Bergmann
  */
-public class ApplicationUtil {
+public class OSXInvocationHandler implements InvocationHandler {
+	
+	private JavaApplication application;
+	
+	public OSXInvocationHandler(JavaApplication application) {
+	    this.application = application;
+    }
 
-	public static void prepareNativeLAF(String appName) {
-		if (SystemInfo.isMacOsx())
-		    prepareMacVM(appName);
-	    try {
-	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
+	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+		if ("handleQuit".equals(method.getName()))
+			application.exit();
+		else if ("handleAbout".equals(method.getName())) {
+			BeanUtil.invoke(args[0], "setHandled", true);
+			application.about();
+		}
+		return null;
 	}
-	
-	private static void prepareMacVM(String applicationName) {
-	    System.setProperty("apple.awt.brushMetalLook", "true");
-	    System.setProperty("apple.laf.useScreenMenuBar", "true");
-	    System.setProperty("com.apple.mrj.application.apple.menu.about.name", applicationName);
-    }
 
-	public static void configureApplication(JavaApplication application) {
-	    if (SystemInfo.isMacOsx())
-	    	OSXUtil.cofigureAppliaction(application);
-    }
-	
 }

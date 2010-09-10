@@ -19,39 +19,31 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.gui.os;
+package org.databene.gui.os.osx;
 
-import javax.swing.UIManager;
-import org.databene.commons.SystemInfo;
-import org.databene.gui.os.osx.OSXUtil;
+import java.lang.reflect.Proxy;
+
+import org.databene.commons.BeanUtil;
+import org.databene.gui.os.JavaApplication;
 
 /**
  * TODO Document class.<br/><br/>
- * Created: 03.09.2010 16:16:12
+ * Created: 10.09.2010 09:30:01
  * @since 0.2.4
  * @author Volker Bergmann
  */
-public class ApplicationUtil {
+public class OSXUtil {
 
-	public static void prepareNativeLAF(String appName) {
-		if (SystemInfo.isMacOsx())
-		    prepareMacVM(appName);
-	    try {
-	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	}
-	
-	private static void prepareMacVM(String applicationName) {
-	    System.setProperty("apple.awt.brushMetalLook", "true");
-	    System.setProperty("apple.laf.useScreenMenuBar", "true");
-	    System.setProperty("com.apple.mrj.application.apple.menu.about.name", applicationName);
+	public static void cofigureAppliaction(JavaApplication application) {
+    	Class<?> applicationClass = BeanUtil.forName("com.apple.eawt.Application");
+    	Object osxApplication = BeanUtil.invokeStatic(applicationClass, "getApplication");
+        Class<?> applicationListenerClass = BeanUtil.forName("com.apple.eawt.ApplicationListener");
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		Object osxAdapterProxy = Proxy.newProxyInstance(
+				classLoader, 
+				new Class[] { applicationListenerClass }, 
+				new OSXInvocationHandler(application));
+		BeanUtil.invoke(osxApplication, "addApplicationListener", new Object[] { osxAdapterProxy });
     }
 
-	public static void configureApplication(JavaApplication application) {
-	    if (SystemInfo.isMacOsx())
-	    	OSXUtil.cofigureAppliaction(application);
-    }
-	
 }
