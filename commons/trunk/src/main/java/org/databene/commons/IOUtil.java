@@ -76,6 +76,23 @@ public final class IOUtil {
         }
     }
 
+    public static <T extends Closeable> void closeAll(T... closeables) {
+        if (closeables != null) {
+        	Throwable t = null;
+        	for (Closeable closeable : closeables) {
+	            try {
+	                closeable.close();
+	            } catch (IOException e) {
+	                logger.error("Error closing " + closeable, e);
+	            } catch (Throwable e) {
+	                t = e;
+	            }
+        	}
+        	if (t != null)
+        		throw new RuntimeException("Error closing resources", t);
+        }
+    }
+
     public static <T extends Collection<? extends Closeable>> void closeAll(T closeables) {
         if (closeables != null) {
         	Throwable t = null;
