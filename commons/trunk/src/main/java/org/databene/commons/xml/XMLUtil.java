@@ -263,6 +263,8 @@ public class XMLUtil {
             return builder.parse(stream);
         } catch (ParserConfigurationException e) {
             throw new ConfigurationError(e);
+        } catch (SAXParseException e) {
+            throw new ConfigurationError("Error in line " + e.getLineNumber() + " column " + e.getColumnNumber(), e);
         } catch (SAXException e) {
             throw new ConfigurationError(e);
         }
