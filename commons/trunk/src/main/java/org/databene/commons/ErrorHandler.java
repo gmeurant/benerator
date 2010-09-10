@@ -51,7 +51,7 @@ public class ErrorHandler {
 	}
 	
 	public ErrorHandler(String category) {
-		this(category, Level.error);
+		this(category, Level.fatal);
 	}
 	
 	public ErrorHandler(String category, Level level) {
