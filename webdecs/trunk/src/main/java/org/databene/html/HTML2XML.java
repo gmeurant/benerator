@@ -26,6 +26,7 @@
 
 package org.databene.html;
 
+import org.databene.commons.CollectionUtil;
 import org.databene.commons.IOUtil;
 import org.databene.commons.SystemInfo;
 import org.slf4j.Logger;
@@ -33,6 +34,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.text.ParseException;
+import java.util.Set;
 import java.util.Stack;
 import java.util.Map;
 
@@ -45,6 +47,7 @@ import java.util.Map;
 public class HTML2XML {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(HTML2XML.class);
+	private static final Set<String> COMMON_CODES = CollectionUtil.toSet("lt", "gt", "amp");
 
     public static String convert(String html) throws ParseException {
         Reader reader = new StringReader(html);
@@ -82,7 +85,8 @@ public class HTML2XML {
         int token;
         while ((token = context.tokenizer.nextToken()) != HTMLTokenizer.END) {
             switch (token) {
-                case (HTMLTokenizer.START_TAG) :
+                case HTMLTokenizer.START_TAG:
+                case HTMLTokenizer.CLOSED_TAG:
                 	ensureXmlHeader(context);
                 	// ignore scripts
                     if ("script".equalsIgnoreCase(context.tokenizer.name())) // TODO v0.5.x test script handling
@@ -103,13 +107,14 @@ public class HTML2XML {
                             }
                         }
                     }
-                    writeStartTag(context.writer, context.tokenizer);
                     context.rootCreated = true;
-                    context.path.push(context.tokenizer.name());
+					if (token == HTMLTokenizer.CLOSED_TAG) {
+	                    writeEmptyTag(context.writer, context.tokenizer);
+					} else {
+	                    writeStartTag(context.writer, context.tokenizer);
+	                    context.path.push(context.tokenizer.name());
+					}
                     break;
-                case (HTMLTokenizer.CLOSED_TAG):
-                    writeEmptyTag(context.writer, context.tokenizer);
-                	break;
                 case (HTMLTokenizer.END_TAG):
                     if ("script".equalsIgnoreCase(context.tokenizer.name()))
                         continue;
@@ -228,9 +233,9 @@ public class HTML2XML {
     }
 
     private static void writeText(Writer writer, String s) throws IOException {
-        s = resolveEntities(writer, s);
         s = s.replace("<", "&lt;");
         s = s.replace(">", "&gt;");
+        s = resolveEntities(writer, s);
         writer.write(s);
     }
 
@@ -240,8 +245,11 @@ public class HTML2XML {
             HTMLEntity entity = HTMLEntity.getEntity(s, i);
             if (entity != null) {
                 writer.write(s.substring(0, i + 1));
-                writer.write("#" + entity.xmlCode + ";");
-                s = s.substring(i + entity.htmlCode.length() + 2);
+                if (COMMON_CODES.contains(entity.htmlCode))
+                	writer.write(entity.htmlCode + ';');
+                else
+                	writer.write("#" + entity.xmlCode + ";");
+                s = s.substring(s.indexOf(';', i) + 1);
             } else {
                 writer.write(s.substring(0, i));
                 writer.write("&amp;");

@@ -87,6 +87,18 @@ public class HTML2XMLTest {
         XML_HEADER_ROW +
         "<html>R&amp;B</html>";
     
+    private static final String HTML4 = 
+    	"<img src='image.php?s=1&amp;u=1&amp;type=sigpic&amp;dateline=1' a" +
+    	"lt='<a href=http://www.xyz.com/image.php?type=pic&amp;userid=1&amp;dateline=1>" +
+    	"http://www.xyz.com/image....ine=1</a>' border='0' />";
+    
+    private static final String XML4 =
+        XML_HEADER_ROW +
+        "<html><img src=\"image.php?s=1&amp;u=1&amp;type=sigpic&amp;dateline=1\" " +
+        "alt=\"&lt;a href=http://www.xyz.com/image.php?type=pic&amp;userid=1&amp;dateline=1&gt;" +
+        "http://www.xyz.com/image....ine=1&lt;/a&gt;\" border=\"0\"/></html>";
+    
+    
     // tests -----------------------------------------------------------------------------------------------------------
 
     @Test
@@ -102,6 +114,11 @@ public class HTML2XMLTest {
     @Test
     public void testAmpersand() throws Exception {
 		check(HTML3, XML3);
+    }
+    
+    @Test
+    public void testXmlInAttribute() throws Exception {
+		check(HTML4, XML4);
     }
     
     // helpers ---------------------------------------------------------------------------------------------------------
