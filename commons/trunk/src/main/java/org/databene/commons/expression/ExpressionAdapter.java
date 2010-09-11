@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -21,23 +21,24 @@
 
 package org.databene.commons.expression;
 
-import org.databene.commons.Context;
 import org.databene.commons.Expression;
 
 /**
- * Parent class for all expression classes that act as proxy of another class.<br/><br/>
- * Created: 21.10.2009 14:43:08
- * @since 0.5.0
+ * TODO Document class.<br/><br/>
+ * Created: 11.09.2010 07:01:10
+ * @since 0.5.4
  * @author Volker Bergmann
  */
-public class ExpressionProxy<E> extends ExpressionAdapter<E, E> {
-	
-	public ExpressionProxy(Expression<E> source) {
-	    super(source);
+public abstract class ExpressionAdapter<S, T> implements Expression<T> {
+
+	protected final Expression<S> source;
+
+	public ExpressionAdapter(Expression<S> source) {
+	    this.source = source;
     }
 	
-	public E evaluate(Context context) {
-	    return source.evaluate(context);
-    }
+	public boolean isConstant() {
+	    return source.isConstant();
+	}
 
 }
