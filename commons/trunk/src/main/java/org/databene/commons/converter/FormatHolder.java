@@ -80,6 +80,7 @@ public abstract class FormatHolder implements Patterns {
         this.timestampPattern = timestampPattern;
         this.timePattern = DEFAULT_TIME_PATTERN;
         this.dateTimePattern = DEFAULT_DATETIME_PATTERN;
+        this.integralConverter = null;
         this.decimalConverter = null;
         this.stringQuote = null;
         this.charQuote = null;
@@ -128,6 +129,16 @@ public abstract class FormatHolder implements Patterns {
 			decimalConverter = new NumberFormatter(pattern);
 		decimalConverter.setPattern(pattern);
 	}
+
+	public char getGroupingSeparator() {
+	    return decimalConverter.getDecimalSeparator();
+    }
+
+	public void setGroupingSeparator(char groupingSeparator) {
+		if (decimalConverter == null)
+			decimalConverter = new NumberFormatter();
+		decimalConverter.setGroupingSeparator(groupingSeparator);
+    }
 
 	public char getDecimalSeparator() {
     	return decimalConverter.getDecimalSeparator();

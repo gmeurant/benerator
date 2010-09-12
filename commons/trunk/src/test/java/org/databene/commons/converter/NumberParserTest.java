@@ -23,6 +23,9 @@ package org.databene.commons.converter;
 
 import static junit.framework.Assert.assertEquals;
 
+import java.util.Locale;
+
+import org.databene.commons.LocaleUtil;
 import org.junit.Test;
 
 /**
@@ -38,19 +41,56 @@ public class NumberParserTest extends ConverterTest {
     }
 
 	@Test
-	public void testRevert() {
+	public void testEmpty() {
 		NumberParser converter = new NumberParser();
 		assertEquals(null, converter.convert(""));
-		assertEquals(0., converter.convert("0.0").doubleValue());
-		assertEquals(0, converter.convert("0").intValue());
-		converter.setPattern("0.00");
-		assertEquals(0., converter.convert("0.00").doubleValue());
-		converter.setDecimalSeparator(',');
-		assertEquals(0., converter.convert("0,00").doubleValue());
-		converter.setPattern("#,##0");
-		assertEquals(1000, converter.convert("1.000").intValue());
-		converter.setPattern("#,##0.00");
-		assertEquals(1000., converter.convert("1.000,00").doubleValue());
+		assertEquals(null, converter.convert(null));
 	}
 	
+	@Test
+	public void testIntegral() {
+		NumberParser converter = new NumberParser();
+		assertEquals(0, converter.convert("0").intValue());
+		assertEquals(1000, converter.convert("1000").intValue());
+	}
+	
+	@Test
+	public void testConvert_US() {
+		LocaleUtil.runInLocale(Locale.US, new Runnable() {
+			public void run() {
+				checkConversion();
+			}
+		});
+	}
+	
+	@Test
+	public void testConvert_DE() {
+		LocaleUtil.runInLocale(Locale.GERMANY, new Runnable() {
+			public void run() {
+				checkConversion();
+			}
+		});
+	}
+	
+	void checkConversion() {
+        NumberParser converter = new NumberParser();
+		// default
+		assertEquals(-1., converter.convert("-1.0").doubleValue());
+		assertEquals(0., converter.convert("0.0").doubleValue());
+		assertEquals(1000., converter.convert("1000.0").doubleValue());
+		// pattern
+		converter.setPattern("0.00");
+		assertEquals(0., converter.convert("0.00").doubleValue());
+		// decimal separator
+		converter.setDecimalSeparator(',');
+		assertEquals(0., converter.convert("0,00").doubleValue());
+		// grouping
+		converter.setGroupingSeparator('.');
+		converter.setPattern("#,##0");
+		assertEquals(1000, converter.convert("1.000").intValue());
+		// grouping and decimal separator
+		converter.setPattern("#,##0.00");
+		assertEquals(1000., converter.convert("1.000,00").doubleValue());
+    }
+
 }

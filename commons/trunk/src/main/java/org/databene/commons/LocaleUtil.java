@@ -26,6 +26,7 @@
 
 package org.databene.commons;
 
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.io.IOException;
@@ -216,6 +217,10 @@ public final class LocaleUtil {
 	    } finally {
 	    	Locale.setDefault(realLocale);
 	    }
+    }
+
+	public static char getDecimalSeparator() {
+		return new DecimalFormat().getDecimalFormatSymbols().getDecimalSeparator();
     }
 
 }

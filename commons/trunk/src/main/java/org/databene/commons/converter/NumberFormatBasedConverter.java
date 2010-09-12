@@ -39,16 +39,16 @@ public abstract class NumberFormatBasedConverter<S, T> extends AbstractConverter
 	
 	// constants -------------------------------------------------------------------------------------------------------
 	
-	protected static final String DEFAULT_DECIMAL_PATTERN = "";
-    
+	protected static final String DEFAULT_DECIMAL_PATTERN = "0.#";
 	protected static final char DEFAULT_DECIMAL_SEPARATOR = '.';
-
+	protected static final char DEFAULT_GROUPING_SEPARATOR = ',';
 	protected static final String DEFAULT_NULL_STRING = "";
 	
 	// attributes ------------------------------------------------------------------------------------------------------
 
 	private String pattern;
 	private char decimalSeparator;
+	private char groupingSeparator;
 	protected DecimalFormat format;
 
 	/** The string used to represent null values */
@@ -64,6 +64,7 @@ public abstract class NumberFormatBasedConverter<S, T> extends AbstractConverter
 		super(sourceType, targetType);
 		setPattern(pattern);
 		setDecimalSeparator(DEFAULT_DECIMAL_SEPARATOR);
+		setGroupingSeparator(DEFAULT_GROUPING_SEPARATOR);
 		setNullString(DEFAULT_NULL_STRING);
 	}
 	
@@ -83,10 +84,25 @@ public abstract class NumberFormatBasedConverter<S, T> extends AbstractConverter
     	return decimalSeparator;
     }
 
+	public void setGroupingSeparator(char groupingSeparator) {
+    	this.groupingSeparator = groupingSeparator;
+    	updateFormat();
+    }
+
+	public char getGroupingSeparator() {
+    	return decimalSeparator;
+    }
+
 	public void setDecimalSeparator(char decimalSeparator) {
     	this.decimalSeparator = decimalSeparator;
-		DecimalFormatSymbols newSymbols = new DecimalFormatSymbols();
-		newSymbols.setDecimalSeparator(decimalSeparator);
+		updateFormat();
+    }
+
+	private void updateFormat() {
+	    DecimalFormatSymbols newSymbols = new DecimalFormatSymbols();
+		if (groupingSeparator != 0)
+			newSymbols.setGroupingSeparator(groupingSeparator);
+		newSymbols.setDecimalSeparator(this.decimalSeparator);
 		format.setDecimalFormatSymbols(newSymbols);
     }
 
@@ -103,7 +119,7 @@ public abstract class NumberFormatBasedConverter<S, T> extends AbstractConverter
 	}
 
 	protected Number parse(String input) throws ConversionException {
-		if (NullSafeComparator.equals(input, nullString))
+		if (input == null || NullSafeComparator.equals(input, nullString))
 			return null;
 		try {
 			Number result = format.parse(input);

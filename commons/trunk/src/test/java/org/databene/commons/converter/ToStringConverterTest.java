@@ -26,6 +26,9 @@
 
 package org.databene.commons.converter;
 
+import java.util.Locale;
+
+import org.databene.commons.LocaleUtil;
 import org.junit.Test;
 import static junit.framework.Assert.*;
 
@@ -44,19 +47,53 @@ public class ToStringConverterTest extends ConverterTest {
     }
 
 	@Test
-	public void testDecimal() {
-		ToStringConverter converter = new ToStringConverter();
-		assertEquals("", converter.convert(null));
-		assertEquals("0.0", converter.convert(0.));
-		assertEquals("0", converter.convert(0));
-		converter.setDecimalPattern("0.00");
-		assertEquals("0.00", converter.convert(0.));
-		converter.setDecimalSeparator(',');
-		assertEquals("0,00", converter.convert(0.));
-		converter.setDecimalPattern("#,##0");
-		assertEquals("1.000", converter.convert(1000.));
-		converter.setDecimalPattern("#,##0.00");
-		assertEquals("1.000,00", converter.convert(1000.));
+	public void testEmpty() {
+		assertEquals("", new ToStringConverter().convert(null));
+		assertEquals("", new ToStringConverter().convert(""));
+    }
+	
+	@Test
+	public void testInteger() {
+		assertEquals(   "0", new ToStringConverter().convert(0));
+		assertEquals( "-11", new ToStringConverter().convert(-11));
+		assertEquals("1000", new ToStringConverter().convert(1000));
+    }
+	
+	@Test
+	public void testDecimal_US() {
+		LocaleUtil.runInLocale(Locale.US, new Runnable() {
+			public void run() {
+				checkDecimalConversions();
+            }
+		});
 	}
 	
+	@Test
+	public void testDecimal_DE() {
+		LocaleUtil.runInLocale(Locale.GERMANY, new Runnable() {
+			public void run() {
+				checkDecimalConversions();
+            }
+		});
+	}
+	
+	void checkDecimalConversions() {
+        ToStringConverter converter = new ToStringConverter();
+		// default should be US
+		assertEquals("0.0", converter.convert(0.));
+		assertEquals("1000.0", converter.convert(1000.));
+		// decimal pattern
+		converter.setDecimalPattern("0.00");
+		assertEquals("0.00", converter.convert(0.));
+		// decimal separator
+		converter.setDecimalSeparator(',');
+		assertEquals("0,00", converter.convert(0.));
+		// grouping
+		converter.setDecimalPattern("#,##0");
+		assertEquals("1,000", converter.convert(1000.));
+		// grouping and decimal
+		converter.setDecimalPattern("#,##0.00");
+		converter.setGroupingSeparator('.');
+		assertEquals("1.000,00", converter.convert(1000.));
+    }
 }
