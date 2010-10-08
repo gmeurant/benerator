@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -40,7 +40,7 @@ public class DefaultTreeNode<E> {
     private DefaultTreeNode<E> parent;
     private boolean leaf;
     private List<DefaultTreeNode<E>> children;
-    private E object;
+    protected E object;
 
     public static <T> DefaultTreeNode<T> createLeaf(DefaultTreeNode<T> parent, T object) {
         return new DefaultTreeNode<T>(parent, object, true);
