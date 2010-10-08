@@ -505,9 +505,8 @@ public final class IOUtil {
     private static InputStream getResourceAsStream(String name, boolean required) {
     	if (logger.isDebugEnabled())
     		logger.debug("getResourceAsStream(" + name + ", " + required + ')');
-        if (!name.startsWith("/"))
-            name = "/" + name;
-        InputStream stream = IOUtil.class.getResourceAsStream(name);
+    	String searchedName = (name.startsWith("/") ? name : "/" + name);
+        InputStream stream = IOUtil.class.getResourceAsStream(searchedName);
         if (required && stream == null)
             throw new ConfigurationError("Resource not found: " + name);
         return stream;
