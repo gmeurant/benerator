@@ -28,7 +28,7 @@ import org.databene.commons.bean.DefaultClassProvider;
 /**
  * Resolves a class by its class name.<br/><br/>
  * Created: 07.10.2010 11:41:59
- * @since 0.6.4
+ * @since 0.5.4
  * @author Volker Bergmann
  */
 public class ForNameExpression implements Expression<Class<?>>{
