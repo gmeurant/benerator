@@ -101,5 +101,12 @@ public class MathUtil {
 	public static boolean between(double x, double min, double max) {
 	    return (min < x && x < max);
     }
+
+	public static Double sum(double[] addends) {
+		double result = 0;
+		for (double addend : addends)
+			result += addend;
+	    return result;
+    }
 	
 }
