@@ -11,8 +11,13 @@ Enhancements
 - ArrayUtil.removeElement(T[] array, T item)
 - Supporting varargs in BeanUtil
 - new method StringUtil.buildPhrase()
+- new classes
+  - DoubleRect
+  - IntRange
+  - CompressedIntSet
 
 
 
 Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
 --------------------------------------------------------------------------------------------
+- Fixed reported path on resource file lookup error
