@@ -30,13 +30,13 @@ package org.databene.commons.iterator;
  * Proxy for a {@link BidirectionalIterator}.<br/>
  * <br/>
  * Created: 12.05.2007 23:18:31
- * @author Volker Bermgann
+ * @author Volker Bergmann
  */
-public abstract class IteratorProxy<E> implements BidirectionalIterator<E> {
+public abstract class BidirectionalIteratorProxy<E> implements BidirectionalIterator<E> {
 
     private BidirectionalIterator<E> realIterator;
 
-    public IteratorProxy(BidirectionalIterator<E> realIterator) {
+    public BidirectionalIteratorProxy(BidirectionalIterator<E> realIterator) {
         this.realIterator = realIterator;
     }
 
