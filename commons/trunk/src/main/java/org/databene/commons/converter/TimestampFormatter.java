@@ -26,7 +26,9 @@ import java.text.DateFormat;
 
 import org.databene.commons.ConversionException;
 import org.databene.commons.Patterns;
+import org.databene.commons.StringUtil;
 import org.databene.commons.format.ConcurrentDateFormat;
+import org.databene.commons.format.ConcurrentDecimalFormat;
 
 /**
  * Formats a {@link Timestamp} as {@link String}.<br/><br/>
@@ -37,28 +39,54 @@ import org.databene.commons.format.ConcurrentDateFormat;
 public class TimestampFormatter extends ThreadSafeConverter<Timestamp, String> {
 	
 	private DateFormat prefixFormat;
+	private ConcurrentDecimalFormat postfixFormat;
+	private long nanoDivisor;
+	
+	// constructors ----------------------------------------------------------------------------------------------------
 	
 	public TimestampFormatter() {
-	    this(Patterns.DEFAULT_DATETIME_SECONDS_PATTERN + '.');
+	    this(Patterns.DEFAULT_TIMESTAMP_PATTERN);
     }
 
-	public TimestampFormatter(String prefixPattern) {
-	    this(new ConcurrentDateFormat(prefixPattern));
-    }
-
-	public TimestampFormatter(DateFormat format) {
+	public TimestampFormatter(String pattern) {
 		super(Timestamp.class, String.class);
-	    this.prefixFormat = format;
+		
+		// calculate the number of postfix digits
+		int lastPos = pattern.length() - 1;
+		int sepPos = lastPos;
+		while (pattern.charAt(sepPos) == 'S')
+			sepPos--;
+		
+		// define prefix and postfix patterns
+		String prefixPattern;
+		prefixPattern = (sepPos < lastPos ? pattern.substring(0, sepPos) : pattern);
+	    this.prefixFormat = new ConcurrentDateFormat(prefixPattern);
+		int postfixDigits = lastPos - sepPos;
+		if (postfixDigits > 0) {
+			String postfixPattern = new String(StringUtil.fill(new char[postfixDigits], 0, postfixDigits, '0'));
+		    this.postfixFormat = new ConcurrentDecimalFormat(postfixPattern);
+		    this.nanoDivisor = (long) Math.pow(10, Math.round(9. - postfixDigits));
+		} else
+			this.postfixFormat = null;
     }
+	
+	// Converter interface implementation ------------------------------------------------------------------------------
 
 	public String convert(Timestamp sourceValue) throws ConversionException {
 	    return format(sourceValue);
     }
 
+	// static convenience method ---------------------------------------------------------------------------------------
+	
 	public String format(Timestamp timestamp) {
 		if (timestamp == null)
 			return null;
-		return prefixFormat.format(timestamp) + timestamp.getNanos();
+		String result = prefixFormat.format(timestamp);
+		if (postfixFormat != null) {
+			long postfixDigits = timestamp.getNanos() / nanoDivisor;
+			result += '.' + postfixFormat.format(postfixDigits);
+		}
+		return result;
 	}
 
 }
