@@ -42,6 +42,26 @@ public class TimestampFormatterTest {
 	public void testDefaultFormat() {
 		assertEquals("1971-02-03T13:14:15.123456789", new TimestampFormatter().format(timestamp));
 	}
+
+	@Test
+	public void testMillisFormat() {
+		assertEquals("1971-02-03 13:14:15.123", new TimestampFormatter("yyyy-MM-dd HH:mm:ss.SSS").format(timestamp));
+	}
+	
+	@Test
+	public void testCentisFormat() {
+		assertEquals("1971-02-03 13:14:15.123", new TimestampFormatter("yyyy-MM-dd HH:mm:ss.SSS").format(timestamp));
+	}
+	
+	@Test
+	public void testNanosFormat() {
+		assertEquals("1971-02-03 13:14:15.123456789", new TimestampFormatter("yyyy-MM-dd HH:mm:ss.SSSSSSSSS").format(timestamp));
+	}
+	
+	@Test
+	public void testSecondsFormat() {
+		assertEquals("1971-02-03 13:14:15", new TimestampFormatter("yyyy-MM-dd HH:mm:ss").format(timestamp));
+	}
 	
 	@Test
 	public void testNull() {

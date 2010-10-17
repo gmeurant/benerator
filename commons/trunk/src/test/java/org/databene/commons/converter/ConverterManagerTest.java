@@ -153,6 +153,8 @@ public class ConverterManagerTest {
         
         check(new BigInteger("1"), "1", BigInteger.class);
         check(new BigDecimal("1"), "1", BigDecimal.class);
+        
+        check(1., "1", Number.class);
     }
     
 	@Test
