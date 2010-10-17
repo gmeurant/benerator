@@ -128,7 +128,7 @@ public class IOUtilTest {
     }
 
 	@Test    
-    public void testResolveLocalUri() {
+    public void testResolveLocalUri() throws Exception {
     	assertEquals("test.html", IOUtil.resolveRelativeUri("test.html", null));
     	assertEquals("test.html", IOUtil.resolveRelativeUri("test.html", ""));
     	assertEquals("http://test.com/main/test.html", IOUtil.resolveRelativeUri("test.html", "http://test.com/main/"));
@@ -143,6 +143,7 @@ public class IOUtilTest {
     	assertEquals("file:/test.html", IOUtil.resolveRelativeUri("file:/test.html", "http://bla.txt"));
     	assertEquals("/Users/name/text.txt", IOUtil.resolveRelativeUri("text.txt", "/Users/name/"));
     	assertEquals("/Users/user2/text.txt", IOUtil.resolveRelativeUri("/Users/user2/text.txt", "/Users/user1/"));
+    	assertEquals("/Users/temp/my.dtd", IOUtil.resolveRelativeUri("file:my.dtd", "/Users/temp/"));
     }
     
 	@Test    
