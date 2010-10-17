@@ -172,9 +172,12 @@ public class ConverterManager {
             return new String2EnumConverter(targetType);
         else if (targetType == Boolean.class)
             return new String2BooleanConverter(targetType);
-        else if (Number.class.isAssignableFrom(targetType))
-        	return new String2NumberConverter((Class<Number>) targetType);
-        else if (targetType.isArray()) {
+        else if (Number.class.isAssignableFrom(targetType)) {
+        	if (targetType != Number.class)
+        		return new String2NumberConverter((Class<Number>) targetType);
+        	else
+        		return new String2NumberConverter(Double.class);
+        } else if (targetType.isArray()) {
         	Class componentType = targetType.getComponentType();
         	if (componentType == byte.class)
         		return new String2ByteArrayConverter();
