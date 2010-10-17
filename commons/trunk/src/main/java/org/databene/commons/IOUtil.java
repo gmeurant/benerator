@@ -247,25 +247,33 @@ public final class IOUtil {
     public static String resolveRelativeUri(String relativeUri, String contextUri) {
     	if (logger.isDebugEnabled())
     		logger.debug("resolveLocalUri(" + relativeUri + ", " + contextUri + ')');
-    	if (StringUtil.isEmpty(contextUri) || getProtocol(relativeUri) != null)
+    	String relativeProtocol = getProtocol(relativeUri);
+    	if (StringUtil.isEmpty(contextUri) || (relativeProtocol != null && relativeProtocol != "file"))
     		return relativeUri;
-    	String protocol = getProtocol(contextUri);
+    	String contextProtocol = getProtocol(contextUri);
+		if (contextProtocol == null || contextProtocol.equals("file"))
+    		return resolveRelativeFile(getPath(contextUri), getPath(relativeUri));
+    	else
+    		return resolveRelativeURL(contextUri, relativeUri);
+	}
+
+	private static String resolveRelativeFile(String contextPath, String relativePath) {
+		if (relativePath.charAt(0) == '/' || relativePath.charAt(0) == File.separatorChar)
+			return relativePath;
+		else
+			return new File(new File(contextPath), relativePath).getAbsolutePath();
+    }
+
+	private static String resolveRelativeURL(String contextUri, String relativeUri) {
     	try {
-    		URL contextUrl = new URL((protocol == null ? "file:" : "")  + contextUri);
+    		URL contextUrl = new URL(contextUri);
     		URL absoluteUrl = new URL(contextUrl, relativeUri);
     		String result = absoluteUrl.toString();
-    		if (protocol == null) // cut off 'file:'
-    			result = result.substring(5);
-    		if (!"./".equals(contextUri) && (protocol == null || protocol.startsWith("file:"))) {
-    			File file = new File(result);
-    			if (!file.exists() && isURIAvailable(relativeUri))
-    					result = relativeUri;
-    		}
 			return result;
     	} catch (MalformedURLException e) {
     		throw new IllegalArgumentException(e);
     	}
-	}
+    }
 
 	public static String getContextUri(String uri) {
 		if (StringUtil.isEmpty(uri))
@@ -285,8 +293,19 @@ public final class IOUtil {
 		if (uri == null)
 			return null;
 		int sep = uri.indexOf("://");
-		return (sep > 0 ? uri.substring(0, sep) : null);
+		if (sep > 0)
+			return uri.substring(0, sep);
+		return (uri.startsWith("file:") ? "file" : null);
 	}
+
+	private static String getPath(String uri) {
+		if (uri == null)
+			return null;
+		int sep = uri.indexOf("://");
+		if (sep > 0)
+			return uri.substring(sep + 3);
+		return (uri.startsWith("file:") ? uri.substring(5) : uri);
+    }
 
     public static PrintWriter getPrinterForURI(String uri, String encoding)
 			throws FileNotFoundException, UnsupportedEncodingException {
