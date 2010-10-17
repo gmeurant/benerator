@@ -327,7 +327,7 @@ public final class StringUtil {
             WHITESPACE_BUFFER[i] = ' ';
     }
 
-    public static void fill(char[] chars, int fromIndex, int toIndex, char c) {
+    public static char[] fill(char[] chars, int fromIndex, int toIndex, char c) {
         int length = toIndex - fromIndex;
         if (length < 20) {
             for (int i = fromIndex; i < toIndex; i++)
@@ -337,6 +337,7 @@ public final class StringUtil {
         } else {
             System.arraycopy(WHITESPACE_BUFFER, 0, chars, fromIndex, length);
         }
+        return chars;
     }
 
     public static char[] getChars(int srcBegin, int srcEnd, String text, char[] chars, int dstBegin) {
