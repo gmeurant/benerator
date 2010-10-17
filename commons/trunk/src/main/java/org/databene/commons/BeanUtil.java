@@ -542,16 +542,6 @@ public final class BeanUtil {
         return method;
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T> Constructor<T> findConstructor(Class<T> type, Class<?> ... paramTypes) {
-    	Constructor<T>[] ctors = (Constructor<T>[]) type.getConstructors();
-        for (Constructor<T> ctor : ctors)
-            if (typesMatch(paramTypes, ctor.getParameterTypes()))
-                return ctor;
-        return null;
-    }
-
-    
     /**
      * Finds a method by reflection. This iterates all methods of the class, comparing names and parameter types.
      * Unlike the method Class.getMethod(String, Class ...), this method is able to match primitive and wrapper types.
@@ -577,6 +567,15 @@ public final class BeanUtil {
                 builder.add(method);
         }
         return builder.toArray();
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> Constructor<T> findConstructor(Class<T> type, Class<?> ... paramTypes) {
+    	Constructor<T>[] ctors = (Constructor<T>[]) type.getConstructors();
+        for (Constructor<T> ctor : ctors)
+            if (typesMatch(paramTypes, ctor.getParameterTypes()))
+                return ctor;
+        return null;
     }
 
     /**
