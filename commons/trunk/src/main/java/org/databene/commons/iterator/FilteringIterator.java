@@ -37,7 +37,7 @@ import java.util.Iterator;
  * Created: 08.05.2007 19:37:33
  * @author Volker Bergmann
  */
-public class FilteringIterator<E> extends IteratorProxy<E> {
+public class FilteringIterator<E> extends BidirectionalIteratorProxy<E> {
 
     private Filter<E> filter;
 

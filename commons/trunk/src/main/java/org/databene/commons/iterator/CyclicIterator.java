@@ -33,7 +33,7 @@ package org.databene.commons.iterator;
  * Created: 12.05.2007 23:21:48
  * @author Volker Bergmann
  */
-public class CyclicIterator<E> extends IteratorProxy<E> {
+public class CyclicIterator<E> extends BidirectionalIteratorProxy<E> {
 
     private boolean cyclic;
 

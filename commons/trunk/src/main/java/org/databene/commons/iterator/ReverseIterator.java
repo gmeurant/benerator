@@ -32,7 +32,7 @@ package org.databene.commons.iterator;
  * Created: 12.05.2007 23:18:08
  * @author Volker Bergmann
  */
-public class ReverseIterator<E> extends IteratorProxy<E> {
+public class ReverseIterator<E> extends BidirectionalIteratorProxy<E> {
 
     public ReverseIterator(BidirectionalIterator<E> realIterator) {
         super(realIterator);
