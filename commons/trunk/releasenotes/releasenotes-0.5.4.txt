@@ -15,9 +15,13 @@ Enhancements
   - DoubleRect
   - IntRange
   - CompressedIntSet
-
+  - ConcurrentDecimalFormat
+  
 
 
 Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
 --------------------------------------------------------------------------------------------
-- Fixed reported path on resource file lookup error
+- 3089073: Bug in Timestamp format for second resolution
+- Fixed reported path on resource file lookup error ('/')
+- Postfix error in TimestampFormatter
+- NullPointerException when trying to convert a String object to instance of Number.class
