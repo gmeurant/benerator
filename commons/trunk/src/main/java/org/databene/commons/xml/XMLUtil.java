@@ -250,7 +250,7 @@ public class XMLUtil {
     /**
      * @param resolver an {@link EntityResolver} implementation or null, in the latter case, no validation is applied
      */
-    public static Document parse(InputStream stream, EntityResolver resolver, String schemaUri, final ErrorHandler errorHandler) throws IOException {
+    public static Document parse(InputStream stream, EntityResolver resolver, String schemaUri, ErrorHandler errorHandler) throws IOException {
         try {
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(DOCUMENT_BUILDER_FACTORY_IMPL, classLoader);
@@ -358,6 +358,14 @@ public class XMLUtil {
 
 	public static List<Element> findElementsByName(String name, boolean caseSensitive, Element root) {
 	    return findElementsByName(name, caseSensitive, root, new ArrayList<Element>());
+    }
+
+	public static String getAttribute(Element element, String attributeName, boolean required) {
+		String value = element.getAttribute(attributeName);
+		if (value == null && required)
+			throw new IllegalArgumentException("Element '" + element.getNodeName() + "'" +
+					" is missing the required attribute '" + attributeName + "'");
+	    return value;
     }
 
 	// private helpers -------------------------------------------------------------------------------------------------
