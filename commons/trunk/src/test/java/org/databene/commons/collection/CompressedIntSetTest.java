@@ -23,6 +23,7 @@ package org.databene.commons.collection;
 
 import static org.junit.Assert.*;
 
+import org.databene.commons.iterator.IteratorTestCase;
 import org.junit.Test;
 
 /**
@@ -31,7 +32,7 @@ import org.junit.Test;
  * @since 0.5.4
  * @author Volker Bergmann
  */
-public class CompressedIntSetTest {
+public class CompressedIntSetTest extends IteratorTestCase {
 
 	@Test
 	public void test11() {
@@ -44,68 +45,89 @@ public class CompressedIntSetTest {
 		assertEquals(new IntRange(1, 1), set.numbers.get(1));
 		assertFalse(set.isEmpty());
 		assertTrue(set.contains(1));
+		assertEquals(1, set.size());
+		expectNextElements(set.iterator(), 1).withNoNext();
 	}
 	
 	@Test
 	public void test12() {
 		CompressedIntSet set = new CompressedIntSet();
 		assertTrue(set.isEmpty());
+		
 		set.add(1);
 		assertFalse(set.isEmpty());
 		assertTrue(set.contains(1));
 		assertFalse(set.contains(2));
+		assertEquals(1, set.size());
+		
 		set.add(2);
 		assertEquals(new IntRange(1, 2), set.numbers.get(1));
 		assertFalse(set.isEmpty());
 		assertTrue(set.contains(1));
 		assertTrue(set.contains(2));
+		
+		assertEquals(2, set.size());
+		expectNextElements(set.iterator(), 1, 2).withNoNext();
 	}
 
 	@Test
 	public void test21() {
 		CompressedIntSet set = new CompressedIntSet();
-		assertTrue(set.isEmpty());
+
 		set.add(2);
 		assertFalse(set.isEmpty());
 		assertFalse(set.contains(1));
 		assertTrue(set.contains(2));
+		assertEquals(1, set.size());
+		
 		set.add(1);
 		assertEquals(new IntRange(1, 2), set.numbers.get(1));
 		assertFalse(set.isEmpty());
 		assertTrue(set.contains(1));
 		assertTrue(set.contains(2));
+		
+		assertEquals(2, set.size());
+		expectNextElements(set.iterator(), 1, 2).withNoNext();
 	}
 
 	@Test
 	public void test13() {
 		CompressedIntSet set = new CompressedIntSet();
-		assertTrue(set.isEmpty());
+
 		set.add(1);
 		assertFalse(set.isEmpty());
 		assertTrue(set.contains(1));
 		assertFalse(set.contains(3));
+		
 		set.add(3);
 		assertEquals(new IntRange(1, 1), set.numbers.get(1));
 		assertEquals(new IntRange(3, 3), set.numbers.get(3));
 		assertFalse(set.isEmpty());
 		assertTrue(set.contains(1));
 		assertTrue(set.contains(3));
+		
+		assertEquals(2, set.size());
+		expectNextElements(set.iterator(), 1, 3).withNoNext();
 	}
-	
+
 	@Test
 	public void test31() {
 		CompressedIntSet set = new CompressedIntSet();
-		assertTrue(set.isEmpty());
+
 		set.add(3);
 		assertFalse(set.isEmpty());
 		assertFalse(set.contains(1));
 		assertTrue(set.contains(3));
+		
 		set.add(1);
 		assertEquals(new IntRange(1, 1), set.numbers.get(1));
 		assertEquals(new IntRange(3, 3), set.numbers.get(3));
 		assertFalse(set.isEmpty());
 		assertTrue(set.contains(1));
 		assertTrue(set.contains(3));
+		
+		assertEquals(2, set.size());
+		expectNextElements(set.iterator(), 1, 3).withNoNext();
 	}
 
 	@Test
@@ -115,6 +137,8 @@ public class CompressedIntSetTest {
 		set.add(3);
 		set.add(2);
 		assertEquals(new IntRange(1, 3), set.numbers.get(1));
+		assertEquals(3, set.size());
+		expectNextElements(set.iterator(), 1, 2, 3).withNoNext();
 	}
 	
 	@Test
@@ -131,6 +155,8 @@ public class CompressedIntSetTest {
 		set.add(8);
 		set.add(5);
 		assertEquals(new IntRange(1, 10), set.numbers.get(1));
+		assertEquals(10, set.size());
+		expectNextElements(set.iterator(), 1, 2, 3, 4, 5, 6, 7, 8, 9, 10).withNoNext();
 	}
 	
 }
