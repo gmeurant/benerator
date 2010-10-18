@@ -79,7 +79,7 @@ public class IntRange {
 	
 	@Override
 	public String toString() {
-	    return min + "..." + max;
+	    return (min != max ? min + "..." + max : String.valueOf(min));
 	}
 	
 }
