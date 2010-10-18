@@ -21,6 +21,7 @@
 
 package org.databene.commons.collection;
 
+import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
@@ -32,22 +33,30 @@ import java.util.Map.Entry;
  */
 public class CompressedIntSet {
 	
-	protected TreeMap<Integer, IntRange> numbers = new TreeMap<Integer, IntRange>();
+	protected TreeMap<Integer, IntRange> numbers;
+	protected long size;
 	
+	public CompressedIntSet() {
+	    this.numbers = new TreeMap<Integer, IntRange>();
+	    this.size = 0;
+    }
+
 	public void clear() {
 		numbers.clear();
+		this.size = 0;
     }
 
 	public void add(int i) {
 		if (numbers.isEmpty()) {
 			// if the set is empty, insert the number
 			insertNumber(i);
+			size = 1;
 		} else {
 			// search the highest entry which is less or equals to i
 			Entry<Integer, IntRange> floorEntry = numbers.floorEntry(i);
 			IntRange rangeBelow;
 			if (floorEntry == null)
-				extendHigherRangeOrInsertNumber(i); // no range below found, check above
+				extendRangeAboveOrInsertNumber(i); // no range below found, check above
 			else {
 				// check found range
 				rangeBelow = floorEntry.getValue();
@@ -56,23 +65,20 @@ public class CompressedIntSet {
 				if (rangeBelow.getMax() + 1 == i) {
 					// extend found range if applicable
 					rangeBelow.setMax(i);
+					size++;
 					// check if two adjacent ranges can be merged
-				    IntRange rangeAbove = numbers.get(i + 1);
-				    if (rangeAbove != null) {
+				    IntRange upperNeighbor = numbers.get(i + 1);
+				    if (upperNeighbor != null) {
 				    	numbers.remove(i + 1);
-				    	rangeBelow.setMax(rangeAbove.getMax());
+				    	rangeBelow.setMax(upperNeighbor.getMax());
 				    }
 				} else
-					extendHigherRangeOrInsertNumber(i);
+					extendRangeAboveOrInsertNumber(i);
 			}
 		}
     }
 
-	private void insertNumber(int i) {
-	    numbers.put(i, new IntRange(i, i));
-    }
-
-	private void extendHigherRangeOrInsertNumber(int i) {
+	private void extendRangeAboveOrInsertNumber(int i) {
 	    IntRange rangeAbove = numbers.get(i + 1);
 	    if (rangeAbove != null) {
 	    	numbers.remove(i + 1);
@@ -80,6 +86,11 @@ public class CompressedIntSet {
 	    	numbers.put(i, rangeAbove);
 	    } else
 	        insertNumber(i);
+	    size++;
+    }
+
+	private void insertNumber(int i) {
+	    numbers.put(i, new IntRange(i, i));
     }
 
 	public boolean contains(int i) {
@@ -87,19 +98,92 @@ public class CompressedIntSet {
 		return (floorEntry != null && floorEntry.getValue().contains(i));
     }
 	
-/* TODO implement remove()
+/*
 	public boolean remove(int i) {
-	    return numbers.remove(i);
+		TODO implement remove()
     }
 */
 	public boolean isEmpty() {
 	    return numbers.isEmpty();
     }
+	
+	public long size() {
+		return size;
+	}
+	
+	public Iterator<Integer> iterator() {
+		return new CompressedSetIterator();
+	}
+	
+	// java.lang.Object overrrides -------------------------------------------------------------------------------------
 
 	@Override
 	public String toString() {
 	    return numbers.values().toString();
 	}
+
+	@Override
+    public boolean equals(Object obj) {
+	    if (this == obj)
+		    return true;
+	    if (obj == null || getClass() != obj.getClass())
+		    return false;
+	    CompressedIntSet that = (CompressedIntSet) obj;
+	    return this.equals(that.numbers);
+    }
 	
-	// TODO equals() and hashCode()
+	
+	
+	// Iterator class --------------------------------------------------------------------------------------------------
+	
+    public class CompressedSetIterator implements Iterator<Integer> {
+    	
+    	protected Iterator<IntRange> intRangeIterator;
+    	protected IntRange currentIntRange;
+    	protected Integer lastInt;
+    	
+    	protected CompressedSetIterator() {
+    		intRangeIterator = numbers.values().iterator();
+    		currentIntRange = null;
+    		lastInt = null;
+    	}
+
+	    public boolean hasNext() {
+	    	if (currentIntRange == null) {
+	    		if (intRangeIterator != null && intRangeIterator.hasNext()) {
+	    			currentIntRange = intRangeIterator.next();
+	    			lastInt = null;
+	    			return true;
+	    		} else {
+	    			intRangeIterator = null;
+	    			return false;
+	    		}
+	    	}
+	    	return (lastInt == null || lastInt < currentIntRange.max);
+	    }
+
+	    public Integer next() {
+	    	if (intRangeIterator != null && currentIntRange == null) {
+	    		if (intRangeIterator.hasNext()) {
+	    			currentIntRange = intRangeIterator.next();
+	    		} else {
+	    			intRangeIterator = null;
+	    			currentIntRange = null;
+	    		}
+	    	}
+	    	if (intRangeIterator == null || currentIntRange == null)
+    			throw new IllegalStateException("No 'next' value available. Check hasNext() before calling next().");
+	    	lastInt = (lastInt != null ? ++lastInt : currentIntRange.min);
+	    	if (lastInt == currentIntRange.max)
+	    		currentIntRange = null;
+	    	return lastInt;
+	    }
+
+	    public void remove() {
+	    	// TODO implement Iterator.remove()
+		    throw new UnsupportedOperationException("remove() not supported in " + getClass());
+	    }
+
+    }
+	
 }
