@@ -35,7 +35,7 @@ import org.databene.commons.HeavyweightIterator;
  */
 public class IteratorProxy<E> implements HeavyweightIterator<E> {
 	
-	private Iterator<E> source;
+	protected Iterator<E> source;
 
 	public IteratorProxy(Iterator<E> source) {
 	    this.source = source;
