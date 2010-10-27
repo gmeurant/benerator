@@ -21,6 +21,9 @@
 
 package org.databene.commons;
 
+import java.io.IOException;
+import java.util.Map;
+
 /**
  * Data Object that contains the typical data required for a JDBC database login.<br/><br/>
  * Created: 10.02.2010 22:59:02
@@ -34,11 +37,28 @@ public class JDBCConnectData {
 	public final String user;
 	public final String password;
 	
+	public final String catalog;
+	public final String schema;
+	
 	public JDBCConnectData(String driver, String url, String user, String password) {
+	    this(driver, url, user, password, null, null);
+    }
+	
+	public JDBCConnectData(String driver, String url, String user, String password, String catalog, String schema) {
 	    this.driver = driver;
 	    this.url = url;
 	    this.user = user;
 	    this.password = password;
+	    this.schema = schema;
+	    this.catalog = catalog;
     }
-	
+
+	public static JDBCConnectData parseSingleDbProperties(String filename) throws IOException {
+		Map<String, String> properties = IOUtil.readProperties(filename);
+		return new JDBCConnectData(
+				properties.get("db_driver"), properties.get("db_url"), 
+				properties.get("db_user"), properties.get("db_password"), 
+				properties.get("db_catalog"), properties.get("db_schema"));
+	}
+
 }
