@@ -259,6 +259,8 @@ public class XMLUtil {
             	activateXmlSchemaValidation(factory, schemaUri);
             DocumentBuilder builder = factory.newDocumentBuilder();
             builder.setEntityResolver(resolver);
+            if (errorHandler == null)
+            	errorHandler = new ErrorHandler("XMLUtil");
             builder.setErrorHandler(createSaxErrorHandler(errorHandler));
             return builder.parse(stream);
         } catch (ParserConfigurationException e) {
