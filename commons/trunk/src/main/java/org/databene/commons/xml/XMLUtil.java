@@ -370,6 +370,19 @@ public class XMLUtil {
 	    return value;
     }
 
+	public static String getWholeText(Element element) {
+	    StringBuilder builder = new StringBuilder();
+	    NodeList nodeList = element.getChildNodes();
+	    for (int i = 0; i < nodeList.getLength(); i++) {
+	    	Node node = nodeList.item(i);
+	    	if (node instanceof Text)
+	    		builder.append(((Text) node).getWholeText());
+	    	else if (node instanceof Element)
+	    		builder.append(getWholeText((Element) node));
+	    }
+	    return builder.toString();
+    }
+
 	// private helpers -------------------------------------------------------------------------------------------------
 
 	private static List<Element> findElementsByName(String name, boolean caseSensitive, Element root, List<Element> result) {

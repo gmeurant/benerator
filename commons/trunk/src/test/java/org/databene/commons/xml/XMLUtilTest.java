@@ -180,7 +180,13 @@ public class XMLUtilTest {
     	assertEquals("my text", XMLUtil.getText(node));
     }
 
-    // private helpers -------------------------------------------------------------------------------------------------
+	@Test
+	public void testGetWholeText() {
+		Element element = XMLUtil.parseStringAsElement("<stmt><!-- xxx -->Al<!-- xyz -->pha<!--z--></stmt>");
+		assertEquals("Alpha", XMLUtil.getWholeText(element));
+	}
+
+	// private helpers -------------------------------------------------------------------------------------------------
 
     private void checkXML(Document document) {
         Element root = document.getDocumentElement();
