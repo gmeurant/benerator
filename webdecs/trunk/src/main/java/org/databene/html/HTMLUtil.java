@@ -68,4 +68,22 @@ public class HTMLUtil {
         return result.toString();
     }
 	
+	public static String td(String text) {
+	    return td(text, null, null);
+    }
+
+	public static String td(String text, String alignment, String style) {
+		StringBuilder builder = new StringBuilder("<td");
+		if (alignment != null)
+			builder.append(" align=\"").append(alignment).append('"');
+		if (style != null)
+			builder.append(" style=\"").append(style).append('"');
+		builder.append('>').append(text).append("</td>");
+		return builder.toString();
+    }
+
+	public static String a(String href, String text) {
+	    return "<a href='" + href + "'>" + text + "</a>";
+    }
+
 }
