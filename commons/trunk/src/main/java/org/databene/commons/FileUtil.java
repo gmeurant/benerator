@@ -138,6 +138,22 @@ public final class FileUtil {
 	    }
     }
 
+    public static void deleteDirectoryIfExists(File folder) {
+	    if (folder.exists())
+	    	deleteDirectory(folder);
+    }
+
+    public static void deleteDirectory(File folder) {
+    	File[] files = folder.listFiles();
+    	for (File file : files) {
+    		if (file.isDirectory())
+    			deleteDirectory(file);
+    		else
+    			file.delete();
+    	}
+    	folder.delete();
+    }
+
 	public static List<File> listFiles(File dir, String regex, 
 			boolean recursive, boolean acceptingFiles, boolean acceptingFolders) {
 		PatternFileFilter filter = new PatternFileFilter(regex, acceptingFiles, acceptingFolders);
