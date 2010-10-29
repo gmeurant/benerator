@@ -669,4 +669,58 @@ public final class StringUtil {
 		return builder.toString();
 	}
 	
+	public static String trimLineSeparators(String text) {
+		if (text == null)
+			return null;
+		int start = 0;
+		while (start < text.length() && isLineSeparatorChar(text.charAt(start)))
+			start++;
+		int end = text.length();
+		while (end > 0 && (text.charAt(end - 1) == '\r' || text.charAt(end - 1) == '\n'))
+			end--;
+	    return text.substring(start, end);
+    }
+
+	public static List<String> splitLines(String text) { // TODO this leaves out empty lines in between
+		if (text == null)
+			return null;
+	    List<String> lines = new ArrayList<String>();
+	    int TEXT_MODE = 0;
+	    int LF_MODE = 1;
+	    int mode = TEXT_MODE;
+	    StringBuilder builder = new StringBuilder();
+	    for (int i = 0; i < text.length(); i++) {
+	    	char c = text.charAt(i);
+	    	if (isLineSeparatorChar(c)) {
+	    		if (mode == TEXT_MODE) {
+	    			lines.add(builder.toString());
+	    			builder.delete(0, builder.length());
+	    			mode = LF_MODE;
+	    		}
+	    	} else {
+	    		if (mode == LF_MODE)
+	    			mode = TEXT_MODE;
+	    		builder.append(c);
+	    	}
+	    }
+	    if (text.length() == 0 || mode == LF_MODE || builder.length() > 0)
+	    	lines.add(builder.toString());
+	    return lines;
+    }
+
+	public static String removeEmptyLines(String text) {
+		if (text == null)
+			return null;
+		List<String> lines = splitLines(text);
+		Iterator<String> iterator = lines.iterator();
+		while (iterator.hasNext())
+			if (iterator.next().trim().length() == 0)
+				iterator.remove();
+		return ArrayFormat.format(SystemInfo.getLineSeparator(), lines.toArray());
+	}
+	
+	public static boolean isLineSeparatorChar(char c) {
+	    return c == '\r' || c == '\n';
+    }
+
 }

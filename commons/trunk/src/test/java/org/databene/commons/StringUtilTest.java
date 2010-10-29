@@ -362,7 +362,44 @@ public class StringUtilTest {
 		assertEquals("Test this", StringUtil.buildPhrase("Test", null, "this", null));
 	}
 	
-    // helpers ---------------------------------------------------------------------------------------------------------
+	@Test
+	public void testTrimLineSeparators() {
+		assertEquals(null, StringUtil.trimLineSeparators(null));
+		assertEquals("", StringUtil.trimLineSeparators(""));
+		assertEquals("alpha", StringUtil.trimLineSeparators("alpha"));
+		assertEquals("alpha", StringUtil.trimLineSeparators("\ralpha\n"));
+		assertEquals("alpha\nbeta", StringUtil.trimLineSeparators("\r\nalpha\nbeta\n\r"));
+    }
+
+	@Test
+	public void testRemoveEmptyLines() {
+		assertEquals(null, StringUtil.removeEmptyLines(null));
+		assertEquals("", StringUtil.removeEmptyLines(""));
+		assertEquals("alpha", StringUtil.removeEmptyLines("alpha"));
+		assertEquals("alpha\nbeta", StringUtil.removeEmptyLines("alpha\nbeta"));
+		assertEquals("alpha\nbeta", StringUtil.removeEmptyLines("alpha\n\n\nbeta"));
+		assertEquals("alpha\nbeta", StringUtil.removeEmptyLines("\nalpha\n\n\nbeta\n"));
+		assertEquals("", StringUtil.removeEmptyLines(""));
+	}
+	
+	@Test
+	public void testSplitLines() {
+		assertEquals(null, StringUtil.splitLines(null));
+		assertEquals(CollectionUtil.toList(""), StringUtil.splitLines(""));
+		assertEquals(CollectionUtil.toList("alpha", "beta"), StringUtil.splitLines("alpha\nbeta"));
+		assertEquals(CollectionUtil.toList("", "alpha", "beta", ""), StringUtil.splitLines("\nalpha\nbeta\n"));
+		assertEquals(CollectionUtil.toList("", "alpha", "beta", ""), StringUtil.splitLines("\nalpha\nbeta\n"));
+// TODO make this run 		assertEquals(CollectionUtil.toList("", "alpha", "", "beta", ""), StringUtil.splitLines("\nalpha\n\nbeta\n"));
+    }
+
+	@Test
+	public void testIsLineSeparatorChar() {
+		assertTrue(StringUtil.isLineSeparatorChar('\r'));
+		assertTrue(StringUtil.isLineSeparatorChar('\n'));
+		assertFalse(StringUtil.isLineSeparatorChar('x'));
+	}
+
+	// helpers ---------------------------------------------------------------------------------------------------------
 
 	private void checkSplitFirst(String parent, String child, String path) {
 		assertTrue(Arrays.equals(ArrayUtil.buildArrayOfType(String.class, parent, child), StringUtil.splitOnFirstSeparator(path, '=')));
