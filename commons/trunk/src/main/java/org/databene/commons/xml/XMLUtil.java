@@ -255,7 +255,7 @@ public class XMLUtil {
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(DOCUMENT_BUILDER_FACTORY_IMPL, classLoader);
             factory.setNamespaceAware(true);
-            if (resolver != null)
+            if (schemaUri != null)
             	activateXmlSchemaValidation(factory, schemaUri);
             DocumentBuilder builder = factory.newDocumentBuilder();
             builder.setEntityResolver(resolver);
