@@ -1,13 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-  <name>databene-gui</name>
-  <comment>databene-gui is a collection of open source utilities for graphical user interfaces</comment>
-  <projects/>
-  <buildSpec>
-    <buildCommand>
-      <name>org.eclipse.jdt.core.javabuilder</name>
-    </buildCommand>
-  </buildSpec>
-  <natures>
-    <nature>org.eclipse.jdt.core.javanature</nature>
-  </natures>
+	<name>gui</name>
+	<comment>databene-gui is a collection of open source utilities for graphical user interfaces</comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
 </projectDescription>
