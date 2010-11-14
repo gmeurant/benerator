@@ -16,7 +16,10 @@ Enhancements
   - IntRange
   - CompressedIntSet
   - ConcurrentDecimalFormat
-  
+- FileUtil.relativePath()
+- XMLUtil.formatText()
+- TreeLogger logs the structure of implementors of the databene TreeModel interface
+
 
 
 Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
