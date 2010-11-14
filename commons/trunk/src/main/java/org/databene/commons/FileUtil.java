@@ -159,6 +159,32 @@ public final class FileUtil {
 		PatternFileFilter filter = new PatternFileFilter(regex, acceptingFiles, acceptingFolders);
 		return addFilenames(dir, filter, recursive, new ArrayList<File>());
     }
+	
+	public static String relativePath(File fromFolder, File toFile, char separator) {
+		try {
+			String[] from = fromFolder.getCanonicalPath().split(File.separator);
+			String[] to = toFile.getCanonicalPath().split(File.separator);
+			int i = 0;
+			while (i < from.length && i < to.length && from[i].equals(to[i]))
+				i++;
+			StringBuilder builder = new StringBuilder();
+			for (int j = from.length - 1; j >= i; j--) {
+				if (builder.length() > 0)
+					builder.append(separator);
+				builder.append("..");
+			}
+			for (int j = i; j < to.length; j++) {
+				if (builder.length() > 0)
+					builder.append(separator);
+				builder.append(to[j]);
+			}
+			if (builder.length() == 0)
+				builder.append(".");
+			return builder.toString();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	private static List<File> addFilenames(File dir, FileFilter filter, boolean recursive, List<File> buffer) {
 		File[] matches = dir.listFiles(filter);

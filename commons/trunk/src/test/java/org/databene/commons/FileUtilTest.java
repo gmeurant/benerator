@@ -108,6 +108,13 @@ public class FileUtilTest {
 		assertEquals("x", FileUtil.localFilename("y/z/x"));
 		assertEquals("x", FileUtil.localFilename("y" + File.separator + "z" + File.separator + "x"));
 	}
+	
+	@Test
+	public void testRelativePath() {
+		assertEquals(".",    FileUtil.relativePath(new File("a/b"), new File("a/b"), '/'));
+		assertEquals("b",    FileUtil.relativePath(new File("a"),   new File("a/b"), '/'));
+		assertEquals("../c", FileUtil.relativePath(new File("a/b"), new File("a/c"), '/'));
+	}
 
 	private void check(String regex, boolean acceptingFiles, boolean acceptingFolders, boolean recursive, 
 			File... expectedResult) {
@@ -129,5 +136,5 @@ public class FileUtilTest {
 	    FileUtil.deleteIfExists(ROOT_DIR_FILE);
 	    FileUtil.deleteIfExists(ROOT_DIR);
     }
-	
+
 }
