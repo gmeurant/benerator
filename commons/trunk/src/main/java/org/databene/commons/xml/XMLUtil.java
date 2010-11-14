@@ -383,6 +383,10 @@ public class XMLUtil {
 	    return builder.toString();
     }
 
+	public static String formatText(String text) {
+		return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
+	}
+
 	// private helpers -------------------------------------------------------------------------------------------------
 
 	private static List<Element> findElementsByName(String name, boolean caseSensitive, Element root, List<Element> result) {
