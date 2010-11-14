@@ -358,7 +358,7 @@ public final class IOUtil {
     }
 
     public static void copyFile(String srcUri, String targetUri) throws IOException {
-        logger.info("copying " + srcUri + " --> " + targetUri);
+        logger.debug("copying " + srcUri + " --> " + targetUri);
         InputStream in = getInputStreamForURI(srcUri);
         OutputStream out = openOutputStreamForURI(targetUri);
         IOUtil.transfer(in, out);
@@ -390,24 +390,24 @@ public final class IOUtil {
         return readProperties(filename, SystemInfo.getFileEncoding());
     }
     
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public static Map<String, String> readProperties(String filename, String encoding) throws IOException {
         return readProperties(new OrderedMap(), filename, null, encoding);
     }
     
-    @SuppressWarnings("unchecked")
-    public static <V> Map<String, V> readProperties(
+    @SuppressWarnings("rawtypes")
+	public static <V> Map<String, V> readProperties(
             String filename, Converter<Map.Entry, Map.Entry> converter) throws IOException {
         return readProperties(filename, converter, SystemInfo.getFileEncoding());
     }
     
-    @SuppressWarnings("unchecked")
-    public static <V> Map<String, V> readProperties(
+    @SuppressWarnings("rawtypes")
+	public static <V> Map<String, V> readProperties(
             String filename, Converter<Map.Entry, Map.Entry> converter, String encoding) throws IOException {
         return readProperties(new OrderedMap<String, V>(), filename, converter, encoding);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private static <M extends Map> M readProperties(M target, String filename, 
             Converter<Map.Entry, Map.Entry> converter, String encoding) throws IOException {
         Reader reader = null;
