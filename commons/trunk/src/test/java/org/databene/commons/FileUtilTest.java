@@ -111,9 +111,9 @@ public class FileUtilTest {
 	
 	@Test
 	public void testRelativePath() {
-		assertEquals(".",    FileUtil.relativePath(new File("a/b"), new File("a/b"), '/'));
-		assertEquals("b",    FileUtil.relativePath(new File("a"),   new File("a/b"), '/'));
-		assertEquals("../c", FileUtil.relativePath(new File("a/b"), new File("a/c"), '/'));
+		assertEquals(".",    FileUtil.relativePath(new File("a/b/index.html"), new File("a/b"), '/'));
+		assertEquals("b",    FileUtil.relativePath(new File("a/index.html"),   new File("a/b"), '/'));
+		assertEquals("../c", FileUtil.relativePath(new File("a/b/index.html"), new File("a/c"), '/'));
 	}
 
 	private void check(String regex, boolean acceptingFiles, boolean acceptingFolders, boolean recursive, 
