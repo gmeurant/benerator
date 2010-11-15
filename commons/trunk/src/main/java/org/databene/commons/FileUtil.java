@@ -163,8 +163,8 @@ public final class FileUtil {
 	public static String relativePath(File fromFile, File toFile, char separator) {
 		File fromFolder = (fromFile.isDirectory() ? fromFile : fromFile.getParentFile());
 		try {
-			String[] from = fromFolder.getCanonicalPath().split(File.separator);
-			String[] to = toFile.getCanonicalPath().split(File.separator);
+			String[] from = StringUtil.tokenize(fromFolder.getCanonicalPath(), File.separatorChar);
+			String[] to = StringUtil.tokenize(toFile.getCanonicalPath(), File.separatorChar);
 			int i = 0;
 			while (i < from.length && i < to.length && from[i].equals(to[i]))
 				i++;
