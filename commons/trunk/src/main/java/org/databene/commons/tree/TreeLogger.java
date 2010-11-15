@@ -21,6 +21,7 @@
 
 package org.databene.commons.tree;
 
+import org.databene.commons.Filter;
 import org.databene.commons.TreeModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,19 +40,21 @@ public class TreeLogger {
 	
 	// interface ---------------------------------------------------------------
 	
-	public <T> void log(TreeModel<T> model) {
-	    log(model.getRoot(), model, false);
+	public <T> void log(TreeModel<T> model, Filter<T> filter) {
+	    log(model.getRoot(), false, model, filter);
     }
 	
 	// private helper methods --------------------------------------------------
 
-	private <T> void log(T node, TreeModel<T> model, boolean hasSiblings) {
+	private <T> void log(T node, boolean hasSiblings, TreeModel<T> model, Filter<T> filter) {
+		if (!filter.accept(node))
+			return;
 	    LOGGER.info(indent + node);
 	    if (!model.isLeaf(node)) {
 			increaseIndent(hasSiblings);
 			int n = model.getChildCount(node);
 			for (int i = 0; i < n; i++)
-		    	log(model.getChild(node, i), model, i < n - 1);
+		    	log(model.getChild(node, i), i < n - 1, model, filter);
 		    reduceIndent();
 	    }
     }
