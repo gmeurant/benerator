@@ -160,7 +160,8 @@ public final class FileUtil {
 		return addFilenames(dir, filter, recursive, new ArrayList<File>());
     }
 	
-	public static String relativePath(File fromFolder, File toFile, char separator) {
+	public static String relativePath(File fromFile, File toFile, char separator) {
+		File fromFolder = (fromFile.isDirectory() ? fromFile : fromFile.getParentFile());
 		try {
 			String[] from = fromFolder.getCanonicalPath().split(File.separator);
 			String[] to = toFile.getCanonicalPath().split(File.separator);
