@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,7 +30,9 @@ import org.junit.Test;
 import static junit.framework.Assert.*;
 
 import java.io.*;
+import java.text.ParseException;
 
+import org.databene.commons.Encodings;
 import org.databene.commons.SystemInfo;
 
 /**
@@ -43,7 +45,7 @@ public class HTML2XMLTest {
 
     private static String SEP = SystemInfo.getLineSeparator();
     private static String XML_HEADER_ROW = 
-    	"<?xml version=\"1.0\" encoding=\"" + SystemInfo.getFileEncoding() + "\"?>" + SEP;
+    	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + SEP;
 
     private static final String HTML1 = "<html>" + SEP +
             "\t<?XXX level=\"3\"?>" + SEP +
@@ -124,12 +126,23 @@ public class HTML2XMLTest {
     // helpers ---------------------------------------------------------------------------------------------------------
 
 	private void check(String source, String result) throws Exception {
+		checkStrings(source, result);
+		checkStreams(source, result);
+	}
+
+	private void checkStreams(String source, String result) throws IOException,
+			ParseException {
 		StringReader in = new StringReader(source);
-        StringWriter out = new StringWriter();
-        HTML2XML.convert(in, out);
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+        HTML2XML.convert(in, out, Encodings.UTF_8);
         in.close();
         out.close();
 		assertEquals(result, out.toString());
 	}
 	
+	private void checkStrings(String source, String result) 
+			throws IOException, ParseException {
+		assertEquals(result, HTML2XML.convert(source));
+	}
+
 }
