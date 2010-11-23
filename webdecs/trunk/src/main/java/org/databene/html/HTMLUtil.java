@@ -28,6 +28,8 @@ package org.databene.html;
 
 import org.databene.commons.CollectionUtil;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -67,6 +69,19 @@ public class HTMLUtil {
         result.append(text);
         return result.toString();
     }
+	
+	public static Map<String, String> parseCGIParameters(String url) {
+		Map<String, String> result = new HashMap<String, String>();
+		int qmIndex = url.indexOf('?');
+		if (qmIndex >= 0)
+			url = url.substring(qmIndex + 1);
+		String[] nvPairs = url.split("&");
+		for (String nvPair : nvPairs) {
+			String[] tokens = nvPair.split("=");
+			result.put(tokens[0], tokens[1]);
+		}
+		return result;
+	}
 	
 	public static String td(String text) {
 	    return td(text, null, null);
