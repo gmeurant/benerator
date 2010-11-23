@@ -54,6 +54,7 @@ import org.databene.commons.Filter;
 import org.databene.commons.IOUtil;
 import org.databene.commons.Level;
 import org.databene.commons.StringUtil;
+import org.databene.commons.SystemInfo;
 import org.databene.commons.Visitor;
 import org.databene.commons.converter.NoOpConverter;
 import org.slf4j.Logger;
@@ -237,13 +238,14 @@ public class XMLUtil {
         if (LOGGER.isDebugEnabled())
             LOGGER.debug(text);
         try {
-	        return parse(new ByteArrayInputStream(text.getBytes()), resolver, null, DEFAULT_ERROR_HANDLER);
+        	String encoding = getEncoding(text);
+	        return parse(new ByteArrayInputStream(text.getBytes(encoding)), resolver, null, DEFAULT_ERROR_HANDLER);
         } catch (IOException e) {
         	throw new RuntimeException("Unexpected error", e);
         }
     }
 
-    public static Document parse(InputStream stream) throws IOException {
+	public static Document parse(InputStream stream) throws IOException {
         return parse(stream, null, null, DEFAULT_ERROR_HANDLER);
     }
 
@@ -409,6 +411,24 @@ public class XMLUtil {
 			LOGGER.error("Error activating schema validation, possibly you are offline or behind a proxy?", e.getMessage());
 			return null;
 		}
+	}
+
+    private static String getEncoding(String text) {
+		if (text.startsWith("<?xml")) {
+			int qm2i = text.indexOf('?', 5);
+			int ei = text.indexOf("encoding");
+			if (ei < qm2i) {
+				int dq = text.indexOf('"', ei);
+				int sq = text.indexOf('\'', ei);
+				int q1 = (dq > 0 ? (sq > 0 ? dq : Math.min(sq, dq)) : sq);
+				dq = text.indexOf('"', q1 + 1);
+				sq = text.indexOf('\'', q1 + 1);
+				int q2 = (dq > 0 ? (sq > 0 ? dq : Math.min(sq, dq)) : sq);
+				if (q1 > 0 && q2 > 0)
+					return text.substring(q1 + 1, q2);
+			}
+		}
+		return SystemInfo.getFileEncoding();
 	}
 
 	private static org.xml.sax.ErrorHandler createSaxErrorHandler(
