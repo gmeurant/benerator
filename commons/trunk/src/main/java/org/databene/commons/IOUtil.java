@@ -260,13 +260,8 @@ public final class IOUtil {
 	private static String resolveRelativeFile(String contextPath, String relativePath) {
 		if (relativePath.charAt(0) == '/' || relativePath.charAt(0) == File.separatorChar)
 			return relativePath;
-		else {
-			try {
-				return new File(contextPath, relativePath).getCanonicalPath();
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
+		else 
+			return new File(contextPath, relativePath).getPath();
     }
 
 	private static String resolveRelativeURL(String contextUri, String relativeUri) {
