@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -53,7 +53,8 @@ public class HTML2XML {
         Reader reader = new StringReader(html);
         StringWriter writer = new StringWriter();
         try {
-            convert(reader, writer);
+        	ConversionContext context = new ConversionContext(reader, writer, "UTF-8");
+            convert(context);
             return writer.getBuffer().toString();
         } catch (IOException e) {
             throw new RuntimeException(e); // this is not supposed to happen
@@ -62,26 +63,22 @@ public class HTML2XML {
         }
     }
 
-    private static class ConversionContext {
-    	
-    	Writer writer;
-    	HTMLTokenizer tokenizer;
-    	Stack<String> path;
-    	boolean xmlHeaderCreated;
-    	boolean rootCreated;
-    	
-    	ConversionContext(Reader reader, Writer writer) {
-    		this.tokenizer = new DefaultHTMLTokenizer(reader);
-    		this.path = new Stack<String>();
-    		this.xmlHeaderCreated = false;
-    		this.rootCreated = false;
-    		this.writer = writer;
-    	}
+    public static void convert(Reader reader, OutputStream out, String encoding) 
+    		throws ParseException, UnsupportedEncodingException {
+    	Writer writer = new OutputStreamWriter(out, encoding);
+        try {
+        	ConversionContext context = new ConversionContext(reader, writer, encoding);
+            convert(context);
+        } catch (IOException e) {
+            throw new RuntimeException(e); // this is not supposed to happen
+        } finally {
+            IOUtil.close(reader);
+            IOUtil.close(writer);
+        }
     }
 
-    public static void convert(Reader reader, Writer writer) throws IOException, ParseException {
+    private static void convert(ConversionContext context) throws IOException, ParseException {
     	// TODO v0.5.x use XML serializer
-    	ConversionContext context = new ConversionContext(reader, writer);
         int token;
         while ((token = context.tokenizer.nextToken()) != HTMLTokenizer.END) {
             switch (token) {
@@ -171,8 +168,8 @@ public class HTML2XML {
 		if (!context.xmlHeaderCreated) {
 			context.writer.write("<?xml " +
 					"version=\"1.0\" " +
-					"encoding=\"" + SystemInfo.getFileEncoding() + 
-					"\"?>" + SystemInfo.getLineSeparator());
+					"encoding=\"" + context.encoding + "\"?>" + 
+					SystemInfo.getLineSeparator());
 			context.xmlHeaderCreated = true;
 		}
     }
@@ -257,6 +254,25 @@ public class HTML2XML {
             }
         }
 	    return s;
+    }
+
+    private static class ConversionContext {
+    	
+    	public String encoding;
+		Writer writer;
+    	HTMLTokenizer tokenizer;
+    	Stack<String> path;
+    	boolean xmlHeaderCreated;
+    	boolean rootCreated;
+    	
+    	ConversionContext(Reader reader, Writer writer, String encoding) {
+    		this.tokenizer = new DefaultHTMLTokenizer(reader);
+    		this.path = new Stack<String>();
+    		this.xmlHeaderCreated = false;
+    		this.rootCreated = false;
+    		this.writer = writer;
+    		this.encoding = encoding;
+    	}
     }
 
 }
