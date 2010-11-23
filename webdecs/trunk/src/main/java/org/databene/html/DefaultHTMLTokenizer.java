@@ -237,6 +237,7 @@ public class DefaultHTMLTokenizer implements HTMLTokenizer {
                 this.tokenType = PROCESSING_INSTRUCTION;
                 break;
             default :
+            	// regular tag
                 parseElementName();
                 parseAttributes();
                 skipWhitespace();
@@ -272,6 +273,8 @@ public class DefaultHTMLTokenizer implements HTMLTokenizer {
         if (!parseAttributeName())
             return false;
         attribNameUntil[attribCount] = cursor;
+        while (textBuffer[attribNameUntil[attribCount] - 1] == ':') // fix for bad HTML: remove trailing colons
+        	attribNameUntil[attribCount]--;
         skipWhitespace();
         if (peek(reader) == '=') {
             parseAttributeValueAssignment();
