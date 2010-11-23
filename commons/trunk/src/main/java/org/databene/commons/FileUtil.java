@@ -201,4 +201,19 @@ public final class FileUtil {
 		return buffer;
     }
 
+	public static String normalizeFilename(String rawName) {
+		StringBuilder builder = new StringBuilder(rawName.length());
+		StringCharacterIterator iterator = new StringCharacterIterator(rawName);
+		while (iterator.hasNext()) {
+			char c = iterator.next();
+			if (Character.isLetterOrDigit(c) || c=='.' || c == '-'|| c == '*' || c == '_' || c == '+' || c == ' ')
+				builder.append(c);
+			else if (c == '@')
+				builder.append("a");
+			else if (c == '$')
+				builder.append("s");
+			// all other characters are ignored
+		}
+		return builder.toString().trim();
+	}
 }
