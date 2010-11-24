@@ -50,27 +50,28 @@ import org.databene.commons.converter.NoOpConverter;
 public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 	
 	private Iterator<Row> rowIterator;
+	private boolean usingHeaders;
 	private String[] headers;
 	private Converter<String, ?> preprocessor;
 	
 	// constructors ----------------------------------------------------------------------------------------------------
 	
 	public XLSLineIterator(String uri) throws IOException {
-		this(uri, 0);
+		this(uri, 0, true);
 	}
 	
-	public XLSLineIterator(String uri, int sheetIndex) throws IOException {
-		this(uri, sheetIndex, null);
+	public XLSLineIterator(String uri, int sheetIndex, boolean usingHeaders) throws IOException {
+		this(uri, sheetIndex, usingHeaders, null);
 	}
 	
-    public XLSLineIterator(String uri, int sheetIndex, Converter<String, ?> preprocessor) throws IOException {
-		this(sheet(uri, sheetIndex), preprocessor);
+    public XLSLineIterator(String uri, int sheetIndex, boolean usingHeaders, Converter<String, ?> preprocessor) throws IOException {
+		this(sheet(uri, sheetIndex), usingHeaders, preprocessor);
 	}
 	
-	@SuppressWarnings("unchecked")
-    public XLSLineIterator(HSSFSheet sheet, Converter<String, ?> preprocessor) {
+    public XLSLineIterator(HSSFSheet sheet, boolean usingHeaders, Converter<String, ?> preprocessor) {
 		if (preprocessor == null)
-			preprocessor = new NoOpConverter();
+			preprocessor = new NoOpConverter<String>();
+		this.usingHeaders = usingHeaders;
 		this.preprocessor = preprocessor;
 		rowIterator = sheet.rowIterator();
 		
@@ -78,20 +79,26 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 			close();
 			return;
 		}
-			
+		
 		// read headers
-		Row headerRow = rowIterator.next(); // TODO v0.5.4 read headers only if indicated by a flag
-		ArrayBuilder<String> builder = new ArrayBuilder<String>(String.class);
-		for (int cellnum = 0; cellnum <= headerRow.getLastCellNum(); cellnum++) {
-			Cell cell = headerRow.getCell(cellnum);
-			if (cell != null && cell.getCellType() != Cell.CELL_TYPE_BLANK)
-				builder.add(cell.getRichStringCellValue().getString());
+		if (usingHeaders) {
+			Row headerRow = rowIterator.next(); // TODO v0.5.4 read headers only if indicated by a flag
+			ArrayBuilder<String> builder = new ArrayBuilder<String>(String.class);
+			for (int cellnum = 0; cellnum <= headerRow.getLastCellNum(); cellnum++) {
+				Cell cell = headerRow.getCell(cellnum);
+				if (cell != null && cell.getCellType() != Cell.CELL_TYPE_BLANK)
+					builder.add(cell.getRichStringCellValue().getString());
+			}
+			headers = builder.toArray();
 		}
-		headers = builder.toArray();
     }
 
 	// interface -------------------------------------------------------------------------------------------------------
 	
+	public boolean isUsingHeaders() {
+		return usingHeaders;
+	}
+
 	public String[] getHeaders() {
 		return headers;
 	}
@@ -109,8 +116,9 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 		if (rowIterator == null)
 			return null;
 		Row row = rowIterator.next();
-		Object[] result = new Object[headers.length];
-		for (int cellnum = 0; cellnum < headers.length; cellnum++)
+		int cellCount = (usingHeaders ? headers.length : row.getLastCellNum() + 1);
+		Object[] result = new Object[cellCount];
+		for (int cellnum = 0; cellnum < cellCount; cellnum++)
 			result[cellnum] = HSSFUtil.resolveCellValue(row.getCell(cellnum), preprocessor);
 		return result;
 	}

@@ -29,6 +29,7 @@ package org.databene.document.xls;
 import java.io.IOException;
 import java.util.Arrays;
 
+import org.databene.commons.ArrayUtil;
 import org.databene.document.xls.XLSLineIterator;
 import org.junit.Test;
 
@@ -66,7 +67,7 @@ public class XLSLineIteratorTest {
     @Test
 	public void testSheet1() throws IOException {
 		// test sheet 1
-		XLSLineIterator iterator = new XLSLineIterator(XLS_FILENAME, 1);
+		XLSLineIterator iterator = new XLSLineIterator(XLS_FILENAME, 1, true);
 		try {
 			assertTrue(Arrays.equals(new String[] {"name", "age"}, iterator.getHeaders()));
 			expectNext(iterator, "Otto", 89.0);
@@ -76,11 +77,25 @@ public class XLSLineIteratorTest {
 		}
 	}
 	
+    @Test
+	public void testWithoutHeader() throws IOException {
+		// test sheet 1
+		XLSLineIterator iterator = new XLSLineIterator(XLS_FILENAME, 1, false);
+		try {
+			assertNull(iterator.getHeaders());
+			expectNext(iterator, "name", "age");
+			expectNext(iterator, "Otto", 89.0);
+			assertFalse(iterator.hasNext());
+		} finally {
+			iterator.close();
+		}
+	}
+	
 	// private helpers ---------------------------------------------------------
 	
-	private void expectNext(XLSLineIterator iterator, String name, double age) {
+	private void expectNext(XLSLineIterator iterator, Object cell1, Object cell2) {
 		assertTrue(iterator.hasNext());
-		assertTrue(Arrays.equals(new Object[] {name, age}, iterator.next()));
+		assertTrue(Arrays.equals(new Object[] {cell1, cell2}, ArrayUtil.copyOfRange(iterator.next(), 0, 2)));
 	}
 	
 }

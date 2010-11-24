@@ -10,6 +10,7 @@ Enhancements
 ------------
 - Supporting hexadecimal entity codes
 - Supporting arbitrary encoding in HTML2XML
+- XLSLineIterator supports XLS file without header when property usingHeaders=false
 
 
 Changes
