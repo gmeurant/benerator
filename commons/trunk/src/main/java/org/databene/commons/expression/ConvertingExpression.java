@@ -26,7 +26,8 @@ import org.databene.commons.Converter;
 import org.databene.commons.Expression;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link Expression} adapter that uses a {@link Converter} for converting 
+ * the result of a given expression (e.g. to a different type).<br/><br/>
  * Created: 11.09.2010 06:59:38
  * @since 0.5.4
  * @author Volker Bergmann

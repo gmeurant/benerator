@@ -28,7 +28,8 @@ import java.util.Iterator;
 import org.databene.commons.HeavyweightIterator;
 
 /**
- * TODO Document class.<br/><br/>
+ * Proxy for an {@link Iterator} with additional support for 
+ * iterators that implement the {@link Closeable} interface.<br/><br/>
  * Created: 13.10.2010 13:22:46
  * @since 0.5.4
  * @author Volker Bergmann

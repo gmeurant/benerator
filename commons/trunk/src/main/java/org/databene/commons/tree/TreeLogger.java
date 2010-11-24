@@ -27,9 +27,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * TODO Document class.<br/><br/>
+ * Logs the structure represented by a {@link org.databene.commons.TreeModel} implementor.<br/><br/>
  * Created: 10.11.2010 10:21:59
- * @since TODO version
+ * @since 0.5.4
  * @author Volker Bergmann
  */
 public class TreeLogger {

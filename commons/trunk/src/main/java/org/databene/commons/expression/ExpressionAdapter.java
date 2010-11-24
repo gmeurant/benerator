@@ -24,7 +24,8 @@ package org.databene.commons.expression;
 import org.databene.commons.Expression;
 
 /**
- * TODO Document class.<br/><br/>
+ * Adapter that makes use of a 'source' expression of one type 
+ * to calculate and return a result of a possibly different type.<br/><br/>
  * Created: 11.09.2010 07:01:10
  * @since 0.5.4
  * @author Volker Bergmann

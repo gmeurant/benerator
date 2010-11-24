@@ -26,7 +26,8 @@ import org.databene.commons.Context;
 import org.databene.commons.Expression;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link Expression} implementation which assembles other expression that evaluate to arrays
+ * and joins their results to a single array.<br/><br/>
  * Created: 11.09.2010 07:57:38
  * @since 0.5.4
  * @author Volker Bergmann
