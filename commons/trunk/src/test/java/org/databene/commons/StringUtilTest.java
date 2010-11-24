@@ -389,7 +389,7 @@ public class StringUtilTest {
 		assertEquals(CollectionUtil.toList("alpha", "beta"), StringUtil.splitLines("alpha\nbeta"));
 		assertEquals(CollectionUtil.toList("", "alpha", "beta", ""), StringUtil.splitLines("\nalpha\nbeta\n"));
 		assertEquals(CollectionUtil.toList("", "alpha", "beta", ""), StringUtil.splitLines("\nalpha\nbeta\n"));
-// TODO make this run 		assertEquals(CollectionUtil.toList("", "alpha", "", "beta", ""), StringUtil.splitLines("\nalpha\n\nbeta\n"));
+		// TODO v0.5.x make this run: assertEquals(CollectionUtil.toList("", "alpha", "", "beta", ""), StringUtil.splitLines("\nalpha\n\nbeta\n"));
     }
 
 	@Test

@@ -681,7 +681,7 @@ public final class StringUtil {
 	    return text.substring(start, end);
     }
 
-	public static List<String> splitLines(String text) { // TODO this leaves out empty lines in between
+	public static List<String> splitLines(String text) { // TODO v0.5.x this leaves out empty lines in between
 		if (text == null)
 			return null;
 	    List<String> lines = new ArrayList<String>();
