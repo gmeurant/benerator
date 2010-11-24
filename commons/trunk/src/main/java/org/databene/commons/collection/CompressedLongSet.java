@@ -46,6 +46,11 @@ public class CompressedLongSet {
 		this.size = 0;
     }
 
+	public void addAll(int... numbers) {
+		for (int number : numbers)
+			add(number);
+	}
+
 	public void add(long i) {
 		if (numbers.isEmpty()) {
 			// if the set is empty, insert the number
@@ -98,11 +103,29 @@ public class CompressedLongSet {
 		return (floorEntry != null && floorEntry.getValue().contains(i));
     }
 	
-/*
+
 	public boolean remove(long i) {
-		TODO implement remove()
+		Entry<Long, LongRange> floorEntry = numbers.floorEntry(i);
+		if (floorEntry == null || !floorEntry.getValue().contains(i)) 
+			return false;
+		LongRange range = floorEntry.getValue();
+		if (i == range.getMax() && range.getMax() > range.getMin()) {
+			range.setMax(i - 1);
+		} else if (i == range.getMin()) {
+			numbers.remove(i);
+			if (range.getMax() > i) {
+				range.setMin(i + 1);
+				numbers.put(i + 1, range);
+			}
+		} else {
+			long max = range.getMax();
+			range.setMax(i - 1);
+			LongRange range2 = new LongRange(i + 1, max);
+			numbers.put(i + 1, range2);
+		}
+		return true;
     }
-*/
+
 	public boolean isEmpty() {
 	    return numbers.isEmpty();
     }
@@ -180,8 +203,7 @@ public class CompressedLongSet {
 	    }
 
 	    public void remove() {
-	    	// TODO implement Iterator.remove()
-		    throw new UnsupportedOperationException("remove() not supported in " + getClass());
+	    	CompressedLongSet.this.remove(lastLong);
 	    }
 
     }

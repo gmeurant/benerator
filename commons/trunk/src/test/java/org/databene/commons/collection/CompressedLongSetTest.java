@@ -37,7 +37,7 @@ import org.junit.Test;
 public class CompressedLongSetTest extends IteratorTestCase {
 
 	@Test
-	public void test11() {
+	public void testAdd_11() {
 		CompressedLongSet set = new CompressedLongSet();
 		assertTrue(set.isEmpty());
 		set.add(1);
@@ -52,7 +52,7 @@ public class CompressedLongSetTest extends IteratorTestCase {
 	}
 	
 	@Test
-	public void test12() {
+	public void testAdd_12() {
 		CompressedLongSet set = new CompressedLongSet();
 		assertTrue(set.isEmpty());
 		
@@ -73,7 +73,7 @@ public class CompressedLongSetTest extends IteratorTestCase {
 	}
 
 	@Test
-	public void test21() {
+	public void testAdd_21() {
 		CompressedLongSet set = new CompressedLongSet();
 
 		set.add(2L);
@@ -93,7 +93,7 @@ public class CompressedLongSetTest extends IteratorTestCase {
 	}
 
 	@Test
-	public void test13() {
+	public void testAdd_13() {
 		CompressedLongSet set = new CompressedLongSet();
 
 		set.add(1);
@@ -113,7 +113,7 @@ public class CompressedLongSetTest extends IteratorTestCase {
 	}
 
 	@Test
-	public void test31() {
+	public void testAdd_31() {
 		CompressedLongSet set = new CompressedLongSet();
 
 		set.add(3L);
@@ -133,7 +133,7 @@ public class CompressedLongSetTest extends IteratorTestCase {
 	}
 
 	@Test
-	public void test132() {
+	public void testAdd_132() {
 		CompressedLongSet set = new CompressedLongSet();
 		set.add(1L);
 		set.add(3L);
@@ -144,7 +144,7 @@ public class CompressedLongSetTest extends IteratorTestCase {
 	}
 	
 	@Test
-	public void test1to10() {
+	public void testAdd_1to10() {
 		CompressedLongSet set = new CompressedLongSet();
 		set.add(1L);
 		set.add(3L);
@@ -159,6 +159,54 @@ public class CompressedLongSetTest extends IteratorTestCase {
 		assertEquals(new LongRange(1L, 10L), set.numbers.get(1L));
 		assertEquals(10, set.size());
 		expectNextElements(set.iterator(), 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L).withNoNext();
+	}
+	
+
+	@Test
+	public void testRemove_not() {
+		CompressedLongSet set = new CompressedLongSet();
+		assertFalse(set.remove(3));
+		set.add(2);
+		assertFalse(set.remove(3));
+		set.add(4);
+		assertFalse(set.remove(3));
+	}
+	
+	@Test
+	public void testRemove_exactly() {
+		CompressedLongSet set = new CompressedLongSet();
+		set.add(2);
+		assertTrue(set.remove(2));
+		assertEquals(0, set.numbers.size());
+		assertTrue(set.isEmpty());
+	}
+	
+	@Test
+	public void testRemove_min() {
+		CompressedLongSet set = new CompressedLongSet();
+		set.addAll(2, 3);
+		assertTrue(set.remove(2));
+		assertEquals(1, set.numbers.size());
+		assertEquals(new LongRange(3, 3), set.numbers.get(3L));
+	}
+	
+	@Test
+	public void testRemove_max() {
+		CompressedLongSet set = new CompressedLongSet();
+		set.addAll(4, 5);
+		assertTrue(set.remove(5));
+		assertEquals(1, set.numbers.size());
+		assertEquals(new LongRange(4, 4), set.numbers.get(4L));
+	}
+	
+	@Test
+	public void testRemove_mid() {
+		CompressedLongSet set = new CompressedLongSet();
+		set.addAll(6, 7, 8);
+		assertTrue(set.remove(7));
+		assertEquals(2, set.numbers.size());
+		assertEquals(new LongRange(6, 6), set.numbers.get(6L));
+		assertEquals(new LongRange(8, 8), set.numbers.get(8L));
 	}
 	
 }

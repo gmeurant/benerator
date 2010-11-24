@@ -45,6 +45,11 @@ public class CompressedIntSet {
 		numbers.clear();
 		this.size = 0;
     }
+	
+	public void addAll(int... numbers) {
+		for (int number : numbers)
+			add(number);
+	}
 
 	public void add(int i) {
 		if (numbers.isEmpty()) {
@@ -97,12 +102,29 @@ public class CompressedIntSet {
 		Entry<Integer, IntRange> floorEntry = numbers.floorEntry(i);
 		return (floorEntry != null && floorEntry.getValue().contains(i));
     }
-	
-/*
+
 	public boolean remove(int i) {
-		TODO implement remove()
+		Entry<Integer, IntRange> floorEntry = numbers.floorEntry(i);
+		if (floorEntry == null || !floorEntry.getValue().contains(i)) 
+			return false;
+		IntRange range = floorEntry.getValue();
+		if (i == range.getMax() && range.getMax() > range.getMin()) {
+			range.setMax(i - 1);
+		} else if (i == range.getMin()) {
+			numbers.remove(i);
+			if (range.getMax() > i) {
+				range.setMin(i + 1);
+				numbers.put(i + 1, range);
+			}
+		} else {
+			int max = range.getMax();
+			range.setMax(i - 1);
+			IntRange range2 = new IntRange(i + 1, max);
+			numbers.put(i + 1, range2);
+		}
+		return true;
     }
-*/
+
 	public boolean isEmpty() {
 	    return numbers.isEmpty();
     }
@@ -115,7 +137,7 @@ public class CompressedIntSet {
 		return new CompressedSetIterator();
 	}
 	
-	// java.lang.Object overrrides -------------------------------------------------------------------------------------
+	// java.lang.Object overrides --------------------------------------------------------------------------------------
 
 	@Override
 	public String toString() {
@@ -180,10 +202,8 @@ public class CompressedIntSet {
 	    }
 
 	    public void remove() {
-	    	// TODO implement Iterator.remove()
-		    throw new UnsupportedOperationException("remove() not supported in " + getClass());
+	    	CompressedIntSet.this.remove(lastInt);
 	    }
-
     }
 	
 }
