@@ -19,6 +19,7 @@ Enhancements
 - FileUtil.relativePath()
 - XMLUtil.formatText()
 - TreeLogger logs the structure of implementors of the databene TreeModel interface
+- HashCodeBuilder class facilitates the calculation of hash codes
 
 
 
