@@ -177,7 +177,7 @@ public final class IOUtil {
         if (uri.startsWith("string://"))
             return new BufferedReader(new StringReader(uri.substring("string://".length())));
         else if (uri.startsWith("http://"))
-            return getHttpReader(uri, defaultEncoding);
+            return getHttpReader(new URL(uri), defaultEncoding);
         else
             return getFileReader(uri, defaultEncoding);
     }
@@ -205,15 +205,19 @@ public final class IOUtil {
         else if (uri.startsWith("file:"))
             return getFileOrResourceAsStream(uri.substring("file:".length()), true);
         else if (uri.contains("://")) {
-            try {
-                URLConnection connection = getConnection(uri);
-                return connection.getInputStream();
-            } catch (MalformedURLException e) {
-                throw new IllegalArgumentException(e);
-            }
+            return getInputStreamForURL(new URL(uri));
         } else
         	return getFileOrResourceAsStream(uri, required);
     }
+
+	public static InputStream getInputStreamForURL(URL url) throws IOException {
+		try {
+		    URLConnection connection = getConnection(url);
+		    return connection.getInputStream();
+		} catch (MalformedURLException e) {
+		    throw new IllegalArgumentException(e);
+		}
+	}
 
     public static InputStream getInputStreamForUriReference(String localUri, String contextUri, boolean required) throws IOException {
     	if (logger.isDebugEnabled())
@@ -226,12 +230,7 @@ public final class IOUtil {
     	String uri = resolveRelativeUri(localUri, contextUri);
     	
     	if (localUri.startsWith("http://")) {
-            try {
-                URLConnection connection = getConnection(uri);
-                return connection.getInputStream();
-            } catch (MalformedURLException e) {
-                throw new IllegalArgumentException(e);
-            }
+            return getInputStreamForURL(new URL(uri));
         }
 
         if (localUri.startsWith("file:") && !localUri.startsWith("file://"))
@@ -542,8 +541,8 @@ public final class IOUtil {
         }
     }
 
-    private static URLConnection getConnection(String uri) throws IOException {
-        URLConnection connection = new URL(uri).openConnection();
+    private static URLConnection getConnection(URL url) throws IOException {
+        URLConnection connection = url.openConnection();
         connection.setRequestProperty("User-Agent", USER_AGENT);
         connection.connect();
         return connection;
@@ -655,7 +654,7 @@ public final class IOUtil {
 	public static void download(URL url, File targetFile) throws IOException {
 		logger.info("downloading {}", url);
 		FileUtil.ensureDirectoryExists(targetFile.getParentFile());
-	    InputStream in = url.openStream();
+	    InputStream in = getInputStreamForURL(url);
 	    try {
 			OutputStream out = new FileOutputStream(targetFile);
 			try {
@@ -680,7 +679,7 @@ public final class IOUtil {
 		return new BufferedReader(new InputStreamReader(in, defaultEncoding));
 	}
 
-	private static BufferedReader getHttpReader(String url, String defaultEncoding) 
+	private static BufferedReader getHttpReader(URL url, String defaultEncoding) 
 			throws IOException, UnsupportedEncodingException {
 		try {
 		    URLConnection connection = getConnection(url);
