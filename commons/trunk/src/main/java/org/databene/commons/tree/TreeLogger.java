@@ -40,6 +40,10 @@ public class TreeLogger {
 	
 	// interface ---------------------------------------------------------------
 	
+	public <T> void log(TreeModel<T> model) {
+	    log(model.getRoot(), false, model, null);
+    }
+	
 	public <T> void log(TreeModel<T> model, Filter<T> filter) {
 	    log(model.getRoot(), false, model, filter);
     }
@@ -47,7 +51,7 @@ public class TreeLogger {
 	// private helper methods --------------------------------------------------
 
 	private <T> void log(T node, boolean hasSiblings, TreeModel<T> model, Filter<T> filter) {
-		if (!filter.accept(node))
+		if (filter != null && !filter.accept(node))
 			return;
 	    LOGGER.info(indent + node);
 	    if (!model.isLeaf(node)) {
