@@ -417,7 +417,7 @@ public class XMLUtil {
 		if (text.startsWith("<?xml")) {
 			int qm2i = text.indexOf('?', 5);
 			int ei = text.indexOf("encoding");
-			if (ei < qm2i) {
+			if (ei > 0 && ei < qm2i) {
 				int dq = text.indexOf('"', ei);
 				int sq = text.indexOf('\'', ei);
 				int q1 = (dq > 0 ? (sq > 0 ? dq : Math.min(sq, dq)) : sq);
