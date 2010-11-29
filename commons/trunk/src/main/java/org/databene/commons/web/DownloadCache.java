@@ -55,7 +55,7 @@ public class DownloadCache {
 	    File cacheSubDir = new File(rootFolder, url.getHost());
 	    String filename = url.getFile();
 	    if (filename.endsWith("/"))
-	    	filename = filename.substring(0, filename.length() - 1);
+	    	filename = filename.substring(0, filename.length() - 1) + ".dir";
 		File cacheFile = new File(cacheSubDir, filename);
 		if (!cacheFile.exists())
 			IOUtil.download(url, cacheFile);
