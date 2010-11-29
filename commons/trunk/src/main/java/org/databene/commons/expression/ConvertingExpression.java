@@ -42,7 +42,7 @@ public class ConvertingExpression<S, T> extends ExpressionAdapter<S, T> {
     }
 
 	public T evaluate(Context context) {
-	    return converter.convert(source.evaluate(context));
+	    return converter.convert(source != null ? source.evaluate(context) : null);
     }
 
 }
