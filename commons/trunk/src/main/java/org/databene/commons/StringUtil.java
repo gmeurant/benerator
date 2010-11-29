@@ -481,6 +481,15 @@ public final class StringUtil {
         return (s1 != null ? s1.equalsIgnoreCase(s2) : s2 == null);
 	}
 
+	public static boolean equalsIgnoreCase(String[] a1, String[] a2) {
+		if (a1.length != a2.length)
+			return false;
+		for (int i = 0; i < a1.length; i++)
+			if (!equalsIgnoreCase(a1[i], a2[i]))
+				return false;
+		return true;
+	}
+
     public static boolean containsIgnoreCase(String searchedWord, Collection<String> words) {
         for (String name : words)
             if (name.equalsIgnoreCase(searchedWord))
