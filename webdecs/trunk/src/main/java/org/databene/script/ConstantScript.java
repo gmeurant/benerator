@@ -45,7 +45,6 @@ public class ConstantScript extends AbstractScript {
         this.text = text;
     }
 
-    @SuppressWarnings("unused")
     public void setVariable(String variableName, Object variableValue) {
         // nothing to do
     }
