@@ -128,7 +128,7 @@ public class PropertyConnector extends FieldConnector {
         );
     }
 
-    @SuppressWarnings({ "unused", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     public PropertyConnector(String title, String propertyName, Class<?> propertyType, Class<?> itemClass,
                              TableCellRenderer renderer, TableCellEditor editor, Comparator<?> comparator) {
         super(
