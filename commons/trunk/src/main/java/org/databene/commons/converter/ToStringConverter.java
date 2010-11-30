@@ -79,7 +79,7 @@ public class ToStringConverter extends FormatHolder implements Converter<Object,
 	    return String.class;
     }
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
     public String convert(Object source) throws ConversionException {
         if (source == null)
             return nullString;
