@@ -223,8 +223,8 @@ public final class ArrayUtil {
         return array;
     }
     
-    @SuppressWarnings("unchecked")
-    public static Class arrayType(Class componentType) {
+    @SuppressWarnings("rawtypes")
+	public static Class arrayType(Class componentType) {
     	if (componentType == byte.class)
     		return byte[].class;
     	else if (componentType == char.class)

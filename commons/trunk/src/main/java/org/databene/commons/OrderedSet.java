@@ -144,7 +144,7 @@ public class OrderedSet<E> implements Set<E> {
 	    return map.hashCode();
     }
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
     @Override
     public boolean equals(Object obj) {
 	    if (this == obj)

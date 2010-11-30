@@ -35,7 +35,7 @@ import org.databene.commons.ConversionException;
  * Created: 05.08.2007 06:38:38
  * @author Volker Bergmann
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings("rawtypes")
 public class String2ClassConverter extends ThreadSafeConverter<String, Class> {
 
     public String2ClassConverter() {

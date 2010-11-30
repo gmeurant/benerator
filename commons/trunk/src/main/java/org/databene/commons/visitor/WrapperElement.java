@@ -51,14 +51,14 @@ public abstract class WrapperElement<E> extends AbstractElement<E> {
         visitor.visit(wrappedObject);
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
+    @SuppressWarnings("rawtypes")
+	@Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        final WrapperElement that = (WrapperElement) o;
+		final WrapperElement that = (WrapperElement) o;
         return !(wrappedObject != null ? !wrappedObject.equals(that.wrappedObject) : that.wrappedObject != null);
     }
 

@@ -55,7 +55,7 @@ public class NotAccessor<E> extends AccessorProxy<E, Boolean> {
 
     // java.lang.Object overrides --------------------------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     @Override
     public boolean equals(Object o) {
         if (this == o)

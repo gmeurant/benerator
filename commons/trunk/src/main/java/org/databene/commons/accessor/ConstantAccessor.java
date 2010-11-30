@@ -57,8 +57,8 @@ public class ConstantAccessor<V> implements Accessor<Object, V> {
         this.value = value;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
+    @SuppressWarnings("rawtypes")
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass())

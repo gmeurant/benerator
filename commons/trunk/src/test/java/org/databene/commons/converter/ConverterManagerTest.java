@@ -88,8 +88,8 @@ public class ConverterManagerTest {
 
 	// String to x tests -----------------------------------------------------------------------------------------------
 	
-    @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
+	@Test
     public void test() {
         Converter converter = mgr.createConverter(String.class, Locale.class);
 		assertEquals(String2LocaleConverter.class, converter.getClass());

@@ -39,8 +39,8 @@ public class NoOpConverter<E> extends ThreadSafeConverter<E,E> {
 
     private static final NoOpConverter<?> instance = new NoOpConverter<Object>();
 
-    @SuppressWarnings("unchecked")
-    public static NoOpConverter getInstance() {
+    @SuppressWarnings("rawtypes")
+	public static NoOpConverter getInstance() {
         return instance;
     }
 

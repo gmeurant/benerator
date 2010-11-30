@@ -29,7 +29,7 @@ import org.databene.commons.ConversionException;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings("rawtypes")
 public class Class2StringConverter extends ThreadSafeConverter<Class, String> {
 
     public Class2StringConverter() {

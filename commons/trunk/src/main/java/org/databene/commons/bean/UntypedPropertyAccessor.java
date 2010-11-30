@@ -37,7 +37,7 @@ import java.beans.PropertyDescriptor;
  * Created: 21.07.2007 10:18:09
  * @author Volker Bergmann
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings("rawtypes")
 class UntypedPropertyAccessor implements PropertyAccessor {
 
     private String propertyName;

@@ -197,7 +197,7 @@ class Node<E extends Dependent<E>> {
         return subject.hashCode();
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

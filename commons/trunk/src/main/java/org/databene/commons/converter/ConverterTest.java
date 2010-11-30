@@ -32,12 +32,11 @@ import org.junit.Test;
  * @since 0.5.0
  * @author Volker Bergmann
  */
+@SuppressWarnings("rawtypes")
 public class ConverterTest {
 	
-	@SuppressWarnings("unchecked")
-    private Class<? extends Converter> converterClass;
+	private Class<? extends Converter> converterClass;
 
-	@SuppressWarnings("unchecked")
     public ConverterTest(Class<? extends Converter> converterClass) {
 		this.converterClass = converterClass;
 	}

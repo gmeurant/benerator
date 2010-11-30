@@ -42,7 +42,7 @@ public class TypeConvertingExpression<E> extends UnaryExpression<E> {
 	
 	private AnyConverter<E> converter;
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     public TypeConvertingExpression(Expression source, Class<E> resultType) {
     	super(source);
 	    this.converter = new AnyConverter<E>(resultType);

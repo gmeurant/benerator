@@ -135,7 +135,7 @@ public final class CollectionUtil {
         return map;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public static Map buildMap(Object ... keyValuePairs) {
         Map map = new HashMap();
         if (keyValuePairs.length % 2 != 0)
@@ -146,7 +146,7 @@ public final class CollectionUtil {
         return map;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public static Map buildOrderedMap(Object ... keyValuePairs) {
         Map map = new OrderedMap();
         if (keyValuePairs.length % 2 != 0)
@@ -227,8 +227,8 @@ public final class CollectionUtil {
 		return list.get(list.size() - 1);
 	}
 
-	@SuppressWarnings("unchecked")
-    private static final List EMPTY_LIST = Collections.emptyList();
+    @SuppressWarnings("rawtypes")
+	private static final List EMPTY_LIST = Collections.emptyList();
 	
     @SuppressWarnings("unchecked")
     public static <T> List<T> emptyList() {

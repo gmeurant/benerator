@@ -234,7 +234,7 @@ public class OrderedMap<K,V> implements Map<K,V>, Serializable {
 
     // java.lang.Object overrides --------------------------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     @Override
     public boolean equals(Object o) {
         if (this == o)

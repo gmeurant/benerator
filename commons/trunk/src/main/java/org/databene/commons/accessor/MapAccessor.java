@@ -56,7 +56,7 @@ public class MapAccessor<C extends Map<K, V>, K, V> implements Accessor<C, V> {
     
     // java.lang.Object overrides --------------------------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     @Override
     public boolean equals(Object o) {
         if (this == o)

@@ -29,7 +29,6 @@ import org.databene.commons.ConversionException;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-@SuppressWarnings("unchecked")
 public class Enum2StringConverter<E extends Enum<E>> extends ThreadSafeConverter<E, String> {
 
     public Enum2StringConverter(Class<E> enumClass) {
@@ -40,7 +39,7 @@ public class Enum2StringConverter<E extends Enum<E>> extends ThreadSafeConverter
         return convertToString(target);
     }
 
-    public static <T extends Enum> String convertToString(T target) throws ConversionException {
+    public static <T extends Enum<?>> String convertToString(T target) throws ConversionException {
         return (target != null ? target.name() : null);
     }
 

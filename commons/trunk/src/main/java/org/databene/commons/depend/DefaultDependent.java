@@ -57,14 +57,14 @@ public class DefaultDependent<S, E extends Dependent<E>> extends AbstractDepende
         return subject.hashCode();
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null || getClass() != obj.getClass())
             return false;
-        DefaultDependent that = (DefaultDependent) obj;
+		DefaultDependent that = (DefaultDependent) obj;
         return (this.subject != null ? this.subject.equals(that.subject) : that.subject == null);
     }
     

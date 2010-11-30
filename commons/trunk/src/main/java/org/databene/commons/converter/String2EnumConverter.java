@@ -34,7 +34,7 @@ import org.databene.commons.ConversionException;
  * Created: 20.08.2007 07:11:16
  * @author Volker Bergmann
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings("rawtypes")
 public class String2EnumConverter<E extends Enum> extends ThreadSafeConverter<String, E> {
 
     public String2EnumConverter(Class<E> enumClass) {
