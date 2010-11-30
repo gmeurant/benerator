@@ -341,7 +341,7 @@ public final class BeanUtil {
      * @param name the name of the class to instantiate
      * @return the Class instance
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public static <T> Class<T> forName(String name) {
     	Assert.notNull(name, "class name");
         Class type = simpleTypeMap.get(name);
@@ -415,7 +415,7 @@ public final class BeanUtil {
     	return newInstance(type, true, parameters);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public static <T> T newInstance(Class<T> type, boolean strict, Object ... parameters) {
         if (parameters.length == 0)
             return newInstanceFromDefaultConstructor(type);
@@ -589,8 +589,8 @@ public final class BeanUtil {
         return invoke(true, target, methodName, args);
     }
 
-    @SuppressWarnings("unchecked")
-    public static Object invoke(boolean strict, Object target, String methodName, Object ... args) {
+    @SuppressWarnings("rawtypes")
+	public static Object invoke(boolean strict, Object target, String methodName, Object ... args) {
     	if (target == null)
             throw new IllegalArgumentException("target is null");
         Class[] argTypes = null;
