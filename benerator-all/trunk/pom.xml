@@ -13,13 +13,14 @@
     <description></description>
 
  	<modules>
- 		<module>../commons</module>
- 		<module>../jdbacl</module>
- 		<module>../gui</module>
- 		<module>../webdecs</module>
-                <module>../contiperf</module>
- 		<module>../benerator</module>
- 		<module>../maven-benerator-plugin</module>
+		<module>../commons</module>
+		<module>../jdbacl</module>
+		<module>../gui</module>
+		<module>../webdecs</module>
+		<module>../contiperf</module>
+		<module>../dbsanity</module>
+		<module>../benerator</module>
+		<module>../maven-benerator-plugin</module>
  	</modules>
  	
   <build>
