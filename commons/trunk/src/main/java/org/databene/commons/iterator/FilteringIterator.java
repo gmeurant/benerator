@@ -39,7 +39,7 @@ import java.util.Iterator;
  */
 public class FilteringIterator<E> extends BidirectionalIteratorProxy<E> {
 
-    private Filter<E> filter;
+    protected Filter<E> filter;
 
     private E next;
     private E previous;
