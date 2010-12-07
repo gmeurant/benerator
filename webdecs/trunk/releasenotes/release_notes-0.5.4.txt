@@ -12,7 +12,7 @@ Enhancements
 - Supporting arbitrary encoding in HTML2XML
 - XLSLineIterator supports XLS file without header when property usingHeaders=false
 - New class SimpleXMLWriter with simpler interface than the JAXP Transformer class
-
+- Defined XML element parser features (XMLElementParser and ParsingContext)
 
 
 Changes
