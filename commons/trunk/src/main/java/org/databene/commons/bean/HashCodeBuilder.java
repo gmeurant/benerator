@@ -21,6 +21,8 @@
 
 package org.databene.commons.bean;
 
+import java.util.Arrays;
+
 /**
  * Helper class for calculating hash codes.<br/><br/>
  * Created: 24.11.2010 12:39:14
@@ -32,8 +34,17 @@ public class HashCodeBuilder {
 	public static int hashCode(Object... components) {
 		int result = 0;
 		for (Object component : components)
-			result = 31 * result + (component != null ? component.hashCode() : 0);
+			result = 31 * result + componentHashCode(component);
 		return result;
+	}
+
+	public static int componentHashCode(Object component) {
+		if (component == null)
+			return 0;
+		if (component.getClass().isArray())
+			return Arrays.hashCode((Object[]) component);
+		else
+			return component.hashCode();
 	}
 	
 }
