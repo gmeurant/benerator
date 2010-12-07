@@ -34,7 +34,7 @@ package org.databene.commons.iterator;
  */
 public abstract class BidirectionalIteratorProxy<E> implements BidirectionalIterator<E> {
 
-    private BidirectionalIterator<E> realIterator;
+    protected BidirectionalIterator<E> realIterator;
 
     public BidirectionalIteratorProxy(BidirectionalIterator<E> realIterator) {
         this.realIterator = realIterator;
