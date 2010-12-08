@@ -28,9 +28,9 @@ import org.databene.commons.xml.XMLUtil;
 import org.w3c.dom.Element;
 
 /**
- * TODO Document class.<br/><br/>
+ * Provides context informations and operations for XML parsing.<br/><br/>
  * Created: 05.12.2010 12:09:54
- * @since TODO version
+ * @since 0.5.4
  * @author Volker Bergmann
  */
 public class ParsingContext {

@@ -31,12 +31,12 @@ import org.databene.commons.xml.XMLUtil;
 import org.w3c.dom.Element;
 
 /**
- * TODO Document class.<br/><br/>
+ * Abstract implementation of the {@link XMLElementParser} interface.<br/><br/>
  * Created: 05.12.2010 10:46:38
- * @since TODO version
+ * @since 0.5.4
  * @author Volker Bergmann
  */
-public abstract class AbstractXMLElementParser implements XMLElementParser{
+public abstract class AbstractXMLElementParser implements XMLElementParser {
 	
 	protected final String elementName;
 	protected final Set<Class<?>> supportedParentTypes;

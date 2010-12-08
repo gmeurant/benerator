@@ -26,7 +26,7 @@ import java.util.List;
 import org.w3c.dom.Element;
 
 /**
- * TODO Document class.<br/><br/>
+ * Parent interface for classes that parse XML structures into Java objects.<br/><br/>
  * Created: 05.12.2010 10:42:56
  * @since 0.5.4
  * @author Volker Bergmann

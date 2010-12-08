@@ -30,9 +30,9 @@ import org.databene.commons.xml.XMLUtil;
 import org.w3c.dom.Element;
 
 /**
- * TODO Document class.<br/><br/>
+ * Factory method which provides {@link XMLElementParser}s.<br/><br/>
  * Created: 05.12.2010 12:15:57
- * @since TODO version
+ * @since 0.5.4
  * @author Volker Bergmann
  */
 public class XMLElementParserFactory {
