@@ -27,14 +27,14 @@ import org.databene.commons.BeanUtil;
 import org.databene.gui.os.JavaApplication;
 
 /**
- * TODO Document class.<br/><br/>
+ * Provides utility methods for Mac OS X.<br/><br/>
  * Created: 10.09.2010 09:30:01
  * @since 0.2.4
  * @author Volker Bergmann
  */
 public class OSXUtil {
 
-	public static void cofigureAppliaction(JavaApplication application) {
+	public static void cofigureApplication(JavaApplication application) {
     	Class<?> applicationClass = BeanUtil.forName("com.apple.eawt.Application");
     	Object osxApplication = BeanUtil.invokeStatic(applicationClass, "getApplication");
         Class<?> applicationListenerClass = BeanUtil.forName("com.apple.eawt.ApplicationListener");

@@ -26,10 +26,12 @@ import java.util.ArrayList;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreePath;
 
+import org.databene.commons.TreeModel;
+
 /**
- * TODO Document class.<br/><br/>
+ * Adaptor that maps Databene {@link TreeModel}s to Swing {@link javax.swing.tree.TreeModel}.<br/><br/>
  * Created: 02.12.2010 06:46:55
- * @since 0.5.4
+ * @since 0.2.4
  * @author Volker Bergmann
  */
 public class SwingTreeModelAdapter<E> implements javax.swing.tree.TreeModel {

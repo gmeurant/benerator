@@ -28,7 +28,7 @@ import org.databene.commons.BeanUtil;
 import org.databene.gui.os.JavaApplication;
 
 /**
- * TODO Document class.<br/><br/>
+ * InvocationHandler interface for Mac OS X.<br/><br/>
  * Created: 10.09.2010 09:18:57
  * @since 0.2.4
  * @author Volker Bergmann

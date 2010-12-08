@@ -26,7 +26,7 @@ import org.databene.commons.SystemInfo;
 import org.databene.gui.os.osx.OSXUtil;
 
 /**
- * TODO Document class.<br/><br/>
+ * Provides utility methods for Java applications.<br/><br/>
  * Created: 03.09.2010 16:16:12
  * @since 0.2.4
  * @author Volker Bergmann
@@ -51,7 +51,7 @@ public class ApplicationUtil {
 
 	public static void configureApplication(JavaApplication application) {
 	    if (SystemInfo.isMacOsx())
-	    	OSXUtil.cofigureAppliaction(application);
+	    	OSXUtil.cofigureApplication(application);
     }
 	
 }

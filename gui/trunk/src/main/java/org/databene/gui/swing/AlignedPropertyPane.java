@@ -40,9 +40,9 @@ import org.databene.gui.swing.delegate.PropertyTextArea;
 import org.databene.gui.swing.delegate.PropertyTextField;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link AlignedPane} implementation that supports property-based input elements.<br/><br/>
  * Created: 22.08.2010 07:09:34
- * @since TODO version
+ * @since 0.2.4
  * @author Volker Bergmann
  * @param <E> The type of the bean displayed
  */

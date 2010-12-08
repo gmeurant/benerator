@@ -31,9 +31,9 @@ import org.databene.gui.awt.AwtFileChooser;
 import org.databene.gui.swing.SwingFileChooser;
 
 /**
- * TODO Document class.<br/><br/>
+ * Provides GUI utility methods.<br/><br/>
  * Created: 01.12.2010 13:55:23
- * @since TODO version
+ * @since 0.2.4
  * @author Volker Bergmann
  */
 public class GUIUtil {
