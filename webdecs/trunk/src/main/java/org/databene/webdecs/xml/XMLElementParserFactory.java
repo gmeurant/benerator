@@ -26,7 +26,6 @@ import java.util.List;
 
 import org.databene.commons.CollectionUtil;
 import org.databene.commons.ConfigurationError;
-import org.databene.commons.xml.XMLUtil;
 import org.w3c.dom.Element;
 
 /**
@@ -51,9 +50,10 @@ public class XMLElementParserFactory {
 		for (XMLElementParser parser : parsers)
 			if (parser.supports(element, parentPath))
 				return parser;
-		throw new ConfigurationError("Element not supported in the context of a " + 
-			CollectionUtil.lastElement(parentPath).getClass().getSimpleName() + ": " + 
-			XMLUtil.format(element));
+		Object parent = CollectionUtil.lastElement(parentPath);
+		throw new ConfigurationError("Element '" + element.getNodeName() + 
+			"' not supported in the context of a " + 
+			parent.getClass().getSimpleName());
 	}
 	
 }
