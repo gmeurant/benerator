@@ -29,3 +29,4 @@ Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&a
 - Fixed reported path on resource file lookup error ('/')
 - Postfix error in TimestampFormatter
 - NullPointerException when trying to convert a String object to instance of Number.class
+- ConverterManager's tryToCreateFactoryConverter() method: <targetType>Value() approach and to-String-conversion
