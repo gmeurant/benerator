@@ -61,7 +61,7 @@ import java.lang.reflect.Modifier;
  * Created: 04.08.2007 19:43:17
  * @author Volker Bergmann
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class ConverterManager {
 
 	private static final Logger configLogger = LoggerFactory.getLogger(LogCategories.CONFIG);
@@ -71,7 +71,7 @@ public class ConverterManager {
 
     private static ConverterManager instance;
 
-    private OrderedMap<ConversionTypes, Class<? extends Converter>> configuredConverterClasses;
+	private OrderedMap<ConversionTypes, Class<? extends Converter>> configuredConverterClasses;
     
     private Map<ConversionTypes, Converter> converterPrototypes;
 
@@ -213,33 +213,41 @@ public class ConverterManager {
             return new FormatFormatConverter<Time>(Time.class, new SimpleDateFormat(Patterns.DEFAULT_DATETIME_PATTERN), false);
         } else if (sourceType == Class.class) {
             return new Class2StringConverter();
-        } else
-            return new ToStringMethodInvoker(sourceType);
+        } else {
+        	Converter<?, String> result = tryToCreateFactoryConverter(sourceType, String.class);
+	        if (result != null)
+	        	return result;
+	        else
+	            return new ToStringMethodInvoker(sourceType);
+        }
     }
 
     private Converter tryToCreateFactoryConverter(Class sourceType, Class targetType) {
-    	
-    	// find static valueOf() method in target type
-        Method valueOfMethod = BeanUtil.findMethod(targetType, "valueOf", sourceType);
-        if (valueOfMethod != null && (valueOfMethod.getModifiers() & Modifier.STATIC) == Modifier.STATIC)
-            return new StaticTargetClassMethodInvoker(sourceType, targetType, valueOfMethod);
-
-    	// find static getInstance() method in target type
-        Method getInstanceMethod = BeanUtil.findMethod(targetType, "getInstance", sourceType);
-        if (getInstanceMethod != null && (getInstanceMethod.getModifiers() & Modifier.STATIC) == Modifier.STATIC)
-            return new StaticTargetClassMethodInvoker(sourceType, targetType, getInstanceMethod);
-
-    	// find target type constructor which takes source type argument
-        Constructor constructor = BeanUtil.findConstructor(targetType, sourceType);
-        if (constructor != null)
-        	return new ConstructorInvoker(sourceType, constructor);
-
-        // find instance method <targetType>Value() in source type
-        String methodName = StringUtil.uncapitalize(targetType.getSimpleName()) + "Value";
-        Method typeValueMethod = BeanUtil.findMethod(sourceType, methodName, new Class[0]);
-        if (typeValueMethod != null && (typeValueMethod.getModifiers() & Modifier.STATIC) == 0)
-            return new SourceClassMethodInvoker(sourceType, targetType, valueOfMethod);
-
+    	{
+	        // find instance method <targetType>Value() in source type
+	        String methodName = StringUtil.uncapitalize(targetType.getSimpleName()) + "Value";
+	        Method typeValueMethod = BeanUtil.findMethod(sourceType, methodName, new Class[0]);
+	        if (typeValueMethod != null && (typeValueMethod.getModifiers() & Modifier.STATIC) == 0)
+	            return new SourceClassMethodInvoker(sourceType, targetType, typeValueMethod);
+    	}
+    	{
+	    	// find static getInstance() method in target type
+	        Method getInstanceMethod = BeanUtil.findMethod(targetType, "getInstance", sourceType);
+	        if (getInstanceMethod != null && (getInstanceMethod.getModifiers() & Modifier.STATIC) == Modifier.STATIC)
+	            return new StaticTargetClassMethodInvoker(sourceType, targetType, getInstanceMethod);
+    	}
+    	{
+	    	// find static valueOf() method in target type
+	        Method valueOfMethod = BeanUtil.findMethod(targetType, "valueOf", sourceType);
+	        if (valueOfMethod != null && (valueOfMethod.getModifiers() & Modifier.STATIC) == Modifier.STATIC)
+	            return new StaticTargetClassMethodInvoker(sourceType, targetType, valueOfMethod);
+    	}
+    	{
+	    	// find target type constructor which takes source type argument
+	        Constructor constructor = BeanUtil.findConstructor(targetType, sourceType);
+	        if (constructor != null)
+	        	return new ConstructorInvoker(sourceType, constructor);
+    	}
         return findPoorConfiguredMatch(sourceType, targetType);
     }
 
