@@ -22,6 +22,7 @@
 package org.databene.commons.converter;
 
 import org.databene.commons.Converter;
+import org.databene.commons.bean.HashCodeBuilder;
 
 /**
  * Converter id class for the ConverterManager.<br/><br/>
@@ -45,7 +46,7 @@ class ConversionTypes {
 
 	@Override
     public int hashCode() {
-	    return (1 + sourceType.hashCode()) * 31 + targetType.hashCode();
+	    return HashCodeBuilder.hashCode(sourceType, targetType);
     }
 
 	@Override
@@ -54,7 +55,8 @@ class ConversionTypes {
 		    return true;
 	    if (obj == null)
 		    return false;
-	    return (getClass() == obj.getClass());
+	    ConversionTypes that = (ConversionTypes) obj;
+	    return (this.sourceType == that.sourceType && this.targetType == that.targetType);
     }
 	
 	@Override
