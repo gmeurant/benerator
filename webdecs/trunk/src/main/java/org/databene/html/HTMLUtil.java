@@ -41,6 +41,7 @@ import java.util.Set;
 public class HTMLUtil {
 
     private static final Set<String> EMPTY_TAGS = CollectionUtil.toSet("br", "img", "meta", "link");
+	public static final String DOCTYPE_401 = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">";
 
     public static boolean isEmptyTag(String tagName) {
         return EMPTY_TAGS.contains(tagName.toLowerCase());
