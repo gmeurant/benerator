@@ -24,6 +24,7 @@ package org.databene.webdecs.xml;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.databene.commons.ArrayUtil;
 import org.databene.commons.xml.XMLUtil;
 import org.w3c.dom.Element;
 
@@ -33,35 +34,39 @@ import org.w3c.dom.Element;
  * @since 0.5.4
  * @author Volker Bergmann
  */
-public class ParsingContext {
+public class ParsingContext<E> {
 	
-	protected XMLElementParserFactory factory;
+	protected XMLElementParserFactory<E> factory;
 	
 	public ParsingContext() {
-		this(new XMLElementParserFactory());
+		this(new XMLElementParserFactory<E>());
 	}
 
-	public ParsingContext(XMLElementParserFactory factory) {
+	public ParsingContext(XMLElementParserFactory<E> factory) {
 		this.factory = factory;
 	}
 
-	public void addParser(XMLElementParser parser) {
+	public void addParser(XMLElementParser<E> parser) {
 		factory.addParser(parser);
 	}
 
-	public void parseChildElementsOf(Element element, Object currentObject, List<Object> parentPath) {
+	public List<E> parseChildElementsOf(Element element, E currentObject, E[] parentPath) {
+		List<E> result = new ArrayList<E>();
 		for (Element childElement : XMLUtil.getChildElements(element))
-			parseChildElement(childElement, currentObject, parentPath);
+			result.add(parseChildElement(childElement, currentObject, parentPath));
+		return result;
 	}
 	
-	public Object parseChildElement(Element childElement, Object currentObject, List<Object> parentPath) {
-		List<Object> currentPath = new ArrayList<Object>(parentPath);
-		currentPath.add(currentObject);
-		return parseElement(childElement, currentPath);
+	public E parseChildElement(Element childElement, E currentObject, E[] parentPath) {
+		return parseElement(childElement, createCurrentElementPath(parentPath, currentObject));
 	}
 
-	public Object parseElement(Element element, List<Object> parentPath) {
-		XMLElementParser parser = factory.getParser(element, parentPath);
+	public E[] createCurrentElementPath(E[] parentPath, E currentObject) {
+		return ArrayUtil.append(parentPath, currentObject);
+	}
+
+	public E parseElement(Element element, E[] parentPath) {
+		XMLElementParser<E> parser = factory.getParser(element, parentPath);
 		return parser.parse(element, parentPath, this);
 	}
 	

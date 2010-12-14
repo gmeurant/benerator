@@ -24,7 +24,7 @@ package org.databene.webdecs.xml;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.databene.commons.CollectionUtil;
+import org.databene.commons.ArrayUtil;
 import org.databene.commons.ConfigurationError;
 import org.w3c.dom.Element;
 
@@ -34,26 +34,27 @@ import org.w3c.dom.Element;
  * @since 0.5.4
  * @author Volker Bergmann
  */
-public class XMLElementParserFactory {
+public class XMLElementParserFactory<E> {
 	
-	protected List<XMLElementParser> parsers;
+	protected List<XMLElementParser<E>> parsers;
 
 	public XMLElementParserFactory() {
-		this.parsers = new ArrayList<XMLElementParser>();
+		this.parsers = new ArrayList<XMLElementParser<E>>();
 	}
 	
-	public void addParser(XMLElementParser parser) {
+	public void addParser(XMLElementParser<E> parser) {
 		this.parsers.add(parser);
 	}
 
-	public XMLElementParser getParser(Element element, List<Object> parentPath) {
-		for (XMLElementParser parser : parsers)
+	public XMLElementParser<E> getParser(Element element, E[] parentPath) {
+		for (XMLElementParser<E> parser : parsers)
 			if (parser.supports(element, parentPath))
 				return parser;
-		Object parent = CollectionUtil.lastElement(parentPath);
+		Object parent = (ArrayUtil.isEmpty(parentPath) ? null : ArrayUtil.lastElement(parentPath));
 		throw new ConfigurationError("Element '" + element.getNodeName() + 
-			"' not supported in the context of a " + 
-			parent.getClass().getSimpleName());
+			"' not supported " + (parent != null ? 
+				"in the context of a " + parent.getClass().getSimpleName() :
+				"as top level element"));
 	}
 	
 }

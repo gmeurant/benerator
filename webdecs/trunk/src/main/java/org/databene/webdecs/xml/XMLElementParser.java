@@ -21,8 +21,6 @@
 
 package org.databene.webdecs.xml;
 
-import java.util.List;
-
 import org.w3c.dom.Element;
 
 /**
@@ -31,7 +29,7 @@ import org.w3c.dom.Element;
  * @since 0.5.4
  * @author Volker Bergmann
  */
-public interface XMLElementParser {
-	boolean supports(Element element, List<Object> parentPath);
-	Object parse(Element element, List<Object> parentPath, ParsingContext context);
+public interface XMLElementParser<E> {
+	boolean supports(Element element, E[] parentPath);
+	E parse(Element element, E[] parentPath, ParsingContext<E> context);
 }

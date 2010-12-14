@@ -21,9 +21,10 @@
 
 package org.databene.webdecs.xml;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.databene.commons.ArrayUtil;
 import org.databene.commons.CollectionUtil;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.StringUtil;
@@ -36,7 +37,7 @@ import org.w3c.dom.Element;
  * @since 0.5.4
  * @author Volker Bergmann
  */
-public abstract class AbstractXMLElementParser implements XMLElementParser {
+public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E> {
 	
 	protected final String elementName;
 	protected final Set<Class<?>> supportedParentTypes;
@@ -46,11 +47,11 @@ public abstract class AbstractXMLElementParser implements XMLElementParser {
 		this.supportedParentTypes = CollectionUtil.toSet(supportedParentTypes);
 	}
 
-	public boolean supports(Element element, List<Object> parentPath) {
+	public boolean supports(Element element, E[] parentPath) {
 		if (!this.elementName.equals(element.getNodeName()))
 			return false;
 		return this.supportedParentTypes.isEmpty() || 
-			this.supportedParentTypes.contains(CollectionUtil.lastElement(parentPath).getClass());
+			this.supportedParentTypes.contains(ArrayUtil.lastElement(parentPath).getClass());
 	}
 
 	protected static void assertElementName(String expectedName, Element element) {
@@ -58,11 +59,11 @@ public abstract class AbstractXMLElementParser implements XMLElementParser {
 			throw new ConfigurationError("Expected element name '" + expectedName + "', found: '" + element.getNodeName());
 	}
 
-	protected static Object parent(List<Object> parentPath) {
-		if (CollectionUtil.isEmpty(parentPath))
+	protected Object parent(E[] parentPath) {
+		if (ArrayUtil.isEmpty(parentPath))
 			return null;
 		else
-			return CollectionUtil.lastElement(parentPath);
+			return ArrayUtil.lastElement(parentPath);
 	}
 
 	protected static String parseRequiredName(Element element) {
@@ -86,5 +87,12 @@ public abstract class AbstractXMLElementParser implements XMLElementParser {
 	protected static String getOptionalAttribute(String name, Element element) {
 		return StringUtil.emptyToNull(element.getAttribute(name));
 	}
+
+	protected static void checkAttributes(Element element, Set<String> supportedAttributes) {
+	    for (Map.Entry<String, String> attribute : XMLUtil.getAttributes(element).entrySet()) {
+	        if (!supportedAttributes.contains(attribute.getKey()))
+				throw new ConfigurationError("Not a supported import attribute: " + attribute.getKey());
+        }
+    }
 
 }
