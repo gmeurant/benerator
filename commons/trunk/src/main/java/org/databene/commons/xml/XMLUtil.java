@@ -90,7 +90,7 @@ public class XMLUtil {
         NamedNodeMap attributes = element.getAttributes();
         for (int i = 0; i < attributes.getLength(); i++) {
             Attr attribute = (Attr) attributes.item(i);
-            builder.append(' ').append(attribute.getName()).append('=').append(attribute.getValue());
+            builder.append(' ').append(attribute.getName()).append("=\"").append(attribute.getValue()).append('"');
         }
         builder.append("...");
         return builder.toString();
