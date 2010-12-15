@@ -43,20 +43,22 @@ public class ElapsedTimeFormatter extends ThreadSafeConverter<Long, String> {
 	private static final long DAY_MILLIS    = 24 * HOUR_MILLIS;
 	
 	char decimalSeparator;
+	String space;
 
 	public ElapsedTimeFormatter() {
-		this(Locale.getDefault());
+		this(Locale.getDefault(), " ");
 	}
 	
-	public ElapsedTimeFormatter(Locale locale) {
+	public ElapsedTimeFormatter(Locale locale, String space) {
 		super(Long.class, String.class);
 		DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance(locale);
 		this.decimalSeparator = symbols.getDecimalSeparator();
+		this.space = space;
 	}
 
 	public String convert(Long millis) throws ConversionException {
 		if (millis < SECOND_MILLIS)
-			return millis + " ms";
+			return millis + space + "ms";
 		else if (millis < MINUTE_MILLIS)
 			return render(millis, SECOND_MILLIS, "s");
 		else if (millis < HOUR_MILLIS)
@@ -64,17 +66,21 @@ public class ElapsedTimeFormatter extends ThreadSafeConverter<Long, String> {
 		else if (millis < DAY_MILLIS)
 			return render(millis, HOUR_MILLIS, "h");
 		else
-			return render(millis, DAY_MILLIS, "d"); // TODO 
+			return render(millis, DAY_MILLIS, "d"); // TODO I18N OF UOM
 	}
 
 	private String render(long millis, long base, String unit) {
 		long prefix = millis / base;
 		long postfix = (millis - prefix * base + base / 20) * 10 / base;
+		if (postfix >= 10) {
+			prefix++;
+			postfix -= 10;
+		}
 		StringBuilder builder = new StringBuilder();
 		builder.append(prefix);
 		if (postfix != 0)
 			builder.append(decimalSeparator).append(postfix);
-		builder.append(' ').append(unit);
+		builder.append(space).append(unit);
 		return builder.toString();
 	}
 

@@ -36,17 +36,32 @@ import org.junit.Test;
 public class ElapsedTimeFormatterTest {
 
 	@Test
-	public void test() {
-		ElapsedTimeFormatter format = new ElapsedTimeFormatter(Locale.GERMAN);
+	public void testGerman() {
+		ElapsedTimeFormatter format = new ElapsedTimeFormatter(Locale.GERMAN, " ");
 		assertEquals("123 ms", format.convert(123L));
 		assertEquals("1,2 s",  format.convert(1234L));
 		assertEquals("1,3 s",  format.convert(1256L));
+		assertEquals("3 s",    format.convert(2999L));
 		assertEquals("12,3 s", format.convert(12345L));
 		assertEquals("12 s",   format.convert(12000L));
 		assertEquals("2,1 m",  format.convert(123456L));
 		assertEquals("3 m",    format.convert(180000L));
 		assertEquals("3,4 h",  format.convert(12345678L));
 		assertEquals("1,4 d",  format.convert(123456789L));
+	}
+	
+	@Test
+	public void testUS() {
+		ElapsedTimeFormatter format = new ElapsedTimeFormatter(Locale.US, " ");
+		assertEquals("123 ms", format.convert(123L));
+		assertEquals("1.2 s",  format.convert(1234L));
+	}
+	
+	@Test
+	public void testHtml() {
+		ElapsedTimeFormatter format = new ElapsedTimeFormatter(Locale.US, "&nbsp;");
+		assertEquals("123&nbsp;ms", format.convert(123L));
+		assertEquals("1.2&nbsp;s",  format.convert(1234L));
 	}
 	
 }
