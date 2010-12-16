@@ -55,14 +55,14 @@ public class ParsingContext<E> {
 		return parser.parse(element, parentPath, this);
 	}
 	
-	public List<E> parseChildElementsOf(Element element, E currentObject, E[] currentPath) {
+	public List<E> parseChildElementsOf(Element element, E[] currentPath) {
 		List<E> result = new ArrayList<E>();
 		for (Element childElement : XMLUtil.getChildElements(element))
-			result.add(parseChildElement(childElement, currentObject, currentPath));
+			result.add(parseChildElement(childElement, currentPath));
 		return result;
 	}
 	
-	public E parseChildElement(Element childElement, E currentObject, E[] currentPath) {
+	public E parseChildElement(Element childElement, E[] currentPath) {
 		return parseElement(childElement, currentPath);
 	}
 
