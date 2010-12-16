@@ -50,24 +50,24 @@ public class ParsingContext<E> {
 		factory.addParser(parser);
 	}
 
-	public List<E> parseChildElementsOf(Element element, E currentObject, E[] parentPath) {
-		List<E> result = new ArrayList<E>();
-		for (Element childElement : XMLUtil.getChildElements(element))
-			result.add(parseChildElement(childElement, currentObject, parentPath));
-		return result;
-	}
-	
-	public E parseChildElement(Element childElement, E currentObject, E[] parentPath) {
-		return parseElement(childElement, createCurrentElementPath(parentPath, currentObject));
-	}
-
-	public E[] createCurrentElementPath(E[] parentPath, E currentObject) {
-		return ArrayUtil.append(parentPath, currentObject);
-	}
-
 	public E parseElement(Element element, E[] parentPath) {
 		XMLElementParser<E> parser = factory.getParser(element, parentPath);
 		return parser.parse(element, parentPath, this);
 	}
 	
+	public List<E> parseChildElementsOf(Element element, E currentObject, E[] currentPath) {
+		List<E> result = new ArrayList<E>();
+		for (Element childElement : XMLUtil.getChildElements(element))
+			result.add(parseChildElement(childElement, currentObject, currentPath));
+		return result;
+	}
+	
+	public E parseChildElement(Element childElement, E currentObject, E[] currentPath) {
+		return parseElement(childElement, currentPath);
+	}
+
+	public E[] createSubPath(E[] parentPath, E currentObject) {
+		return ArrayUtil.append(parentPath, currentObject);
+	}
+
 }
