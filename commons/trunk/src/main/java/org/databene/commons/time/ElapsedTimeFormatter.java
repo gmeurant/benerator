@@ -78,7 +78,7 @@ public class ElapsedTimeFormatter extends ThreadSafeConverter<Long, String> {
 		}
 		StringBuilder builder = new StringBuilder();
 		builder.append(prefix);
-		if (postfix != 0)
+		if (postfix != 0 && prefix / 10 == 0)
 			builder.append(decimalSeparator).append(postfix);
 		builder.append(space).append(unit);
 		return builder.toString();
