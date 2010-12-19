@@ -70,8 +70,9 @@ public final class CollectionUtil {
      */
     public static <T> Set<T> toSet(T ... elements) {
         HashSet<T> set = new HashSet<T>();
-        for (T element : elements)
-            set.add(element);
+        if (elements != null)
+	        for (T element : elements)
+	            set.add(element);
         return set;
     }
 
