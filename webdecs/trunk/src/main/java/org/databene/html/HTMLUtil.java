@@ -47,7 +47,7 @@ public class HTMLUtil {
         return EMPTY_TAGS.contains(tagName.toLowerCase());
     }
 
-	public static String resolveEntities(String text) {
+	public static String unescape(String text) {
 		StringBuilder result = new StringBuilder(text.length());
 	    int i;
         while ((i = text.indexOf('&')) >= 0) {
@@ -71,6 +71,13 @@ public class HTMLUtil {
         return result.toString();
     }
 	
+	public static String escape(String value) {
+		value = value.replace("&", "&amp;"); // must be the first conversion
+		value = value.replace("<", "&lt;");
+		value = value.replace(">", "&gt;");
+		return value;
+	}
+
 	public static Map<String, String> parseCGIParameters(String url) {
 		Map<String, String> result = new HashMap<String, String>();
 		int qmIndex = url.indexOf('?');
@@ -86,6 +93,10 @@ public class HTMLUtil {
 	
 	public static String td(String text) {
 	    return td(text, null, null);
+    }
+
+	public static String td(String text, String alignment) {
+		return td(text, alignment);
     }
 
 	public static String td(String text, String alignment, String style) {
