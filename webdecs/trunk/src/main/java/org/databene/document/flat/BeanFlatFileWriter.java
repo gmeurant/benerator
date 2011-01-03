@@ -78,7 +78,7 @@ public class BeanFlatFileWriter<E> extends ScriptedDocumentWriter<E> {
 
         private Converter<Object, String[]> converter;
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({ "unchecked", "rawtypes" })
         public BeanFlatFileScript(FlatFileColumnDescriptor[] descriptors) {
             int length = descriptors.length;
             String[] propertyNames = new String[length];

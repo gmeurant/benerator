@@ -81,7 +81,7 @@ public class BeanCSVWriter<E> extends ScriptedDocumentWriter<E> {
         private char separator;
         private Converter<Object, String[]> converter;
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({ "unchecked", "rawtypes" })
         public BeanCSVScript(String[] propertyNames, char separator) {
             this.separator = separator;
             int length = propertyNames.length;

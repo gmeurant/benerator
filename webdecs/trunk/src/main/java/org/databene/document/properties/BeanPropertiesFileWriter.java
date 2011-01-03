@@ -109,7 +109,7 @@ public class BeanPropertiesFileWriter<E> extends ScriptedDocumentWriter<E> {
         private StringBuffer buffer;
         FieldPosition pos0 = new FieldPosition(0);
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({ "unchecked", "rawtypes" })
         public PartScript(String prefixPattern, String ... propertyNames) {
             this.prefixFormat = (prefixPattern != null ? new MessageFormat(prefixPattern) : null);
             this.propertyNames = propertyNames;

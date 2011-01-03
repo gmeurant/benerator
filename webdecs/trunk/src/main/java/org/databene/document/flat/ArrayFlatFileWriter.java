@@ -79,7 +79,7 @@ public class ArrayFlatFileWriter<E> extends ScriptedDocumentWriter<E[]> {
 
         private Converter<Object, String>[] converters;
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({ "unchecked", "rawtypes" })
         public ArrayFlatFileScript(FlatFileColumnDescriptor[] descriptors) {
             this.converters = new Converter[descriptors.length];
             for (int i = 0; i < descriptors.length; i++) {
