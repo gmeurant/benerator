@@ -90,6 +90,23 @@ public final class ArrayUtil {
         return false;
     }
 
+    public static int indexOf(byte[] subArray, byte[] array) {
+        return indexOf(subArray, 0, array);
+    }
+
+    public static int indexOf(byte[] subArray, int fromIndex, byte[] array) {
+        for (int i = fromIndex; i <= array.length - subArray.length; i++) {
+        	boolean match = true;
+        	for (int j = 0; j < subArray.length; j++) {
+	            if (array[i + j] != subArray[j])
+	                match = false;
+        	}
+        	if (match)
+        		return i;
+        }
+        return -1;
+    }
+
     /**
      * Tells if an array ends with a specified sub array
      * @param candidates the array to scan
@@ -256,6 +273,17 @@ public final class ArrayUtil {
             return toArray(value);
         } else {
             T[] newArray = newInstance(componentType(array), array.length + 1);
+            System.arraycopy(array, 0, newArray, 0, array.length);
+            newArray[array.length] = value;
+            return newArray;
+        }
+    }
+
+    public static byte[] append(byte[] array, byte value) {
+        if (array == null) {
+            return new byte[] { value };
+        } else {
+            byte[] newArray = new byte[array.length + 1];
             System.arraycopy(array, 0, newArray, 0, array.length);
             newArray[array.length] = value;
             return newArray;
