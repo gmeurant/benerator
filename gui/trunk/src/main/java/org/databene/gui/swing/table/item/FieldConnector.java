@@ -65,7 +65,7 @@ public class FieldConnector {
         this(displayName, accessor, renderer, null, null, comparator);
     }
 */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public FieldConnector(
             String displayName,
             Accessor<Object, ?> accessor, TableCellRenderer renderer,

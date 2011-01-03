@@ -58,7 +58,7 @@ public class PropertyConnector extends FieldConnector {
         this(beanClass, propertyName, false);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public PropertyConnector(Class<?> beanClass, String propertyName, boolean editable) {
         super(getDisplayName(beanClass, propertyName),
                 PropertyAccessorFactory.getAccessor(beanClass, propertyName),
@@ -86,7 +86,7 @@ public class PropertyConnector extends FieldConnector {
         this(title, propertyName, propertyType, renderer, null);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public PropertyConnector(String title, String propertyName, Class<?> propertyType,
                              TableCellRenderer renderer, TableCellEditor editor) {
         this(title, propertyName, propertyType, renderer, editor,
