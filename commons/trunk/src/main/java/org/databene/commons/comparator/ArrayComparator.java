@@ -41,7 +41,7 @@ public class ArrayComparator<E> implements Comparator<E[]> {
 
     private Comparator<E> elementComparator;
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public ArrayComparator() {
         this(new ComparableComparator());
     }

@@ -43,7 +43,7 @@ public class ChildTreeModel<I, V> implements TreeModel<V> {
     private DefaultTreeNode<V> root;
     private Map<I, DefaultTreeNode<V>> elements;
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public ChildTreeModel() {
         this(new DefaultChildModel());
     }

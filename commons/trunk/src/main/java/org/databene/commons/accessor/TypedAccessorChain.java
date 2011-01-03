@@ -33,7 +33,7 @@ package org.databene.commons.accessor;
  * Created: 21.07.2007 07:02:07
  * @author Volker Bergmann
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class TypedAccessorChain implements TypedAccessor {
 
     private TypedAccessor[] subAccessors;

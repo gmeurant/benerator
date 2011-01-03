@@ -26,7 +26,6 @@
 
 package org.databene.commons.bean;
 
-import org.databene.commons.Named;
 import org.databene.commons.mutator.NamedMutator;
 
 /**
@@ -36,7 +35,7 @@ import org.databene.commons.mutator.NamedMutator;
  * @since 0.4.6
  * @author Volker Bergmann
  */
-public abstract class AbstractNamedMutator implements Named, NamedMutator {
+public abstract class AbstractNamedMutator implements NamedMutator {
 
     protected String name;
 

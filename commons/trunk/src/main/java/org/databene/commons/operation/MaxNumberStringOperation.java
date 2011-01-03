@@ -39,10 +39,12 @@ import org.databene.commons.converter.NumberParser;
 @SuppressWarnings("unchecked")
 public class MaxNumberStringOperation implements Operation<String, String> {
 
-    private MaxOperation<ComparableWrapper> operation;
+    @SuppressWarnings("rawtypes")
+	private MaxOperation<ComparableWrapper> operation;
 	private Converter<String, ?> parser;
 
-    public MaxNumberStringOperation() {
+    @SuppressWarnings("rawtypes")
+	public MaxNumberStringOperation() {
         this.operation = new MaxOperation<ComparableWrapper>();
         this.parser = new NumberParser();
     }

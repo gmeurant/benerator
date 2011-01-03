@@ -38,7 +38,7 @@ public class MaxExpression<E> extends CompositeExpression<E> {
 
 	private Comparator<E> comparator;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
     public MaxExpression(Expression<E>... terms) {
 	    this(new ComparableComparator(), terms);
     }

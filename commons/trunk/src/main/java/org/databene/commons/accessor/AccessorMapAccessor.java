@@ -38,7 +38,7 @@ import java.util.ArrayList;
  * Created: 11.03.2006 12:45:26
  * @author Volker Bergmann
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class AccessorMapAccessor implements DependentAccessor {
 
     private static final List<Accessor<?, ?>> EMPTY_LIST = new ArrayList<Accessor<?, ?>>();

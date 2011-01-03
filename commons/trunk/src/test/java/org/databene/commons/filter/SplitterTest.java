@@ -49,7 +49,7 @@ public class SplitterTest {
 		EvenFilter evenFilter = new EvenFilter();
 		List<List<Integer>> groups = Splitter.filter(
 				new Integer[] { 1, 2, 3}, 
-				new InverseFilter(evenFilter), evenFilter);
+				new InverseFilter<Integer>(evenFilter), evenFilter);
 		assertEquals(2, groups.size());
 		assertEquals(CollectionUtil.toList(1, 3), groups.get(0));
 		assertEquals(CollectionUtil.toList(2), groups.get(1));

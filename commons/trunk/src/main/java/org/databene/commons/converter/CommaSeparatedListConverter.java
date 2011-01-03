@@ -52,7 +52,7 @@ public class CommaSeparatedListConverter<T> extends ConverterWrapper<String, T> 
 	    return String.class;
     }
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
     public Class<Object> getTargetType() {
 	    return (Class) targetType;
     }

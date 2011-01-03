@@ -47,7 +47,7 @@ public class BeanComparator implements Comparator<Object> {
 
     // constructor -----------------------------------------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public BeanComparator(String propertyName) {
         this.propertyComparator = new ComparableComparator();
         try {
@@ -85,7 +85,7 @@ public class BeanComparator implements Comparator<Object> {
 
     // private helpers -------------------------------------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private static Comparator getComparator(Class<?> comparedClass, String propertyName) {
         PropertyAccessor propertyAccessor = PropertyAccessorFactory.getAccessor(comparedClass, propertyName);
         Comparator<?> beanComparator = ComparatorFactory.getComparator(propertyAccessor.getValueType());

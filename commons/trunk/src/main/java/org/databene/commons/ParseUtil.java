@@ -190,7 +190,7 @@ public final class ParseUtil {
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             boolean newMode = Character.isDigit(c);
-            if (numMode != null && newMode != numMode) {
+            if (numMode != null && !numMode.equals(newMode)) {
                 String partString = text.substring(start, i);
                 addPart(partString, parts, numMode);
                 start = i;

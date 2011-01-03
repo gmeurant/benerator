@@ -35,7 +35,7 @@ import org.databene.commons.converter.ThreadSafeConverter;
  * Created: 25.06.2007 08:04:22
  * @author Volker Bergmann
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class PropertyAccessConverter extends ThreadSafeConverter {
 
     private PropertyAccessor accessor;

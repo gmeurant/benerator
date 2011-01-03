@@ -40,7 +40,7 @@ import java.util.Collection;
  * Created: 26.08.2007 16:01:38
  * @author Volker Bergmann
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class ToArrayConverter extends ThreadSafeConverter {
 
     private Class componentType;

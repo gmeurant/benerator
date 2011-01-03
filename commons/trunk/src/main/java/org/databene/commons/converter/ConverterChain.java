@@ -37,7 +37,7 @@ import org.databene.commons.Converter;
  * @since 0.1
  * @author Volker Bergmann
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class ConverterChain<S, T> extends MultiConverterWrapper implements Converter<S, T> {
 
 	public ConverterChain(Converter... components) {

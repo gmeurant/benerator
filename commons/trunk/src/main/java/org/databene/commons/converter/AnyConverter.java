@@ -85,7 +85,7 @@ public class AnyConverter<E> extends FormatHolder implements Converter<Object, E
      * @param targetType the target type of the conversion
      * @return an object of the target type
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public static <TT> TT convert(Object source, Class<TT> targetType, String datePattern, 
     		String timePattern, String timestampPattern) throws ConversionException {
         if (logger.isDebugEnabled())

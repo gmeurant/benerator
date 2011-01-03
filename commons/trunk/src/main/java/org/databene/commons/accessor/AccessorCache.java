@@ -75,7 +75,7 @@ public class AccessorCache<C, V> implements DependentAccessor<C, V> {
         return cachedValue;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public List<? extends Accessor<?,?>> getDependencies() {
         if (realAccessor instanceof DependentAccessor)
             return ((DependentAccessor) realAccessor).getDependencies();

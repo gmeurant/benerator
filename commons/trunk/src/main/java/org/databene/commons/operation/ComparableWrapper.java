@@ -29,7 +29,7 @@ import org.databene.commons.Converter;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class ComparableWrapper<E> implements Comparable<ComparableWrapper> {
 
 	public final Comparable comparable;

@@ -55,7 +55,7 @@ public class ComparationCondition<E> implements Condition<E[]> {
         this(EQUAL);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public ComparationCondition(int operator) {
         this(operator, new ComparableComparator());
     }

@@ -53,7 +53,7 @@ public abstract class FormatBasedConverter<S, T> extends AbstractConverter<S, T>
         return threadSafe;
     }
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public Object clone() {
         try {

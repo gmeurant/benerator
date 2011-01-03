@@ -45,7 +45,7 @@ public class MinExpression<E> extends CompositeExpression<E> {
 
 	private Comparator<E> comparator;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
     public MinExpression(Expression<E>... terms) {
 	    this(new ComparableComparator(), terms);
     }

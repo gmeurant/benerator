@@ -42,7 +42,7 @@ public class MaxOperation<E> implements Operation<E, E> {
 
     private Comparator<E> comparator;
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public MaxOperation() {
         this(new ComparableComparator());
     }

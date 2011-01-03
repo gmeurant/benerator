@@ -78,7 +78,7 @@ public class AnyMutator implements Mutator {
         }
     }
     
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private static <C, V> void setLocal(C target, String featureName, V value, boolean strict) {
     	if (BeanUtil.hasProperty(target.getClass(), featureName))
             BeanUtil.setPropertyValue(target, featureName, value, false);

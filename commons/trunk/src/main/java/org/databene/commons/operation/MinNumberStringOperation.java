@@ -39,10 +39,13 @@ import org.databene.commons.converter.NumberParser;
 @SuppressWarnings("unchecked")
 public class MinNumberStringOperation implements Operation<String, String> {
 
+	@SuppressWarnings("rawtypes")
 	private MinOperation<ComparableWrapper> operation;
+	
 	private Converter<String, ?> parser;
 
-    public MinNumberStringOperation() {
+    @SuppressWarnings("rawtypes")
+	public MinNumberStringOperation() {
         this.operation = new MinOperation<ComparableWrapper>();
         this.parser = new NumberParser();
     }

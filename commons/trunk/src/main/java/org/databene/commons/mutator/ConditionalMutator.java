@@ -51,13 +51,17 @@ public class ConditionalMutator extends MutatorProxy {
     public static final int SET_IF_GREATER   = 3;
 
     protected int mode;
-    private Comparator comparator;
+    
+    @SuppressWarnings("rawtypes")
+	private Comparator comparator;
 
+	@SuppressWarnings("rawtypes")
 	private Accessor accessor;
 
     private static Logger logger = LoggerFactory.getLogger(ConditionalMutator.class);
 
-    public ConditionalMutator(Mutator realMutator, Accessor accessor, int mode) {
+    @SuppressWarnings("rawtypes")
+	public ConditionalMutator(Mutator realMutator, Accessor accessor, int mode) {
         super(realMutator);
         this.accessor = accessor;
         this.mode = mode;

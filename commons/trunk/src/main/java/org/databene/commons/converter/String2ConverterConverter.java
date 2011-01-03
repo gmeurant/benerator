@@ -40,7 +40,7 @@ import org.databene.commons.StringUtil;
  * @since 0.4.0
  * @author Volker Bergmann
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class String2ConverterConverter extends ThreadSafeConverter<String, Converter> {
 
 	// TODO v0.5.x resolve scripts
@@ -49,7 +49,7 @@ public class String2ConverterConverter extends ThreadSafeConverter<String, Conve
         super(String.class, Converter.class);
     }
 
-    public Converter convert(String sourceValue) throws ConversionException {
+	public Converter convert(String sourceValue) throws ConversionException {
         if (StringUtil.isEmpty(sourceValue))
             return null;
         Object result = BeanUtil.newInstance(sourceValue);

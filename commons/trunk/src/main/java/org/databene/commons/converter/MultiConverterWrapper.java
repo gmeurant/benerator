@@ -69,7 +69,7 @@ public abstract class MultiConverterWrapper<S, T> {
 		return true;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public Object clone() {
         try {

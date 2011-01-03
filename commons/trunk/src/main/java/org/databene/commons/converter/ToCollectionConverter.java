@@ -37,7 +37,7 @@ import java.util.List;
  * <br/>
  * Created: 26.08.2007 16:16:15
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class ToCollectionConverter<C extends Collection> extends ThreadSafeConverter<Object, C> {
 
     public ToCollectionConverter() {

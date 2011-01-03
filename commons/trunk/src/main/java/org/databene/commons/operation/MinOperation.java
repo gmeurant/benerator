@@ -42,7 +42,7 @@ public class MinOperation<E> implements Operation<E, E> {
 
     private Comparator<E> comparator;
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public MinOperation() {
         this(new ComparableComparator());
     }

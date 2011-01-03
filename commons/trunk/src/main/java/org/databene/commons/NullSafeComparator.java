@@ -46,12 +46,12 @@ public class NullSafeComparator<E> implements Comparator<E> {
 
     // constructors ----------------------------------------------------------------------------------------------------
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public NullSafeComparator() {
         this(new ComparableComparator());
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public NullSafeComparator(int nullComparation) {
         this(new ComparableComparator(), nullComparation);
     }

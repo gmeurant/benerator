@@ -49,7 +49,7 @@ import java.text.Collator;
  * Created: 22.10.2005 21:29:08
  * @author Volker Bergmann
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class ComparatorFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(ComparatorFactory.class);

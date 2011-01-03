@@ -52,14 +52,16 @@ public class PropertyAccessorFactory {
      * @return a property accessor without knowledge about the bean type
      * (the slowest PropertyAccessor type) in strict mode.
      */
-    public static PropertyAccessor getAccessor(String propertyName) {
+    @SuppressWarnings("rawtypes")
+	public static PropertyAccessor getAccessor(String propertyName) {
         return getAccessor(null, propertyName);
     }
 
     /**
      * @return a property accessor of the specified strictness.
      */
-    public static PropertyAccessor getAccessor(String propertyName, boolean strict) {
+    @SuppressWarnings("rawtypes")
+	public static PropertyAccessor getAccessor(String propertyName, boolean strict) {
         return getAccessor(null, propertyName, strict);
     }
 
@@ -75,14 +77,16 @@ public class PropertyAccessorFactory {
     /**
      * @return a property accessor in strict mode.
      */
-    public static PropertyAccessor getAccessor(Class<?> beanClass, String propertyName) {
+    @SuppressWarnings("rawtypes")
+	public static PropertyAccessor getAccessor(Class<?> beanClass, String propertyName) {
         return getAccessor(beanClass, propertyName, true);
     }
 
     /**
      * @return a property accessor of the specified strictness.
      */
-    public static PropertyAccessor getAccessor(Class<?> beanClass, String propertyName, boolean strict) {
+    @SuppressWarnings("rawtypes")
+	public static PropertyAccessor getAccessor(Class<?> beanClass, String propertyName, boolean strict) {
         if (beanClass != null) {
             PropertyDescriptor propertyDescriptor = BeanUtil.getPropertyDescriptor(beanClass, propertyName);
             if (propertyDescriptor == null) {

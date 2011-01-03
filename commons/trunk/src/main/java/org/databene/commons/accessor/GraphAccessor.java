@@ -34,7 +34,7 @@ import org.databene.commons.Accessor;
  * Created: 12.06.2007 18:29:19
  * @author Volker Bergmann
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class GraphAccessor implements Accessor {
 
     private Accessor realAccessor;

@@ -39,9 +39,11 @@ import org.databene.commons.UpdateFailedException;
 @SuppressWarnings("unchecked")
 public class ConvertingMutator extends MutatorWrapper {
 
-    private Converter converter;
+    @SuppressWarnings("rawtypes")
+	private Converter converter;
 
-    public ConvertingMutator(Mutator realMutator, Converter converter) {
+    @SuppressWarnings("rawtypes")
+	public ConvertingMutator(Mutator realMutator, Converter converter) {
         super(realMutator);
         this.converter = converter;
     }
