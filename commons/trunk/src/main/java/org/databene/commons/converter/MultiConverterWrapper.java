@@ -31,7 +31,7 @@ import org.databene.commons.Converter;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public abstract class MultiConverterWrapper<S, T> {
+public abstract class MultiConverterWrapper<S, T> implements Cloneable {
 
 	protected Converter<S, T>[] components;
 
@@ -76,7 +76,7 @@ public abstract class MultiConverterWrapper<S, T> {
     		MultiConverterWrapper copy = (MultiConverterWrapper) super.clone();
 			copy.components = ConverterManager.cloneIfSupported(this.components);
 			return copy;
-        } catch (CloneNotSupportedException e) {
+		} catch (CloneNotSupportedException e) {
 	        throw new RuntimeException(e);
         }
 	}
