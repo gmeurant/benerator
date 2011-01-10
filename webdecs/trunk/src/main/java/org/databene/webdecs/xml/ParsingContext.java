@@ -37,12 +37,14 @@ import org.w3c.dom.Element;
 public class ParsingContext<E> {
 	
 	protected XMLElementParserFactory<E> factory;
+	protected Class<E> pathComponentType;
 	
-	public ParsingContext() {
-		this(new XMLElementParserFactory<E>());
+	public ParsingContext(Class<E> pathComponentType) {
+		this(pathComponentType, new XMLElementParserFactory<E>());
 	}
 
-	public ParsingContext(XMLElementParserFactory<E> factory) {
+	public ParsingContext(Class<E> pathComponentType, XMLElementParserFactory<E> factory) {
+		this.pathComponentType = pathComponentType;
 		this.factory = factory;
 	}
 
@@ -66,8 +68,12 @@ public class ParsingContext<E> {
 		return parseElement(childElement, currentPath);
 	}
 
+	@SuppressWarnings("unchecked")
 	public E[] createSubPath(E[] parentPath, E currentObject) {
-		return ArrayUtil.append(parentPath, currentObject);
+		if (parentPath == null)
+			return ArrayUtil.buildArrayOfType(pathComponentType, currentObject);
+		else
+			return ArrayUtil.append(parentPath, currentObject);
 	}
 
 }
