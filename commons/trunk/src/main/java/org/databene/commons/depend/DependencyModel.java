@@ -45,7 +45,7 @@ import static org.databene.commons.depend.NodeState.*;
  */
 public class DependencyModel<E extends Dependent<E>> {
     
-    private static final Logger logger = LoggerFactory.getLogger(DependencyModel.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DependencyModel.class);
     
     private Map<E, Node<E>> nodeMappings;
     
@@ -112,7 +112,7 @@ public class DependencyModel<E extends Dependent<E>> {
                     if (acceptingCycles) {
                         // force one node
                         Node<E> node = findForceable(tmp);
-                        logger.debug("forcing " + node); 
+                        LOGGER.debug("forcing " + node); 
                         tmp.remove(node);
                         node.force();
                         orderedNodes.add(node);
@@ -132,8 +132,8 @@ public class DependencyModel<E extends Dependent<E>> {
             orderedNodes.addAll(tails);
     
             // done
-            if (logger.isDebugEnabled())
-                logger.debug("ordered to " + orderedNodes);
+            if (LOGGER.isDebugEnabled())
+            	LOGGER.debug("ordered to " + orderedNodes);
             
             // map result
             List<E> result = new ArrayList<E>(orderedNodes.size());
@@ -153,19 +153,28 @@ public class DependencyModel<E extends Dependent<E>> {
     }
 
     private void postProcessNodes(List<Node<E>> nodes) {
+    	LOGGER.debug("post processing nodes: {}", nodes);
         Iterator<Node<E>> iterator = nodes.iterator();
         while (iterator.hasNext()) {
             Node<E> node = iterator.next();
             switch (node.getState()) {
-                case PARTIALLY_INITIALIZABLE: node.initializePartially(); break;
-                case INITIALIZED: node.initializePartially(); break;
-                case INITIALIZABLE: node.initialize(); iterator.remove(); break;
+                case PARTIALLY_INITIALIZABLE: 	LOGGER.debug("Initializing {} partially", node);
+                								node.initializePartially();
+                								break;
+                case INITIALIZED: 				LOGGER.debug("Initializing {} partially", node);
+                								node.initializePartially(); 
+                								break;
+                case INITIALIZABLE: 			LOGGER.debug("Initializing {}", node);
+                								node.initialize(); 
+                								iterator.remove(); 
+                								break;
                 default: break;
             }
         }
     }
 
     private boolean extractNodes(List<Node<E>> source, NodeState requiredState, List<Node<E>> target, List<Node<E>> incompletes) {
+    	LOGGER.debug("extracting nodes from {}", source);
         Iterator<Node<E>> iterator;
         boolean found = false;
         iterator = source.iterator();
@@ -174,9 +183,11 @@ public class DependencyModel<E extends Dependent<E>> {
             if (node.getState() == requiredState) {
                 iterator.remove();
                 switch (requiredState) {
-                    case INITIALIZABLE:             node.initialize(); 
+                    case INITIALIZABLE:             LOGGER.debug("Initializing {}", node);
+                    								node.initialize(); 
                                                     break;
-                    case PARTIALLY_INITIALIZABLE:   node.initializePartially(); 
+                    case PARTIALLY_INITIALIZABLE:   LOGGER.debug("Initializing {} partially", node);
+                    								node.initializePartially(); 
                                                     if (incompletes != null)
                                                         incompletes.add(node); 
                                                     break;
@@ -191,9 +202,9 @@ public class DependencyModel<E extends Dependent<E>> {
     }
     
     private void logState(List<Node<E>> intermediates) {
-        logger.error(intermediates.size() + " unresolved intermediates on DependencyModel error: ");
+    	LOGGER.error(intermediates.size() + " unresolved intermediates on DependencyModel error: ");
         for (Node<E> node : intermediates)
-            logger.error(node.toString());
+        	LOGGER.error(node.toString());
     }
 
     private Node<E> findForceable(List<Node<E>> candidates) {
