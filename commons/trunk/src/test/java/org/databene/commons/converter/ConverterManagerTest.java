@@ -44,6 +44,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.regex.Pattern;
 
 import org.databene.SomeEnum;
@@ -84,6 +85,22 @@ public class ConverterManagerTest {
 		Converter<Boolean, String> converter = mgr.createConverter(Boolean.class, String.class);
 		assertEquals("true",  converter.convert(true));
 		assertEquals("false", converter.convert(false));
+	}
+
+	// x to date tests -----------------------------------------------------------------------------------------------
+	
+	@Test
+	public void testLongToDate() {
+		Converter<Long, Date> converter = mgr.createConverter(Long.class, Date.class);
+		Date actual = converter.convert(0L);
+		assertEquals(new Date(0 - TimeZone.getDefault().getRawOffset()),  actual);
+	}
+
+	@Test
+	public void testIntToDate() {
+		Converter<Integer, Date> converter = mgr.createConverter(Integer.class, Date.class);
+		Date actual = converter.convert(0);
+		assertEquals(new Date(0 - TimeZone.getDefault().getRawOffset()),  actual);
 	}
 
 	// String to x tests -----------------------------------------------------------------------------------------------
