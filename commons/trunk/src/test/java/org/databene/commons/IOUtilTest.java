@@ -148,15 +148,15 @@ public class IOUtilTest {
     
 	@Test    
     public void testGetContextUri() {
-    	assertEquals(null, IOUtil.getContextUri(null));
-    	assertEquals(null, IOUtil.getContextUri(""));
-    	assertEquals("file://test/", IOUtil.getContextUri("file://test/text.txt"));
-    	assertEquals("test/", IOUtil.getContextUri("test/text.txt"));
-    	assertEquals("http://test.de/", IOUtil.getContextUri("http://test.de/text.txt"));
+    	assertEquals(null, IOUtil.getParentUri(null));
+    	assertEquals(null, IOUtil.getParentUri(""));
+    	assertEquals("file://test/", IOUtil.getParentUri("file://test/text.txt"));
+    	assertEquals("test/", IOUtil.getParentUri("test/text.txt"));
+    	assertEquals("http://test.de/", IOUtil.getParentUri("http://test.de/text.txt"));
     	char fileSeparator = SystemInfo.getFileSeparator();
     	System.setProperty("file.separator", "\\");
     	try {
-    		assertEquals("C:\\test\\", IOUtil.getContextUri("C:\\test\\bla.txt"));
+    		assertEquals("C:\\test\\", IOUtil.getParentUri("C:\\test\\bla.txt"));
     	} finally {
     		System.setProperty("file.separator", String.valueOf(fileSeparator));
     	}

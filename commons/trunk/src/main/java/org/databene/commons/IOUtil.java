@@ -274,7 +274,7 @@ public final class IOUtil {
     	}
     }
 
-	public static String getContextUri(String uri) {
+	public static String getParentUri(String uri) {
 		if (StringUtil.isEmpty(uri))
 			return null;
 		String protocol = getProtocol(uri);
@@ -282,10 +282,13 @@ public final class IOUtil {
 			uri = uri.substring(protocol.length());
 		char systemSeparator = SystemInfo.getFileSeparator();
 		char uriSeparator = (uri.indexOf(systemSeparator) >= 0 ? systemSeparator : '/');
-		String contextUri = StringUtil.splitOnLastSeparator(uri, uriSeparator)[0] + uriSeparator;
+		String parentUri = StringUtil.splitOnLastSeparator(uri, uriSeparator)[0];
+		if (parentUri == null)
+			parentUri = ".";
+		parentUri += uriSeparator;
 		if (protocol != null)
-			contextUri = protocol + contextUri;
-		return contextUri;
+			parentUri = protocol + parentUri;
+		return parentUri;
 	}
 
 	public static String getProtocol(String uri) {
