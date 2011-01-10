@@ -268,7 +268,7 @@ public class XMLUtil {
         } catch (ParserConfigurationException e) {
             throw new ConfigurationError(e);
         } catch (SAXParseException e) {
-            throw new ConfigurationError("Error in line " + e.getLineNumber() + " column " + e.getColumnNumber(), e);
+            throw new ConfigurationError("Error in line " + e.getLineNumber() + " column " + e.getColumnNumber(), e); // TODO report the file name
         } catch (SAXException e) {
             throw new ConfigurationError(e);
         }
