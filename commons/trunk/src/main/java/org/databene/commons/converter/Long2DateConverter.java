@@ -37,7 +37,7 @@ public class Long2DateConverter extends ThreadSafeConverter<Long, Date>{
 
 	private TimeZone timeZone;
 	
-	// construcors -----------------------------------------------------------------------------------------------------
+	// constructors ----------------------------------------------------------------------------------------------------
 
 	public Long2DateConverter() {
 		this(TimeZone.getDefault());
