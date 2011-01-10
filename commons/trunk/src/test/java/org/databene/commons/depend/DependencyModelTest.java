@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -98,17 +98,13 @@ public class DependencyModelTest {
                 a, a, b);
     }
 
-	@Test
+	@Test(expected = CyclicDependencyException.class)
     public void testUnacceptedCycle() {
-        try {
-            Dep a = new Dep("a");
-            Dep b = new Dep("b", a);
-            a.addRequiredProvider(b);
-            expectOrder(b, a, a, b);
-            fail(CyclicDependencyException.class.getSimpleName() + " expected");
-        } catch (CyclicDependencyException e) {
-            // exception is required
-        }
+        Dep a = new Dep("a");
+        Dep b = new Dep("b", a);
+        a.addRequiredProvider(b);
+        expectOrder(b, a, a, b);
+        fail(CyclicDependencyException.class.getSimpleName() + " expected");
     }
 
 	@Test
@@ -143,11 +139,11 @@ public class DependencyModelTest {
     
     // private helper -------------------------------------------------------------------------------
     
-    private void expectOrder(Dep ... nodes) {
+    private void expectOrder(Dep... nodes) {
         expectOrder(false, nodes);
     }
 
-    private void expectOrder(boolean acceptingCycles, Dep ... nodes) {
+    private void expectOrder(boolean acceptingCycles, Dep... nodes) {
         DependencyModel<Dep> model = new DependencyModel<Dep>();
         for (int i = 0; i < nodes.length / 2; i++)
             model.addNode(nodes[i]);
