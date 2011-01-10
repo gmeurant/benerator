@@ -11,6 +11,7 @@ org.databene.commons.converter.Timestamp2DateConverter
 org.databene.commons.converter.Date2CalendarConverter
 org.databene.commons.converter.Calendar2DateConverter
 org.databene.commons.converter.Date2LongConverter
+org.databene.commons.converter.Int2DateConverter
 org.databene.commons.converter.Long2DateConverter
 org.databene.commons.converter.UtilDate2SqlDateConverter
 org.databene.commons.converter.SqlDate2UtilDateConverter
