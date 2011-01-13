@@ -79,21 +79,24 @@ public class ToStringConverterTest extends ConverterTest {
 	
 	void checkDecimalConversions() {
         ToStringConverter converter = new ToStringConverter();
+		// trim trailing zeros on default configuration
+		assertEquals("0", converter.convert(0.));
+		assertEquals("9876543210", converter.convert(9876543210.));
 		// default should be US
-		assertEquals("0.0", converter.convert(0.));
-		assertEquals("1000.0", converter.convert(1000.));
+		assertEquals("0.5", converter.convert(0.5));
+		assertEquals("1000.5", converter.convert(1000.5));
 		// decimal pattern
 		converter.setDecimalPattern("0.00");
-		assertEquals("0.00", converter.convert(0.));
+		assertEquals("0.50", converter.convert(0.5));
 		// decimal separator
 		converter.setDecimalSeparator(',');
-		assertEquals("0,00", converter.convert(0.));
+		assertEquals("0,50", converter.convert(0.5));
 		// grouping
 		converter.setDecimalPattern("#,##0");
-		assertEquals("1,000", converter.convert(1000.));
+		assertEquals("1,000", converter.convert(1000.5));
 		// grouping and decimal
 		converter.setDecimalPattern("#,##0.00");
 		converter.setGroupingSeparator('.');
-		assertEquals("1.000,00", converter.convert(1000.));
+		assertEquals("1.000,50", converter.convert(1000.5));
     }
 }
