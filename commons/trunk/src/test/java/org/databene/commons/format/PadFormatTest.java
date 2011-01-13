@@ -74,6 +74,8 @@ public class PadFormatTest {
         assertEquals("00.10", format.format(0.1));
         assertEquals("01.00", format.format(1));
         assertEquals("01.00", format.format(1.));
+        assertEquals("01.00", format.format(1));
+        assertEquals("01.00", format.format(1L));
         format = new PadFormat(5, 0, 2, Alignment.RIGHT, '0');
         assertEquals("00.01", format.format(0.01));
         assertEquals("000.1", format.format(0.1));
