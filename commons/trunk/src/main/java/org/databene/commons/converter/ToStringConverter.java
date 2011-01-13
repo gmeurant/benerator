@@ -96,10 +96,21 @@ public class ToStringConverter extends FormatHolder implements Converter<Object,
         }
         
         Class<?> sourceType = source.getClass();
-        if (integralConverter != null && JavaType.isIntegralType(sourceType)) {
-        	return integralConverter.convert((Number) source);
-        } else if (decimalConverter != null && JavaType.isDecimalType(sourceType)) {
-        	return decimalConverter.convert((Number) source);
+        if (JavaType.isIntegralType(sourceType)) {
+        	if (integralConverter != null)
+        		return integralConverter.convert((Number) source);
+        	else
+        		return String.valueOf(source);
+        } else if (JavaType.isDecimalType(sourceType)) {
+        	if (decimalConverter != null)
+        		return decimalConverter.convert((Number) source);
+        	else {
+        		Double value = ((Number) source).doubleValue();
+        		if (value == Math.floor(value))
+        			return String.valueOf(value.longValue());
+        		else
+        			return String.valueOf(value);
+        	}
         } else if (source instanceof Timestamp) {
         	if (timestampPattern != null)
         		return new TimestampFormatter(timestampPattern).format((Timestamp) source);
