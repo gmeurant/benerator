@@ -73,7 +73,7 @@ public class PadFormat extends Format {
     public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
         String text;
         if (obj instanceof Number)
-            text = Number2StringConverter.convert((Number) obj, minimumFractionDigits, maximumFractionDigits);
+            text = Number2StringConverter.convert((Number) obj, minimumFractionDigits, maximumFractionDigits, false);
         else
             text = ToStringConverter.convert(obj, "");
         int padLength = length - text.length();
@@ -124,7 +124,15 @@ public class PadFormat extends Format {
     public char getPadChar() {
         return padChar;
     }
+    
+	public int getMinimumFractionDigits() {
+		return minimumFractionDigits;
+	}
 
+	public int getMaximumFractionDigits() {
+		return maximumFractionDigits;
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
