@@ -31,5 +31,5 @@ import org.w3c.dom.Element;
  */
 public interface XMLElementParser<E> {
 	boolean supports(Element element, E[] parentPath);
-	E parse(Element element, E[] parentPath, ParsingContext<E> context);
+	E parse(Element element, E[] parentPath, ParseContext<E> context);
 }

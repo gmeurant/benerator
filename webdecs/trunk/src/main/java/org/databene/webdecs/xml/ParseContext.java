@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -34,16 +34,16 @@ import org.w3c.dom.Element;
  * @since 0.5.4
  * @author Volker Bergmann
  */
-public class ParsingContext<E> {
+public class ParseContext<E> {
 	
 	protected XMLElementParserFactory<E> factory;
 	protected Class<E> pathComponentType;
 	
-	public ParsingContext(Class<E> pathComponentType) {
+	public ParseContext(Class<E> pathComponentType) {
 		this(pathComponentType, new XMLElementParserFactory<E>());
 	}
 
-	public ParsingContext(Class<E> pathComponentType, XMLElementParserFactory<E> factory) {
+	public ParseContext(Class<E> pathComponentType, XMLElementParserFactory<E> factory) {
 		this.pathComponentType = pathComponentType;
 		this.factory = factory;
 	}
