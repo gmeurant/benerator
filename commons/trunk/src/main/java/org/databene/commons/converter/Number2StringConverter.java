@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -41,21 +41,24 @@ public class Number2StringConverter extends ThreadSafeConverter<Number, String> 
 
     private int minimumFractionDigits;
     private int maximumFractionDigits;
+    boolean groupingUsed;
 
-    public Number2StringConverter(int minimumFractionDigits, int maximumFractionDigits) {
+    public Number2StringConverter(int minimumFractionDigits, int maximumFractionDigits, boolean groupingUsed) {
     	super(Number.class, String.class);
         this.minimumFractionDigits = minimumFractionDigits;
         this.maximumFractionDigits = maximumFractionDigits;
+        this.groupingUsed = groupingUsed;
     }
 
     public String convert(Number sourceValue) throws ConversionException {
-        return convert(sourceValue, minimumFractionDigits, maximumFractionDigits);
+        return convert(sourceValue, minimumFractionDigits, maximumFractionDigits, groupingUsed);
     }
 
-    public static String convert(Number sourceValue, int minimumFractionDigits, int maximumFractionDigits) {
+    public static String convert(Number sourceValue, int minimumFractionDigits, int maximumFractionDigits, boolean groupingUsed) {
         NumberFormat format = NumberFormat.getInstance(Locale.US);
         format.setMinimumFractionDigits(minimumFractionDigits);
         format.setMaximumFractionDigits(maximumFractionDigits);
+        format.setGroupingUsed(groupingUsed);
         return format.format(sourceValue);
     }
     
