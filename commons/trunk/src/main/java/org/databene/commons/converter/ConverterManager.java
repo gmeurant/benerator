@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,6 +28,7 @@ package org.databene.commons.converter;
 
 import org.databene.commons.ArrayFormat;
 import org.databene.commons.ConfigurationError;
+import org.databene.commons.Context;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 import org.databene.commons.IOUtil;
@@ -37,6 +38,7 @@ import org.databene.commons.OrderedMap;
 import org.databene.commons.Patterns;
 import org.databene.commons.ReaderLineIterator;
 import org.databene.commons.StringUtil;
+import org.databene.commons.context.ContextAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,7 +64,7 @@ import java.lang.reflect.Modifier;
  * @author Volker Bergmann
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
-public class ConverterManager {
+public class ConverterManager implements ContextAware {
 
 	private static final Logger configLogger = LoggerFactory.getLogger(LogCategories.CONFIG);
 
@@ -70,6 +72,7 @@ public class ConverterManager {
     private static final String CUSTOM_SETUP_FILENAME = "converters.txt";
 
     private static ConverterManager instance;
+    private Context context;
 
 	private OrderedMap<ConversionTypes, Class<? extends Converter>> configuredConverterClasses;
     
@@ -95,6 +98,17 @@ public class ConverterManager {
         return instance;
     }
 
+	public void setContext(Context context) {
+		this.context = context;
+		for (Converter converter : converterPrototypes.values())
+			injectContext(converter);
+	}
+
+	private void injectContext(Converter converter) {
+		if (converter instanceof ContextAware)
+			((ContextAware) converter).setContext(context);
+	}
+
     public <S, T> Converter<S, T> createConverter(Class<S> sourceType, Class<T> targetType) {
         // check preconditions
         if (targetType == null)
@@ -111,6 +125,9 @@ public class ConverterManager {
         // ...and cache the result for future requests
         if (result != null && result.isParallelizable())
         	converterPrototypes.put(conversionTypes, result);
+        
+        // inject context if appropriate
+        injectContext(result);
         
         // done
         return result;
@@ -285,12 +302,14 @@ public class ConverterManager {
     }
 
     public static <SS, TT> Converter<SS, TT> cloneIfSupported(Converter<SS, TT> prototype) {
+        Converter<SS, TT> result;
     	if (prototype.isParallelizable())
-    		return BeanUtil.clone(prototype);
+    		result = BeanUtil.clone(prototype);
     	else if (prototype.isThreadSafe())
-    		return prototype;
+    		result = prototype;
     	else
-    		return new SynchronizedConverterProxy(prototype);
+    		result = new SynchronizedConverterProxy(prototype);
+        return result;
     }
 
     // private helpers -------------------------------------------------------------------------------------------------
