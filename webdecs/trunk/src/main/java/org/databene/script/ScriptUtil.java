@@ -98,7 +98,8 @@ public class ScriptUtil {
         script.execute(context, out);
     }
 */
-    public static Object render(String text, Context context) { // TODO v0.6.0 this should better be called evaluate()
+
+    public static Object evaluate(String text, Context context) {
 		if (text.startsWith("{{") && text.endsWith("}}"))
             return text.substring(1, text.length() - 1);
         else if (isScript(text)) {
@@ -106,6 +107,14 @@ public class ScriptUtil {
             return execute(script, context);
         } else
         	return text;
+    }
+    
+    /**
+     * @deprecated Replaced with {@link #evaluate(String, Context)})
+     */
+    @Deprecated
+    public static Object render(String text, Context context) { // TODO v0.6.0 remove
+    	return evaluate(text, context);
     }
     
 	// static factory methods ------------------------------------------------------------------------------------------
