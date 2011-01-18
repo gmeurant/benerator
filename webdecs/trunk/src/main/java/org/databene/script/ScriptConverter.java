@@ -45,7 +45,7 @@ public class ScriptConverter extends ThreadSafeConverter<String, Object>{
     }
 
     public Object convert(String sourceValue) throws ConversionException {
-        return ScriptUtil.render(sourceValue, context);
+        return ScriptUtil.evaluate(sourceValue, context);
     }
 
 }
