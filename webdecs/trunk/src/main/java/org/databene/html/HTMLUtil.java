@@ -27,7 +27,10 @@
 package org.databene.html;
 
 import org.databene.commons.CollectionUtil;
+import org.databene.commons.SystemInfo;
 
+import java.lang.reflect.Method;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -43,7 +46,49 @@ public class HTMLUtil {
     private static final Set<String> EMPTY_TAGS = CollectionUtil.toSet("br", "img", "meta", "link");
 	public static final String DOCTYPE_401 = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">";
 
-    public static boolean isEmptyTag(String tagName) {
+	static final String[] BROWSERS = { 
+		"google-chrome", "firefox", "opera", "epiphany", "konqueror", "conkeror", "midori", "kazehakase", "mozilla", "netscape", "links", "lynx" };
+	
+	public static void openBrowser(String url) {
+		try { 
+			// On JDK 1.6+, I can use java.awt.Desktop.getDesktop().browse().
+			// On older Java versions, this would not compile. Thus the reflection based invocation
+			Class<?> desktopClass = Class.forName("java.awt.Desktop"); 
+			Method browseMethod = desktopClass.getDeclaredMethod("browse", new Class[] { URI.class });
+			Method getDesktopMethod = desktopClass.getDeclaredMethod("getDesktop");
+			Object desktop = getDesktopMethod.invoke(null);
+			browseMethod.invoke(desktop, new Object[] { URI.create(url) }); 
+		} catch (Exception ignore) { 
+			// older JVM version or invocation failed
+			// try invoking the browser in OS specific ways
+			try { 
+				if (SystemInfo.isMacOsx()) { 
+					// On Mac OS X, use FileManager.openURL(url)
+					Class<?> fileManager = Class.forName("com.apple.eio.FileManager");
+					Method openUrlMethod = fileManager.getDeclaredMethod( "openURL", new Class[] { String.class });
+					openUrlMethod.invoke(null, new Object[] { url }); 
+				} else if (SystemInfo.isWindows()) { 
+					// On Windows, call rundll32 url.dll,FileProtocolHandler <url>
+					Runtime.getRuntime().exec( "rundll32 url.dll,FileProtocolHandler " + url); 
+				} else { 
+					// Otherwise, assume Unix or Linux 
+					// and try to open the browser on the command line
+					String browser = null; 
+					for (String candidate : BROWSERS) 
+						if (browser == null && Runtime.getRuntime().exec(new String[] { "which", candidate }).getInputStream().read() != -1) {
+							browser = candidate;
+							Runtime.getRuntime().exec(new String[] { candidate, url }); 
+						}
+					if (browser == null) 
+						throw new RuntimeException("No browser found"); 
+					} 
+				} catch (Exception e) { 
+					throw new RuntimeException("Error opening web browser with URL: " + url, e); 
+				}
+			}
+	}
+
+	public static boolean isEmptyTag(String tagName) {
         return EMPTY_TAGS.contains(tagName.toLowerCase());
     }
 
