@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -36,7 +36,7 @@ import java.util.Date;
  * @author Volker Bergmann
  */
 
-public class DateString2DurationConverter extends ConverterChain<String, Long> implements Cloneable {
+public class DateString2DurationConverter extends ConverterChain<String, Long> {
 	
 	private static DateString2DurationConverter defaultInstance = new DateString2DurationConverter();
 	
