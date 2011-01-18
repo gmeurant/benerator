@@ -40,12 +40,12 @@ public class ScriptSupportTest {
 
 	@Test
     public void testRender() {
-        assertEquals("xyz", ScriptUtil.render("xyz", null));
-        assertEquals("xyz${var}xyz", ScriptUtil.render("xyz${var}xyz", null));
+        assertEquals("xyz", ScriptUtil.evaluate("xyz", null));
+        assertEquals("xyz${var}xyz", ScriptUtil.evaluate("xyz${var}xyz", null));
         Context context = new DefaultContext();
         context.set("var", "!!!");
-        assertEquals("xyz!!!xyz", ScriptUtil.render("{xyz${var}xyz}", context));
-        assertEquals("xyz!!!xyz", ScriptUtil.render("{ftl:xyz${var}xyz}", context));
+        assertEquals("xyz!!!xyz", ScriptUtil.evaluate("{xyz${var}xyz}", context));
+        assertEquals("xyz!!!xyz", ScriptUtil.evaluate("{ftl:xyz${var}xyz}", context));
     }
 	
 }
