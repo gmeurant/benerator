@@ -22,3 +22,5 @@ org.databene.commons.converter.String2DateFormatConverter
 org.databene.commons.converter.String2NumberFormatConverter
 org.databene.commons.converter.String2PatternConverter
 org.databene.commons.converter.String2CharConverter
+org.databene.commons.converter.Number2CharConverter
+org.databene.commons.converter.Char2StringConverter
