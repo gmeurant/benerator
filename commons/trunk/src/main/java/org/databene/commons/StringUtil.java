@@ -39,6 +39,8 @@ public final class StringUtil {
 	private static final String CR = String.valueOf('\r');
 	private static final String LF = String.valueOf('\n');
 	private static final String TAB = String.valueOf('\t');
+	private static final String VT = String.valueOf('\u000B');
+	private static final String FF = String.valueOf('\f');
 	
     /**
      * Tells if a String is null or isEmpty.
@@ -562,6 +564,9 @@ public final class StringUtil {
 		return escape(text, false, false);
 	}
 
+	/**
+	 * @see "http://en.wikipedia.org/wiki/ASCII"
+	 */
 	public static String escape(String text, boolean escapeSingleQuotes, boolean escapeDoubleQuotes) {
 		if (text == null)
 			return null;
@@ -569,6 +574,8 @@ public final class StringUtil {
 		text = text.replace(CR, "\\r");
 		text = text.replace(LF, "\\n");
 		text = text.replace(TAB, "\\t");
+		text = text.replace(VT, "\\u000B");
+		text = text.replace(FF, "\\f");
 		if (escapeSingleQuotes)
 			text = text.replace("'", "\\'");
 		if (escapeDoubleQuotes)
@@ -576,6 +583,9 @@ public final class StringUtil {
 		return text;
 	}
 
+	/**
+	 * @see "http://en.wikipedia.org/wiki/ASCII"
+	 */
 	public static String unescape(String text) {
 		if (text == null)
 			return null;
@@ -590,6 +600,8 @@ public final class StringUtil {
 					case 'r' : builder.append(CR); break;
 					case 'n' : builder.append(LF); break;
 					case 't' : builder.append(TAB); break;
+					case 'f' : builder.append(FF); break;
+					// TODO support unicode characters , e.g. '\u000B' : builder.append(VT); break;
 					default  : builder.append(c); break;
 				}
 			} else
