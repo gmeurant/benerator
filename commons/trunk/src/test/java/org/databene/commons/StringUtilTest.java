@@ -286,6 +286,7 @@ public class StringUtilTest {
     	assertEquals("\\'\"A\\rB\\nC\\tD\"\\'", StringUtil.escape("'\"A\rB\nC\tD\"'", true, false));
     	assertEquals("'\\\"A\\rB\\nC\\tD\\\"'", StringUtil.escape("'\"A\rB\nC\tD\"'", false, true));
     	assertEquals("\\'\\\"A\\rB\\nC\\tD\\\"\\'", StringUtil.escape("'\"A\rB\nC\tD\"'", true, true));
+    	assertEquals("\\f\\u0008", StringUtil.escape("\f\u000B"));
     }
     
 	@Test
@@ -295,6 +296,7 @@ public class StringUtilTest {
     	assertEquals("ABCD", StringUtil.unescape("ABCD"));
     	assertEquals("'A\rB\nC\tD\"", StringUtil.unescape("\\'A\\rB\\nC\\tD\\\""));
     	assertEquals("C:\\temp", StringUtil.unescape("C:\\\\temp")); // testing bug #2879250
+    	assertEquals("\f\u000B", StringUtil.unescape("\\f\\u0008"));
     }
     
 	@Test
