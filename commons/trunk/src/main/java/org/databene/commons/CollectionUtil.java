@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -235,5 +235,14 @@ public final class CollectionUtil {
     public static <T> List<T> emptyList() {
 	    return EMPTY_LIST;
     }
+
+	@SuppressWarnings("unchecked")
+	public static <S, T extends S> List<T> extractItemsOfType(Class<T> itemType, Collection<S> items) {
+		List<T> result = new ArrayList<T>();
+		for (S item : items)
+			if (itemType == item.getClass())
+				result.add((T) item);
+		return result;
+	}
 	
 }
