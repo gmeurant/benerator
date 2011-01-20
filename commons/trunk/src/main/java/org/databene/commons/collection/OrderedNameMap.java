@@ -77,6 +77,11 @@ public class OrderedNameMap<E> extends OrderedMap<String, E> {
 
     // Map interface implementation ------------------------------------------------------------------------------------
     
+	@Override
+	public boolean containsKey(Object key) {
+        return containsKey((String) key);
+    }
+
 	public boolean containsKey(String key) {
         boolean result = super.containsKey(normalizeKey(key));
         if (result || caseSupport == CASE_SENSITIVE)
@@ -87,6 +92,11 @@ public class OrderedNameMap<E> extends OrderedMap<String, E> {
 		return result;
     }
 
+	@Override
+	public E get(Object key) {
+		return get((String) key);
+	}
+	
 	public E get(String key) {
         E result = super.get(normalizeKey(key));
         if (result != null || caseSupport == CASE_SENSITIVE)
