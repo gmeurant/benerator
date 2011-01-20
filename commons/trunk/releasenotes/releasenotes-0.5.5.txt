@@ -17,3 +17,4 @@ Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&a
 - 3089073: Bug in Timestamp format for second resolution
 - Cloning support of MultiConverterWrapper and ConverterChain
 - Grouping and decimal precision support in PadFormat
+- containsKey() and get() ignore the configured case sensitivity
