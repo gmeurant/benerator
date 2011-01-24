@@ -246,14 +246,29 @@ public final class IOUtil {
     public static String resolveRelativeUri(String relativeUri, String contextUri) {
     	if (logger.isDebugEnabled())
     		logger.debug("resolveLocalUri(" + relativeUri + ", " + contextUri + ')');
-    	String relativeProtocol = getProtocol(relativeUri);
-    	if (StringUtil.isEmpty(contextUri) || (relativeProtocol != null && relativeProtocol != "file"))
+    	if (isAbsoluteRef(relativeUri, contextUri))
     		return relativeUri;
     	String contextProtocol = getProtocol(contextUri);
 		if (contextProtocol == null || contextProtocol.equals("file"))
     		return resolveRelativeFile(getPath(contextUri), getPath(relativeUri));
     	else
     		return resolveRelativeURL(contextUri, relativeUri);
+	}
+
+	public static boolean isAbsoluteRef(String uri, String contextUri) {
+		if (StringUtil.isEmpty(contextUri)) // if there is no context, the URI must be absolute
+			return true;
+		if (SystemInfo.isWindows()) { // recognize Winows drive letter formats like C:\
+			if (uri.length() >= 2 && Character.isLetter(uri.charAt(0)) && uri.charAt(1) == ':' && uri.charAt(1) == '\\')
+				return true;
+		}
+    	String refProtocol = getProtocol(uri);
+    	String ctxProtocol = getProtocol(contextUri);
+    	if (ctxProtocol == null) // if no context protocol is given, assume 'file'
+    		ctxProtocol = "file";
+    	if (!ctxProtocol.equals(refProtocol) && refProtocol != null) // if the ref has a different protocol declared than the context, its absolute
+    		return true;
+    	return ("file".equals(ctxProtocol) && uri.startsWith("/")); // if the protocols are 'file' and the URI starts with '/' its an absolute file URI
 	}
 
 	private static String resolveRelativeFile(String contextPath, String relativePath) {
