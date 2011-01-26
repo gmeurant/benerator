@@ -24,9 +24,9 @@ package org.databene.commons;
 import org.databene.commons.converter.ToStringConverter;
 
 /**
- * TODO Document class.<br/><br/>
+ * Helper class for constructing byte arrays.<br/><br/>
  * Created: 27.12.2010 07:45:22
- * @since TODO version
+ * @since 0.5.5
  * @author Volker Bergmann
  */
 public class ByteArrayBuilder {

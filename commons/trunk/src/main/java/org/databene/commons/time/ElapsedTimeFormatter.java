@@ -28,9 +28,9 @@ import org.databene.commons.ConversionException;
 import org.databene.commons.converter.ThreadSafeConverter;
 
 /**
- * TODO Document class.<br/><br/>
+ * Formats millisecond values in a rounded and for humans convenient form.<br/><br/>
  * Created: 14.12.2010 13:39:18
- * @since TODO version
+ * @since 0.5.5
  * @author Volker Bergmann
  */
 public class ElapsedTimeFormatter extends ThreadSafeConverter<Long, String> {
@@ -66,7 +66,7 @@ public class ElapsedTimeFormatter extends ThreadSafeConverter<Long, String> {
 		else if (millis < DAY_MILLIS)
 			return render(millis, HOUR_MILLIS, "h");
 		else
-			return render(millis, DAY_MILLIS, "d"); // TODO I18N OF UOM
+			return render(millis, DAY_MILLIS, "d"); // TODO v0.5.x I18N OF UOM
 	}
 
 	private String render(long millis, long base, String unit) {
