@@ -317,7 +317,7 @@ public final class IOUtil {
 	}
 
 	private static String getPath(String uri) {
-		if (uri == null)
+		if (uri == null || ".".equals(uri))
 			return null;
 		int sep = uri.indexOf("://");
 		if (sep > 0)
