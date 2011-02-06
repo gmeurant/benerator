@@ -167,7 +167,7 @@ public class RegexParser {
 			case RegexLexer.RANGE: return convertRange(node);
 			case RegexLexer.ALPHANUM: return convertAlphanum(node);
 			case RegexLexer.SPECIALCHARACTER: return convertAlphanum(node);
-			case RegexLexer.ESCAPEDEDCHARACTER: return convertEscaped(node);
+			case RegexLexer.ESCAPEDCHARACTER: return convertEscaped(node);
 			case RegexLexer.NONTYPEABLECHARACTER: return convertNonTypeable(node);
 			case RegexLexer.OCTALCHAR: return convertOctal(node);
 			case RegexLexer.HEXCHAR: return convertHexChar(node);

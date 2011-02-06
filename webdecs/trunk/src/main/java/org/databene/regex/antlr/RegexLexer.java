@@ -1,4 +1,4 @@
-// $ANTLR 3.1.2 Regex.g 2009-09-23 12:36:19
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g 2011-02-06 17:18:17
  
 	package org.databene.regex.antlr;
 
@@ -8,43 +8,43 @@ import java.util.Stack;
 import java.util.List;
 import java.util.ArrayList;
 
-@SuppressWarnings("all")
+@SuppressWarnings("unused")
 public class RegexLexer extends Lexer {
-    public static final int HEXDIGIT=26;
-    public static final int T__35=35;
-    public static final int RANGE=19;
-    public static final int LETTER=23;
-    public static final int T__36=36;
-    public static final int ALPHANUM=5;
-    public static final int EXCL=21;
-    public static final int OCTALCHAR=9;
-    public static final int CHOICE=15;
-    public static final int LBRACKET=29;
-    public static final int T__33=33;
-    public static final int ESCAPEDEDCHARACTER=7;
-    public static final int LBRACE=27;
-    public static final int RBRACE=28;
-    public static final int CLASS=18;
     public static final int QUANT=22;
-    public static final int OCTALDIGIT=25;
-    public static final int CODEDCHAR=11;
-    public static final int T__31=31;
-    public static final int INT=13;
-    public static final int SEQUENCE=16;
-    public static final int HEXCHAR=10;
-    public static final int EOF=-1;
-    public static final int T__32=32;
-    public static final int GROUP=14;
-    public static final int RBRACKET=30;
-    public static final int T__37=37;
+    public static final int CLASS=18;
     public static final int SIMPLEQUANTIFIER=12;
-    public static final int INCL=20;
-    public static final int DIGIT=24;
+    public static final int RBRACE=28;
+    public static final int LETTER=23;
+    public static final int ESCAPEDCHARACTER=7;
     public static final int SPECIALCHARACTER=6;
+    public static final int LBRACE=27;
+    public static final int HEXCHAR=10;
+    public static final int RANGE=19;
+    public static final int EXCL=21;
+    public static final int INT=13;
+    public static final int NONTYPEABLECHARACTER=8;
+    public static final int EOF=-1;
+    public static final int ALPHANUM=5;
+    public static final int LBRACKET=29;
+    public static final int SEQUENCE=16;
+    public static final int T__31=31;
+    public static final int GROUP=14;
+    public static final int CODEDCHAR=11;
+    public static final int T__32=32;
+    public static final int T__33=33;
+    public static final int T__34=34;
+    public static final int T__35=35;
+    public static final int T__36=36;
+    public static final int T__37=37;
     public static final int PREDEFINEDCLASS=4;
     public static final int FACTOR=17;
-    public static final int NONTYPEABLECHARACTER=8;
-    public static final int T__34=34;
+    public static final int OCTALDIGIT=25;
+    public static final int INCL=20;
+    public static final int DIGIT=24;
+    public static final int RBRACKET=30;
+    public static final int CHOICE=15;
+    public static final int OCTALCHAR=9;
+    public static final int HEXDIGIT=26;
 
     	boolean numQuantifierMode = false;
     	boolean classMode = false;
@@ -91,15 +91,15 @@ public class RegexLexer extends Lexer {
         super(input,state);
 
     }
-    public String getGrammarFileName() { return "Regex.g"; }
+    public String getGrammarFileName() { return "/Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g"; }
 
     // $ANTLR start "T__31"
     public final void mT__31() throws RecognitionException {
         try {
             int _type = T__31;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Regex.g:41:7: ( '^' )
-            // Regex.g:41:9: '^'
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:41:7: ( '^' )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:41:9: '^'
             {
             match('^'); 
 
@@ -118,8 +118,8 @@ public class RegexLexer extends Lexer {
         try {
             int _type = T__32;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Regex.g:42:7: ( '$' )
-            // Regex.g:42:9: '$'
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:42:7: ( '$' )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:42:9: '$'
             {
             match('$'); 
 
@@ -138,8 +138,8 @@ public class RegexLexer extends Lexer {
         try {
             int _type = T__33;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Regex.g:43:7: ( '|' )
-            // Regex.g:43:9: '|'
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:43:7: ( '|' )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:43:9: '|'
             {
             match('|'); 
 
@@ -158,8 +158,8 @@ public class RegexLexer extends Lexer {
         try {
             int _type = T__34;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Regex.g:44:7: ( '-' )
-            // Regex.g:44:9: '-'
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:44:7: ( '-' )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:44:9: '-'
             {
             match('-'); 
 
@@ -178,8 +178,8 @@ public class RegexLexer extends Lexer {
         try {
             int _type = T__35;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Regex.g:45:7: ( '(' )
-            // Regex.g:45:9: '('
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:45:7: ( '(' )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:45:9: '('
             {
             match('('); 
 
@@ -198,8 +198,8 @@ public class RegexLexer extends Lexer {
         try {
             int _type = T__36;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Regex.g:46:7: ( ')' )
-            // Regex.g:46:9: ')'
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:46:7: ( ')' )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:46:9: ')'
             {
             match(')'); 
 
@@ -218,8 +218,8 @@ public class RegexLexer extends Lexer {
         try {
             int _type = T__37;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Regex.g:47:7: ( ',' )
-            // Regex.g:47:9: ','
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:47:7: ( ',' )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:47:9: ','
             {
             match(','); 
 
@@ -236,8 +236,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "GROUP"
     public final void mGROUP() throws RecognitionException {
         try {
-            // Regex.g:149:7: ()
-            // Regex.g:149:9: 
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:175:7: ()
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:175:9: 
             {
             }
 
@@ -250,8 +250,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "CHOICE"
     public final void mCHOICE() throws RecognitionException {
         try {
-            // Regex.g:151:8: ()
-            // Regex.g:151:10: 
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:177:8: ()
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:177:10: 
             {
             }
 
@@ -264,8 +264,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "SEQUENCE"
     public final void mSEQUENCE() throws RecognitionException {
         try {
-            // Regex.g:153:9: ()
-            // Regex.g:153:11: 
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:179:9: ()
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:179:11: 
             {
             }
 
@@ -278,8 +278,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "FACTOR"
     public final void mFACTOR() throws RecognitionException {
         try {
-            // Regex.g:155:8: ()
-            // Regex.g:155:10: 
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:181:8: ()
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:181:10: 
             {
             }
 
@@ -292,8 +292,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "CLASS"
     public final void mCLASS() throws RecognitionException {
         try {
-            // Regex.g:157:7: ()
-            // Regex.g:157:9: 
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:183:7: ()
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:183:9: 
             {
             }
 
@@ -306,8 +306,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "RANGE"
     public final void mRANGE() throws RecognitionException {
         try {
-            // Regex.g:159:7: ()
-            // Regex.g:159:9: 
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:185:7: ()
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:185:9: 
             {
             }
 
@@ -320,8 +320,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "INCL"
     public final void mINCL() throws RecognitionException {
         try {
-            // Regex.g:161:6: ()
-            // Regex.g:161:8: 
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:187:6: ()
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:187:8: 
             {
             }
 
@@ -334,8 +334,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "EXCL"
     public final void mEXCL() throws RecognitionException {
         try {
-            // Regex.g:163:6: ()
-            // Regex.g:163:8: 
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:189:6: ()
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:189:8: 
             {
             }
 
@@ -348,8 +348,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "QUANT"
     public final void mQUANT() throws RecognitionException {
         try {
-            // Regex.g:165:7: ()
-            // Regex.g:165:9: 
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:191:7: ()
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:191:9: 
             {
             }
 
@@ -364,7 +364,7 @@ public class RegexLexer extends Lexer {
         try {
             int _type = PREDEFINEDCLASS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Regex.g:172:2: ( '.' | '\\\\d' | '\\\\D' | '\\\\s' | '\\\\S' | '\\\\w' | '\\\\W' )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:198:2: ( '.' | '\\\\d' | '\\\\D' | '\\\\s' | '\\\\S' | '\\\\w' | '\\\\W' )
             int alt1=7;
             int LA1_0 = input.LA(1);
 
@@ -419,14 +419,14 @@ public class RegexLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // Regex.g:172:4: '.'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:198:4: '.'
                     {
                     match('.'); 
 
                     }
                     break;
                 case 2 :
-                    // Regex.g:173:4: '\\\\d'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:199:4: '\\\\d'
                     {
                     match("\\d"); 
 
@@ -434,7 +434,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 3 :
-                    // Regex.g:174:4: '\\\\D'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:200:4: '\\\\D'
                     {
                     match("\\D"); 
 
@@ -442,7 +442,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 4 :
-                    // Regex.g:175:4: '\\\\s'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:201:4: '\\\\s'
                     {
                     match("\\s"); 
 
@@ -450,7 +450,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 5 :
-                    // Regex.g:176:4: '\\\\S'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:202:4: '\\\\S'
                     {
                     match("\\S"); 
 
@@ -458,7 +458,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 6 :
-                    // Regex.g:177:4: '\\\\w'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:203:4: '\\\\w'
                     {
                     match("\\w"); 
 
@@ -466,7 +466,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 7 :
-                    // Regex.g:178:4: '\\\\W'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:204:4: '\\\\W'
                     {
                     match("\\W"); 
 
@@ -488,7 +488,7 @@ public class RegexLexer extends Lexer {
         try {
             int _type = ALPHANUM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Regex.g:181:9: ( LETTER | {...}? => DIGIT )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:207:9: ( LETTER | {...}? => DIGIT )
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -506,14 +506,14 @@ public class RegexLexer extends Lexer {
             }
             switch (alt2) {
                 case 1 :
-                    // Regex.g:181:11: LETTER
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:207:11: LETTER
                     {
                     mLETTER(); 
 
                     }
                     break;
                 case 2 :
-                    // Regex.g:182:4: {...}? => DIGIT
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:208:4: {...}? => DIGIT
                     {
                     if ( !((!numQuantifierMode)) ) {
                         throw new FailedPredicateException(input, "ALPHANUM", "!numQuantifierMode");
@@ -537,124 +537,131 @@ public class RegexLexer extends Lexer {
         try {
             int _type = SPECIALCHARACTER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Regex.g:185:2: ( ' ' | '!' | '\\'' | '\"' | '%' | '&' | '/' | ':' | ';' | '<' | '=' | '>' | '@' | '_' | '`' | '~' | {...}? => ',' | {...}? => ( '?' | '*' | '+' ) )
-            int alt3=18;
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:211:2: ( ' ' | '!' | '\\'' | '\"' | '%' | '&' | '/' | ':' | ';' | '<' | '=' | '>' | '@' | '_' | '`' | '~' | '#' | {...}? => ',' | {...}? => ( '?' | '*' | '+' ) )
+            int alt3=19;
             alt3 = dfa3.predict(input);
             switch (alt3) {
                 case 1 :
-                    // Regex.g:185:4: ' '
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:211:4: ' '
                     {
                     match(' '); 
 
                     }
                     break;
                 case 2 :
-                    // Regex.g:185:10: '!'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:211:10: '!'
                     {
                     match('!'); 
 
                     }
                     break;
                 case 3 :
-                    // Regex.g:185:16: '\\''
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:211:16: '\\''
                     {
                     match('\''); 
 
                     }
                     break;
                 case 4 :
-                    // Regex.g:185:23: '\"'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:211:23: '\"'
                     {
                     match('\"'); 
 
                     }
                     break;
                 case 5 :
-                    // Regex.g:185:29: '%'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:211:29: '%'
                     {
                     match('%'); 
 
                     }
                     break;
                 case 6 :
-                    // Regex.g:185:35: '&'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:211:35: '&'
                     {
                     match('&'); 
 
                     }
                     break;
                 case 7 :
-                    // Regex.g:186:4: '/'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:212:4: '/'
                     {
                     match('/'); 
 
                     }
                     break;
                 case 8 :
-                    // Regex.g:186:10: ':'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:212:10: ':'
                     {
                     match(':'); 
 
                     }
                     break;
                 case 9 :
-                    // Regex.g:186:17: ';'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:212:17: ';'
                     {
                     match(';'); 
 
                     }
                     break;
                 case 10 :
-                    // Regex.g:186:23: '<'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:212:23: '<'
                     {
                     match('<'); 
 
                     }
                     break;
                 case 11 :
-                    // Regex.g:186:29: '='
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:212:29: '='
                     {
                     match('='); 
 
                     }
                     break;
                 case 12 :
-                    // Regex.g:186:35: '>'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:212:35: '>'
                     {
                     match('>'); 
 
                     }
                     break;
                 case 13 :
-                    // Regex.g:187:4: '@'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:213:4: '@'
                     {
                     match('@'); 
 
                     }
                     break;
                 case 14 :
-                    // Regex.g:187:10: '_'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:213:10: '_'
                     {
                     match('_'); 
 
                     }
                     break;
                 case 15 :
-                    // Regex.g:187:17: '`'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:213:17: '`'
                     {
                     match('`'); 
 
                     }
                     break;
                 case 16 :
-                    // Regex.g:187:23: '~'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:213:23: '~'
                     {
                     match('~'); 
 
                     }
                     break;
                 case 17 :
-                    // Regex.g:188:4: {...}? => ','
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:213:29: '#'
+                    {
+                    match('#'); 
+
+                    }
+                    break;
+                case 18 :
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:214:4: {...}? => ','
                     {
                     if ( !((!numQuantifierMode)) ) {
                         throw new FailedPredicateException(input, "SPECIALCHARACTER", "!numQuantifierMode");
@@ -663,8 +670,8 @@ public class RegexLexer extends Lexer {
 
                     }
                     break;
-                case 18 :
-                    // Regex.g:189:4: {...}? => ( '?' | '*' | '+' )
+                case 19 :
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:215:4: {...}? => ( '?' | '*' | '+' )
                     {
                     if ( !((classMode)) ) {
                         throw new FailedPredicateException(input, "SPECIALCHARACTER", "classMode");
@@ -691,17 +698,17 @@ public class RegexLexer extends Lexer {
     }
     // $ANTLR end "SPECIALCHARACTER"
 
-    // $ANTLR start "ESCAPEDEDCHARACTER"
-    public final void mESCAPEDEDCHARACTER() throws RecognitionException {
+    // $ANTLR start "ESCAPEDCHARACTER"
+    public final void mESCAPEDCHARACTER() throws RecognitionException {
         try {
-            int _type = ESCAPEDEDCHARACTER;
+            int _type = ESCAPEDCHARACTER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Regex.g:193:2: ( '\\\\$' | '\\\\&' | '\\\\(' | '\\\\)' | | '\\\\,' | '\\\\-' | '\\\\.' | '\\\\[' | '\\\\]' | '\\\\^' | '\\\\{' | '\\\\}' | '\\\\\\\\' | '\\\\|' | '\\\\*' | '\\\\+' | '\\\\?' )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:219:2: ( '\\\\$' | '\\\\&' | '\\\\(' | '\\\\)' | | '\\\\,' | '\\\\-' | '\\\\.' | '\\\\[' | '\\\\]' | '\\\\^' | '\\\\{' | '\\\\}' | '\\\\\\\\' | '\\\\|' | '\\\\*' | '\\\\+' | '\\\\?' )
             int alt4=18;
             alt4 = dfa4.predict(input);
             switch (alt4) {
                 case 1 :
-                    // Regex.g:193:4: '\\\\$'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:219:4: '\\\\$'
                     {
                     match("\\$"); 
 
@@ -709,7 +716,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // Regex.g:193:12: '\\\\&'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:219:12: '\\\\&'
                     {
                     match("\\&"); 
 
@@ -717,7 +724,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 3 :
-                    // Regex.g:193:20: '\\\\('
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:219:20: '\\\\('
                     {
                     match("\\("); 
 
@@ -725,7 +732,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 4 :
-                    // Regex.g:193:28: '\\\\)'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:219:28: '\\\\)'
                     {
                     match("\\)"); 
 
@@ -733,12 +740,12 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 5 :
-                    // Regex.g:194:2: 
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:220:2: 
                     {
                     }
                     break;
                 case 6 :
-                    // Regex.g:194:4: '\\\\,'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:220:4: '\\\\,'
                     {
                     match("\\,"); 
 
@@ -746,7 +753,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 7 :
-                    // Regex.g:194:12: '\\\\-'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:220:12: '\\\\-'
                     {
                     match("\\-"); 
 
@@ -754,7 +761,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 8 :
-                    // Regex.g:194:20: '\\\\.'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:220:20: '\\\\.'
                     {
                     match("\\."); 
 
@@ -762,7 +769,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 9 :
-                    // Regex.g:194:28: '\\\\['
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:220:28: '\\\\['
                     {
                     match("\\["); 
 
@@ -770,7 +777,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 10 :
-                    // Regex.g:194:36: '\\\\]'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:220:36: '\\\\]'
                     {
                     match("\\]"); 
 
@@ -778,7 +785,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 11 :
-                    // Regex.g:194:44: '\\\\^'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:220:44: '\\\\^'
                     {
                     match("\\^"); 
 
@@ -786,7 +793,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 12 :
-                    // Regex.g:195:4: '\\\\{'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:221:4: '\\\\{'
                     {
                     match("\\{"); 
 
@@ -794,7 +801,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 13 :
-                    // Regex.g:195:12: '\\\\}'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:221:12: '\\\\}'
                     {
                     match("\\}"); 
 
@@ -802,7 +809,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 14 :
-                    // Regex.g:195:20: '\\\\\\\\'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:221:20: '\\\\\\\\'
                     {
                     match("\\\\"); 
 
@@ -810,7 +817,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 15 :
-                    // Regex.g:195:29: '\\\\|'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:221:29: '\\\\|'
                     {
                     match("\\|"); 
 
@@ -818,7 +825,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 16 :
-                    // Regex.g:196:4: '\\\\*'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:222:4: '\\\\*'
                     {
                     match("\\*"); 
 
@@ -826,7 +833,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 17 :
-                    // Regex.g:196:12: '\\\\+'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:222:12: '\\\\+'
                     {
                     match("\\+"); 
 
@@ -834,7 +841,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 18 :
-                    // Regex.g:196:20: '\\\\?'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:222:20: '\\\\?'
                     {
                     match("\\?"); 
 
@@ -849,14 +856,14 @@ public class RegexLexer extends Lexer {
         finally {
         }
     }
-    // $ANTLR end "ESCAPEDEDCHARACTER"
+    // $ANTLR end "ESCAPEDCHARACTER"
 
     // $ANTLR start "NONTYPEABLECHARACTER"
     public final void mNONTYPEABLECHARACTER() throws RecognitionException {
         try {
             int _type = NONTYPEABLECHARACTER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Regex.g:200:2: ( '\\\\r' | '\\\\n' | '\\\\t' | '\\\\f' | '\\\\a' | '\\\\e' )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:226:2: ( '\\\\r' | '\\\\n' | '\\\\t' | '\\\\f' | '\\\\a' | '\\\\e' )
             int alt5=6;
             int LA5_0 = input.LA(1);
 
@@ -908,7 +915,7 @@ public class RegexLexer extends Lexer {
             }
             switch (alt5) {
                 case 1 :
-                    // Regex.g:200:4: '\\\\r'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:226:4: '\\\\r'
                     {
                     match("\\r"); 
 
@@ -916,7 +923,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // Regex.g:201:4: '\\\\n'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:227:4: '\\\\n'
                     {
                     match("\\n"); 
 
@@ -924,7 +931,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 3 :
-                    // Regex.g:202:4: '\\\\t'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:228:4: '\\\\t'
                     {
                     match("\\t"); 
 
@@ -932,7 +939,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 4 :
-                    // Regex.g:203:4: '\\\\f'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:229:4: '\\\\f'
                     {
                     match("\\f"); 
 
@@ -940,7 +947,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 5 :
-                    // Regex.g:204:4: '\\\\a'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:230:4: '\\\\a'
                     {
                     match("\\a"); 
 
@@ -948,7 +955,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 6 :
-                    // Regex.g:205:4: '\\\\e'
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:231:4: '\\\\e'
                     {
                     match("\\e"); 
 
@@ -970,8 +977,8 @@ public class RegexLexer extends Lexer {
         try {
             int _type = OCTALCHAR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Regex.g:209:2: ( '\\\\0' OCTALDIGIT OCTALDIGIT OCTALDIGIT )
-            // Regex.g:209:4: '\\\\0' OCTALDIGIT OCTALDIGIT OCTALDIGIT
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:235:2: ( '\\\\0' OCTALDIGIT OCTALDIGIT OCTALDIGIT )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:235:4: '\\\\0' OCTALDIGIT OCTALDIGIT OCTALDIGIT
             {
             match("\\0"); 
 
@@ -994,7 +1001,7 @@ public class RegexLexer extends Lexer {
         try {
             int _type = HEXCHAR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Regex.g:212:9: ( '\\\\x' HEXDIGIT HEXDIGIT | '\\\\u' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:238:9: ( '\\\\x' HEXDIGIT HEXDIGIT | '\\\\u' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT )
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -1022,7 +1029,7 @@ public class RegexLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // Regex.g:212:11: '\\\\x' HEXDIGIT HEXDIGIT
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:238:11: '\\\\x' HEXDIGIT HEXDIGIT
                     {
                     match("\\x"); 
 
@@ -1032,7 +1039,7 @@ public class RegexLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // Regex.g:213:4: '\\\\u' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT
+                    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:239:4: '\\\\u' HEXDIGIT HEXDIGIT HEXDIGIT HEXDIGIT
                     {
                     match("\\u"); 
 
@@ -1058,8 +1065,8 @@ public class RegexLexer extends Lexer {
         try {
             int _type = CODEDCHAR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Regex.g:216:10: ( '\\\\c' LETTER )
-            // Regex.g:216:12: '\\\\c' LETTER
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:242:10: ( '\\\\c' LETTER )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:242:12: '\\\\c' LETTER
             {
             match("\\c"); 
 
@@ -1080,8 +1087,8 @@ public class RegexLexer extends Lexer {
         try {
             int _type = SIMPLEQUANTIFIER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Regex.g:219:2: ({...}? => ( '?' | '*' | '+' ) )
-            // Regex.g:219:4: {...}? => ( '?' | '*' | '+' )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:245:2: ({...}? => ( '?' | '*' | '+' ) )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:245:4: {...}? => ( '?' | '*' | '+' )
             {
             if ( !((!classMode)) ) {
                 throw new FailedPredicateException(input, "SIMPLEQUANTIFIER", "!classMode");
@@ -1111,13 +1118,13 @@ public class RegexLexer extends Lexer {
         try {
             int _type = INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Regex.g:221:5: ({...}? => ( DIGIT )+ )
-            // Regex.g:221:7: {...}? => ( DIGIT )+
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:247:5: ({...}? => ( DIGIT )+ )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:247:7: {...}? => ( DIGIT )+
             {
             if ( !((numQuantifierMode)) ) {
                 throw new FailedPredicateException(input, "INT", "numQuantifierMode");
             }
-            // Regex.g:221:30: ( DIGIT )+
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:247:30: ( DIGIT )+
             int cnt7=0;
             loop7:
             do {
@@ -1131,7 +1138,7 @@ public class RegexLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // Regex.g:221:30: DIGIT
+            	    // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:247:30: DIGIT
             	    {
             	    mDIGIT(); 
 
@@ -1163,8 +1170,8 @@ public class RegexLexer extends Lexer {
         try {
             int _type = LBRACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Regex.g:223:8: ( '{' )
-            // Regex.g:223:10: '{'
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:249:8: ( '{' )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:249:10: '{'
             {
             match('{'); 
              numQuantifierMode = true; 
@@ -1184,8 +1191,8 @@ public class RegexLexer extends Lexer {
         try {
             int _type = RBRACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Regex.g:225:8: ( '}' )
-            // Regex.g:225:10: '}'
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:251:8: ( '}' )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:251:10: '}'
             {
             match('}'); 
              numQuantifierMode = false; 
@@ -1205,8 +1212,8 @@ public class RegexLexer extends Lexer {
         try {
             int _type = LBRACKET;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Regex.g:227:9: ( '[' )
-            // Regex.g:227:11: '['
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:253:9: ( '[' )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:253:11: '['
             {
             match('['); 
              classMode = true; 
@@ -1226,8 +1233,8 @@ public class RegexLexer extends Lexer {
         try {
             int _type = RBRACKET;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // Regex.g:229:9: ( ']' )
-            // Regex.g:229:11: ']'
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:255:9: ( ']' )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:255:11: ']'
             {
             match(']'); 
              classMode = false; 
@@ -1245,8 +1252,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "LETTER"
     public final void mLETTER() throws RecognitionException {
         try {
-            // Regex.g:236:8: ( 'A' .. 'Z' | 'a' .. 'z' )
-            // Regex.g:
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:262:8: ( 'A' .. 'Z' | 'a' .. 'z' )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:
             {
             if ( (input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                 input.consume();
@@ -1269,8 +1276,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "HEXDIGIT"
     public final void mHEXDIGIT() throws RecognitionException {
         try {
-            // Regex.g:239:9: ( DIGIT | 'A' .. 'F' | 'a' .. 'f' )
-            // Regex.g:
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:265:9: ( DIGIT | 'A' .. 'F' | 'a' .. 'f' )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:
             {
             if ( (input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='F')||(input.LA(1)>='a' && input.LA(1)<='f') ) {
                 input.consume();
@@ -1293,8 +1300,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "OCTALDIGIT"
     public final void mOCTALDIGIT() throws RecognitionException {
         try {
-            // Regex.g:242:11: ( '0' .. '7' )
-            // Regex.g:242:13: '0' .. '7'
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:268:11: ( '0' .. '7' )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:268:13: '0' .. '7'
             {
             matchRange('0','7'); 
 
@@ -1309,8 +1316,8 @@ public class RegexLexer extends Lexer {
     // $ANTLR start "DIGIT"
     public final void mDIGIT() throws RecognitionException {
         try {
-            // Regex.g:245:7: ( '0' .. '9' )
-            // Regex.g:245:9: '0' .. '9'
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:271:7: ( '0' .. '9' )
+            // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:271:9: '0' .. '9'
             {
             matchRange('0','9'); 
 
@@ -1323,152 +1330,152 @@ public class RegexLexer extends Lexer {
     // $ANTLR end "DIGIT"
 
     public void mTokens() throws RecognitionException {
-        // Regex.g:1:8: ( T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | PREDEFINEDCLASS | ALPHANUM | SPECIALCHARACTER | ESCAPEDEDCHARACTER | NONTYPEABLECHARACTER | OCTALCHAR | HEXCHAR | CODEDCHAR | SIMPLEQUANTIFIER | INT | LBRACE | RBRACE | LBRACKET | RBRACKET )
+        // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:8: ( T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | PREDEFINEDCLASS | ALPHANUM | SPECIALCHARACTER | ESCAPEDCHARACTER | NONTYPEABLECHARACTER | OCTALCHAR | HEXCHAR | CODEDCHAR | SIMPLEQUANTIFIER | INT | LBRACE | RBRACE | LBRACKET | RBRACKET )
         int alt8=21;
         alt8 = dfa8.predict(input);
         switch (alt8) {
             case 1 :
-                // Regex.g:1:10: T__31
+                // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:10: T__31
                 {
                 mT__31(); 
 
                 }
                 break;
             case 2 :
-                // Regex.g:1:16: T__32
+                // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:16: T__32
                 {
                 mT__32(); 
 
                 }
                 break;
             case 3 :
-                // Regex.g:1:22: T__33
+                // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:22: T__33
                 {
                 mT__33(); 
 
                 }
                 break;
             case 4 :
-                // Regex.g:1:28: T__34
+                // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:28: T__34
                 {
                 mT__34(); 
 
                 }
                 break;
             case 5 :
-                // Regex.g:1:34: T__35
+                // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:34: T__35
                 {
                 mT__35(); 
 
                 }
                 break;
             case 6 :
-                // Regex.g:1:40: T__36
+                // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:40: T__36
                 {
                 mT__36(); 
 
                 }
                 break;
             case 7 :
-                // Regex.g:1:46: T__37
+                // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:46: T__37
                 {
                 mT__37(); 
 
                 }
                 break;
             case 8 :
-                // Regex.g:1:52: PREDEFINEDCLASS
+                // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:52: PREDEFINEDCLASS
                 {
                 mPREDEFINEDCLASS(); 
 
                 }
                 break;
             case 9 :
-                // Regex.g:1:68: ALPHANUM
+                // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:68: ALPHANUM
                 {
                 mALPHANUM(); 
 
                 }
                 break;
             case 10 :
-                // Regex.g:1:77: SPECIALCHARACTER
+                // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:77: SPECIALCHARACTER
                 {
                 mSPECIALCHARACTER(); 
 
                 }
                 break;
             case 11 :
-                // Regex.g:1:94: ESCAPEDEDCHARACTER
+                // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:94: ESCAPEDCHARACTER
                 {
-                mESCAPEDEDCHARACTER(); 
+                mESCAPEDCHARACTER(); 
 
                 }
                 break;
             case 12 :
-                // Regex.g:1:113: NONTYPEABLECHARACTER
+                // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:111: NONTYPEABLECHARACTER
                 {
                 mNONTYPEABLECHARACTER(); 
 
                 }
                 break;
             case 13 :
-                // Regex.g:1:134: OCTALCHAR
+                // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:132: OCTALCHAR
                 {
                 mOCTALCHAR(); 
 
                 }
                 break;
             case 14 :
-                // Regex.g:1:144: HEXCHAR
+                // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:142: HEXCHAR
                 {
                 mHEXCHAR(); 
 
                 }
                 break;
             case 15 :
-                // Regex.g:1:152: CODEDCHAR
+                // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:150: CODEDCHAR
                 {
                 mCODEDCHAR(); 
 
                 }
                 break;
             case 16 :
-                // Regex.g:1:162: SIMPLEQUANTIFIER
+                // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:160: SIMPLEQUANTIFIER
                 {
                 mSIMPLEQUANTIFIER(); 
 
                 }
                 break;
             case 17 :
-                // Regex.g:1:179: INT
+                // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:177: INT
                 {
                 mINT(); 
 
                 }
                 break;
             case 18 :
-                // Regex.g:1:183: LBRACE
+                // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:181: LBRACE
                 {
                 mLBRACE(); 
 
                 }
                 break;
             case 19 :
-                // Regex.g:1:190: RBRACE
+                // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:188: RBRACE
                 {
                 mRBRACE(); 
 
                 }
                 break;
             case 20 :
-                // Regex.g:1:197: LBRACKET
+                // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:195: LBRACKET
                 {
                 mLBRACKET(); 
 
                 }
                 break;
             case 21 :
-                // Regex.g:1:206: RBRACKET
+                // /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g:1:204: RBRACKET
                 {
                 mRBRACKET(); 
 
@@ -1484,22 +1491,23 @@ public class RegexLexer extends Lexer {
     protected DFA4 dfa4 = new DFA4(this);
     protected DFA8 dfa8 = new DFA8(this);
     static final String DFA3_eotS =
-        "\23\uffff";
+        "\24\uffff";
     static final String DFA3_eofS =
-        "\23\uffff";
+        "\24\uffff";
     static final String DFA3_minS =
-        "\1\40\22\uffff";
+        "\1\40\23\uffff";
     static final String DFA3_maxS =
-        "\1\176\22\uffff";
+        "\1\176\23\uffff";
     static final String DFA3_acceptS =
         "\1\uffff\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11\1\12\1\13\1\14\1"+
-        "\15\1\16\1\17\1\20\1\21\1\22";
+        "\15\1\16\1\17\1\20\1\21\1\22\1\23";
     static final String DFA3_specialS =
-        "\1\0\22\uffff}>";
+        "\1\0\23\uffff}>";
     static final String[] DFA3_transitionS = {
-            "\1\1\1\2\1\4\2\uffff\1\5\1\6\1\3\2\uffff\2\22\1\21\2\uffff\1"+
-            "\7\12\uffff\1\10\1\11\1\12\1\13\1\14\1\22\1\15\36\uffff\1\16"+
-            "\1\17\35\uffff\1\20",
+            "\1\1\1\2\1\4\1\21\1\uffff\1\5\1\6\1\3\2\uffff\2\23\1\22\2\uffff"+
+            "\1\7\12\uffff\1\10\1\11\1\12\1\13\1\14\1\23\1\15\36\uffff\1"+
+            "\16\1\17\35\uffff\1\20",
+            "",
             "",
             "",
             "",
@@ -1550,7 +1558,7 @@ public class RegexLexer extends Lexer {
             this.transition = DFA3_transition;
         }
         public String getDescription() {
-            return "184:1: SPECIALCHARACTER : ( ' ' | '!' | '\\'' | '\"' | '%' | '&' | '/' | ':' | ';' | '<' | '=' | '>' | '@' | '_' | '`' | '~' | {...}? => ',' | {...}? => ( '?' | '*' | '+' ) );";
+            return "210:1: SPECIALCHARACTER : ( ' ' | '!' | '\\'' | '\"' | '%' | '&' | '/' | ':' | ';' | '<' | '=' | '>' | '@' | '_' | '`' | '~' | '#' | {...}? => ',' | {...}? => ( '?' | '*' | '+' ) );";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             IntStream input = _input;
@@ -1595,9 +1603,11 @@ public class RegexLexer extends Lexer {
 
                         else if ( (LA3_0=='~') ) {s = 16;}
 
-                        else if ( (LA3_0==',') && ((!numQuantifierMode))) {s = 17;}
+                        else if ( (LA3_0=='#') ) {s = 17;}
 
-                        else if ( ((LA3_0>='*' && LA3_0<='+')||LA3_0=='?') && ((classMode))) {s = 18;}
+                        else if ( (LA3_0==',') && ((!numQuantifierMode))) {s = 18;}
+
+                        else if ( ((LA3_0>='*' && LA3_0<='+')||LA3_0=='?') && ((classMode))) {s = 19;}
 
                          
                         input.seek(index3_0);
@@ -1678,7 +1688,7 @@ public class RegexLexer extends Lexer {
             this.transition = DFA4_transition;
         }
         public String getDescription() {
-            return "192:1: ESCAPEDEDCHARACTER : ( '\\\\$' | '\\\\&' | '\\\\(' | '\\\\)' | | '\\\\,' | '\\\\-' | '\\\\.' | '\\\\[' | '\\\\]' | '\\\\^' | '\\\\{' | '\\\\}' | '\\\\\\\\' | '\\\\|' | '\\\\*' | '\\\\+' | '\\\\?' );";
+            return "218:1: ESCAPEDCHARACTER : ( '\\\\$' | '\\\\&' | '\\\\(' | '\\\\)' | | '\\\\,' | '\\\\-' | '\\\\.' | '\\\\[' | '\\\\]' | '\\\\^' | '\\\\{' | '\\\\}' | '\\\\\\\\' | '\\\\|' | '\\\\*' | '\\\\+' | '\\\\?' );";
         }
     }
     static final String DFA8_eotS =
@@ -1696,12 +1706,11 @@ public class RegexLexer extends Lexer {
         "\1\12\1\uffff\1\13\1\22\1\23\1\24\1\25\1\uffff\1\14\1\15\1\16\1"+
         "\17\1\uffff\1\21\1\uffff\1\7\1\20";
     static final String DFA8_specialS =
-        "\1\2\12\uffff\1\4\1\uffff\1\0\5\uffff\1\1\4\uffff\1\5\1\uffff\1"+
-        "\3\2\uffff}>";
+        "\1\2\12\uffff\1\5\1\uffff\1\4\5\uffff\1\3\4\uffff\1\1\1\uffff\1"+
+        "\0\2\uffff}>";
     static final String[] DFA8_transitionS = {
-            "\3\14\1\uffff\1\2\3\14\1\5\1\6\2\15\1\7\1\4\1\10\1\14\12\13"+
-            "\5\14\1\15\1\14\32\12\1\21\1\11\1\22\1\1\2\14\32\12\1\17\1\3"+
-            "\1\20\1\14",
+            "\4\14\1\2\3\14\1\5\1\6\2\15\1\7\1\4\1\10\1\14\12\13\5\14\1\15"+
+            "\1\14\32\12\1\21\1\11\1\22\1\1\2\14\32\12\1\17\1\3\1\20\1\14",
             "",
             "",
             "",
@@ -1765,38 +1774,40 @@ public class RegexLexer extends Lexer {
             this.transition = DFA8_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | PREDEFINEDCLASS | ALPHANUM | SPECIALCHARACTER | ESCAPEDEDCHARACTER | NONTYPEABLECHARACTER | OCTALCHAR | HEXCHAR | CODEDCHAR | SIMPLEQUANTIFIER | INT | LBRACE | RBRACE | LBRACKET | RBRACKET );";
+            return "1:1: Tokens : ( T__31 | T__32 | T__33 | T__34 | T__35 | T__36 | T__37 | PREDEFINEDCLASS | ALPHANUM | SPECIALCHARACTER | ESCAPEDCHARACTER | NONTYPEABLECHARACTER | OCTALCHAR | HEXCHAR | CODEDCHAR | SIMPLEQUANTIFIER | INT | LBRACE | RBRACE | LBRACKET | RBRACKET );";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             IntStream input = _input;
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA8_13 = input.LA(1);
+                        int LA8_26 = input.LA(1);
 
                          
-                        int index8_13 = input.index();
+                        int index8_26 = input.index();
                         input.rewind();
                         s = -1;
-                        s = 26;
+                        if ( ((classMode)) ) {s = 12;}
+
+                        else if ( ((!classMode)) ) {s = 28;}
 
                          
-                        input.seek(index8_13);
+                        input.seek(index8_26);
                         if ( s>=0 ) return s;
                         break;
                     case 1 : 
-                        int LA8_19 = input.LA(1);
+                        int LA8_24 = input.LA(1);
 
                          
-                        int index8_19 = input.index();
+                        int index8_24 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( (!(((!numQuantifierMode)))) ) {s = 27;}
+                        if ( ((!numQuantifierMode)) ) {s = 10;}
 
-                        else if ( ((!numQuantifierMode)) ) {s = 12;}
+                        else if ( ((numQuantifierMode)) ) {s = 25;}
 
                          
-                        input.seek(index8_19);
+                        input.seek(index8_24);
                         if ( s>=0 ) return s;
                         break;
                     case 2 : 
@@ -1828,7 +1839,7 @@ public class RegexLexer extends Lexer {
 
                         else if ( ((LA8_0>='0' && LA8_0<='9')) && (((!numQuantifierMode)||(numQuantifierMode)))) {s = 11;}
 
-                        else if ( ((LA8_0>=' ' && LA8_0<='\"')||(LA8_0>='%' && LA8_0<='\'')||LA8_0=='/'||(LA8_0>=':' && LA8_0<='>')||LA8_0=='@'||(LA8_0>='_' && LA8_0<='`')||LA8_0=='~') ) {s = 12;}
+                        else if ( ((LA8_0>=' ' && LA8_0<='#')||(LA8_0>='%' && LA8_0<='\'')||LA8_0=='/'||(LA8_0>=':' && LA8_0<='>')||LA8_0=='@'||(LA8_0>='_' && LA8_0<='`')||LA8_0=='~') ) {s = 12;}
 
                         else if ( ((LA8_0>='*' && LA8_0<='+')||LA8_0=='?') && (((classMode)||(!classMode)))) {s = 13;}
 
@@ -1847,21 +1858,34 @@ public class RegexLexer extends Lexer {
                         if ( s>=0 ) return s;
                         break;
                     case 3 : 
-                        int LA8_26 = input.LA(1);
+                        int LA8_19 = input.LA(1);
 
                          
-                        int index8_26 = input.index();
+                        int index8_19 = input.index();
                         input.rewind();
                         s = -1;
-                        if ( ((classMode)) ) {s = 12;}
+                        if ( (!(((!numQuantifierMode)))) ) {s = 27;}
 
-                        else if ( ((!classMode)) ) {s = 28;}
+                        else if ( ((!numQuantifierMode)) ) {s = 12;}
 
                          
-                        input.seek(index8_26);
+                        input.seek(index8_19);
                         if ( s>=0 ) return s;
                         break;
                     case 4 : 
+                        int LA8_13 = input.LA(1);
+
+                         
+                        int index8_13 = input.index();
+                        input.rewind();
+                        s = -1;
+                        s = 26;
+
+                         
+                        input.seek(index8_13);
+                        if ( s>=0 ) return s;
+                        break;
+                    case 5 : 
                         int LA8_11 = input.LA(1);
 
                          
@@ -1874,21 +1898,6 @@ public class RegexLexer extends Lexer {
 
                          
                         input.seek(index8_11);
-                        if ( s>=0 ) return s;
-                        break;
-                    case 5 : 
-                        int LA8_24 = input.LA(1);
-
-                         
-                        int index8_24 = input.index();
-                        input.rewind();
-                        s = -1;
-                        if ( ((!numQuantifierMode)) ) {s = 10;}
-
-                        else if ( ((numQuantifierMode)) ) {s = 25;}
-
-                         
-                        input.seek(index8_24);
                         if ( s>=0 ) return s;
                         break;
             }

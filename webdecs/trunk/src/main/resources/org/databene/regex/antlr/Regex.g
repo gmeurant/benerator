@@ -128,7 +128,7 @@ singlechar
 classchar
 	:	ALPHANUM
 	|	SPECIALCHARACTER
-        |	ESCAPEDEDCHARACTER
+        |	ESCAPEDCHARACTER
 	|	NONTYPEABLECHARACTER
 	|	OCTALCHAR
 	|	HEXCHAR
@@ -210,12 +210,12 @@ ALPHANUM:	LETTER
 SPECIALCHARACTER
 	: ' ' | '!' | '\'' | '"' | '%' | '&'
 	| '/' | ':'  | ';' | '<' | '=' | '>'
-	| '@' | '_'  | '`' | '~' 
+	| '@' | '_'  | '`' | '~' | '#' 
 	| {!numQuantifierMode}?=> ','
 	| {classMode}?=> ('?' | '*' | '+')
 	;
 
-ESCAPEDEDCHARACTER
+ESCAPEDCHARACTER
 	: '\\$' | '\\&' | '\\(' | '\\)' | 
 	| '\\,' | '\\-' | '\\.' | '\\[' | '\\]' | '\\^'
 	| '\\{' | '\\}' | '\\\\' | '\\|'
