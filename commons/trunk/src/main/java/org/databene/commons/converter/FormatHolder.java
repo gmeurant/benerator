@@ -26,6 +26,7 @@
 
 package org.databene.commons.converter;
 
+import org.databene.commons.Capitalization;
 import org.databene.commons.Patterns;
 
 /**
@@ -45,12 +46,18 @@ public abstract class FormatHolder implements Patterns {
     
     protected String datePattern;
 
+    protected Capitalization dateCapitalization;
+
     protected String dateTimePattern;
+
+    protected Capitalization dateTimeCapitalization;
 
     protected String timePattern;
 
     protected String timestampPattern;
     
+    protected Capitalization timestampCapitalization;
+
     protected NumberFormatter decimalConverter;
     
     protected NumberFormatter integralConverter;
@@ -77,9 +84,12 @@ public abstract class FormatHolder implements Patterns {
     public FormatHolder(String nullString, String datePattern, String timestampPattern) {
         this.nullString = nullString;
         this.datePattern = datePattern;
+        this.dateCapitalization = Capitalization.mixed;
         this.timestampPattern = timestampPattern;
+        this.timestampCapitalization = Capitalization.mixed;
         this.timePattern = DEFAULT_TIME_PATTERN;
         this.dateTimePattern = DEFAULT_DATETIME_PATTERN;
+        this.dateTimeCapitalization = Capitalization.mixed;
         this.integralConverter = null;
         this.decimalConverter = null;
         this.stringQuote = null;
@@ -104,6 +114,14 @@ public abstract class FormatHolder implements Patterns {
 		this.datePattern = pattern;
 	}
 
+	public Capitalization getDateCapitalization() {
+		return dateCapitalization;
+	}
+	
+	public void setDateCapitalization(Capitalization dateCapitalization) {
+		this.dateCapitalization = dateCapitalization;
+	}
+	
 	public String getDateTimePattern() {
 		return dateTimePattern;
 	}
@@ -111,6 +129,22 @@ public abstract class FormatHolder implements Patterns {
 	public void setDateTimePattern(String pattern) {
 		this.dateTimePattern = pattern;
 	}
+
+	public Capitalization getDateTimeCapitalization() {
+		return dateTimeCapitalization;
+	}
+
+	public void setDateTimeCapitalization(Capitalization dateTimeCapitalization) {
+		this.dateTimeCapitalization = dateTimeCapitalization;
+	}
+	
+	public String getTimePattern() {
+		return timePattern;
+	}
+	
+    public void setTimePattern(String timePattern) {
+	    this.timePattern = timePattern;
+    }
 
 	public String getTimestampPattern() {
 		return timestampPattern;
@@ -120,6 +154,15 @@ public abstract class FormatHolder implements Patterns {
 		this.timestampPattern = pattern;
 	}
 
+	public Capitalization getTimestampCapitalization() {
+		return timestampCapitalization;
+	}
+	
+	public void setTimestampCapitalization(
+			Capitalization timestampCapitalization) {
+		this.timestampCapitalization = timestampCapitalization;
+	}
+	
 	public String getDecimalPattern() {
 		return decimalConverter.getPattern();
 	}
@@ -148,14 +191,6 @@ public abstract class FormatHolder implements Patterns {
 		if (decimalConverter == null)
 			decimalConverter = new NumberFormatter();
 		decimalConverter.setDecimalSeparator(separator);
-    }
-
-	public String getTimePattern() {
-		return timePattern;
-	}
-	
-    public void setTimePattern(String timePattern) {
-	    this.timePattern = timePattern;
     }
 
     public String getIntegralPattern() {

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -31,6 +31,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.databene.commons.Capitalization;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 
@@ -112,26 +113,40 @@ public class ToStringConverter extends FormatHolder implements Converter<Object,
         			return String.valueOf(value);
         	}
         } else if (source instanceof Timestamp) {
+        	String result;
         	if (timestampPattern != null)
-        		return new TimestampFormatter(timestampPattern).format((Timestamp) source);
+        		result = new TimestampFormatter(timestampPattern).format((Timestamp) source);
         	else
-        		return new TimestampFormatter().format((Timestamp) source);
+        		result = new TimestampFormatter().format((Timestamp) source);
+        	return applyCapitalization(timestampCapitalization, result);
         } else if (source instanceof Time) {
         	if (timePattern != null)
         		return new SimpleDateFormat(timePattern).format((Date) source);
         	else
         		return new SimpleDateFormat().format((Date) source);
         } else if (source instanceof Date) {
+        	String result;
         	if (datePattern != null)
-        		return new SimpleDateFormat(datePattern).format((Date) source);
+        		result = new SimpleDateFormat(datePattern).format((Date) source);
         	else
-        		return new SimpleDateFormat().format((Date) source);
+        		result = new SimpleDateFormat().format((Date) source);
+        	return applyCapitalization(dateCapitalization, result);
         } else {
 	        ConverterManager manager = ConverterManager.getInstance();
 			Converter converter = manager.createConverter(sourceType, String.class);
 	        return (String) converter.convert(source);
         }
     }
+
+	private String applyCapitalization(Capitalization capitalization, String text) {
+		if (text == null)
+			return null;
+		switch (capitalization) {
+			case upper: return text.toUpperCase();
+			case lower: return text.toLowerCase();
+			default:    return text;
+		}
+	}
 
 	public boolean isThreadSafe() {
 	    return true;
