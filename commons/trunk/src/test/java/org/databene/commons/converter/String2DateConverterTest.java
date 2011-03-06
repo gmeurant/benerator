@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,6 +27,7 @@
 package org.databene.commons.converter;
 
 import java.util.Date;
+import java.util.Locale;
 
 import org.junit.Test;
 import static junit.framework.Assert.*;
@@ -44,6 +45,14 @@ public class String2DateConverterTest extends ConverterTest {
 
 	public String2DateConverterTest() {
 	    super(String2DateConverter.class);
+    }
+
+	@Test
+    public void testExplicitConfig() {
+		String2DateConverter<Date> usConverter = new String2DateConverter<Date>("dd-MMM-yyyy", Locale.US);
+		assertEquals(TimeUtil.date(2010, 11, 31), usConverter.convert("31-DEC-2010"));
+		String2DateConverter<Date> deConverter = new String2DateConverter<Date>("dd-MMM-yyyy", Locale.GERMANY);
+		assertEquals(TimeUtil.date(2010, 11, 31), deConverter.convert("31-DEZ-2010"));
     }
 
 	@Test

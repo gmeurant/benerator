@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -31,6 +31,7 @@ import org.databene.commons.Patterns;
 import org.databene.commons.StringUtil;
 
 import java.util.Date;
+import java.util.Locale;
 import java.text.ParseException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -49,27 +50,42 @@ public class String2DateConverter<E extends Date> extends ThreadSafeConverter<St
     private static final String SECONDS = DEFAULT_DATETIME_SECONDS_PATTERN;
     private static final String MINUTES = DEFAULT_DATETIME_MINUTES_PATTERN;
     private static final String DATE    = DEFAULT_DATE_PATTERN;
+    
+	private String pattern;
+	private Locale locale;
 
-    @SuppressWarnings("unchecked")
     public String2DateConverter() {
-        this((Class<E>) java.util.Date.class);
+        this(null);
     }
 
-    public String2DateConverter(Class<E> targetType) {
+    public String2DateConverter(String pattern) {
+        this(pattern, Locale.getDefault());
+    }
+
+    @SuppressWarnings("unchecked")
+	public String2DateConverter(String pattern, Locale locale) {
+        this(pattern, locale, (Class<E>) java.util.Date.class);
+    }
+
+    public String2DateConverter(String pattern, Locale locale, Class<E> targetType) {
         super(String.class, targetType);
+        this.pattern = pattern;
+        this.locale = locale;
     }
 
     @SuppressWarnings("unchecked")
     public E convert(String sourceValue) {
-        return (E) convert(sourceValue, targetType);
+        return (E) convert(sourceValue, pattern, locale, targetType);
     }
 
-    public static <T extends Date> Date convert(String sourceValue, Class<T> targetType) {
+    public static <T extends Date> Date convert(String sourceValue, String pattern, Locale locale, Class<T> targetType) {
         if (StringUtil.isEmpty(sourceValue))
             return null;
         try {
             DateFormat format;
-            if (sourceValue.indexOf('T') < 0) {
+            if (pattern != null) {
+            	format = new SimpleDateFormat(pattern, locale);
+            } else if (sourceValue.indexOf('T') < 0) {
                 format = new SimpleDateFormat(DATE);
             } else {
                 switch (sourceValue.length()) {
