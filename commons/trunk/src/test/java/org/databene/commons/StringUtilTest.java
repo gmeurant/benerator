@@ -287,6 +287,7 @@ public class StringUtilTest {
     	assertEquals("'\\\"A\\rB\\nC\\tD\\\"'", StringUtil.escape("'\"A\rB\nC\tD\"'", false, true));
     	assertEquals("\\'\\\"A\\rB\\nC\\tD\\\"\\'", StringUtil.escape("'\"A\rB\nC\tD\"'", true, true));
     	assertEquals("\\f\\u000B", StringUtil.escape("\f\u000B"));
+    	assertEquals("\\u0007\\u0008", StringUtil.escape("\u0007\u0008")); // Non-Java escapes
     }
     
 	@Test
@@ -296,7 +297,8 @@ public class StringUtilTest {
     	assertEquals("ABCD", StringUtil.unescape("ABCD"));
     	assertEquals("'A\rB\nC\tD\"", StringUtil.unescape("\\'A\\rB\\nC\\tD\\\""));
     	assertEquals("C:\\temp", StringUtil.unescape("C:\\\\temp")); // testing bug #2879250
-    	// TODO assertEquals("\f\u000B", StringUtil.unescape("\\f\\u000B"));
+    	assertEquals("\f\u000Bxxx", StringUtil.unescape("\\f\\u000Bxxx"));
+    	assertEquals("\u0007\u0008", StringUtil.unescape("\\a\\b")); // Non-Java escapes
     }
     
 	@Test

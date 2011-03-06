@@ -36,11 +36,28 @@ import java.util.*;
  */
 public final class StringUtil {
 
-	private static final String CR = String.valueOf('\r');
-	private static final String LF = String.valueOf('\n');
-	private static final String TAB = String.valueOf('\t');
-	private static final String VT = String.valueOf('\u000B');
-	private static final String FF = String.valueOf('\f');
+	/** Bell character (BEL, 0x07) */
+	public static final String BEL = String.valueOf((char) 7);
+	
+	/** Backspace character (BS, 0x08) */
+	public static final String BS = String.valueOf((char) 8);
+
+	/** Horizontal Tab character (HT, 0x09) */
+	public static final String HT = String.valueOf('\t');
+
+	/** Line Feed character (LF, 0x0A) */
+	public static final String LF = String.valueOf('\n');
+
+	/** Vertical Tab character (VT, 0x0B) */
+	public static final String VT = String.valueOf('\u000B');
+
+	/**  character (FF, 0x0C) */
+	public static final String FF = String.valueOf('\f');
+
+	/**  character (CR, 0x0D) */
+	public static final String CR = String.valueOf('\r');
+	
+	
 	
     /**
      * Tells if a String is null or isEmpty.
@@ -571,9 +588,11 @@ public final class StringUtil {
 		if (text == null)
 			return null;
 		text = text.replace("\\", "\\\\"); // keep this first, otherwise all other escapes will be doubled
+		text = text.replace(BEL, "\\u0007");
+		text = text.replace(BS, "\\u0008");
 		text = text.replace(CR, "\\r");
 		text = text.replace(LF, "\\n");
-		text = text.replace(TAB, "\\t");
+		text = text.replace(HT, "\\t");
 		text = text.replace(VT, "\\u000B");
 		text = text.replace(FF, "\\f");
 		if (escapeSingleQuotes)
@@ -597,11 +616,17 @@ public final class StringUtil {
 			else if (i < text.length() - 1) {
 				c = text.charAt(++i);
 				switch (c) {
+					case 'a' : builder.append(BEL); break;
+					case 'b' : builder.append(BS); break;
 					case 'r' : builder.append(CR); break;
 					case 'n' : builder.append(LF); break;
-					case 't' : builder.append(TAB); break;
+					case 't' : builder.append(HT); break;
 					case 'f' : builder.append(FF); break;
-					// TODO support unicode characters , e.g. '\u000B' : builder.append(VT); break;
+					case 'u' : 
+						long n = Long.parseLong(text.substring(i + 1, i + 5), 16);
+						builder.append((char) n); 
+						i += 4; 
+						break;
 					default  : builder.append(c); break;
 				}
 			} else
