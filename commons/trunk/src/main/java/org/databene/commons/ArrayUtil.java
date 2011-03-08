@@ -300,6 +300,12 @@ public final class ArrayUtil {
     	return array[array.length - 1];
     }
 
+    public static Integer lastElement(int[] array) {
+    	if (array == null || array.length == 0)
+    		return -1;
+    	return array[array.length - 1];
+    }
+
 	public static boolean allNull(Object[] values) {
 		if (values == null)
 			return true;
