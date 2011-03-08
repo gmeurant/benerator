@@ -77,10 +77,7 @@ public class AwtFileChooser extends FileDialog implements FileChooser {
 	public File getSelectedFile() {
 		if (getFile() == null)
 			return null;
-		if (supportedTypes == FileTypeSupport.directoriesOnly)
-			return new File(getDirectory());
-		else
-			return new File(getDirectory(), getFile());
+		return new File(getDirectory(), getFile());
 	}
 
 }
