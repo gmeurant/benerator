@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -32,6 +32,8 @@ import java.util.List;
 
 import org.databene.commons.file.DirectoryFileFilter;
 import org.databene.commons.file.PatternFileFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * File Utility class.<br/>
@@ -41,6 +43,8 @@ import org.databene.commons.file.PatternFileFilter;
  * @author Volker Bergmann
  */
 public final class FileUtil {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(FileUtil.class);
 
     public static void ensureDirectoryExists(File directory) {
         if (directory != null && !directory.exists()) {
@@ -107,6 +111,27 @@ public final class FileUtil {
 			i = Math.max(i, filePath.lastIndexOf('/'));
 		return (i >= 0 ? filePath.substring(i + 1) : filePath);
     }
+
+	public static boolean equalContent(File file1, File file2) {
+		long length = file1.length();
+		if (length != file2.length())
+			return false;
+		try {
+			LOGGER.debug("Comparing content of " + file1 + " and " + file2);
+			InputStream in1 = new BufferedInputStream(new FileInputStream(file1));
+			InputStream in2 = new BufferedInputStream(new FileInputStream(file2));
+			for (long i = 0; i < length; i++) {
+				if (in1.read() != in2.read()) {
+					LOGGER.debug("files unequal");
+					return false;
+				}
+			}
+		} catch (IOException e) {
+			throw new RuntimeException("Error comparing " + file1 + " with " + file2, e);
+		}
+		LOGGER.debug("files equal");
+		return true;
+	}
 
 	// private helpers -------------------------------------------------------------------------------------------------
 
@@ -216,4 +241,5 @@ public final class FileUtil {
 		}
 		return builder.toString().trim();
 	}
+
 }
