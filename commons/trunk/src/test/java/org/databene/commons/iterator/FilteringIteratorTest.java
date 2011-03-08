@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -42,7 +42,7 @@ import org.databene.commons.iterator.FilteringIterator;
  * Created: 08.05.2007 19:03:28
  * @author Volker Bergmann
  */
-public class FilteringBidirectionalIteratorTest {
+public class FilteringIteratorTest {
 
 	@Test
     public void testNext() {
