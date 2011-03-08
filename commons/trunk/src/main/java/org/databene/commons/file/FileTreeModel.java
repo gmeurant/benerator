@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,7 +27,9 @@
 package org.databene.commons.file;
 
 import org.databene.commons.ArrayUtil;
+import org.databene.commons.Element;
 import org.databene.commons.TreeModel;
+import org.databene.commons.Visitor;
 
 import java.io.File;
 import java.util.Arrays;
@@ -39,7 +41,7 @@ import java.util.Comparator;
  * Created: 08.05.2007 17:55:54
  * @author Volker Bergmann
  */
-public class FileTreeModel implements TreeModel<File> {
+public class FileTreeModel implements TreeModel<File>, Element<File> {
 
     private File root;
     private Comparator<File> fileComparator;
@@ -91,5 +93,17 @@ public class FileTreeModel implements TreeModel<File> {
         	files = new File[0];
         return files;
     }
+
+	public void accept(Visitor<File> visitor) {
+		accept(visitor, root);
+	}
+
+	private void accept(Visitor<File> visitor, File file) {
+		visitor.visit(file);
+		if (file.isDirectory()) {
+			for (File child : file.listFiles())
+				accept(visitor, child);
+		}
+	}
 
 }
