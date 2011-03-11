@@ -148,14 +148,6 @@ public class StringCharacterIterator implements CharacterIterator {
         return source.substring(index);
     }
 
-	public String substring(int from, int to) {
-		return source.substring(from, to);
-	}
-
-	public String parsedSubstring(int from) {
-		return source.substring(from, index);
-	}
-
 	public void assertNext(char c) {
 		if (!hasNext())
 			throw new ParseException("Expected '" + c + "', but no more character is available", source, line, column);
