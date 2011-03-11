@@ -259,7 +259,13 @@ public final class ParseUtil {
         return true;
     }
 
-    // private helpers -------------------------------------------------------------------------------------------------
+	public static void skipWhiteSpace(String text, ParsePosition pos) {
+		int i;
+		while ((i = pos.getIndex()) < text.length() && Character.isWhitespace(text.charAt(i)))
+			pos.setIndex(i + 1);
+	}
+
+	// private helpers -------------------------------------------------------------------------------------------------
 
     private static void addPart(String partString, List<Object> parts, Boolean numMode) {
         Object part = (numMode ? new BigInteger(partString) : partString);
