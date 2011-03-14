@@ -64,7 +64,7 @@ public class VersionNumberParser extends Parser<VersionNumber>{
 			pos.setIndex(pos.getIndex() + 1);
 			return String.valueOf(c);
 		} else
-			return null;
+			return (Character.isLetterOrDigit(c) ? "" : null);
 	}
 
 	private VersionNumberComponent parseComponent(String number, ParsePosition pos) {
