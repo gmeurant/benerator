@@ -186,6 +186,18 @@ public final class TimeUtil {
         return calendar.get(Calendar.DAY_OF_MONTH) + 1;
     }
 
+    public static Date endOfMonth(Date date) {
+    	Calendar cal = calendar(date);
+    	cal.add(Calendar.MONTH, 1);
+    	cal.set(Calendar.DAY_OF_MONTH, 1);
+    	cal.add(Calendar.DATE, -1);
+    	cal.set(Calendar.HOUR, 0);
+    	cal.set(Calendar.MINUTE, 0);
+    	cal.set(Calendar.SECOND, 0);
+    	cal.set(Calendar.MILLISECOND, 0);
+    	return cal.getTime();
+    }
+    
     public static Date add(Date date, int field, int i) {
         Calendar calendar = calendar(date);
         calendar.add(field, i);

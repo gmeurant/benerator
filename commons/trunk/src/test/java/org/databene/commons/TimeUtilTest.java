@@ -44,6 +44,13 @@ import java.util.TimeZone;
 public class TimeUtilTest {
 
 	@Test
+	public void testEndOfMonth() {
+		assertEquals(TimeUtil.date(1970, 0, 31), TimeUtil.endOfMonth(TimeUtil.date(0)));
+		assertEquals(TimeUtil.date(2008, 1, 29), TimeUtil.endOfMonth(TimeUtil.date(2008, 1, 15)));
+		assertEquals(TimeUtil.date(2009, 1, 28), TimeUtil.endOfMonth(TimeUtil.date(2009, 1, 28)));
+	}
+	
+	@Test
     public void testMax() {
         Date now = new Date();
         Date later = new Date(now.getTime() + Period.DAY.getMillis());
