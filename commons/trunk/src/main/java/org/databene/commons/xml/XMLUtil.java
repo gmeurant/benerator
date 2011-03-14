@@ -365,7 +365,7 @@ public class XMLUtil {
     }
 
 	public static String getAttribute(Element element, String attributeName, boolean required) {
-		String value = element.getAttribute(attributeName);
+		String value = StringUtil.emptyToNull(element.getAttribute(attributeName));
 		if (value == null && required)
 			throw new IllegalArgumentException("Element '" + element.getNodeName() + "'" +
 					" is missing the required attribute '" + attributeName + "'");
