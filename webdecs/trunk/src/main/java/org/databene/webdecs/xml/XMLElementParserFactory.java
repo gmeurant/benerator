@@ -25,7 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.databene.commons.ArrayUtil;
-import org.databene.commons.ConfigurationError;
+import org.databene.commons.ParseException;
+import org.databene.commons.xml.XMLUtil;
 import org.w3c.dom.Element;
 
 /**
@@ -51,10 +52,11 @@ public class XMLElementParserFactory<E> {
 			if (parser.supports(element, parentPath))
 				return parser;
 		Object parent = (ArrayUtil.isEmpty(parentPath) ? null : ArrayUtil.lastElement(parentPath));
-		throw new ConfigurationError("Element '" + element.getNodeName() + 
+		String message = "Syntax Error: Element '" + element.getNodeName() + 
 			"' not supported " + (parent != null ? 
 				"in the context of a " + parent.getClass().getSimpleName() :
-				"as top level element"));
+				"as top level element");
+		throw new ParseException(message, XMLUtil.format(element));
 	}
 	
 }
