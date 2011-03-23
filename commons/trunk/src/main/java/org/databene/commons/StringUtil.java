@@ -388,6 +388,15 @@ public final class StringUtil {
         return new String(chars);
     }
 
+    public static String trimRight(String source) {
+        if (source == null)
+            return null;
+        int i = source.length() - 1;
+        while (i >= 0 && isWhitespace(source.charAt(i)))
+            i--;
+        return source.substring(0, i + 1);
+    }
+
     public static String trimRight(String source, char padChar) {
         if (source == null)
             return null;
