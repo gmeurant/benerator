@@ -1,0 +1,11 @@
+release notes databene webdecs 0.5.8
+------------------------------------
+
+
+Enhancements
+------------
+- generic version configuration and dependency verification
+
+
+Bug Fixes
+---------
