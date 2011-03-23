@@ -10,13 +10,6 @@
     	<commons_version>0.5.8</commons_version>
     </properties>
 
-<!--
-    <parent>
-        <groupId>databene</groupId>
-        <artifactId>databene.org</artifactId>
-        <version>1.0</version>
-    </parent>
--->
     <packaging>jar</packaging>
     <name>databene webdecs</name>
     <url>http://databene.org/databene-webdecs</url>
@@ -88,6 +81,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.14</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -113,8 +113,16 @@
                     <include>**/*.txt</include>
                 </includes>
                 <excludes>
-                    <exclude>**/log4j.xml</exclude>
+                    <exclude>**/version.properties</exclude>
                 </excludes>
+            </resource>
+
+            <resource>
+                <filtering>true</filtering>
+                <directory>${basedir}/src/main/resources</directory>
+                <includes>
+                    <include>**/version.properties</include>
+                </includes>
             </resource>
         </resources>
 
