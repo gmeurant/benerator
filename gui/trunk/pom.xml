@@ -26,7 +26,6 @@
     </licenses>
 
     <dependencies>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -40,6 +39,19 @@
             <version>${commons_version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.5.8</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.14</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -52,15 +64,26 @@
             </extension>
         </extensions>
         
-        <!--resources>
+        <resources>
             <resource>
+                <filtering>true</filtering>
+                <directory>${basedir}/src/main/resources</directory>
                 <includes>
-                    <include>**/*.csv</include>
-                    <include>**/*.xml</include>
-                    <include>**/*.properties</include>
+                    <include>**/version.properties</include>
                 </includes>
             </resource>
-        </resources-->
+        </resources>
+
+        <testResources>
+            <testResource>
+                <filtering>false</filtering>
+                <directory>${basedir}/src/test/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </testResource>
+        </testResources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
