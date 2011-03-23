@@ -110,7 +110,16 @@
                 <excludes>
                     <exclude>**/log4j.xml</exclude>
                     <exclude>dataset.dtd</exclude>
+                    <exclude>**/version.properties</exclude>
                 </excludes>
+            </resource>
+
+            <resource>
+                <filtering>true</filtering>
+                <directory>${basedir}/src/main/resources</directory>
+                <includes>
+                    <include>**/version.properties</include>
+                </includes>
             </resource>
         </resources>
 
