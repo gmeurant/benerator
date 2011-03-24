@@ -100,11 +100,11 @@ public class TimeUtilTest {
     
 	@Test
 	public void testYearsBetween() {
-		Date base = TimeUtil.date(2002, 2, 2);
-		Date oneLater = TimeUtil.date(2003, 2, 2);
-		assertEquals(1, TimeUtil.yearsBetween(base, oneLater));
-		Date lessThanOneLater = TimeUtil.date(2003, 2, 1);
-		assertEquals(0, TimeUtil.yearsBetween(base, lessThanOneLater));
+		Date base = TimeUtil.date(2008, 2, 24);
+		Date threeLater = TimeUtil.date(2011, 2, 24);
+		assertEquals(3, TimeUtil.yearsBetween(base, threeLater));
+		Date lessThanThreeLater = TimeUtil.date(2011, 2, 23);
+		assertEquals(2, TimeUtil.yearsBetween(base, lessThanThreeLater));
 	}
 	
 	@Test

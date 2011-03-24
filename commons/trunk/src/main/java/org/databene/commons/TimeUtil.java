@@ -219,7 +219,11 @@ public final class TimeUtil {
         Calendar fromCalendar = calendar(from);
         Calendar untilCalendar = calendar(until);
         int years = untilCalendar.get(Calendar.YEAR) - fromCalendar.get(Calendar.YEAR);
-        if (untilCalendar.get(Calendar.DAY_OF_YEAR) < fromCalendar.get(Calendar.DAY_OF_YEAR))
+        int month1 = untilCalendar.get(Calendar.MONTH);
+		int month2 = fromCalendar.get(Calendar.MONTH);
+		if (month1 < month2) // DAY_OF_YEAR comparison would fail in leap years 
+            years--;
+        else if (month1 == month2 && untilCalendar.get(Calendar.DAY_OF_MONTH) < fromCalendar.get(Calendar.DAY_OF_MONTH))
             years--;
         return years;
     }
