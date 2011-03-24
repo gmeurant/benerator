@@ -55,6 +55,8 @@ public class VersionInfo {
 	private String version;
 	private Map<String, String> dependencies;
 
+	private String buildNumber;
+
 	public static VersionInfo getInfo(String name) {
 		VersionInfo result = INSTANCES.get(name);
 		if (result == null) {
@@ -78,6 +80,10 @@ public class VersionInfo {
 		return version;
 	}
 	
+	public String getBuildNumber() {
+		return buildNumber;
+	}
+	
 	public Map<String, String> getDependencies() {
 		return dependencies;
 	}
@@ -85,6 +91,8 @@ public class VersionInfo {
 	public void verifyDependencies() {
 		for (Map.Entry<String, String> dependency : dependencies.entrySet()) {
 			String library = dependency.getKey();
+			if (library.equals("build_number"))
+				continue;
 			VersionNumber expectedVersion = VersionNumber.valueOf(dependency.getValue());
 			VersionNumber actualVersion = VersionNumber.valueOf(getInfo(library).getVersion());
 			if (actualVersion.compareTo(expectedVersion) < 0)
@@ -99,8 +107,14 @@ public class VersionInfo {
 	    	String versionFileName = VERSION_FILE_PATTERN.replace("{0}", versionInfo.name);
 	        if (IOUtil.isURIAvailable(versionFileName)) {			// This works in Maven, but...
 	    		Map<String, String> props = IOUtil.readProperties(versionFileName);
-	    		for (Entry<String, String> dependency : props.entrySet())
-	    			addDependency(dependency.getKey(), dependency.getValue(), versionInfo);
+	    		for (Entry<String, String> dependency : props.entrySet()) {
+	    			String dependencyName = dependency.getKey();
+					String dependencyVersion = dependency.getValue();
+					if ("build_number".equals(dependencyName))
+	    				versionInfo.buildNumber = dependencyVersion;
+	    			else
+	    				addDependency(dependencyName, dependencyVersion, versionInfo);
+	    		}
 	    		versionInfo.version = props.get(versionInfo.name + VERSION_SUFFIX);
 	        } else {
 	        	LOGGER.warn("Version number file not found, falling back to POM");
@@ -112,8 +126,14 @@ public class VersionInfo {
 	    		versionInfo.version = versionElement.getTextContent();
 	    		Element propsElement = XMLUtil.getChildElement(doc.getDocumentElement(), false, false, "properties");
 	    		if (propsElement != null)
-		    		for (Element childElement : XMLUtil.getChildElements(propsElement))
-						addDependency(childElement.getNodeName(), childElement.getTextContent(), versionInfo);
+		    		for (Element childElement : XMLUtil.getChildElements(propsElement)) {
+		    			String dependencyName = childElement.getNodeName();
+		    			String dependencyVersion = childElement.getTextContent();
+		    			if ("build_number".equals(dependencyName))
+		    				versionInfo.buildNumber = dependencyVersion;
+		    			else
+		    				addDependency(dependencyName, dependencyVersion, versionInfo);
+		    		}
 	        }
         } catch (IOException e) {
 	        LOGGER.error("Error reading version info file", e);
@@ -132,7 +152,7 @@ public class VersionInfo {
 	
 	@Override
 	public String toString() {
-		return name + ' ' + version;
+		return name + ' ' + version + (buildNumber == null || ("${buildNumber}".equals(buildNumber)) ? "" : " build " + buildNumber);
 	}
 
 }
