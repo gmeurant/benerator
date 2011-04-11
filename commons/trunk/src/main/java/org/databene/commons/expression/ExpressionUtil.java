@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -69,6 +69,10 @@ public class ExpressionUtil {
 	public static <T> Expression<T> constant(T value) {
 	    return new ConstantExpression<T>(value);
     }
+	
+	public Expression<String> unescape(Expression<String> source) {
+		return new UnescapingExpression(source);
+	}
 	
 	public static <T> Expression<T> simplify(Expression<T> expression, Context context) {
 		// TODO v0.5.x apply where appropriate
