@@ -46,4 +46,9 @@ public class StringExpression extends UnaryExpression<String> {
 		return (tmp instanceof String ? (String) tmp : converter.convert(tmp));
 	}
 	
+    @Override
+    public String toString() {
+    	return "(string) " + super.toString();
+    }
+    
 }

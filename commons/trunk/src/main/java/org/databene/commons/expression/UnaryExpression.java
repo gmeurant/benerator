@@ -48,4 +48,9 @@ public abstract class UnaryExpression<E> implements Expression<E> {
 	    return term.isConstant();
 	}
 	
+	@Override
+	public String toString() {
+		return term.toString();
+	}
+	
 }
