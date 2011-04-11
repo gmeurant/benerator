@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -41,9 +41,13 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 	
 	protected final String elementName;
 	protected final Set<Class<?>> supportedParentTypes;
+	protected Set<String> supportedAttributes;
 
-	public AbstractXMLElementParser(String elementName, Class<?>... supportedParentTypes) {
+
+
+	public AbstractXMLElementParser(String elementName, Set<String> supportedAttributes, Class<?>... supportedParentTypes) {
 		this.elementName = elementName;
+		this.supportedAttributes = supportedAttributes;
 		this.supportedParentTypes = CollectionUtil.toSet(supportedParentTypes);
 	}
 
@@ -52,6 +56,13 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 			return false;
 		return this.supportedParentTypes.isEmpty() || 
 			this.supportedParentTypes.contains(ArrayUtil.lastElement(parentPath).getClass());
+	}
+
+	protected void checkAttributeSupport(Element element) {
+		for (String attributeName : XMLUtil.getAttributes(element).keySet()) {
+			if (!supportedAttributes.contains(attributeName))
+				throw new ConfigurationError("<" + element.getNodeName() + "> does not support attribute '" + attributeName + "'");
+		}
 	}
 
 	protected static void assertElementName(String expectedName, Element element) {
