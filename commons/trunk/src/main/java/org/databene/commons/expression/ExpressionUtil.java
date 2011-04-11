@@ -71,7 +71,7 @@ public class ExpressionUtil {
     }
 	
 	public Expression<String> unescape(Expression<String> source) {
-		return new UnescapingExpression(source);
+		return new UnescapeExpression(source);
 	}
 	
 	public static <T> Expression<T> simplify(Expression<T> expression, Context context) {
