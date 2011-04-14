@@ -99,7 +99,7 @@ public class VersionInfo {
 				continue;
 			VersionNumber expectedVersion = VersionNumber.valueOf(dependency.getValue());
 			VersionNumber actualVersion = VersionNumber.valueOf(getInfo(library).getVersion());
-			if (actualVersion.compareTo(expectedVersion) < 0)
+			if (!VersionInfo.development && actualVersion.compareTo(expectedVersion) < 0)
 				throw new DeploymentError(this + " requires at least " + library + ' ' + expectedVersion + ", " +
 						"but found " + library + ' ' + actualVersion);
 		}
