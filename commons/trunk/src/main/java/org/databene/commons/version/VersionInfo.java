@@ -51,6 +51,8 @@ public class VersionInfo {
 	
 	private static final String VERSION_FILE_PATTERN = "org/databene/{0}/version.properties";
 
+	private static boolean development;
+	
 	private final String name;
 	private String version;
 	private Map<String, String> dependencies;
@@ -89,6 +91,8 @@ public class VersionInfo {
 	}
 	
 	public void verifyDependencies() {
+		if (VersionInfo.development)
+			return;
 		for (Map.Entry<String, String> dependency : dependencies.entrySet()) {
 			String library = dependency.getKey();
 			if (library.equals("build_number"))
@@ -117,10 +121,12 @@ public class VersionInfo {
 	    		}
 	    		versionInfo.version = props.get(versionInfo.name + VERSION_SUFFIX);
 	        } else {
-	        	LOGGER.warn("Version number file not found, falling back to POM");
+	        	LOGGER.warn("Version number file '" + versionFileName + "' not found, falling back to POM");
 	        }
 	        if (versionInfo.version.startsWith("${") || versionInfo.version.startsWith("<unknown")) { // ...in Eclipse no filtering is applied,...
-	        	LOGGER.warn("Version number has not been resolved, falling back to POM info"); // ...so I fetch it directly from the POM!
+	        	VersionInfo.development = true;
+	        	if (versionInfo.version.startsWith("${"))
+	        		LOGGER.warn("Version number has not been resolved, falling back to POM info"); // ...so I fetch it directly from the POM!
 	    		Document doc = XMLUtil.parse("pom.xml");
 	    		Element versionElement = XMLUtil.getChildElement(doc.getDocumentElement(), false, true, "version");
 	    		versionInfo.version = versionElement.getTextContent();
