@@ -5,6 +5,8 @@ release notes databene commons 0.5.8
 Enhancements
 ------------
 - generic version configuration and dependency verification
+- Debug switch, activatable by -Ddebug=true
+- Resource monitoring mechanism
 
 
 Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
