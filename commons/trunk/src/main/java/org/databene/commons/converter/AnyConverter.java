@@ -90,7 +90,7 @@ public class AnyConverter<E> extends FormatHolder implements Converter<Object, E
     		String timePattern, String timestampPattern) throws ConversionException {
         if (logger.isDebugEnabled())
             logger.debug("Converting " + source + (source != null ? " (" + source.getClass().getName() + ")" : "") + " to " + targetType);
-    	if (source == null || targetType.isAssignableFrom(source.getClass()))
+    	if (source == null || targetType.equals(source.getClass()))
     		return (TT) source;
         Converter converter = ConverterManager.getInstance().createConverter(source.getClass(), targetType);
 		return (TT) converter.convert(source);
