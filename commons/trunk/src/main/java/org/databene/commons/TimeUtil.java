@@ -152,8 +152,13 @@ public final class TimeUtil {
         return (date1.before(date2) ? date1 : date2);
     }
 
-    public static boolean between(long test, long firstTime, long lastTime) {
-        return test >= firstTime && test <= lastTime;
+    public static boolean between(long test, long min, long max) {
+        return (test >= min && test <= max);
+    }
+
+    public static boolean isNow(long time, long tolerance) {
+    	long now = System.currentTimeMillis();
+        return between(time, now - tolerance, now + tolerance);
     }
 
     public static String formatMillis(long t) {
