@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,9 +27,9 @@
 package org.databene.commons.iterator;
 
 import org.databene.commons.HeavyweightIterator;
+import org.databene.commons.HeavyweightTypedIterable;
 import org.databene.commons.IOUtil;
 import org.databene.commons.ReaderLineIterator;
-import org.databene.commons.TypedIterable;
 
 import java.io.IOException;
 
@@ -39,7 +39,7 @@ import java.io.IOException;
  * Created: 27.08.2007 19:13:40
  * @author Volker Bergmann
  */
-public class TextLineIterable implements TypedIterable<String> {
+public class TextLineIterable implements HeavyweightTypedIterable<String> {
 
     private String uri;
 
