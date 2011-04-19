@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,7 +28,7 @@ package org.databene.document.csv;
 
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.HeavyweightIterator;
-import org.databene.commons.TypedIterable;
+import org.databene.commons.HeavyweightTypedIterable;
 
 /**
  * Creates Iterators that iterate through the cells of a CSV file.<br/>
@@ -36,7 +36,7 @@ import org.databene.commons.TypedIterable;
  * Created: 01.09.2007 11:40:30
  * @author Volker Bergmann
  */
-public class CSVCellIterable implements TypedIterable<String> {
+public class CSVCellIterable implements HeavyweightTypedIterable<String> {
 
     private String uri;
     private char separator;

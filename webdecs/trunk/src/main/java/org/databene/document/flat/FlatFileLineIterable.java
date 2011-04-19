@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,7 +27,7 @@
 package org.databene.document.flat;
 
 import org.databene.commons.HeavyweightIterator;
-import org.databene.commons.TypedIterable;
+import org.databene.commons.HeavyweightTypedIterable;
 import org.databene.commons.format.PadFormat;
 
 import java.io.IOException;
@@ -38,7 +38,7 @@ import java.io.IOException;
  * Created: 27.08.2007 19:16:26
  * @author Volker Bergmann
  */
-public class FlatFileLineIterable implements TypedIterable<String[]> {
+public class FlatFileLineIterable implements HeavyweightTypedIterable<String[]> {
 
     private String uri;
     private PadFormat[] formats;

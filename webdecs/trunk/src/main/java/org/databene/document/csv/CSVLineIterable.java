@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,7 +28,7 @@ package org.databene.document.csv;
 
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.HeavyweightIterator;
-import org.databene.commons.TypedIterable;
+import org.databene.commons.HeavyweightTypedIterable;
 
 import java.io.IOException;
 
@@ -37,7 +37,7 @@ import java.io.IOException;
  * <br/>
  * Created: 31.08.2007 18:45:57
  */
-public class CSVLineIterable implements TypedIterable<String[]> {
+public class CSVLineIterable implements HeavyweightTypedIterable<String[]> {
 
     private String uri;
     private char separator;
