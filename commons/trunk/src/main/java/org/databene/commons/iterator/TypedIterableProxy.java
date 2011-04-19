@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,20 +28,21 @@ package org.databene.commons.iterator;
 
 import java.util.Iterator;
 
-import org.databene.commons.TypedIterable;
+import org.databene.commons.HeavyweightIterator;
+import org.databene.commons.HeavyweightTypedIterable;
 
 /**
- * Iterable proxy that adds type information to an untyped Iterable.<br/>
+ * {@link Iterable} proxy that wraps an untyped Iterable and adds type information.<br/>
  * <br/>
  * Created: 02.09.2007 23:29:10
  * @author Volker Bergmann
  */
-public class DefaultTypedIterable<E> implements TypedIterable<E> {
+public class TypedIterableProxy<E> implements HeavyweightTypedIterable<E> {
 
     private Class<E> type;
     private Iterable<E> iterable;
 
-    public DefaultTypedIterable(Class<E> type, Iterable<E> iterable) {
+    public TypedIterableProxy(Class<E> type, Iterable<E> iterable) {
         this.type = type;
         this.iterable = iterable;
     }
@@ -50,8 +51,9 @@ public class DefaultTypedIterable<E> implements TypedIterable<E> {
         return type;
     }
 
-    public Iterator<E> iterator() {
-        return iterable.iterator();
+    public HeavyweightIterator<E> iterator() {
+        Iterator<E> iterator = iterable.iterator();
+    	return new HeavyweightIteratorProxy<E>(iterator);
     }
     
     @Override
