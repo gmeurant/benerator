@@ -237,10 +237,19 @@ public final class CollectionUtil {
     }
 
 	@SuppressWarnings("unchecked")
-	public static <S, T extends S> List<T> extractItemsOfType(Class<T> itemType, Collection<S> items) {
+	public static <S, T extends S> List<T> extractItemsOfExactType(Class<T> itemType, Collection<S> items) {
 		List<T> result = new ArrayList<T>();
 		for (S item : items)
 			if (itemType == item.getClass())
+				result.add((T) item);
+		return result;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <S, T extends S> List<T> extractItemsOfCompatibleType(Class<T> itemType, Collection<S> items) {
+		List<T> result = new ArrayList<T>();
+		for (S item : items)
+			if (itemType.isAssignableFrom(item.getClass()))
 				result.add((T) item);
 		return result;
 	}
