@@ -294,13 +294,13 @@ public final class ArrayUtil {
         return (values == null || values.length == 0);
     }
 
-    public static <T> T lastElement(T[] array) {
+    public static <T> T lastElement(T[] array) { // TODO rename to lastElementOf
     	if (isEmpty(array))
     		return null;
     	return array[array.length - 1];
     }
 
-    public static Integer lastElement(int[] array) {
+    public static Integer lastElement(int[] array) { // TODO rename to lastElementOf
     	if (array == null || array.length == 0)
     		return -1;
     	return array[array.length - 1];
