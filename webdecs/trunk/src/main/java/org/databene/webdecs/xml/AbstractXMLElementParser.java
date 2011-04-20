@@ -21,13 +21,16 @@
 
 package org.databene.webdecs.xml;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import org.databene.commons.ArrayFormat;
 import org.databene.commons.ArrayUtil;
 import org.databene.commons.CollectionUtil;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.StringUtil;
+import org.databene.commons.SyntaxError;
 import org.databene.commons.xml.XMLUtil;
 import org.w3c.dom.Element;
 
@@ -41,33 +44,80 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 	
 	protected final String elementName;
 	protected final Set<Class<?>> supportedParentTypes;
-	protected Set<String> supportedAttributes;
+	protected Set<String> requiredAttributes;
+	protected Set<String> optionalAttributes;
 
-
-
-	public AbstractXMLElementParser(String elementName, Set<String> supportedAttributes, Class<?>... supportedParentTypes) {
+	public AbstractXMLElementParser(String elementName, 
+			Set<String> requiredAttributes, 
+			Set<String> optionalAttributes, 
+			Class<?>... supportedParentTypes) {
 		this.elementName = elementName;
-		this.supportedAttributes = supportedAttributes;
+		this.requiredAttributes = (requiredAttributes != null ? requiredAttributes : Collections.<String>emptySet());
+		this.optionalAttributes = (optionalAttributes != null ? optionalAttributes : Collections.<String>emptySet());
 		this.supportedParentTypes = CollectionUtil.toSet(supportedParentTypes);
 	}
 
 	public boolean supports(Element element, E[] parentPath) {
 		if (!this.elementName.equals(element.getNodeName()))
 			return false;
-		return this.supportedParentTypes.isEmpty() || 
+		return CollectionUtil.isEmpty(this.supportedParentTypes) || parentPath == null ||
 			this.supportedParentTypes.contains(ArrayUtil.lastElement(parentPath).getClass());
 	}
+	
+	public final E parse(Element element, E[] parentPath, org.databene.webdecs.xml.ParseContext<E> context) {
+		checkAttributeSupport(element);
+		return doParse(element, parentPath, context);
+	}
+
+	protected abstract E doParse(Element element, E[] parentPath, ParseContext<E> context);
 
 	protected void checkAttributeSupport(Element element) {
-		for (String attributeName : XMLUtil.getAttributes(element).keySet()) {
-			if (!supportedAttributes.contains(attributeName))
-				throw new ConfigurationError("<" + element.getNodeName() + "> does not support attribute '" + attributeName + "'");
+		for (String attribute : XMLUtil.getAttributes(element).keySet()) {
+			if (!requiredAttributes.contains(attribute) && !optionalAttributes.contains(attribute))
+				syntaxError("attribute '" + attribute + "' is not supported", element);
+		}
+		for (String requiredAttribute : requiredAttributes) {
+			if (StringUtil.isEmpty(element.getAttribute(requiredAttribute)))
+				syntaxError("Required attribute '" + requiredAttribute + "' is missing", element);
 		}
 	}
 
 	protected static void assertElementName(String expectedName, Element element) {
 		if (!element.getNodeName().equals(expectedName))
-			throw new ConfigurationError("Expected element name '" + expectedName + "', found: '" + element.getNodeName());
+			throw new RuntimeException("Expected element name '" + expectedName + "', " +
+					"found: '" + element.getNodeName());
+	}
+
+	protected void excludeAttributes(Element element, String... attributeNames) {
+		String usedAttribute = null;
+		for (String attributeName : attributeNames) {
+			if (!StringUtil.isEmpty(element.getAttribute(attributeName))) {
+				if (usedAttribute == null)
+					usedAttribute = attributeName;
+				else
+					syntaxError("The attributes '" + usedAttribute + "' and '" + attributeName + "' " +
+							"exclude each other", element);
+			}
+		}
+	}
+
+	protected void assertAtLeastOneAttributeIsSet(Element element, String... attributeNames) {
+		boolean ok = false;
+		for (String attributeName : attributeNames)
+			if (!StringUtil.isEmpty(element.getAttribute(attributeName)))
+				ok = true;
+		if (!ok)
+			syntaxError("At least one of these attributes must be set: " + ArrayFormat.format(attributeNames), element);
+	}
+
+	protected void assertAttributeIsSet(Element element, String attributeName) {
+		if (StringUtil.isEmpty(element.getAttribute(attributeName)))
+			syntaxError("Attribute '" + attributeName + "' is missing", element);
+	}
+
+	protected void assertAttributeIsNotSet(Element element, String attributeName) {
+		if (!StringUtil.isEmpty(element.getAttribute(attributeName)))
+			syntaxError("Attributes '" + attributeName + "' must not be set", element);
 	}
 
 	protected Object parent(E[] parentPath) {
@@ -80,7 +130,7 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 	protected static String parseRequiredName(Element element) {
 		String name = parseOptionalName(element);
 		if (StringUtil.isEmpty(name))
-			throw new ConfigurationError("No 'name' attribute specified in element " + XMLUtil.format(element));
+			syntaxError("'name' attribute is missing", element);
 		return name;
 	}
 
@@ -91,7 +141,7 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 	public static String getRequiredAttribute(String name, Element element) {
 		String value = getOptionalAttribute(name, element);
 		if (value == null)
-			throw new ConfigurationError("'" + name + "' attribute expected in element " + XMLUtil.format(element));
+			syntaxError("'" + name + "' attribute expected", element);
 		return value;
 	}
 
@@ -106,4 +156,8 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
         }
     }
 
+	protected static void syntaxError(String message, Element element) {
+		throw new SyntaxError(message, XMLUtil.format(element));
+	}
+	
 }
