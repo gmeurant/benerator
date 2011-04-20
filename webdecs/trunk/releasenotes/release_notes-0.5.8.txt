@@ -5,6 +5,7 @@ release notes databene webdecs 0.5.8
 Enhancements
 ------------
 - generic version configuration and dependency verification
+- Improved syntax checking and error messaging in AbstractXMLElementParser
 
 
 Bug Fixes
