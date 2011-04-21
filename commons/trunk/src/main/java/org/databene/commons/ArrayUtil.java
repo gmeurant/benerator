@@ -290,8 +290,8 @@ public final class ArrayUtil {
         }
     }
 
-    public static boolean isEmpty(Object[] values) {
-        return (values == null || values.length == 0);
+    public static boolean isEmpty(Object values) {
+        return (values == null || Array.getLength(values) == 0);
     }
 
     public static <T> T lastElement(T[] array) { // TODO rename to lastElementOf
