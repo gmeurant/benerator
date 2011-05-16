@@ -184,6 +184,10 @@ public final class FileUtil {
 		PatternFileFilter filter = new PatternFileFilter(regex, acceptingFiles, acceptingFolders);
 		return addFilenames(dir, filter, recursive, new ArrayList<File>());
     }
+
+	public static String relativePath(File fromFile, File toFile) {
+		return relativePath(fromFile, toFile, File.separatorChar);
+	}
 	
 	public static String relativePath(File fromFile, File toFile, char separator) {
 		File fromFolder = (fromFile.isDirectory() ? fromFile : fromFile.getParentFile());
