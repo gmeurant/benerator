@@ -32,6 +32,8 @@ import org.databene.commons.ConfigurationError;
 import org.databene.commons.StringUtil;
 import org.databene.commons.SyntaxError;
 import org.databene.commons.xml.XMLUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
 /**
@@ -41,6 +43,8 @@ import org.w3c.dom.Element;
  * @author Volker Bergmann
  */
 public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E> {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractXMLElementParser.class);
 	
 	protected final String elementName;
 	protected final Set<Class<?>> supportedParentTypes;
@@ -157,7 +161,11 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
     }
 
 	protected static void syntaxError(String message, Element element) {
-		throw new SyntaxError(message, XMLUtil.format(element));
+		throw new SyntaxError("Syntax error: " + message, XMLUtil.format(element));
+	}
+	
+	protected static void syntaxWarning(String message, Element element) {
+		LOGGER.error("Syntax error: " + message + " in " + XMLUtil.format(element));
 	}
 	
 }
