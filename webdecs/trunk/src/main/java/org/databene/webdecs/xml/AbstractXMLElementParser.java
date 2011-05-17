@@ -165,7 +165,7 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 	}
 	
 	protected static void syntaxWarning(String message, Element element) {
-		LOGGER.error("Syntax error: " + message + " in " + XMLUtil.format(element));
+		LOGGER.warn("Syntax warning: " + message + " in " + XMLUtil.format(element));
 	}
 	
 }
