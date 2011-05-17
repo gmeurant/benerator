@@ -625,6 +625,8 @@ public final class StringUtil {
 			else if (i < text.length() - 1) {
 				c = text.charAt(++i);
 				switch (c) {
+					case '\'' : builder.append('\''); break;
+					case '"' : builder.append('"'); break;
 					case 'a' : builder.append(BEL); break;
 					case 'b' : builder.append(BS); break;
 					case 'r' : builder.append(CR); break;

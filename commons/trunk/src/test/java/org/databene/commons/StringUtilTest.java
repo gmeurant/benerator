@@ -294,6 +294,7 @@ public class StringUtilTest {
     public void testUnescape() {
     	assertEquals(null, StringUtil.unescape(null));
     	assertEquals("", StringUtil.unescape(""));
+    	assertEquals("'\"", StringUtil.unescape("\\'\\\"")); // Java quote escapes
     	assertEquals("ABCD", StringUtil.unescape("ABCD"));
     	assertEquals("'A\rB\nC\tD\"", StringUtil.unescape("\\'A\\rB\\nC\\tD\\\""));
     	assertEquals("C:\\temp", StringUtil.unescape("C:\\\\temp")); // testing bug #2879250
