@@ -627,6 +627,8 @@ public final class StringUtil {
 				switch (c) {
 					case '\'' : builder.append('\''); break;
 					case '"' : builder.append('"'); break;
+					case '{' : builder.append('{'); break;
+					case '}' : builder.append('}'); break;
 					case 'a' : builder.append(BEL); break;
 					case 'b' : builder.append(BS); break;
 					case 'r' : builder.append(CR); break;
