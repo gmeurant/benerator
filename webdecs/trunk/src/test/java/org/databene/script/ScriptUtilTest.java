@@ -64,6 +64,14 @@ public class ScriptUtilTest {
 		assertEquals("ftl", ScriptUtil.getCommonScriptEngine("{ftl:alpha}", "{ftl:${n}}", "{ftl:\r\n}"));
 	}
 	
+	@Test
+	public void testIsScript() {
+		assertTrue(ScriptUtil.isScript("{''}"));
+		assertTrue(ScriptUtil.isScript(" { '' } "));
+		assertFalse(ScriptUtil.isScript("{sdfw"));
+		assertFalse(ScriptUtil.isScript("sdfw}"));
+	}
+	
     public class XyzScriptFactory implements ScriptFactory {
 	    public Script parseText(String text) throws ParseException { return null; }
 	    public Script readFile(String uri) throws ParseException { return null; }

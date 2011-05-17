@@ -100,9 +100,10 @@ public class ScriptUtil {
 */
 
     public static Object evaluate(String text, Context context) {
-		if (text.startsWith("{{") && text.endsWith("}}"))
-            return text.substring(1, text.length() - 1);
-        else if (isScript(text)) {
+    	String trimmedText = text.trim();
+		if (trimmedText.startsWith("{{") && trimmedText.endsWith("}}"))
+            return trimmedText.substring(1, trimmedText.length() - 1);
+        else if (isScript(trimmedText)) {
             Script script = parseUnspecificText(text);
             return execute(script, context);
         } else
@@ -141,7 +142,8 @@ public class ScriptUtil {
 	public static boolean isScript(String text) {
 		if (StringUtil.isEmpty(text))
 			return false;
-	    return text.startsWith("{") && text.endsWith("}");
+		String trimmedText = text.trim();
+	    return trimmedText.startsWith("{") && trimmedText.endsWith("}");
     }
 
     public static Script parseScriptText(String text) {
