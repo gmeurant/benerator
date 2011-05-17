@@ -44,10 +44,17 @@ import java.util.TimeZone;
 public class TimeUtilTest {
 
 	@Test
-	public void testEndOfMonth() {
-		assertEquals(TimeUtil.date(1970, 0, 31), TimeUtil.endOfMonth(TimeUtil.date(0)));
-		assertEquals(TimeUtil.date(2008, 1, 29), TimeUtil.endOfMonth(TimeUtil.date(2008, 1, 15)));
-		assertEquals(TimeUtil.date(2009, 1, 28), TimeUtil.endOfMonth(TimeUtil.date(2009, 1, 28)));
+	public void testFirstDayOfMonth() {
+		assertEquals(TimeUtil.date(1970, 0, 1), TimeUtil.firstDayOfMonth(TimeUtil.date(0)));
+		assertEquals(TimeUtil.date(2008, 1, 1), TimeUtil.firstDayOfMonth(TimeUtil.date(2008, 1, 15)));
+		assertEquals(TimeUtil.date(2009, 1, 1), TimeUtil.firstDayOfMonth(TimeUtil.date(2009, 1, 28)));
+	}
+	
+	@Test
+	public void testLastDayOfMonth() {
+		assertEquals(TimeUtil.date(1970, 0, 31), TimeUtil.lastDayOfMonth(TimeUtil.date(0)));
+		assertEquals(TimeUtil.date(2008, 1, 29), TimeUtil.lastDayOfMonth(TimeUtil.date(2008, 1, 15)));
+		assertEquals(TimeUtil.date(2009, 1, 28), TimeUtil.lastDayOfMonth(TimeUtil.date(2009, 1, 28)));
 	}
 	
 	@Test

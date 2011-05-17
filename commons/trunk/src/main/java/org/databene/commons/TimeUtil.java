@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -191,11 +191,21 @@ public final class TimeUtil {
         return calendar.get(Calendar.DAY_OF_MONTH) + 1;
     }
 
-    public static Date endOfMonth(Date date) {
+    public static Date lastDayOfMonth(Date date) {
     	Calendar cal = calendar(date);
     	cal.add(Calendar.MONTH, 1);
     	cal.set(Calendar.DAY_OF_MONTH, 1);
     	cal.add(Calendar.DATE, -1);
+    	cal.set(Calendar.HOUR, 0);
+    	cal.set(Calendar.MINUTE, 0);
+    	cal.set(Calendar.SECOND, 0);
+    	cal.set(Calendar.MILLISECOND, 0);
+    	return cal.getTime();
+    }
+    
+    public static Date firstDayOfMonth(Date date) {
+    	Calendar cal = calendar(date);
+    	cal.set(Calendar.DAY_OF_MONTH, 1);
     	cal.set(Calendar.HOUR, 0);
     	cal.set(Calendar.MINUTE, 0);
     	cal.set(Calendar.SECOND, 0);
