@@ -599,7 +599,11 @@ public final class BeanUtil {
             for (int i = 0; i < args.length; i++)
                 argTypes[i] = (args[i] != null ? args[i].getClass() : null);
         }
-        Method method = getMethod(target.getClass(), methodName, argTypes);
+        Method method;
+        if (target instanceof Class)
+        	method = getMethod((Class) target, methodName, argTypes);
+        else
+        	method = getMethod(target.getClass(), methodName, argTypes);
         return invoke(target, method, strict, args);
     }
 
