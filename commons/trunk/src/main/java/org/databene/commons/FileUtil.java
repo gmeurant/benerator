@@ -212,7 +212,7 @@ public final class FileUtil {
 				builder.append(".");
 			return builder.toString();
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException("Error occurred while calculating relative path from " + fromFile + " to " + toFile + ": ", e);
 		}
 	}
 
