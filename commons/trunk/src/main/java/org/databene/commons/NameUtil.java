@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -58,5 +58,19 @@ public class NameUtil {
     public static <T extends Named> void orderByName(List<T> objects) {
     	Collections.sort(objects, new NameComparator());
     }
+
+	public static int indexOf(String name, List<? extends Named> objects) {
+		for (int i = 0; i < objects.size(); i++)
+			if (name.equals(objects.get(i).getName()))
+				return i;
+		return -1;
+	}
+
+	public static int indexOf(String name, Named[] objects) {
+		for (int i = 0; i < objects.length; i++)
+			if (name.equals(objects[i].getName()))
+				return i;
+		return -1;
+	}
 
 }

@@ -24,6 +24,7 @@ package org.databene.commons;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -46,6 +47,22 @@ public class NameUtilTest {
 		NameUtil.orderByName(array);
 		Named[] expected = new Named[] { AB, AC, A_B, A_C };
 		assertTrue(Arrays.equals(expected, array));
+	}
+	
+	@Test
+	public void testIndexOf_list() {
+		List<Named> list = CollectionUtil.toList(A_C, AC, A_B, AB);
+		assertEquals(-1, NameUtil.indexOf("XY", list));
+		assertEquals( 0, NameUtil.indexOf("A_C", list));
+		assertEquals( 3, NameUtil.indexOf("AB", list));
+	}
+	
+	@Test
+	public void testIndexOf_array() {
+		Named[] list = new Named[] { A_C, AC, A_B, AB };
+		assertEquals(-1, NameUtil.indexOf("XY", list));
+		assertEquals( 0, NameUtil.indexOf("A_C", list));
+		assertEquals( 3, NameUtil.indexOf("AB", list));
 	}
 	
 	private static final class X implements Named {
