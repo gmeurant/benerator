@@ -23,6 +23,20 @@
 		<module>../maven-benerator-plugin</module>
  	</modules>
  	
+    <developers>
+        <developer>
+            <name>Volker Bergmann</name>
+            <id>vbergmann</id>
+            <email>volker@databene.org</email>
+            <timezone>+1</timezone>
+            <roles>
+                <role>Project Founder</role>
+                <role>Architect</role>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
   <build>
     <plugins>
       <plugin>
