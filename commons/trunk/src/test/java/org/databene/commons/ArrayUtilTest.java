@@ -67,6 +67,14 @@ public class ArrayUtilTest {
     }
 
 	@Test
+    public void testRemoveAll() {
+        assertTrue(Arrays.equals(new Integer[] { 3, 4 }, ArrayUtil.removeAll(ONE_TWO, ONE_TO_FOUR)));
+        assertTrue(Arrays.equals(new Integer[0], ArrayUtil.removeAll(ONE_TO_FOUR, ONE_TO_FOUR)));
+        assertTrue(Arrays.equals(ONE_TWO, ArrayUtil.removeAll(new Integer[] { 3, 4 }, ONE_TO_FOUR)));
+        assertTrue(Arrays.equals(new Integer[] { 2, 3 }, ArrayUtil.removeAll(new Integer[] { 1, 4 }, ONE_TO_FOUR)));
+    }
+
+	@Test
     public void testContains() {
         assertTrue( ArrayUtil.contains(ONE_TO_THREE, 1));
         assertTrue( ArrayUtil.contains(ONE_TO_THREE, 2));

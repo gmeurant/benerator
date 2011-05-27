@@ -75,6 +75,15 @@ public final class ArrayUtil {
         return result;
     }
 
+	public static <T> T[] removeAll(T[] toRemove, T[] target) {
+        Class<T> componentType = componentType(target);
+		ArrayBuilder<T> builder = new ArrayBuilder<T>(componentType);
+		for (T element : target)
+			if (!contains(toRemove, element))
+				builder.add(element);
+		return builder.toArray();
+	}
+
     // containment check -----------------------------------------------------------------------------------------------
 
     /**
@@ -89,6 +98,13 @@ public final class ArrayUtil {
                 return true;
         return false;
     }
+
+	public static <T> boolean containsAll(T[] subArray, T[] superArray) {
+		for (T t : subArray)
+			if (!contains(superArray, t))
+				return false;
+		return true;
+	}
 
     public static int indexOf(byte[] subArray, byte[] array) {
         return indexOf(subArray, 0, array);
@@ -314,4 +330,5 @@ public final class ArrayUtil {
 				return false;
 	    return true;
     }
+
 }
