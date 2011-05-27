@@ -34,10 +34,12 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.IOUtil;
+import org.databene.commons.StringUtil;
 import org.databene.commons.SystemInfo;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
 
 /**
  * Writes XML to a stream. The interface is similar to {@link Transformer}, 
@@ -168,6 +170,18 @@ public class SimpleXMLWriter implements Closeable {
 		handler.startElement("", "", name, atts);
 	}
 
+	public void startElement(String name, String... attributeNameValues) throws SAXException {
+		AttributesImpl atts = null;
+		if (attributeNameValues != null && attributeNameValues.length > 0) {
+			if (attributeNameValues.length % 2 == 1)
+				throw new IllegalArgumentException("Even number of attribute name/name arguments required");
+			atts = new AttributesImpl();
+			for (int i = 0; i < attributeNameValues.length; i += 2)
+				addAttribute(attributeNameValues[i], attributeNameValues[i+1], atts);
+		}
+		handler.startElement("", "", name, atts);
+	}
+
 	public void startEntity(String name) throws SAXException {
 		handler.startEntity(name);
 	}
@@ -195,6 +209,19 @@ public class SimpleXMLWriter implements Closeable {
 		} finally {
 			IOUtil.close(out);
 		}
+	}
+
+	public static AttributesImpl createAttributes(String attributeName, String attributeValue) {
+		AttributesImpl atts = new AttributesImpl();
+		if (attributeValue != null)
+			addAttribute(attributeName, attributeValue, atts);
+		return atts;
+	}
+
+	public static AttributesImpl addAttribute(String name, String value, AttributesImpl atts) {
+		if (!StringUtil.isEmpty(value)) 
+			atts.addAttribute("", "", name, "CDATA", value);
+		return atts;
 	}
 
 }
