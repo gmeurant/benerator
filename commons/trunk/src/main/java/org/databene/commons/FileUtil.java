@@ -246,4 +246,24 @@ public final class FileUtil {
 		return builder.toString().trim();
 	}
 
+	public static File fileOfLimitedPathLength(File directory, String name, String suffix) {
+		return fileOfLimitedPathLength(directory, name, suffix, 255);
+	}
+	
+	public static File fileOfLimitedPathLength(File directory, String name, String suffix, int maxLength) {
+		try {
+			String parentPath;
+			parentPath = directory.getCanonicalPath();
+			int consumedLength = parentPath.length() + 1 + suffix.length();
+			int availableLength = maxLength - consumedLength;
+			if (availableLength <= 0)
+				throw new IllegalArgumentException("Parent path name to long: " + parentPath);
+			if (availableLength < name.length())
+				name = name.substring(0, availableLength);
+			return new File(directory, name + suffix);
+		} catch (IOException e) {
+			throw new IllegalArgumentException("Error composing file path", e);
+		}
+	}
+	
 }
