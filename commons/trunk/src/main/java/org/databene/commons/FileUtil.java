@@ -258,9 +258,14 @@ public final class FileUtil {
 			int availableLength = maxLength - consumedLength;
 			if (availableLength <= 0)
 				throw new IllegalArgumentException("Parent path name to long: " + parentPath);
-			if (availableLength < name.length())
-				name = name.substring(0, availableLength);
-			return new File(directory, name + suffix);
+			String prefix = name;
+			if (availableLength < prefix.length()) {
+				prefix = prefix.substring(0, availableLength);
+				LOGGER.warn("File name too long: {}, it was cut to {}",
+						parentPath + SystemInfo.getFileSeparator() + name + suffix,
+						parentPath + SystemInfo.getFileSeparator() + prefix + suffix);
+			}
+			return new File(directory, prefix + suffix);
 		} catch (IOException e) {
 			throw new IllegalArgumentException("Error composing file path", e);
 		}
