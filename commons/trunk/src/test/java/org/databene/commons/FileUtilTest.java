@@ -115,6 +115,23 @@ public class FileUtilTest {
 		assertEquals("b",    FileUtil.relativePath(new File("a/index.html"),   new File("a/b"), '/'));
 		assertEquals("../c", FileUtil.relativePath(new File("a/b/index.html"), new File("a/c"), '/'));
 	}
+	
+	@Test
+	public void testFileOfLimitedPathLength_valid() throws Exception {
+		File root = new File(SystemInfo.isWindows() ? "C:\\" : "/");
+		File normResult = FileUtil.fileOfLimitedPathLength(root, "testx", ".xml", root.getCanonicalPath().length() + 10);
+		assertEquals(root.getCanonicalPath() + "testx.xml", normResult.getCanonicalPath());
+		File cutResult = FileUtil.fileOfLimitedPathLength(root, "testx", ".xml", root.getCanonicalPath().length() + 9);
+		assertEquals(root.getCanonicalPath() + "test.xml", cutResult.getCanonicalPath());
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testFileOfLimitedPathLength_invalid() throws Exception {
+		File root = new File((SystemInfo.isWindows() ? "C:\\" : "/") + "01234567890123456789");
+		FileUtil.fileOfLimitedPathLength(root, "test", ".xml", 10);
+	}
+	
+	// test helpers ----------------------------------------------------------------------------------------------------
 
 	private void check(String regex, boolean acceptingFiles, boolean acceptingFolders, boolean recursive, 
 			File... expectedResult) {
