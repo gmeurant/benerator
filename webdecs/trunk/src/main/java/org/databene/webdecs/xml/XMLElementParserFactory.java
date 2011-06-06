@@ -51,7 +51,7 @@ public class XMLElementParserFactory<E> {
 		for (XMLElementParser<E> parser : parsers)
 			if (parser.supports(element, parentPath))
 				return parser;
-		Object parent = (ArrayUtil.isEmpty(parentPath) ? null : ArrayUtil.lastElement(parentPath));
+		Object parent = (ArrayUtil.isEmpty(parentPath) ? null : ArrayUtil.lastElementOf(parentPath));
 		String message = "Syntax Error: Element '" + element.getNodeName() + 
 			"' not supported " + (parent != null ? 
 				"in the context of a " + parent.getClass().getSimpleName() :

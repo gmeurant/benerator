@@ -73,7 +73,7 @@ public class ParseContext<E> {
 		if (parentPath == null)
 			return ArrayUtil.buildArrayOfType(pathComponentType, currentObject);
 		else
-			return ArrayUtil.append(parentPath, currentObject);
+			return ArrayUtil.append(currentObject, parentPath);
 	}
 
 }

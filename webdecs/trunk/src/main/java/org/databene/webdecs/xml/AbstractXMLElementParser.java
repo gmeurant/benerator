@@ -65,7 +65,7 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 		if (!this.elementName.equals(element.getNodeName()))
 			return false;
 		return CollectionUtil.isEmpty(this.supportedParentTypes) || parentPath == null ||
-			this.supportedParentTypes.contains(ArrayUtil.lastElement(parentPath).getClass());
+			this.supportedParentTypes.contains(ArrayUtil.lastElementOf(parentPath).getClass());
 	}
 	
 	public final E parse(Element element, E[] parentPath, org.databene.webdecs.xml.ParseContext<E> context) {
@@ -128,7 +128,7 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 		if (ArrayUtil.isEmpty(parentPath))
 			return null;
 		else
-			return ArrayUtil.lastElement(parentPath);
+			return ArrayUtil.lastElementOf(parentPath);
 	}
 
 	protected static String parseRequiredName(Element element) {
