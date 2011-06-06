@@ -21,20 +21,32 @@
 
 package org.databene.commons.debug;
 
+import static org.junit.Assert.*;
+
+import org.databene.commons.SysUtil;
+import org.junit.Test;
+
 /**
- * Gives access to environment settings related to debugging.<br/><br/>
- * Created: 14.04.2011 18:22:23
+ * Tests the {@link Debug} class.<br/><br/>
+ * Created: 06.06.2011 11:00:28
  * @since 0.5.8
  * @author Volker Bergmann
  */
-public class Debug {
+public class DebugTest {
+
+	@Test
+	public void testInactive() {
+		assertFalse(Debug.active());
+	}
 	
-	private static final String SYSTEM_PROPERTY = "debug";
-	
-	private Debug() { }
-	
-	public static boolean active() {
-		return (System.getProperty(SYSTEM_PROPERTY) != null);
+	@Test
+	public void testActive() {
+		System.setProperty("xyz", "");
+		SysUtil.runWithSystemProperty("debug", "", new Runnable() {
+			public void run() {
+				assertTrue(Debug.active());
+			}
+		});
 	}
 	
 }
