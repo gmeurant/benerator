@@ -27,7 +27,7 @@ package org.databene.commons;
  * @since 0.5.8
  * @author Volker Bergmann
  */
-public enum Scale { // TODO rename to BinaryScale
+public enum BinaryScale {
 
 	TERA(1099511627776L, "T"), 
 	GIGA(1073741824L, "G"),
@@ -38,7 +38,7 @@ public enum Scale { // TODO rename to BinaryScale
 	private double factor;
 	private String designator;
 
-	private Scale(double factor, String designator) {
+	private BinaryScale(double factor, String designator) {
 		this.factor = factor;
 		this.designator = designator;
 	}

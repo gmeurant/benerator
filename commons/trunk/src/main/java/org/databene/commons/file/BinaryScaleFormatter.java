@@ -23,7 +23,7 @@ package org.databene.commons.file;
 
 import java.text.DecimalFormat;
 
-import org.databene.commons.Scale;
+import org.databene.commons.BinaryScale;
 
 /**
  * Formats a number in a human-friendly manner, e.g. a file size in megabytes.<br/><br/>
@@ -31,13 +31,15 @@ import org.databene.commons.Scale;
  * @since 0.5.8
  * @author Volker Bergmann
  */
-public class FileSizeFormatter { // TODO rename to BinaryScaleFormatter
+public class BinaryScaleFormatter {
 	
-	private Scale scale;
+	private BinaryScale scale;
 	private DecimalFormat numberFormat;
+	private String unit;
 	
-	public FileSizeFormatter(Scale scale) {
+	public BinaryScaleFormatter(BinaryScale scale, String unit) {
 		this.scale = scale;
+		this.unit = unit;
 		this.numberFormat = new DecimalFormat();
 		setGroupingUsed(true);
 	}
@@ -46,28 +48,28 @@ public class FileSizeFormatter { // TODO rename to BinaryScaleFormatter
 		this.numberFormat.setGroupingUsed(groupingUsed);
 	}
 	
-	public String format(long fileSize) { // TODO rename parameter 
+	public String format(long number) { 
 		if (scale != null)
-			return applyScale(scale, fileSize);
+			return applyScale(scale, number);
 		else
-			return applyAutoScale(fileSize);
+			return applyAutoScale(number);
 	}
 
-	private String applyScale(Scale scale, long fileSize) { // TODO rename parameter
-		return numberFormat.format(Math.floor((fileSize + scale.getFactor() - 1) / scale.getFactor())) + " " + scale.getDesignator() + "B";
+	private String applyScale(BinaryScale scale, long number) {
+		return numberFormat.format(Math.floor((number + scale.getFactor() - 1) / scale.getFactor())) + " " + scale.getDesignator() + unit;
 	}
 
-	private String applyAutoScale(long fileSize) { // TODO rename parameter
-		if (fileSize >= 10 * Scale.TERA.getFactor())
-			return applyScale(Scale.TERA, fileSize);
-		else if (fileSize >= 10 * Scale.GIGA.getFactor())
-			return applyScale(Scale.GIGA, fileSize);
-		else if (fileSize >= 10 * Scale.MEGA.getFactor())
-			return applyScale(Scale.MEGA, fileSize);
-		else if (fileSize >= 10 * Scale.KILO.getFactor())
-			return applyScale(Scale.KILO, fileSize);
+	private String applyAutoScale(long number) {
+		if (number >= 10 * BinaryScale.TERA.getFactor())
+			return applyScale(BinaryScale.TERA, number);
+		else if (number >= 10 * BinaryScale.GIGA.getFactor())
+			return applyScale(BinaryScale.GIGA, number);
+		else if (number >= 10 * BinaryScale.MEGA.getFactor())
+			return applyScale(BinaryScale.MEGA, number);
+		else if (number >= 10 * BinaryScale.KILO.getFactor())
+			return applyScale(BinaryScale.KILO, number);
 		else 
-			return applyScale(Scale.NONE, fileSize);
+			return applyScale(BinaryScale.NONE, number);
 	}
 
 }
