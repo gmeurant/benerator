@@ -27,9 +27,9 @@ import org.databene.commons.comparator.IntComparator;
 import org.junit.Test;
 
 /**
- * TODO Document class.<br/><br/>
+ * Tests the {@link Interval} class.<br/><br/>
  * Created: 10.03.2011 15:28:39
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class IntervalTest {

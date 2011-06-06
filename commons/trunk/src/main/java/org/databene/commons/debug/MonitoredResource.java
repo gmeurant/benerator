@@ -24,9 +24,10 @@ package org.databene.commons.debug;
 import org.databene.commons.SystemInfo;
 
 /**
- * TODO Document class.<br/><br/>
+ * Wrapper class for resources that are monitored.
+ * It stores the monitored object itself and its allocation stack trace.<br/><br/>
  * Created: 14.04.2011 17:22:56
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class MonitoredResource {

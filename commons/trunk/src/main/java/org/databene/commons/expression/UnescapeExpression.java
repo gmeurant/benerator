@@ -26,9 +26,9 @@ import org.databene.commons.Expression;
 import org.databene.commons.StringUtil;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link Expression} proxy which unescapes the output of its source.<br/><br/>
  * Created: 11.04.2011 14:12:16
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class UnescapeExpression extends ExpressionProxy<String> {

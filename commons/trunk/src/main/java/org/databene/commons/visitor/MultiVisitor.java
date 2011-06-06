@@ -27,9 +27,9 @@ import org.databene.commons.CollectionUtil;
 import org.databene.commons.Visitor;
 
 /**
- * TODO Document class.<br/><br/>
+ * Groups multiple visitors into the interface of a single one.<br/><br/>
  * Created: 06.03.2011 14:39:23
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class MultiVisitor<E> implements Visitor<E> {

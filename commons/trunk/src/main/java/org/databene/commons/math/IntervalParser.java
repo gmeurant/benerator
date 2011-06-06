@@ -29,9 +29,10 @@ import static org.databene.commons.ParseUtil.skipWhiteSpace;
 import org.databene.commons.Parser;
 
 /**
- * TODO Document class.<br/><br/>
+ * Parses an {@link Interval} generically using an endpoint parser and an endpoint comparator.
+ * The endpoint parser has to be able to parse the interval endpoint values.<br/><br/>
  * Created: 10.03.2011 15:33:01
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class IntervalParser<E> extends Parser<Interval<E>> {

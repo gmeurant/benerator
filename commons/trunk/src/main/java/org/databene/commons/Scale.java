@@ -22,12 +22,12 @@
 package org.databene.commons;
 
 /**
- * TODO Document class.<br/><br/>
+ * Enumeration which provides constants for Binary scales.<br/><br/>
  * Created: 06.03.2011 15:29:47
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
-public enum Scale {
+public enum Scale { // TODO rename to BinaryScale
 
 	TERA(1099511627776L, "T"), 
 	GIGA(1073741824L, "G"),

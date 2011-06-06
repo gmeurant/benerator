@@ -27,9 +27,9 @@ import org.databene.commons.iterator.EmptyStringToNullConverter;
 import org.junit.Test;
 
 /**
- * TODO Document class.<br/><br/>
+ * Tests the {@link EmptyStringToNullConverter}.<br/><br/>
  * Created: 08.03.2011 14:55:56
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class EmptyStringToNullConverterTest extends ConverterTest {

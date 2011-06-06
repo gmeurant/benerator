@@ -30,9 +30,9 @@ import org.databene.commons.Parser;
 import org.databene.commons.StringUtil;
 
 /**
- * TODO Document class.<br/><br/>
+ * Parses a {@link VersionNumber}.<br/><br/>
  * Created: 10.03.2011 16:28:06
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class VersionNumberParser extends Parser<VersionNumber>{

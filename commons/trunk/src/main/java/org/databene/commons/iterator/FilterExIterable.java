@@ -27,10 +27,11 @@ import org.databene.commons.Context;
 import org.databene.commons.Expression;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link Iterable} proxy which creates {@link Iterator}s that filter their output with a (boolean) filter expression.<br/><br/>
  * Created: 08.03.2011 11:47:20
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
+ * @see FilterExIterator
  */
 public class FilterExIterable<E> extends IterableProxy<E> {
 

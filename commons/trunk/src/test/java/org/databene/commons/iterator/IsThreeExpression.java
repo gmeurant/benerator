@@ -25,9 +25,9 @@ import org.databene.commons.Context;
 import org.databene.commons.expression.DynamicExpression;
 
 /**
- * TODO Document class.<br/><br/>
+ * Helper class for testing.<br/><br/>
  * Created: 08.03.2011 14:25:07
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 class IsThreeExpression extends DynamicExpression<Boolean> {

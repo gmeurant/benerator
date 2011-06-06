@@ -22,9 +22,10 @@
 package org.databene.commons;
 
 /**
- * TODO Document class.<br/><br/>
+ * Child class of {@link java.lang.AssertionError} that indicates the failure of an assertion.<br/>
+ * <br/>
  * Created: 19.05.2011 16:25:34
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class AssertionError extends java.lang.AssertionError {

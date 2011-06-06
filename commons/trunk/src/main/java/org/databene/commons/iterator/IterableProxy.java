@@ -24,9 +24,9 @@ package org.databene.commons.iterator;
 import java.util.Iterator;
 
 /**
- * TODO Document class.<br/><br/>
+ * Proxy implementation for an {@link Iterable}.<br/><br/>
  * Created: 08.03.2011 11:48:21
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public abstract class IterableProxy<E> implements Iterable<E> {

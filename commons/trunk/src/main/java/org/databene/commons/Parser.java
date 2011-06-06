@@ -24,9 +24,10 @@ package org.databene.commons;
 import java.text.ParsePosition;
 
 /**
- * TODO Document class.<br/><br/>
+ * Parent for classes which parse {@link String}. 
+ * It resembles the 'parse' part of the {@link java.text.Format} class.<br/><br/>
  * Created: 10.03.2011 15:36:54
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public abstract class Parser<E> {

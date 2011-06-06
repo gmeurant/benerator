@@ -22,11 +22,12 @@
 package org.databene.commons.converter;
 
 import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link Converter} implementation that converts a null value to an empty {@link String}.<br/><br/>
  * Created: 08.03.2011 14:59:34
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class NullToEmptyStringConverter extends ThreadSafeConverter<String, String> {

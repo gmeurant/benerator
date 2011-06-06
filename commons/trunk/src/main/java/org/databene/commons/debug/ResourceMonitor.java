@@ -28,9 +28,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * TODO Document class.<br/><br/>
+ * Class that monitors resources as a collection of {@link MonitoredResource}s.
+ * Resources are registered and unregistered with {@link #register(Object)} and
+ * {@link #unregister(Object)} and in the end you can assert that all resources 
+ * have been unregistered by calling {@link #assertNoRegistrations(boolean)}.<br/>
+ * <br/>
  * Created: 14.04.2011 17:16:20
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class ResourceMonitor {

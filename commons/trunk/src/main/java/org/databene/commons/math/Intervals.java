@@ -25,9 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO Document class.<br/><br/>
+ * Represents a collection of intervals and provides a {@link #contains(Object)} 
+ * method for checking if one of them contains a certain value.<br/><br/>
  * Created: 10.03.2011 17:28:50
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class Intervals<E> {

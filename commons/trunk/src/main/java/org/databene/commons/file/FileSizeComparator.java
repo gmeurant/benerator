@@ -27,9 +27,9 @@ import java.util.Comparator;
 import org.databene.commons.comparator.LongComparator;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link Comparator} implementation which compares two {@link File}s by their size.<br/><br/>
  * Created: 06.03.2011 15:11:11
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class FileSizeComparator implements Comparator<File> {

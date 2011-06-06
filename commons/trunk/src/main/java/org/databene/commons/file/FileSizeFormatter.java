@@ -26,12 +26,12 @@ import java.text.DecimalFormat;
 import org.databene.commons.Scale;
 
 /**
- * TODO Document class.<br/><br/>
+ * Formats a number in a human-friendly manner, e.g. a file size in megabytes.<br/><br/>
  * Created: 06.03.2011 15:12:55
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
-public class FileSizeFormatter {
+public class FileSizeFormatter { // TODO rename to BinaryScaleFormatter
 	
 	private Scale scale;
 	private DecimalFormat numberFormat;
@@ -46,18 +46,18 @@ public class FileSizeFormatter {
 		this.numberFormat.setGroupingUsed(groupingUsed);
 	}
 	
-	public String format(long fileSize) {
+	public String format(long fileSize) { // TODO rename parameter 
 		if (scale != null)
 			return applyScale(scale, fileSize);
 		else
 			return applyAutoScale(fileSize);
 	}
 
-	private String applyScale(Scale scale, long fileSize) {
+	private String applyScale(Scale scale, long fileSize) { // TODO rename parameter
 		return numberFormat.format(Math.floor((fileSize + scale.getFactor() - 1) / scale.getFactor())) + " " + scale.getDesignator() + "B";
 	}
 
-	private String applyAutoScale(long fileSize) {
+	private String applyAutoScale(long fileSize) { // TODO rename parameter
 		if (fileSize >= 10 * Scale.TERA.getFactor())
 			return applyScale(Scale.TERA, fileSize);
 		else if (fileSize >= 10 * Scale.GIGA.getFactor())

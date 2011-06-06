@@ -28,9 +28,9 @@ import org.databene.commons.Expression;
 import org.databene.commons.filter.ExpressionBasedFilter;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link Iterator} proxy which filters its source's output with a (boolean) filter expression.<br/><br/>
  * Created: 08.03.2011 11:51:51
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class FilterExIterator<E> extends FilteringIterator<E> {

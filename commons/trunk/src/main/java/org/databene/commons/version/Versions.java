@@ -30,9 +30,9 @@ import org.databene.commons.math.Intervals;
 import org.databene.commons.math.IntervalsParser;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link Intervals} implementation for {@link VersionNumber}s.<br/><br/>
  * Created: 11.03.2011 10:09:15
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class Versions extends Intervals<VersionNumber> {

@@ -22,9 +22,9 @@
 package org.databene.commons;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link ParseException} child class that represents a syntax error.<br/><br/>
  * Created: 24.03.2011 11:49:34
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class SyntaxError extends ParseException {

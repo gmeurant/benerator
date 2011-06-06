@@ -22,12 +22,13 @@
 package org.databene.commons.iterator;
 
 import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
 import org.databene.commons.converter.ThreadSafeConverter;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link Converter} implementation which converts empty {@link String}s to null values.<br/><br/>
  * Created: 08.03.2011 14:50:50
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class EmptyStringToNullConverter extends ThreadSafeConverter<String, String> {

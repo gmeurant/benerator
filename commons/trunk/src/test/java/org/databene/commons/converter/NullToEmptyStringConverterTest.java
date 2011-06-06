@@ -26,9 +26,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
- * TODO Document class.<br/><br/>
+ * Tests the {@link NullToEmptyStringConverter}.<br/><br/>
  * Created: 08.03.2011 15:01:54
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class NullToEmptyStringConverterTest extends ConverterTest {

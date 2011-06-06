@@ -22,9 +22,9 @@
 package org.databene.commons;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link ConfigurationError} sub class which indicates an incorrect deployment.<br/><br/>
  * Created: 23.03.2011 11:50:42
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class DeploymentError extends ConfigurationError {

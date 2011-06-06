@@ -22,9 +22,9 @@
 package org.databene.commons;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link RuntimeException} child class that indicates a fault made by the programmer.<br/><br/>
  * Created: 23.03.2011 12:18:46
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class ProgrammerError extends RuntimeException {

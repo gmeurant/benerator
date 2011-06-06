@@ -29,9 +29,9 @@ import java.util.Locale;
 import org.databene.commons.Parser;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link Parser} implementation which parses {@link Integer}s.<br/><br/>
  * Created: 10.03.2011 19:41:30
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class IntParser extends Parser<Integer> {

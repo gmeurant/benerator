@@ -27,9 +27,9 @@ import org.databene.commons.debug.ResourceMonitor;
 import org.junit.Test;
 
 /**
- * TODO Document class.<br/><br/>
+ * Tests the {@link ResourceMonitor}.<br/><br/>
  * Created: 14.04.2011 17:25:03
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class ResourceMonitorTest {

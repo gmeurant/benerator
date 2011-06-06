@@ -27,9 +27,9 @@ import org.databene.commons.Filter;
 import org.databene.commons.context.ContextHolder;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link Filter} implementation based on a boolean filter {@link Expression}.<br/><br/>
  * Created: 08.03.2011 12:00:26
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class ExpressionBasedFilter<E> extends ContextHolder implements Filter<E> {

@@ -36,9 +36,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * TODO Document class.<br/><br/>
+ * Provides a mechanism to access an application's version number and 
+ * check its dependencies programmatically.<br/><br/>
  * Created: 23.03.2011 10:38:31
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class VersionInfo {
