@@ -45,7 +45,7 @@ public abstract class CompositeValidator<E> implements Validator<E> {
     }
 
 	public void add(Validator<E> validator) {
-		subValidators = ArrayUtil.append(subValidators, validator);
+		subValidators = ArrayUtil.append(validator, subValidators);
 	}
 	
     @Override

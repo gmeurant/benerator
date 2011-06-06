@@ -289,7 +289,7 @@ public class IOUtilTest {
 		File targetFolder = new File("target/IOUtilTest");
 		FileUtil.ensureDirectoryExists(targetFolder);
 		IOUtil.copyDirectory(url, targetFolder, null);
-		assertTrue(ArrayUtil.contains(targetFolder.list(), "Test.class"));
+		assertTrue(ArrayUtil.contains("Test.class", targetFolder.list()));
 	}
 
 	// private helpers -------------------------------------------------------------------------------------------------

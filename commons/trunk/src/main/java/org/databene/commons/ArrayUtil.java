@@ -60,13 +60,13 @@ public final class ArrayUtil {
         return result;
     }
 
-    public static <T> T[] removeElement(T[] array, T item) {
+    public static <T> T[] removeElement(T item, T[] array) {
     	int index = indexOf(item, array);
-        return remove(array, index);
+        return remove(index, array);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T[] remove(T[] array, int indexToRemove) {
+    public static <T> T[] remove(int indexToRemove, T[] array) {
         Class<T> componentType = componentType(array);
         T[] result = (T[]) Array.newInstance(componentType, array.length - 1);
         if (indexToRemove > 0)
@@ -79,7 +79,7 @@ public final class ArrayUtil {
         Class<T> componentType = componentType(target);
 		ArrayBuilder<T> builder = new ArrayBuilder<T>(componentType);
 		for (T element : target)
-			if (!contains(toRemove, element))
+			if (!contains(element, toRemove))
 				builder.add(element);
 		return builder.toArray();
 	}
@@ -92,7 +92,7 @@ public final class ArrayUtil {
      * @param array the array to scan
      * @return true if the element was found, else false
      */
-    public static <T> boolean contains(T[] array, T element) {
+    public static <T> boolean contains(T element, T[] array) {
         for (T o : array)
             if (NullSafeComparator.equals(o, element))
                 return true;
@@ -101,7 +101,7 @@ public final class ArrayUtil {
 
 	public static <T> boolean containsAll(T[] subArray, T[] superArray) {
 		for (T t : subArray)
-			if (!contains(superArray, t))
+			if (!contains(t, superArray))
 				return false;
 		return true;
 	}
@@ -157,7 +157,7 @@ public final class ArrayUtil {
         for (T element : firstArray) {
             boolean common = true;
             for (int i = 1; i < sources.length; i++)
-                if (!ArrayUtil.contains(sources[i], element)) {
+                if (!ArrayUtil.contains(element, sources[i])) {
                     common = false;
                     break;
                 }
@@ -174,7 +174,7 @@ public final class ArrayUtil {
      * Tells if two arrays have the same content, independent of the ordering
      * @param a1 the first array to compare
      * @param a2 the first array to compare
-     * @return true if the array have the same content, independant of the ordering
+     * @return true if the array have the same content, independent of the ordering
      */
     public static <T> boolean equalsIgnoreOrder(T[] a1, T[] a2) {
         if (a1 == a2)
@@ -187,7 +187,7 @@ public final class ArrayUtil {
         for (T item : a1)
             l1.add(item);
         for (int i = a1.length - 1; i >= 0; i--)
-            if (contains(a2, a1[i]))
+            if (contains(a1[i], a2))
                 l1.remove(i);
             else
                 return false;
@@ -284,7 +284,7 @@ public final class ArrayUtil {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T[] append(T[] array, T value) {
+    public static <T> T[] append(T value, T[] array) {
         if (array == null) {
             return toArray(value);
         } else {
@@ -295,7 +295,7 @@ public final class ArrayUtil {
         }
     }
 
-    public static byte[] append(byte[] array, byte value) {
+    public static byte[] append(byte value, byte[] array) {
         if (array == null) {
             return new byte[] { value };
         } else {
@@ -310,13 +310,13 @@ public final class ArrayUtil {
         return (values == null || Array.getLength(values) == 0);
     }
 
-    public static <T> T lastElement(T[] array) { // TODO rename to lastElementOf
+    public static <T> T lastElementOf(T[] array) {
     	if (isEmpty(array))
     		return null;
     	return array[array.length - 1];
     }
 
-    public static Integer lastElement(int[] array) { // TODO rename to lastElementOf
+    public static Integer lastElementOf(int[] array) {
     	if (array == null || array.length == 0)
     		return -1;
     	return array[array.length - 1];

@@ -50,7 +50,7 @@ public abstract class MultiConverterWrapper<S, T> implements Cloneable {
     }
 	
 	public void addComponent(Converter<S, T> converter) {
-        this.components = ArrayUtil.append(this.components, converter);
+        this.components = ArrayUtil.append(converter, this.components);
     }
 	
 	// Converter interface implementation ------------------------------------------------------------------------------

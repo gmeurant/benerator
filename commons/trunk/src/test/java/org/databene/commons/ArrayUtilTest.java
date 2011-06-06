@@ -61,9 +61,9 @@ public class ArrayUtilTest {
 
 	@Test
     public void testRemove() {
-        assertTrue(Arrays.equals(new Integer[] { 2, 3 }, ArrayUtil.remove(ONE_TO_THREE, 0)));
-        assertTrue(Arrays.equals(new Integer[] { 1, 3 }, ArrayUtil.remove(ONE_TO_THREE, 1)));
-        assertTrue(Arrays.equals(new Integer[] { 1, 2 }, ArrayUtil.remove(ONE_TO_THREE, 2)));
+        assertTrue(Arrays.equals(new Integer[] { 2, 3 }, ArrayUtil.remove(0, ONE_TO_THREE)));
+        assertTrue(Arrays.equals(new Integer[] { 1, 3 }, ArrayUtil.remove(1, ONE_TO_THREE)));
+        assertTrue(Arrays.equals(new Integer[] { 1, 2 }, ArrayUtil.remove(2, ONE_TO_THREE)));
     }
 
 	@Test
@@ -76,11 +76,11 @@ public class ArrayUtilTest {
 
 	@Test
     public void testContains() {
-        assertTrue( ArrayUtil.contains(ONE_TO_THREE, 1));
-        assertTrue( ArrayUtil.contains(ONE_TO_THREE, 2));
-        assertTrue( ArrayUtil.contains(ONE_TO_THREE, 3));
-        assertFalse(ArrayUtil.contains(ONE_TO_THREE, 0));
-        assertFalse(ArrayUtil.contains(ONE_TO_THREE, 4));
+        assertTrue( ArrayUtil.contains(1, ONE_TO_THREE));
+        assertTrue( ArrayUtil.contains(2, ONE_TO_THREE));
+        assertTrue( ArrayUtil.contains(3, ONE_TO_THREE));
+        assertFalse(ArrayUtil.contains(0, ONE_TO_THREE));
+        assertFalse(ArrayUtil.contains(4, ONE_TO_THREE));
     }
 
 	@Test
