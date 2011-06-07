@@ -552,12 +552,20 @@ public final class BeanUtil {
      * @return a method with matching names and parameters
      */
     public static Method findMethod(Class<?> type, String methodName, Class<?> ... paramTypes) {
-        Method[] methods = type.getMethods();
-        for (Method method : methods) {
-            if (methodName.equals(method.getName()) && typesMatch(paramTypes, method.getParameterTypes()))
-                return method;
+        Method result = null;
+        for (Method method : type.getMethods()) {
+            if (!methodName.equals(method.getName()))
+            	continue;
+            if (typesMatch(paramTypes, method.getParameterTypes())) {
+                result = method;
+                if ((ArrayUtil.isEmpty(paramTypes) && ArrayUtil.isEmpty(method.getParameterTypes())) || 
+                		paramTypes.length == method.getParameterTypes().length)
+                	return method; // optimal match - return it immediately
+                else
+                	result = method; // sub optimal match - store it, but keep on searching for better matches
+            }
         }
-        return null;
+        return result;
     }
 
     public static Method[] findMethodsByName(Class<?> type, String methodName) {

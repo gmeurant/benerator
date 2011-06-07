@@ -237,7 +237,7 @@ public class BeanUtilTest {
         assertEquals(0, BeanUtil.invoke(v, "varargs1"));
         assertEquals(1, BeanUtil.invoke(v, "varargs1", 1));
         assertEquals(2, BeanUtil.invoke(v, "varargs1", 1, 2));
-        assertEquals(0, BeanUtil.invoke(v, "varargs2", 1));
+        assertEquals(-1, BeanUtil.invoke(v, "varargs2", 1));
         assertEquals(1, BeanUtil.invoke(v, "varargs2", 1, 1));
         assertEquals(2, BeanUtil.invoke(v, "varargs2", 1, 1, 2));
     }
@@ -417,6 +417,10 @@ public class BeanUtilTest {
     		return (args.length > 0 ? ArrayUtil.lastElementOf(args) : 0);
     	}
     	
+    	public int varargs2(int x) {
+    		return -1;
+    	}
+
     	public int varargs2(int x, int... args) {
     		return (args.length > 0 ? ArrayUtil.lastElementOf(args) : 0);
     	}
