@@ -628,8 +628,7 @@ public final class BeanUtil {
         return invoke(target, method, true, args);
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T> T invoke(Object target, Method method, boolean strict, Object ... args) {
+    public static Object invoke(Object target, Method method, boolean strict, Object ... args) {
         try {
             Object[] params;
             if (method.getParameterTypes().length == 0) {
@@ -644,16 +643,16 @@ public final class BeanUtil {
         		for (int i = 0; i < paramTypes.length - 1; i++)
         			params[i] = (strict ? args[i] : AnyConverter.convert(args[i], paramTypes[i]));
         		Class<?> varargsComponentType = paramTypes[paramTypes.length - 1].getComponentType();
-        		Object[] varargs = (Object[]) Array.newInstance(varargsComponentType, args.length - paramTypes.length + 1);
+        		Object varargs = Array.newInstance(varargsComponentType, args.length - paramTypes.length + 1);
         		for (int i = 0; i < args.length - paramTypes.length + 1; i++) {
 	                Object param = args[paramTypes.length - 1 + i];
 	                if (strict)
 	                	param = AnyConverter.convert(param, varargsComponentType);
-	                varargs[i] = param;
+	                Array.set(varargs, i, param);
                 }
 				params[params.length - 1] = varargs;
             }
-            return (T) method.invoke(target, params);
+            return method.invoke(target, params);
         } catch (IllegalAccessException e) {
             throw ExceptionMapper.configurationException(e, method);
         } catch (InvocationTargetException e) {
@@ -661,23 +660,35 @@ public final class BeanUtil {
         }
     }
 
-    public static boolean typesMatch(Class<?>[] foundTypes, Class<?>[] expectedTypes) {
-    	if (foundTypes == null)
-    		return (expectedTypes == null || expectedTypes.length == 0);
-        if (expectedTypes.length == 1 && expectedTypes[0].isArray()) { // TODO support methods which have parameters additionally to the varargs param
-        	Class<?> componentType = expectedTypes[0].getComponentType();
-        	for (Class<?> foundType : foundTypes)
-        		if (!typeMatches(foundType, componentType))
-        			return false;
-        	return true;
+    public static boolean typesMatch(Class<?>[] usedTypes, Class<?>[] expectedTypes) {
+    	// expectedTypes is empty
+    	if (ArrayUtil.isEmpty(expectedTypes))
+    		return ArrayUtil.isEmpty(usedTypes);
+        Class<?> lastExpectedType = ArrayUtil.lastElementOf(expectedTypes);
+        if (lastExpectedType.isArray()) {
+        	// process varargs parameter
+        	if (usedTypes.length < expectedTypes.length - 1)
+        		return false; // fault
+        	if (usedTypes.length == expectedTypes.length - 1)
+        		return true; // empty varargs
+        	// check if all used types match the varargs type
+			if (usedTypes.length >= expectedTypes.length) {
+	        	Class<?> componentType = lastExpectedType.getComponentType();
+	        	for (int i = expectedTypes.length - 1; i < usedTypes.length; i++) {
+	        		Class<?> foundType = usedTypes[i];
+	        		if (!typeMatches(foundType, componentType))
+	        			return false;
+	        	}
+	        	return true;
+	        }
         }
-        if (foundTypes.length != expectedTypes.length)
+        if (usedTypes.length != expectedTypes.length)
             return false;
-        if (expectedTypes.length == 0 && foundTypes.length == 0)
+        if (expectedTypes.length == 0 && usedTypes.length == 0)
             return true;
-        for (int i = 0; i < foundTypes.length; i++) {
+        for (int i = 0; i < usedTypes.length; i++) {
             Class<?> expectedType = expectedTypes[i];
-            Class<?> foundType = foundTypes[i];
+            Class<?> foundType = usedTypes[i];
             if (!typeMatches(foundType, expectedType))
             	return false;
         }
