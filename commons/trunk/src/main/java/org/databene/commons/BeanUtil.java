@@ -670,7 +670,7 @@ public final class BeanUtil {
         	if (usedTypes.length < expectedTypes.length - 1)
         		return false; // fault
         	if (usedTypes.length == expectedTypes.length - 1)
-        		return true; // empty varargs
+        		return typesMatch(usedTypes, ArrayUtil.copyOfRange(expectedTypes, 0, usedTypes.length)); // empty varargs
         	// check if all used types match the varargs type
 			if (usedTypes.length >= expectedTypes.length) {
 	        	Class<?> componentType = lastExpectedType.getComponentType();
