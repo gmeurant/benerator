@@ -44,4 +44,31 @@ public class FilterUtil {
 				result.add(candidate);
 		return result;
 	}
+
+    public static <T> SplitResult<T> split(T[] items, Filter<T> filter) {
+        List<T> matches = new ArrayList<T>();
+        List<T> mismatches = new ArrayList<T>();
+        for (T item : items) {
+            if (filter.accept(item))
+                matches.add(item);
+            else
+                mismatches.add(item);
+        }
+        return new SplitResult<T>(matches, mismatches);
+    }
+
+    public static <T> List<List<T>> filter(T[] items, Filter<T> ... filters) {
+        List<List<T>> results = new ArrayList<List<T>>(filters.length);
+        for (int i = 0; i < filters.length; i++)
+            results.add(new ArrayList<T>());
+        for (T item : items) {
+            for (int i = 0; i < filters.length; i++) {
+                Filter<T> filter = filters[i];
+                if (filter.accept(item))
+                    results.get(i).add(item);
+            }
+        }
+        return results;
+    }
+
 }

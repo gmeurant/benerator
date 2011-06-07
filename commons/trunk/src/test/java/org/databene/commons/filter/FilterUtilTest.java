@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,42 +26,39 @@
 
 package org.databene.commons.filter;
 
+import java.util.List;
+
+import org.databene.commons.CollectionUtil;
 import org.databene.commons.Filter;
 
-import java.util.List;
-import java.util.ArrayList;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
- * Applies a filter to a List for extracting a subset of items.<br/>
- * <br/>
- * Created: 10.04.2007 08:07:12
+ * Tests the {@link FilterUtil} class.<br/><br/>
+ * Created at 04.05.2008 10:08:18
+ * @since 0.5.3
  * @author Volker Bergmann
+ *
  */
-public class Splitter {
+public class FilterUtilTest {
 
-    public static <T> SplitResult<T> split(T[] items, Filter<T> filter) {
-        List<T> matches = new ArrayList<T>();
-        List<T> mismatches = new ArrayList<T>();
-        for (T item : items) {
-            if (filter.accept(item))
-                matches.add(item);
-            else
-                mismatches.add(item);
-        }
-        return new SplitResult<T>(matches, mismatches);
-    }
-
-    public static <T> List<List<T>> filter(T[] items, Filter<T> ... filters) {
-        List<List<T>> results = new ArrayList<List<T>>(filters.length);
-        for (int i = 0; i < filters.length; i++)
-            results.add(new ArrayList<T>());
-        for (T item : items) {
-            for (int i = 0; i < filters.length; i++) {
-                Filter<T> filter = filters[i];
-                if (filter.accept(item))
-                    results.get(i).add(item);
-            }
-        }
-        return results;
-    }
+    @Test
+    @SuppressWarnings("unchecked")
+	public void test() {
+		EvenFilter evenFilter = new EvenFilter();
+		List<List<Integer>> groups = FilterUtil.filter(
+				new Integer[] { 1, 2, 3}, 
+				new InverseFilter<Integer>(evenFilter), evenFilter);
+		assertEquals(2, groups.size());
+		assertEquals(CollectionUtil.toList(1, 3), groups.get(0));
+		assertEquals(CollectionUtil.toList(2), groups.get(1));
+	}
+	
+	public class EvenFilter implements Filter<Integer> {
+		public boolean accept(Integer i) {
+			return ((i % 2) == 0);
+		}
+	}
+	
 }
