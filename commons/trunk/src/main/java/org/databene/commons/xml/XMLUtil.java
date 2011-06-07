@@ -221,6 +221,8 @@ public class XMLUtil {
         try {
             stream = IOUtil.getInputStreamForURI(uri);
             return parse(stream, resolver, schemaUri, DEFAULT_ERROR_HANDLER);
+        } catch (ConfigurationError e) {
+        	throw new ConfigurationError("Error parsing " + uri, e);
         } finally {
             IOUtil.close(stream);
         }
@@ -268,7 +270,7 @@ public class XMLUtil {
         } catch (ParserConfigurationException e) {
             throw new ConfigurationError(e);
         } catch (SAXParseException e) {
-            throw new ConfigurationError("Error in line " + e.getLineNumber() + " column " + e.getColumnNumber(), e); // TODO report the file name
+            throw new ConfigurationError("Error in line " + e.getLineNumber() + " column " + e.getColumnNumber(), e);
         } catch (SAXException e) {
             throw new ConfigurationError(e);
         }
