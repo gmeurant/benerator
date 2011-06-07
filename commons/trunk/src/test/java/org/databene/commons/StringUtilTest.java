@@ -117,6 +117,7 @@ public class StringUtilTest {
         assertEquals("abc", StringUtil.normalizeSpace(" abc "));
         assertEquals("abc def", StringUtil.normalizeSpace("abc def"));
         assertEquals("abc def", StringUtil.normalizeSpace(" abc \r\n def \r\n"));
+        assertEquals("abc def", StringUtil.normalizeSpace("\n\tabc\n\tdef\r\t"));
     }
 
 	@Test
