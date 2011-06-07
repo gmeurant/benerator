@@ -230,17 +230,38 @@ public class BeanUtilTest {
         BeanUtil.invokeStatic(B.class, "setStat", "u");
         assertEquals("u", B.stat);
     }
-
+/* TODO support varargs
+	@Test
+    public void testInvokeVarargs() {
+        V v = new V();
+        assertEquals(0, BeanUtil.invoke(v, "varargs1"));
+        assertEquals(1, BeanUtil.invoke(v, "varargs1", 1));
+        assertEquals(2, BeanUtil.invoke(v, "varargs1", 1, 2));
+        assertEquals(0, BeanUtil.invoke(v, "varargs2", 1));
+        assertEquals(1, BeanUtil.invoke(v, "varargs2", 1, 1));
+        assertEquals(2, BeanUtil.invoke(v, "varargs2", 1, 1, 2));
+    }
+*/
 	@Test
     public void testTypesMatch() {
-        assertTrue(BeanUtil.typesMatch(new Class[] {  }, new Class[] {  }));
+		// no-arg method calls
+        assertTrue(BeanUtil.typesMatch(new Class[] { }, new Class[] { }));
         assertFalse(BeanUtil.typesMatch(new Class[] { String.class }, new Class[] {  }));
+        // Identical types
         assertTrue(BeanUtil.typesMatch(new Class[] { String.class }, new Class[] { String.class }));
         assertTrue(BeanUtil.typesMatch(new Class[] { C.class }, new Class[] { B.class }));
+        // incompatible types
         assertFalse(BeanUtil.typesMatch(new Class[] { B.class }, new Class[] { C.class }));
         assertTrue(BeanUtil.typesMatch(new Class[] { A.class }, new Class[] { I.class }));
+        // autoboxing
         assertTrue(BeanUtil.typesMatch(new Class[] { int.class }, new Class[] { Integer.class }));
         assertTrue(BeanUtil.typesMatch(new Class[] { Integer.class }, new Class[] { int.class }));
+        // varargs
+        assertTrue(BeanUtil.typesMatch(new Class[] { }, new Class[] { Integer[].class }));
+        assertTrue(BeanUtil.typesMatch(new Class[] { Integer.class }, new Class[] { Integer[].class }));
+        assertTrue(BeanUtil.typesMatch(new Class[] { Integer.class }, new Class[] { Integer.class, Integer[].class }));
+        assertTrue(BeanUtil.typesMatch(new Class[] { Integer.class, Integer.class }, 
+        		new Class[] { Integer.class, Integer[].class }));
     }
 
     // property tests --------------------------------------------------------------------------------------------------
@@ -391,4 +412,13 @@ public class BeanUtilTest {
         }
     }
     
+    public static class V {
+    	public int varargs1(int... args) {
+    		return (args.length > 0 ? ArrayUtil.lastElementOf(args) : 0);
+    	}
+    	
+    	public int varargs2(int x, int... args) {
+    		return (args.length > 0 ? ArrayUtil.lastElementOf(args) : 0);
+    	}
+    }
 }
