@@ -161,4 +161,8 @@ public class HTMLUtil {
 	    return "<a href='" + href + "'>" + text + "</a>";
     }
 
+	public static String aNewWindow(String href, String text) {
+	    return "<a href='" + href + "' target='_blank'>" + text + "</a>";
+    }
+
 }
