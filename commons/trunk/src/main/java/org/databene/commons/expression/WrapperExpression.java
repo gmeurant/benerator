@@ -24,9 +24,9 @@ package org.databene.commons.expression;
 import org.databene.commons.Expression;
 
 /**
- * TODO Document class.<br/><br/>
+ * New common interface for scanning through {@link Expression}s that wrap other expressions.<br/><br/>
  * Created: 08.06.2011 13:48:12
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public interface WrapperExpression<E> extends Expression<E> {
