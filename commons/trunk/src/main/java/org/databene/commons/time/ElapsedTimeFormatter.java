@@ -62,7 +62,7 @@ public class ElapsedTimeFormatter extends ThreadSafeConverter<Long, String> {
 		else if (millis < MINUTE_MILLIS)
 			return render(millis, SECOND_MILLIS, "s");
 		else if (millis < HOUR_MILLIS)
-			return render(millis, MINUTE_MILLIS, "m");
+			return render(millis, MINUTE_MILLIS, "min");
 		else if (millis < DAY_MILLIS)
 			return render(millis, HOUR_MILLIS, "h");
 		else
