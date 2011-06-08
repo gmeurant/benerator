@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,6 +26,8 @@
 
 package org.databene.commons.expression;
 
+import org.databene.commons.ArrayFormat;
+import org.databene.commons.ArrayUtil;
 import org.databene.commons.Expression;
 
 /**
@@ -34,19 +36,42 @@ import org.databene.commons.Expression;
  * Created: 18.06.2007 17:02:17
  * @author Volker Bergmann
  */
-public abstract class CompositeExpression<E> implements Expression<E> {
+public abstract class CompositeExpression<S, R> implements WrapperExpression<R> {
 
-    protected Expression<E>[] terms;
+	protected String symbol;
+    protected Expression<S>[] terms;
 
-    protected CompositeExpression(Expression<E>... terms) {
+    protected CompositeExpression(Expression<S>... terms) {
+    	this(null, terms);
+    }
+
+    protected CompositeExpression(String symbol, Expression<S>... terms) {
+    	this.symbol = symbol;
         this.terms = terms;
     }
 
+	public Expression<S>[] getTerms() {
+		return terms;
+	}
+	
+	public Expression<?>[] getSourceExpressions() {
+		return getTerms();
+	}
+	
+    public void addTerm(Expression<S> term) {
+    	this.terms = ArrayUtil.append(term, this.terms);
+    }
+    
     public boolean isConstant() {
-        for (Expression<E> term : terms)
+        for (Expression<?> term : terms)
         	if (!term.isConstant())
         		return false;
         return true;
     }
     
+	@Override
+	public String toString() {
+	    return "(" + ArrayFormat.format(" " + symbol + " ", terms) + ")";
+	}
+	
 }

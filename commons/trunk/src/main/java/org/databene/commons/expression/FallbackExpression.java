@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,7 +30,7 @@ import org.databene.commons.Expression;
  * @since 0.5.3
  * @author Volker Bergmann
  */
-public class FallbackExpression<E> extends CompositeExpression<E> {
+public class FallbackExpression<E> extends CompositeExpression<E,E> {
 
     public FallbackExpression(Expression<E>... terms) {
 	    super(terms);

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -23,6 +23,7 @@ package org.databene.commons.expression;
 
 import java.util.Comparator;
 
+import org.databene.commons.ArrayFormat;
 import org.databene.commons.ComparableComparator;
 import org.databene.commons.Context;
 import org.databene.commons.Expression;
@@ -34,7 +35,7 @@ import org.databene.commons.Expression;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class MaxExpression<E> extends CompositeExpression<E> {
+public class MaxExpression<E> extends CompositeExpression<E,E> {
 
 	private Comparator<E> comparator;
 
@@ -44,7 +45,7 @@ public class MaxExpression<E> extends CompositeExpression<E> {
     }
 
 	public MaxExpression(Comparator<E> comparator, Expression<E>... terms) {
-	    super(terms);
+	    super("", terms);
 	    this.comparator = comparator;
     }
 
@@ -58,4 +59,9 @@ public class MaxExpression<E> extends CompositeExpression<E> {
 	    return max;
     }
 
+    @Override
+    public String toString() {
+        return "max(" + ArrayFormat.format(terms) + ')';
+    }
+    
 }

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -36,18 +36,33 @@ import org.databene.commons.Expression;
  * @author Volker Bergmann
  */
 
-public abstract class BinaryExpression<E> implements Expression<E> {
+public abstract class BinaryExpression<E> implements WrapperExpression<E> {
 
+	protected String symbol;
 	protected Expression<?> term1;
 	protected Expression<?> term2;
 
 	public BinaryExpression(Expression<?> term1, Expression<?> term2) {
+		this(null, term1, term2);
+    }
+	
+	public BinaryExpression(String symbol, Expression<?> term1, Expression<?> term2) {
+		this.symbol = symbol;
 	    this.term1 = term1;
 	    this.term2 = term2;
     }
 	
+	public Expression<?>[] getSourceExpressions() {
+		return new Expression[] { term1, term2 };
+	}
+	
 	public boolean isConstant() {
 	    return term1.isConstant() && term2.isConstant();
+	}
+	
+	@Override
+	public String toString() {
+		return "(" + term1 + " " + symbol + " " + term2 + ")";
 	}
 	
 }

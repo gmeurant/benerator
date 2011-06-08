@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -41,7 +41,7 @@ import org.databene.commons.Expression;
  * @author Volker Bergmann
  */
 
-public class MinExpression<E> extends CompositeExpression<E> {
+public class MinExpression<E> extends CompositeExpression<E,E> {
 
 	private Comparator<E> comparator;
 
@@ -51,7 +51,7 @@ public class MinExpression<E> extends CompositeExpression<E> {
     }
 
 	public MinExpression(Comparator<E> comparator, Expression<E>... terms) {
-	    super(terms);
+	    super("", terms);
 	    this.comparator = comparator;
     }
 

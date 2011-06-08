@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -44,7 +44,7 @@ public class TypeConvertingExpression<E> extends UnaryExpression<E> {
 
     @SuppressWarnings("rawtypes")
     public TypeConvertingExpression(Expression source, Class<E> resultType) {
-    	super(source);
+    	super("", source);
 	    this.converter = new AnyConverter<E>(resultType);
     }
 

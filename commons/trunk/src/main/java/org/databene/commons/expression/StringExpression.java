@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -37,7 +37,7 @@ public class StringExpression extends UnaryExpression<String> {
 	private ToStringConverter converter;
 
 	public StringExpression(Expression<?> term) {
-	    super(term);
+	    super("(string) ", term);
 	    this.converter = new ToStringConverter(null);
     }
 
@@ -46,9 +46,4 @@ public class StringExpression extends UnaryExpression<String> {
 		return (tmp instanceof String ? (String) tmp : converter.convert(tmp));
 	}
 	
-    @Override
-    public String toString() {
-    	return "(string) " + super.toString();
-    }
-    
 }

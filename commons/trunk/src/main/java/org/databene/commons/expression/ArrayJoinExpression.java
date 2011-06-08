@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -32,7 +32,7 @@ import org.databene.commons.Expression;
  * @since 0.5.4
  * @author Volker Bergmann
  */
-public class ArrayJoinExpression<E> extends CompositeExpression<E[]> {
+public class ArrayJoinExpression<E> extends CompositeExpression<E[], E[]> {
 	
 	private Class<E> componentType;
 

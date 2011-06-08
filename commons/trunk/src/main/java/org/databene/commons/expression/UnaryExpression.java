@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -38,9 +38,11 @@ import org.databene.commons.Expression;
 
 public abstract class UnaryExpression<E> implements Expression<E> {
 
+	protected String symbol;
 	protected Expression<?> term;
 
-	public UnaryExpression(Expression<?> term) {
+	public UnaryExpression(String symbol, Expression<?> term) {
+		this.symbol = symbol;
 	    this.term = term;
     }
 	
@@ -48,9 +50,13 @@ public abstract class UnaryExpression<E> implements Expression<E> {
 	    return term.isConstant();
 	}
 	
+	public Expression<?>[] getSourceExpressions() {
+		return new Expression[] { term };
+	}
+	
 	@Override
 	public String toString() {
-		return term.toString();
+		return symbol + "(" + term + ")";
 	}
 	
 }

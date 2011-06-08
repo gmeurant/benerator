@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -34,11 +34,16 @@ import org.databene.commons.Expression;
 public class IsNullExpression extends UnaryExpression<Boolean> {
 
 	public IsNullExpression(Expression<?> term) {
-	    super(term);
+	    super("", term);
     }
 
 	public Boolean evaluate(Context context) {
 	    return term.evaluate(context) == null;
     }
 
+	@Override
+	public String toString() {
+		return "(" + term + "IS NULL)";
+	}
+	
 }
