@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -34,8 +34,10 @@ import org.databene.commons.math.ArithmeticEngine;
  */
 public class EqualsExpression extends BinaryExpression<Boolean> {
 
-	private String symbol;
-	
+	public EqualsExpression(Expression<?> term1, Expression<?> term2) {
+        this("=", term1, term2);
+    }
+
 	public EqualsExpression(String symbol, Expression<?> term1, Expression<?> term2) {
         super(symbol, term1, term2);
         this.symbol = symbol;
@@ -45,9 +47,4 @@ public class EqualsExpression extends BinaryExpression<Boolean> {
         return ArithmeticEngine.defaultInstance().equals(term1.evaluate(context), term2.evaluate(context));
     }
 	
-	@Override
-	public String toString() {
-	    return "(" + term1 + " " + symbol + " " + term2 + ")";
-	}
-
 }
