@@ -35,7 +35,11 @@ import org.databene.commons.math.ArithmeticEngine;
 public class NotEqualsExpression extends BinaryExpression<Boolean> {
 
 	public NotEqualsExpression(Expression<?> term1, Expression<?> term2) {
-        super("!=", term1, term2);
+        this("!=", term1, term2);
+    }
+
+	public NotEqualsExpression(String symbol, Expression<?> term1, Expression<?> term2) {
+        super(symbol, term1, term2);
     }
 
 	public Boolean evaluate(Context context) {
