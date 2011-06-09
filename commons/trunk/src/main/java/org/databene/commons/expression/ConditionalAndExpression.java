@@ -40,9 +40,9 @@ public class ConditionalAndExpression extends CompositeExpression<Object, Boolea
 
 	public Boolean evaluate(Context context) {
 		for (int i = 0; i < terms.length; i++)
-			if (AnyConverter.convert(terms[i].evaluate(context), Boolean.class))
-				return true;
-		return false;
+			if (!AnyConverter.convert(terms[i].evaluate(context), Boolean.class))
+				return false;
+		return true;
 	}
 	
 }
