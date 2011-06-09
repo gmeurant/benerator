@@ -36,7 +36,7 @@ import org.databene.commons.Expression;
  * @author Volker Bergmann
  */
 
-public abstract class UnaryExpression<E> implements Expression<E> {
+public abstract class UnaryExpression<E> implements WrapperExpression<E> {
 
 	protected String symbol;
 	protected Expression<?> term;
