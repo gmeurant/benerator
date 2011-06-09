@@ -43,8 +43,8 @@ public class ElapsedTimeFormatterTest {
 		assertEquals("1,3 s",  format.convert(1256L));
 		assertEquals("3 s",    format.convert(2999L));
 		assertEquals("12 s",   format.convert(12345L));
-		assertEquals("2,1 m",  format.convert(123456L));
-		assertEquals("3 m",    format.convert(180000L));
+		assertEquals("2,1 min",  format.convert(123456L));
+		assertEquals("3 min",    format.convert(180000L));
 		assertEquals("3,4 h",  format.convert(12345678L));
 		assertEquals("1,4 d",  format.convert(123456789L));
 	}
