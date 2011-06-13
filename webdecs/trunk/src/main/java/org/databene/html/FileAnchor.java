@@ -27,9 +27,10 @@ import java.io.IOException;
 import org.databene.commons.FileUtil;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link Anchor} implementation which relates to a {@link File} 
+ * and provides the resolution of relative paths.<br/><br/>
  * Created: 13.06.2011 12:29:36
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class FileAnchor extends Anchor {

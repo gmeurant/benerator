@@ -22,9 +22,9 @@
 package org.databene.html;
 
 /**
- * TODO Document class.<br/><br/>
+ * Abstract implementation of an HTML anchor &lt;a&gt; with label and target.<br/><br/>
  * Created: 13.06.2011 12:14:52
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public abstract class Anchor {

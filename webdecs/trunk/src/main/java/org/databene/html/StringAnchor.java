@@ -22,9 +22,9 @@
 package org.databene.html;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link Anchor} implementation for an arbitrary String-based URL.<br/><br/>
  * Created: 13.06.2011 12:50:11
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class StringAnchor extends Anchor {
