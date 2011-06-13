@@ -25,17 +25,17 @@ import org.databene.commons.Filter;
 import org.databene.commons.Named;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link Filter} implementation which filters implementors of the {@link Named} interface by their name.<br/><br/>
  * Created: 11.06.2011 15:44:44
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
 public class NamedObjectByPatternFilter<E extends Named> implements Filter<E> {
 	
-	private NameFilter nameFilter;
+	private RegexBasedFilter nameFilter;
 	
 	public NamedObjectByPatternFilter(String inclusionPattern, String exclusionPattern) {
-		this.nameFilter = new NameFilter(inclusionPattern, exclusionPattern);
+		this.nameFilter = new RegexBasedFilter(inclusionPattern, exclusionPattern);
 	}
 
 	public boolean accept(Named candidate) {
