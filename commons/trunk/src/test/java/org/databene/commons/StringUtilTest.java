@@ -408,11 +408,11 @@ public class StringUtilTest {
 	// helpers ---------------------------------------------------------------------------------------------------------
 
 	private void checkSplitFirst(String parent, String child, String path) {
-		assertTrue(Arrays.equals(ArrayUtil.buildArrayOfType(String.class, parent, child), StringUtil.splitOnFirstSeparator(path, '=')));
+		assertTrue(Arrays.equals(ArrayUtil.buildObjectArrayOfType(String.class, parent, child), StringUtil.splitOnFirstSeparator(path, '=')));
 	}
 
 	private void checkSplitLast(String parent, String child, String path) {
-		assertTrue(Arrays.equals(ArrayUtil.buildArrayOfType(String.class, parent, child), StringUtil.splitOnLastSeparator(path, '.')));
+		assertTrue(Arrays.equals(ArrayUtil.buildObjectArrayOfType(String.class, parent, child), StringUtil.splitOnLastSeparator(path, '.')));
 	}
 	
 }
