@@ -26,17 +26,17 @@ import java.util.regex.Pattern;
 import org.databene.commons.Filter;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link Filter} implementation which filters strings by regular expressions for inclusion and exclusion.<br/><br/>
  * Created: 11.06.2011 15:48:30
- * @since TODO version
+ * @since 0.5.8
  * @author Volker Bergmann
  */
-public class NameFilter implements Filter<String> {
+public class RegexBasedFilter implements Filter<String> {
 	
 	private Pattern exclusionPattern;
 	private Pattern inclusionPattern;
 
-	public NameFilter(String inclusionPattern, String exclusionPattern) {
+	public RegexBasedFilter(String inclusionPattern, String exclusionPattern) {
 		this.inclusionPattern = (inclusionPattern != null ? Pattern.compile(inclusionPattern) : null);
 		this.exclusionPattern = (exclusionPattern != null ? Pattern.compile(exclusionPattern) : null);
 	}
