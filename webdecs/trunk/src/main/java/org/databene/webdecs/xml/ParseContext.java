@@ -71,7 +71,7 @@ public class ParseContext<E> {
 	@SuppressWarnings("unchecked")
 	public E[] createSubPath(E[] parentPath, E currentObject) {
 		if (parentPath == null)
-			return ArrayUtil.buildArrayOfType(pathComponentType, currentObject);
+			return ArrayUtil.buildObjectArrayOfType(pathComponentType, currentObject);
 		else
 			return ArrayUtil.append(currentObject, parentPath);
 	}
