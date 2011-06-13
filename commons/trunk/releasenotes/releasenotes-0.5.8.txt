@@ -8,6 +8,9 @@ Enhancements
 - Debug switch, activatable by -Ddebug=true
 - Resource monitoring mechanism
 - new methods TimeUtil.firstDayOfMonth() and lastDayOfMonth()
+- Defined regular expression based filters
+- moved Expression and Arithmetic classes from Benerator to commons
+- Extended varargs support in generic invocation to methods mit multiple parameters
 
 
 Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
