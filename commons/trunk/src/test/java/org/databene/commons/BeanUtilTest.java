@@ -230,18 +230,18 @@ public class BeanUtilTest {
         BeanUtil.invokeStatic(B.class, "setStat", "u");
         assertEquals("u", B.stat);
     }
-/* TODO support varargs
+
 	@Test
     public void testInvokeVarargs() {
         V v = new V();
         assertEquals(0, BeanUtil.invoke(v, "varargs1"));
-        assertEquals(1, BeanUtil.invoke(v, "varargs1", 1));
-        assertEquals(2, BeanUtil.invoke(v, "varargs1", 1, 2));
-        assertEquals(-1, BeanUtil.invoke(v, "varargs2", 1));
-        assertEquals(1, BeanUtil.invoke(v, "varargs2", 1, 1));
-        assertEquals(2, BeanUtil.invoke(v, "varargs2", 1, 1, 2));
+        assertEquals(1, BeanUtil.invoke(false, v, "varargs1", 1));
+        assertEquals(2, BeanUtil.invoke(false, v, "varargs1", 1, 2));
+        assertEquals(-1, BeanUtil.invoke(false, v, "varargs2", 1));
+        assertEquals(1, BeanUtil.invoke(false, v, "varargs2", 1, 1));
+        assertEquals(2, BeanUtil.invoke(false, v, "varargs2", 1, 1, 2));
     }
-*/
+
 	@Test
     public void testTypesMatch() {
 		// no-arg method calls

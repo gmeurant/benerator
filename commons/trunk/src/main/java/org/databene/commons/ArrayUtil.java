@@ -212,7 +212,7 @@ public final class ArrayUtil {
     @SuppressWarnings("unchecked")
     public static <T> T[] toArray(T... values) {
     	Class<T> componentType = (Class<T>) (values.length > 0 ? values[0].getClass() : Object.class);
-    	return buildArrayOfType(componentType, values);
+    	return buildObjectArrayOfType(componentType, values);
     }
 
     public static int[] toIntArray(int... values) {
@@ -227,8 +227,15 @@ public final class ArrayUtil {
         return array;
     }
 
+    public static Object buildArrayOfType(Class<?> componentType, Object ... values) {
+        Object array = Array.newInstance(componentType, values.length);
+        for (int i = 0; i < values.length; i++)
+        	Array.set(array, i, values[i]); // explicit assignment since System.arraycopy() does not perform autoboxing
+        return array;
+    }
+    
     @SuppressWarnings("unchecked")
-    public static <T> T[] buildArrayOfType(Class<T> componentType, T ... values) {
+    public static <T> T[] buildObjectArrayOfType(Class<T> componentType, T ... values) {
         T[] array = (T[]) Array.newInstance(componentType, values.length);
         System.arraycopy(values, 0, array, 0, values.length);
         return array;

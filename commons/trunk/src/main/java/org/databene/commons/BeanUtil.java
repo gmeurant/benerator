@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,7 +27,7 @@
 package org.databene.commons;
 
 import org.databene.commons.converter.AnyConverter;
-import org.databene.commons.converter.ArrayTypeConverter;
+import org.databene.commons.converter.ConverterManager;
 import org.databene.commons.converter.ToStringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -636,17 +636,31 @@ public final class BeanUtil {
         return invoke(target, method, true, args);
     }
 
-    public static Object invoke(Object target, Method method, boolean strict, Object ... args) {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public static Object invoke(Object target, Method method, boolean strict, Object ... args) {
         try {
             Object[] params;
-            if (method.getParameterTypes().length == 0) {
+    		Class<?>[] paramTypes = method.getParameterTypes();
+            if (paramTypes.length == 0) {
             	params = null;
-            } else if (args.length == method.getParameterTypes().length) {
+            } else if (args.length == paramTypes.length) {
             	// map one to one
-            	params = (strict ? args : ArrayTypeConverter.convert(args, method.getParameterTypes()));
+            	if (strict) {
+            		params = args;
+            	} else {
+            		params = new Object[paramTypes.length];
+            		for (int i = 0 ; i < paramTypes.length; i++) {
+            			Object arg = args[i];
+            			if (arg == null)
+            				params[i] = null;
+						else {
+							Converter converter = ConverterManager.getInstance().createConverter(arg.getClass(), paramTypes[i]);
+							params[i] = converter.convert(arg);
+						}
+            		}
+            	}
         	} else {
         		// map varargs
-        		Class<?>[] paramTypes = method.getParameterTypes();
         		params = new Object[paramTypes.length];
         		for (int i = 0; i < paramTypes.length - 1; i++)
         			params[i] = (strict ? args[i] : AnyConverter.convert(args[i], paramTypes[i]));
