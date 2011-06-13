@@ -104,4 +104,9 @@ public class ToArrayConverter extends ThreadSafeConverter {
 	    }
     }
 
+    @Override
+    public String toString() {
+    	return getClass().getSimpleName() + "(" + componentType + ")";
+    }
+    
 }
