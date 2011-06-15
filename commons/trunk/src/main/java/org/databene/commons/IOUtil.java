@@ -269,7 +269,7 @@ public final class IOUtil {
     	if (!ctxProtocol.equals(refProtocol) && refProtocol != null) // if the ref has a different protocol declared than the context, its absolute
     		return true;
     	// if the protocols are 'file' and the URI starts with '/' or '~' its an absolute file URI
-    	return ("file".equals(ctxProtocol) && (uri.startsWith("/") || uri.startsWith("~")));
+    	return ("file".equals(ctxProtocol) && ((uri.startsWith("/") || uri.startsWith("~"))));
 	}
 
 	private static String resolveRelativeFile(String contextPath, String relativePath) {
