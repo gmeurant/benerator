@@ -129,6 +129,7 @@ public class IOUtilTest {
 
 	@Test    
     public void testResolveRelativeUri() throws Exception {
+    	String SEP = File.separator;
     	assertEquals("test.html", IOUtil.resolveRelativeUri("test.html", null));
     	assertEquals("test.html", IOUtil.resolveRelativeUri("test.html", ""));
     	assertEquals("http://test.com/main/test.html", IOUtil.resolveRelativeUri("test.html", "http://test.com/main/"));
@@ -141,9 +142,9 @@ public class IOUtilTest {
     	assertEquals("../test.html", IOUtil.resolveRelativeUri("../test.html", ""));
     	assertEquals("file:///test.html", IOUtil.resolveRelativeUri("file:///test.html", "http://bla.txt"));
     	assertEquals("file:/test.html", IOUtil.resolveRelativeUri("file:/test.html", "http://bla.txt"));
-    	assertEquals("/Users/name/text.txt", IOUtil.resolveRelativeUri("text.txt", "/Users/name/"));
+		assertEquals(SEP + "Users" + SEP + "name" + SEP + "text.txt", IOUtil.resolveRelativeUri("text.txt", "/Users/name/")); // SEP for Windows build
     	assertEquals("/Users/user2/text.txt", IOUtil.resolveRelativeUri("/Users/user2/text.txt", "/Users/user1/"));
-    	assertEquals("/Users/temp/my.dtd", IOUtil.resolveRelativeUri("file:my.dtd", "/Users/temp/"));
+    	assertEquals(SEP + "Users" + SEP + "temp" + SEP + "my.dtd", IOUtil.resolveRelativeUri("file:my.dtd", "/Users/temp/")); // SEP for Windows build
     	assertEquals("~/temp/my.dtd", IOUtil.resolveRelativeUri("~/temp/my.dtd", "/Users/temp/"));
     }
     
