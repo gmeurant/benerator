@@ -777,9 +777,25 @@ public final class StringUtil {
 		while (iterator.hasNext())
 			if (iterator.next().trim().length() == 0)
 				iterator.remove();
-		return ArrayFormat.format(SystemInfo.getLineSeparator(), lines.toArray());
+		String sep = lineSeparatorUsedIn(text);
+		return ArrayFormat.format(sep, lines.toArray());
 	}
 	
+	private static String lineSeparatorUsedIn(String text) {
+		int i = 0;
+		while (i < text.length() && !isLineSeparatorChar(text.charAt(i))) // search the first line separator char
+			i++;
+		if (i == text.length()) // if no line sep was found, then return null
+			return null;
+		char c1 = text.charAt(i);
+		if (i == text.length() - 1)
+			return String.valueOf(c1); // if the found char is the last one in the string, return it, ...
+		char c2 = text.charAt(i + 1);  // ... otherwise check the char that follows
+		if (isLineSeparatorChar(c2) && c1 != c2)
+			return "" + c1 + c2; // the line separator consists of two characters
+		return String.valueOf(c1);
+	}
+
 	public static boolean isLineSeparatorChar(char c) {
 	    return c == '\r' || c == '\n';
     }
