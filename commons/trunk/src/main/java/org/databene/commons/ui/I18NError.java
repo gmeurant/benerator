@@ -58,7 +58,12 @@ public class I18NError extends RuntimeException {
 	}
 	
 	public String renderMessage(I18NSupport i18n) {
-		return i18n.format("error." + getMessage(), parameters);
+		String message = getMessage();
+		return renderMessage(message, i18n, parameters);
+	}
+
+	public static String renderMessage(String message, I18NSupport i18n, Object... parameters) {
+		return i18n.format("error." + message, parameters);
 	}
 	
 }
