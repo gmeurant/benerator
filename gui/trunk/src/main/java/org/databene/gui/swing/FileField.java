@@ -34,6 +34,9 @@ import org.databene.commons.ui.FileTypeSupport;
 import org.databene.gui.awt.AwtFileChooser;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 import java.io.File;
 import java.awt.BorderLayout;
 import java.awt.TextField;
@@ -91,9 +94,10 @@ public class FileField extends Box {
             filenameField.setText(file.getAbsolutePath());
         }
         add(filenameField, BorderLayout.CENTER);
+        filenameField.getDocument().addDocumentListener(new TextFieldListener());
         button = new JButton("...");
         add(button, BorderLayout.EAST);
-        button.addActionListener(new Listener());
+        button.addActionListener(new ButtonListener());
         filenameFormat = new FilenameFormat(true);
         this.actionListeners = new ArrayList<ActionListener>();
     }
@@ -101,7 +105,7 @@ public class FileField extends Box {
     // properties ------------------------------------------------------------------------------------------------------
     
     public File getFile() {
-    	return chooser.getSelectedFile();
+    	return new File(filenameField.getText());
     }
 
     public void setFile(File file) {
@@ -140,7 +144,7 @@ public class FileField extends Box {
             actionListeners.get(i).actionPerformed(e);
     }
 
-    class Listener implements ActionListener {
+    class ButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             File file = null;
             String path = filenameField.getText();
@@ -160,4 +164,25 @@ public class FileField extends Box {
             }
         }
     }
+
+	public class TextFieldListener implements DocumentListener {
+
+		public void changedUpdate(DocumentEvent e) {
+			update(e);
+		}
+
+		public void insertUpdate(DocumentEvent e) {
+			update(e);
+		}
+
+		public void removeUpdate(DocumentEvent e) {
+			update(e);
+		}
+
+		private void update(DocumentEvent e) {
+			fireAction("files");
+		}
+
+	}
+
 }
