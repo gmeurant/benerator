@@ -68,4 +68,14 @@ public class CSVLineIteratorTest {
         iterator.close();
     }
 	
+	@Test
+    public void testEmpty() throws IOException {
+        CSVLineIterator iterator = new CSVLineIterator("string://name,\"\",,x");
+        assertTrue(iterator.hasNext());
+        String[] line = iterator.next();
+		assertTrue(Arrays.equals(new String[] { "name", "", "", "x" }, line));
+        assertFalse(iterator.hasNext());
+        iterator.close();
+    }
+	
 }
