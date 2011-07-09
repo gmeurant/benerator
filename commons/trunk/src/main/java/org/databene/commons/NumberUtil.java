@@ -43,6 +43,24 @@ public class NumberUtil {
 	
 	// constants -------------------------------------------------------------------------------------------------------
 	
+	private static final Map<Class<? extends Number>, ? extends Number> minValues = 
+		CollectionUtil.buildMap(
+				byte.class,       Byte.MIN_VALUE, 
+				Byte.class,       Byte.MIN_VALUE, 
+				short.class,      Short.MIN_VALUE, 
+				Short.class,      Short.MIN_VALUE, 
+				int.class,        Integer.MIN_VALUE, 
+				Integer.class,    Integer.MIN_VALUE, 
+				long.class,       Long.MIN_VALUE, 
+				Long.class,       Long.MIN_VALUE, 
+				float.class,      Float.MIN_VALUE, 
+				Float.class,      Float.MIN_VALUE, 
+				double.class,     Double.MIN_VALUE, 
+				Double.class,     Double.MIN_VALUE, 
+				BigDecimal.class, new BigDecimal(Double.MIN_VALUE), 
+				BigInteger.class, BigInteger.valueOf(Long.MIN_VALUE) 
+		);
+	
 	private static final Map<Class<? extends Number>, ? extends Number> maxValues = 
 		CollectionUtil.buildMap(
 				byte.class,       Byte.MAX_VALUE, 
@@ -119,9 +137,20 @@ public class NumberUtil {
         nf.setMaximumFractionDigits(digits);
         return nf.format(number);
     }
+    
+    public static boolean isLimited(Class<? extends Number> numberType) {
+    	return (numberType != BigDecimal.class && numberType != BigInteger.class);
+    }
 
     public static <T extends Number> T maxValue(Class<T> numberType) {
     	Number value = maxValues.get(numberType);
+    	if (value == null)
+    		throw new IllegalArgumentException("Not a supported number type: " + numberType);
+		return (T) value;
+    }
+    
+    public static <T extends Number> T minValue(Class<T> numberType) {
+    	Number value = minValues.get(numberType);
     	if (value == null)
     		throw new IllegalArgumentException("Not a supported number type: " + numberType);
 		return (T) value;
