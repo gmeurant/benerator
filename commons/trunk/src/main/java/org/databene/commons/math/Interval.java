@@ -54,6 +54,22 @@ public class Interval<E> {
 		this.comparator = comparator;
 	}
 	
+	public E getMin() {
+		return min;
+	}
+	
+	public boolean isMinInclusive() {
+		return minInclusive;
+	}
+	
+	public E getMax() {
+		return max;
+	}
+	
+	public boolean isMaxInclusive() {
+		return maxInclusive;
+	}
+	
 	public static <T> Interval<T> createInfiniteInterval() {
 		return new Interval<T>(null, false, null, false, null);
 	}
