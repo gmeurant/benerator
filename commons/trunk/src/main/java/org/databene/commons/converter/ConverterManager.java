@@ -287,11 +287,18 @@ public class ConverterManager implements ContextAware {
 	        converterPrototypes.put(types, converter);
     }
     
-    public static <S, T> Object convertAll(S[] input, Converter<S, T> converter, Class componentType) {
-        Object output = Array.newInstance(componentType, input.length);
-        for (int i = 0; i < input.length; i++)
-            Array.set(output, i, converter.convert(input[i]));
-        return output;
+    public static <S, T> Object convertAll(S[] sourceValues, Converter<S, T> converter, Class componentType) {
+        Object convertedValues = Array.newInstance(componentType, sourceValues.length);
+        for (int i = 0; i < sourceValues.length; i++)
+            Array.set(convertedValues, i, converter.convert(sourceValues[i]));
+        return convertedValues;
+    }
+    
+    public static <S, T> Collection<T> convertAll(Collection<S> sourceValues, Converter<S, T> converter) {
+    	List<T> result = new ArrayList<T>(sourceValues.size());
+        for (S sourceValue : sourceValues)
+            result.add(converter.convert(sourceValue));
+        return result;
     }
     
     public static <SS, TT> Converter<SS, TT>[] cloneIfSupported(Converter<SS, TT>[] prototypes) {
