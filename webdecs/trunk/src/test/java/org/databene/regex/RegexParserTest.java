@@ -34,6 +34,7 @@ import java.text.ParseException;
 import org.databene.commons.CharSet;
 import org.databene.commons.CollectionUtil;
 import org.databene.commons.StringUtil;
+import org.databene.commons.SyntaxError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -146,12 +147,10 @@ public class RegexParserTest {
         check("a{3,5}", new Factor('a', 3,  5));
     }
     
-/* TODO v0.5.x make the RegexParser fail on illegal syntax
-	@Test(expected = ParseException.class)
+	@Test(expected = SyntaxError.class)
     public void testInvalidQuantifier() throws ParseException {
 		new RegexParser().parseRegex("a{,4}");
     }
-*/
 
 	@Test
     public void testClassAndQuantifierSequences() throws ParseException {

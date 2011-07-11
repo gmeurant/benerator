@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -35,13 +35,17 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.antlr.runtime.ANTLRReaderStream;
+import org.antlr.runtime.CommonToken;
 import org.antlr.runtime.CommonTokenStream;
+import org.antlr.runtime.ParserRuleReturnScope;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
 import org.databene.commons.Assert;
 import org.databene.commons.CharSet;
 import org.databene.commons.CollectionUtil;
 import org.databene.commons.LocaleUtil;
+import org.databene.commons.StringUtil;
+import org.databene.commons.SyntaxError;
 import org.databene.regex.antlr.RegexLexer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,8 +85,7 @@ public class RegexParser {
 	        CommonTokenStream tokens = new CommonTokenStream(lex);
 	        org.databene.regex.antlr.RegexParser parser = new org.databene.regex.antlr.RegexParser(tokens);
 	        org.databene.regex.antlr.RegexParser.expression_return r = parser.expression();
-	        if (parser.getNumberOfSyntaxErrors() > 0)
-	        	throw new ParseException("Illegal regex: " + pattern, -1);
+	        checkForSyntaxErrors(pattern, "regex", parser, r);
 	        if (r != null) {
 	        	CommonTree tree = (CommonTree) r.getTree();
 	        	if (LOGGER.isDebugEnabled())
@@ -334,4 +337,17 @@ public class RegexParser {
 	    }
     }
 
+	private static void checkForSyntaxErrors(String text, String type,
+			org.databene.regex.antlr.RegexParser parser, ParserRuleReturnScope r) {
+		if (parser.getNumberOfSyntaxErrors() > 0)
+			throw new SyntaxError("Illegal " + type, text, -1, -1);
+		CommonToken stop = (CommonToken) r.stop;
+		if (stop.getStopIndex() < StringUtil.trimRight(text).length() - 1) {
+			if (stop.getStopIndex() == 0)
+				throw new SyntaxError("Syntax error after " + stop.getText(), text);
+			else
+				throw new SyntaxError("Syntax error at the beginning ", text);
+		}
+	}
+	
 }

@@ -1,0 +1,11 @@
+release notes databene webdecs 0.5.9
+------------------------------------
+
+
+Enhancements
+------------
+
+
+Bug Fixes
+---------
+- assuring that a SyntaxError is thrown when parsing an illegal regular expression
