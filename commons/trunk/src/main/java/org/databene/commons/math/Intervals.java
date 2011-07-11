@@ -55,7 +55,7 @@ public class Intervals<E> {
 		return intervals.size();
 	}
 	
-	public Interval<E> get(int i) {
+	public Interval<E> getInterval(int i) {
 		return intervals.get(i);
 	}
 

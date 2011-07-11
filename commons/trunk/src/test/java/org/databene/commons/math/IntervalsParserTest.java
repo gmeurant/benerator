@@ -38,81 +38,81 @@ public class IntervalsParserTest {
 	public void testWildcard() {
 		Intervals<Integer> collection = parse("*");
 		assertEquals(1, collection.intervalCount());
-		assertEquals(createIntInterval(null, false, null, false), collection.get(0));
+		assertEquals(createIntInterval(null, false, null, false), collection.getInterval(0));
 	}
 
 	@Test
 	public void testEndpoint() {
 		Intervals<Integer> collection = parse("1");
 		assertEquals(1, collection.intervalCount());
-		assertEquals(createIntInterval(1, true, 1, true), collection.get(0));
+		assertEquals(createIntInterval(1, true, 1, true), collection.getInterval(0));
 	}
 
 	@Test
 	public void testSingleInterval() {
 		Intervals<Integer> collection = parse("[1,2]");
 		assertEquals(1, collection.intervalCount());
-		assertEquals(createIntInterval(1, true, 2, true), collection.get(0));
+		assertEquals(createIntInterval(1, true, 2, true), collection.getInterval(0));
 	}
 
 	@Test
 	public void testMinInclusiveEndpoint() {
 		Intervals<Integer> collection = parse(">=2");
 		assertEquals(1, collection.intervalCount());
-		assertEquals(createIntInterval(2, true, null, false), collection.get(0));
+		assertEquals(createIntInterval(2, true, null, false), collection.getInterval(0));
 	}
 
 	@Test
 	public void testMinExclusiveEndpoint() {
 		Intervals<Integer> collection = parse(">2");
 		assertEquals(1, collection.intervalCount());
-		assertEquals(createIntInterval(2, false, null, false), collection.get(0));
+		assertEquals(createIntInterval(2, false, null, false), collection.getInterval(0));
 	}
 
 	@Test
 	public void testMaxInclusiveEndpoint() {
 		Intervals<Integer> collection = parse("<=2");
 		assertEquals(1, collection.intervalCount());
-		assertEquals(createIntInterval(null, false, 2, true), collection.get(0));
+		assertEquals(createIntInterval(null, false, 2, true), collection.getInterval(0));
 	}
 
 	@Test
 	public void testMaxExclusiveEndpoint() {
 		Intervals<Integer> collection = parse("<2");
 		assertEquals(1, collection.intervalCount());
-		assertEquals(createIntInterval(null, false, 2, false), collection.get(0));
+		assertEquals(createIntInterval(null, false, 2, false), collection.getInterval(0));
 	}
 
 	@Test
 	public void testTwoEndpoints() {
 		Intervals<Integer> collection = parse("1,3");
 		assertEquals(2, collection.intervalCount());
-		assertEquals(createIntInterval(1, true, 1, true), collection.get(0));
-		assertEquals(createIntInterval(3, true, 3, true), collection.get(1));
+		assertEquals(createIntInterval(1, true, 1, true), collection.getInterval(0));
+		assertEquals(createIntInterval(3, true, 3, true), collection.getInterval(1));
 	}
 
 	@Test
 	public void testTwoIntervals() {
 		Intervals<Integer> collection = parse("[1,2],]3,5[");
 		assertEquals(2, collection.intervalCount());
-		assertEquals(createIntInterval(1, true, 2, true), collection.get(0));
-		assertEquals(createIntInterval(3, false, 5, false), collection.get(1));
+		assertEquals(createIntInterval(1, true, 2, true), collection.getInterval(0));
+		assertEquals(createIntInterval(3, false, 5, false), collection.getInterval(1));
 	}
 
 	@Test
 	public void testTwoIntervalsWithWhitespace() {
 		Intervals<Integer> collection = parse("[ 1 , 2 ] , ] 3 , 5 [");
 		assertEquals(2, collection.intervalCount());
-		assertEquals(createIntInterval(1, true, 2, true), collection.get(0));
-		assertEquals(createIntInterval(3, false, 5, false), collection.get(1));
+		assertEquals(createIntInterval(1, true, 2, true), collection.getInterval(0));
+		assertEquals(createIntInterval(3, false, 5, false), collection.getInterval(1));
 	}
 
 	@Test
 	public void testIntervalAndBound() {
 		Intervals<Integer> collection = parse("[1,2] , >= 3");
 		assertEquals(2, collection.intervalCount());
-		assertEquals(createIntInterval(1, true, 2, true), collection.get(0));
-		assertEquals(createIntInterval(3, true, null, false), collection.get(1));
+		assertEquals(createIntInterval(1, true, 2, true), collection.getInterval(0));
+		assertEquals(createIntInterval(3, true, null, false), collection.getInterval(1));
 	}
 
 	// helpers ---------------------------------------------------------------------------------------------------------
