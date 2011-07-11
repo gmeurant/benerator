@@ -800,4 +800,8 @@ public final class StringUtil {
 	    return c == '\r' || c == '\n';
     }
 
+	public static String quoteIfNotNull(String text) {
+		return (text != null ? "'" + text + "'" : text);
+	}
+
 }
