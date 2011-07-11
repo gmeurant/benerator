@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -39,8 +39,6 @@ import org.slf4j.LoggerFactory;
  * @author Volker Bergmann
  */
 public class AnyConverter<E> extends FormatHolder implements Converter<Object, E> {
-	
-	// TODO v0.5.x check which usages of this class can be avoided
 	
     private static final Logger logger = LoggerFactory.getLogger(AnyConverter.class);
 
