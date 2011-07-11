@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -128,8 +128,7 @@ public final class IOUtil {
     }
 
     public static boolean isURIAvailable(String uri) {
-    	if (logger.isDebugEnabled())
-    		logger.debug("isURIAvailable(" + uri + ')');
+    	logger.debug("isURIAvailable({})", uri);
         InputStream stream = null;
         try {
             if (uri.startsWith("string://"))
@@ -190,12 +189,11 @@ public final class IOUtil {
     /**
      * Creates an InputStream from a url in String representation.
      * @param uri the source url
-     * @return an InputStream theat reads te url.
+     * @return an InputStream that reads the url.
      * @throws IOException if the url cannot be read.
      */
     public static InputStream getInputStreamForURI(String uri, boolean required) throws IOException {
-    	if (logger.isDebugEnabled())
-    		logger.debug("getInputStreamForURI(" + uri + ", " + required + ')');
+		logger.debug("getInputStreamForURI({}, {})", uri, required);
         if (uri.startsWith("string://")) {
 			String content = uri.substring("string://".length());
 			return new ByteArrayInputStream(content.getBytes(SystemInfo.getCharset()));
@@ -220,8 +218,7 @@ public final class IOUtil {
 	}
 
     public static InputStream getInputStreamForUriReference(String localUri, String contextUri, boolean required) throws IOException {
-    	if (logger.isDebugEnabled())
-    		logger.debug("getInputStreamForUriReference(" + localUri + ", " + contextUri + ')');
+		logger.debug("getInputStreamForUriReference({}, {})", localUri, contextUri);
     	// do not resolve context for absolute URLs or missing contexts
     	if (StringUtil.isEmpty(contextUri) || getProtocol(localUri) != null)
     		return getInputStreamForURI(localUri, required);
@@ -244,8 +241,7 @@ public final class IOUtil {
     }
 
     public static String resolveRelativeUri(String relativeUri, String contextUri) {
-    	if (logger.isDebugEnabled())
-    		logger.debug("resolveRelativeUri(" + relativeUri + ", " + contextUri + ')');
+		logger.debug("resolveRelativeUri({}, {})", relativeUri, contextUri);
     	if (isAbsoluteRef(relativeUri, contextUri))
     		return relativeUri;
     	String contextProtocol = getProtocol(contextUri);
@@ -372,11 +368,16 @@ public final class IOUtil {
 
     public static void copyFile(String srcUri, String targetUri) throws IOException {
         logger.debug("copying " + srcUri + " --> " + targetUri);
-        InputStream in = getInputStreamForURI(srcUri);
-        OutputStream out = openOutputStreamForURI(targetUri);
-        IOUtil.transfer(in, out);
-        out.close();
-        in.close();
+        InputStream in = null;
+        OutputStream out = null;
+        try {
+	        in = getInputStreamForURI(srcUri);
+	        out = openOutputStreamForURI(targetUri);
+	        IOUtil.transfer(in, out);
+        } finally {
+	        close(out);
+	        close(in);
+        }
     }
 
     public static OutputStream openOutputStreamForURI(String uri) throws IOException {
@@ -525,8 +526,7 @@ public final class IOUtil {
      * @throws FileNotFoundException if the file cannot be found.
      */
     private static InputStream getFileOrResourceAsStream(String filename, boolean required) throws FileNotFoundException {
-    	if (logger.isDebugEnabled())
-    		logger.debug("getFileOrResourceAsStream(" + filename + ", " + required + ')');
+		logger.debug("getFileOrResourceAsStream({}, {})", filename, required);
         File file = new File(filename);
         if (file.exists()) {
             return new FileInputStream(filename);
@@ -540,8 +540,7 @@ public final class IOUtil {
      * @return an InputStream to the resource
      */
     private static InputStream getResourceAsStream(String name, boolean required) {
-    	if (logger.isDebugEnabled())
-    		logger.debug("getResourceAsStream(" + name + ", " + required + ')');
+    	logger.debug("getResourceAsStream({}, {})", name, required);
     	String searchedName = (name.startsWith("/") ? name : "/" + name);
         InputStream stream = IOUtil.class.getResourceAsStream(searchedName);
         if (required && stream == null)
@@ -612,13 +611,11 @@ public final class IOUtil {
 				String relativeName = name.substring(directory.length());
 				if (entry.isDirectory()) {
 					File subDir = new File(targetDirectory, relativeName);
-					if (logger.isDebugEnabled())
-						logger.debug("creating sub directory " + subDir);
+					logger.debug("creating sub directory {}", subDir);
 					subDir.mkdir();
 				} else {
 					File targetFile = new File(targetDirectory, relativeName);
-					if (logger.isDebugEnabled())
-						logger.debug("copying file " + name + " to " + targetFile);
+					logger.debug("copying file {} to {}", name, targetFile);
 					InputStream in = jar.getInputStream(entry);
 					OutputStream out = new FileOutputStream(targetFile);
 					transfer(in, out);
@@ -630,16 +627,14 @@ public final class IOUtil {
     }
 
 	public static String[] listResources(URL url) throws IOException {
-		if (logger.isDebugEnabled())
-			logger.debug("listResources(" + url + ")");
+		logger.debug("listResources({})", url);
         String protocol = url.getProtocol();
 		if (protocol.equals("file")) {
 			try {
 				String[] result = new File(url.toURI()).list();
 				if (result == null)
 					result = new String[0];
-				if (logger.isDebugEnabled())
-					logger.debug("found file resources: " + result);
+				logger.debug("found file resources: {}", result);
 				return result;
 			} catch (URISyntaxException e) {
 				throw new RuntimeException("Unexpected exception", e);
@@ -662,8 +657,7 @@ public final class IOUtil {
 					result.add(entry);
 				}
 			}
-			if (logger.isDebugEnabled())
-				logger.debug("found jar resources: " + result);
+			logger.debug("found jar resources: {}", result);
 			return result.toArray(new String[result.size()]);
         } else          
         	throw new UnsupportedOperationException("Protocol not supported: "+ protocol + 
