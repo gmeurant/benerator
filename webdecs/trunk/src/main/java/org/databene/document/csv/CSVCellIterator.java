@@ -49,10 +49,10 @@ public class CSVCellIterator implements HeavyweightIterator<String> {
 
     // constructors ----------------------------------------------------------------------------------------------------
 
-    public CSVCellIterator(String uri, char separator) throws IOException {
+    public CSVCellIterator(String uri, char separator, String encoding) throws IOException {
         this.uri = uri;
         this.separator = separator;
-        this.tokenizer = new CSVTokenizer(uri, separator);
+        this.tokenizer = new CSVTokenizer(uri, separator, encoding);
         skipEOLs();
     }
 

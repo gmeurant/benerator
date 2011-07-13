@@ -36,8 +36,8 @@ public class CSVIteratorFactory {
 	private CSVIteratorFactory() { }
 	
 	public static HeavyweightIterator<String> createCSVCellIterator(
-			String uri, char separator) throws IOException { 
-		return new CSVCellIterator(uri, separator);
+			String uri, char separator, String encoding) throws IOException { 
+		return new CSVCellIterator(uri, separator, encoding);
 	} 
 
 	public static HeavyweightIterator<String> createCSVVellIteratorForColumn(

@@ -29,6 +29,7 @@ package org.databene.document.csv;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.HeavyweightIterator;
 import org.databene.commons.HeavyweightTypedIterable;
+import org.databene.commons.SystemInfo;
 
 /**
  * Creates Iterators that iterate through the cells of a CSV file.<br/>
@@ -40,14 +41,20 @@ public class CSVCellIterable implements HeavyweightTypedIterable<String> {
 
     private String uri;
     private char separator;
+    private String encoding;
 
     public CSVCellIterable() {
         this(null, ',');
     }
 
     public CSVCellIterable(String uri, char separator) {
+        this(uri, separator, SystemInfo.getFileEncoding());
+    }
+    
+    public CSVCellIterable(String uri, char separator, String encoding) {
         this.uri = uri;
         this.separator = separator;
+        this.encoding = encoding;
     }
     
     public void setUri(String uri) {
@@ -60,7 +67,7 @@ public class CSVCellIterable implements HeavyweightTypedIterable<String> {
 
     public HeavyweightIterator<String> iterator() {
         try {
-            return new CSVCellIterator(uri, separator);
+            return new CSVCellIterator(uri, separator, encoding);
         } catch (Exception e) {
             throw new ConfigurationError(e);
         }
