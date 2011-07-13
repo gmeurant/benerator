@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -29,8 +29,6 @@ package org.databene.regex;
 import org.junit.Test;
 import static junit.framework.Assert.*;
 
-import java.text.ParseException;
-
 import org.databene.commons.CharSet;
 import org.databene.commons.CollectionUtil;
 import org.databene.commons.StringUtil;
@@ -55,13 +53,13 @@ public class RegexParserTest {
 	private static Logger logger = LoggerFactory.getLogger(RegexParserTest.class);
     
 	@Test
-    public void testEmpty() throws ParseException {
+    public void testEmpty() throws Exception {
         check(null, null);
         check("", "");
     }
 
 	@Test
-    public void testSpecialCharacters() throws ParseException {
+    public void testSpecialCharacters() throws Exception {
         check("\\+", '+');
         check("\\-", '-');
         check("\\*", '*');
@@ -82,23 +80,23 @@ public class RegexParserTest {
     }
 
 	@Test
-    public void testHexCharacter() throws ParseException {
+    public void testHexCharacter() throws Exception {
         check("\\xfe",   (char) 0xfe);
         check("\\ufedc", (char) 0xfedc);
     }
 
 	@Test
-    public void testOctalCharacter() throws ParseException {
+    public void testOctalCharacter() throws Exception {
         check("\\0123",  (char) 0123);
     }
 
 	@Test
-    public void testCodedCharacter() throws ParseException {
+    public void testCodedCharacter() throws Exception {
         check("\\cB",    (char) 1);
     }
 
 	@Test
-    public void testCustomClasses() throws ParseException {
+    public void testCustomClasses() throws Exception {
         check("[a-c]", new CustomCharClass(CollectionUtil.toList(new CharSet('a', 'c'))));
         check("[a-cA-C]", new CustomCharClass(CollectionUtil.toList(new CharSet('a', 'c'), new CharSet('A', 'C'))));
         check("[^\\w]", new CustomCharClass(
@@ -107,36 +105,26 @@ public class RegexParserTest {
         	));
     }
 
-	@Test
+	@Test(expected = SyntaxError.class)
     public void testInvalidCustomClass() {
-        try {
-			new RegexParser().parseRegex("[a-f");
-			fail("ParseException expected");
-		} catch (ParseException e) {
-			// this is expected
-		}
+		new RegexParser().parseRegex("[a-f");
     }
 
 	@Test
-    public void testPredefClasses() throws ParseException {
+    public void testPredefClasses() throws Exception {
         check(".", new CharSet().addAnyCharacters());
         check("\\d", new CharSet().addDigits());
         check("\\s", new CharSet().addWhitespaces());
         check("\\w", new CharSet().addWordChars());
     }
 
-	@Test
+	@Test(expected = SyntaxError.class)
     public void testInvalidPredefClass() {
-        try {
-			new RegexParser().parseRegex("\\X");
-			fail("ParseException expected");
-		} catch (ParseException e) {
-			// this is expected
-		}
+		new RegexParser().parseRegex("\\X");
     }
 
 	@Test
-    public void testQuantifiers() throws ParseException {
+    public void testQuantifiers() throws Exception {
         check("a",      'a');
         check("a?",     new Factor('a', 0, 1));
         check("a*",     new Factor('a', 0, null));
@@ -148,12 +136,12 @@ public class RegexParserTest {
     }
     
 	@Test(expected = SyntaxError.class)
-    public void testInvalidQuantifier() throws ParseException {
+    public void testInvalidQuantifier() throws Exception {
 		new RegexParser().parseRegex("a{,4}");
     }
 
 	@Test
-    public void testClassAndQuantifierSequences() throws ParseException {
+    public void testClassAndQuantifierSequences() throws Exception {
         check("\\w+\\d+", new Sequence(
                 new Factor(new CharSet().addWordChars(), 1, null),
                 new Factor(new CharSet().addDigits(), 1, null)
@@ -185,7 +173,7 @@ public class RegexParserTest {
     }
 
 	@Test
-    public void testGroups() throws ParseException {
+    public void testGroups() throws Exception {
         check("(a)", new Group('a'));
 
         check("(ab)", new Group(new Sequence('a', 'b')));
@@ -211,7 +199,7 @@ public class RegexParserTest {
     }
 
 	@Test
-    public void testChoices() throws ParseException {
+    public void testChoices() throws Exception {
         check("(a|b)", new Group(new Choice('a', 'b')));
         check("(a?|b+)*", 
         	new Factor(
@@ -224,7 +212,7 @@ public class RegexParserTest {
     }
 
 	@Test
-    public void testRecursion() throws ParseException {
+    public void testRecursion() throws Exception {
         check("(a{1,2}|b){1,3}", 
         	new Factor(
 	            new Group(new Choice(
@@ -234,7 +222,7 @@ public class RegexParserTest {
 	        ));
     }
 
-    private void check(String pattern, Object expectedPart) throws ParseException {
+    private void check(String pattern, Object expectedPart) throws Exception {
         logger.debug("checking " + pattern);
         Object result = new RegexParser().parseRegex(pattern);
         logger.debug("parsed as: " + StringUtil.normalize(String.valueOf(result)));
