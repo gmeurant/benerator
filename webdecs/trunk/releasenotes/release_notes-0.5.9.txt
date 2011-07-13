@@ -9,3 +9,4 @@ Enhancements
 Bug Fixes
 ---------
 - assuring that a SyntaxError is thrown when parsing an illegal regular expression
+- supporting individual file encodings in CSV iteration
