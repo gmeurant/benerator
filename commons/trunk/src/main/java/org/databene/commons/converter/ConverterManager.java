@@ -37,6 +37,7 @@ import org.databene.commons.LogCategories;
 import org.databene.commons.OrderedMap;
 import org.databene.commons.Patterns;
 import org.databene.commons.ReaderLineIterator;
+import org.databene.commons.Resettable;
 import org.databene.commons.StringUtil;
 import org.databene.commons.context.ContextAware;
 import org.slf4j.Logger;
@@ -64,7 +65,7 @@ import java.lang.reflect.Modifier;
  * @author Volker Bergmann
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
-public class ConverterManager implements ContextAware {
+public class ConverterManager implements ContextAware, Resettable {
 
 	private static final Logger configLogger = LoggerFactory.getLogger(LogCategories.CONFIG);
 
@@ -79,7 +80,11 @@ public class ConverterManager implements ContextAware {
     private Map<ConversionTypes, Converter> converterPrototypes;
 
     private ConverterManager() {
-        this.configuredConverterClasses = new OrderedMap<ConversionTypes, Class<? extends Converter>>();
+        init();
+    }
+
+	protected void init() {
+		this.configuredConverterClasses = new OrderedMap<ConversionTypes, Class<? extends Converter>>();
         this.converterPrototypes = new HashMap<ConversionTypes, Converter>();
         try {
             if (IOUtil.isURIAvailable(CUSTOM_SETUP_FILENAME))
@@ -90,7 +95,7 @@ public class ConverterManager implements ContextAware {
         } catch (IOException e) {
             throw new ConfigurationError("Error reading setup file: " + DEFAULT_SETUP_FILENAME);
         }
-    }
+	}
 
     public static ConverterManager getInstance() {
         if (instance == null)
@@ -334,5 +339,9 @@ public class ConverterManager implements ContextAware {
 	        iterator.close();
         }
     }
+
+	public void reset() {
+		init();
+	}
 
 }
