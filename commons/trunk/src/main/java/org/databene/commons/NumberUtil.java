@@ -149,6 +149,13 @@ public class NumberUtil {
 		return (T) value;
     }
     
+    public static <T extends Number> int totalDigits(Class<T> numberType) {
+    	if (isLimited(numberType))
+    		return 1 + (int) Math.log10(maxValue(numberType).doubleValue());
+    	else
+    		return 1+ (int) Math.log10(maxValue(double.class));
+    }
+    
     public static <T extends Number> T minValue(Class<T> numberType) {
     	Number value = minValues.get(numberType);
     	if (value == null)

@@ -26,6 +26,9 @@
 
 package org.databene.commons;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 import org.junit.Test;
 import static junit.framework.Assert.*;
 import static org.databene.commons.NumberUtil.*;
@@ -63,4 +66,22 @@ public class NumberUtilTest {
         assertEquals("ffff", NumberUtil.formatHex(-1, 4));
     }
     
+	@Test
+	public void testTotalDigits() {
+		assertEquals(3, NumberUtil.totalDigits(byte.class));
+		assertEquals(3, NumberUtil.totalDigits(Byte.class));
+		assertEquals(5, NumberUtil.totalDigits(short.class));
+		assertEquals(5, NumberUtil.totalDigits(Short.class));
+		assertEquals(10, NumberUtil.totalDigits(int.class));
+		assertEquals(10, NumberUtil.totalDigits(Integer.class));
+		assertEquals(19, NumberUtil.totalDigits(long.class));
+		assertEquals(19, NumberUtil.totalDigits(Long.class));
+		assertEquals(39, NumberUtil.totalDigits(float.class));
+		assertEquals(39, NumberUtil.totalDigits(Float.class));
+		assertEquals(309, NumberUtil.totalDigits(double.class));
+		assertEquals(309, NumberUtil.totalDigits(Double.class));
+		assertEquals(309, NumberUtil.totalDigits(BigInteger.class));
+		assertEquals(309, NumberUtil.totalDigits(BigDecimal.class));
+	}
+	
 }
