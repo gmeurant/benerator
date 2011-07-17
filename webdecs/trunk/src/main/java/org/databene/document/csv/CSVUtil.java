@@ -27,6 +27,9 @@
 package org.databene.document.csv;
 
 import org.databene.commons.ArrayFormat;
+import org.databene.commons.ConfigurationError;
+import org.databene.commons.HeavyweightIterator;
+import org.databene.commons.IOUtil;
 import org.databene.commons.SystemInfo;
 
 import java.io.IOException;
@@ -42,6 +45,21 @@ import java.util.ArrayList;
  * @author Volker Bergmann
  */
 public class CSVUtil {
+
+	public static String[] parseHeader(String uri, char separator, String encoding) {
+		HeavyweightIterator<String[]> cellIterator = null;
+		try {
+			cellIterator = new CSVLineIterator(uri, separator, true, encoding);
+			if (cellIterator.hasNext())
+				return cellIterator.next();
+			else
+				throw new ConfigurationError("empty CSV file");
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} finally {
+			IOUtil.close(cellIterator);
+		}
+	}
 
     public static String[][] parseRows(String url, char separator) throws IOException {
         return parseRows(url, separator, SystemInfo.getFileEncoding());
