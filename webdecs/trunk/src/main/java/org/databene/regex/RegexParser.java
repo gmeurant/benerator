@@ -345,7 +345,7 @@ public class RegexParser {
 			if (stop.getStopIndex() == 0)
 				throw new SyntaxError("Syntax error after " + stop.getText(), text);
 			else
-				throw new SyntaxError("Syntax error at the beginning ", text);
+				throw new SyntaxError("Syntax error", text);
 		}
 	}
 	
