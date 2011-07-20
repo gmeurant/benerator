@@ -36,8 +36,8 @@ import org.databene.commons.Converter;
  */
 public class ArrayTypeConverter<T> extends ArrayConverter<Object, T> {
 
-    public ArrayTypeConverter(Class<T> arrayComponentType, Class<? extends T> ... elementTypes) {
-        super(Object.class, arrayComponentType, createConverters(elementTypes));
+    public ArrayTypeConverter(Class<T> targetArrayComponentType, Class<? extends T> ... elementTypes) {
+        super(Object.class, targetArrayComponentType, createConverters(elementTypes));
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -48,8 +48,8 @@ public class ArrayTypeConverter<T> extends ArrayConverter<Object, T> {
         return converters;
     }
     
-    public static Object[] convert(Object[] args, Class<?>[] parameterTypes) {
-        return new ArrayTypeConverter<Object>(Object.class, parameterTypes).convert(args);
+    public static Object[] convert(Object[] args, Class<?>[] elementTypes) {
+        return new ArrayTypeConverter<Object>(Object.class, elementTypes).convert(args);
     }
 
 }
