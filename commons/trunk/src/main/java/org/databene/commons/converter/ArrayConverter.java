@@ -31,12 +31,17 @@ import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 
 /**
- * Converts arrays from one component type to arrays of another component type.<br/>
+ * Converts arrays from one component type to arrays of another component type.
+ * If there are no converters registered, it only transforms the array type.
+ * If there is a single converter, all elements are converted with the same converter.
+ * If there are several converters, the number of converters and array elements are 
+ * assumed to be equal and each element is converted with the converter of the same index.
+<br/>
  * <br/>
  * Created: 07.06.2007 14:35:18
  * @author Volker Bergmann
  */
-public class ArrayConverter<S, T> extends MultiConverterWrapper<S, T> implements Converter<S[], T[]>{
+public class ArrayConverter<S, T> extends MultiConverterWrapper<S, T> implements Converter<S[], T[]> {
 
     private Class<T> targetComponentType;
     private Class<S[]> sourceType;
@@ -58,12 +63,22 @@ public class ArrayConverter<S, T> extends MultiConverterWrapper<S, T> implements
 	    return targetType;
     }
     
+	/** 
+	 * If there are no converters, it only transforms the array type; 
+	 * if there is a single converter, all elements are converted with the same converter;
+	 * if there are several converters, the number of converters and array elements are 
+	 * assumed to be equal and each element is converted with the converter of the same index.
+	 */
     public T[] convert(S[] sourceValues) throws ConversionException {
         if (sourceValues == null)
             return null;
-        if (components.length == 1)
-        	return convert(sourceValues, components[0], targetComponentType);
+        if (components.length == 0)
+        	return convertWith(null, targetComponentType, sourceValues);
+        else if (components.length == 1)
+        	return convertWith(components[0], targetComponentType, sourceValues);
         else {
+        	if (sourceValues.length != components.length)
+        		throw new IllegalArgumentException("Array has a different size than the converter list");
             T[] result = ArrayUtil.newInstance(targetComponentType, components.length);
             for (int i = 0; i < components.length; i++)
 	            result[i] = components[i].convert(sourceValues[i]);
@@ -71,11 +86,11 @@ public class ArrayConverter<S, T> extends MultiConverterWrapper<S, T> implements
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public static <S, T> T[] convert(S[] sourceValues, Converter<S, T> converter, Class<T> componentType) throws ConversionException {
+    /** Converts all array elements with the same {@link Converter}. */
+    public static <S, T> T[] convertWith(Converter<S, T> converter, Class<T> componentType, S[] sourceValues) throws ConversionException {
         T[] result = ArrayUtil.newInstance(componentType, sourceValues.length);
         for (int i = 0; i < sourceValues.length; i++)
-            result[i] = (converter != null ? converter.convert(sourceValues[i]) : (T) sourceValues[i]);
+            result[i] = (converter != null ? converter.convert(sourceValues[i]) : AnyConverter.convert(sourceValues[i], componentType));
         return result;
     }
 
