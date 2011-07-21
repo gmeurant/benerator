@@ -26,9 +26,10 @@ import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link Converter} implementation which applies another converter only if a condition is fulfilled, 
+ * otherwise returns the argument itself.<br/><br/>
  * Created: 20.07.2011 18:39:51
- * @since TODO version
+ * @since 0.5.9
  * @author Volker Bergmann
  */
 @SuppressWarnings("rawtypes")

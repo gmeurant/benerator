@@ -30,9 +30,9 @@ import org.databene.commons.ConversionException;
 import org.junit.Test;
 
 /**
- * TODO Document class.<br/><br/>
+ * Tests the ArrayConverter.<br/><br/>
  * Created: 20.07.2011 07:14:40
- * @since TODO version
+ * @since 0.5.9
  * @author Volker Bergmann
  */
 public class ArrayConverterTest {

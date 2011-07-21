@@ -25,9 +25,9 @@ import org.databene.commons.HeavyweightIterator;
 import org.databene.commons.HeavyweightTypedIterable;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link Iterable} proxy which skips the first data row.<br/><br/>
  * Created: 19.07.2011 09:04:03
- * @since TODO version
+ * @since 0.5.9
  * @author Volker Bergmann
  */
 public class HeadSkippingIterable<T> implements HeavyweightTypedIterable<T> {
