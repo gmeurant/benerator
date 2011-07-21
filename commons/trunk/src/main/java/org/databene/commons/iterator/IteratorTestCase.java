@@ -18,20 +18,20 @@ public abstract class IteratorTestCase {
         }
     }
 
-	public static <T> NextHelper<T> expectNextElements(Iterator<T> iterator, T... elements) {
+	public static <T> NextHelper expectNextElements(Iterator<?> iterator, T... elements) {
 		for (T element : elements) {
 			assertTrue("Iterator is expected to be available", iterator.hasNext());
-			T next = iterator.next();
+			Object next = iterator.next();
 			assertEquals("Expected " + element + " but was: " + next, element, next);
 		}
-		return new NextHelper<T>(iterator);
+		return new NextHelper(iterator);
 	}
 	
-	public static class NextHelper<T> {
+	public static class NextHelper {
 		
-		Iterator<T> iterator;
+		Iterator<?> iterator;
 
-		public NextHelper(Iterator<T> iterator) {
+		public NextHelper(Iterator<?> iterator) {
 			this.iterator = iterator;
 		}
 		
