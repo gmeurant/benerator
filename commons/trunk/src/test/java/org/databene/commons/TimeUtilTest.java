@@ -58,6 +58,44 @@ public class TimeUtilTest {
 	}
 	
 	@Test
+	public void testAddDays() {
+		// adding 0
+		assertEquals(TimeUtil.date(1970, 0, 1), TimeUtil.addDays(TimeUtil.date(1970, 0, 1), 0));
+		// simple case
+		assertEquals(TimeUtil.date(1970, 0, 3), TimeUtil.addDays(TimeUtil.date(1970, 0, 1), 2));
+		// over month's end 
+		assertEquals(TimeUtil.date(2008, 3, 15), TimeUtil.addDays(TimeUtil.date(2008, 2, 15), 31));
+		// over year's end
+		assertEquals(TimeUtil.date(2010, 1, 28), TimeUtil.addDays(TimeUtil.date(2009, 1, 28), 365));
+		// over year's end + leap year
+		assertEquals(TimeUtil.date(2008, 2, 1), TimeUtil.addDays(TimeUtil.date(2007, 1, 28), 367));
+	}
+	
+	@Test
+	public void testAddMonths() {
+		// adding 0
+		assertEquals(TimeUtil.date(1970, 0,  1), TimeUtil.addMonths(TimeUtil.date(1970, 0,  1),  0));
+		// simple addition
+		assertEquals(TimeUtil.date(1970, 3,  1), TimeUtil.addMonths(TimeUtil.date(1970, 1,  1),  2));
+		// 31. of the moth + n months -> month's end (31/30/29/28)
+		assertEquals(TimeUtil.date(2008, 3, 30), TimeUtil.addMonths(TimeUtil.date(2008, 0, 31),  3));
+		// over year's end
+		assertEquals(TimeUtil.date(2011, 1, 28), TimeUtil.addMonths(TimeUtil.date(2009, 1, 28), 24));
+		// over year's end + leap year
+		assertEquals(TimeUtil.date(2009, 1, 28), TimeUtil.addMonths(TimeUtil.date(2008, 1, 29), 12));
+	}
+	
+	@Test
+	public void testAddYears() {
+		// adding 0
+		assertEquals(TimeUtil.date(1970, 0,  1), TimeUtil.addYears(TimeUtil.date(1970, 0,  1),  0));
+		// simple addition
+		assertEquals(TimeUtil.date(1972, 1,  1), TimeUtil.addYears(TimeUtil.date(1970, 1,  1),  2));
+		// Add ing to Feb, 29 in leap year -> Feb. 28/29
+		assertEquals(TimeUtil.date(2011, 1, 28), TimeUtil.addYears(TimeUtil.date(2008, 1, 29), 3));
+	}
+	
+	@Test
     public void testMax() {
         Date now = new Date();
         Date later = new Date(now.getTime() + Period.DAY.getMillis());

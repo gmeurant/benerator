@@ -213,6 +213,24 @@ public final class TimeUtil {
     	return cal.getTime();
     }
     
+    public static Date addDays(Date date, int delta) {
+        Calendar calendar = calendar(date);
+        calendar.add(Calendar.DAY_OF_YEAR, delta);
+        return calendar.getTime();
+    }
+    
+    public static Date addMonths(Date date, int delta) {
+        Calendar calendar = calendar(date);
+        calendar.add(Calendar.MONTH, delta);
+        return calendar.getTime();
+    }
+    
+    public static Date addYears(Date date, int delta) {
+        Calendar calendar = calendar(date);
+        calendar.add(Calendar.YEAR, delta);
+        return calendar.getTime();
+    }
+    
     public static Date add(Date date, int field, int i) {
         Calendar calendar = calendar(date);
         calendar.add(field, i);
