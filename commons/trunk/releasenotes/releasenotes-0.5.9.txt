@@ -8,8 +8,9 @@ Enhancements
 - new method ConverterManager.convertAll(Collection<S> sourceValues, Converter<S, T> converter)
 - new Interval properties min, minInclusive, max, maxInclusive
 - new method StringUtil.quoteIfNotNull()
+- new class ConditionalConverter
 
 
 Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
 --------------------------------------------------------------------------------------------
-- Unit test fail on Windows: IOUtil, StringUtil
+- Unit tests fail on Windows: IOUtil, StringUtil
