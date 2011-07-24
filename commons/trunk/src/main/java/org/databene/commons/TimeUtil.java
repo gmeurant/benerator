@@ -300,6 +300,15 @@ public final class TimeUtil {
         		&& cal.get(Calendar.MINUTE) == 0 && cal.get(Calendar.HOUR_OF_DAY) == 0);
 	}
 
+	public static Date midnightOf(Date date) {
+        Calendar cal = calendar(date);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0); 
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+	}
+
     public static Time currentTime() {
 	    Calendar now = new GregorianCalendar();
 	    return time(now.get(Calendar.HOUR), now.get(Calendar.MINUTE), now.get(Calendar.SECOND), now.get(Calendar.MILLISECOND));
