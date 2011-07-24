@@ -1,5 +1,11 @@
-release notes databene webdecs 0.5.9
+release notes databene webdecs 0.6.0
 ------------------------------------
+
+
+Changes
+-------
+- Introduced DataSource, DataIterator and adapter classes
+- Migrated existing data iteration classes to DataSource and DataIterator interface
 
 
 Enhancements
