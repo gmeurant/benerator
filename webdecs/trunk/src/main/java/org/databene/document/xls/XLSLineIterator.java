@@ -135,4 +135,9 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 		return workbook.getSheetAt(sheetIndex);
     }
 
+    @Override
+    public String toString() {
+    	return getClass().getSimpleName() + "[" + rowIterator + "]";
+    }
+    
 }
