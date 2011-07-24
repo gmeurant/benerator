@@ -26,9 +26,9 @@
 
 package org.databene.document.flat;
 
-import org.databene.commons.HeavyweightIterator;
-import org.databene.commons.HeavyweightTypedIterable;
 import org.databene.commons.format.PadFormat;
+import org.databene.webdecs.DataIterator;
+import org.databene.webdecs.DataSource;
 
 import java.io.IOException;
 
@@ -38,7 +38,7 @@ import java.io.IOException;
  * Created: 27.08.2007 19:16:26
  * @author Volker Bergmann
  */
-public class FlatFileLineIterable implements HeavyweightTypedIterable<String[]> {
+public class FlatFileLineSource implements DataSource<String[]> {
 
     private String uri;
     private PadFormat[] formats;
@@ -46,7 +46,7 @@ public class FlatFileLineIterable implements HeavyweightTypedIterable<String[]> 
     private String encoding;
     private String lineFilter;
 
-    public FlatFileLineIterable(String uri, PadFormat[] formats, boolean ignoreEmptyLines, String encoding, String lineFilter) {
+    public FlatFileLineSource(String uri, PadFormat[] formats, boolean ignoreEmptyLines, String encoding, String lineFilter) {
         this.uri = uri;
         this.formats = formats;
         this.ignoreEmptyLines = ignoreEmptyLines;
@@ -58,11 +58,12 @@ public class FlatFileLineIterable implements HeavyweightTypedIterable<String[]> 
         return String[].class;
     }
 
-    public HeavyweightIterator<String[]> iterator() {
+    public DataIterator<String[]> iterator() {
         try {
             return new FlatFileLineIterator(uri, formats, ignoreEmptyLines, encoding, lineFilter);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+    
 }
