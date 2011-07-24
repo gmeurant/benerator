@@ -30,6 +30,7 @@ import org.databene.commons.ArrayFormat;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.IOUtil;
 import org.databene.commons.SystemInfo;
+import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
 
 import java.io.IOException;
@@ -50,9 +51,9 @@ public class CSVUtil {
 		DataIterator<String[]> cellIterator = null;
 		try {
 			cellIterator = new CSVLineIterator(uri, separator, true, encoding);
-			String[] header = cellIterator.next();
-			if (header != null)
-				return header;
+			DataContainer<String[]> tmp = cellIterator.next(new DataContainer<String[]>());
+			if (tmp != null)
+				return tmp.getData();
 			else
 				throw new ConfigurationError("empty CSV file");
 		} catch (IOException e) {
@@ -69,9 +70,9 @@ public class CSVUtil {
     public static String[][] parseRows(String url, char separator, String encoding) throws IOException {
         List<String[]> lines = new ArrayList<String[]>();
         CSVLineIterator iterator = new CSVLineIterator(url, separator, encoding);
-        String[] row;
-        while ((row = iterator.next()) != null)
-			lines.add(row);
+        DataContainer<String[]> container = new DataContainer<String[]>();
+        while ((container = iterator.next(container)) != null)
+			lines.add(container.getData());
         iterator.close();
         String[][] result = new String[lines.size()][];
         return lines.toArray(result);

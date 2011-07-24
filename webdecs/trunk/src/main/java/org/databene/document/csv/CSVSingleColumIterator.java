@@ -26,7 +26,9 @@ import java.io.IOException;
 import org.databene.commons.Encodings;
 import org.databene.commons.HeavyweightIterator;
 import org.databene.commons.StringUtil;
+import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.util.DataIteratorAdapter;
+import org.databene.webdecs.util.ThreadLocalDataContainer;
 
 /**
  * {@link HeavyweightIterator} that iterates through all cells of a single CSV column.<br/><br/>
@@ -39,6 +41,7 @@ public class CSVSingleColumIterator extends DataIteratorAdapter<String[], String
 	private static final char DEFAULT_SEPARATOR = ',';
 	
 	private int columnIndex;
+	ThreadLocalDataContainer<String[]> rowContainer = new ThreadLocalDataContainer<String[]>();
 	
 	public CSVSingleColumIterator(String uri, int columnIndex) throws IOException {
 		this(uri, columnIndex, DEFAULT_SEPARATOR, false, Encodings.UTF_8);
@@ -57,11 +60,12 @@ public class CSVSingleColumIterator extends DataIteratorAdapter<String[], String
 		return String.class;
 	}
 	
-	public String next() {
-		String[] nextRow = source.next();
-		if (nextRow == null)
+	public DataContainer<String> next(DataContainer<String> wrapper) {
+		DataContainer<String[]> tmp = source.next(rowContainer.get());
+		if (tmp == null)
 			return null;
-		return (columnIndex < nextRow.length ? nextRow[columnIndex] : null);
+		String[] nextRow = tmp.getData();
+		return wrapper.setData(columnIndex < nextRow.length ? nextRow[columnIndex] : null);
 	}
 
 }

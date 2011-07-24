@@ -28,10 +28,13 @@ package org.databene.document.csv;
 
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
+import org.databene.commons.IOUtil;
 import org.databene.commons.UpdateFailedException;
 import org.databene.commons.bean.PropertyMutatorFactory;
 import org.databene.commons.mutator.NamedMutator;
+import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
+import org.databene.webdecs.util.ThreadLocalDataContainer;
 
 import java.io.*;
 
@@ -48,6 +51,7 @@ public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
     private String emptyValue;
     
     private NamedMutator[] mutators;
+    private ThreadLocalDataContainer<String[]> dataContainer = new ThreadLocalDataContainer<String[]>();
 
     public CSVToJavaBeanMapper(Reader reader, Class<E> type) throws IOException {
         this(reader, type, ',', null);
@@ -57,7 +61,7 @@ public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
         this.iterator = new CSVLineIterator(reader, separator);
         this.type = type;
         this.emptyValue = emptyValue;
-        String[] attributeNames = this.iterator.next();
+        String[] attributeNames = this.iterator.next(dataContainer.get()).getData();
         this.mutators = new NamedMutator[attributeNames.length];
         for (int i = 0; i < attributeNames.length; i++) {
             String attributeName = attributeNames[i];
@@ -69,10 +73,13 @@ public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
     	return type;
     }
     
-    public E next() {
+	public DataContainer<E> next(DataContainer<E> wrapper) {
         int i = 0;
         try {
-            String[] line = iterator.next();
+            DataContainer<String[]> tmp = iterator.next(dataContainer.get());
+            if (tmp == null)
+            	return null;
+			String[] line = tmp.getData();
             E bean = BeanUtil.newInstance(type);
             int columns = Math.min(line.length, mutators. length);
             for (i = 0; i < columns; i++) {
@@ -81,7 +88,7 @@ public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
                     value = emptyValue;
                 mutators[i].setValue(bean, value);
             }
-            return bean;
+            return wrapper.setData(bean);
         } catch (UpdateFailedException e) {
             throw new ConfigurationError("Failed to set property '" + 
                     mutators[i].getName() + "' on class " + type);
@@ -89,7 +96,7 @@ public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
     }
 
     public void close() {
-    	// nothing to do
+    	IOUtil.close(iterator);
     }
 
 }

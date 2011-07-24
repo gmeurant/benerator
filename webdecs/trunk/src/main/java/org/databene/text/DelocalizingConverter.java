@@ -27,6 +27,7 @@
 package org.databene.text;
 
 import org.databene.document.csv.CSVLineIterator;
+import org.databene.webdecs.DataContainer;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.Converter;
 import org.databene.commons.Encodings;
@@ -85,9 +86,9 @@ public class DelocalizingConverter extends ThreadSafeConverter<String, String> {
     private void init() throws IOException {
         replacements = new HashMap<Character, String>();
         CSVLineIterator iterator = new CSVLineIterator(CONFIG_FILENAME, ',', true, Encodings.UTF_8);
-        String[] tokens;
-        while ((tokens = iterator.next()) != null)
-            addReplacements(tokens);
+        DataContainer<String[]> tokens = new DataContainer<String[]>();
+        while ((tokens = iterator.next(tokens)) != null)
+            addReplacements(tokens.getData());
     }
 
     /**

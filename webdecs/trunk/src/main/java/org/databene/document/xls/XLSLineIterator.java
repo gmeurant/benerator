@@ -37,6 +37,7 @@ import org.databene.commons.ArrayBuilder;
 import org.databene.commons.Converter;
 import org.databene.commons.IOUtil;
 import org.databene.commons.converter.NoOpConverter;
+import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
 
 /**
@@ -112,7 +113,7 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 		headers = new String[0];
 	}
 
-	public Object[] next() {
+	public DataContainer<Object[]> next(DataContainer<Object[]> wrapper) {
 		if (rowIterator == null || !rowIterator.hasNext())
 			return null;
 		Row row = rowIterator.next();
@@ -120,7 +121,7 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 		Object[] result = new Object[cellCount];
 		for (int cellnum = 0; cellnum < cellCount; cellnum++)
 			result[cellnum] = HSSFUtil.resolveCellValue(row.getCell(cellnum), preprocessor);
-		return result;
+		return wrapper.setData(result);
 	}
 
 	public void remove() {

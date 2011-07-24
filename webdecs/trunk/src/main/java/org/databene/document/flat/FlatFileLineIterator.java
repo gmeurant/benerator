@@ -31,6 +31,7 @@ import org.databene.commons.ReaderLineIterator;
 import org.databene.commons.StringUtil;
 import org.databene.commons.SystemInfo;
 import org.databene.commons.format.PadFormat;
+import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
 
 import java.io.IOException;
@@ -51,7 +52,6 @@ public class FlatFileLineIterator implements DataIterator<String[]> {
     private ReaderLineIterator lineIterator;
     private FlatLineParser parser;
     private int lineCount;
-    private String[] nextLine;
     private Pattern lineFilter;
 
     // constructors ----------------------------------------------------------------------------------------------------
@@ -75,7 +75,6 @@ public class FlatFileLineIterator implements DataIterator<String[]> {
         this.ignoreEmptyLines = ignoreEmptyLines;
         this.lineCount = 0;
         this.lineFilter = (lineFilter != null ? Pattern.compile(lineFilter) : null);
-        nextLine = fetchNextLine();
     }
 
     // interface -------------------------------------------------------------------------------------------------------
@@ -88,14 +87,13 @@ public class FlatFileLineIterator implements DataIterator<String[]> {
      * Parses a CSV row into an array of Strings
      * @return an array of Strings that represents a CSV row
      */
-    public String[] next() {
-        String[] result = nextLine;
-        if (lineIterator != null) {
-            nextLine = fetchNextLine();
+	public DataContainer<String[]> next(DataContainer<String[]> wrapper) {
+        String[] result = fetchNextLine();
+        if (result != null) {
             lineCount++;
-        } else
-            nextLine = null;
-        return result;
+            return wrapper.setData(result);
+        } else 
+        	return null;
     }
 
     /**
@@ -142,5 +140,5 @@ public class FlatFileLineIterator implements DataIterator<String[]> {
             throw new RuntimeException("Unexpected error. ", e);
         }
     }
-    
+
 }

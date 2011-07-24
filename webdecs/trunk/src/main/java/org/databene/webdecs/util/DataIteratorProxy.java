@@ -21,6 +21,7 @@
 
 package org.databene.webdecs.util;
 
+import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
 
 /**
@@ -39,8 +40,8 @@ public class DataIteratorProxy<E> extends DataIteratorAdapter<E, E> {
 		return source.getType();
 	}
 
-	public E next() {
-		return source.next();
+	public DataContainer<E> next(DataContainer<E> wrapper) {
+		return source.next(wrapper);
 	}
 
 }

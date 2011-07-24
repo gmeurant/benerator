@@ -30,6 +30,7 @@ import org.databene.commons.DocumentWriter;
 import org.databene.commons.Filter;
 import org.databene.document.csv.ArrayCSVWriter;
 import org.databene.document.csv.CSVLineIterator;
+import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.util.FilteringDataIterator;
 
 import java.io.*;
@@ -64,9 +65,9 @@ public class CSVFilterDemo {
         long startMillis = System.currentTimeMillis();
 
         // iterate the entries
-        String[] cells;
-        while ((cells = iterator.next()) != null) {
-            csvWriter.writeElement(cells);
+        DataContainer<String[]> cells = new DataContainer<String[]>();
+        while ((cells = iterator.next(cells)) != null) {
+            csvWriter.writeElement(cells.getData());
             matchCount++;
         }
 

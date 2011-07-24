@@ -29,6 +29,7 @@ package org.databene.document.csv;
 import org.databene.commons.IOUtil;
 import org.databene.commons.CollectionUtil;
 import org.databene.commons.SystemInfo;
+import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
 
 import java.io.*;
@@ -124,7 +125,7 @@ public class CSVLineIterator implements DataIterator<String[]> {
      * Parses a CSV row into an array of Strings
      * @return an array of Strings that represents a CSV row
      */
-    public String[] next() {
+	public DataContainer<String[]> next(DataContainer<String[]> wrapper) {
     	if (nextLine == null)
     		return null;
         try {
@@ -134,7 +135,7 @@ public class CSVLineIterator implements DataIterator<String[]> {
                 lineCount++;
             } else
                 nextLine = null;
-            return result;
+            return wrapper.setData(result);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -158,9 +159,9 @@ public class CSVLineIterator implements DataIterator<String[]> {
         CSVLineIterator iterator = null;
         try {
             iterator = new CSVLineIterator(uri, separator, ignoreEmptyLines, encoding);
-            String[] row;
-            while ((row = iterator.next()) != null)
-                lineHandler.handle(row);
+            DataContainer<String[]> row = new DataContainer<String[]>();
+            while ((row = iterator.next(row)) != null)
+                lineHandler.handle(row.getData());
         } finally {
             if (iterator != null)
                 iterator.close();

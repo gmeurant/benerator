@@ -21,16 +21,31 @@
 
 package org.databene.webdecs;
 
-import java.io.Closeable;
-
 /**
  * TODO Document class.<br/><br/>
- * Created: 24.07.2011 08:49:16
- * @since 0.6.0
+ * Created: 24.07.2011 14:40:21
+ * @since TODO version
  * @author Volker Bergmann
  */
-public interface DataIterator<E> extends Closeable { // TODO ThreadAware?
-	Class<E> getType();
-	DataContainer<E> next(DataContainer<E> container);
-	void close();
+public class DataContainer<E> {
+
+	protected E data;
+
+	public DataContainer() {
+		this(null);
+	}
+	
+	public DataContainer(E data) {
+		this.data = data;
+	}
+	
+	public E getData() {
+		return data;
+	}
+	
+	public DataContainer<E> setData(E data) {
+		this.data = data;
+		return this;
+	}
+	
 }

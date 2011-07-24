@@ -24,6 +24,7 @@ package org.databene.document.csv;
 import static org.junit.Assert.*;
 
 import org.databene.commons.Encodings;
+import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.util.DataIteratorTestCase;
 import org.junit.Test;
 
@@ -62,7 +63,7 @@ public class CSVSingleColumnIteratorTest extends DataIteratorTestCase {
 	public void testNonExistingColumn() throws Exception {
 		CSVSingleColumIterator iterator1 = new CSVSingleColumIterator(FILENAME, 2, ',', true, Encodings.UTF_8);
 		try {
-			assertNull(iterator1.next());
+			assertNull(iterator1.next(new DataContainer<String>()).getData());
 		} finally {
 			iterator1.close();
 		}

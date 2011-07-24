@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -35,6 +35,7 @@ import java.util.Arrays;
 import org.databene.commons.SystemInfo;
 import org.databene.commons.format.Alignment;
 import org.databene.commons.format.PadFormat;
+import org.databene.webdecs.DataContainer;
 
 /**
  * Tests the FlatFileLineIterator.<br/>
@@ -49,20 +50,22 @@ public class FlatFileLineIteratorTest {
     @Test
     public void testProcessingEmptyLines() throws Exception {
         FlatFileLineIterator iterator = createIterator(true);
-        assertTrue(Arrays.equals(new String[] {"Alice", "23"}, iterator.next()));
-        assertTrue(Arrays.equals(new String[] {"Bob", "34"}, iterator.next()));
-        assertTrue(Arrays.equals(new String[] {"Charly", "45"}, iterator.next()));
-        assertTrue(Arrays.equals(new String[] {"Dieter", "-1"}, iterator.next()));
+        DataContainer<String[]> container = new DataContainer<String[]>();
+        assertTrue(Arrays.equals(new String[] {"Alice" , "23"}, iterator.next(container).getData()));
+        assertTrue(Arrays.equals(new String[] {"Bob"   , "34"}, iterator.next(container).getData()));
+        assertTrue(Arrays.equals(new String[] {"Charly", "45"}, iterator.next(container).getData()));
+        assertTrue(Arrays.equals(new String[] {"Dieter", "-1"}, iterator.next(container).getData()));
     }
 
     @Test
     public void testIgnoringEmptyLines() throws Exception {
         FlatFileLineIterator iterator = createIterator(false);
-        assertTrue(Arrays.equals(new String[] {"Alice", "23"}, iterator.next()));
-        assertTrue(Arrays.equals(new String[] {"Bob", "34"}, iterator.next()));
-        assertTrue(Arrays.equals(new String[] {}, iterator.next()));
-        assertTrue(Arrays.equals(new String[] {"Charly", "45"}, iterator.next()));
-        assertTrue(Arrays.equals(new String[] {"Dieter", "-1"}, iterator.next()));
+        DataContainer<String[]> container = new DataContainer<String[]>();
+        assertTrue(Arrays.equals(new String[] {"Alice" , "23"}, iterator.next(container).getData()));
+        assertTrue(Arrays.equals(new String[] {"Bob"   , "34"}, iterator.next(container).getData()));
+        assertTrue(Arrays.equals(new String[] {              }, iterator.next(container).getData()));
+        assertTrue(Arrays.equals(new String[] {"Charly", "45"}, iterator.next(container).getData()));
+        assertTrue(Arrays.equals(new String[] {"Dieter", "-1"}, iterator.next(container).getData()));
     }
     
     // helper ----------------------------------------------------------------------------------------------------------

@@ -31,6 +31,8 @@ import java.util.Arrays;
 
 import org.databene.commons.ArrayUtil;
 import org.databene.document.xls.XLSLineIterator;
+import org.databene.webdecs.DataContainer;
+import org.databene.webdecs.util.DataIteratorTestCase;
 import org.junit.Test;
 
 import static junit.framework.Assert.*;
@@ -42,7 +44,7 @@ import static junit.framework.Assert.*;
  * @author Volker Bergmann
  */
 
-public class XLSLineIteratorTest {
+public class XLSLineIteratorTest extends DataIteratorTestCase {
 
 	private static final String XLS_FILENAME = "org/databene/document/xls/person_lines.xls";
 
@@ -58,7 +60,7 @@ public class XLSLineIteratorTest {
 			// test formula
 			expectNext(iterator, "Bob", 34.0);
 			// check end of sheet
-			assertNull(iterator.next());
+			expectUnavailable(iterator);
 		} finally {
 			iterator.close();
 		}
@@ -71,7 +73,7 @@ public class XLSLineIteratorTest {
 		try {
 			assertTrue(Arrays.equals(new String[] {"name", "age"}, iterator.getHeaders()));
 			expectNext(iterator, "Otto", 89.0);
-			assertNull(iterator.next());
+			expectUnavailable(iterator);
 		} finally {
 			iterator.close();
 		}
@@ -85,7 +87,7 @@ public class XLSLineIteratorTest {
 			assertNull(iterator.getHeaders());
 			expectNext(iterator, "name", "age");
 			expectNext(iterator, "Otto", 89.0);
-			assertNull(iterator.next());
+			expectUnavailable(iterator);
 		} finally {
 			iterator.close();
 		}
@@ -94,7 +96,9 @@ public class XLSLineIteratorTest {
 	// private helpers ---------------------------------------------------------
 	
 	private void expectNext(XLSLineIterator iterator, Object cell1, Object cell2) {
-		assertTrue(Arrays.equals(new Object[] {cell1, cell2}, ArrayUtil.copyOfRange(iterator.next(), 0, 2)));
+		Object[] actual = ArrayUtil.copyOfRange(iterator.next(new DataContainer<Object[]>()).getData(), 0, 2);
+		Object[] expected = new Object[] { cell1, cell2 };
+		assertTrue(Arrays.equals(expected, actual));
 	}
 	
 }

@@ -21,6 +21,7 @@
 
 package org.databene.webdecs.util;
 
+import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
 import org.databene.webdecs.DataSource;
 
@@ -41,9 +42,10 @@ public class OffsetDataSource<E> extends DataSourceProxy<E> {
 
 	@Override
 	public DataIterator<E> iterator() {
+		DataContainer<E> container = new DataContainer<E>();
 		DataIterator<E> result = super.iterator();
 		for (int i = 0; i < offset; i++)
-			result.next();
+			result.next(container);
 		return result;
 	}
 	

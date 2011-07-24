@@ -19,18 +19,27 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.webdecs;
+package org.databene.webdecs.util;
 
-import java.io.Closeable;
+import org.databene.webdecs.DataContainer;
 
 /**
  * TODO Document class.<br/><br/>
- * Created: 24.07.2011 08:49:16
- * @since 0.6.0
+ * Created: 24.07.2011 14:46:18
+ * @since TODO version
  * @author Volker Bergmann
  */
-public interface DataIterator<E> extends Closeable { // TODO ThreadAware?
-	Class<E> getType();
-	DataContainer<E> next(DataContainer<E> container);
-	void close();
+public class ThreadLocalDataContainer<E> extends ThreadLocal<DataContainer<E>>  {
+
+	@Override
+	protected DataContainer<E> initialValue() {
+	    return new DataContainer<E>();
+	}
+	
+	@Override
+	public String toString() {
+	    return get().toString();
+	}
+	
+
 }

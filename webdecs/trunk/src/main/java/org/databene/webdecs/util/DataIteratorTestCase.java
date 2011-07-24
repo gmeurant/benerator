@@ -23,6 +23,7 @@ package org.databene.webdecs.util;
 
 import java.util.HashSet;
 
+import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
 
 /**
@@ -31,12 +32,13 @@ import org.databene.webdecs.DataIterator;
  * @since 0.6.0
  * @author Volker Bergmann
  */
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class DataIteratorTestCase  {
 
     public static <T> void checkUniqueIteration(DataIterator<T> iterator, int count) {
     	HashSet<T> items = new HashSet<T>(count);
         for (int i = 0; i < count; i++) {
-            T item = iterator.next();
+            T item = iterator.next(new DataContainer<T>()).getData();
             assert items.contains(item); // uniqueness check
             items.add(item);
         }
@@ -44,12 +46,16 @@ public class DataIteratorTestCase  {
 
 	public static <T> NextHelper expectNextElements(DataIterator<?> iterator, T... expectedValues) {
 		for (T expectedValue : expectedValues) {
-			Object actualValue = iterator.next();
+			Object actualValue = iterator.next(new DataContainer()).getData();
 			assert expectedValue.equals(actualValue);
 		}
 		return new NextHelper(iterator);
 	}
 	
+	protected static void expectUnavailable(DataIterator<?> iterator) {
+		assert iterator.next(new DataContainer()) == null;
+	}
+
 	public static class NextHelper {
 		
 		DataIterator<?> iterator;
@@ -59,12 +65,13 @@ public class DataIteratorTestCase  {
 		}
 		
 		public void withNext() {
-			assert iterator.next() != null;
+			assert iterator.next(new DataContainer()) != null;
 		}
 		
 		public void withNoNext() {
-			assert iterator.next() == null;
+			expectUnavailable(iterator);
 		}
+
 	}
 	
 }

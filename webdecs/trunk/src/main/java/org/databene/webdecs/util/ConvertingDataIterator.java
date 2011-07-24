@@ -22,6 +22,7 @@
 package org.databene.webdecs.util;
 
 import org.databene.commons.Converter;
+import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
 
 /**
@@ -33,6 +34,7 @@ import org.databene.webdecs.DataIterator;
 public class ConvertingDataIterator<S, T> extends DataIteratorAdapter<S, T> {
 
     protected Converter<S, T> converter;
+    protected ThreadLocalDataContainer<S> sourceContainer = new ThreadLocalDataContainer<S>();
 
     public ConvertingDataIterator(DataIterator<S> source, Converter<S, T> converter) {
     	super(source);
@@ -43,11 +45,11 @@ public class ConvertingDataIterator<S, T> extends DataIteratorAdapter<S, T> {
     	return converter.getTargetType();
     }
 
-    public T next() {
-        S sourceValue = source.next();
+	public DataContainer<T> next(DataContainer<T> container) {
+        DataContainer<S> sourceValue = source.next(sourceContainer.get());
         if (sourceValue == null)
         	return null;
-        return converter.convert(sourceValue);
+        return container.setData(converter.convert(sourceValue.getData()));
     }
 
 }

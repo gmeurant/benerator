@@ -25,6 +25,7 @@ import java.io.Closeable;
 import java.util.Iterator;
 
 import org.databene.commons.IOUtil;
+import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
 
 /**
@@ -47,13 +48,13 @@ public class DataIteratorFromJavaIterator<E> implements DataIterator<E> {
 		return type;
 	}
 
-	public E next() {
-		return (source.hasNext() ? source.next() : null);
+	public DataContainer<E> next(DataContainer<E> wrapper) {
+		return (source.hasNext() ? wrapper.setData(source.next()) : null);
 	}
 
 	public void close() {
 		if (source instanceof Closeable)
 			IOUtil.close((Closeable) source);
 	}
-	
+
 }

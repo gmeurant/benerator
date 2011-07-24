@@ -21,16 +21,22 @@
 
 package org.databene.webdecs;
 
-import java.io.Closeable;
-
 /**
  * TODO Document class.<br/><br/>
- * Created: 24.07.2011 08:49:16
+ * Created: 24.07.2011 16:15:48
  * @since 0.6.0
  * @author Volker Bergmann
  */
-public interface DataIterator<E> extends Closeable { // TODO ThreadAware?
-	Class<E> getType();
-	DataContainer<E> next(DataContainer<E> container);
-	void close();
+public class DataUtil {
+	
+	private DataUtil() {
+	}
+
+	public static <T> T nextNotNull(DataIterator<T> iterator) {
+		DataContainer<T> container = iterator.next(new DataContainer<T>());
+		if (container == null)
+			throw new IllegalArgumentException("iterator is unavailable though a value is expected: " + iterator);
+		return container.getData();
+	}
+	
 }

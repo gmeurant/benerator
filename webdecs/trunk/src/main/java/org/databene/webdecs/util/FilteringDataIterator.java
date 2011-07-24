@@ -22,6 +22,7 @@
 package org.databene.webdecs.util;
 
 import org.databene.commons.Filter;
+import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
 
 /**
@@ -40,11 +41,11 @@ public class FilteringDataIterator<E> extends DataIteratorProxy<E> {
     }
 
     @Override
-    public E next() {
-    	E result;
+	public DataContainer<E> next(DataContainer<E> wrapper) {
+    	DataContainer<E> result;
     	do {
-    		result = source.next();
-    	} while (result != null && !filter.accept(result));
+    		result = source.next(wrapper);
+    	} while (result != null && !filter.accept(result.getData()));
         return result;
     }
 

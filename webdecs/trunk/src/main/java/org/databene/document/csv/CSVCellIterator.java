@@ -27,6 +27,7 @@
 package org.databene.document.csv;
 
 import org.databene.commons.ConversionException;
+import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
 
 import java.io.IOException;
@@ -72,17 +73,15 @@ public class CSVCellIterator implements DataIterator<String> {
     	return String.class;
     }
     
-    public String next() {
+	public DataContainer<String> next(DataContainer<String> wrapper) {
     	if (tokenizer == null)
     		return null;
-        if (tokenizer.ttype == CSVTokenType.EOF)
-            throw new IllegalStateException("Ieration is finished");
         try {
             String result = tokenizer.cell;
             skipEOLs();
             if (tokenizer.ttype == CSVTokenType.EOF)
                 close();
-            return result;
+            return wrapper.setData(result);
         } catch (ConversionException e) {
             throw new RuntimeException(e);
         }

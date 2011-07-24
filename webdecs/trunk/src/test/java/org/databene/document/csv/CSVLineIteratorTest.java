@@ -26,6 +26,7 @@
 
 package org.databene.document.csv;
 
+import org.databene.webdecs.DataContainer;
 import org.junit.Test;
 import static junit.framework.Assert.*;
 
@@ -43,30 +44,33 @@ public class CSVLineIteratorTest {
 	@Test
     public void testIgnoringEmptyLines() throws IOException {
         CSVLineIterator iterator = new CSVLineIterator("file://org/databene/csv/names.csv", ',', true);
-        assertTrue(Arrays.equals(new String[] { "Alice", "Bob" }, iterator.next()));
-        assertTrue(Arrays.equals(new String[] { "Charly" }, iterator.next()));
-        assertTrue(Arrays.equals(new String[] { "Dieter", "Indiana\r\nJones" }, iterator.next()));
-        assertNull(iterator.next());
+        DataContainer<String[]> container = new DataContainer<String[]>();
+        assertTrue(Arrays.equals(new String[] { "Alice", "Bob" },               iterator.next(container).getData()));
+        assertTrue(Arrays.equals(new String[] { "Charly" },                     iterator.next(container).getData()));
+        assertTrue(Arrays.equals(new String[] { "Dieter", "Indiana\r\nJones" }, iterator.next(container).getData()));
+        assertNull(iterator.next(container));
         iterator.close();
     }
 
 	@Test
     public void testIncludingEmptyLines() throws IOException {
         CSVLineIterator iterator = new CSVLineIterator("file://org/databene/csv/names.csv");
-        assertTrue(Arrays.equals(new String[] { "Alice", "Bob" }, iterator.next()));
-        assertTrue(Arrays.equals(new String[] { "Charly" }, iterator.next()));
-        assertTrue(Arrays.equals(new String[] { "Dieter", "Indiana\r\nJones" }, iterator.next()));
-        assertTrue(Arrays.equals(new String[0], iterator.next()));
-        assertNull(iterator.next());
+        DataContainer<String[]> container = new DataContainer<String[]>();
+        assertTrue(Arrays.equals(new String[] { "Alice", "Bob" },               iterator.next(container).getData()));
+        assertTrue(Arrays.equals(new String[] { "Charly" },                     iterator.next(container).getData()));
+        assertTrue(Arrays.equals(new String[] { "Dieter", "Indiana\r\nJones" }, iterator.next(container).getData()));
+        assertTrue(Arrays.equals(new String[0], iterator.next(container).getData()));
+        assertNull(iterator.next(container));
         iterator.close();
     }
 	
 	@Test
     public void testEmpty() throws IOException {
         CSVLineIterator iterator = new CSVLineIterator("string://name,\"\",,x");
-        String[] line = iterator.next();
+        DataContainer<String[]> container = new DataContainer<String[]>();
+        String[] line = iterator.next(container).getData();
 		assertTrue(Arrays.equals(new String[] { "name", "", "", "x" }, line));
-        assertNull(iterator.next());
+        assertNull(iterator.next(container));
         iterator.close();
     }
 	
