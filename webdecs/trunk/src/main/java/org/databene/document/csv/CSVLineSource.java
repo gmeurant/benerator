@@ -27,8 +27,8 @@
 package org.databene.document.csv;
 
 import org.databene.commons.ConfigurationError;
-import org.databene.commons.HeavyweightIterator;
-import org.databene.commons.HeavyweightTypedIterable;
+import org.databene.webdecs.DataIterator;
+import org.databene.webdecs.DataSource;
 
 import java.io.IOException;
 
@@ -36,15 +36,16 @@ import java.io.IOException;
  * Provides Iterators that iterate through CSV lines as String arrays.<br/>
  * <br/>
  * Created: 31.08.2007 18:45:57
+ * @author Volker Bergmann
  */
-public class CSVLineIterable implements HeavyweightTypedIterable<String[]> {
+public class CSVLineSource implements DataSource<String[]> {
 
     private String uri;
     private char separator;
     private String encoding;
     private boolean ignoreEmptyLines;
 
-    public CSVLineIterable(String uri, char separator, boolean ignoreEmptyLines, String encoding) {
+    public CSVLineSource(String uri, char separator, boolean ignoreEmptyLines, String encoding) {
         this.uri = uri;
         this.separator = separator;
         this.encoding = encoding;
@@ -55,7 +56,7 @@ public class CSVLineIterable implements HeavyweightTypedIterable<String[]> {
         return String[].class;
     }
 
-    public HeavyweightIterator<String[]> iterator() {
+    public DataIterator<String[]> iterator() {
         try {
             return new CSVLineIterator(uri, separator, ignoreEmptyLines, encoding);
         } catch (IOException e) {
