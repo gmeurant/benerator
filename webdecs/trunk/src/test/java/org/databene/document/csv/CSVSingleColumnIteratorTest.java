@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -21,8 +21,10 @@
 
 package org.databene.document.csv;
 
+import static org.junit.Assert.*;
+
 import org.databene.commons.Encodings;
-import org.databene.commons.iterator.IteratorTestCase;
+import org.databene.webdecs.util.DataIteratorTestCase;
 import org.junit.Test;
 
 /**
@@ -31,7 +33,7 @@ import org.junit.Test;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class CSVSingleColumnIteratorTest extends IteratorTestCase {
+public class CSVSingleColumnIteratorTest extends DataIteratorTestCase {
 
 	private static final String FILENAME = "file://org/databene/csv/persons.csv";
 
@@ -60,7 +62,7 @@ public class CSVSingleColumnIteratorTest extends IteratorTestCase {
 	public void testNonExistingColumn() throws Exception {
 		CSVSingleColumIterator iterator1 = new CSVSingleColumIterator(FILENAME, 2, ',', true, Encodings.UTF_8);
 		try {
-			expectNextElements(iterator1, null, null, null).withNoNext();
+			assertNull(iterator1.next());
 		} finally {
 			iterator1.close();
 		}

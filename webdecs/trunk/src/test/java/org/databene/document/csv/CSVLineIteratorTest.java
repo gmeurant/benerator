@@ -43,38 +43,30 @@ public class CSVLineIteratorTest {
 	@Test
     public void testIgnoringEmptyLines() throws IOException {
         CSVLineIterator iterator = new CSVLineIterator("file://org/databene/csv/names.csv", ',', true);
-        assertTrue(iterator.hasNext());
         assertTrue(Arrays.equals(new String[] { "Alice", "Bob" }, iterator.next()));
-        assertTrue(iterator.hasNext());
         assertTrue(Arrays.equals(new String[] { "Charly" }, iterator.next()));
-        assertTrue(iterator.hasNext());
         assertTrue(Arrays.equals(new String[] { "Dieter", "Indiana\r\nJones" }, iterator.next()));
-        assertFalse(iterator.hasNext());
+        assertNull(iterator.next());
         iterator.close();
     }
 
 	@Test
     public void testIncludingEmptyLines() throws IOException {
         CSVLineIterator iterator = new CSVLineIterator("file://org/databene/csv/names.csv");
-        assertTrue(iterator.hasNext());
         assertTrue(Arrays.equals(new String[] { "Alice", "Bob" }, iterator.next()));
-        assertTrue(iterator.hasNext());
         assertTrue(Arrays.equals(new String[] { "Charly" }, iterator.next()));
-        assertTrue(iterator.hasNext());
         assertTrue(Arrays.equals(new String[] { "Dieter", "Indiana\r\nJones" }, iterator.next()));
-        assertTrue(iterator.hasNext());
         assertTrue(Arrays.equals(new String[0], iterator.next()));
-        assertFalse(iterator.hasNext());
+        assertNull(iterator.next());
         iterator.close();
     }
 	
 	@Test
     public void testEmpty() throws IOException {
         CSVLineIterator iterator = new CSVLineIterator("string://name,\"\",,x");
-        assertTrue(iterator.hasNext());
         String[] line = iterator.next();
 		assertTrue(Arrays.equals(new String[] { "name", "", "", "x" }, line));
-        assertFalse(iterator.hasNext());
+        assertNull(iterator.next());
         iterator.close();
     }
 	

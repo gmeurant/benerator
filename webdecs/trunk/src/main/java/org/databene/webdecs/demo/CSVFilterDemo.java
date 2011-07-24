@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,9 +28,9 @@ package org.databene.webdecs.demo;
 
 import org.databene.commons.DocumentWriter;
 import org.databene.commons.Filter;
-import org.databene.commons.iterator.FilteringIterator;
 import org.databene.document.csv.ArrayCSVWriter;
 import org.databene.document.csv.CSVLineIterator;
+import org.databene.webdecs.util.FilteringDataIterator;
 
 import java.io.*;
 
@@ -52,7 +52,7 @@ public class CSVFilterDemo {
 
         // sets up a filtered iterator that uses the upper iterator as source
         Filter<String[]> filter = new RowFilter();
-        FilteringIterator<String[]> iterator = new FilteringIterator<String[]>(src, filter);
+        FilteringDataIterator<String[]> iterator = new FilteringDataIterator<String[]>(src, filter);
 
         // create a CSV writer to save the rows that matched the filter
         Writer out = new BufferedWriter(new FileWriter("matches.csv"));
@@ -64,8 +64,8 @@ public class CSVFilterDemo {
         long startMillis = System.currentTimeMillis();
 
         // iterate the entries
-        while (iterator.hasNext()) {
-            String[] cells = iterator.next();
+        String[] cells;
+        while ((cells = iterator.next()) != null) {
             csvWriter.writeElement(cells);
             matchCount++;
         }

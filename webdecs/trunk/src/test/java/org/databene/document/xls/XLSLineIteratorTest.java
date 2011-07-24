@@ -58,7 +58,7 @@ public class XLSLineIteratorTest {
 			// test formula
 			expectNext(iterator, "Bob", 34.0);
 			// check end of sheet
-			assertFalse(iterator.hasNext());
+			assertNull(iterator.next());
 		} finally {
 			iterator.close();
 		}
@@ -71,7 +71,7 @@ public class XLSLineIteratorTest {
 		try {
 			assertTrue(Arrays.equals(new String[] {"name", "age"}, iterator.getHeaders()));
 			expectNext(iterator, "Otto", 89.0);
-			assertFalse(iterator.hasNext());
+			assertNull(iterator.next());
 		} finally {
 			iterator.close();
 		}
@@ -85,7 +85,7 @@ public class XLSLineIteratorTest {
 			assertNull(iterator.getHeaders());
 			expectNext(iterator, "name", "age");
 			expectNext(iterator, "Otto", 89.0);
-			assertFalse(iterator.hasNext());
+			assertNull(iterator.next());
 		} finally {
 			iterator.close();
 		}
@@ -94,7 +94,6 @@ public class XLSLineIteratorTest {
 	// private helpers ---------------------------------------------------------
 	
 	private void expectNext(XLSLineIterator iterator, Object cell1, Object cell2) {
-		assertTrue(iterator.hasNext());
 		assertTrue(Arrays.equals(new Object[] {cell1, cell2}, ArrayUtil.copyOfRange(iterator.next(), 0, 2)));
 	}
 	

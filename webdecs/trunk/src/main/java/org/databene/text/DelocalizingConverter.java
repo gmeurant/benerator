@@ -85,12 +85,9 @@ public class DelocalizingConverter extends ThreadSafeConverter<String, String> {
     private void init() throws IOException {
         replacements = new HashMap<Character, String>();
         CSVLineIterator iterator = new CSVLineIterator(CONFIG_FILENAME, ',', true, Encodings.UTF_8);
-
-        while (iterator.hasNext()) {
-            String[] tokens = iterator.next();
-            if (tokens != null)
-                addReplacements(tokens);
-        }
+        String[] tokens;
+        while ((tokens = iterator.next()) != null)
+            addReplacements(tokens);
     }
 
     /**
