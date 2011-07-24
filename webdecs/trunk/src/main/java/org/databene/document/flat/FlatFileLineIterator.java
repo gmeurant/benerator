@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,12 +26,12 @@
 
 package org.databene.document.flat;
 
-import org.databene.commons.HeavyweightIterator;
 import org.databene.commons.IOUtil;
 import org.databene.commons.ReaderLineIterator;
 import org.databene.commons.StringUtil;
 import org.databene.commons.SystemInfo;
 import org.databene.commons.format.PadFormat;
+import org.databene.webdecs.DataIterator;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -44,7 +44,7 @@ import java.util.regex.Pattern;
  * Created: 27.08.2007 06:43:50
  * @author Volker Bergmann
  */
-public class FlatFileLineIterator implements HeavyweightIterator<String[]> {
+public class FlatFileLineIterator implements DataIterator<String[]> {
 
     private boolean ignoreEmptyLines;
 
@@ -80,10 +80,10 @@ public class FlatFileLineIterator implements HeavyweightIterator<String[]> {
 
     // interface -------------------------------------------------------------------------------------------------------
 
-    public boolean hasNext() {
-        return nextLine != null;
+    public Class<String[]> getType() {
+    	return String[].class;
     }
-
+    
     /**
      * Parses a CSV row into an array of Strings
      * @return an array of Strings that represents a CSV row
@@ -96,10 +96,6 @@ public class FlatFileLineIterator implements HeavyweightIterator<String[]> {
         } else
             nextLine = null;
         return result;
-    }
-
-    public void remove() {
-        throw new UnsupportedOperationException("Not supported");
     }
 
     /**

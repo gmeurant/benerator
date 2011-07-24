@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.databene.commons.Converter;
-import org.databene.commons.HeavyweightIterator;
+import org.databene.webdecs.DataIterator;
 
 /**
  * Parses CSV files and converts the row to the desired target type.<br/><br/>
@@ -39,7 +39,7 @@ import org.databene.commons.HeavyweightIterator;
  * @since 0.4.2
  * @author Volker Bergmann
  */
-public class ConvertingCSVParser<E> implements HeavyweightIterator<E>{
+public class ConvertingCSVParser<E> implements DataIterator<E>{
 	
 	private Converter<String[], E> rowConverter;
 	private CSVLineIterator source;
@@ -49,8 +49,8 @@ public class ConvertingCSVParser<E> implements HeavyweightIterator<E>{
 		this.rowConverter = rowConverter;
 	}
 
-	public boolean hasNext() {
-		return source.hasNext();
+	public Class<E> getType() {
+		return rowConverter.getTargetType();
 	}
 
 	public E next() {
@@ -71,8 +71,9 @@ public class ConvertingCSVParser<E> implements HeavyweightIterator<E>{
 	
 	public static <T> List<T> parse(String uri, Converter<String[], T> rowConverter, List<T> list) throws IOException {
 		ConvertingCSVParser<T> parser = new ConvertingCSVParser<T>(uri, rowConverter);
-		while (parser.hasNext())
-			list.add(parser.next());
+		T row;
+		while ((row = parser.next()) != null)
+			list.add(row);
 		return list;
 	}
 }

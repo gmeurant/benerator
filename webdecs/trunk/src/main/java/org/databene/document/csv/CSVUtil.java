@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,9 +28,9 @@ package org.databene.document.csv;
 
 import org.databene.commons.ArrayFormat;
 import org.databene.commons.ConfigurationError;
-import org.databene.commons.HeavyweightIterator;
 import org.databene.commons.IOUtil;
 import org.databene.commons.SystemInfo;
+import org.databene.webdecs.DataIterator;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -47,11 +47,12 @@ import java.util.ArrayList;
 public class CSVUtil {
 
 	public static String[] parseHeader(String uri, char separator, String encoding) {
-		HeavyweightIterator<String[]> cellIterator = null;
+		DataIterator<String[]> cellIterator = null;
 		try {
 			cellIterator = new CSVLineIterator(uri, separator, true, encoding);
-			if (cellIterator.hasNext())
-				return cellIterator.next();
+			String[] header = cellIterator.next();
+			if (header != null)
+				return header;
 			else
 				throw new ConfigurationError("empty CSV file");
 		} catch (IOException e) {
@@ -68,8 +69,9 @@ public class CSVUtil {
     public static String[][] parseRows(String url, char separator, String encoding) throws IOException {
         List<String[]> lines = new ArrayList<String[]>();
         CSVLineIterator iterator = new CSVLineIterator(url, separator, encoding);
-        while (iterator.hasNext())
-            lines.add(iterator.next());
+        String[] row;
+        while ((row = iterator.next()) != null)
+			lines.add(row);
         iterator.close();
         String[][] result = new String[lines.size()][];
         return lines.toArray(result);

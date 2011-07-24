@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,7 +26,7 @@ import java.io.IOException;
 import org.databene.commons.Encodings;
 import org.databene.commons.HeavyweightIterator;
 import org.databene.commons.StringUtil;
-import org.databene.commons.iterator.HeavyweightIteratorAdapter;
+import org.databene.webdecs.util.DataIteratorAdapter;
 
 /**
  * {@link HeavyweightIterator} that iterates through all cells of a single CSV column.<br/><br/>
@@ -34,7 +34,7 @@ import org.databene.commons.iterator.HeavyweightIteratorAdapter;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class CSVSingleColumIterator extends HeavyweightIteratorAdapter<String[], String> {
+public class CSVSingleColumIterator extends DataIteratorAdapter<String[], String> {
 
 	private static final char DEFAULT_SEPARATOR = ',';
 	
@@ -53,8 +53,14 @@ public class CSVSingleColumIterator extends HeavyweightIteratorAdapter<String[],
 		this.columnIndex = columnIndex;
     }
 	
+	public Class<String> getType() {
+		return String.class;
+	}
+	
 	public String next() {
 		String[] nextRow = source.next();
+		if (nextRow == null)
+			return null;
 		return (columnIndex < nextRow.length ? nextRow[columnIndex] : null);
 	}
 

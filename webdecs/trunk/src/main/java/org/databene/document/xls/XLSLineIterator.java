@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -35,9 +35,9 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.databene.commons.ArrayBuilder;
 import org.databene.commons.Converter;
-import org.databene.commons.HeavyweightIterator;
 import org.databene.commons.IOUtil;
 import org.databene.commons.converter.NoOpConverter;
+import org.databene.webdecs.DataIterator;
 
 /**
  * Iterates the lines of a sheet in an Excel document.<br/>
@@ -47,7 +47,7 @@ import org.databene.commons.converter.NoOpConverter;
  * @author Volker Bergmann
  */
 
-public class XLSLineIterator implements HeavyweightIterator<Object[]> {
+public class XLSLineIterator implements DataIterator<Object[]> {
 	
 	private Iterator<Row> rowIterator;
 	private boolean usingHeaders;
@@ -103,17 +103,17 @@ public class XLSLineIterator implements HeavyweightIterator<Object[]> {
 		return headers;
 	}
 
+	public Class<Object[]> getType() {
+		return Object[].class;
+	}
+	
 	public void close() {
 		rowIterator = null;
 		headers = new String[0];
 	}
 
-	public boolean hasNext() {
-		return (rowIterator != null && rowIterator.hasNext());
-	}
-
 	public Object[] next() {
-		if (rowIterator == null)
+		if (rowIterator == null || !rowIterator.hasNext())
 			return null;
 		Row row = rowIterator.next();
 		int cellCount = (usingHeaders ? headers.length : row.getLastCellNum() + 1);

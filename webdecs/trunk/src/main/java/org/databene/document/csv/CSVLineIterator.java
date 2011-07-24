@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,10 +26,10 @@
 
 package org.databene.document.csv;
 
-import org.databene.commons.HeavyweightIterator;
 import org.databene.commons.IOUtil;
 import org.databene.commons.CollectionUtil;
 import org.databene.commons.SystemInfo;
+import org.databene.webdecs.DataIterator;
 
 import java.io.*;
 import java.util.List;
@@ -41,7 +41,7 @@ import java.util.ArrayList;
  * <br/>
  * @author Volker Bergmann
  */
-public class CSVLineIterator implements HeavyweightIterator<String[]> {
+public class CSVLineIterator implements DataIterator<String[]> {
 
     /** The default separator to use */
     public static final char DEFAULT_SEPARATOR = ',';
@@ -116,17 +116,17 @@ public class CSVLineIterator implements HeavyweightIterator<String[]> {
 
     // interface -------------------------------------------------------------------------------------------------------
 
-    public boolean hasNext() {
-        return nextLine != null;
+    public Class<String[]> getType() {
+    	return String[].class;
     }
-
+    
     /**
      * Parses a CSV row into an array of Strings
      * @return an array of Strings that represents a CSV row
      */
     public String[] next() {
-        if (!hasNext())
-            throw new IllegalStateException(getClass().getName() + " is not available any more. Check hasNext() for availability before calling next()");
+    	if (nextLine == null)
+    		return null;
         try {
             String[] result = nextLine;
             if (tokenizer != null) {
@@ -138,10 +138,6 @@ public class CSVLineIterator implements HeavyweightIterator<String[]> {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public void remove() {
-        throw new UnsupportedOperationException("Not supported");
     }
 
     /**
@@ -162,8 +158,9 @@ public class CSVLineIterator implements HeavyweightIterator<String[]> {
         CSVLineIterator iterator = null;
         try {
             iterator = new CSVLineIterator(uri, separator, ignoreEmptyLines, encoding);
-            while (iterator.hasNext())
-                lineHandler.handle(iterator.next());
+            String[] row;
+            while ((row = iterator.next()) != null)
+                lineHandler.handle(row);
         } finally {
             if (iterator != null)
                 iterator.close();
@@ -194,5 +191,5 @@ public class CSVLineIterator implements HeavyweightIterator<String[]> {
         else
             return null;
     }
-    
+
 }

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -23,7 +23,7 @@ package org.databene.document.csv;
 
 import java.io.IOException;
 
-import org.databene.commons.HeavyweightIterator;
+import org.databene.webdecs.DataIterator;
 
 /**
  * Factory for all kinds of CSV iterators.<br/><br/>
@@ -35,17 +35,17 @@ public class CSVIteratorFactory {
 
 	private CSVIteratorFactory() { }
 	
-	public static HeavyweightIterator<String> createCSVCellIterator(
+	public static DataIterator<String> createCSVCellIterator(
 			String uri, char separator, String encoding) throws IOException { 
 		return new CSVCellIterator(uri, separator, encoding);
 	} 
 
-	public static HeavyweightIterator<String> createCSVVellIteratorForColumn(
+	public static DataIterator<String> createCSVVellIteratorForColumn(
 			String uri, int column, char separator, boolean ignoreEmptyLines, String encoding) throws IOException { 
 		return new CSVSingleColumIterator(uri, column, separator, ignoreEmptyLines, encoding);
 	} 
 
-	public static HeavyweightIterator<String[]> createCSVLineIterator(
+	public static DataIterator<String[]> createCSVLineIterator(
 			String uri, char separator, boolean ignoreEmptyLines, String encoding) throws IOException { 
 		return new CSVLineIterator(uri, separator, ignoreEmptyLines, encoding);
 	}

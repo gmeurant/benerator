@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -31,16 +31,17 @@ import org.databene.commons.ConfigurationError;
 import org.databene.commons.UpdateFailedException;
 import org.databene.commons.bean.PropertyMutatorFactory;
 import org.databene.commons.mutator.NamedMutator;
+import org.databene.webdecs.DataIterator;
 
 import java.io.*;
-import java.util.Iterator;
 
 /**
  * Reads a CSV file and maps its columns to JavaBeans.<br/>
  * <br/>
  * Created: 21.07.2006 15:07:36
+ * @author Volker Bergmann
  */
-public class CSVToJavaBeanMapper<E> implements Iterator<E> {
+public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
 
     private CSVLineIterator iterator;
     private Class<E> type;
@@ -64,10 +65,10 @@ public class CSVToJavaBeanMapper<E> implements Iterator<E> {
         }
     }
 
-    public boolean hasNext() {
-        return iterator.hasNext();
+    public Class<E> getType() {
+    	return type;
     }
-
+    
     public E next() {
         int i = 0;
         try {
@@ -87,8 +88,8 @@ public class CSVToJavaBeanMapper<E> implements Iterator<E> {
         }
     }
 
-    public void remove() {
-        throw new UnsupportedOperationException();
+    public void close() {
+    	// nothing to do
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2006-2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2006-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,7 +27,7 @@
 package org.databene.document.csv;
 
 import org.databene.commons.ConversionException;
-import org.databene.commons.HeavyweightIterator;
+import org.databene.webdecs.DataIterator;
 
 import java.io.IOException;
 
@@ -37,7 +37,7 @@ import java.io.IOException;
  * Created: 26.08.2006 18:52:08
  * @author Volker Bergmann
  */
-public class CSVCellIterator implements HeavyweightIterator<String> {
+public class CSVCellIterator implements DataIterator<String> {
 
     /** The source uri */
     private String uri;
@@ -68,13 +68,13 @@ public class CSVCellIterator implements HeavyweightIterator<String> {
 
     // Iterator implementation -----------------------------------------------------------------------------------------
 
-    public boolean hasNext() {
-        return tokenizer != null;
+    public Class<String> getType() {
+    	return String.class;
     }
-
+    
     public String next() {
-    	if (!hasNext())
-    		throw new IllegalStateException("No 'next' element available. Check availability by hasNext() before calling next().");
+    	if (tokenizer == null)
+    		return null;
         if (tokenizer.ttype == CSVTokenType.EOF)
             throw new IllegalStateException("Ieration is finished");
         try {
