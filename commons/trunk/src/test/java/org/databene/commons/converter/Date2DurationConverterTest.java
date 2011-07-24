@@ -46,7 +46,7 @@ import static junit.framework.Assert.*;
  * @author Volker Bergmann
  */
 
-public class Date2DurationConverterTest extends ConverterTest {
+public class Date2DurationConverterTest extends JUnit4ConverterTest {
 	
 	public Date2DurationConverterTest() {
 	    super(Date2DurationConverter.class);

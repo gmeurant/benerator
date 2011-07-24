@@ -41,7 +41,7 @@ import java.util.Locale;
  * Created: 05.08.2007 06:32:38
  * @author Volker Bergmann
  */
-public class String2LocaleConverterTest extends ConverterTest {
+public class String2LocaleConverterTest extends JUnit4ConverterTest {
 
 	public String2LocaleConverterTest() {
 	    super(String2LocaleConverter.class);

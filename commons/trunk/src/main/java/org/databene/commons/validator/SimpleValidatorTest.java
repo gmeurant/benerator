@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -28,8 +28,6 @@ package org.databene.commons.validator;
 
 import org.databene.commons.Validator;
 
-import static junit.framework.Assert.*;
-
 /**
  * Simple helper class that provides methods for testing validators.<br/>
  * <br/>
@@ -47,13 +45,11 @@ public abstract class SimpleValidatorTest<E> {
     }
 
 	protected void assertValid(E candidate) {
-	    assertTrue("Object was checked invalid, but expected to be valid: " + candidate, 
-	    		validator.valid(candidate));
+	    assert validator.valid(candidate);
     }
 
     protected void assertInvalid(E candidate) {
-	    assertFalse("Object was checked valid, but expected to be invalid: " + candidate, 
-	    		validator.valid(candidate));
+	    assert !validator.valid(candidate);
     }
 
 }

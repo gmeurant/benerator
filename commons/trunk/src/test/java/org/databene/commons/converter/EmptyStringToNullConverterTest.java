@@ -32,7 +32,7 @@ import org.junit.Test;
  * @since 0.5.8
  * @author Volker Bergmann
  */
-public class EmptyStringToNullConverterTest extends ConverterTest {
+public class EmptyStringToNullConverterTest extends JUnit4ConverterTest {
 
 	public EmptyStringToNullConverterTest() {
 		super(EmptyStringToNullConverter.class);

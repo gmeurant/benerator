@@ -44,7 +44,7 @@ import org.databene.commons.converter.FormatFormatConverter;
  * @since 0.1
  * @author Volker Bergmann
  */
-public class FormatFormatConverterTest extends ConverterTest {
+public class FormatFormatConverterTest extends JUnit4ConverterTest {
 
 	public FormatFormatConverterTest() {
 	    super(FormatFormatConverter.class);

@@ -43,7 +43,7 @@ import org.databene.commons.converter.ToCollectionConverter;
  * Created: 28.08.2007 17:35:50
  * @author Volker Bergmann
  */
-public class ToCollectionConverterTest extends ConverterTest {
+public class ToCollectionConverterTest extends JUnit4ConverterTest {
 
     // tests -----------------------------------------------------------------------------------------------------------
 

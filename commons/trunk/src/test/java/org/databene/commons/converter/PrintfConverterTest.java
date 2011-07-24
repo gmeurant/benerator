@@ -37,7 +37,7 @@ import static junit.framework.Assert.*;
  * @author Volker Bergmann
  */
 
-public class PrintfConverterTest extends ConverterTest {
+public class PrintfConverterTest extends JUnit4ConverterTest {
 	
 	public PrintfConverterTest() {
 	    super(PrintfConverter.class);

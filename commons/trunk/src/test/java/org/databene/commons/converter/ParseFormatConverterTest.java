@@ -43,7 +43,7 @@ import org.databene.commons.converter.ParseFormatConverter;
  * @since 0.1
  * @author Volker Bergmann
  */
-public class ParseFormatConverterTest extends ConverterTest {
+public class ParseFormatConverterTest extends JUnit4ConverterTest {
 
 	public ParseFormatConverterTest() {
 	    super(ParseFormatConverter.class);

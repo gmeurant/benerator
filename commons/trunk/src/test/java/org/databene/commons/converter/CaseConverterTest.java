@@ -39,7 +39,7 @@ import org.databene.commons.converter.CaseConverter;
  * Created: 29.09.2006 15:50:03
  * @author Volker Bergmann
  */
-public class CaseConverterTest extends ConverterTest {
+public class CaseConverterTest extends JUnit4ConverterTest {
 
 	public CaseConverterTest() {
 	    super(CaseConverter.class);

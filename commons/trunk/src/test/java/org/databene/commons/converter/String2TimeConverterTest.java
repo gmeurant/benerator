@@ -38,7 +38,7 @@ import static junit.framework.Assert.*;
  * Created: 14.03.2008 22:23:51
  * @author Volker Bergmann
  */
-public class String2TimeConverterTest extends ConverterTest {
+public class String2TimeConverterTest extends JUnit4ConverterTest {
 	
 	public String2TimeConverterTest() {
 	    super(String2TimeConverter.class);

@@ -40,7 +40,7 @@ import org.junit.Test;
  * @since 0.5.3
  * @author Volker Bergmann
  */
-public class ToArrayConverterTest extends ConverterTest {
+public class ToArrayConverterTest extends JUnit4ConverterTest {
 
 	public ToArrayConverterTest() {
 	    super(ToArrayConverter.class);

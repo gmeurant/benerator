@@ -24,7 +24,6 @@ package org.databene.commons.converter;
 import org.databene.commons.Assert;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.Converter;
-import org.junit.Test;
 
 /**
  * Parent class for {@link Converter} test classes.<br/><br/>
@@ -33,16 +32,15 @@ import org.junit.Test;
  * @author Volker Bergmann
  */
 @SuppressWarnings("rawtypes")
-public class ConverterTest {
+public abstract class AbstractConverterTest {
 	
 	private Class<? extends Converter> converterClass;
 
-    public ConverterTest(Class<? extends Converter> converterClass) {
+    public AbstractConverterTest(Class<? extends Converter> converterClass) {
 		this.converterClass = converterClass;
 	}
 	
-	@Test
-	public void testParallelizable() {
+	public void verifyParallelizable() {
 		Converter<?, ?> converter;
         try {
 	        converter = BeanUtil.newInstance(converterClass);

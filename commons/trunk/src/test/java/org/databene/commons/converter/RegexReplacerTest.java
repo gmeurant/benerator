@@ -31,7 +31,7 @@ import org.junit.Test;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class RegexReplacerTest extends ConverterTest {
+public class RegexReplacerTest extends JUnit4ConverterTest {
 
 	public RegexReplacerTest() {
 	    super(RegexReplacer.class);

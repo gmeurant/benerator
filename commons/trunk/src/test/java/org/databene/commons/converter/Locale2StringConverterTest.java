@@ -34,7 +34,7 @@ import org.junit.Test;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class Locale2StringConverterTest extends ConverterTest {
+public class Locale2StringConverterTest extends JUnit4ConverterTest {
 
 	public Locale2StringConverterTest() {
 	    super(Locale2StringConverter.class);

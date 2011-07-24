@@ -41,7 +41,7 @@ import org.databene.commons.converter.String2DateConverter;
  * Created: 07.09.2007 18:00:32
  * @author Volker Bergmann
  */
-public class String2DateConverterTest extends ConverterTest {
+public class String2DateConverterTest extends JUnit4ConverterTest {
 
 	public String2DateConverterTest() {
 	    super(String2DateConverter.class);

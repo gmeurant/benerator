@@ -38,7 +38,7 @@ import static junit.framework.Assert.*;
  * Created: 20.03.2008 07:18:30
  * @author Volker Bergmann
  */
-public class LiteralParserTest extends ConverterTest {
+public class LiteralParserTest extends JUnit4ConverterTest {
 	
 	public LiteralParserTest() {
 	    super(LiteralParser.class);

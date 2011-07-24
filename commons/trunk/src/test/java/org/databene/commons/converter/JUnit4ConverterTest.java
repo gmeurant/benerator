@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -21,27 +21,26 @@
 
 package org.databene.commons.converter;
 
-import static junit.framework.Assert.assertEquals;
-
-import org.databene.commons.TimeUtil;
+import org.databene.commons.Converter;
 import org.junit.Test;
 
 /**
- * Tests the {@link Long2DateConverter}.<br/><br/>
- * Created: 26.02.2010 08:30:14
- * @since 0.5.0
+ * TODO Document class.<br/><br/>
+ * Created: 24.07.2011 11:21:58
+ * @since 0.7.0
  * @author Volker Bergmann
  */
-public class Long2DateConverterTest extends JUnit4ConverterTest {
+public abstract class JUnit4ConverterTest extends AbstractConverterTest {
 
-	public Long2DateConverterTest() {
-	    super(Long2DateConverter.class);
-    }
+	@SuppressWarnings("rawtypes")
+	public JUnit4ConverterTest(Class<? extends Converter> converterClass) {
+		super(converterClass);
+	}
 
 	@Test
-	public void testRevert() {
-		assertEquals(null, new Long2DateConverter().convert(null));
-		assertEquals(TimeUtil.date(1970, 0, 1, 0, 0, 0, 0), new Long2DateConverter().convert(0L));
+	@Override
+	public void verifyParallelizable() {
+		super.verifyParallelizable();
 	}
 	
 }

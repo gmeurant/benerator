@@ -34,7 +34,7 @@ import org.junit.Test;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class NumberParserTest extends ConverterTest {
+public class NumberParserTest extends JUnit4ConverterTest {
 
 	public NumberParserTest() {
 	    super(NumberParser.class);

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -31,9 +31,13 @@ import org.junit.Test;
  * @since 0.6.3
  * @author Volker Bergmann
  */
-public class String2CharConverterTest {
+public class String2CharConverterTest extends JUnit4ConverterTest {
 
 	private static final String2CharConverter CONVERTER = new String2CharConverter();
+
+	public String2CharConverterTest() {
+		super(String2CharConverter.class);
+	}
 
 	@Test
 	public void testTypes() {

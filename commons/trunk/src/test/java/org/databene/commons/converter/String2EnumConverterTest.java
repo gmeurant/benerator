@@ -38,7 +38,7 @@ import org.databene.commons.converter.String2EnumConverter;
  * Created: 20.08.2007 07:14:04
  * @author Volker Bergmann
  */
-public class String2EnumConverterTest extends ConverterTest {
+public class String2EnumConverterTest extends JUnit4ConverterTest {
 
 	public String2EnumConverterTest() {
 	    super(String2EnumConverter.class);

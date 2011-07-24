@@ -40,7 +40,7 @@ import static junit.framework.Assert.*;
  * @author Volker Bergmann
  */
 
-public class ToStringConverterTest extends ConverterTest {
+public class ToStringConverterTest extends JUnit4ConverterTest {
 
 	public ToStringConverterTest() {
 	    super(ToStringConverter.class);

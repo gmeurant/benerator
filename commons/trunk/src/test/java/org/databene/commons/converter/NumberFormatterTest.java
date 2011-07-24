@@ -40,7 +40,7 @@ import static junit.framework.Assert.*;
  * @author Volker Bergmann
  */
 
-public class NumberFormatterTest extends ConverterTest {
+public class NumberFormatterTest extends JUnit4ConverterTest {
 
 	public NumberFormatterTest() {
 	    super(NumberFormatter.class);
