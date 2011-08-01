@@ -22,12 +22,13 @@
 package org.databene.webdecs;
 
 /**
- * TODO Document class.<br/><br/>
+ * Interface for classes that provide data access by {@link DataIterator}s. 
+ * Implementors are expected to be thread-safe.<br/><br/>
  * Created: 24.07.2011 08:48:26
  * @since 0.6.0
  * @author Volker Bergmann
  */
-public interface DataSource<E> { // TODO ThreadAware?
+public interface DataSource<E> {
 	Class<E> getType();
 	DataIterator<E> iterator();
 }
