@@ -53,16 +53,6 @@ public final class CollectionUtil {
         return result;
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T, S> List<T> toListOfType(S ... array) {
-        List<T> result = new ArrayList<T>(array.length);
-        for (int i = 0; i < array.length; i++) {
-        	T item = (T) array[i];
-        	result.add(item);
-        }
-        return result;
-    }
-
     /**
      * Creates a HashSet filled with the specified elements
      * @param elements the content of the Set
@@ -83,6 +73,14 @@ public final class CollectionUtil {
         return set;
     }
 
+	public static Set<Character> toCharSet(char[] chars) {
+        HashSet<Character> set = new HashSet<Character>();
+        if (chars != null)
+	        for (char element : chars)
+	            set.add(element);
+        return set;
+	}
+	
     /**
      * Adds the content of an array to a collection
      * @param target the collection to be extended
@@ -253,5 +251,5 @@ public final class CollectionUtil {
 				result.add((T) item);
 		return result;
 	}
-	
+
 }
