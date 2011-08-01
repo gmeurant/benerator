@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,6 +27,7 @@
 package org.databene.commons;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
@@ -77,8 +78,7 @@ public class ArrayFormat extends Format {
 
     @Override
     public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
-        Object[] array = (Object[]) obj;
-        return formatPart(toAppendTo, itemFormatter, separator, 0, array.length, array);
+        return formatPart(toAppendTo, itemFormatter, separator, 0, Array.getLength(obj), obj);
     }
 
     @Override
@@ -122,15 +122,15 @@ public class ArrayFormat extends Format {
     }
 
     public static <T, E extends Appendable> E formatPart(E toAppendTo, Converter<Object,String> formatter, String separator,
-                                                         int offset, int length, T ... items) {
-        if (items.length == 0)
+                                                         int offset, int length, Object items) {
+        if (Array.getLength(items) == 0)
             return toAppendTo;
         try {
             if (formatter == null)
                 formatter = DEFAULT_ITEM_FORMATTER;
-            toAppendTo.append(formatter.convert(items[offset]));
+            toAppendTo.append(formatter.convert(Array.get(items, offset)));
             for (int i = 1; i < length; i++)
-                toAppendTo.append(separator).append(formatter.convert(items[offset + i]));
+                toAppendTo.append(separator).append(formatter.convert(Array.get(items, offset + i)));
             return toAppendTo;
         } catch (IOException e) {
             throw new RuntimeException(e);
