@@ -92,10 +92,13 @@ public final class ArrayUtil {
      * @param array the array to scan
      * @return true if the element was found, else false
      */
-    public static <T> boolean contains(T element, T[] array) {
-        for (T o : array)
+    public static boolean contains(Object element, Object array) {
+    	int length = Array.getLength(array);
+        for (int i = 0; i < length; i++) {
+        	Object o = Array.get(array, i);
             if (NullSafeComparator.equals(o, element))
                 return true;
+        }
         return false;
     }
 
@@ -191,6 +194,26 @@ public final class ArrayUtil {
                 l1.remove(i);
             else
                 return false;
+        return l1.size() == 0;
+    }
+
+    public static boolean equals(Object a1, Object a2) {
+        if (a1 == a2)
+            return true;
+        if (a1 == null || !(a1.getClass().isArray()) || !(a2.getClass().isArray()))
+            return false;
+        int length = Array.getLength(a1);
+		if (length != Array.getLength(a2))
+            return false;
+        List<Object> l1 = new ArrayList<Object>(length);
+        for (int i = 0; i < length ; i++)
+            l1.add(Array.get(a1, i));
+        for (int i = length - 1; i >= 0; i--) {
+            if (contains(Array.get(a1, i), a2))
+                l1.remove(i);
+            else
+                return false;
+        }
         return l1.size() == 0;
     }
 
