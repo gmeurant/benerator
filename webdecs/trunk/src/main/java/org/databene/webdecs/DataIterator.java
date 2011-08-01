@@ -24,12 +24,12 @@ package org.databene.webdecs;
 import java.io.Closeable;
 
 /**
- * TODO Document class.<br/><br/>
+ * Iterates through data. Implementors are expected to be thread-safe.<br/><br/>
  * Created: 24.07.2011 08:49:16
  * @since 0.6.0
  * @author Volker Bergmann
  */
-public interface DataIterator<E> extends Closeable { // TODO ThreadAware?
+public interface DataIterator<E> extends Closeable {
 	Class<E> getType();
 	DataContainer<E> next(DataContainer<E> container);
 	void close();
