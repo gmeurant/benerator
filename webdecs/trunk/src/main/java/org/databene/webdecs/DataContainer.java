@@ -48,4 +48,9 @@ public class DataContainer<E> {
 		return this;
 	}
 	
+	@Override
+	public String toString() {
+		return String.valueOf(data);
+	}
+	
 }
