@@ -86,8 +86,9 @@ public class FileList extends JPanel {
 		model.setAll(files);
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<File> getSelectedFiles() {
-		return CollectionUtil.toListOfType(list.getSelectedValues());
+		return (List) CollectionUtil.toList(list.getSelectedValues());
 	}
 
 	void add() {
