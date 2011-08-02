@@ -10,7 +10,11 @@ Enhancements
 - new method StringUtil.quoteIfNotNull()
 - new class ConditionalConverter
 - Added TimeUtil.addDays(), addMonths(), addYears(), midnightOf()
-
+- new Validator classes:
+  - SubStringValidator
+  - PrefixValidator
+  - SuffixValidator
+  
 
 Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
 --------------------------------------------------------------------------------------------
