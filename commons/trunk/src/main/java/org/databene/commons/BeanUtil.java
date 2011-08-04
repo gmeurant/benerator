@@ -616,13 +616,17 @@ public final class BeanUtil {
     }
 
     public static Object invokeStatic(Class<?> targetClass, String methodName, Object ... args) {
+        return invokeStatic(targetClass, methodName, true, args);
+    }
+
+    public static Object invokeStatic(Class<?> targetClass, String methodName, boolean strict, Object ... args) {
         if (targetClass == null)
             throw new IllegalArgumentException("target is null");
         Class<?>[] argClasses = new Class[args.length];
         for (int i = 0; i < args.length; i++)
             argClasses[i] = (args[i] != null ? args[i].getClass() : null);
         Method method = getMethod(targetClass, methodName, argClasses);
-        return invoke(null, method, args);
+        return invoke(null, method, strict, args);
     }
 
     /**
@@ -728,6 +732,8 @@ public final class BeanUtil {
         if (isPrimitiveType(foundType.getName()) &&
                 expectedType.equals(getWrapper(foundType.getName())))
             return true;
+        if (isNumberType(foundType) && isNumberType(expectedType))
+        	return true;
 	    return false;
     }
 
