@@ -45,7 +45,7 @@ public class StaticTargetClassMethodInvoker<S, T> extends ThreadSafeConverter<S,
 
 	@SuppressWarnings("unchecked")
     public T convert(S sourceValue) throws ConversionException {
-		return (T) BeanUtil.invoke(null, method, sourceValue);
+		return (T) BeanUtil.invoke(null, method, false, sourceValue);
 	}
 
 }
