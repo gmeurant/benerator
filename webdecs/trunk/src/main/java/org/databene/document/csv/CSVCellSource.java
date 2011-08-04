@@ -29,7 +29,7 @@ package org.databene.document.csv;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.SystemInfo;
 import org.databene.webdecs.DataIterator;
-import org.databene.webdecs.DataSource;
+import org.databene.webdecs.util.AbstractDataSource;
 
 /**
  * Creates Iterators that iterate through the cells of a CSV file.<br/>
@@ -37,7 +37,7 @@ import org.databene.webdecs.DataSource;
  * Created: 01.09.2007 11:40:30
  * @author Volker Bergmann
  */
-public class CSVCellSource implements DataSource<String> {
+public class CSVCellSource extends AbstractDataSource<String> {
 
     private String uri;
     private char separator;
@@ -52,6 +52,7 @@ public class CSVCellSource implements DataSource<String> {
     }
     
     public CSVCellSource(String uri, char separator, String encoding) {
+    	super(String.class);
         this.uri = uri;
         this.separator = separator;
         this.encoding = encoding;
@@ -60,10 +61,6 @@ public class CSVCellSource implements DataSource<String> {
     public void setUri(String uri) {
 		this.uri = uri;
 	}
-
-	public Class<String> getType() {
-        return String.class;
-    }
 
     public DataIterator<String> iterator() {
         try {

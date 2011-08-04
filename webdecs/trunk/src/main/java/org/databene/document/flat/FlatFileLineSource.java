@@ -28,7 +28,7 @@ package org.databene.document.flat;
 
 import org.databene.commons.format.PadFormat;
 import org.databene.webdecs.DataIterator;
-import org.databene.webdecs.DataSource;
+import org.databene.webdecs.util.AbstractDataSource;
 
 import java.io.IOException;
 
@@ -38,7 +38,7 @@ import java.io.IOException;
  * Created: 27.08.2007 19:16:26
  * @author Volker Bergmann
  */
-public class FlatFileLineSource implements DataSource<String[]> {
+public class FlatFileLineSource extends AbstractDataSource<String[]> {
 
     private String uri;
     private PadFormat[] formats;
@@ -47,15 +47,12 @@ public class FlatFileLineSource implements DataSource<String[]> {
     private String lineFilter;
 
     public FlatFileLineSource(String uri, PadFormat[] formats, boolean ignoreEmptyLines, String encoding, String lineFilter) {
+    	super(String[].class);
         this.uri = uri;
         this.formats = formats;
         this.ignoreEmptyLines = ignoreEmptyLines;
         this.encoding = encoding;
         this.lineFilter = lineFilter;
-    }
-
-    public Class<String[]> getType() {
-        return String[].class;
     }
 
     public DataIterator<String[]> iterator() {

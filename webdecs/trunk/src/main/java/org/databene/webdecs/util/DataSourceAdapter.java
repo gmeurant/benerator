@@ -21,6 +21,7 @@
 
 package org.databene.webdecs.util;
 
+import org.databene.commons.IOUtil;
 import org.databene.webdecs.DataSource;
 
 /**
@@ -29,12 +30,19 @@ import org.databene.webdecs.DataSource;
  * @since 0.6.0
  * @author Volker Bergmann
  */
-public abstract class DataSourceAdapter<S, T> implements DataSource<T> {
+public abstract class DataSourceAdapter<S, T> extends AbstractDataSource<T> {
 
 	protected DataSource<S> source;
 	
-	public DataSourceAdapter(DataSource<S> source) {
+	public DataSourceAdapter(DataSource<S> source, Class<T> type) {
+		super(type);
 		this.source = source;
 	}
 
+	@Override
+	public void close() {
+		IOUtil.close(source);
+		super.close();
+	}
+	
 }

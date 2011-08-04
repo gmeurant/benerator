@@ -21,7 +21,10 @@
 
 package org.databene.webdecs.util;
 
+import java.io.Closeable;
+
 import org.databene.commons.Converter;
+import org.databene.commons.IOUtil;
 import org.databene.webdecs.DataIterator;
 import org.databene.webdecs.DataSource;
 
@@ -36,7 +39,7 @@ public class ConvertingDataSource<S, T> extends DataSourceAdapter<S, T> {
 	protected Converter<S, T> converter;
 	
 	public ConvertingDataSource(DataSource<S> source, Converter<S, T> converter) {
-		super(source);
+		super(source, converter.getTargetType());
 		this.converter = converter;
 	}
 
@@ -46,6 +49,13 @@ public class ConvertingDataSource<S, T> extends DataSourceAdapter<S, T> {
 
 	public DataIterator<T> iterator() {
 		return new ConvertingDataIterator<S, T>(source.iterator(), converter);
+	}
+	
+	@Override
+	public void close() {
+		if (converter instanceof Closeable)
+			IOUtil.close((Closeable) converter);
+		super.close();
 	}
 
 }

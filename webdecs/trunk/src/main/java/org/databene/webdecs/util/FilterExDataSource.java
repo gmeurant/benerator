@@ -21,23 +21,34 @@
 
 package org.databene.webdecs.util;
 
+import java.util.Iterator;
+
+import org.databene.commons.Context;
+import org.databene.commons.Expression;
 import org.databene.webdecs.DataIterator;
 import org.databene.webdecs.DataSource;
 
 /**
- * TODO Document class.<br/><br/>
- * Created: 24.07.2011 10:02:59
- * @since 0.6.0
+ * {@link Iterable} proxy which creates {@link Iterator}s that filter their output with a (boolean) filter expression.<br/><br/>
+ * Created: 08.03.2011 11:47:20
+ * @since 0.5.8
  * @author Volker Bergmann
+ * @see FilterExIterator
  */
-public class DataSourceProxy<E> extends DataSourceAdapter<E, E> {
+public class FilterExDataSource<E> extends DataSourceProxy<E> {
 
-	public DataSourceProxy(DataSource<E> source) {
-		super(source, source.getType());
-	}
+	private Expression<Boolean> filterEx;
+	private Context context;
 
+	public FilterExDataSource(DataSource<E> source, Expression<Boolean> filterEx, Context context) {
+	    super(source);
+	    this.filterEx = filterEx;
+	    this.context = context;
+    }
+
+	@Override
 	public DataIterator<E> iterator() {
-		return source.iterator();
+		return new FilterExIterator<E>(super.iterator(), filterEx, context);
 	}
 
 }

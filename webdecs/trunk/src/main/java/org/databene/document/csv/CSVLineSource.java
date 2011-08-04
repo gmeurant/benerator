@@ -28,7 +28,7 @@ package org.databene.document.csv;
 
 import org.databene.commons.ConfigurationError;
 import org.databene.webdecs.DataIterator;
-import org.databene.webdecs.DataSource;
+import org.databene.webdecs.util.AbstractDataSource;
 
 import java.io.IOException;
 
@@ -38,7 +38,7 @@ import java.io.IOException;
  * Created: 31.08.2007 18:45:57
  * @author Volker Bergmann
  */
-public class CSVLineSource implements DataSource<String[]> {
+public class CSVLineSource extends AbstractDataSource<String[]> {
 
     private String uri;
     private char separator;
@@ -46,6 +46,7 @@ public class CSVLineSource implements DataSource<String[]> {
     private boolean ignoreEmptyLines;
 
     public CSVLineSource(String uri, char separator, boolean ignoreEmptyLines, String encoding) {
+    	super(String[].class);
         this.uri = uri;
         this.separator = separator;
         this.encoding = encoding;

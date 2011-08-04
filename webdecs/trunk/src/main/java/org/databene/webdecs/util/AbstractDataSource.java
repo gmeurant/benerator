@@ -21,22 +21,19 @@
 
 package org.databene.webdecs.util;
 
-import org.databene.webdecs.DataIterator;
 import org.databene.webdecs.DataSource;
 
 /**
  * TODO Document class.<br/><br/>
- * Created: 24.07.2011 11:07:04
- * @since 0.6.0
+ * Created: 04.08.2011 09:52:03
+ * @since TODO version
  * @author Volker Bergmann
  */
-public class DataSourceFromJavaIterable<E> implements DataSource<E> {
-	
-	protected Iterable<E> source;
-	protected Class<E> type;
+public abstract class AbstractDataSource<E> implements DataSource<E> {
 
-	public DataSourceFromJavaIterable(Iterable<E> source, Class<E> type) {
-		this.source = source;
+	protected Class<E> type;
+	
+	public AbstractDataSource(Class<E> type) {
 		this.type = type;
 	}
 
@@ -44,8 +41,7 @@ public class DataSourceFromJavaIterable<E> implements DataSource<E> {
 		return type;
 	}
 
-	public DataIterator<E> iterator() {
-		return new DataIteratorFromJavaIterator<E>(source.iterator(), type);
+	public void close() {
 	}
 
 }

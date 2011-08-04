@@ -21,6 +21,8 @@
 
 package org.databene.webdecs;
 
+import java.io.Closeable;
+
 /**
  * Interface for classes that provide data access by {@link DataIterator}s. 
  * Implementors are expected to be thread-safe.<br/><br/>
@@ -28,7 +30,8 @@ package org.databene.webdecs;
  * @since 0.6.0
  * @author Volker Bergmann
  */
-public interface DataSource<E> {
+public interface DataSource<E> extends Closeable {
 	Class<E> getType();
 	DataIterator<E> iterator();
+	void close();
 }
