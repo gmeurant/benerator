@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -34,6 +34,7 @@ import java.util.Iterator;
  * e.g. for freeing allocated resources.<br/>
  * <br/>
  * Created: 16.06.2007 10:21:25
+ * @author Volker Bergmann
  */
 public interface HeavyweightIterator<E> extends Iterator<E>, Closeable {
 }
