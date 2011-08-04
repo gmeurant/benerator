@@ -21,8 +21,6 @@
 
 package org.databene.webdecs.util;
 
-import java.io.Closeable;
-
 import org.databene.commons.IOUtil;
 import org.databene.webdecs.DataIterator;
 
@@ -41,8 +39,7 @@ public abstract class DataIteratorAdapter<S, T> implements DataIterator<T> {
     }
 
     public void close() {
-        if (source instanceof Closeable)
-            IOUtil.close((Closeable) source);
+        IOUtil.close(source);
     }
 
 }
