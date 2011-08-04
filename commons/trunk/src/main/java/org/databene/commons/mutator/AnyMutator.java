@@ -29,6 +29,7 @@ package org.databene.commons.mutator;
 import java.util.Map;
 
 import org.databene.commons.BeanUtil;
+import org.databene.commons.Composite;
 import org.databene.commons.Context;
 import org.databene.commons.Escalator;
 import org.databene.commons.LoggerEscalator;
@@ -83,9 +84,11 @@ public class AnyMutator implements Mutator {
     	if (BeanUtil.hasProperty(target.getClass(), featureName))
             BeanUtil.setPropertyValue(target, featureName, value, false);
     	else if (target instanceof Context)
-            ((Context)target).set(featureName, value);
+            ((Context) target).set(featureName, value);
         else if (target instanceof Map)
-            ((Map)target).put(featureName, value);
+            ((Map) target).put(featureName, value);
+        else if (target instanceof Composite)
+            ((Composite) target).setComponent(featureName, value);
         else {
             String message = "No feature '" + featureName + "' found in " + target;
             if (strict)
