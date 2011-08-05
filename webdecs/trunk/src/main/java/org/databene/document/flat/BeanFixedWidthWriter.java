@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -49,15 +49,16 @@ import java.io.Writer;
  * Writes JavaBeans as flat file columns.<br/>
  * <br/>
  * Created: 07.06.2007 13:05:38
+ * @author Volker Bergmann
  */
-public class BeanFlatFileWriter<E> extends ScriptedDocumentWriter<E> {
+public class BeanFixedWidthWriter<E> extends ScriptedDocumentWriter<E> {
 
-    public BeanFlatFileWriter(Writer out, FlatFileColumnDescriptor ... descriptors) {
+    public BeanFixedWidthWriter(Writer out, FixedWidthColumnDescriptor ... descriptors) {
         this(out, (Script)null, (Script)null, descriptors);
     }
 
-    public BeanFlatFileWriter(Writer out, String headerScriptUrl, String footerScriptUrl,
-                              FlatFileColumnDescriptor ... descriptors)
+    public BeanFixedWidthWriter(Writer out, String headerScriptUrl, String footerScriptUrl,
+                              FixedWidthColumnDescriptor ... descriptors)
             throws IOException {
         this(
             out,
@@ -67,24 +68,24 @@ public class BeanFlatFileWriter<E> extends ScriptedDocumentWriter<E> {
         );
     }
 
-    public BeanFlatFileWriter(Writer out, Script headerScript, Script footerScript,
-                              FlatFileColumnDescriptor ... descriptors) {
-        super( out, headerScript, new BeanFlatFileScript(descriptors), footerScript);
+    public BeanFixedWidthWriter(Writer out, Script headerScript, Script footerScript,
+                              FixedWidthColumnDescriptor ... descriptors) {
+        super( out, headerScript, new BeanFixedWidthScript(descriptors), footerScript);
     }
 
     // BeanFlatFileScript ----------------------------------------------------------------------------------------------
 
-    private static class BeanFlatFileScript extends AbstractScript {
+    private static class BeanFixedWidthScript extends AbstractScript {
 
         private Converter<Object, String[]> converter;
 
         @SuppressWarnings({ "unchecked", "rawtypes" })
-        public BeanFlatFileScript(FlatFileColumnDescriptor[] descriptors) {
+        public BeanFixedWidthScript(FixedWidthColumnDescriptor[] descriptors) {
             int length = descriptors.length;
             String[] propertyNames = new String[length];
             Converter[] propertyConverters = new Converter[length];
             for (int i = 0; i < length; i++) {
-                FlatFileColumnDescriptor descriptor = descriptors[i];
+                FixedWidthColumnDescriptor descriptor = descriptors[i];
                 propertyNames[i] = descriptor.getName();
                 propertyConverters[i] = new ConverterChain(
                     new ToStringConverter(),

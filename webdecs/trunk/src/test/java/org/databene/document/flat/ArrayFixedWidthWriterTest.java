@@ -26,41 +26,44 @@
 
 package org.databene.document.flat;
 
-import org.databene.commons.format.PadFormat;
-import org.databene.webdecs.DataIterator;
-import org.databene.webdecs.util.AbstractDataSource;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
+import java.io.StringWriter;
 import java.io.IOException;
 
+import org.databene.script.ConstantScript;
+import org.databene.commons.SystemInfo;
+import org.databene.commons.format.Alignment;
+
 /**
- * Creates Iterators that iterate through the lines of a flat file and returns each line as array of Strings.<br/>
- * <br/>
- * Created: 27.08.2007 19:16:26
+ * Tests the {@link ArrayFixedWidthWriter}.<br/><br/>
+ * Created: 16.06.2007 06:07:52
+ * @since 0.1
  * @author Volker Bergmann
  */
-public class FlatFileLineSource extends AbstractDataSource<String[]> {
+public class ArrayFixedWidthWriterTest {
 
-    private String uri;
-    private PadFormat[] formats;
-    private boolean ignoreEmptyLines;
-    private String encoding;
-    private String lineFilter;
+    private static final String SEP = SystemInfo.getLineSeparator();
 
-    public FlatFileLineSource(String uri, PadFormat[] formats, boolean ignoreEmptyLines, String encoding, String lineFilter) {
-    	super(String[].class);
-        this.uri = uri;
-        this.formats = formats;
-        this.ignoreEmptyLines = ignoreEmptyLines;
-        this.encoding = encoding;
-        this.lineFilter = lineFilter;
+    private static String RESULT =
+            "header" + SEP + "1   23" + SEP + "14 156" + SEP + "footer";
+
+    @Test
+    public void test() throws IOException {
+        StringWriter out = new StringWriter();
+        ArrayFixedWidthWriter<Integer> writer = new ArrayFixedWidthWriter<Integer>(
+                out, new ConstantScript("header" + SEP), new ConstantScript("footer"),
+                new FixedWidthColumnDescriptor[] {
+                        new FixedWidthColumnDescriptor(2, Alignment.LEFT),
+                        new FixedWidthColumnDescriptor(3, Alignment.RIGHT),
+                        new FixedWidthColumnDescriptor(1, Alignment.LEFT)
+                }
+        );
+        writer.writeElement(new Integer[] {  1,  2, 3 });
+        writer.writeElement(new Integer[] { 14, 15, 6 });
+        writer.close();
+        assertEquals(RESULT, out.toString());
     }
 
-    public DataIterator<String[]> iterator() {
-        try {
-            return new FlatFileLineIterator(uri, formats, ignoreEmptyLines, encoding, lineFilter);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    
 }

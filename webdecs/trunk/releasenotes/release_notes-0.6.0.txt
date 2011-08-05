@@ -6,6 +6,7 @@ Changes
 -------
 - Introduced DataSource, DataIterator and adapter classes
 - Migrated existing data iteration classes to DataSource and DataIterator interface
+- Renamed the classes FlatFile... to FixedWidth...
 
 
 Enhancements

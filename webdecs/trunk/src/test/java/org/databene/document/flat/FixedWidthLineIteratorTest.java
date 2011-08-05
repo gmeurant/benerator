@@ -38,18 +38,18 @@ import org.databene.commons.format.PadFormat;
 import org.databene.webdecs.DataContainer;
 
 /**
- * Tests the FlatFileLineIterator.<br/>
+ * Tests the {@link FixedWidthLineIterator}.<br/>
  * <br/>
  * Created: 27.08.2007 07:20:05
  * @author Volker Bergmann
  */
-public class FlatFileLineIteratorTest {
+public class FixedWidthLineIteratorTest {
 
     private static final String SEP = SystemInfo.getLineSeparator();
 
     @Test
     public void testProcessingEmptyLines() throws Exception {
-        FlatFileLineIterator iterator = createIterator(true);
+        FixedWidthLineIterator iterator = createIterator(true);
         DataContainer<String[]> container = new DataContainer<String[]>();
         assertTrue(Arrays.equals(new String[] {"Alice" , "23"}, iterator.next(container).getData()));
         assertTrue(Arrays.equals(new String[] {"Bob"   , "34"}, iterator.next(container).getData()));
@@ -59,7 +59,7 @@ public class FlatFileLineIteratorTest {
 
     @Test
     public void testIgnoringEmptyLines() throws Exception {
-        FlatFileLineIterator iterator = createIterator(false);
+        FixedWidthLineIterator iterator = createIterator(false);
         DataContainer<String[]> container = new DataContainer<String[]>();
         assertTrue(Arrays.equals(new String[] {"Alice" , "23"}, iterator.next(container).getData()));
         assertTrue(Arrays.equals(new String[] {"Bob"   , "34"}, iterator.next(container).getData()));
@@ -70,7 +70,7 @@ public class FlatFileLineIteratorTest {
     
     // helper ----------------------------------------------------------------------------------------------------------
 
-    private FlatFileLineIterator createIterator(boolean ignoreEmptyLines) {
+    private FixedWidthLineIterator createIterator(boolean ignoreEmptyLines) {
         PadFormat[] formats = new PadFormat[] {
                 new PadFormat(6, Alignment.LEFT, ' '),
                 new PadFormat(3, Alignment.RIGHT, '0'),
@@ -82,7 +82,7 @@ public class FlatFileLineIteratorTest {
                 "Charly045" + SEP +
                 "Dieter-01"
         );
-        FlatFileLineIterator iterator = new FlatFileLineIterator(reader, formats, ignoreEmptyLines, null);
+        FixedWidthLineIterator iterator = new FixedWidthLineIterator(reader, formats, ignoreEmptyLines, null);
         return iterator;
     }
 

@@ -33,17 +33,17 @@ import org.junit.Test;
 import static junit.framework.Assert.*;
 
 /**
- * Tests the {@link FlatFileUtil}.<br/><br/>
+ * Tests the {@link FixedWidthUtil}.<br/><br/>
  * Created at 29.04.2008 19:06:41
  * @since 0.4.2
  * @author Volker Bergmann
  */
-public class FlatFileUtilTest {
+public class FixedWidthUtilTest {
 
 	@Test
 	public void testLeft() {
-		FlatFileColumnDescriptor d3l = new FlatFileColumnDescriptor("name", 3, Alignment.LEFT, ' ');
-		FlatFileColumnDescriptor[] array = new FlatFileColumnDescriptor[] { d3l };
+		FixedWidthColumnDescriptor d3l = new FixedWidthColumnDescriptor("name", 3, Alignment.LEFT, ' ');
+		FixedWidthColumnDescriptor[] array = new FixedWidthColumnDescriptor[] { d3l };
 		assertTrue(Arrays.equals(array, parse("name[3]")));
 		assertTrue(Arrays.equals(array, parse("name[3l]")));
 		assertTrue(Arrays.equals(array, parse("name[3l ]")));
@@ -51,37 +51,37 @@ public class FlatFileUtilTest {
 
 	@Test
 	public void testRight() {
-		FlatFileColumnDescriptor d3r = new FlatFileColumnDescriptor("name", 3, Alignment.RIGHT, ' ');
-		FlatFileColumnDescriptor[] array = new FlatFileColumnDescriptor[] { d3r };
+		FixedWidthColumnDescriptor d3r = new FixedWidthColumnDescriptor("name", 3, Alignment.RIGHT, ' ');
+		FixedWidthColumnDescriptor[] array = new FixedWidthColumnDescriptor[] { d3r };
 		assertTrue(Arrays.equals(array, parse("name[3r]")));
 		assertTrue(Arrays.equals(array, parse("name[3r ]")));
 	}
 
 	@Test
 	public void testCenter() {
-		FlatFileColumnDescriptor d3c = new FlatFileColumnDescriptor("name", 3, Alignment.CENTER, ' ');
-		FlatFileColumnDescriptor[] array = new FlatFileColumnDescriptor[] { d3c };
+		FixedWidthColumnDescriptor d3c = new FixedWidthColumnDescriptor("name", 3, Alignment.CENTER, ' ');
+		FixedWidthColumnDescriptor[] array = new FixedWidthColumnDescriptor[] { d3c };
 		assertTrue(Arrays.equals(array, parse("name[3c]")));
 		assertTrue(Arrays.equals(array, parse("name[3c ]")));
 	}
 
 	@Test
 	public void testMultiple() {
-		FlatFileColumnDescriptor n3l = new FlatFileColumnDescriptor("name", 3, Alignment.LEFT, ' ');
-		FlatFileColumnDescriptor a3r = new FlatFileColumnDescriptor("age",  3, Alignment.RIGHT, '0');
-		FlatFileColumnDescriptor[] array = new FlatFileColumnDescriptor[] { n3l, a3r };
+		FixedWidthColumnDescriptor n3l = new FixedWidthColumnDescriptor("name", 3, Alignment.LEFT, ' ');
+		FixedWidthColumnDescriptor a3r = new FixedWidthColumnDescriptor("age",  3, Alignment.RIGHT, '0');
+		FixedWidthColumnDescriptor[] array = new FixedWidthColumnDescriptor[] { n3l, a3r };
 		assertTrue(Arrays.equals(array, parse("name[3l],age[3r0]")));
 	}
 
 	@Test
 	public void testParsePadChar() {
-		FlatFileColumnDescriptor d3l = new FlatFileColumnDescriptor("name", 3, Alignment.LEFT, '_');
-		FlatFileColumnDescriptor[] d3l_a = new FlatFileColumnDescriptor[] { d3l };
+		FixedWidthColumnDescriptor d3l = new FixedWidthColumnDescriptor("name", 3, Alignment.LEFT, '_');
+		FixedWidthColumnDescriptor[] d3l_a = new FixedWidthColumnDescriptor[] { d3l };
 		assertTrue(Arrays.equals(d3l_a, parse("name[3l_]")));
 	}
 
-	private FlatFileColumnDescriptor[] parse(String pattern) {
-		return FlatFileUtil.parseProperties(pattern);
+	private FixedWidthColumnDescriptor[] parse(String pattern) {
+		return FixedWidthUtil.parseProperties(pattern);
 	}
 	
 }

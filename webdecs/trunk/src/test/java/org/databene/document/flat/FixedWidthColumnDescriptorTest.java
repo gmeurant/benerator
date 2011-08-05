@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,44 +26,30 @@
 
 package org.databene.document.flat;
 
+import org.databene.commons.format.Alignment;
+
 import org.junit.Test;
 import static junit.framework.Assert.*;
 
-import java.io.StringWriter;
-import java.io.IOException;
-
-import org.databene.script.ConstantScript;
-import org.databene.commons.SystemInfo;
-import org.databene.commons.format.Alignment;
-
 /**
- * Tests the {@link ArrayFlatFileWriter}.<br/><br/>
- * Created: 16.06.2007 06:07:52
- * @since 0.1
+ * Tests the {@link FixedWidthColumnDescriptor}.<br/><br/>
+ * Created at 05.05.2008 07:18:54
+ * @since 0.5.3
  * @author Volker Bergmann
  */
-public class ArrayFlatFileWriterTest {
+public class FixedWidthColumnDescriptorTest {
 
-    private static final String SEP = SystemInfo.getLineSeparator();
-
-    private static String RESULT =
-            "header" + SEP + "1   23" + SEP + "14 156" + SEP + "footer";
-
-    @Test
-    public void test() throws IOException {
-        StringWriter out = new StringWriter();
-        ArrayFlatFileWriter<Integer> writer = new ArrayFlatFileWriter<Integer>(
-                out, new ConstantScript("header" + SEP), new ConstantScript("footer"),
-                new FlatFileColumnDescriptor[] {
-                        new FlatFileColumnDescriptor(2, Alignment.LEFT),
-                        new FlatFileColumnDescriptor(3, Alignment.RIGHT),
-                        new FlatFileColumnDescriptor(1, Alignment.LEFT)
-                }
-        );
-        writer.writeElement(new Integer[] {  1,  2, 3 });
-        writer.writeElement(new Integer[] { 14, 15, 6 });
-        writer.close();
-        assertEquals(RESULT, out.toString());
-    }
-
+	@Test
+	public void testEquals() {
+		FixedWidthColumnDescriptor d1 = new FixedWidthColumnDescriptor("name", 8, Alignment.LEFT, ' ');
+		// simple tests
+		assertFalse(d1.equals(null));
+		assertFalse(d1.equals(""));
+		assertTrue(d1.equals(d1));
+		assertFalse(d1.equals(new FixedWidthColumnDescriptor("name2", 8, Alignment.LEFT, ' ')));
+		assertFalse(d1.equals(new FixedWidthColumnDescriptor("name3", 9, Alignment.LEFT, ' ')));
+		assertFalse(d1.equals(new FixedWidthColumnDescriptor("name4", 8, Alignment.RIGHT, ' ')));
+		assertFalse(d1.equals(new FixedWidthColumnDescriptor("name5", 8, Alignment.LEFT, '_')));
+	}
+	
 }

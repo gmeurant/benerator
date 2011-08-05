@@ -45,33 +45,33 @@ import java.util.regex.Pattern;
  * Created: 27.08.2007 06:43:50
  * @author Volker Bergmann
  */
-public class FlatFileLineIterator implements DataIterator<String[]> {
+public class FixedWidthLineIterator implements DataIterator<String[]> {
 
     private boolean ignoreEmptyLines;
 
     private ReaderLineIterator lineIterator;
-    private FlatLineParser parser;
+    private FixedWidthLineParser parser;
     private int lineCount;
     private Pattern lineFilter;
 
     // constructors ----------------------------------------------------------------------------------------------------
 
-    public FlatFileLineIterator(String uri, PadFormat[] formats) throws IOException {
+    public FixedWidthLineIterator(String uri, PadFormat[] formats) throws IOException {
         this(uri, formats, false, SystemInfo.getFileEncoding(), null);
     }
 
-    public FlatFileLineIterator(String uri, PadFormat[] formats, boolean ignoreEmptyLines, String encoding, 
+    public FixedWidthLineIterator(String uri, PadFormat[] formats, boolean ignoreEmptyLines, String encoding, 
     		String lineFilter) throws IOException {
         this(IOUtil.getReaderForURI(uri, encoding), formats, ignoreEmptyLines, lineFilter);
     }
 
-    public FlatFileLineIterator(Reader reader, PadFormat[] formats) {
+    public FixedWidthLineIterator(Reader reader, PadFormat[] formats) {
         this(reader, formats, false, null);
     }
 
-    public FlatFileLineIterator(Reader reader, PadFormat[] formats, boolean ignoreEmptyLines, String lineFilter) {
+    public FixedWidthLineIterator(Reader reader, PadFormat[] formats, boolean ignoreEmptyLines, String lineFilter) {
         this.lineIterator = new ReaderLineIterator(reader);
-        parser = new FlatLineParser(formats);
+        parser = new FixedWidthLineParser(formats);
         this.ignoreEmptyLines = ignoreEmptyLines;
         this.lineCount = 0;
         this.lineFilter = (lineFilter != null ? Pattern.compile(lineFilter) : null);

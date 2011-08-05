@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -33,25 +33,26 @@ import org.databene.commons.format.PadFormat;
  * Describes a column of a flat file.<br/>
  * <br/>
  * Created: 07.06.2007 13:06:39
+ * @author Volker Bergmann
  */
-public class FlatFileColumnDescriptor {
+public class FixedWidthColumnDescriptor {
 
     private String name;
     private PadFormat format;
 
-    public FlatFileColumnDescriptor(int width, Alignment alignment) {
+    public FixedWidthColumnDescriptor(int width, Alignment alignment) {
         this(null, width, alignment, ' ');
     }
 
-    public FlatFileColumnDescriptor(String name, int width, Alignment alignment) {
+    public FixedWidthColumnDescriptor(String name, int width, Alignment alignment) {
         this(name, width, alignment, ' ');
     }
 
-    public FlatFileColumnDescriptor(int width, Alignment alignment, char padChar) {
+    public FixedWidthColumnDescriptor(int width, Alignment alignment, char padChar) {
         this(null, width, alignment, padChar);
     }
 
-    public FlatFileColumnDescriptor(String name, int width, Alignment alignment, char padChar) {
+    public FixedWidthColumnDescriptor(String name, int width, Alignment alignment, char padChar) {
         this.name = name;
         this.format = new PadFormat(width, alignment, padChar);
     }
@@ -93,7 +94,7 @@ public class FlatFileColumnDescriptor {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final FlatFileColumnDescriptor other = (FlatFileColumnDescriptor) obj;
+		final FixedWidthColumnDescriptor other = (FixedWidthColumnDescriptor) obj;
 		if (format == null) {
 			if (other.format != null)
 				return false;

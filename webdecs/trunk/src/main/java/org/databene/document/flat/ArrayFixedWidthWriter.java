@@ -47,14 +47,15 @@ import java.io.Writer;
  * Writes arrays as flat file columns.<br/>
  * <br/>
  * Created: 07.06.2007 13:05:38
+ * @author Volker Bergmann
  */
-public class ArrayFlatFileWriter<E> extends ScriptedDocumentWriter<E[]> {
+public class ArrayFixedWidthWriter<E> extends ScriptedDocumentWriter<E[]> {
 
-    public ArrayFlatFileWriter(Writer out, FlatFileColumnDescriptor ... descriptors) {
+    public ArrayFixedWidthWriter(Writer out, FixedWidthColumnDescriptor ... descriptors) {
         this(out, (Script)null, (Script)null, descriptors);
     }
 
-    public ArrayFlatFileWriter(Writer out, String headerScriptUrl, String footerScriptUrl, FlatFileColumnDescriptor ... descriptors)
+    public ArrayFixedWidthWriter(Writer out, String headerScriptUrl, String footerScriptUrl, FixedWidthColumnDescriptor ... descriptors)
             throws IOException {
         this(
             out,
@@ -64,26 +65,26 @@ public class ArrayFlatFileWriter<E> extends ScriptedDocumentWriter<E[]> {
         );
     }
 
-    public ArrayFlatFileWriter(Writer out, Script headerScript, Script footerScript, FlatFileColumnDescriptor ... descriptors) {
+    public ArrayFixedWidthWriter(Writer out, Script headerScript, Script footerScript, FixedWidthColumnDescriptor ... descriptors) {
         super(
             out,
             headerScript,
-            new ArrayFlatFileScript(descriptors),
+            new ArrayFixedWidthScript(descriptors),
             footerScript
         );
     }
 
     // ArrayFlatFileScript ---------------------------------------------------------------------------------------------
 
-    private static class ArrayFlatFileScript extends AbstractScript {
+    private static class ArrayFixedWidthScript extends AbstractScript {
 
         private Converter<Object, String>[] converters;
 
         @SuppressWarnings({ "unchecked", "rawtypes" })
-        public ArrayFlatFileScript(FlatFileColumnDescriptor[] descriptors) {
+        public ArrayFixedWidthScript(FixedWidthColumnDescriptor[] descriptors) {
             this.converters = new Converter[descriptors.length];
             for (int i = 0; i < descriptors.length; i++) {
-                FlatFileColumnDescriptor descriptor = descriptors[i];
+                FixedWidthColumnDescriptor descriptor = descriptors[i];
                 this.converters[i] = new ConverterChain(
                         new ToStringConverter(),
                         new FormatFormatConverter(String.class, 

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -42,7 +42,7 @@ import java.io.StringWriter;
  * @since 0.1
  * @author Volker Bergmann
  */
-public class BeanFlatFileWriterTest extends TestCase {
+public class BeanFixedWidthWriterTest extends TestCase {
 
     private static final String SEP = SystemInfo.getLineSeparator();
 
@@ -51,11 +51,11 @@ public class BeanFlatFileWriterTest extends TestCase {
 
     public void test() throws IOException {
         StringWriter out = new StringWriter();
-        DocumentWriter<TP> writer = new BeanFlatFileWriter<TP>(out,
+        DocumentWriter<TP> writer = new BeanFixedWidthWriter<TP>(out,
                 new ConstantScript("header" + SEP), new ConstantScript("footer"),
-                new FlatFileColumnDescriptor[] {
-                        new FlatFileColumnDescriptor("name", 6, Alignment.LEFT),
-                        new FlatFileColumnDescriptor("age", 3, Alignment.RIGHT)
+                new FixedWidthColumnDescriptor[] {
+                        new FixedWidthColumnDescriptor("name", 6, Alignment.LEFT),
+                        new FixedWidthColumnDescriptor("age", 3, Alignment.RIGHT)
                 }
         );
         TP person = new TP();

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -37,14 +37,15 @@ import java.text.NumberFormat;
  * Provides utility methods for processing flat files.<br/>
  * <br/>
  * Created: 03.09.2007 23:39:57
+ * @author Volker Bergmann
  */
-public class FlatFileUtil {
+public class FixedWidthUtil {
 
-    public static FlatFileColumnDescriptor[] parseProperties(String properties) {
+    public static FixedWidthColumnDescriptor[] parseProperties(String properties) {
         if (properties == null)
             return null;
         String[] propertyFormats = StringUtil.tokenize(properties, ',');
-        FlatFileColumnDescriptor[] descriptors = new FlatFileColumnDescriptor[propertyFormats.length];
+        FixedWidthColumnDescriptor[] descriptors = new FixedWidthColumnDescriptor[propertyFormats.length];
         for (int i = 0; i < propertyFormats.length; i++) {
             String propertyFormat = propertyFormats[i];
             int lbIndex = propertyFormat.indexOf('[');
@@ -73,7 +74,7 @@ public class FlatFileUtil {
                 pos.setIndex(pos.getIndex() + 1);
             }
             assert pos.getIndex() == rbIndex;
-            descriptors[i] = new FlatFileColumnDescriptor(propertyName, width, alignment, padChar);
+            descriptors[i] = new FixedWidthColumnDescriptor(propertyName, width, alignment, padChar);
         }
         return descriptors;
     }

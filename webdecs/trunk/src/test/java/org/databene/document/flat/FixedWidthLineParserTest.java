@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -31,19 +31,19 @@ import org.databene.commons.format.PadFormat;
 import org.junit.Test;
 
 /**
- * Tests the {@link FlatLineParser}.<br/><br/>
+ * Tests the {@link FixedWidthLineParser}.<br/><br/>
  * Created: 22.02.2010 08:19:12
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class FlatLineParserTest {
+public class FixedWidthLineParserTest {
 
 	private static final PadFormat[] FORMATS = new PadFormat[] {
             new PadFormat(6, Alignment.LEFT, ' '),
             new PadFormat(3, Alignment.RIGHT, '0'),
     };
     
-    private static final FlatLineParser PARSER = new FlatLineParser(FORMATS);
+    private static final FixedWidthLineParser PARSER = new FixedWidthLineParser(FORMATS);
 
     @Test
     public void testProcessingEmptyLines() throws Exception {

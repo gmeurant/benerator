@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,30 +26,41 @@
 
 package org.databene.document.flat;
 
-import org.databene.commons.format.Alignment;
+import org.databene.commons.format.PadFormat;
+import org.databene.webdecs.DataIterator;
+import org.databene.webdecs.util.AbstractDataSource;
 
-import org.junit.Test;
-import static junit.framework.Assert.*;
+import java.io.IOException;
 
 /**
- * Tests the {@link FlatFileColumnDescriptor}.<br/><br/>
- * Created at 05.05.2008 07:18:54
- * @since 0.5.3
+ * Creates Iterators that iterate through the lines of a flat file and returns each line as array of Strings.<br/>
+ * <br/>
+ * Created: 27.08.2007 19:16:26
  * @author Volker Bergmann
  */
-public class FlatFileColumnDescriptorTest {
+public class FixedWidthLineSource extends AbstractDataSource<String[]> {
 
-	@Test
-	public void testEquals() {
-		FlatFileColumnDescriptor d1 = new FlatFileColumnDescriptor("name", 8, Alignment.LEFT, ' ');
-		// simple tests
-		assertFalse(d1.equals(null));
-		assertFalse(d1.equals(""));
-		assertTrue(d1.equals(d1));
-		assertFalse(d1.equals(new FlatFileColumnDescriptor("name2", 8, Alignment.LEFT, ' ')));
-		assertFalse(d1.equals(new FlatFileColumnDescriptor("name3", 9, Alignment.LEFT, ' ')));
-		assertFalse(d1.equals(new FlatFileColumnDescriptor("name4", 8, Alignment.RIGHT, ' ')));
-		assertFalse(d1.equals(new FlatFileColumnDescriptor("name5", 8, Alignment.LEFT, '_')));
-	}
-	
+    private String uri;
+    private PadFormat[] formats;
+    private boolean ignoreEmptyLines;
+    private String encoding;
+    private String lineFilter;
+
+    public FixedWidthLineSource(String uri, PadFormat[] formats, boolean ignoreEmptyLines, String encoding, String lineFilter) {
+    	super(String[].class);
+        this.uri = uri;
+        this.formats = formats;
+        this.ignoreEmptyLines = ignoreEmptyLines;
+        this.encoding = encoding;
+        this.lineFilter = lineFilter;
+    }
+
+    public DataIterator<String[]> iterator() {
+        try {
+            return new FixedWidthLineIterator(uri, formats, ignoreEmptyLines, encoding, lineFilter);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
 }
