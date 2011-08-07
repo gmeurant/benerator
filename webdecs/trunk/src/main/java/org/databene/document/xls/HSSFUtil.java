@@ -50,11 +50,11 @@ public class HSSFUtil {
 		return resolveCellValue(cell, null);
 	}
 	
-	public static Object resolveCellValue(Cell cell, Converter<String, ?> stringResolver) {
+	public static Object resolveCellValue(Cell cell, Converter<String, ?> stringPreprocessor) {
 		if (cell == null)
 			return null;
 		switch (cell.getCellType()) {
-			case Cell.CELL_TYPE_STRING: return convertString(cell, stringResolver);
+			case Cell.CELL_TYPE_STRING: return convertString(cell, stringPreprocessor);
 			case Cell.CELL_TYPE_NUMERIC: if (HSSFDateUtil.isCellDateFormatted(cell))
 				return cell.getDateCellValue();
 			else
@@ -66,7 +66,7 @@ public class HSSFUtil {
 				FormulaEvaluator evaluator = cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
 				CellValue cellValue = evaluator.evaluate(cell);
 				switch (cellValue.getCellType()) {
-					case HSSFCell.CELL_TYPE_STRING: return convertString(cellValue, stringResolver);
+					case HSSFCell.CELL_TYPE_STRING: return convertString(cellValue, stringPreprocessor);
 				    case HSSFCell.CELL_TYPE_NUMERIC: return cellValue.getNumberValue();
 				    case Cell.CELL_TYPE_BOOLEAN: return cellValue.getBooleanValue();
 				    case HSSFCell.CELL_TYPE_BLANK:
@@ -79,15 +79,15 @@ public class HSSFUtil {
 	}
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-	private static Object convertString(CellValue cellValue, Converter<?, ?> stringResolver) {
+	private static Object convertString(CellValue cellValue, Converter<?, ?> stringPreprocessor) {
     	String content = cellValue.getStringValue();
-    	return (stringResolver != null ? ((Converter) stringResolver).convert(content) : content);
+    	return (stringPreprocessor != null ? ((Converter) stringPreprocessor).convert(content) : content);
     }
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private static Object convertString(Cell cell, Converter<?, ?> stringResolver) {
+	private static Object convertString(Cell cell, Converter<?, ?> stringPreprocessor) {
     	String content = cell.getRichStringCellValue().getString();
-    	return (stringResolver != null ? ((Converter) stringResolver).convert(content) : content);
+    	return (stringPreprocessor != null ? ((Converter) stringPreprocessor).convert(content) : content);
     }
 
 }
