@@ -53,7 +53,7 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 	private Iterator<Row> rowIterator;
 	private boolean usingHeaders;
 	private String[] headers;
-	private Converter<String, ?> preprocessor;
+	private Converter<String, ?> stringPreprocessor;
 	
 	// constructors ----------------------------------------------------------------------------------------------------
 	
@@ -69,11 +69,11 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 		this(sheet(uri, sheetIndex), usingHeaders, preprocessor);
 	}
 	
-    public XLSLineIterator(HSSFSheet sheet, boolean usingHeaders, Converter<String, ?> preprocessor) {
-		if (preprocessor == null)
-			preprocessor = new NoOpConverter<String>();
+    public XLSLineIterator(HSSFSheet sheet, boolean usingHeaders, Converter<String, ?> stringPreprocessor) {
+		if (stringPreprocessor == null)
+			stringPreprocessor = new NoOpConverter<String>();
 		this.usingHeaders = usingHeaders;
-		this.preprocessor = preprocessor;
+		this.stringPreprocessor = stringPreprocessor;
 		rowIterator = sheet.rowIterator();
 		
 		if (!rowIterator.hasNext()) {
@@ -120,7 +120,7 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 		int cellCount = (usingHeaders ? headers.length : row.getLastCellNum() + 1);
 		Object[] result = new Object[cellCount];
 		for (int cellnum = 0; cellnum < cellCount; cellnum++)
-			result[cellnum] = HSSFUtil.resolveCellValue(row.getCell(cellnum), preprocessor);
+			result[cellnum] = HSSFUtil.resolveCellValue(row.getCell(cellnum), stringPreprocessor);
 		return wrapper.setData(result);
 	}
 
