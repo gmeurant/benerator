@@ -28,26 +28,26 @@ package org.databene.script;
 
 import org.databene.commons.Context;
 import org.databene.commons.ConversionException;
-import org.databene.commons.converter.ThreadSafeConverter;
+import org.databene.commons.Converter;
+import org.databene.commons.converter.ConverterWrapper;
 
 /**
- * Converter that uses a {@link Script} for String conversion.<br/><br/>
- * @since 0.3.0
+ * {@link Converter} can recognize and resolve script expressions in {@link String} values,
+ * forwarding values of other Java type 'as is'.<br/><br/>
+ * Created: 07.08.2011 08:27:27
+ * @since 0.5.9
  * @author Volker Bergmann
  */
-public class ScriptConverter extends ThreadSafeConverter<Object, Object> {
+public class ScriptConverterForObjects extends ConverterWrapper<String, Object> {
     
-    private Context context;
-    
-    public ScriptConverter(Context context) {
-    	super(Object.class, Object.class);
-        this.context = context;
+    public ScriptConverterForObjects(Context context) {
+    	super(new ScriptConverterForStrings(context));
     }
 
     public Object convert(Object sourceValue) throws ConversionException {
     	// I might iterate through mixed sets of strings and numbers (e.g. from an XLS file)...
     	if (sourceValue instanceof String) //...so I only apply script evaluation on strings
-    		return ScriptUtil.evaluate((String) sourceValue, context);
+    		return realConverter.convert((String) sourceValue);
     	else
     		return sourceValue;
     }
