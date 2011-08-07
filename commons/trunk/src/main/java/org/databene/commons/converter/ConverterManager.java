@@ -67,7 +67,7 @@ import java.lang.reflect.Modifier;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class ConverterManager implements ContextAware, Resettable {
 
-	private static final Logger configLogger = LoggerFactory.getLogger(LogCategories.CONFIG);
+	private static final Logger CONFIG_LOGGER = LoggerFactory.getLogger(LogCategories.CONFIG);
 
     private static final String DEFAULT_SETUP_FILENAME = "org/databene/commons/converter/converters.txt";
     private static final String CUSTOM_SETUP_FILENAME = "converters.txt";
@@ -87,10 +87,10 @@ public class ConverterManager implements ContextAware, Resettable {
 		this.configuredConverterClasses = new OrderedMap<ConversionTypes, Class<? extends Converter>>();
         this.converterPrototypes = new HashMap<ConversionTypes, Converter>();
         try {
-            if (IOUtil.isURIAvailable(CUSTOM_SETUP_FILENAME))
+            if (IOUtil.isURIAvailable(CUSTOM_SETUP_FILENAME)) {
+            	CONFIG_LOGGER.debug("Reading custom converter config: {}", CUSTOM_SETUP_FILENAME);
                 readConfigFile(CUSTOM_SETUP_FILENAME);
-            else
-            	configLogger.debug("No custom converter setup '" + CUSTOM_SETUP_FILENAME + "' found; using defaults.");
+            }
             readConfigFile(DEFAULT_SETUP_FILENAME);
         } catch (IOException e) {
             throw new ConfigurationError("Error reading setup file: " + DEFAULT_SETUP_FILENAME);
