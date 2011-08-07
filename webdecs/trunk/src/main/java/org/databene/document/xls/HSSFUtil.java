@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -50,11 +50,11 @@ public class HSSFUtil {
 		return resolveCellValue(cell, null);
 	}
 	
-	public static Object resolveCellValue(Cell cell, Converter<String, ?> preprocessor) {
+	public static Object resolveCellValue(Cell cell, Converter<String, ?> stringResolver) {
 		if (cell == null)
 			return null;
 		switch (cell.getCellType()) {
-			case Cell.CELL_TYPE_STRING: return convert(cell, preprocessor);
+			case Cell.CELL_TYPE_STRING: return convertString(cell, stringResolver);
 			case Cell.CELL_TYPE_NUMERIC: if (HSSFDateUtil.isCellDateFormatted(cell))
 				return cell.getDateCellValue();
 			else
@@ -66,7 +66,7 @@ public class HSSFUtil {
 				FormulaEvaluator evaluator = cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
 				CellValue cellValue = evaluator.evaluate(cell);
 				switch (cellValue.getCellType()) {
-					case HSSFCell.CELL_TYPE_STRING: return convert(cellValue, preprocessor);
+					case HSSFCell.CELL_TYPE_STRING: return convertString(cellValue, stringResolver);
 				    case HSSFCell.CELL_TYPE_NUMERIC: return cellValue.getNumberValue();
 				    case Cell.CELL_TYPE_BOOLEAN: return cellValue.getBooleanValue();
 				    case HSSFCell.CELL_TYPE_BLANK:
@@ -78,14 +78,16 @@ public class HSSFUtil {
 		}
 	}
 
-    private static Object convert(CellValue cellValue, Converter<String, ?> preprocessor) {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	private static Object convertString(CellValue cellValue, Converter<?, ?> stringResolver) {
     	String content = cellValue.getStringValue();
-    	return (preprocessor != null ? preprocessor.convert(content) : content);
+    	return (stringResolver != null ? ((Converter) stringResolver).convert(content) : content);
     }
 
-	private static Object convert(Cell cell, Converter<String, ?> preprocessor) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private static Object convertString(Cell cell, Converter<?, ?> stringResolver) {
     	String content = cell.getRichStringCellValue().getString();
-    	return (preprocessor != null ? preprocessor.convert(content) : content);
+    	return (stringResolver != null ? ((Converter) stringResolver).convert(content) : content);
     }
 
 }
