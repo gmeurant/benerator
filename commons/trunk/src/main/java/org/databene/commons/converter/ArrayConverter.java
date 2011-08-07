@@ -89,8 +89,10 @@ public class ArrayConverter<S, T> extends MultiConverterWrapper<S, T> implements
     /** Converts all array elements with the same {@link Converter}. */
     public static <S, T> T[] convertWith(Converter<S, T> converter, Class<T> componentType, S[] sourceValues) throws ConversionException {
         T[] result = ArrayUtil.newInstance(componentType, sourceValues.length);
-        for (int i = 0; i < sourceValues.length; i++)
-            result[i] = (converter != null ? converter.convert(sourceValues[i]) : AnyConverter.convert(sourceValues[i], componentType));
+        for (int i = 0; i < sourceValues.length; i++) {
+        	Object tmp = (converter != null ? converter.convert(sourceValues[i]) : sourceValues[i]);
+            result[i] = AnyConverter.convert(tmp, componentType);
+        }
         return result;
     }
 
