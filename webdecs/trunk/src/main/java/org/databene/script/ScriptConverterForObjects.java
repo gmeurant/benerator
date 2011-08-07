@@ -38,11 +38,20 @@ import org.databene.commons.converter.ConverterWrapper;
  * @since 0.5.9
  * @author Volker Bergmann
  */
-public class ScriptConverterForObjects extends ConverterWrapper<String, Object> {
+public class ScriptConverterForObjects extends ConverterWrapper<String, Object> 
+		implements Converter<Object, Object>{
     
     public ScriptConverterForObjects(Context context) {
     	super(new ScriptConverterForStrings(context));
     }
+
+	public Class<Object> getSourceType() {
+		return Object.class;
+	}
+
+	public Class<Object> getTargetType() {
+		return Object.class;
+	}
 
     public Object convert(Object sourceValue) throws ConversionException {
     	// I might iterate through mixed sets of strings and numbers (e.g. from an XLS file)...
