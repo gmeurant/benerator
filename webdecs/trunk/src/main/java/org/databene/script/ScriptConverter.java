@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -35,17 +35,21 @@ import org.databene.commons.converter.ThreadSafeConverter;
  * @since 0.3.0
  * @author Volker Bergmann
  */
-public class ScriptConverter extends ThreadSafeConverter<String, Object>{
+public class ScriptConverter extends ThreadSafeConverter<Object, Object> {
     
     private Context context;
     
     public ScriptConverter(Context context) {
-    	super(String.class, Object.class);
+    	super(Object.class, Object.class);
         this.context = context;
     }
 
-    public Object convert(String sourceValue) throws ConversionException {
-        return ScriptUtil.evaluate(sourceValue, context);
+    public Object convert(Object sourceValue) throws ConversionException {
+    	// I might iterate through mixed sets of strings and numbers (e.g. from an XLS file)...
+    	if (sourceValue instanceof String) //...so I only apply script evaluation on strings
+    		return ScriptUtil.evaluate((String) sourceValue, context);
+    	else
+    		return sourceValue;
     }
 
 }
