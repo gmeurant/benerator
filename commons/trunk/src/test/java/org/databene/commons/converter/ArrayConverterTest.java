@@ -66,7 +66,7 @@ public class ArrayConverterTest {
 				Arrays.equals(array1, array2));
 	}
 
-	public class IncrementConverter extends SimpleConverter<String, Integer> {
+	public class IncrementConverter extends UnsafeConverter<String, Integer> {
 		protected IncrementConverter() {
 			super(String.class, Integer.class);
 		}
