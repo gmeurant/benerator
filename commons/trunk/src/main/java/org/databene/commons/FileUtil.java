@@ -246,11 +246,11 @@ public final class FileUtil {
 		return builder.toString().trim();
 	}
 
-	public static File fileOfLimitedPathLength(File directory, String name, String suffix) {
-		return fileOfLimitedPathLength(directory, name, suffix, 255);
+	public static File fileOfLimitedPathLength(File directory, String name, String suffix, boolean warn) {
+		return fileOfLimitedPathLength(directory, name, suffix, 255, warn);
 	}
 	
-	public static File fileOfLimitedPathLength(File directory, String name, String suffix, int maxLength) {
+	public static File fileOfLimitedPathLength(File directory, String name, String suffix, int maxLength, boolean warn) {
 		try {
 			String parentPath;
 			parentPath = directory.getCanonicalPath();
@@ -261,9 +261,10 @@ public final class FileUtil {
 			String prefix = name;
 			if (availableLength < prefix.length()) {
 				prefix = prefix.substring(0, availableLength);
-				LOGGER.warn("File name too long: {}, it was cut to {}",
-						parentPath + SystemInfo.getFileSeparator() + name + suffix,
-						parentPath + SystemInfo.getFileSeparator() + prefix + suffix);
+				if (warn)
+					LOGGER.warn("File name too long: {}, it was cut to {}",
+							parentPath + SystemInfo.getFileSeparator() + name + suffix,
+							parentPath + SystemInfo.getFileSeparator() + prefix + suffix);
 			}
 			return new File(directory, prefix + suffix);
 		} catch (IOException e) {

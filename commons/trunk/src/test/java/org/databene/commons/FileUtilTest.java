@@ -119,16 +119,18 @@ public class FileUtilTest {
 	@Test
 	public void testFileOfLimitedPathLength_valid() throws Exception {
 		File root = new File(SystemInfo.isWindows() ? "C:\\" : "/");
-		File normResult = FileUtil.fileOfLimitedPathLength(root, "testx", ".xml", root.getCanonicalPath().length() + 10);
+		File normResult = FileUtil.fileOfLimitedPathLength(
+				root, "testx", ".xml", root.getCanonicalPath().length() + 10, false);
 		assertEquals(root.getCanonicalPath() + "testx.xml", normResult.getCanonicalPath());
-		File cutResult = FileUtil.fileOfLimitedPathLength(root, "testx", ".xml", root.getCanonicalPath().length() + 9);
+		File cutResult = FileUtil.fileOfLimitedPathLength(
+				root, "testx", ".xml", root.getCanonicalPath().length() + 9, false);
 		assertEquals(root.getCanonicalPath() + "test.xml", cutResult.getCanonicalPath());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testFileOfLimitedPathLength_invalid() throws Exception {
 		File root = new File((SystemInfo.isWindows() ? "C:\\" : "/") + "01234567890123456789");
-		FileUtil.fileOfLimitedPathLength(root, "test", ".xml", 10);
+		FileUtil.fileOfLimitedPathLength(root, "test", ".xml", 10, false);
 	}
 	
 	// test helpers ----------------------------------------------------------------------------------------------------
