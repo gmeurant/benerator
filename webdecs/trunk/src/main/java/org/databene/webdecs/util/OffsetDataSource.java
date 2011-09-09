@@ -49,4 +49,8 @@ public class OffsetDataSource<E> extends DataSourceProxy<E> {
 		return result;
 	}
 	
+	public String toString() {
+		return getClass().getSimpleName() + '[' + offset + ", " + source + ']';
+	}
+	
 }

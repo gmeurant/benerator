@@ -57,5 +57,10 @@ public class ConvertingDataSource<S, T> extends DataSourceAdapter<S, T> {
 			IOUtil.close((Closeable) converter);
 		super.close();
 	}
+	
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + '[' + source + " -> " + converter + ']';
+	}
 
 }
