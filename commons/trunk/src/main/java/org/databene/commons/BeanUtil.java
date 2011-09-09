@@ -58,6 +58,8 @@ public final class BeanUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(BeanUtil.class);
     
+    private static final HashSet<String> NON_CLASS_NAMES = new HashSet<String>(100);
+    
     private static Escalator escalator = new LoggerEscalator();
 
     // (static) attributes ---------------------------------------------------------------------------------------------
@@ -1175,6 +1177,18 @@ public final class BeanUtil {
     	}
     	return false;
     }
+
+	public static boolean existsClass(String className) {
+		try {
+			if (NON_CLASS_NAMES.contains(className))
+				return false;
+			Class.forName(className);
+			return true;
+		} catch (ClassNotFoundException e) {
+			NON_CLASS_NAMES.add(className);
+			return false;
+		}
+	}
 
 	// private helpers -------------------------------------------------------------------------------------------------
 
