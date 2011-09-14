@@ -6,15 +6,15 @@
 
     <groupId>org.databene</groupId>
     <artifactId>maven-benerator-plugin</artifactId>
-    <version>0.6.7</version>
+    <version>0.7.0</version>
     <packaging>maven-plugin</packaging>
 
     <properties>
-    	<benerator_version>0.6.7</benerator_version>
+    	<benerator_version>0.7.0</benerator_version>
     </properties>
 
     <name>maven benerator plugin</name>
-    <url>http://databene.org/databene-benerator</url>
+    <url>http://databene.org/maven-benerator-plugin.html</url>
     <description>
         Maven plugin for integrating benerator in your build process.
         The goals are benerator:generate, benerator:dbsnapshot and benerator:createxml.
