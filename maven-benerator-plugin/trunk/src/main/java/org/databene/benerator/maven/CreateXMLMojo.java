@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,7 +27,6 @@
 package org.databene.benerator.maven;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.databene.benerator.main.XmlCreator;
@@ -89,11 +88,7 @@ public class CreateXMLMojo extends AbstractBeneratorMojo {
 		if (propertiesFiles == null)
 			propertiesFiles = new String[0];
 		// run generation
-		try {
-			XmlCreator.createXMLFiles(schemaFilename, xmlRoot, filenamePattern, fileCount, propertiesFiles);
-		} catch (IOException e) {
-			throw new MojoExecutionException("XML file generation failed", e);
-		}
+		XmlCreator.createXMLFiles(schemaFilename, xmlRoot, filenamePattern, fileCount, propertiesFiles);
 	}
 
 }
