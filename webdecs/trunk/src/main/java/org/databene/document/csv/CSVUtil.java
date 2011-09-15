@@ -89,6 +89,8 @@ public class CSVUtil {
     }
 
     public static String renderCell(String text, char separator) {
+    	if (text == null)
+    		return "";
         if (text.indexOf(separator) < 0)
             return text;
         text = text.replace("\"", "\"\"");
