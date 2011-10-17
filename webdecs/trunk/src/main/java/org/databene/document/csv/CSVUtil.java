@@ -80,7 +80,7 @@ public class CSVUtil {
 
     public static void writeRow(Writer out, char separator, String... cells) throws IOException {
         if (cells.length > 0)
-            out.write(cells[0]);
+            out.write(renderCell(cells[0], separator));
         for (int i = 1; i < cells.length; i++) {
             out.write(separator);
             out.write(renderCell(cells[i], separator));
@@ -91,13 +91,13 @@ public class CSVUtil {
     public static String renderCell(String text, char separator) {
     	if (text == null)
     		return "";
-        if (text.indexOf(separator) < 0)
+        if (text.indexOf(separator) < 0 && text.indexOf('"') < 0)
             return text;
         text = text.replace("\"", "\"\"");
         return '"' + text + '"';
     }
 
-    public static String formatHeader(char separator, String... propertyNames) {
+    public static String formatHeaderWithLineFeed(char separator, String... propertyNames) {
         return ArrayFormat.format(String.valueOf(separator), propertyNames) + SystemInfo.getLineSeparator();
     }
 
