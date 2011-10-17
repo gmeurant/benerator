@@ -59,7 +59,7 @@ public class BeanCSVWriter<E> extends ScriptedDocumentWriter<E> {
     public BeanCSVWriter(Writer out, char separator, boolean headed, String ... propertyNames) {
         this(   out,
                 separator,
-                (headed ? new ConstantScript(CSVUtil.formatHeader(separator, propertyNames)) : null),
+                (headed ? new ConstantScript(CSVUtil.formatHeaderWithLineFeed(separator, propertyNames)) : null),
                 null,
                 propertyNames);
     }

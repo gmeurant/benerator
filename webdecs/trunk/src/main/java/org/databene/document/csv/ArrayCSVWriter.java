@@ -61,7 +61,7 @@ public class ArrayCSVWriter extends ScriptedDocumentWriter<Object[]> {
         this(
                 out,
                 separator,
-                new ConstantScript(CSVUtil.formatHeader(separator, columnHeads)),
+                new ConstantScript(CSVUtil.formatHeaderWithLineFeed(separator, columnHeads)),
                 null);
     }
 
