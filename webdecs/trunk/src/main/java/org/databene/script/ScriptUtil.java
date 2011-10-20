@@ -110,14 +110,6 @@ public class ScriptUtil {
         	return text;
     }
     
-    /**
-     * @deprecated Replaced with {@link #evaluate(String, Context)})
-     */
-    @Deprecated
-    public static Object render(String text, Context context) { // TODO v0.6.0 remove
-    	return evaluate(text, context);
-    }
-    
 	// static factory methods ------------------------------------------------------------------------------------------
 
     private static Map<String, Script> scriptsByName = new WeakHashMap<String, Script>();
