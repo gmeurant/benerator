@@ -122,7 +122,7 @@ public class HTMLUtil {
 		value = value.replace("&", "&amp;"); // must be the first conversion
 		value = value.replace("<", "&lt;");
 		value = value.replace(">", "&gt;");
-		// TODO replace diacritic characters
+		// TODO v0.6.x replace diacritic characters
 		return value;
 	}
 
