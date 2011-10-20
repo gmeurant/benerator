@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -38,7 +38,7 @@ import static junit.framework.Assert.*;
  * Created: 14.03.2008 22:23:51
  * @author Volker Bergmann
  */
-public class String2TimeConverterTest extends JUnit4ConverterTest {
+public class String2TimeConverterTest extends AbstractConverterTest {
 	
 	public String2TimeConverterTest() {
 	    super(String2TimeConverter.class);

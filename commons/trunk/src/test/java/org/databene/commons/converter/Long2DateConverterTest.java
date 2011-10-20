@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -32,7 +32,7 @@ import org.junit.Test;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class Long2DateConverterTest extends JUnit4ConverterTest {
+public class Long2DateConverterTest extends AbstractConverterTest {
 
 	public Long2DateConverterTest() {
 	    super(Long2DateConverter.class);

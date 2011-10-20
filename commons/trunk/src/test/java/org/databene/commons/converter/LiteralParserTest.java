@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -38,7 +38,7 @@ import static junit.framework.Assert.*;
  * Created: 20.03.2008 07:18:30
  * @author Volker Bergmann
  */
-public class LiteralParserTest extends JUnit4ConverterTest {
+public class LiteralParserTest extends AbstractConverterTest {
 	
 	public LiteralParserTest() {
 	    super(LiteralParser.class);

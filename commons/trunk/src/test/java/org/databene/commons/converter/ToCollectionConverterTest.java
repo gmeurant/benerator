@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -43,7 +43,7 @@ import org.databene.commons.converter.ToCollectionConverter;
  * Created: 28.08.2007 17:35:50
  * @author Volker Bergmann
  */
-public class ToCollectionConverterTest extends JUnit4ConverterTest {
+public class ToCollectionConverterTest extends AbstractConverterTest {
 
     // tests -----------------------------------------------------------------------------------------------------------
 

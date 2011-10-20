@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -40,7 +40,7 @@ import org.junit.Test;
  * @since 0.5.3
  * @author Volker Bergmann
  */
-public class ToArrayConverterTest extends JUnit4ConverterTest {
+public class ToArrayConverterTest extends AbstractConverterTest {
 
 	public ToArrayConverterTest() {
 	    super(ToArrayConverter.class);

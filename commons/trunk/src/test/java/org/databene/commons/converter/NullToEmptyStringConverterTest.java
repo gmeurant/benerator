@@ -31,7 +31,7 @@ import org.junit.Test;
  * @since 0.5.8
  * @author Volker Bergmann
  */
-public class NullToEmptyStringConverterTest extends JUnit4ConverterTest {
+public class NullToEmptyStringConverterTest extends AbstractConverterTest {
 
 	public NullToEmptyStringConverterTest() {
 		super(NullToEmptyStringConverter.class);

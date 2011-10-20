@@ -34,7 +34,7 @@ import org.junit.Test;
  * @since 0.5.0
  * @author Volker Bergmann
  */
-public class TimestampFormatterTest extends JUnit4ConverterTest {
+public class TimestampFormatterTest extends AbstractConverterTest {
 	
 	Timestamp timestamp = TimeUtil.timestamp(1971, 1, 3, 13, 14, 15, 123456789);
 

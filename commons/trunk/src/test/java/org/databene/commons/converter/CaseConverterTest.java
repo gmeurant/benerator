@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -39,7 +39,7 @@ import org.databene.commons.converter.CaseConverter;
  * Created: 29.09.2006 15:50:03
  * @author Volker Bergmann
  */
-public class CaseConverterTest extends JUnit4ConverterTest {
+public class CaseConverterTest extends AbstractConverterTest {
 
 	public CaseConverterTest() {
 	    super(CaseConverter.class);

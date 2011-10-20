@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -40,7 +40,7 @@ import static junit.framework.Assert.*;
  * @author Volker Bergmann
  */
 
-public class NumberFormatterTest extends JUnit4ConverterTest {
+public class NumberFormatterTest extends AbstractConverterTest {
 
 	public NumberFormatterTest() {
 	    super(NumberFormatter.class);

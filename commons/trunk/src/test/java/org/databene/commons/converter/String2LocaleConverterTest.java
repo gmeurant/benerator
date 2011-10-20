@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -41,7 +41,7 @@ import java.util.Locale;
  * Created: 05.08.2007 06:32:38
  * @author Volker Bergmann
  */
-public class String2LocaleConverterTest extends JUnit4ConverterTest {
+public class String2LocaleConverterTest extends AbstractConverterTest {
 
 	public String2LocaleConverterTest() {
 	    super(String2LocaleConverter.class);

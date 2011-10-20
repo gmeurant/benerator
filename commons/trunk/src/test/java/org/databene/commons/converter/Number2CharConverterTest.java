@@ -32,7 +32,7 @@ import org.junit.Test;
  * @since 0.5.5
  * @author Volker Bergmann
  */
-public class Number2CharConverterTest extends JUnit4ConverterTest {
+public class Number2CharConverterTest extends AbstractConverterTest {
 	
 	public Number2CharConverterTest() {
 		super(Number2CharConverter.class);

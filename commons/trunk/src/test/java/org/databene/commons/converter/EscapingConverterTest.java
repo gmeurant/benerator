@@ -32,7 +32,7 @@ import org.junit.Test;
  * @since 0.5.5
  * @author Volker Bergmann
  */
-public class EscapingConverterTest extends JUnit4ConverterTest {
+public class EscapingConverterTest extends AbstractConverterTest {
 
 	public EscapingConverterTest() {
 		super(EscapingConverter.class);

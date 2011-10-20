@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -38,7 +38,7 @@ import org.databene.commons.converter.String2EnumConverter;
  * Created: 20.08.2007 07:14:04
  * @author Volker Bergmann
  */
-public class String2EnumConverterTest extends JUnit4ConverterTest {
+public class String2EnumConverterTest extends AbstractConverterTest {
 
 	public String2EnumConverterTest() {
 	    super(String2EnumConverter.class);

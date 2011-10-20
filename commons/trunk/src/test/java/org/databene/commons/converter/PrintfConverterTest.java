@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -37,7 +37,7 @@ import static junit.framework.Assert.*;
  * @author Volker Bergmann
  */
 
-public class PrintfConverterTest extends JUnit4ConverterTest {
+public class PrintfConverterTest extends AbstractConverterTest {
 	
 	public PrintfConverterTest() {
 	    super(PrintfConverter.class);

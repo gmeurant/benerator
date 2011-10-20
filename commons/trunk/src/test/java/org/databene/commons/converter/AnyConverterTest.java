@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -42,7 +42,7 @@ import org.databene.commons.converter.JavaType;
  * Created: 29.09.2006 12:12:22<br/>
  * @author Volker Bergmann
  */
-public class AnyConverterTest extends JUnit4ConverterTest {
+public class AnyConverterTest extends AbstractConverterTest {
 
     public AnyConverterTest() {
 	    super(AnyConverter.class);

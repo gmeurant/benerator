@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -43,7 +43,7 @@ import org.databene.commons.converter.ParseFormatConverter;
  * @since 0.1
  * @author Volker Bergmann
  */
-public class ParseFormatConverterTest extends JUnit4ConverterTest {
+public class ParseFormatConverterTest extends AbstractConverterTest {
 
 	public ParseFormatConverterTest() {
 	    super(ParseFormatConverter.class);
