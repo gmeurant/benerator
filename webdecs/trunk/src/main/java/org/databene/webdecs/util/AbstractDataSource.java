@@ -24,9 +24,10 @@ package org.databene.webdecs.util;
 import org.databene.webdecs.DataSource;
 
 /**
- * TODO Document class.<br/><br/>
+ * Abstract implementation of the {@link DataSource} interface, which holds a 'type' attribute 
+ * and provides an empty close() method.<br/><br/>
  * Created: 04.08.2011 09:52:03
- * @since TODO version
+ * @since 0.6.0
  * @author Volker Bergmann
  */
 public abstract class AbstractDataSource<E> implements DataSource<E> {

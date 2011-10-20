@@ -29,7 +29,7 @@ import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link DataIterator} proxy which applies a {@link Converter} to the data provided by its source.<br/><br/>
  * Created: 24.07.2011 09:52:35
  * @since 0.6.0
  * @author Volker Bergmann

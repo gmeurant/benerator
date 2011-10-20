@@ -25,9 +25,10 @@ import java.io.Closeable;
 
 import org.databene.commons.IOUtil;
 import org.databene.webdecs.DataIterator;
+import org.databene.webdecs.DataSource;
 
 /**
- * TODO Document class.<br/><br/>
+ * Provides {@link DataSource}-style access to a Java-SDK-{@link Iterable}.<br/><br/>
  * Created: 24.07.2011 11:07:04
  * @since 0.6.0
  * @author Volker Bergmann

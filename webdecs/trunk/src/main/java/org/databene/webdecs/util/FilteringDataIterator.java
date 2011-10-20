@@ -26,7 +26,7 @@ import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
 
 /**
- * TODO Document class.<br/><br/>
+ * {@link DataIterator} proxy which applies a {@link Filter} to the data provides by its source.<br/><br/>
  * Created: 24.07.2011 10:19:41
  * @since 0.6.0
  * @author Volker Bergmann

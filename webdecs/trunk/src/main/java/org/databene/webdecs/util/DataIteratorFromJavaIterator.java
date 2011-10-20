@@ -29,7 +29,7 @@ import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
 
 /**
- * TODO Document class.<br/><br/>
+ * Provides {@link DataIterator}-style access to a Java {@link Iterator}.<br/><br/>
  * Created: 24.07.2011 11:09:16
  * @since 0.6.0
  * @author Volker Bergmann

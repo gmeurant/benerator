@@ -25,7 +25,7 @@ import org.databene.commons.IOUtil;
 import org.databene.webdecs.DataSource;
 
 /**
- * TODO Document class.<br/><br/>
+ * Adapter for the {@link DataSource} class.<br/><br/>
  * Created: 24.07.2011 10:01:19
  * @since 0.6.0
  * @author Volker Bergmann

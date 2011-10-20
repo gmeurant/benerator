@@ -21,22 +21,24 @@
 
 package org.databene.webdecs.util;
 
+import java.util.Iterator;
+
 import org.databene.commons.HeavyweightIterator;
 import org.databene.commons.IOUtil;
 import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
 
 /**
- * TODO Document class.<br/><br/>
+ * Adapter class that provides Java-SDK-style {@link Iterator} access to a {@link DataIterator}.<br/><br/>
  * Created: 03.08.2011 19:04:58
  * @since 0.6.0
  * @author Volker Bergmann
  */
 public class JavaIteratorFromDataIterator<E> implements HeavyweightIterator<E> {
 	
-	DataIterator<E> source;
-	DataContainer<E> next;
-	boolean initialized;
+	private DataIterator<E> source;
+	private DataContainer<E> next;
+	private boolean initialized;
 	
 	public JavaIteratorFromDataIterator(DataIterator<E> source) {
 		this.source = source;

@@ -24,9 +24,9 @@ package org.databene.webdecs.util;
 import org.databene.webdecs.DataContainer;
 
 /**
- * TODO Document class.<br/><br/>
+ * Holds a {@link DataContainer} for each thread using the {@link ThreadLocal} mechanism.<br/><br/>
  * Created: 24.07.2011 14:46:18
- * @since TODO version
+ * @since 0.6.0
  * @author Volker Bergmann
  */
 public class ThreadLocalDataContainer<E> extends ThreadLocal<DataContainer<E>>  {

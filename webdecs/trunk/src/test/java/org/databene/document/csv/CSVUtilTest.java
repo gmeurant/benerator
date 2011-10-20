@@ -29,9 +29,9 @@ import org.databene.commons.SystemInfo;
 import org.junit.Test;
 
 /**
- * TODO Document class.<br/><br/>
+ * Tests the {@link CSVUtil} class.<br/><br/>
  * Created: 16.09.2011 13:17:50
- * @since TODO version
+ * @since 0.6.2
  * @author Volker Bergmann
  */
 public class CSVUtilTest {

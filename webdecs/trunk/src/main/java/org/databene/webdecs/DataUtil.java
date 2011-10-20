@@ -22,7 +22,7 @@
 package org.databene.webdecs;
 
 /**
- * TODO Document class.<br/><br/>
+ * Utility class for {@link DataIterator}-related functionality.<br/><br/>
  * Created: 24.07.2011 16:15:48
  * @since 0.6.0
  * @author Volker Bergmann

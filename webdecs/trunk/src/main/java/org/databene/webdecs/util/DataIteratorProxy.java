@@ -25,7 +25,7 @@ import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
 
 /**
- * TODO Document class.<br/><br/>
+ * Proxy for a {@link DataIterator}.<br/><br/>
  * Created: 24.07.2011 09:59:52
  * @since 0.6.0
  * @author Volker Bergmann

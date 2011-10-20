@@ -25,7 +25,7 @@ import org.databene.webdecs.DataIterator;
 import org.databene.webdecs.DataSource;
 
 /**
- * TODO Document class.<br/><br/>
+ * Proxy for a {@link DataSource}.<br/><br/>
  * Created: 24.07.2011 10:02:59
  * @since 0.6.0
  * @author Volker Bergmann

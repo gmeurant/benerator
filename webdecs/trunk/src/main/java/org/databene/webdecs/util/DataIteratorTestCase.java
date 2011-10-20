@@ -27,13 +27,13 @@ import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
 
 /**
- * TODO Document class.<br/><br/>
+ * Abstract parent class for tests that check {@link DataIterator}.<br/><br/>
  * Created: 24.07.2011 10:56:23
  * @since 0.6.0
  * @author Volker Bergmann
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
-public class DataIteratorTestCase  {
+public abstract class DataIteratorTestCase  {
 
     public static <T> void checkUniqueIteration(DataIterator<T> iterator, int count) {
     	HashSet<T> items = new HashSet<T>(count);

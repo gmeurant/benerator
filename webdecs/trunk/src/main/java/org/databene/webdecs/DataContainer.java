@@ -22,9 +22,9 @@
 package org.databene.webdecs;
 
 /**
- * TODO Document class.<br/><br/>
+ * Container object for data items.<br/><br/>
  * Created: 24.07.2011 14:40:21
- * @since TODO version
+ * @since 0.6.0
  * @author Volker Bergmann
  */
 public class DataContainer<E> {

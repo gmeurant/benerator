@@ -25,7 +25,7 @@ import org.databene.commons.IOUtil;
 import org.databene.webdecs.DataIterator;
 
 /**
- * TODO Document class.<br/><br/>
+ * Adapter for a {@link DataIterator}.<br/><br/>
  * Created: 24.07.2011 09:53:49
  * @since 0.6.0
  * @author Volker Bergmann
