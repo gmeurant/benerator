@@ -7,7 +7,7 @@
     <version>0.2.9</version>
 
     <properties>
-    	<commons_version>0.5.9</commons_version>
+    	<commons_version>0.5.10</commons_version>
     </properties>
 
     <packaging>jar</packaging>
