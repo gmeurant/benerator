@@ -34,6 +34,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +58,7 @@ import org.databene.commons.StringUtil;
 import org.databene.commons.SystemInfo;
 import org.databene.commons.Visitor;
 import org.databene.commons.converter.NoOpConverter;
+import org.databene.commons.converter.String2DateConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -312,6 +314,10 @@ public class XMLUtil {
 
 	public static double getDoubleAttribute(Element element, String name) {
 		return Double.parseDouble(element.getAttribute(name));
+	}
+
+	public static Date getDateAttribute(Element element, String name) {
+		return new String2DateConverter<Date>().convert(element.getAttribute(name));
 	}
 
 	public static void mapAttributesToProperties(Element element, Object bean, boolean unescape) {
