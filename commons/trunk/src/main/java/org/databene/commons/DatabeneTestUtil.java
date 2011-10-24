@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
  * @author Volker Bergmann
  */
 
-public class DatabeneTestUtil {
+public class DatabeneTestUtil { // TODO merge with environment concept
 	
     private static final String DATABENE_TEST_PROPERTIES = "databene.test.properties";
 
