@@ -114,7 +114,10 @@ public class Interval<E> {
 
 	@Override
 	public String toString() {
-		return (minInclusive ? '[' : ']') + String.valueOf(min) + ',' + String.valueOf(max) + (maxInclusive ? ']' : '[');
+		if (NullSafeComparator.equals(min, max))
+			return String.valueOf(min);
+		else
+			return (minInclusive ? '[' : ']') + String.valueOf(min) + ',' + String.valueOf(max) + (maxInclusive ? ']' : '[');
 	}
 	
 }
