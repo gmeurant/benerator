@@ -83,7 +83,9 @@ public class ArrayFormat extends Format {
 
     @Override
     public Object parseObject(String source, ParsePosition pos) {
-        return parse(source, separator, String.class);
+        String[] result = parse(source, separator, String.class);
+        pos.setIndex(source.length());
+		return result;
     }
 
     // publicly available utility methods ------------------------------------------------------------------------------
