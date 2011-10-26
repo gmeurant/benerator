@@ -56,4 +56,9 @@ public class BeanConstraintValidator<E> implements Validator<E> {
 	    return constraintValidator.isValid(object, null);
     }
 	
+    @Override
+    public String toString() {
+    	return constraintValidator.toString();
+    }
+    
 }
