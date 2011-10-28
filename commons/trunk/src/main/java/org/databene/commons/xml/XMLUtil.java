@@ -27,6 +27,7 @@
 package org.databene.commons.xml;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,6 +51,7 @@ import org.databene.commons.ArrayBuilder;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.Converter;
+import org.databene.commons.Encodings;
 import org.databene.commons.ErrorHandler;
 import org.databene.commons.Filter;
 import org.databene.commons.IOUtil;
@@ -87,6 +89,19 @@ public class XMLUtil {
     private XMLUtil() {}
 
     public static String format(Element element) {
+    	ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		String encoding = Encodings.UTF_8;
+		SimpleXMLWriter out = new SimpleXMLWriter(buffer, encoding, false);
+		format(element, out);
+		out.close();
+		try {
+			return new String(buffer.toByteArray(), encoding);
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
+    }
+    
+	public static String formatShort(Element element) {
         StringBuilder builder = new StringBuilder();
         builder.append('<').append(element.getNodeName());
         NamedNodeMap attributes = element.getAttributes();
@@ -97,7 +112,7 @@ public class XMLUtil {
         builder.append("...");
         return builder.toString();
     }
- 
+
     public static String localName(Element element) {
         return localName(element.getNodeName());
     }
@@ -398,6 +413,19 @@ public class XMLUtil {
 	}
 
 	// private helpers -------------------------------------------------------------------------------------------------
+
+    private static void format(Element element, SimpleXMLWriter out) {
+		String name = element.getNodeName();
+		Map<String, String> attributes = XMLUtil.getAttributes(element);
+		try {
+			out.startElement(name, attributes);
+			for (Element child : XMLUtil.getChildElements(element))
+				format(child, out);
+			out.endElement(name);
+		} catch (SAXException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	private static List<Element> findElementsByName(String name, boolean caseSensitive, Element root, List<Element> result) {
 		if (root.getNodeName().equals(name))
