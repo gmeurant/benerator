@@ -61,7 +61,7 @@ public class XMLUtilTest {
 	@Test
     public void testFormat() {
     	Document document = createDocument();
-        String output = XMLUtil.format(createElementWithChildren(document, "ns:test"));
+        String output = XMLUtil.formatShort(createElementWithChildren(document, "ns:test"));
         assertTrue(output.startsWith("<ns:test"));
     }
  
