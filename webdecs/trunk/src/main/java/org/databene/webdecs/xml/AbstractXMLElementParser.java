@@ -142,6 +142,16 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 		return getOptionalAttribute("name", element);
 	}
 
+	protected static Integer parseOptionalInteger(String attributeName, Element element) {
+		String spec = getOptionalAttribute(attributeName, element);
+		return (spec != null ? Integer.parseInt(spec) : null);
+	}
+
+	protected static Long parseOptionalLong(String attributeName, Element element) {
+		String spec = getOptionalAttribute(attributeName, element);
+		return (spec != null ? Long.parseLong(spec) : null);
+	}
+
 	public static String getRequiredAttribute(String name, Element element) {
 		String value = getOptionalAttribute(name, element);
 		if (value == null)
