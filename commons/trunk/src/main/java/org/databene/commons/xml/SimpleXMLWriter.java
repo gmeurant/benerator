@@ -23,6 +23,7 @@ package org.databene.commons.xml;
 
 import java.io.Closeable;
 import java.io.OutputStream;
+import java.util.Map;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
@@ -35,7 +36,6 @@ import javax.xml.transform.stream.StreamResult;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.IOUtil;
 import org.databene.commons.StringUtil;
-import org.databene.commons.SystemInfo;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
@@ -54,11 +54,7 @@ public class SimpleXMLWriter implements Closeable {
     OutputStream out;
     TransformerHandler handler;
 
-	public SimpleXMLWriter(OutputStream out) {
-		this(out, SystemInfo.getFileEncoding());
-	}
-
-	public SimpleXMLWriter(OutputStream out, String encoding) {
+	public SimpleXMLWriter(OutputStream out, String encoding, boolean includeXmlHeader) {
         try {
 			// create file and write header
 			SAXTransformerFactory tf = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
@@ -66,7 +62,9 @@ public class SimpleXMLWriter implements Closeable {
 			Transformer transformer = handler.getTransformer();
 			transformer.setOutputProperty(OutputKeys.ENCODING, encoding);
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			transformer.setOutputProperty("{http://xml.apache.org/xslt}" + "indent-amount", "2"); 
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}" + "indent-amount", "2");
+			if (!includeXmlHeader)
+				transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 			handler.setResult(new StreamResult(out));
 			handler.startDocument();
 		} catch (TransformerConfigurationException e) {
@@ -164,6 +162,16 @@ public class SimpleXMLWriter implements Closeable {
 
 	public void startDocument() throws SAXException {
 		handler.startDocument();
+	}
+
+	public void startElement(String name, Map<String, String> attributes) throws SAXException {
+		AttributesImpl atts = null;
+		if (attributes != null) {
+			atts = new AttributesImpl();
+			for (Map.Entry<String, String> entry : attributes.entrySet())
+				addAttribute(entry.getKey(), entry.getValue(), atts);
+		}
+		handler.startElement("", "", name, atts);
 	}
 
 	public void startElement(String name, Attributes atts) throws SAXException {
