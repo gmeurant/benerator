@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
  * @author Volker Bergmann
  */
 
-public class DatabeneTestUtil { // TODO merge with environment concept
+public class DatabeneTestUtil {
 	
     private static final String DATABENE_TEST_PROPERTIES = "databene.test.properties";
 
@@ -93,17 +93,9 @@ public class DatabeneTestUtil { // TODO merge with environment concept
 	public static String ftpUploadUrl() {
 		return properties.get("ftp.upload.url");
 	}
-	
-	public static JDBCConnectData getConnectData(String db) {
-		String prefix = "db." + db + ".";
-		if (!"true".equals(properties.get(prefix + "online")))
-			return null;
-		return new JDBCConnectData(
-				properties.get(prefix + "driver"),
-				properties.get(prefix + "url"),
-				properties.get(prefix + "user"),
-				properties.get(prefix + "password")
-			);
+
+	public static Map<String, String> getProperties() {
+		return properties;
 	}
 	
 }
