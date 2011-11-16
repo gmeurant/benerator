@@ -23,8 +23,12 @@ package org.databene.webdecs.xml;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import org.databene.commons.ArrayUtil;
+import org.databene.commons.Context;
+import org.databene.commons.context.DefaultContext;
 import org.databene.commons.xml.XMLUtil;
 import org.w3c.dom.Element;
 
@@ -34,10 +38,11 @@ import org.w3c.dom.Element;
  * @since 0.5.4
  * @author Volker Bergmann
  */
-public class ParseContext<E> {
+public class ParseContext<E> implements Context {
 	
 	protected XMLElementParserFactory<E> factory;
 	protected Class<E> pathComponentType;
+	private Context context;
 	
 	public ParseContext(Class<E> pathComponentType) {
 		this(pathComponentType, new XMLElementParserFactory<E>());
@@ -46,6 +51,7 @@ public class ParseContext<E> {
 	public ParseContext(Class<E> pathComponentType, XMLElementParserFactory<E> factory) {
 		this.pathComponentType = pathComponentType;
 		this.factory = factory;
+		this.context = new DefaultContext();
 	}
 
 	public void addParser(XMLElementParser<E> parser) {
@@ -74,6 +80,30 @@ public class ParseContext<E> {
 			return ArrayUtil.buildObjectArrayOfType(pathComponentType, currentObject);
 		else
 			return ArrayUtil.append(currentObject, parentPath);
+	}
+
+	public Object get(String key) {
+		return context.get(key);
+	}
+
+	public void set(String key, Object value) {
+		context.set(key, value);
+	}
+
+	public void remove(String key) {
+		context.remove(key);
+	}
+
+	public boolean contains(String key) {
+		return context.contains(key);
+	}
+
+	public Set<String> keySet() {
+		return context.keySet();
+	}
+
+	public Set<Entry<String, Object>> entrySet() {
+		return context.entrySet();
 	}
 
 }
