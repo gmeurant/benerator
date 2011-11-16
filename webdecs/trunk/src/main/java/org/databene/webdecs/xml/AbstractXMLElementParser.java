@@ -147,6 +147,11 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 		return (spec != null ? Integer.parseInt(spec) : null);
 	}
 
+	protected static Boolean parseOptionalBoolean(String attributeName, Element element) {
+		String spec = getOptionalAttribute(attributeName, element);
+		return (spec != null ? Boolean.parseBoolean(spec) : null);
+	}
+
 	protected static Long parseOptionalLong(String attributeName, Element element) {
 		String spec = getOptionalAttribute(attributeName, element);
 		return (spec != null ? Long.parseLong(spec) : null);
