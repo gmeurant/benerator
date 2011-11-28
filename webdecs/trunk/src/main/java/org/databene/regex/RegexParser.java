@@ -94,8 +94,7 @@ public class RegexParser {
 	        checkForSyntaxErrors(pattern, "regex", parser, r);
 	        if (r != null) {
 	        	CommonTree tree = (CommonTree) r.getTree();
-	        	if (LOGGER.isDebugEnabled())
-	        		LOGGER.debug("parsed " + pattern + " to " + tree.toStringTree());
+        		LOGGER.debug("parsed {} to {}", pattern, tree.toStringTree());
 	            return convertNode(tree);
 	        } else
 	        	return null;
@@ -125,8 +124,7 @@ public class RegexParser {
 	        	throw new SyntaxError("Illegal regex", pattern);
 	        if (r != null) {
 	        	CommonTree tree = (CommonTree) r.getTree();
-	        	if (LOGGER.isDebugEnabled())
-	        		LOGGER.debug("parsed " + pattern + " to " + tree.toStringTree());
+        		LOGGER.debug("parsed {} to {}", pattern, tree.toStringTree());
 	            return convertNode(tree);
 	        } else
 	        	return null;
