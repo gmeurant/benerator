@@ -48,9 +48,11 @@ public class XMLElementParserFactory<E> {
 	}
 
 	public XMLElementParser<E> getParser(Element element, E[] parentPath) {
-		for (XMLElementParser<E> parser : parsers)
+		for (int i = parsers.size() - 1; i >= 0; i--) { // search for parsers in reverse order, to child classes can override parsers of parent classes
+			XMLElementParser<E> parser = parsers.get(i);
 			if (parser.supports(element, parentPath))
 				return parser;
+		}
 		Object parent = (ArrayUtil.isEmpty(parentPath) ? null : ArrayUtil.lastElementOf(parentPath));
 		String message = "Syntax Error: Element '" + element.getNodeName() + 
 			"' not supported " + (parent != null ? 
