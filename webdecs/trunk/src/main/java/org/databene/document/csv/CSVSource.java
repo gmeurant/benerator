@@ -25,6 +25,7 @@ import java.io.IOException;
 
 import org.databene.webdecs.DataIterator;
 import org.databene.webdecs.DataSource;
+import org.databene.webdecs.OrthogonalArrayIterator;
 
 /**
  * {@link DataSource} implementation that provides for 
@@ -63,10 +64,10 @@ public class CSVSource implements DataSource<String[]> {
     
 	public DataIterator<String[]> iterator() {
 		try {
-			if (rowBased)
-				return new CSVLineIterator(uri, separator, ignoreEmptyLines, encoding);
-			else
-				return new CSVColumnIterator(uri, separator, encoding);
+			DataIterator<String[]> result = new CSVLineIterator(uri, separator, ignoreEmptyLines, encoding);
+			if (!rowBased)
+				result = new OrthogonalArrayIterator<String>(result);
+			return result;
 		} catch (IOException e) {
 			throw new RuntimeException("Error creating iterator for " + uri, e);
 		}
