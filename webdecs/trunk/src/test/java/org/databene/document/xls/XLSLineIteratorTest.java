@@ -35,7 +35,7 @@ import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.util.DataIteratorTestCase;
 import org.junit.Test;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.*;
 
 /**
  * Tests the {@link XLSLineIterator}.<br/><br/>
@@ -54,7 +54,7 @@ public class XLSLineIteratorTest extends DataIteratorTestCase {
 		XLSLineIterator iterator = new XLSLineIterator(XLS_FILENAME);
 		try {
 			// check headers
-			assertTrue(Arrays.equals(new String[] {"name", "age"}, iterator.getHeaders()));
+			assertArrayEquals(new Object[] {"name", "age"}, iterator.next(new DataContainer<Object[]>()).getData());
 			// check normal row
 			expectNext(iterator, "Alice", 23.0);
 			// test formula
@@ -69,9 +69,9 @@ public class XLSLineIteratorTest extends DataIteratorTestCase {
     @Test
 	public void testSheet1() throws IOException {
 		// test sheet 1
-		XLSLineIterator iterator = new XLSLineIterator(XLS_FILENAME, 1, true);
+		XLSLineIterator iterator = new XLSLineIterator(XLS_FILENAME, 1);
 		try {
-			assertTrue(Arrays.equals(new String[] {"name", "age"}, iterator.getHeaders()));
+			assertArrayEquals(new Object[] {"name", "age"}, iterator.next(new DataContainer<Object[]>()).getData());
 			expectNext(iterator, "Otto", 89.0);
 			expectUnavailable(iterator);
 		} finally {
@@ -82,9 +82,8 @@ public class XLSLineIteratorTest extends DataIteratorTestCase {
     @Test
 	public void testWithoutHeader() throws IOException {
 		// test sheet 1
-		XLSLineIterator iterator = new XLSLineIterator(XLS_FILENAME, 1, false);
+		XLSLineIterator iterator = new XLSLineIterator(XLS_FILENAME, 1);
 		try {
-			assertNull(iterator.getHeaders());
 			expectNext(iterator, "name", "age");
 			expectNext(iterator, "Otto", 89.0);
 			expectUnavailable(iterator);
