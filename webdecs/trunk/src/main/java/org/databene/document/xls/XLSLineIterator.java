@@ -31,9 +31,7 @@ import java.util.Iterator;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.databene.commons.ArrayBuilder;
 import org.databene.commons.Converter;
 import org.databene.commons.IOUtil;
 import org.databene.commons.converter.NoOpConverter;
@@ -51,28 +49,25 @@ import org.databene.webdecs.DataIterator;
 public class XLSLineIterator implements DataIterator<Object[]> {
 	
 	private Iterator<Row> rowIterator;
-	private boolean usingHeaders;
-	private String[] headers;
 	private Converter<String, ?> stringPreprocessor;
 	
 	// constructors ----------------------------------------------------------------------------------------------------
 	
 	public XLSLineIterator(String uri) throws IOException {
-		this(uri, 0, true);
+		this(uri, 0);
 	}
 	
-	public XLSLineIterator(String uri, int sheetIndex, boolean usingHeaders) throws IOException {
-		this(uri, sheetIndex, usingHeaders, null);
+	public XLSLineIterator(String uri, int sheetIndex) throws IOException {
+		this(uri, sheetIndex, null);
 	}
 	
-    public XLSLineIterator(String uri, int sheetIndex, boolean usingHeaders, Converter<String, ?> preprocessor) throws IOException {
-		this(sheet(uri, sheetIndex), usingHeaders, preprocessor);
+    public XLSLineIterator(String uri, int sheetIndex, Converter<String, ?> preprocessor) throws IOException {
+		this(sheet(uri, sheetIndex), preprocessor);
 	}
 	
-    public XLSLineIterator(HSSFSheet sheet, boolean usingHeaders, Converter<String, ?> stringPreprocessor) {
+    public XLSLineIterator(HSSFSheet sheet, Converter<String, ?> stringPreprocessor) {
 		if (stringPreprocessor == null)
 			stringPreprocessor = new NoOpConverter<String>();
-		this.usingHeaders = usingHeaders;
 		this.stringPreprocessor = stringPreprocessor;
 		rowIterator = sheet.rowIterator();
 		
@@ -80,44 +75,23 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 			close();
 			return;
 		}
-		
-		// read headers
-		if (usingHeaders) {
-			Row headerRow = rowIterator.next();
-			ArrayBuilder<String> builder = new ArrayBuilder<String>(String.class);
-			for (int cellnum = 0; cellnum <= headerRow.getLastCellNum(); cellnum++) {
-				Cell cell = headerRow.getCell(cellnum);
-				if (cell != null && cell.getCellType() != Cell.CELL_TYPE_BLANK)
-					builder.add(cell.getRichStringCellValue().getString());
-			}
-			headers = builder.toArray();
-		}
     }
 
 	// interface -------------------------------------------------------------------------------------------------------
 	
-	public boolean isUsingHeaders() {
-		return usingHeaders;
-	}
-
-	public String[] getHeaders() {
-		return headers;
-	}
-
 	public Class<Object[]> getType() {
 		return Object[].class;
 	}
 	
 	public void close() {
 		rowIterator = null;
-		headers = new String[0];
 	}
 
 	public DataContainer<Object[]> next(DataContainer<Object[]> wrapper) {
 		if (rowIterator == null || !rowIterator.hasNext())
 			return null;
 		Row row = rowIterator.next();
-		int cellCount = (usingHeaders ? headers.length : row.getLastCellNum() + 1);
+		int cellCount = row.getLastCellNum();
 		Object[] result = new Object[cellCount];
 		for (int cellnum = 0; cellnum < cellCount; cellnum++)
 			result[cellnum] = HSSFUtil.resolveCellValue(row.getCell(cellnum), stringPreprocessor);
