@@ -48,6 +48,7 @@ import org.databene.webdecs.DataIterator;
 
 public class XLSLineIterator implements DataIterator<Object[]> {
 	
+	private String emptyMarker;
 	private Iterator<Row> rowIterator;
 	private Converter<String, ?> stringPreprocessor;
 	
@@ -66,6 +67,7 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 	}
 	
     public XLSLineIterator(HSSFSheet sheet, Converter<String, ?> stringPreprocessor) {
+    	this.emptyMarker = "'";
 		if (stringPreprocessor == null)
 			stringPreprocessor = new NoOpConverter<String>();
 		this.stringPreprocessor = stringPreprocessor;
@@ -77,6 +79,14 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 		}
     }
 
+	public String getEmptyMarker() {
+		return emptyMarker;
+	}
+	
+	public void setEmptyMarker(String emptyMarker) {
+		this.emptyMarker = emptyMarker;
+	}
+	
 	// interface -------------------------------------------------------------------------------------------------------
 	
 	public Class<Object[]> getType() {
@@ -94,7 +104,7 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 		int cellCount = row.getLastCellNum();
 		Object[] result = new Object[cellCount];
 		for (int cellnum = 0; cellnum < cellCount; cellnum++)
-			result[cellnum] = HSSFUtil.resolveCellValue(row.getCell(cellnum), stringPreprocessor);
+			result[cellnum] = HSSFUtil.resolveCellValue(row.getCell(cellnum), emptyMarker, stringPreprocessor);
 		return wrapper.setData(result);
 	}
 

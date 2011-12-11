@@ -47,14 +47,14 @@ public class HSSFUtil {
 	private HSSFUtil() { }
 	
 	public static Object resolveCellValue(Cell cell) {
-		return resolveCellValue(cell, null);
+		return resolveCellValue(cell, "'", null);
 	}
 	
-	public static Object resolveCellValue(Cell cell, Converter<String, ?> stringPreprocessor) {
+	public static Object resolveCellValue(Cell cell, String emptyMarker, Converter<String, ?> stringPreprocessor) {
 		if (cell == null)
 			return null;
 		switch (cell.getCellType()) {
-			case Cell.CELL_TYPE_STRING: return convertString(cell, stringPreprocessor);
+			case Cell.CELL_TYPE_STRING: return convertString(cell, emptyMarker, stringPreprocessor);
 			case Cell.CELL_TYPE_NUMERIC: if (HSSFDateUtil.isCellDateFormatted(cell))
 				return cell.getDateCellValue();
 			else
@@ -66,7 +66,7 @@ public class HSSFUtil {
 				FormulaEvaluator evaluator = cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
 				CellValue cellValue = evaluator.evaluate(cell);
 				switch (cellValue.getCellType()) {
-					case HSSFCell.CELL_TYPE_STRING: return convertString(cellValue, stringPreprocessor);
+					case HSSFCell.CELL_TYPE_STRING: return convertString(cellValue, emptyMarker, stringPreprocessor);
 				    case HSSFCell.CELL_TYPE_NUMERIC: return cellValue.getNumberValue();
 				    case Cell.CELL_TYPE_BOOLEAN: return cellValue.getBooleanValue();
 				    case HSSFCell.CELL_TYPE_BLANK:
@@ -79,14 +79,18 @@ public class HSSFUtil {
 	}
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-	private static Object convertString(CellValue cellValue, Converter<?, ?> stringPreprocessor) {
+	private static Object convertString(CellValue cellValue, String emptyMarker, Converter<?, ?> stringPreprocessor) {
     	String content = cellValue.getStringValue();
+    	if (content != null && content.equals(emptyMarker))
+    		content = "";
     	return (stringPreprocessor != null ? ((Converter) stringPreprocessor).convert(content) : content);
     }
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private static Object convertString(Cell cell, Converter<?, ?> stringPreprocessor) {
+	private static Object convertString(Cell cell, String emptyMarker, Converter<?, ?> stringPreprocessor) {
     	String content = cell.getRichStringCellValue().getString();
+    	if (content != null && content.equals(emptyMarker))
+    		content = "";
     	return (stringPreprocessor != null ? ((Converter) stringPreprocessor).convert(content) : content);
     }
 
