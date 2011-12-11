@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import org.databene.commons.ArrayUtil;
+import org.databene.commons.TimeUtil;
 import org.databene.document.xls.XLSLineIterator;
 import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.util.DataIteratorTestCase;
@@ -46,12 +47,14 @@ import static org.junit.Assert.*;
 
 public class XLSLineIteratorTest extends DataIteratorTestCase {
 
-	private static final String XLS_FILENAME = "org/databene/document/xls/person_lines.xls";
+	private static final String PERSON_FILENAME = "org/databene/document/xls/person_lines.xls";
+	private static final String VALUES_FILENAME = "org/databene/document/xls/types_and_values.xls";
+	private static final String EMPTY_FILENAME = "org/databene/document/xls/empty.xls";
 
     @Test
 	public void testDefaultSheetWithFormula() throws IOException {
 		// test default sheet
-		XLSLineIterator iterator = new XLSLineIterator(XLS_FILENAME);
+		XLSLineIterator iterator = new XLSLineIterator(PERSON_FILENAME);
 		try {
 			// check headers
 			assertArrayEquals(new Object[] {"name", "age"}, iterator.next(new DataContainer<Object[]>()).getData());
@@ -69,7 +72,7 @@ public class XLSLineIteratorTest extends DataIteratorTestCase {
     @Test
 	public void testSheet1() throws IOException {
 		// test sheet 1
-		XLSLineIterator iterator = new XLSLineIterator(XLS_FILENAME, 1);
+		XLSLineIterator iterator = new XLSLineIterator(PERSON_FILENAME, 1);
 		try {
 			assertArrayEquals(new Object[] {"name", "age"}, iterator.next(new DataContainer<Object[]>()).getData());
 			expectNext(iterator, "Otto", 89.0);
@@ -82,10 +85,49 @@ public class XLSLineIteratorTest extends DataIteratorTestCase {
     @Test
 	public void testWithoutHeader() throws IOException {
 		// test sheet 1
-		XLSLineIterator iterator = new XLSLineIterator(XLS_FILENAME, 1);
+		XLSLineIterator iterator = new XLSLineIterator(PERSON_FILENAME, 1);
 		try {
 			expectNext(iterator, "name", "age");
 			expectNext(iterator, "Otto", 89.0);
+			expectUnavailable(iterator);
+		} finally {
+			iterator.close();
+		}
+	}
+	
+    @Test
+	public void testTypesAndValues() throws IOException {
+		// test default sheet
+		XLSLineIterator iterator = new XLSLineIterator(VALUES_FILENAME);
+		try {
+			// check headers
+			Object[] expectedHeaders = new Object[] {
+					"text", "emptyText", "null", "numberAsText", "number", "date"};
+			assertArrayEquals(expectedHeaders, iterator.next(new DataContainer<Object[]>()).getData());
+			// check data
+			Object[] data = iterator.next(new DataContainer<Object[]>()).getData();
+			assertEquals(expectedHeaders.length, data.length);
+			assertEquals("Simple Text", data[0]);
+			assertEquals("", data[1]);
+			assertEquals(null, data[2]);
+			assertEquals("123", data[3]);
+			assertEquals(42., data[4]);
+			assertEquals(TimeUtil.date(2011, 1, 1), data[5]);
+			// check end of sheet
+			expectUnavailable(iterator);
+		} finally {
+			iterator.close();
+		}
+	}
+	
+    @Test
+	public void testAlternativeEmptyMarker() throws IOException {
+		// test default sheet
+		XLSLineIterator iterator = new XLSLineIterator(EMPTY_FILENAME);
+		iterator.setEmptyMarker("\"\"");
+		try {
+			assertArrayEquals(new Object[] { "text", "empty" }, iterator.next(new DataContainer<Object[]>()).getData());
+			assertArrayEquals(new Object[] { "X", "" }, iterator.next(new DataContainer<Object[]>()).getData());
 			expectUnavailable(iterator);
 		} finally {
 			iterator.close();
