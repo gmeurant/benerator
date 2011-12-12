@@ -81,7 +81,7 @@ public class HSSFUtil {
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	private static Object convertString(CellValue cellValue, String emptyMarker, Converter<?, ?> stringPreprocessor) {
     	String content = cellValue.getStringValue();
-    	if (content != null && content.equals(emptyMarker))
+    	if (content != null && (content.equals(emptyMarker) || content.equals("'")))
     		content = "";
     	return (stringPreprocessor != null ? ((Converter) stringPreprocessor).convert(content) : content);
     }
@@ -89,7 +89,7 @@ public class HSSFUtil {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static Object convertString(Cell cell, String emptyMarker, Converter<?, ?> stringPreprocessor) {
     	String content = cell.getRichStringCellValue().getString();
-    	if (content != null && content.equals(emptyMarker))
+    	if (content != null && (content.equals(emptyMarker) || content.equals("'")))
     		content = "";
     	return (stringPreprocessor != null ? ((Converter) stringPreprocessor).convert(content) : content);
     }
