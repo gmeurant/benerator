@@ -22,6 +22,7 @@
 package org.databene.webdecs.util;
 
 import org.databene.commons.IOUtil;
+import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
 
 /**
@@ -33,13 +34,18 @@ import org.databene.webdecs.DataIterator;
 public abstract class DataIteratorAdapter<S, T> implements DataIterator<T> {
 
     protected DataIterator<S> source;
+    private ThreadLocalDataContainer<S> sourceContainerProvider;
 
     public DataIteratorAdapter(DataIterator<S> source) {
         this.source = source;
+        this.sourceContainerProvider = new ThreadLocalDataContainer<S>();
     }
-
+    
     public void close() {
         IOUtil.close(source);
     }
-
+    
+    protected DataContainer<S> getSourceContainer() {
+    	return sourceContainerProvider.get();
+    }
 }
