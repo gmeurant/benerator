@@ -41,7 +41,7 @@ import java.text.NumberFormat;
  */
 public class FixedWidthUtil {
 
-    public static FixedWidthColumnDescriptor[] parseProperties(String properties) {
+    public static FixedWidthColumnDescriptor[] parseColumnsSpec(String properties) {
         if (properties == null)
             return null;
         String[] propertyFormats = StringUtil.tokenize(properties, ',');

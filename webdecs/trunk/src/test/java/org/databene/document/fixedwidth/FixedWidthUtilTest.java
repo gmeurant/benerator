@@ -83,7 +83,7 @@ public class FixedWidthUtilTest {
 	}
 
 	private FixedWidthColumnDescriptor[] parse(String pattern) {
-		return FixedWidthUtil.parseProperties(pattern);
+		return FixedWidthUtil.parseColumnsSpec(pattern);
 	}
 	
 }
