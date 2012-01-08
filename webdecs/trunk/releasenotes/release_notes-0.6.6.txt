@@ -1,0 +1,7 @@
+release notes databene webdecs 0.6.5
+------------------------------------
+
+
+Enhancements
+------------
+- Defined FixedWidthBeanIterator
