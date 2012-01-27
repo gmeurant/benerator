@@ -47,6 +47,8 @@ public class CSVLineIterator implements DataIterator<String[]> {
     /** The default separator to use */
     public static final char DEFAULT_SEPARATOR = ',';
 
+    private String stringRep;
+    
     private CSVTokenizer tokenizer;
 
     private String[] nextLine;
@@ -56,7 +58,7 @@ public class CSVLineIterator implements DataIterator<String[]> {
     private int lineCount;
 
     private boolean eol;
-
+    
     // constructors ----------------------------------------------------------------------------------------------------
 
     /**
@@ -88,6 +90,7 @@ public class CSVLineIterator implements DataIterator<String[]> {
 
     public CSVLineIterator(String uri, char separator, boolean ignoreEmptyLines, String encoding) throws IOException {
         this(IOUtil.getReaderForURI(uri, encoding), separator, ignoreEmptyLines);
+        this.stringRep = uri;
     }
 
     /**
@@ -105,6 +108,7 @@ public class CSVLineIterator implements DataIterator<String[]> {
         this.nextLine = parseNextLine();
         this.lineCount = 0;
         this.eol = false;
+        this.stringRep = reader.toString();
     }
 
     // interface -------------------------------------------------------------------------------------------------------
@@ -184,5 +188,10 @@ public class CSVLineIterator implements DataIterator<String[]> {
         else
             return null;
     }
-
+    
+    @Override
+    public String toString() {
+    	return getClass().getSimpleName() + "[" + stringRep + "]";
+    }
+    
 }
