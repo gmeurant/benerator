@@ -62,4 +62,9 @@ public class ConvertingDataIterator<S, T> extends DataIteratorAdapter<S, T> {
 		super.close();
 	}
 	
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "[source:" + source + ", converter:" + converter + "]";
+	}
+	
 }

@@ -72,5 +72,10 @@ public class JavaIteratorFromDataIterator<E> implements HeavyweightIterator<E> {
 		IOUtil.close(source);
 		source = null;
 	}
-
+	
+	@Override
+	public String toString() {
+		return source.toString();
+	}
+	
 }
