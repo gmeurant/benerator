@@ -48,18 +48,15 @@ public class OrthogonalArrayIterator<E> implements DataIterator<E[]> {
 	}
 
 	public DataContainer<E[]> next(DataContainer<E[]> container) {
-		if (rows == null) { // initialize on the first invocation
-			rows = new ArrayList<E[]>();
-			while (source.next(container) != null)
-				rows.add(container.getData());
-			columnIndex = 0;
-		}
+		beInitialized(container);
 		if (rows.size() == 0 || columnIndex >= rows.get(0).length)
 			return null;
 		@SuppressWarnings("unchecked")
 		E[] column = ArrayUtil.newInstance((Class<E>) source.getType().getComponentType(), rows.size());
-		for (int rowIndex = 0; rowIndex < rows.size(); rowIndex++)
-			column[rowIndex] = rows.get(rowIndex)[columnIndex];
+		for (int rowIndex = 0; rowIndex < rows.size(); rowIndex++) {
+			E[] row = rows.get(rowIndex);
+			column[rowIndex] = (columnIndex < row.length ? row[columnIndex] : null);
+		}
 		columnIndex++;
 		return container.setData(column);
 	}
@@ -68,4 +65,15 @@ public class OrthogonalArrayIterator<E> implements DataIterator<E[]> {
 		// nothing to do
 	}
 	
+	// private helpers -------------------------------------------------------------------------------------------------
+	
+	private void beInitialized(DataContainer<E[]> container) {
+		if (rows == null) { // initialize on the first invocation
+			rows = new ArrayList<E[]>();
+			while (source.next(container) != null)
+				rows.add(container.getData());
+			columnIndex = 0;
+		}
+	}
+
 }

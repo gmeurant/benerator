@@ -38,11 +38,11 @@ public class OrthogonalArrayIteratorTest {
 	public void test() {
 		DataIterator<Integer[]> source = new ListDataIterator<Integer[]>(Integer[].class, 
 				new Integer[] { 1, 2 }, 
-				new Integer[] { 3, 4 });
+				new Integer[] { 3 });
 		DataIterator<Integer[]> iterator = new OrthogonalArrayIterator<Integer>(source);
 		DataContainer<Integer[]> container = new DataContainer<Integer[]>();
-		assertArrayEquals(new Integer[] { 1, 3 }, iterator.next(container).getData());
-		assertArrayEquals(new Integer[] { 2, 4 }, iterator.next(container).getData());
+		assertArrayEquals(new Integer[] { 1,    3 }, iterator.next(container).getData());
+		assertArrayEquals(new Integer[] { 2, null }, iterator.next(container).getData());
 		assertNull(iterator.next(container));
 	}
 	
