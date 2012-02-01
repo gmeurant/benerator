@@ -1,7 +1,12 @@
-release notes databene webdecs 0.6.5
+release notes databene webdecs 0.6.6
 ------------------------------------
 
 
 Enhancements
 ------------
 - Defined FixedWidthBeanIterator
+
+
+Bug Fixes
+---------
+- NullPointerException in column-based iteration
