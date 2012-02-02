@@ -29,9 +29,9 @@ import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.util.DataIteratorAdapter;
 
 /**
- * TODO Document class.<br/><br/>
+ * Iterates fixed-width column files.<br/><br/>
  * Created: 20.12.2011 18:13:28
- * @since TODO version
+ * @since 0.6.6
  * @author Volker Bergmann
  */
 public class FixedWidthBeanIterator<E> extends DataIteratorAdapter<String[], E> {

@@ -26,9 +26,9 @@ import org.databene.commons.HeavyweightIterator;
 import org.databene.webdecs.DataSource;
 
 /**
- * TODO Document class.<br/><br/>
+ * Wraps a {@link DataSource} with a Java {@link Iterable}.<br/><br/>
  * Created: 25.01.2012 15:20:26
- * @since TODO version
+ * @since 0.6.6
  * @author Volker Bergmann
  */
 public class JavaIterableFromDataSource<E> implements HeavyweightIterable<E> {
