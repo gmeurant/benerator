@@ -37,16 +37,22 @@ import org.databene.webdecs.util.AbstractDataSource;
  */
 public class XLSLineSource extends AbstractDataSource<Object[]> {
 	
-	String uri;
+	private String uri;
+	private String sheetName;
 
 	public XLSLineSource(String uri) {
+		this(uri, null);
+	}
+
+	public XLSLineSource(String uri, String sheetName) {
 		super(Object[].class);
 		this.uri = uri;
+		this.sheetName = sheetName;
 	}
 
 	public DataIterator<Object[]> iterator() {
 		try {
-			return new XLSLineIterator(uri, 0);
+			return new XLSLineIterator(uri, sheetName);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
