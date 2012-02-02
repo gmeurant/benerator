@@ -78,7 +78,7 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 	protected void checkAttributeSupport(Element element) {
 		for (String attribute : XMLUtil.getAttributes(element).keySet()) {
 			if (!requiredAttributes.contains(attribute) && !optionalAttributes.contains(attribute))
-				syntaxError("attribute '" + attribute + "' is not supported", element); // TODO: print supported attributes
+				syntaxError("attribute '" + attribute + "' is not supported", element); // TODO v0.6.x print supported attributes
 		}
 		for (String requiredAttribute : requiredAttributes) {
 			if (StringUtil.isEmpty(element.getAttribute(requiredAttribute)))
