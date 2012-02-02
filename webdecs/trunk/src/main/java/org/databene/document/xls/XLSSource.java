@@ -37,11 +37,13 @@ public class XLSSource implements DataSource<Object[]> {
 
 	private String uri;
 	private String emptyMarker;
+	private String nullMarker;
 	private boolean rowBased;
 	
-	public XLSSource(String uri, String emptyMarker, boolean rowBased) {
+	public XLSSource(String uri, String emptyMarker, String nullMarker, boolean rowBased) {
 		this.uri = uri;
 		this.emptyMarker = emptyMarker;
+		this.nullMarker = nullMarker;
 		this.rowBased = rowBased;
 	}
 
@@ -54,6 +56,8 @@ public class XLSSource implements DataSource<Object[]> {
 			XLSLineIterator iterator = new XLSLineIterator(uri);
 			if (emptyMarker != null)
 				iterator.setEmptyMarker(emptyMarker);
+			if (nullMarker != null)
+				iterator.setNullMarker(nullMarker);
 			if (!rowBased)
 				return new OrthogonalArrayIterator<Object>(iterator);
 			else

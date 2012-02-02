@@ -47,14 +47,14 @@ public class HSSFUtil {
 	private HSSFUtil() { }
 	
 	public static Object resolveCellValue(Cell cell) {
-		return resolveCellValue(cell, "'", null);
+		return resolveCellValue(cell, "'", null, null);
 	}
 	
-	public static Object resolveCellValue(Cell cell, String emptyMarker, Converter<String, ?> stringPreprocessor) {
+	public static Object resolveCellValue(Cell cell, String emptyMarker, String nullMarker, Converter<String, ?> stringPreprocessor) {
 		if (cell == null)
 			return null;
 		switch (cell.getCellType()) {
-			case Cell.CELL_TYPE_STRING: return convertString(cell, emptyMarker, stringPreprocessor);
+			case Cell.CELL_TYPE_STRING: return convertString(cell, emptyMarker, nullMarker, stringPreprocessor);
 			case Cell.CELL_TYPE_NUMERIC: if (HSSFDateUtil.isCellDateFormatted(cell))
 				return cell.getDateCellValue();
 			else
@@ -87,10 +87,14 @@ public class HSSFUtil {
     }
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private static Object convertString(Cell cell, String emptyMarker, Converter<?, ?> stringPreprocessor) {
+	private static Object convertString(Cell cell, String emptyMarker, String nullMarker, Converter<?, ?> stringPreprocessor) {
     	String content = cell.getRichStringCellValue().getString();
-    	if (content != null && (content.equals(emptyMarker) || content.equals("'")))
-    		content = "";
+    	if (content != null) {
+	    	if (content.equals(emptyMarker) || content.equals("'"))
+	    		content = "";
+	    	if (content.equals(nullMarker))
+	    		content = null;
+    	}
     	return (stringPreprocessor != null ? ((Converter) stringPreprocessor).convert(content) : content);
     }
 
