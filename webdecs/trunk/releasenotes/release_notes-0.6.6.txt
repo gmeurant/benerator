@@ -5,7 +5,8 @@ release notes databene webdecs 0.6.6
 Enhancements
 ------------
 - Defined FixedWidthBeanIterator
-
+- XLSLineSource: Supporting the access of a specific Excel(TM) sheet
+- Accessing a specific sheet in an Excel(TM) sheet
 
 Bug Fixes
 ---------
