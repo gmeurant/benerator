@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009-2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2012 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -49,6 +49,7 @@ import org.databene.webdecs.DataIterator;
 public class XLSLineIterator implements DataIterator<Object[]> {
 	
 	private String emptyMarker;
+	private String nullMarker;
 	private Iterator<Row> rowIterator;
 	private Converter<String, ?> stringPreprocessor;
 	
@@ -64,6 +65,10 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 	
     public XLSLineIterator(String uri, int sheetIndex, Converter<String, ?> preprocessor) throws IOException {
 		this(sheet(uri, sheetIndex), preprocessor);
+	}
+	
+	public XLSLineIterator(String uri, String sheetName) throws IOException {
+		this(sheet(uri, sheetName), null);
 	}
 	
     public XLSLineIterator(HSSFSheet sheet, Converter<String, ?> stringPreprocessor) {
@@ -87,6 +92,14 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 		this.emptyMarker = emptyMarker;
 	}
 	
+	public String getNullMarker() {
+		return nullMarker;
+	}
+	
+	public void setNullMarker(String nullMarker) {
+		this.nullMarker = nullMarker;
+	}
+	
 	// interface -------------------------------------------------------------------------------------------------------
 	
 	public Class<Object[]> getType() {
@@ -104,7 +117,7 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 		int cellCount = row.getLastCellNum();
 		Object[] result = new Object[cellCount];
 		for (int cellnum = 0; cellnum < cellCount; cellnum++)
-			result[cellnum] = HSSFUtil.resolveCellValue(row.getCell(cellnum), emptyMarker, stringPreprocessor);
+			result[cellnum] = HSSFUtil.resolveCellValue(row.getCell(cellnum), emptyMarker, nullMarker, stringPreprocessor);
 		return wrapper.setData(result);
 	}
 
@@ -114,6 +127,14 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 	
 	// helper methods --------------------------------------------------------------------------------------------------
 	
+    private static HSSFSheet sheet(String uri, String sheetName) throws IOException {
+		HSSFWorkbook workbook = new HSSFWorkbook(IOUtil.getInputStreamForURI(uri));
+		HSSFSheet sheet = sheetName != null ? workbook.getSheet(sheetName) : workbook.getSheetAt(0);
+		if (sheet == null)
+			throw new IllegalArgumentException("Sheet not found in file " + uri + ": " + sheetName);
+		return sheet;
+    }
+
     private static HSSFSheet sheet(String uri, int sheetIndex) throws IOException {
 		HSSFWorkbook workbook = new HSSFWorkbook(IOUtil.getInputStreamForURI(uri));
 		return workbook.getSheetAt(sheetIndex);
