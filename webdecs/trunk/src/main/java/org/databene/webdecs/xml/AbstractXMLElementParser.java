@@ -86,6 +86,13 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 		}
 	}
 
+	protected static void checkSupportedAttributes(Element element, String... supportedAttributes) {
+		for (String actualAttribute : XMLUtil.getAttributes(element).keySet()) {
+			if (!ArrayUtil.contains(actualAttribute, supportedAttributes))
+				syntaxError("attribute '" + actualAttribute + "' is not supported", element);
+		}
+	}
+
 	protected static void assertElementName(String expectedName, Element element) {
 		if (!element.getNodeName().equals(expectedName))
 			throw new RuntimeException("Expected element name '" + expectedName + "', " +
