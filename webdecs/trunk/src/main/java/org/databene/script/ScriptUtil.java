@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2012 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -43,7 +43,7 @@ import org.databene.commons.FileUtil;
 import org.databene.commons.IOUtil;
 import org.databene.commons.LogCategories;
 import org.databene.commons.StringUtil;
-import org.databene.script.jsr227.Jsr223ScriptFactory;
+import org.databene.script.jsr223.Jsr223ScriptFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

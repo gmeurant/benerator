@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.script.jsr227;
+package org.databene.script.jsr223;
 
 import java.io.IOException;
 import java.io.Writer;
