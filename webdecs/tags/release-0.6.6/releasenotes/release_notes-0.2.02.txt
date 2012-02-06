@@ -1,0 +1,8 @@
+release note webdecs 0.2.02
+- supporting file encodings with
+  - CSVTokenizer
+  - CSVLineIterator
+  - CSVLineIterable
+  - FlatFileLineIterator
+  - FlatFileLineIterable
+  
