@@ -1,3 +1,0 @@
-release note webdecs 0.2.04
----------------------------
-- dependency upgrade to databene-commons-0.2.04
