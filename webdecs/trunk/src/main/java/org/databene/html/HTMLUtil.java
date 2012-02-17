@@ -122,7 +122,7 @@ public class HTMLUtil {
 		value = value.replace("&", "&amp;"); // must be the first conversion
 		value = value.replace("<", "&lt;");
 		value = value.replace(">", "&gt;");
-		value = value.replace("'", "&apos;");
+		value = value.replace("'", "&#39;"); // IE6 and IE7 do not support &apos;
 		value = value.replace("\"", "&quot;");
 		// TODO v0.6.x replace diacritic characters
 		return value;
