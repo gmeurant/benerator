@@ -1,0 +1,11 @@
+release notes databene webdecs 0.6.7
+------------------------------------
+
+
+Enhancements
+------------
+
+
+Bug Fixes
+---------
+- IE6 and IE7 do not support &apos;
