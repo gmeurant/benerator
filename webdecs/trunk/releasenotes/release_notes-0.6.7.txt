@@ -9,3 +9,4 @@ Enhancements
 Bug Fixes
 ---------
 - IE6 and IE7 do not support &apos;
+- No unescaping of quoted cells
