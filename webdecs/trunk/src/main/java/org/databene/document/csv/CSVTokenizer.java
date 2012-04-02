@@ -197,10 +197,19 @@ public class CSVTokenizer implements Closeable {
         read(); // skip leading quote
         StringBuilder buffer = new StringBuilder();
         int c;
+        boolean escapeMode = false;
         boolean done;
         do {
-            while ((c = read()) != -1 && c != '"')
-                buffer.append((char) c);
+            while ((c = read()) != -1 && c != '"') {
+            	if (escapeMode) {
+            		c = unescape((char) c);
+            		escapeMode = false;
+            	} else if (c == '\\') {
+            		escapeMode = true;
+            		continue;
+            	}
+            	buffer.append((char) c);
+            }
             if (c == '"') {
                 c = read();
                 if (c == '"') {
