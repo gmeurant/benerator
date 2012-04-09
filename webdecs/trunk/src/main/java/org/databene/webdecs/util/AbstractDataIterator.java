@@ -24,9 +24,10 @@ package org.databene.webdecs.util;
 import org.databene.webdecs.DataIterator;
 
 /**
- * TODO Document class.<br/><br/>
+ * Abstract implementation of the {@link DataIterator} interface. 
+ * It holds type info and provides an empty implementation of the close() method.<br/><br/>
  * Created: 06.03.2012 21:55:57
- * @since TODO version
+ * @since 0.6.7
  * @author Volker Bergmann
  */
 public abstract class AbstractDataIterator<E> implements DataIterator<E> {
