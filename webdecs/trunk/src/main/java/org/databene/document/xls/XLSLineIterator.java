@@ -83,6 +83,10 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 			return;
 		}
     }
+    
+    
+    
+    // properties ------------------------------------------------------------------------------------------------------
 
 	public String getEmptyMarker() {
 		return emptyMarker;
@@ -106,11 +110,7 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 		return Object[].class;
 	}
 	
-	public void close() {
-		rowIterator = null;
-	}
-
-	public DataContainer<Object[]> next(DataContainer<Object[]> wrapper) {
+	public synchronized DataContainer<Object[]> next(DataContainer<Object[]> wrapper) {
 		if (rowIterator == null || !rowIterator.hasNext())
 			return null;
 		Row row = rowIterator.next();
@@ -121,10 +121,10 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 		return wrapper.setData(result);
 	}
 
-	public void remove() {
-		throw new UnsupportedOperationException("remove() is not supported");
+	public synchronized void close() {
+		rowIterator = null;
 	}
-	
+
 	// helper methods --------------------------------------------------------------------------------------------------
 	
     private static HSSFSheet sheet(String uri, String sheetName) throws IOException {

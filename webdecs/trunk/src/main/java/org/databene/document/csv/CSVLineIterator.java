@@ -121,7 +121,7 @@ public class CSVLineIterator implements DataIterator<String[]> {
      * Parses a CSV row into an array of Strings
      * @return an array of Strings that represents a CSV row
      */
-	public DataContainer<String[]> next(DataContainer<String[]> wrapper) {
+	public synchronized DataContainer<String[]> next(DataContainer<String[]> wrapper) {
     	if (nextLine == null)
     		return null;
         try {
@@ -140,14 +140,14 @@ public class CSVLineIterator implements DataIterator<String[]> {
     /**
      * Closes the source
      */
-    public void close() {
+    public synchronized void close() {
         if (tokenizer != null)
             tokenizer.close();
         tokenizer = null;
         nextLine = null;
     }
 
-    public int lineCount() {
+    public synchronized int lineCount() {
         return lineCount;
     }
 
