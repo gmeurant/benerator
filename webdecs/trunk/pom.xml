@@ -4,7 +4,7 @@
 
     <groupId>org.databene</groupId>
     <artifactId>databene-webdecs</artifactId>
-    <version>0.6.8</version>
+    <version>0.6.9</version>
 
     <properties>
     	<commons_version>0.5.16</commons_version>
