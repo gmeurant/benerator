@@ -15,8 +15,8 @@
 	<classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.13/log4j-1.2.13.jar"/>
 	<classpathentry kind="var" path="M2_REPO/logkit/logkit/1.0.1/logkit-1.0.1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/poi/poi/3.5-beta6/poi-3.5-beta6.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.5.8/slf4j-api-1.5.8.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-log4j12/1.5.8/slf4j-log4j12-1.5.8.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-log4j12/1.6.4/slf4j-log4j12-1.6.4.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/antlr/stringtemplate/3.2/stringtemplate-3.2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/commons"/>
