@@ -44,7 +44,7 @@ import org.w3c.dom.Element;
  */
 public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E> {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractXMLElementParser.class);
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	protected final String elementName;
 	protected final Set<Class<?>> supportedParentTypes;
@@ -86,14 +86,14 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 		}
 	}
 
-	protected static void checkSupportedAttributes(Element element, String... supportedAttributes) {
+	protected void checkSupportedAttributes(Element element, String... supportedAttributes) {
 		for (String actualAttribute : XMLUtil.getAttributes(element).keySet()) {
 			if (!ArrayUtil.contains(actualAttribute, supportedAttributes))
 				syntaxError("attribute '" + actualAttribute + "' is not supported", element);
 		}
 	}
 
-	protected static void assertElementName(String expectedName, Element element) {
+	protected void assertElementName(String expectedName, Element element) {
 		if (!element.getNodeName().equals(expectedName))
 			throw new RuntimeException("Expected element name '" + expectedName + "', " +
 					"found: '" + element.getNodeName());
@@ -138,44 +138,44 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 			return ArrayUtil.lastElementOf(parentPath);
 	}
 
-	protected static String parseRequiredName(Element element) {
+	protected String parseRequiredName(Element element) {
 		String name = parseOptionalName(element);
 		if (StringUtil.isEmpty(name))
 			syntaxError("'name' attribute is missing", element);
 		return name;
 	}
 
-	protected static String parseOptionalName(Element element) {
+	protected String parseOptionalName(Element element) {
 		return getOptionalAttribute("name", element);
 	}
 
-	protected static Integer parseOptionalInteger(String attributeName, Element element) {
+	protected Integer parseOptionalInteger(String attributeName, Element element) {
 		String spec = getOptionalAttribute(attributeName, element);
 		return (spec != null ? Integer.parseInt(spec) : null);
 	}
 
-	protected static Boolean parseOptionalBoolean(String attributeName, Element element) {
+	protected Boolean parseOptionalBoolean(String attributeName, Element element) {
 		String spec = getOptionalAttribute(attributeName, element);
 		return (spec != null ? Boolean.parseBoolean(spec) : null);
 	}
 
-	protected static Long parseOptionalLong(String attributeName, Element element) {
+	protected Long parseOptionalLong(String attributeName, Element element) {
 		String spec = getOptionalAttribute(attributeName, element);
 		return (spec != null ? Long.parseLong(spec) : null);
 	}
 
-	public static String getRequiredAttribute(String name, Element element) {
+	public String getRequiredAttribute(String name, Element element) {
 		String value = getOptionalAttribute(name, element);
 		if (value == null)
 			syntaxError("'" + name + "' attribute expected", element);
 		return value;
 	}
 
-	protected static String getOptionalAttribute(String name, Element element) {
+	protected String getOptionalAttribute(String name, Element element) {
 		return StringUtil.emptyToNull(element.getAttribute(name));
 	}
 
-	protected static void checkAttributes(Element element, Set<String> supportedAttributes) {
+	protected void checkAttributes(Element element, Set<String> supportedAttributes) {
 	    for (Map.Entry<String, String> attribute : XMLUtil.getAttributes(element).entrySet()) {
 	        if (!supportedAttributes.contains(attribute.getKey()))
 				throw new ConfigurationError("Not a supported import attribute: " + attribute.getKey());
@@ -186,8 +186,8 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 		throw new SyntaxError("Syntax error: " + message, XMLUtil.format(element));
 	}
 	
-	protected static void syntaxWarning(String message, Element element) {
-		LOGGER.warn("Syntax warning: " + message + " in " + XMLUtil.format(element));
+	protected void syntaxWarning(String message, Element element) {
+		logger.warn("Syntax warning: " + message + " in " + XMLUtil.format(element));
 	}
 	
 }
