@@ -1,0 +1,14 @@
+release notes databene webdecs 0.4.3
+------------------------------------
+
+Summary
+-------
+Bug fix release guided by crap4j. 
+Now, each method with a cyclomatic complexity of 5 or more is unit-tested.
+
+Changes
+- removed JavaBeanToCSVMapper
+
+Bug fixes
+Find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386
+- RegexTokenizer: handling of special characters
