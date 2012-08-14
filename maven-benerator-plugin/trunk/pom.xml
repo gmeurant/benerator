@@ -6,11 +6,11 @@
 
     <groupId>org.databene</groupId>
     <artifactId>maven-benerator-plugin</artifactId>
-    <version>0.7.7</version>
+    <version>0.7.8</version>
     <packaging>maven-plugin</packaging>
 
     <properties>
-    	<benerator_version>0.7.7</benerator_version>
+    	<benerator_version>0.7.8</benerator_version>
     </properties>
 
     <name>maven benerator plugin</name>
