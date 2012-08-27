@@ -33,6 +33,7 @@ import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.Converter;
+import org.databene.commons.MathUtil;
 
 /**
  * Provides utility methods for HSSF (POI).<br/>
@@ -55,10 +56,14 @@ public class HSSFUtil {
 			return null;
 		switch (cell.getCellType()) {
 			case Cell.CELL_TYPE_STRING: return convertString(cell, emptyMarker, nullMarker, stringPreprocessor);
-			case Cell.CELL_TYPE_NUMERIC: if (HSSFDateUtil.isCellDateFormatted(cell))
+			case Cell.CELL_TYPE_NUMERIC: if (HSSFDateUtil.isCellDateFormatted(cell)) {
 				return cell.getDateCellValue();
-			else
-				return cell.getNumericCellValue();
+			} else {
+				double numericCellValue = cell.getNumericCellValue();
+				if (MathUtil.isIntegralValue(numericCellValue))
+					return ((Double) numericCellValue).longValue();
+				return numericCellValue;
+			}
 			case Cell.CELL_TYPE_BOOLEAN: return cell.getBooleanCellValue();
 			case Cell.CELL_TYPE_BLANK: 
 			case Cell.CELL_TYPE_ERROR: return cell.getRichStringCellValue().getString();
