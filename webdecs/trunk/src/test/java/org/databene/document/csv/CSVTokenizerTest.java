@@ -41,6 +41,13 @@ import static org.databene.document.csv.CSVTokenType.*;
 public class CSVTokenizerTest {
 
 	@Test
+    public void testEmpty() throws IOException {
+    	CSVTokenizer tokenizer = createTokenizer("");
+        assertNextToken(tokenizer, EOF, null);
+        assertNextToken(tokenizer, EOF, null);
+    }
+
+	@Test
     public void testA() throws IOException {
     	CSVTokenizer tokenizer = createTokenizer("A");
         assertNextToken(tokenizer, CELL, "A");
@@ -55,6 +62,18 @@ public class CSVTokenizerTest {
         assertNextToken(tokenizer, CELL, "B");
         assertNextToken(tokenizer, EOF, null);
         assertNextToken(tokenizer, EOF, null);
+    }
+
+	@Test
+    public void testEmptyAndNull() throws IOException {
+    	CSVTokenizer tokenizer = createTokenizer("\"\",,A,,");
+        assertNextToken(tokenizer, CELL, "");
+        assertNextToken(tokenizer, CELL, null);
+        assertNextToken(tokenizer, CELL, "A");
+        assertNextToken(tokenizer, CELL, null);
+        assertNextToken(tokenizer, CELL, null);
+        assertNextToken(tokenizer,  EOF, null);
+        assertNextToken(tokenizer,  EOF, null);
     }
 
 	@Test

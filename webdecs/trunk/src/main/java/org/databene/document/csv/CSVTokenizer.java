@@ -73,12 +73,6 @@ public class CSVTokenizer implements Closeable {
     
     public int line;
     
-    public int startColumn;
-    
-    public int endColumn;
-
-    private int cursor;
-
     // constructors ----------------------------------------------------------------------------------------------------
 
     /**
@@ -125,7 +119,6 @@ public class CSVTokenizer implements Closeable {
         this.reader = new PushbackReader(new BufferedReader(reader));
         this.separator = separator;
         this.line = 1;
-        this.cursor = 1;
     }
 
     // interface -------------------------------------------------------------------------------------------------------
@@ -142,47 +135,57 @@ public class CSVTokenizer implements Closeable {
             return setState(EOF, null);
         if (lastType == EOL) {
         	line++;
-        	startColumn = endColumn = cursor = 1;
-        } else
-        	startColumn = endColumn = cursor;
+        }
         int c = read();
         if (c == -1) {
             close();
             return setState(EOF, null);
-        } else if (c == separator) {
-            return setState(CELL, "");
-        } else if (c == '\r') {
+        }
+        if (c == separator) {
+        	c = read();
+        }
+        if (c == -1) {
+            close();
+            return setState(CELL, null);
+        }
+        if (c == separator) {
+        	unread(c);
+            return setState(CELL, null);
+        } else if (c == '\r') { // handle \r\n or \r
             if ((c = read()) != '\n')
                 unread(c);
             return setState(EOL, null);
-        } else if (c == '\n') {
+        } else if (c == '\n') { // handle \n
             return setState(EOL, null);
         } else if (c == '"') {
             unread(c);
             return parseQuotes();
         } else {
-            StringBuilder buffer = new StringBuilder().append((char) c);
-            boolean escapeMode = false;
-            while ((c = read()) != -1 && c != '\r' && c != '\n') {
-            	if (escapeMode) {
-            		c = unescape((char) c);
-            		escapeMode = false;
-            	} else if (c == '\\') {
-            		escapeMode = true;
-            		continue;
-            	}
-            	if (c == separator) {
-                	endColumn = cursor - 2;
-                    return setState(CELL, buffer.toString());
-                }
-                buffer.append((char) c);
-            }
-            if (c == '\r' || c == '\n')
-                unread(c);
-        	endColumn = cursor - 1;
-            return setState(CELL, buffer.toString());
+            return parseSimpleCell(c);
         }
     }
+
+	private CSVTokenType parseSimpleCell(int c) throws IOException {
+		StringBuilder buffer = new StringBuilder().append((char) c);
+		boolean escapeMode = false;
+		while ((c = read()) != -1 && c != '\r' && c != '\n') {
+			if (escapeMode) {
+				c = unescape((char) c);
+				escapeMode = false;
+			} else if (c == '\\') {
+				escapeMode = true;
+				continue;
+			}
+			if (c == separator) {
+				unread(c);
+		        return setState(CELL, buffer.toString());
+		    }
+		    buffer.append((char) c);
+		}
+		if (c == '\r' || c == '\n' || c == separator)
+		    unread(c);
+		return setState(CELL, buffer.toString());
+	}
 
 	private char unescape(char c) { // this is more efficient than StringUtil.unescape(String)
 		switch (c) {
@@ -221,11 +224,9 @@ public class CSVTokenizer implements Closeable {
             } else
                 done = true;
         } while (!done);
-        if (c == '\r' || c == '\n') {
+        if (c == '\r' || c == '\n' || c == ',') {
             unread(c);
-        	endColumn = cursor - 1;
-        } else
-        	endColumn = cursor - 2;
+        }
         return setState(CELL, buffer.toString());
     }
 
@@ -252,13 +253,10 @@ public class CSVTokenizer implements Closeable {
 
 	private void unread(int c) throws IOException {
 		reader.unread(c);
-		cursor--;
 	}
 
 	private int read() throws IOException {
 		int c = reader.read();
-		if (c != -1)
-			cursor++;
 		return c;
 	}
 

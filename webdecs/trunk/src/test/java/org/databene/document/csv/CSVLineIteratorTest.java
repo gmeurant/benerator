@@ -69,7 +69,7 @@ public class CSVLineIteratorTest {
         CSVLineIterator iterator = new CSVLineIterator("string://name,\"\",,x");
         DataContainer<String[]> container = new DataContainer<String[]>();
         String[] line = iterator.next(container).getData();
-		assertTrue(Arrays.equals(new String[] { "name", "", "", "x" }, line));
+		assertTrue(Arrays.equals(new String[] { "name", "", null, "x" }, line));
         assertNull(iterator.next(container));
         iterator.close();
     }
