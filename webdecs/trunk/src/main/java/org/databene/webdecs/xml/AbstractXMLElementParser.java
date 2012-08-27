@@ -182,6 +182,14 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
         }
     }
 
+	protected static SyntaxError createSyntaxError(String message, Element element) {
+		return new SyntaxError("Syntax error: " + message, XMLUtil.format(element));
+	}
+	
+	protected static SyntaxError createSyntaxError(String message, Element element, Exception cause) {
+		return new SyntaxError("Syntax error: " + message, cause, XMLUtil.format(element), -1, -1);
+	}
+	
 	protected static void syntaxError(String message, Element element) {
 		throw new SyntaxError("Syntax error: " + message, XMLUtil.format(element));
 	}
