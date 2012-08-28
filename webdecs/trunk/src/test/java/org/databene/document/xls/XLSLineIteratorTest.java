@@ -59,9 +59,9 @@ public class XLSLineIteratorTest extends DataIteratorTestCase {
 			// check headers
 			assertArrayEquals(new Object[] {"name", "age"}, iterator.next(new DataContainer<Object[]>()).getData());
 			// check normal row
-			expectNext(iterator, "Alice", 23.0);
+			expectNext(iterator, "Alice", 23L);
 			// test formula
-			expectNext(iterator, "Bob", 34.0);
+			expectNext(iterator, "Bob", 34.); // TODO map to long (like "Alice", 23L)
 			// check end of sheet
 			expectUnavailable(iterator);
 		} finally {
@@ -75,7 +75,7 @@ public class XLSLineIteratorTest extends DataIteratorTestCase {
 		XLSLineIterator iterator = new XLSLineIterator(PERSON_FILENAME, 1);
 		try {
 			assertArrayEquals(new Object[] {"name", "age"}, iterator.next(new DataContainer<Object[]>()).getData());
-			expectNext(iterator, "Otto", 89.0);
+			expectNext(iterator, "Otto", 89L);
 			expectUnavailable(iterator);
 		} finally {
 			iterator.close();
@@ -88,7 +88,7 @@ public class XLSLineIteratorTest extends DataIteratorTestCase {
 		XLSLineIterator iterator = new XLSLineIterator(PERSON_FILENAME, 1);
 		try {
 			expectNext(iterator, "name", "age");
-			expectNext(iterator, "Otto", 89.0);
+			expectNext(iterator, "Otto", 89L);
 			expectUnavailable(iterator);
 		} finally {
 			iterator.close();
@@ -111,7 +111,7 @@ public class XLSLineIteratorTest extends DataIteratorTestCase {
 			assertEquals("", data[1]);
 			assertEquals(null, data[2]);
 			assertEquals("123", data[3]);
-			assertEquals(42., data[4]);
+			assertEquals(42L, data[4]);
 			assertEquals(TimeUtil.date(2011, 1, 1), data[5]);
 			// check end of sheet
 			expectUnavailable(iterator);
