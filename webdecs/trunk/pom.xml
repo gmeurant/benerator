@@ -4,10 +4,10 @@
 
     <groupId>org.databene</groupId>
     <artifactId>databene-webdecs</artifactId>
-    <version>0.6.12-SNAPSHOT</version>
+    <version>0.6.12</version>
 
     <properties>
-    	<commons_version>0.5.18-SNAPSHOT</commons_version>
+    	<commons_version>0.5.18</commons_version>
     </properties>
 
     <packaging>jar</packaging>
@@ -245,11 +245,11 @@
 	<distributionManagement>
 		<repository>
 			<id>databene.repo</id>
-			<name>databene Internal Repository</name>
-			<url>ftp://databene.org/databene/m2</url>
+			<name>Databene Internal Repository</name>
+			<url>ftp://databene.org</url>
 		</repository>
 	</distributionManagement>
-  
+	
 	<scm>
 		<url>https://benerator.svn.sourceforge.net/svnroot/benerator</url>
 	</scm>
