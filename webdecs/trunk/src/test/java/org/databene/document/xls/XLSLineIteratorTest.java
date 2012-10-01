@@ -70,6 +70,21 @@ public class XLSLineIteratorTest extends DataIteratorTestCase {
 	}
 	
     @Test
+	public void demoDefaultSheetWithFormula() throws IOException {
+    	// print out default sheet content
+		XLSLineIterator iterator = new XLSLineIterator(PERSON_FILENAME);
+		try {
+			DataContainer<Object[]> container = new DataContainer<Object[]>();
+			while ((container = iterator.next(container)) != null) {
+				Object[] row = container.getData();
+				System.out.println(row[0] + ", " + row[1]);
+			}
+		} finally {
+			iterator.close();
+		}
+	}
+	
+    @Test
 	public void testSheet1() throws IOException {
 		// test sheet 1
 		XLSLineIterator iterator = new XLSLineIterator(PERSON_FILENAME, 1);
