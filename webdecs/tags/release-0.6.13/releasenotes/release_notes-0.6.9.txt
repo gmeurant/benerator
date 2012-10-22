@@ -1,0 +1,14 @@
+release notes databene webdecs 0.6.9
+------------------------------------
+
+
+Enhancements
+------------
+- Created CyclicDataIterator
+
+
+Bug fixes
+---------
+- Fixed threading issue in CSVLineIterator
+- Fixed threading issue in XLSLineIterator
+ 
