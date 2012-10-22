@@ -1,4 +1,0 @@
-release notes databene webdecs 0.4.1
-------------------------------------
-
-Updated dependency to commons 0.4.1
