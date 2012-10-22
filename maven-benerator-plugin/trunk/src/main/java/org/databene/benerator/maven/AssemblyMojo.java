@@ -47,7 +47,6 @@ import org.databene.commons.SystemInfo;
 
 public class AssemblyMojo extends AbstractBeneratorMojo {
 
-	@Override
 	public void execute() throws MojoExecutionException{
 		try {
 			File assemblyDir = new File("target" + File.separator + "assembly");
