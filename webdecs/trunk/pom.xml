@@ -4,10 +4,10 @@
 
     <groupId>org.databene</groupId>
     <artifactId>databene-webdecs</artifactId>
-    <version>0.6.13</version>
+    <version>0.6.14-SNAPSHOT</version>
 
     <properties>
-    	<commons_version>0.5.19</commons_version>
+    	<commons_version>0.5.20-SNAPSHOT</commons_version>
     </properties>
 
     <packaging>jar</packaging>
