@@ -56,14 +56,11 @@ public class HSSFUtil {
 			return null;
 		switch (cell.getCellType()) {
 			case Cell.CELL_TYPE_STRING: return convertString(cell, emptyMarker, nullMarker, stringPreprocessor);
-			case Cell.CELL_TYPE_NUMERIC: if (HSSFDateUtil.isCellDateFormatted(cell)) {
-				return cell.getDateCellValue();
-			} else {
-				double numericCellValue = cell.getNumericCellValue();
-				if (MathUtil.isIntegralValue(numericCellValue))
-					return ((Double) numericCellValue).longValue();
-				return numericCellValue;
-			}
+			case Cell.CELL_TYPE_NUMERIC: 
+				if (HSSFDateUtil.isCellDateFormatted(cell))
+					return cell.getDateCellValue();
+				else
+					return mapNumberType(cell.getNumericCellValue());
 			case Cell.CELL_TYPE_BOOLEAN: return cell.getBooleanCellValue();
 			case Cell.CELL_TYPE_BLANK: 
 			case Cell.CELL_TYPE_ERROR: return cell.getRichStringCellValue().getString();
@@ -72,7 +69,11 @@ public class HSSFUtil {
 				CellValue cellValue = evaluator.evaluate(cell);
 				switch (cellValue.getCellType()) {
 					case HSSFCell.CELL_TYPE_STRING: return convertString(cellValue, emptyMarker, stringPreprocessor);
-				    case HSSFCell.CELL_TYPE_NUMERIC: return cellValue.getNumberValue();
+				    case HSSFCell.CELL_TYPE_NUMERIC:
+				    	if (HSSFDateUtil.isCellDateFormatted(cell))
+				    		return HSSFDateUtil.getJavaDate(cellValue.getNumberValue());
+				    	else
+				    		return mapNumberType(cellValue.getNumberValue());
 				    case Cell.CELL_TYPE_BOOLEAN: return cellValue.getBooleanValue();
 				    case HSSFCell.CELL_TYPE_BLANK:
 				    case HSSFCell.CELL_TYPE_ERROR: return null;
@@ -81,6 +82,12 @@ public class HSSFUtil {
 				}	
 			default: throw new ConfigurationError("Not a supported cell type: " + cell.getCellType());
 		}
+	}
+
+	private static Number mapNumberType(double numericCellValue) {
+		if (MathUtil.isIntegralValue(numericCellValue))
+			return ((Double) numericCellValue).longValue();
+		return numericCellValue;
 	}
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
