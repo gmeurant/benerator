@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2012 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,7 +27,6 @@
 package org.databene.document.xls;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import org.databene.commons.ArrayUtil;
 import org.databene.commons.TimeUtil;
@@ -57,11 +56,11 @@ public class XLSLineIteratorTest extends DataIteratorTestCase {
 		XLSLineIterator iterator = new XLSLineIterator(PERSON_FILENAME);
 		try {
 			// check headers
-			assertArrayEquals(new Object[] {"name", "age"}, iterator.next(new DataContainer<Object[]>()).getData());
+			assertArrayEquals(new Object[] {"name", "age", "date"}, iterator.next(new DataContainer<Object[]>()).getData());
 			// check normal row
-			expectNext(iterator, "Alice", 23L);
+			expectNext(iterator, "Alice", 23L, TimeUtil.date(2011, 0, 1));
 			// test formula
-			expectNext(iterator, "Bob", 34.); // TODO map to long (like "Alice", 23L)
+			expectNext(iterator, "Bob", 34L, TimeUtil.date(2011, 0, 2));
 			// check end of sheet
 			expectUnavailable(iterator);
 		} finally {
@@ -151,10 +150,9 @@ public class XLSLineIteratorTest extends DataIteratorTestCase {
 	
 	// private helpers ---------------------------------------------------------
 	
-	private void expectNext(XLSLineIterator iterator, Object cell1, Object cell2) {
-		Object[] actual = ArrayUtil.copyOfRange(iterator.next(new DataContainer<Object[]>()).getData(), 0, 2);
-		Object[] expected = new Object[] { cell1, cell2 };
-		assertTrue(Arrays.equals(expected, actual));
+	private void expectNext(XLSLineIterator iterator, Object... expected) {
+		Object[] actual = ArrayUtil.copyOfRange(iterator.next(new DataContainer<Object[]>()).getData(), 0, expected.length);
+		assertArrayEquals(expected, actual);
 	}
 	
 }
