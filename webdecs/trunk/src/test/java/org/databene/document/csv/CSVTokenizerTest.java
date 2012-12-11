@@ -145,6 +145,15 @@ public class CSVTokenizerTest {
     }
 
 	@Test
+    public void testQuoteThenEmpty() throws IOException {
+    	CSVTokenizer tokenizer = createTokenizer("\"A\";;X", ';');
+        assertNextToken(tokenizer, CELL, "A");
+        assertNextToken(tokenizer, CELL, null);
+        assertNextToken(tokenizer, CELL, "X");
+        assertNextToken(tokenizer, EOF, null);
+    }
+
+	@Test
     public void testLFInQuote() throws IOException {
         CSVTokenizer tokenizer = createTokenizer("\"A\r\nB\"");
         assertNextToken(tokenizer, CELL, "A\r\nB");
