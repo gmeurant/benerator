@@ -1,0 +1,11 @@
+release notes databene webdecs 0.6.15
+-------------------------------------
+
+
+Enhancements
+------------
+- 
+
+Bug fixes
+---------
+- Parsing empty cells with non-default separator fails
