@@ -224,7 +224,7 @@ public class CSVTokenizer implements Closeable {
             } else
                 done = true;
         } while (!done);
-        if (c == '\r' || c == '\n' || c == ',') {
+        if (c == '\r' || c == '\n' || c == separator) {
             unread(c);
         }
         return setState(CELL, buffer.toString());
