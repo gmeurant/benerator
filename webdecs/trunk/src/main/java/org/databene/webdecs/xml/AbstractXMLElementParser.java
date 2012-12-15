@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2010-2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010-2012 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -78,7 +78,7 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 	protected void checkAttributeSupport(Element element) {
 		for (String attribute : XMLUtil.getAttributes(element).keySet()) {
 			if (!requiredAttributes.contains(attribute) && !optionalAttributes.contains(attribute))
-				syntaxError("attribute '" + attribute + "' is not supported", element); // TODO v0.6.x print supported attributes
+			 unsupportedAttribute(element, attribute);
 		}
 		for (String requiredAttribute : requiredAttributes) {
 			if (StringUtil.isEmpty(element.getAttribute(requiredAttribute)))
@@ -89,7 +89,7 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 	protected void checkSupportedAttributes(Element element, String... supportedAttributes) {
 		for (String actualAttribute : XMLUtil.getAttributes(element).keySet()) {
 			if (!ArrayUtil.contains(actualAttribute, supportedAttributes))
-				syntaxError("attribute '" + actualAttribute + "' is not supported", element);
+				unsupportedAttribute(element, actualAttribute);
 		}
 	}
 
@@ -118,17 +118,17 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 			if (!StringUtil.isEmpty(element.getAttribute(attributeName)))
 				ok = true;
 		if (!ok)
-			syntaxError("At least one of these attributes must be set: " + ArrayFormat.format(attributeNames), element);
+			throw createSyntaxError("At least one of these attributes must be set: " + ArrayFormat.format(attributeNames), element);
 	}
 
 	protected void assertAttributeIsSet(Element element, String attributeName) {
 		if (StringUtil.isEmpty(element.getAttribute(attributeName)))
-			syntaxError("Attribute '" + attributeName + "' is missing", element);
+			throw createSyntaxError("Attribute '" + attributeName + "' is missing", element);
 	}
 
 	protected void assertAttributeIsNotSet(Element element, String attributeName) {
 		if (!StringUtil.isEmpty(element.getAttribute(attributeName)))
-			syntaxError("Attributes '" + attributeName + "' must not be set", element);
+			throw createSyntaxError("Attributes '" + attributeName + "' must not be set", element);
 	}
 
 	protected Object parent(E[] parentPath) {
@@ -141,7 +141,7 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 	protected String parseRequiredName(Element element) {
 		String name = parseOptionalName(element);
 		if (StringUtil.isEmpty(name))
-			syntaxError("'name' attribute is missing", element);
+			throw createSyntaxError("'name' attribute is missing", element);
 		return name;
 	}
 
@@ -194,6 +194,31 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 		throw new SyntaxError("Syntax error: " + message, XMLUtil.format(element));
 	}
 	
+	private void unsupportedAttribute(Element element, String attribute) {
+		StringBuilder message = renderUnsupportedAttributesMessage(attribute);
+		throw createSyntaxError(message.toString(), element);
+	}
+
+	StringBuilder renderUnsupportedAttributesMessage(String attribute) {
+		StringBuilder message = new StringBuilder("attribute '").append(attribute).append("' is not supported. ");
+		message.append("The attributes supported by <" + elementName + "> are: ");
+		boolean first = true;
+		first = listAttributes(requiredAttributes, message, first);
+		listAttributes(optionalAttributes, message, first);
+		return message;
+	}
+
+	private static boolean listAttributes(Set<String> supportedAttributes, StringBuilder message, boolean first) {
+		for (String supportedAttribute : supportedAttributes) {
+			if (first)
+				first = false;
+			else
+				message.append(", ");
+			message.append(supportedAttribute);
+		}
+		return first;
+	}
+
 	protected void syntaxWarning(String message, Element element) {
 		logger.warn("Syntax warning: " + message + " in " + XMLUtil.format(element));
 	}
