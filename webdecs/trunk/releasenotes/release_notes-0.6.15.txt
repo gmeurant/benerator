@@ -4,7 +4,8 @@ release notes databene webdecs 0.6.15
 
 Enhancements
 ------------
-- 
+- Created KiloFormatter for Abbreviations like 5000 -> 5 K
+- Improved syntax error messaging in XML parsers
 
 Bug fixes
 ---------
