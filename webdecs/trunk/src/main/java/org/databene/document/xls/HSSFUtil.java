@@ -30,10 +30,12 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellValue;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.Converter;
 import org.databene.commons.MathUtil;
+import org.databene.commons.converter.ToStringConverter;
 
 /**
  * Provides utility methods for HSSF (POI).<br/>
@@ -64,8 +66,8 @@ public class HSSFUtil {
 			case Cell.CELL_TYPE_BOOLEAN: return cell.getBooleanCellValue();
 			case Cell.CELL_TYPE_BLANK: 
 			case Cell.CELL_TYPE_ERROR: return cell.getRichStringCellValue().getString();
-			case Cell.CELL_TYPE_FORMULA: 
-				FormulaEvaluator evaluator = cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
+			case Cell.CELL_TYPE_FORMULA:
+				FormulaEvaluator evaluator = createFormulaEvaluator(cell); 
 				CellValue cellValue = evaluator.evaluate(cell);
 				switch (cellValue.getCellType()) {
 					case HSSFCell.CELL_TYPE_STRING: return convertString(cellValue, emptyMarker, stringPreprocessor);
@@ -82,6 +84,43 @@ public class HSSFUtil {
 				}	
 			default: throw new ConfigurationError("Not a supported cell type: " + cell.getCellType());
 		}
+	}
+	
+	/** Resolves a formula or a normal cell and formats the result as it would be displayed in Excel */
+	public static Object resolveCellValueAsString(Cell cell) {
+		return resolveCellValueAsString(cell, "'", null, null);
+	}
+	
+	/** Resolves a formula or a normal cell and formats the result as it would be displayed in Excel */
+	public static String resolveCellValueAsString(Cell cell, String emptyMarker, String nullMarker, Converter<String, ?> stringPreprocessor) {
+		if (cell == null)
+			return null;
+		if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+	    	String content = cell.getRichStringCellValue().getString();
+	    	if (content != null) {
+		    	if (content.equals(emptyMarker) || content.equals("'"))
+		    		content = "";
+		    	else if (content.equals(nullMarker))
+		    		content = null;
+	    	}
+	    	if (stringPreprocessor != null)
+	    		content = ToStringConverter.convert(stringPreprocessor.convert(content), null);
+	    	return content;
+		} else {
+			DataFormatter formatter = new DataFormatter();
+			if (cell.getCellType() == Cell.CELL_TYPE_FORMULA)
+				return formatter.formatCellValue(cell, createFormulaEvaluator(cell));
+			else
+				return formatter.formatCellValue(cell);
+		}
+	}
+
+	
+	
+	// private helpers -------------------------------------------------------------------------------------------------
+
+	private static FormulaEvaluator createFormulaEvaluator(Cell cell) {
+		return cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
 	}
 
 	private static Number mapNumberType(double numericCellValue) {
