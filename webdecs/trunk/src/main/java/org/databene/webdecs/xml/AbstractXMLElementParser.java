@@ -29,6 +29,7 @@ import org.databene.commons.ArrayFormat;
 import org.databene.commons.ArrayUtil;
 import org.databene.commons.CollectionUtil;
 import org.databene.commons.ConfigurationError;
+import org.databene.commons.ParseUtil;
 import org.databene.commons.StringUtil;
 import org.databene.commons.SyntaxError;
 import org.databene.commons.xml.XMLUtil;
@@ -156,7 +157,7 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 
 	protected Boolean parseOptionalBoolean(String attributeName, Element element) {
 		String spec = getOptionalAttribute(attributeName, element);
-		return (spec != null ? Boolean.parseBoolean(spec) : null);
+		return (spec != null ? ParseUtil.parseBoolean(spec) : null);
 	}
 
 	protected Long parseOptionalLong(String attributeName, Element element) {
