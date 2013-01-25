@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009-2012 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2013 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -52,6 +52,7 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 	private String nullMarker;
 	private Iterator<Row> rowIterator;
 	private Converter<String, ?> stringPreprocessor;
+	private boolean formatted;
 	
 	// constructors ----------------------------------------------------------------------------------------------------
 	
@@ -60,24 +61,25 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 	}
 	
 	public XLSLineIterator(String uri, int sheetIndex) throws IOException {
-		this(uri, sheetIndex, null);
+		this(uri, sheetIndex, null, false);
 	}
 	
-    public XLSLineIterator(String uri, int sheetIndex, Converter<String, ?> preprocessor) throws IOException {
-		this(sheet(uri, sheetIndex), preprocessor);
+    public XLSLineIterator(String uri, int sheetIndex, Converter<String, ?> preprocessor, boolean formatted) throws IOException {
+		this(sheet(uri, sheetIndex), preprocessor, formatted);
 	}
 	
-	public XLSLineIterator(String uri, String sheetName) throws IOException {
-		this(sheet(uri, sheetName), null);
+	public XLSLineIterator(String uri, String sheetName, boolean formatted) throws IOException {
+		this(sheet(uri, sheetName), null, formatted);
 	}
 	
-    public XLSLineIterator(HSSFSheet sheet, Converter<String, ?> stringPreprocessor) {
+    public XLSLineIterator(HSSFSheet sheet, Converter<String, ?> stringPreprocessor, boolean formatted) {
     	this.emptyMarker = "'";
 		if (stringPreprocessor == null)
 			stringPreprocessor = new NoOpConverter<String>();
 		this.stringPreprocessor = stringPreprocessor;
-		rowIterator = sheet.rowIterator();
+		this.formatted = formatted;
 		
+		rowIterator = sheet.rowIterator();
 		if (!rowIterator.hasNext()) {
 			close();
 			return;
@@ -104,6 +106,16 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 		this.nullMarker = nullMarker;
 	}
 	
+	public boolean isFormatted() {
+		return formatted;
+	}
+	
+	public void setFormatted(boolean formatted) {
+		this.formatted = formatted;
+	}
+	
+	
+	
 	// interface -------------------------------------------------------------------------------------------------------
 	
 	public Class<Object[]> getType() {
@@ -116,8 +128,12 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 		Row row = rowIterator.next();
 		int cellCount = row.getLastCellNum();
 		Object[] result = new Object[cellCount];
-		for (int cellnum = 0; cellnum < cellCount; cellnum++)
-			result[cellnum] = HSSFUtil.resolveCellValue(row.getCell(cellnum), emptyMarker, nullMarker, stringPreprocessor);
+		for (int cellnum = 0; cellnum < cellCount; cellnum++) {
+			if (formatted)
+				result[cellnum] = HSSFUtil.resolveCellValueAsString(row.getCell(cellnum), emptyMarker, nullMarker, stringPreprocessor);
+			else
+				result[cellnum] = HSSFUtil.resolveCellValue(row.getCell(cellnum), emptyMarker, nullMarker, stringPreprocessor);
+		}
 		return wrapper.setData(result);
 	}
 

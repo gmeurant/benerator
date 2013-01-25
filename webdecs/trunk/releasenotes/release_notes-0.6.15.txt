@@ -6,6 +6,10 @@ Enhancements
 ------------
 - Created KiloFormatter for Abbreviations like 5000 -> 5 K
 - Improved syntax error messaging in XML parsers
+- Supporting the import of Excel sheet data in string format, 
+  rendered as it is displayed in Excel
+
+
 
 Bug fixes
 ---------

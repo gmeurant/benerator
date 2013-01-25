@@ -36,12 +36,14 @@ import org.databene.webdecs.OrthogonalArrayIterator;
 public class XLSSource implements DataSource<Object[]> {
 
 	private String uri;
+	private boolean formatted;
 	private String emptyMarker;
 	private String nullMarker;
 	private boolean rowBased;
 	
-	public XLSSource(String uri, String emptyMarker, String nullMarker, boolean rowBased) {
+	public XLSSource(String uri, boolean formatted, String emptyMarker, String nullMarker, boolean rowBased) {
 		this.uri = uri;
+		this.formatted = formatted;
 		this.emptyMarker = emptyMarker;
 		this.nullMarker = nullMarker;
 		this.rowBased = rowBased;
@@ -54,6 +56,7 @@ public class XLSSource implements DataSource<Object[]> {
 	public DataIterator<Object[]> iterator() {
 		try {
 			XLSLineIterator iterator = new XLSLineIterator(uri);
+			iterator.setFormatted(formatted);
 			if (emptyMarker != null)
 				iterator.setEmptyMarker(emptyMarker);
 			if (nullMarker != null)

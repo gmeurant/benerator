@@ -39,20 +39,22 @@ public class XLSLineSource extends AbstractDataSource<Object[]> {
 	
 	private String uri;
 	private String sheetName;
+	private boolean formatted;
 
 	public XLSLineSource(String uri) {
-		this(uri, null);
+		this(uri, null, false);
 	}
 
-	public XLSLineSource(String uri, String sheetName) {
+	public XLSLineSource(String uri, String sheetName, boolean formatted) {
 		super(Object[].class);
 		this.uri = uri;
 		this.sheetName = sheetName;
+		this.formatted = formatted;
 	}
 
 	public DataIterator<Object[]> iterator() {
 		try {
-			return new XLSLineIterator(uri, sheetName);
+			return new XLSLineIterator(uri, sheetName, formatted);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
