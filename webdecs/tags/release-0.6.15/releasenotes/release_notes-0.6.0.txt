@@ -1,0 +1,19 @@
+release notes databene webdecs 0.6.0
+------------------------------------
+
+
+Changes
+-------
+- Introduced DataSource, DataIterator and adapter classes
+- Migrated existing data iteration classes to DataSource and DataIterator interface
+- Renamed the classes FlatFile... to FixedWidth...
+
+
+Enhancements
+------------
+
+
+Bug Fixes
+---------
+- assuring that a SyntaxError is thrown when parsing an illegal regular expression
+- supporting individual file encodings in CSV iteration
