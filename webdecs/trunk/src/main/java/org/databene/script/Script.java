@@ -37,7 +37,8 @@ import java.io.Writer;
  * Created: 03.02.2007 11:50:27
  * @author Volker Bergmann
  */
-public interface Script {
+public interface Script { // TODO extends Expression ?
     void execute(Context context, Writer out) throws ScriptException, IOException;
     Object evaluate(Context context) throws ScriptException;
+    // TODO add isConstant() ?
 }
