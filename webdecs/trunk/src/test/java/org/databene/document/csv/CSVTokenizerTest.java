@@ -77,6 +77,16 @@ public class CSVTokenizerTest {
     }
 
 	@Test
+    public void testEmptyFirstCell() throws IOException {
+    	CSVTokenizer tokenizer = createTokenizer(",,A");
+        assertNextToken(tokenizer, CELL, null);
+        assertNextToken(tokenizer, CELL, null);
+        assertNextToken(tokenizer, CELL, "A");
+        assertNextToken(tokenizer,  EOF, null);
+        assertNextToken(tokenizer,  EOF, null);
+    }
+
+	@Test
     public void testABTab() throws IOException {
     	CSVTokenizer tokenizer = createTokenizer("A\tB", '\t');
         assertNextToken(tokenizer, CELL, "A");

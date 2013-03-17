@@ -43,32 +43,22 @@ import java.io.*;
  */
 public class CSVTokenizer implements Closeable {
 
-    /**
-     * The default separator to use
-     */
+    /** The default separator to use */
     public static final char DEFAULT_SEPARATOR = ',';
 
-    /**
-     * the source to read from
-     */
+    /** the source to read from */
     private PushbackReader reader;
 
-    /**
-     * the actual separator
-     */
+    /** the actual separator */
     private char separator;
 
-    /**
-     * The token at the cursor position
-     */
+    /** The token at the cursor position */
     public CSVTokenType ttype;
 
     public CSVTokenType lastType;
     
-    /**
-     * String representation of the cell at the cursor position.
-     * If the cursor is at a EOL/EOF position, this is null
-     */
+    /** String representation of the cell at the cursor position.
+     *  If the cursor is at a EOL/EOF position, this is null */
     public String cell;
     
     public int line;
@@ -77,7 +67,6 @@ public class CSVTokenizer implements Closeable {
 
     /**
      * Creates a tokenizer that reads from a URL.
-     *
      * @param uri the URL to read from
      * @throws IOException
      */
@@ -87,7 +76,6 @@ public class CSVTokenizer implements Closeable {
 
     /**
      * Creates a tokenizer that reads from a uri.
-     *
      * @param uri       the uri to read from
      * @param separator character used for separating CSV cells
      * @throws IOException
@@ -102,7 +90,6 @@ public class CSVTokenizer implements Closeable {
 
     /**
      * Creates a tokenizer that reads from a java.io.Reader.
-     *
      * @param reader the reader to use as input
      */
     public CSVTokenizer(Reader reader) {
@@ -111,7 +98,6 @@ public class CSVTokenizer implements Closeable {
 
     /**
      * Creates a tokenizer that reads from a java.io.Reader.
-     *
      * @param reader    the reader to use as input
      * @param separator character used for separating CSV cells
      */
@@ -125,26 +111,25 @@ public class CSVTokenizer implements Closeable {
 
     /**
      * Returns the next token.
-     *
      * @return the next token
      * @throws IOException if source access fails
      */
     public CSVTokenType next() throws IOException {
         this.lastType = this.ttype;
-        if (reader == null)
+        if (reader == null) // if closed, return EOF
             return setState(EOF, null);
-        if (lastType == EOL) {
+        if (lastType == EOL) { // on line separator increase line count
         	line++;
         }
         int c = read();
-        if (c == -1) {
+        if (c == -1) { // if end of file is reached, close and signal EOF
             close();
             return setState(EOF, null);
         }
-        if (c == separator) {
+        if (c == separator && lastType == CELL) {
         	c = read();
         }
-        if (c == -1) {
+        if (c == -1) { // if end of file is reached, close and signal EOF
             close();
             return setState(CELL, null);
         }
@@ -164,6 +149,61 @@ public class CSVTokenizer implements Closeable {
             return parseSimpleCell(c);
         }
     }
+
+    public void skipLine() throws IOException {
+        int c;
+        // go to end of line
+        while ((c = read()) != -1 && c != '\r' && c != '\n') {
+            // skip EOL characters
+        }
+        switch (c) {
+            case -1 :
+                return;
+            case '\n' :
+                return;
+            case '\r' :
+                int c2 = read();
+                if (c2 != '\n')
+                    unread(c2);
+                return;
+            default   :
+                throw new IllegalStateException();
+        }
+    }
+
+    /** Closes the source */
+    public void close() {
+        if (reader != null)
+            IOUtil.close(reader);
+        reader = null;
+    }
+
+    public CSVTokenType lastTtype() {
+        return lastType;
+    }
+
+    // private helpers -------------------------------------------------------------------------------------------------
+
+    /**
+     * sets the state of the tokenizer to the given tokenType and cell content.
+     * @param tokenType the tokenType to use
+     * @param cell      the cell content
+     * @return the token type
+     */
+    private CSVTokenType setState(CSVTokenType tokenType, String cell) {
+        this.cell = cell;
+        this.ttype = tokenType;
+        return this.ttype;
+    }
+
+	private void unread(int c) throws IOException {
+		reader.unread(c);
+	}
+
+	private int read() throws IOException {
+		int c = reader.read();
+		return c;
+	}
 
 	private CSVTokenType parseSimpleCell(int c) throws IOException {
 		StringBuilder buffer = new StringBuilder().append((char) c);
@@ -228,64 +268,6 @@ public class CSVTokenizer implements Closeable {
             unread(c);
         }
         return setState(CELL, buffer.toString());
-    }
-
-    public void skipLine() throws IOException {
-        int c;
-        // go to end of line
-        while ((c = read()) != -1 && c != '\r' && c != '\n') {
-            // skip EOL characters
-        }
-        switch (c) {
-            case -1 :
-                return;
-            case '\n' :
-                return;
-            case '\r' :
-                int c2 = read();
-                if (c2 != '\n')
-                    unread(c2);
-                return;
-            default   :
-                throw new IllegalStateException();
-        }
-    }
-
-	private void unread(int c) throws IOException {
-		reader.unread(c);
-	}
-
-	private int read() throws IOException {
-		int c = reader.read();
-		return c;
-	}
-
-    /**
-     * Closes the source
-     */
-    public void close() {
-        if (reader != null)
-            IOUtil.close(reader);
-        reader = null;
-    }
-
-    public CSVTokenType lastTtype() {
-        return lastType;
-    }
-
-    // private helpers -------------------------------------------------------------------------------------------------
-
-    /**
-     * sets the state of the tokenizer to the given tokenType and cell content.
-     *
-     * @param tokenType the tokenType to use
-     * @param cell      the cell content
-     * @return the token type
-     */
-    private CSVTokenType setState(CSVTokenType tokenType, String cell) {
-        this.cell = cell;
-        this.ttype = tokenType;
-        return this.ttype;
     }
 
 }
