@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2013 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -62,7 +62,8 @@ public class CSVCellSource extends AbstractDataSource<String> {
 		this.uri = uri;
 	}
 
-    public DataIterator<String> iterator() {
+    @Override
+	public DataIterator<String> iterator() {
         try {
             return new CSVCellIterator(uri, separator, encoding);
         } catch (Exception e) {

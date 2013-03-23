@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2011-2013 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -58,10 +58,12 @@ public class CSVSource implements DataSource<String[]> {
 
     // interface -------------------------------------------------------------------------------------------------------
 
-    public Class<String[]> getType() {
+    @Override
+	public Class<String[]> getType() {
     	return String[].class;
     }
     
+	@Override
 	public DataIterator<String[]> iterator() {
 		try {
 			DataIterator<String[]> result = new CSVLineIterator(uri, separator, ignoreEmptyLines, encoding);
@@ -73,7 +75,8 @@ public class CSVSource implements DataSource<String[]> {
 		}
 	}
 	
-    public void close() {
+    @Override
+	public void close() {
     	// nothing to do
     }
     

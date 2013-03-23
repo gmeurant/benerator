@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008-2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2013 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -52,10 +52,12 @@ public class ConvertingCSVParser<E> implements DataIterator<E>{
 		this.rowConverter = rowConverter;
 	}
 
+	@Override
 	public Class<E> getType() {
 		return rowConverter.getTargetType();
 	}
 
+	@Override
 	public DataContainer<E> next(DataContainer<E> wrapper) {
 		DataContainer<String[]> tmp = source.next(dataContainer.get());
 		if (tmp == null)
@@ -63,6 +65,7 @@ public class ConvertingCSVParser<E> implements DataIterator<E>{
 		return wrapper.setData(rowConverter.convert(tmp.getData()));
 	}
 
+	@Override
 	public void close() {
 		source.close();
 	}

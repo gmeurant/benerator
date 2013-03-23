@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2006-2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2006-2013 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -69,10 +69,12 @@ public class CSVCellIterator implements DataIterator<String> {
 
     // Iterator implementation -----------------------------------------------------------------------------------------
 
-    public Class<String> getType() {
+    @Override
+	public Class<String> getType() {
     	return String.class;
     }
     
+	@Override
 	public DataContainer<String> next(DataContainer<String> wrapper) {
     	if (tokenizer == null)
     		return null;
@@ -91,7 +93,8 @@ public class CSVCellIterator implements DataIterator<String> {
         throw new UnsupportedOperationException("Operation not supported: remove()");
     }
 
-    public void close() {
+    @Override
+	public void close() {
         if (tokenizer != null) {
             tokenizer.close();
             tokenizer = null;

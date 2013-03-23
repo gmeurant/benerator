@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2011-2013 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -48,10 +48,12 @@ public class FixedWidthBeanIterator<E> extends DataIteratorAdapter<String[], E> 
 		source = new FixedWidthLineIterator(uri, formats);
 	}
 
+	@Override
 	public Class<E> getType() {
 		return beanClass;
 	}
 
+	@Override
 	public DataContainer<E> next(DataContainer<E> container) {
 		DataContainer<String[]> wrapper = source.next(getSourceContainer());
 		if (wrapper == null)

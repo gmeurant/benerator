@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2013 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -113,7 +113,8 @@ public class CSVLineIterator implements DataIterator<String[]> {
 
     // interface -------------------------------------------------------------------------------------------------------
 
-    public Class<String[]> getType() {
+    @Override
+	public Class<String[]> getType() {
     	return String[].class;
     }
     
@@ -121,6 +122,7 @@ public class CSVLineIterator implements DataIterator<String[]> {
      * Parses a CSV row into an array of Strings
      * @return an array of Strings that represents a CSV row
      */
+	@Override
 	public synchronized DataContainer<String[]> next(DataContainer<String[]> wrapper) {
     	if (nextLine == null)
     		return null;
@@ -137,10 +139,9 @@ public class CSVLineIterator implements DataIterator<String[]> {
         }
     }
 
-    /**
-     * Closes the source
-     */
-    public synchronized void close() {
+    /** Closes the source */
+    @Override
+	public synchronized void close() {
         if (tokenizer != null)
             tokenizer.close();
         tokenizer = null;

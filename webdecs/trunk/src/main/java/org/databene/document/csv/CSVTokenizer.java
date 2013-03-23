@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2013 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -172,7 +172,8 @@ public class CSVTokenizer implements Closeable {
     }
 
     /** Closes the source */
-    public void close() {
+    @Override
+	public void close() {
         if (reader != null)
             IOUtil.close(reader);
         reader = null;
@@ -227,7 +228,7 @@ public class CSVTokenizer implements Closeable {
 		return setState(CELL, buffer.toString());
 	}
 
-	private char unescape(char c) { // this is more efficient than StringUtil.unescape(String)
+	private static char unescape(char c) { // this is more efficient than StringUtil.unescape(String)
 		switch (c) {
 			case 't': return '\t';
 			case 'r': return '\r';

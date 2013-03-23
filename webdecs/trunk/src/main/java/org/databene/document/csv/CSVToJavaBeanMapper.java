@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2013 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -69,10 +69,12 @@ public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
         }
     }
 
-    public Class<E> getType() {
+    @Override
+	public Class<E> getType() {
     	return type;
     }
     
+	@Override
 	public DataContainer<E> next(DataContainer<E> wrapper) {
         int i = 0;
         try {
@@ -95,7 +97,8 @@ public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
         }
     }
 
-    public void close() {
+    @Override
+	public void close() {
     	IOUtil.close(iterator);
     }
 
