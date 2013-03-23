@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008-2012 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2013 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -54,7 +54,8 @@ import org.slf4j.LoggerFactory;
  */
 public class ScriptUtil {
     
-    private static final Logger configLogger = LoggerFactory.getLogger(LogCategories.CONFIG);
+    private static final Logger CONFIG_LOGGER = LoggerFactory.getLogger(LogCategories.CONFIG);
+    private static final Logger SCRIPTUTIL_LOGGER = LoggerFactory.getLogger(ScriptUtil.class);
 
     // extension mapping -----------------------------------------------------------------------------------------------
     
@@ -240,11 +241,11 @@ public class ScriptUtil {
 						addFactory(name, factory);
 	            }
             } catch (NoClassDefFoundError e) {
-            	configLogger.error("Java 6/JSR 223 script engines not available, deactivating script engine support.");
+            	CONFIG_LOGGER.error("Java 6/JSR 223 script engines not available, deactivating script engine support.");
             }
 
             // read config file
-            configLogger.debug("Initializing Script mapping from file " + SETUP_FILE_NAME);
+            SCRIPTUTIL_LOGGER.debug("Initializing Script mapping from file " + SETUP_FILE_NAME);
             Map<String, String> properties = IOUtil.readProperties(SETUP_FILE_NAME);
             for (Map.Entry<String, String> entry : properties.entrySet()) {
                 className = entry.getValue().toString();
