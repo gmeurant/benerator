@@ -70,7 +70,10 @@ import java.text.ParseException;
  */
 public class DefaultHTMLTokenizer implements HTMLTokenizer {
 
-    private static Logger logger = LoggerFactory.getLogger(DefaultHTMLTokenizer.class);
+	private static Logger logger = LoggerFactory.getLogger(DefaultHTMLTokenizer.class);
+
+    private static final int TEXT_BUFFER_SIZE = 65536;
+	private static final int ATTRIBUT_BUFFER_SIZE = 256;
 
     private static final CharSet ELEMENT_NAME_CHARS = new CharSet('A','Z').addRange('a', 'z').addRange('0', '9').add('_').add(':').add('-');
     private static final CharSet ATTR_NAME_CHARS = new CharSet('A','Z').addRange('a', 'z').addRange('0', '9').add('_').add('-').add(':');
@@ -94,24 +97,25 @@ public class DefaultHTMLTokenizer implements HTMLTokenizer {
 
     // buffers
     private char[] textBuffer;
-    private int[] attribNameFrom   = new int[256];
-    private int[] attribNameUntil  = new int[256];
-    private int[] attribValueFrom  = new int[256];
-    private int[] attribValueUntil = new int[256];
+    private int[] attribNameFrom;
+    private int[] attribNameUntil;
+    private int[] attribValueFrom;
+    private int[] attribValueUntil;
 
     public DefaultHTMLTokenizer(Reader reader) {
         // create buffers
-        textBuffer = new char[65536];
-        attribNameFrom   = new int[256];
-        attribNameUntil  = new int[256];
-        attribValueFrom  = new int[256];
-        attribValueUntil = new int[256];
+        textBuffer = new char[TEXT_BUFFER_SIZE];
+        attribNameFrom   = new int[ATTRIBUT_BUFFER_SIZE];
+        attribNameUntil  = new int[ATTRIBUT_BUFFER_SIZE];
+        attribValueFrom  = new int[ATTRIBUT_BUFFER_SIZE];
+        attribValueUntil = new int[ATTRIBUT_BUFFER_SIZE];
         // init parsing state
         this.reader = new PushbackReader(reader, 256);
         this.script = false;
     }
 
-    public int nextToken() throws IOException, ParseException {
+    @Override
+	public int nextToken() throws IOException, ParseException {
         // init token state
         cursor = 0;
         nameStart = -1;
@@ -150,33 +154,33 @@ public class DefaultHTMLTokenizer implements HTMLTokenizer {
         return this.tokenType;
     }
 
-    /**
-     * @return if it's a kind of tag then the tag name, else null
-     */
-    public int tokenType() {
+    /** @return if it's a kind of tag then the tag name, else null */
+    @Override
+	public int tokenType() {
         return this.tokenType;
     }
 
-    public String name() {
+    @Override
+	public String name() {
         if (name == null && nameStart >= 0)
             name = new String(textBuffer, nameStart, nameLength).intern();
         return name;
     }
 
-    /**
-     * @return the text that constitutes the current token as read from the source
-     */
-    public String text() {
+    /** @return the text that constitutes the current token as read from the source */
+    @Override
+	public String text() {
         if (text == null)
             text = new String(textBuffer, 0, cursor);
         return text;
     }
 
     /**
-     * @return a map with all attributes of the token.
      * In case of non-tag tokens or empty tags, an empty map is returned.
+     * @return a map with all attributes of the token.
      */
-    public Map<String, String> attributes() {
+    @Override
+	public Map<String, String> attributes() {
         if (attributeMap == null) {
             attributeMap = new OrderedMap<String, String>();
             for (int i = 0; i < attribCount; i++) {
@@ -257,6 +261,7 @@ public class DefaultHTMLTokenizer implements HTMLTokenizer {
 
     private void parseAttributes() throws IOException, ParseException {
         while (parseAttribute()) {
+        	// skip any further attribute
         }
         readUntilOneOf("?/>");
     }
