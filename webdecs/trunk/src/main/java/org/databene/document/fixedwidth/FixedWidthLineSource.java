@@ -49,13 +49,14 @@ public class FixedWidthLineSource extends AbstractDataSource<String[]> {
     public FixedWidthLineSource(String uri, PadFormat[] formats, boolean ignoreEmptyLines, String encoding, String lineFilter) {
     	super(String[].class);
         this.uri = uri;
-        this.formats = formats;
+        this.formats = formats.clone();
         this.ignoreEmptyLines = ignoreEmptyLines;
         this.encoding = encoding;
         this.lineFilter = lineFilter;
     }
 
-    public DataIterator<String[]> iterator() {
+    @Override
+	public DataIterator<String[]> iterator() {
         try {
             return new FixedWidthLineIterator(uri, formats, ignoreEmptyLines, encoding, lineFilter);
         } catch (IOException e) {

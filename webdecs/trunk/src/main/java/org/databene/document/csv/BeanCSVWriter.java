@@ -89,7 +89,7 @@ public class BeanCSVWriter<E> extends ScriptedDocumentWriter<E> {
             for (int i = 0; i < length; i++)
                 propertyConverters[i] = new ToStringConverter();
             this.converter = new ConverterChain(
-                new BeanToPropertyArrayConverter(propertyNames),
+                new BeanToPropertyArrayConverter(propertyNames.clone()),
                 new ArrayConverter(Object.class, String.class, propertyConverters)
             );
         }

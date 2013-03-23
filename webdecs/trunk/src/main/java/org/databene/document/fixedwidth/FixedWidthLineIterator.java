@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2013 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -79,7 +79,8 @@ public class FixedWidthLineIterator implements DataIterator<String[]> {
 
     // interface -------------------------------------------------------------------------------------------------------
 
-    public Class<String[]> getType() {
+    @Override
+	public Class<String[]> getType() {
     	return String[].class;
     }
     
@@ -87,6 +88,7 @@ public class FixedWidthLineIterator implements DataIterator<String[]> {
      * Parses a CSV row into an array of Strings
      * @return an array of Strings that represents a CSV row
      */
+	@Override
 	public DataContainer<String[]> next(DataContainer<String[]> wrapper) {
         String[] result = fetchNextLine();
         if (result != null) {
@@ -96,15 +98,15 @@ public class FixedWidthLineIterator implements DataIterator<String[]> {
         	return null;
     }
 
-    /**
-     * Closes the source
-     */
-    public void close() {
+    /** Closes the source */
+    @Override
+	public void close() {
         if (lineIterator != null)
             lineIterator.close();
         lineIterator = null;
     }
-
+    
+    /** Returns the line count iterated so far. */
     public int lineCount() {
         return lineCount;
     }

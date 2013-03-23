@@ -37,7 +37,7 @@ public class FixedWidthLineParser {
 	private PadFormat[] formats;
 
     public FixedWidthLineParser(PadFormat[] formats) {
-	    this.formats = formats;
+	    this.formats = formats.clone();
     }
 
     public String[] parse(String line) throws ParseException {
