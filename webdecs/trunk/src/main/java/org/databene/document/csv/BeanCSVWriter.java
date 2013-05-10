@@ -49,7 +49,7 @@ import java.io.IOException;
 public class BeanCSVWriter<E> extends ScriptedDocumentWriter<E> {
 
     public BeanCSVWriter(Writer out, char separator, Class<E> beanClass) {
-        this(out, separator, true, getPropertyNames(beanClass));
+        this(out, separator, true, defaultPropertyNames(beanClass));
     }
 
 	public BeanCSVWriter(Writer out, char separator, String ... propertyNames) {
@@ -69,7 +69,7 @@ public class BeanCSVWriter<E> extends ScriptedDocumentWriter<E> {
         super(out, headerScript, new BeanCSVScript(propertyNames, separator), footerScript);
     }
 
-    private static <T> String[] getPropertyNames(Class<T> beanClass) {
+    private static <T> String[] defaultPropertyNames(Class<T> beanClass) {
     	PropertyDescriptor[] descriptors = BeanUtil.getPropertyDescriptors(beanClass);
     	return ArrayPropertyExtractor.convert(descriptors, "name", String.class);
 	}
