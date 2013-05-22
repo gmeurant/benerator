@@ -32,6 +32,8 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.Converter;
 import org.databene.commons.MathUtil;
@@ -112,6 +114,15 @@ public class HSSFUtil {
 				return formatter.formatCellValue(cell, createFormulaEvaluator(cell));
 			else
 				return formatter.formatCellValue(cell);
+		}
+	}
+
+	public static void autoSizeColumns(Workbook workbook) {
+		int sheetCount = workbook.getNumberOfSheets();
+		for (int i = 0; i < sheetCount; i++) {
+			Sheet sheet = workbook.getSheetAt(i);
+			for (int colnum = 0; colnum <= sheet.getLastRowNum(); colnum++)
+				sheet.autoSizeColumn(colnum);
 		}
 	}
 
