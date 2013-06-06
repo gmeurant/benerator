@@ -33,6 +33,7 @@ import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -56,9 +57,13 @@ public class CSVLineIterator implements DataIterator<String[]> {
     private boolean ignoreEmptyLines;
 
     private int lineCount;
-
-    private boolean eol;
     
+    private String[] headers;
+
+	private HashMap<String, Integer> headerIndexes;
+    
+    private boolean eol;
+
     // constructors ----------------------------------------------------------------------------------------------------
 
     /**
@@ -138,6 +143,15 @@ public class CSVLineIterator implements DataIterator<String[]> {
             throw new RuntimeException(e);
         }
     }
+	
+	public String[] cellsByHeaders(String[] headers, String[] data) {
+		String[] result = new String[headers.length];
+		for (int i = 0; i < headers.length; i++) {
+			Integer index = this.headerIndexes.get(headers[i]);
+			result[i] = (index != null && index < data.length ? data[index] : null);
+		}
+		return result;
+	}
 
     /** Closes the source */
     @Override
@@ -164,7 +178,9 @@ public class CSVLineIterator implements DataIterator<String[]> {
                 iterator.close();
         }
     }
-
+    
+    
+    
     // private helpers -------------------------------------------------------------------------------------------------
 
     private String[] parseNextLine() throws IOException {
@@ -182,15 +198,35 @@ public class CSVLineIterator implements DataIterator<String[]> {
         } while (tokenType != CSVTokenType.EOF && (ignoreEmptyLines && list.size() == 0));
         if (list.size() > 0) {
             eol = (tokenType == CSVTokenType.EOL);
-            return CollectionUtil.toArray(list, String.class);
+            String[] line = CollectionUtil.toArray(list, String.class);
+           	checkHeaders(line);
+			return line;
         }
-        if (eol && !ignoreEmptyLines)
-            return new String[0];
-        else
-            return null;
+        if (eol) {
+           	checkHeaders(null);
+        	if (!ignoreEmptyLines)
+        		return new String[0];
+        }
+        return null;
     }
     
-    @Override
+    private void checkHeaders(String[] line) {
+		if (this.headers == null) {
+			if (line != null)
+				this.headers = line;
+			else
+				this.headers = new String[0];
+			this.headerIndexes = new HashMap<String, Integer>();
+			for (int i = 0; i < line.length; i++)
+				this.headerIndexes.put(this.headers[i], i);
+		}
+	}
+    
+    
+    
+    // java.lang.Object overrides --------------------------------------------------------------------------------------
+
+	@Override
     public String toString() {
     	return getClass().getSimpleName() + "[" + stringRep + "]";
     }
