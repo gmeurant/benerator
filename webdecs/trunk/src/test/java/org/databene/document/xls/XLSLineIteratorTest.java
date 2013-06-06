@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009-2012 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2013 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,8 +26,6 @@
 
 package org.databene.document.xls;
 
-import java.io.IOException;
-
 import org.databene.commons.ArrayUtil;
 import org.databene.commons.TimeUtil;
 import org.databene.document.xls.XLSLineIterator;
@@ -51,7 +49,7 @@ public class XLSLineIteratorTest extends DataIteratorTestCase {
 	private static final String EMPTY_FILENAME = "org/databene/document/xls/empty.xls";
 
     @Test
-	public void testDefaultSheetWithFormula() throws IOException {
+	public void testDefaultSheetWithFormula() throws Exception {
 		// test default sheet
 		XLSLineIterator iterator = new XLSLineIterator(PERSON_FILENAME);
 		try {
@@ -69,7 +67,7 @@ public class XLSLineIteratorTest extends DataIteratorTestCase {
 	}
 	
     @Test
-	public void demoDefaultSheetWithFormula() throws IOException {
+	public void demoDefaultSheetWithFormula() throws Exception {
     	// print out default sheet content
 		XLSLineIterator iterator = new XLSLineIterator(PERSON_FILENAME);
 		try {
@@ -84,7 +82,7 @@ public class XLSLineIteratorTest extends DataIteratorTestCase {
 	}
 	
     @Test
-	public void testSheet1() throws IOException {
+	public void testSheet1() throws Exception {
 		// test sheet 1
 		XLSLineIterator iterator = new XLSLineIterator(PERSON_FILENAME, 1);
 		try {
@@ -97,7 +95,7 @@ public class XLSLineIteratorTest extends DataIteratorTestCase {
 	}
 	
     @Test
-	public void testWithoutHeader() throws IOException {
+	public void testWithoutHeader() throws Exception {
 		// test sheet 1
 		XLSLineIterator iterator = new XLSLineIterator(PERSON_FILENAME, 1);
 		try {
@@ -110,7 +108,7 @@ public class XLSLineIteratorTest extends DataIteratorTestCase {
 	}
 	
     @Test
-	public void testTypesAndValues() throws IOException {
+	public void testTypesAndValues() throws Exception {
 		// test default sheet
 		XLSLineIterator iterator = new XLSLineIterator(VALUES_FILENAME);
 		try {
@@ -135,7 +133,7 @@ public class XLSLineIteratorTest extends DataIteratorTestCase {
 	}
 	
     @Test
-	public void testAlternativeEmptyMarker() throws IOException {
+	public void testAlternativeEmptyMarker() throws Exception {
 		// test default sheet
 		XLSLineIterator iterator = new XLSLineIterator(EMPTY_FILENAME);
 		iterator.setEmptyMarker("\"\"");
@@ -150,7 +148,7 @@ public class XLSLineIteratorTest extends DataIteratorTestCase {
 	
 	// private helpers ---------------------------------------------------------
 	
-	private void expectNext(XLSLineIterator iterator, Object... expected) {
+	private static void expectNext(XLSLineIterator iterator, Object... expected) {
 		Object[] actual = ArrayUtil.copyOfRange(iterator.next(new DataContainer<Object[]>()).getData(), 0, expected.length);
 		assertArrayEquals(expected, actual);
 	}
