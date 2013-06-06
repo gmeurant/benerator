@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2011-2013 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -21,7 +21,6 @@
 
 package org.databene.document.xls;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.databene.document.xls.XLSLineIterator;
@@ -52,11 +51,12 @@ public class XLSLineSource extends AbstractDataSource<Object[]> {
 		this.formatted = formatted;
 	}
 
+	@Override
 	public DataIterator<Object[]> iterator() {
 		try {
 			return new XLSLineIterator(uri, sheetName, formatted);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+		} catch (Exception e) {
+			throw new RuntimeException("Unable to create iterator for URI " + uri, e);
 		}
 	}
 
