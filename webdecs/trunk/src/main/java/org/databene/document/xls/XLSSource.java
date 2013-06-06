@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2011-2013 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -20,8 +20,6 @@
  */
 
 package org.databene.document.xls;
-
-import java.io.IOException;
 
 import org.databene.webdecs.DataIterator;
 import org.databene.webdecs.DataSource;
@@ -49,10 +47,12 @@ public class XLSSource implements DataSource<Object[]> {
 		this.rowBased = rowBased;
 	}
 
+	@Override
 	public Class<Object[]> getType() {
 		return Object[].class;
 	}
 
+	@Override
 	public DataIterator<Object[]> iterator() {
 		try {
 			XLSLineIterator iterator = new XLSLineIterator(uri);
@@ -65,11 +65,12 @@ public class XLSSource implements DataSource<Object[]> {
 				return new OrthogonalArrayIterator<Object>(iterator);
 			else
 				return iterator;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			throw new RuntimeException("Error creating iterator for " + uri, e);
 		}
 	}
 
+	@Override
 	public void close() {
 		// nothing to do here
 	}
