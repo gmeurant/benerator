@@ -29,9 +29,11 @@ package org.databene.document.xls;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.databene.commons.Converter;
 import org.databene.commons.IOUtil;
 import org.databene.commons.converter.NoOpConverter;
@@ -56,23 +58,23 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 	
 	// constructors ----------------------------------------------------------------------------------------------------
 	
-	public XLSLineIterator(String uri) throws IOException {
+	public XLSLineIterator(String uri) throws IOException, InvalidFormatException {
 		this(uri, 0);
 	}
 	
-	public XLSLineIterator(String uri, int sheetIndex) throws IOException {
+	public XLSLineIterator(String uri, int sheetIndex) throws IOException, InvalidFormatException {
 		this(uri, sheetIndex, null, false);
 	}
 	
-    public XLSLineIterator(String uri, int sheetIndex, Converter<String, ?> preprocessor, boolean formatted) throws IOException {
+    public XLSLineIterator(String uri, int sheetIndex, Converter<String, ?> preprocessor, boolean formatted) throws IOException, InvalidFormatException {
 		this(sheet(uri, sheetIndex), preprocessor, formatted);
 	}
 	
-	public XLSLineIterator(String uri, String sheetName, boolean formatted) throws IOException {
+	public XLSLineIterator(String uri, String sheetName, boolean formatted) throws IOException, InvalidFormatException {
 		this(sheet(uri, sheetName), null, formatted);
 	}
 	
-    public XLSLineIterator(HSSFSheet sheet, Converter<String, ?> stringPreprocessor, boolean formatted) {
+    public XLSLineIterator(Sheet sheet, Converter<String, ?> stringPreprocessor, boolean formatted) {
     	this.emptyMarker = "'";
 		if (stringPreprocessor == null)
 			stringPreprocessor = new NoOpConverter<String>();
@@ -118,10 +120,12 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 	
 	// interface -------------------------------------------------------------------------------------------------------
 	
+	@Override
 	public Class<Object[]> getType() {
 		return Object[].class;
 	}
 	
+	@Override
 	public synchronized DataContainer<Object[]> next(DataContainer<Object[]> wrapper) {
 		if (rowIterator == null || !rowIterator.hasNext())
 			return null;
@@ -137,22 +141,23 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 		return wrapper.setData(result);
 	}
 
+	@Override
 	public synchronized void close() {
 		rowIterator = null;
 	}
 
 	// helper methods --------------------------------------------------------------------------------------------------
 	
-    private static HSSFSheet sheet(String uri, String sheetName) throws IOException {
-		HSSFWorkbook workbook = new HSSFWorkbook(IOUtil.getInputStreamForURI(uri));
-		HSSFSheet sheet = sheetName != null ? workbook.getSheet(sheetName) : workbook.getSheetAt(0);
+    private static Sheet sheet(String uri, String sheetName) throws IOException, InvalidFormatException {
+		Workbook workbook = WorkbookFactory.create(IOUtil.getInputStreamForURI(uri));
+		Sheet sheet = sheetName != null ? workbook.getSheet(sheetName) : workbook.getSheetAt(0);
 		if (sheet == null)
 			throw new IllegalArgumentException("Sheet not found in file " + uri + ": " + sheetName);
 		return sheet;
     }
 
-    private static HSSFSheet sheet(String uri, int sheetIndex) throws IOException {
-		HSSFWorkbook workbook = new HSSFWorkbook(IOUtil.getInputStreamForURI(uri));
+    private static Sheet sheet(String uri, int sheetIndex) throws IOException, InvalidFormatException {
+		Workbook workbook = WorkbookFactory.create(IOUtil.getInputStreamForURI(uri));
 		return workbook.getSheetAt(sheetIndex);
     }
 
