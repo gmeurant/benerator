@@ -146,13 +146,16 @@ public class CSVLineIterator implements DataIterator<String[]> {
 	
 	public String[] cellsByHeaders(String[] headers, String[] data) {
 		String[] result = new String[headers.length];
-		for (int i = 0; i < headers.length; i++) {
-			Integer index = this.headerIndexes.get(headers[i]);
-			result[i] = (index != null && index < data.length ? data[index] : null);
-		}
+		for (int i = 0; i < headers.length; i++)
+			result[i] = cellByHeader(headers[i], data);
 		return result;
 	}
 
+	public String cellByHeader(String header, String[] data) {
+		Integer index = this.headerIndexes.get(header);
+		return (index != null && index < data.length ? data[index] : null);
+	}
+    
     /** Closes the source */
     @Override
 	public synchronized void close() {
@@ -230,5 +233,5 @@ public class CSVLineIterator implements DataIterator<String[]> {
     public String toString() {
     	return getClass().getSimpleName() + "[" + stringRep + "]";
     }
-    
+
 }
