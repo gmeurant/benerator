@@ -9,3 +9,4 @@ Summary
 Bug Fixes
 ---------
 - CSVLineIterator ignores heading empty cells
+- Supporting XLSX files
