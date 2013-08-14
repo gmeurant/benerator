@@ -82,11 +82,13 @@ public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
             if (tmp == null)
             	return null;
 			String[] line = tmp.getData();
+			if (line.length == 0)
+				return null;
             E bean = BeanUtil.newInstance(type);
-            int columns = Math.min(line.length, mutators. length);
+            int columns = Math.min(line.length, mutators.length);
             for (i = 0; i < columns; i++) {
                 String value = line[i];
-                if (value.length() == 0)
+                if (value != null && value.length() == 0)
                     value = emptyValue;
                 mutators[i].setValue(bean, value);
             }
