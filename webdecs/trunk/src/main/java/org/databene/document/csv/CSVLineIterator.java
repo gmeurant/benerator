@@ -118,6 +118,16 @@ public class CSVLineIterator implements DataIterator<String[]> {
 
     // interface -------------------------------------------------------------------------------------------------------
 
+	public void setHeaders(String[] headers) {
+		if (headers != null)
+			this.headers = headers;
+		else
+			this.headers = new String[0];
+		this.headerIndexes = new HashMap<String, Integer>();
+		for (int i = 0; i < this.headers.length; i++)
+			this.headerIndexes.put(this.headers[i], i);
+	}
+    
     @Override
 	public Class<String[]> getType() {
     	return String[].class;
@@ -215,16 +225,10 @@ public class CSVLineIterator implements DataIterator<String[]> {
     
     private void checkHeaders(String[] line) {
 		if (this.headers == null) {
-			if (line != null)
-				this.headers = line;
-			else
-				this.headers = new String[0];
-			this.headerIndexes = new HashMap<String, Integer>();
-			for (int i = 0; i < line.length; i++)
-				this.headerIndexes.put(this.headers[i], i);
+			setHeaders(line);
 		}
 	}
-    
+
     
     
     // java.lang.Object overrides --------------------------------------------------------------------------------------
