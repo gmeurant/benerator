@@ -26,6 +26,7 @@
 
 package org.databene.document.csv;
 
+import org.databene.commons.ArrayBuilder;
 import org.databene.commons.ArrayFormat;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.IOUtil;
@@ -34,6 +35,7 @@ import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.Writer;
 import java.util.List;
 import java.util.ArrayList;
@@ -77,6 +79,21 @@ public class CSVUtil {
         String[][] result = new String[lines.size()][];
         return lines.toArray(result);
     }
+
+    public static String[] parseCSVRow(String text) {
+		ArrayBuilder<String> builder = new ArrayBuilder<String>(String.class);
+		CSVTokenizer tokenizer = new CSVTokenizer(new StringReader(text));
+    	try {
+			CSVTokenType type;
+			while ((type = tokenizer.next()) != CSVTokenType.EOL && type != CSVTokenType.EOF)
+				builder.add(tokenizer.cell);
+			return builder.toArray();
+		} catch (IOException e) {
+			throw new RuntimeException("Error parsing CSV row: " + text, e);
+		} finally {
+			IOUtil.close(tokenizer);
+		}
+	}
 
     public static void writeRow(Writer out, char separator, String... cells) throws IOException {
         if (cells.length > 0)
