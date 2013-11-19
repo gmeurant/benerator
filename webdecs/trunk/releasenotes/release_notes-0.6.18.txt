@@ -1,12 +1,6 @@
 release notes databene webdecs 0.6.18
 -------------------------------------
 
-
 Summary
 ------------
 - Improved CSV support
-
-
-Bug Fixes
----------
-- 
