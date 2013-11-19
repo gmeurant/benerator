@@ -51,6 +51,7 @@ public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
     private String emptyValue;
     
     private NamedMutator[] mutators;
+    private int classIndex;
     private ThreadLocalDataContainer<String[]> dataContainer = new ThreadLocalDataContainer<String[]>();
 
     public CSVToJavaBeanMapper(Reader reader, Class<E> type) throws IOException {
@@ -63,9 +64,15 @@ public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
         this.emptyValue = emptyValue;
         String[] attributeNames = this.iterator.next(dataContainer.get()).getData();
         this.mutators = new NamedMutator[attributeNames.length];
+        this.classIndex = -1;
         for (int i = 0; i < attributeNames.length; i++) {
             String attributeName = attributeNames[i];
-            mutators[i] = PropertyMutatorFactory.getPropertyMutator(type, attributeName, false);
+            if ("class".equals(attributeName)) {
+            	mutators[i] = null;
+            	this.classIndex = i;
+            } else {
+            	mutators[i] = PropertyMutatorFactory.getPropertyMutator(null, attributeName, false);
+            }
         }
     }
 
@@ -74,6 +81,7 @@ public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
     	return type;
     }
     
+	@SuppressWarnings("unchecked")
 	@Override
 	public DataContainer<E> next(DataContainer<E> wrapper) {
         int i = 0;
@@ -84,13 +92,16 @@ public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
 			String[] line = tmp.getData();
 			if (line.length == 0)
 				return null;
-            E bean = BeanUtil.newInstance(type);
+			Class<E> beanClass = (classIndex >= 0 ? (Class<E>) BeanUtil.forName(line[classIndex]) : type);
+            E bean = BeanUtil.newInstance(beanClass);
             int columns = Math.min(line.length, mutators.length);
             for (i = 0; i < columns; i++) {
-                String value = line[i];
-                if (value != null && value.length() == 0)
-                    value = emptyValue;
-                mutators[i].setValue(bean, value);
+            	if (i != classIndex) {
+	                String value = line[i];
+	                if (value != null && value.length() == 0)
+	                    value = emptyValue;
+	                mutators[i].setValue(bean, value);
+            	}
             }
             return wrapper.setData(bean);
         } catch (UpdateFailedException e) {
