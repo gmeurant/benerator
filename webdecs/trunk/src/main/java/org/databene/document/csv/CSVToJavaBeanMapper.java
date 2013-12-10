@@ -29,7 +29,6 @@ package org.databene.document.csv;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.IOUtil;
-import org.databene.commons.UpdateFailedException;
 import org.databene.commons.bean.PropertyMutatorFactory;
 import org.databene.commons.mutator.NamedMutator;
 import org.databene.webdecs.DataContainer;
@@ -85,6 +84,7 @@ public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
 	@Override
 	public DataContainer<E> next(DataContainer<E> wrapper) {
         int i = 0;
+        String value = null;
         try {
             DataContainer<String[]> tmp = iterator.next(dataContainer.get());
             if (tmp == null)
@@ -97,16 +97,16 @@ public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
             int columns = Math.min(line.length, mutators.length);
             for (i = 0; i < columns; i++) {
             	if (i != classIndex) {
-	                String value = line[i];
+	                value = line[i];
 	                if (value != null && value.length() == 0)
 	                    value = emptyValue;
 	                mutators[i].setValue(bean, value);
             	}
             }
             return wrapper.setData(bean);
-        } catch (UpdateFailedException e) {
+        } catch (Exception e) {
             throw new ConfigurationError("Failed to set property '" + 
-                    mutators[i].getName() + "' on class " + type);
+                    mutators[i].getName() + "' to '" + value + "' on class " + type, e);
         }
     }
 
