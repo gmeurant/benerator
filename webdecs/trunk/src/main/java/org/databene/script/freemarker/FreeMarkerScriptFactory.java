@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2013 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,9 +27,15 @@
 package org.databene.script.freemarker;
 
 import java.io.IOException;
+import java.io.StringReader;
+import java.util.Locale;
 
 import org.databene.script.Script;
 import org.databene.script.ScriptFactory;
+
+import freemarker.template.Configuration;
+import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.Template;
 
 /**
  * Creates {@link FreeMarkerScript}s.<br/><br/>
@@ -39,12 +45,34 @@ import org.databene.script.ScriptFactory;
  */
 public class FreeMarkerScriptFactory implements ScriptFactory {
 
-    public Script parseText(String text) {
-        return FreeMarkerScript.createFromText(text);
+    private Configuration config;
+    
+    public FreeMarkerScriptFactory() {
+        this(Locale.getDefault());
     }
 
-    public Script readFile(String uri) throws IOException {
-        return new FreeMarkerScript(uri);
+    public FreeMarkerScriptFactory(Locale locale) {
+        config = new Configuration();
+        config.setClassForTemplateLoading(FreeMarkerScript.class, "/");
+        config.setObjectWrapper(new DefaultObjectWrapper());
+        config.setNumberFormat("0.##");
+        config.setLocale(locale);
     }
-    
+
+    @Override
+	public Script parseText(String text) {
+        try {
+            StringReader reader = new StringReader(text);
+            Template template = new Template(text, reader, config, null);
+            return new FreeMarkerScript(template);
+        } catch (IOException e) {
+            throw new RuntimeException(e); // This is not supposed to happen
+        }
+    }
+
+    @Override
+	public Script readFile(String uri) throws IOException {
+        return new FreeMarkerScript(uri, config);
+    }
+
 }

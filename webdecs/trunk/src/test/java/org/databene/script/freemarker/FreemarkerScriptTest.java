@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2013 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -34,6 +34,8 @@ import org.databene.commons.context.DefaultContext;
 import org.databene.script.ScriptException;
 import org.databene.script.Script;
 import org.junit.Test;
+
+import freemarker.template.Configuration;
 import static junit.framework.Assert.*;
 
 /**
@@ -46,7 +48,7 @@ public class FreemarkerScriptTest {
 
 	@Test
     public void testScriptGetInstance() throws IOException, ScriptException {
-        Script script = new FreeMarkerScript("org/databene/script/freemarker/test.ftl");
+        Script script = new FreeMarkerScript("org/databene/script/freemarker/test.ftl", new Configuration());
         Context context = new DefaultContext();
         context.set("var_dings", "XYZ");
         StringWriter writer = new StringWriter();

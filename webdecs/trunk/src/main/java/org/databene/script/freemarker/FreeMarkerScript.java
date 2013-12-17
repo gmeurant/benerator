@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2013 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,11 +27,9 @@
 package org.databene.script.freemarker;
 
 import freemarker.template.Configuration;
-import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
-import java.io.StringReader;
 import java.io.Writer;
 import java.io.IOException;
 
@@ -48,37 +46,16 @@ import org.databene.script.ScriptException;
  */
 public class FreeMarkerScript extends AbstractScript {
     
-    private static Configuration cfg;
-
-    static {
-        cfg = new Configuration();
-        cfg.setClassForTemplateLoading(FreeMarkerScript.class, "/");
-        cfg.setObjectWrapper(new DefaultObjectWrapper());
-        cfg.setNumberFormat("0.##");
-    }
-
     private Template template;
 
     // constructors ----------------------------------------------------------------------------------------------------
     
-    public FreeMarkerScript(String filename) throws IOException {
+    public FreeMarkerScript(String filename, Configuration cfg) throws IOException {
         this(cfg.getTemplate(filename));
     }
 
     public FreeMarkerScript(Template template) {
         this.template = template;
-    }
-    
-    // factory methods -------------------------------------------------------------------------------------------------
-    
-    public static FreeMarkerScript createFromText(String text) {
-        try {
-            StringReader reader = new StringReader(text);
-            Template template = new Template(text, reader, cfg, null);
-            return new FreeMarkerScript(template);
-        } catch (IOException e) {
-            throw new RuntimeException(e); // This is not supposed to happen
-        }
     }
     
     // Script interface implementation ---------------------------------------------------------------------------------
