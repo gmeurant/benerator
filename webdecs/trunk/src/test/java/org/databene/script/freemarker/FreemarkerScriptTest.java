@@ -48,7 +48,7 @@ public class FreemarkerScriptTest {
 
 	@Test
     public void testScriptGetInstance() throws IOException, ScriptException {
-        Script script = new FreeMarkerScript("org/databene/script/freemarker/test.ftl", new Configuration());
+        Script script = new FreeMarkerScript("src/test/resources/org/databene/script/freemarker/test.ftl", new Configuration());
         Context context = new DefaultContext();
         context.set("var_dings", "XYZ");
         StringWriter writer = new StringWriter();
