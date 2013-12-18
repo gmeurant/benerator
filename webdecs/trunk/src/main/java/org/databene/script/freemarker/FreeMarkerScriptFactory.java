@@ -63,7 +63,7 @@ public class FreeMarkerScriptFactory implements ScriptFactory {
 	public Script parseText(String text) {
         try {
             StringReader reader = new StringReader(text);
-            Template template = new Template(text, reader, config, null);
+            Template template = new Template(text, reader, config);
             return new FreeMarkerScript(template);
         } catch (IOException e) {
             throw new RuntimeException(e); // This is not supposed to happen
