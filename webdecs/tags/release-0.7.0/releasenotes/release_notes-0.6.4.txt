@@ -1,0 +1,13 @@
+release notes databene webdecs 0.6.4
+------------------------------------
+
+
+Changes
+-------
+- Removed ScriptUtil.render()
+- Replaced CSVLineSource with CSVSource
+
+
+Enhancements
+------------
+- Introduced CSVColumnIterator
