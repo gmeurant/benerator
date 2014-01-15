@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2011-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,7 +30,15 @@ import java.io.Closeable;
  * @author Volker Bergmann
  */
 public interface DataIterator<E> extends Closeable {
+	
+	/** Returns the type of the iterated elements. */
 	Class<E> getType();
+	
+	/** Returns the container with the next data element if available, otherwise null. */
 	DataContainer<E> next(DataContainer<E> container);
+	
+	/** Closes the iterator. */
+	@Override
 	void close();
+	
 }
