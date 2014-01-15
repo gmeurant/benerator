@@ -24,10 +24,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.html;
+package org.databene.html.util;
 
 import org.databene.commons.CollectionUtil;
 import org.databene.commons.SystemInfo;
+import org.databene.html.HtmlEntity;
 
 import java.lang.reflect.Method;
 import java.net.URI;
@@ -96,7 +97,7 @@ public class HTMLUtil {
 		StringBuilder result = new StringBuilder(text.length());
 	    int i;
         while ((i = text.indexOf('&')) >= 0) {
-            HTMLEntity entity = HTMLEntity.getEntity(text, i);
+            HtmlEntity entity = HtmlEntity.getEntity(text, i);
             if (entity != null) {
                 result.append(text.substring(0, i));
                 if ("nbsp".equals(entity.htmlCode))

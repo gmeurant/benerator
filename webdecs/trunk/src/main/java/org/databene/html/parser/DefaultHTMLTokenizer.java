@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -49,7 +49,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.html;
+package org.databene.html.parser;
 
 import org.databene.commons.CharSet;
 import org.databene.commons.OrderedMap;

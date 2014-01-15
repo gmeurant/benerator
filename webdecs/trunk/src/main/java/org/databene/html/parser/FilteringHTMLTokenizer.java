@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,37 +24,57 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.html;
+package org.databene.html.parser;
 
 import org.databene.commons.Filter;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.Map;
+
 /**
- * {@link Filter} that accepts HTML tokens by type and name.<br/>
+ * {@link HTMLTokenizer} proxy that returns only the tokens that match a {@link Filter}.<br/>
  * <br/>
- * Created: 16.06.2007 05:54:38
+ * Created: 16.06.2007 05:50:50
  * @author Volker Bergmann
  */
-public class HTMLTokenFilter implements Filter<HTMLTokenizer> {
+public class FilteringHTMLTokenizer implements HTMLTokenizer{
 
-    private int tokenType;
-    private String name;
+    private HTMLTokenizer source;
+    private Filter<HTMLTokenizer> filter;
 
-    public HTMLTokenFilter(int tokenType, String name) {
-        this.tokenType = tokenType;
-        this.name = name;
+    public FilteringHTMLTokenizer(HTMLTokenizer source, Filter<HTMLTokenizer> filter) {
+        this.source = source;
+        this.filter = filter;
     }
 
-    public boolean accept(HTMLTokenizer candidate) {
-        if (this.tokenType != candidate.tokenType())
-            return false;
-        return (this.name != null && this.name.equalsIgnoreCase(candidate.name()));
+    @Override
+	public int nextToken() throws IOException, ParseException {
+        int token;
+        do {
+            token = source.nextToken();
+        } while (token != -1 && !filter.accept(source));
+        return token;
     }
 
-    public int getTokenType() {
-        return tokenType;
+    @Override
+	public int tokenType() {
+        return source.tokenType();
     }
 
-    public String getName() {
-        return name;
+    @Override
+	public String name() {
+        return source.name();
     }
+
+    @Override
+	public String text() {
+        return source.text();
+    }
+
+    @Override
+	public Map<String, String> attributes() {
+        return source.attributes();
+    }
+    
 }

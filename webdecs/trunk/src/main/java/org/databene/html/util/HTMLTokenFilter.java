@@ -24,51 +24,39 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.html;
+package org.databene.html.util;
 
 import org.databene.commons.Filter;
-
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.Map;
+import org.databene.html.parser.HTMLTokenizer;
 
 /**
- * {@link HTMLTokenizer} proxy that returns only the tokens that match a {@link Filter}.<br/>
+ * {@link Filter} that accepts HTML tokens by type and name.<br/>
  * <br/>
- * Created: 16.06.2007 05:50:50
+ * Created: 16.06.2007 05:54:38
  * @author Volker Bergmann
  */
-public class FilteringHTMLTokenizer implements HTMLTokenizer{
+public class HTMLTokenFilter implements Filter<HTMLTokenizer> {
 
-    private HTMLTokenizer source;
-    private Filter<HTMLTokenizer> filter;
+    private int tokenType;
+    private String name;
 
-    public FilteringHTMLTokenizer(HTMLTokenizer source, Filter<HTMLTokenizer> filter) {
-        this.source = source;
-        this.filter = filter;
+    public HTMLTokenFilter(int tokenType, String name) {
+        this.tokenType = tokenType;
+        this.name = name;
     }
 
-    public int nextToken() throws IOException, ParseException {
-        int token;
-        do {
-            token = source.nextToken();
-        } while (token != -1 && !filter.accept(source));
-        return token;
+    @Override
+	public boolean accept(HTMLTokenizer candidate) {
+        if (this.tokenType != candidate.tokenType())
+            return false;
+        return (this.name != null && this.name.equalsIgnoreCase(candidate.name()));
     }
 
-    public int tokenType() {
-        return source.tokenType();
+    public int getTokenType() {
+        return tokenType;
     }
 
-    public String name() {
-        return source.name();
-    }
-
-    public String text() {
-        return source.text();
-    }
-
-    public Map<String, String> attributes() {
-        return source.attributes();
+    public String getName() {
+        return name;
     }
 }
