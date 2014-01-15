@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2012 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2012-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -33,11 +33,17 @@ import org.databene.webdecs.DataIterator;
 public abstract class AbstractDataIterator<E> implements DataIterator<E> {
 	
 	protected Class<E> type;
+	
+	public AbstractDataIterator(Class<E> type) {
+		this.type = type;
+	}
 
+	@Override
 	public Class<E> getType() {
 		return type;
 	}
 
+	@Override
 	public void close() {
 		// empty default implementation
 	}
