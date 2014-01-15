@@ -35,6 +35,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 import org.databene.commons.SystemInfo;
+import org.databene.html.parser.DefaultHTMLTokenizer;
+import org.databene.html.parser.HTMLTokenizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -238,7 +240,7 @@ public class DefaultHTMLTokenizerTest {
 //            this.attributes = attributes;
         }
 
-        private Map<String, String> buildMap(String[] attributes) {
+        private static Map<String, String> buildMap(String[] attributes) {
             Map<String, String> map = new HashMap<String, String>();
             for (int i = 0; i < attributes.length; i += 2) {
                 String key = attributes[i];
