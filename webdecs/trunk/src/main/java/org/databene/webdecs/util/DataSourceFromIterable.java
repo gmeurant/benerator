@@ -42,6 +42,7 @@ public class DataSourceFromIterable<E> extends AbstractDataSource<E> {
 		this.source = source;
 	}
 
+	@Override
 	public DataIterator<E> iterator() {
 		return new DataIteratorFromJavaIterator<E>(source.iterator(), type);
 	}
@@ -51,6 +52,11 @@ public class DataSourceFromIterable<E> extends AbstractDataSource<E> {
 		if (source instanceof Closeable)
 			IOUtil.close((Closeable) source);
 		super.close();
+	}
+	
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "[" + source + "]";
 	}
 	
 }
