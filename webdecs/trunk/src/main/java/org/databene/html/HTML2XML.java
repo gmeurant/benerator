@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -29,6 +29,9 @@ package org.databene.html;
 import org.databene.commons.CollectionUtil;
 import org.databene.commons.IOUtil;
 import org.databene.commons.SystemInfo;
+import org.databene.html.parser.DefaultHTMLTokenizer;
+import org.databene.html.parser.HTMLTokenizer;
+import org.databene.html.util.HTMLUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -239,7 +242,7 @@ public class HTML2XML {
 	private static String resolveEntities(Writer writer, String s) throws IOException {
 	    int i;
         while ((i = s.indexOf('&')) >= 0) {
-            HTMLEntity entity = HTMLEntity.getEntity(s, i);
+            HtmlEntity entity = HtmlEntity.getEntity(s, i);
             if (entity != null) {
                 writer.write(s.substring(0, i + 1));
                 if (COMMON_CODES.contains(entity.htmlCode))
