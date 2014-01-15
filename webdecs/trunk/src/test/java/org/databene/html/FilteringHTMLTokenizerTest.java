@@ -26,6 +26,10 @@
 
 package org.databene.html;
 
+import org.databene.html.parser.DefaultHTMLTokenizer;
+import org.databene.html.parser.FilteringHTMLTokenizer;
+import org.databene.html.parser.HTMLTokenizer;
+import org.databene.html.util.HTMLTokenFilter;
 import org.junit.Test;
 import static junit.framework.Assert.*;
 

@@ -26,10 +26,10 @@
 
 package org.databene.webdecs.demo;
 
-import org.databene.html.HTMLTokenizer;
-import org.databene.html.DefaultHTMLTokenizer;
-import org.databene.html.FilteringHTMLTokenizer;
-import org.databene.html.HTMLTokenFilter;
+import org.databene.html.parser.DefaultHTMLTokenizer;
+import org.databene.html.parser.FilteringHTMLTokenizer;
+import org.databene.html.parser.HTMLTokenizer;
+import org.databene.html.util.HTMLTokenFilter;
 import org.databene.commons.IOUtil;
 
 import java.io.IOException;

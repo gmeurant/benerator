@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 import java.util.Map;
 
 import org.databene.commons.CollectionUtil;
+import org.databene.html.util.HTMLUtil;
 import org.junit.Test;
 
 /**
