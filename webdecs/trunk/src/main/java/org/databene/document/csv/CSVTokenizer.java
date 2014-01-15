@@ -46,6 +46,8 @@ public class CSVTokenizer implements Closeable {
     /** The default separator to use */
     public static final char DEFAULT_SEPARATOR = ',';
 
+	private static final char DEFAULT_LINE_COMMENT = '#';
+
     /** the source to read from */
     private PushbackReader reader;
 
@@ -125,8 +127,10 @@ public class CSVTokenizer implements Closeable {
         if (c == -1) { // if end of file is reached, close and signal EOF
             close();
             return setState(EOF, null);
-        }
-        if (c == separator && lastType == CELL) {
+        } else if (this.lastType == EOL && c == DEFAULT_LINE_COMMENT) {
+        	skipLine();
+        	return next();
+        } else if (c == separator && lastType == CELL) {
         	c = read();
         }
         if (c == -1) { // if end of file is reached, close and signal EOF
