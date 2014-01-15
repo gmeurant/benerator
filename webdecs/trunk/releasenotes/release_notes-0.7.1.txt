@@ -1,0 +1,16 @@
+release notes databene webdecs 0.7.1
+------------------------------------
+
+Enhancements
+------------
+- Added HTML generation classes
+
+
+Changes
+-------
+- Moved classes for HTML parsing to sub package
+
+
+Bug Fixes
+---------
+- Bug fix in AbstractDataIterator.getType()
