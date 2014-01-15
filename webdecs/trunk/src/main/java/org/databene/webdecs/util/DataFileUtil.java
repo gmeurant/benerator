@@ -34,6 +34,10 @@ public class DataFileUtil {
 		return hasSuffixIgnoreCase(".txt", fileName);
 	}
 
+	public static boolean isDbUnitDocument(String fileName) {
+		return hasSuffixIgnoreCase(".dbunit.xml", fileName);
+	}
+	
 	public static boolean isXmlDocument(String fileName) {
 		return hasSuffixIgnoreCase(".xml", fileName);
 	}
