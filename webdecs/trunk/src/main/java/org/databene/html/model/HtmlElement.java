@@ -29,9 +29,9 @@ import org.databene.commons.SystemInfo;
 import org.databene.commons.collection.OrderedNameMap;
 
 /**
- * TODO Document class.<br/><br/>
+ * Parent class for HTML element classes.<br/><br/>
  * Created: 06.01.2014 08:13:00
- * @since TODO version
+ * @since 0.7.1
  * @author Volker Bergmann
  */
 
@@ -72,7 +72,7 @@ public class HtmlElement<E extends HtmlElement<?>> extends HtmlComponent {
 	}
 	
 	public E addBreak() {
-		return addComponent(HtmlModel.br());
+		return addComponent(HtmlUtil.br());
 	}
 	
 	public E withTextContent(String text) {

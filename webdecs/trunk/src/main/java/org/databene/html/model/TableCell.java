@@ -22,9 +22,9 @@
 package org.databene.html.model;
 
 /**
- * TODO Document class.<br/><br/>
+ * Represents an HTML table cell.<br/><br/>
  * Created: 06.01.2014 09:20:56
- * @since TODO version
+ * @since 0.7.1
  * @author Volker Bergmann
  */
 

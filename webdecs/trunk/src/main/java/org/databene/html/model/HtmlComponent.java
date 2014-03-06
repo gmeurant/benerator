@@ -22,9 +22,9 @@
 package org.databene.html.model;
 
 /**
- * TODO Document class.<br/><br/>
+ * Parent class for HTML component classes.<br/><br/>
  * Created: 06.01.2014 08:12:43
- * @since TODO version
+ * @since 0.7.1
  * @author Volker Bergmann
  */
 
