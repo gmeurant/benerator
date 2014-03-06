@@ -27,9 +27,12 @@
 package org.databene.script.freemarker;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.nio.charset.Charset;
 import java.util.Locale;
 
+import org.databene.commons.IOUtil;
 import org.databene.script.Script;
 import org.databene.script.ScriptFactory;
 
@@ -72,7 +75,9 @@ public class FreeMarkerScriptFactory implements ScriptFactory {
 
     @Override
 	public Script readFile(String uri) throws IOException {
-        return new FreeMarkerScript(uri, config);
+    	InputStreamReader reader = new InputStreamReader(IOUtil.getInputStreamForURI(uri), Charset.forName("UTF-8"));
+        Template template = new Template(null, reader, config);
+        return new FreeMarkerScript(template);
     }
 
 }
