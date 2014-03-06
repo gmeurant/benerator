@@ -70,7 +70,7 @@ public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
             	mutators[i] = null;
             	this.classIndex = i;
             } else {
-            	mutators[i] = PropertyMutatorFactory.getPropertyMutator(null, attributeName, false);
+            	mutators[i] = PropertyMutatorFactory.getPropertyMutator(null, attributeName, false, true);
             }
         }
     }
