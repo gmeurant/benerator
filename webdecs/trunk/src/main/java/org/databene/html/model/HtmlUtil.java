@@ -22,15 +22,15 @@
 package org.databene.html.model;
 
 /**
- * TODO Document class.<br/><br/>
+ * Provides common HTML features in utility methods.<br/><br/>
  * Created: 06.01.2014 08:11:27
- * @since TODO version
+ * @since 0.7.1
  * @author Volker Bergmann
  */
 
-public class HtmlModel {
+public class HtmlUtil {
 	
-	private HtmlModel() { }
+	private HtmlUtil() { }
 	
 	public static Bold bold(String content) {
 		return new Bold(content);
