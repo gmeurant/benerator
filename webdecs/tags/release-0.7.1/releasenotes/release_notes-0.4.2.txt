@@ -1,0 +1,12 @@
+release notes databene webdecs 0.4.2
+------------------------------------
+
+- Updated dependency to commons 0.4.2
+- Performance improvements
+
+Enhancements
+- new class ConvertingCSVParser
+
+Bug fixes
+Find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386
+- 1954350 Bug in flat file columns with custom pad character
