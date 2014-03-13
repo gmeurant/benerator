@@ -1,0 +1,16 @@
+release notes databene webdecs 0.7.2
+------------------------------------
+
+Enhancements
+------------
+- Defined MultiTypeArrayFixedWidthWriter to write fixed-width files with different row types and formats
+- Supporting fixed-width columns using SimpleDateFormat and DecimalFormat patterns
+
+Changes
+-------
+- 
+
+
+Bug Fixes
+---------
+- 
