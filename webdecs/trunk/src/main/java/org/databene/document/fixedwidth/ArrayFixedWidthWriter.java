@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -38,7 +38,6 @@ import org.databene.commons.SystemInfo;
 import org.databene.commons.converter.ConverterChain;
 import org.databene.commons.converter.FormatFormatConverter;
 import org.databene.commons.converter.ToStringConverter;
-import org.databene.commons.format.PadFormat;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -52,7 +51,7 @@ import java.io.Writer;
 public class ArrayFixedWidthWriter<E> extends ScriptedDocumentWriter<E[]> {
 
     public ArrayFixedWidthWriter(Writer out, FixedWidthColumnDescriptor ... descriptors) {
-        this(out, (Script)null, (Script)null, descriptors);
+        this(out, (Script) null, (Script) null, descriptors);
     }
 
     public ArrayFixedWidthWriter(Writer out, String headerScriptUrl, String footerScriptUrl, FixedWidthColumnDescriptor ... descriptors)
@@ -88,7 +87,7 @@ public class ArrayFixedWidthWriter<E> extends ScriptedDocumentWriter<E[]> {
                 this.converters[i] = new ConverterChain(
                         new ToStringConverter(),
                         new FormatFormatConverter(String.class, 
-                                new PadFormat(descriptor.getWidth(), descriptor.getAlignment(), ' '),
+                                descriptor.getFormat(),
                                 true
                                 )
                 );
