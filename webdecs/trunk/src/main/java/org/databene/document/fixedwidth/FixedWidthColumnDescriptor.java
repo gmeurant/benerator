@@ -40,7 +40,7 @@ import org.databene.commons.format.PadFormat;
 public class FixedWidthColumnDescriptor {
 
     private String name;
-    private PadFormat format;
+    private Format format;
     
     
     // constructors ----------------------------------------------------------------------------------------------------
@@ -58,8 +58,12 @@ public class FixedWidthColumnDescriptor {
     }
 
     public FixedWidthColumnDescriptor(String name, int width, Alignment alignment, char padChar) {
+        this(name, new PadFormat(width, alignment, padChar));
+    }
+    
+    public FixedWidthColumnDescriptor(String name, Format format) {
         this.name = name;
-        this.format = new PadFormat(width, alignment, padChar);
+        this.format = format;
     }
     
     
@@ -76,18 +80,6 @@ public class FixedWidthColumnDescriptor {
 	public Format getFormat() {
 		return format;
 	}
-    
-    public int getWidth() {
-        return format.getLength();
-    }
-
-    public Alignment getAlignment() {
-        return format.getAlignment();
-    }
-
-    public char getPadChar() {
-        return format.getPadChar();
-    }
     
     
     // functional interface --------------------------------------------------------------------------------------------

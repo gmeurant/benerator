@@ -23,6 +23,7 @@ package org.databene.document.fixedwidth;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Locale;
 
 import org.databene.commons.BeanUtil;
 import org.databene.commons.format.PadFormat;
@@ -37,14 +38,16 @@ import org.databene.webdecs.util.DataIteratorAdapter;
  */
 public class FixedWidthBeanIterator<E> extends DataIteratorAdapter<String[], E> {
 
-	Class<E> beanClass;
-	FixedWidthColumnDescriptor[] columnDescriptors;
+	private Class<E> beanClass;
+	private FixedWidthColumnDescriptor[] columnDescriptors;
+	private Locale locale;
 	
 	public FixedWidthBeanIterator(String uri, String encoding, Class<E> beanClass, String columnFormats) 
 			throws IOException, ParseException {
 		super(null);
+		this.locale = Locale.US;
 		this.beanClass = beanClass;
-		this.columnDescriptors = FixedWidthUtil.parseBeanColumnsSpec(columnFormats);
+		this.columnDescriptors = FixedWidthUtil.parseBeanColumnsSpec(columnFormats, locale);
 		PadFormat[] formats = BeanUtil.extractProperties(this.columnDescriptors, "format", PadFormat.class);
 		source = new FixedWidthLineIterator(uri, formats);
 	}

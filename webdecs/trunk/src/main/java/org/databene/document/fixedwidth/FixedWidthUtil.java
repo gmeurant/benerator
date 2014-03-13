@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,12 +26,21 @@
 
 package org.databene.document.fixedwidth;
 
+import org.databene.commons.ParseUtil;
 import org.databene.commons.StringUtil;
 import org.databene.commons.ConfigurationError;
+import org.databene.commons.SyntaxError;
 import org.databene.commons.format.Alignment;
 
-import java.text.ParsePosition;
+import java.text.DateFormatSymbols;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.Format;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /**
  * Provides utility methods for processing flat files.<br/>
@@ -41,7 +50,7 @@ import java.text.NumberFormat;
  */
 public class FixedWidthUtil {
 
-    public static FixedWidthColumnDescriptor[] parseColumnsSpec(String properties) {
+    public static FixedWidthColumnDescriptor[] parseBeanColumnsSpec(String properties, Locale locale) throws ParseException {
         if (properties == null)
             return null;
         String[] propertyFormats = StringUtil.tokenize(properties, ',');
@@ -55,27 +64,87 @@ public class FixedWidthUtil {
             if (rbIndex < 0)
                 throw new ConfigurationError("']' expected in property format descriptor '" + propertyFormat + "'");
             String propertyName = propertyFormat.substring(0, lbIndex);
-            ParsePosition pos = new ParsePosition(lbIndex + 1);
-            int width = NumberFormat.getInstance().parse(propertyFormat, pos).intValue();
-            Alignment alignment = Alignment.LEFT;
-            if (pos.getIndex() < rbIndex) {
-                char alignmentCode = propertyFormat.charAt(pos.getIndex());
-                switch (alignmentCode) {
-                    case 'l' : alignment = Alignment.LEFT; break;
-                    case 'r' : alignment = Alignment.RIGHT; break;
-                    case 'c' : alignment = Alignment.CENTER; break;
-                    default: throw new ConfigurationError("Illegal alignment code '" + alignmentCode + "' in property format descriptor '" + propertyFormat + "'");
-                }
-                pos.setIndex(pos.getIndex() + 1);
-            }
-            char padChar = ' ';
-            if (pos.getIndex() < rbIndex) {
-                padChar = propertyFormat.charAt(pos.getIndex());
-                pos.setIndex(pos.getIndex() + 1);
-            }
-            assert pos.getIndex() == rbIndex;
-            descriptors[i] = new FixedWidthColumnDescriptor(propertyName, width, alignment, padChar);
+            String formatSpec = propertyFormat.substring(lbIndex + 1, rbIndex);
+            FixedWidthColumnDescriptor descriptor = parseColumnFormat(formatSpec, locale);
+            descriptor.setName(propertyName);
+			descriptors[i] = descriptor;
         }
         return descriptors;
     }
+
+    public static FixedWidthColumnDescriptor[] parseArrayColumnsSpec(String columns, Locale locale) throws ParseException {
+        if (columns == null)
+            return null;
+        String[] columnFormats = StringUtil.tokenize(columns, ',');
+        FixedWidthColumnDescriptor[] descriptors = new FixedWidthColumnDescriptor[columnFormats.length];
+        for (int i = 0; i < columnFormats.length; i++)
+            descriptors[i] = parseColumnFormat(columnFormats[i], locale);
+        return descriptors;
+    }
+
+	private static FixedWidthColumnDescriptor parseColumnFormat(String formatSpec, Locale locale) throws ParseException {
+		switch (formatSpec.charAt(0)) {
+			case 'D': return parseDatePattern(formatSpec, locale);
+			case 'N': return parseNumberPattern(formatSpec, locale);
+			default : return parseWidthFormat(formatSpec);
+		}
+	}
+
+	private static FixedWidthColumnDescriptor parseDatePattern(String formatSpec, Locale locale) {
+		if (!formatSpec.startsWith("D"))
+			throw new SyntaxError("Illegal date/time pattern", formatSpec);
+		String pattern = formatSpec.substring(1);
+		Format format = new SimpleDateFormat(pattern, DateFormatSymbols.getInstance(locale));
+		return new FixedWidthColumnDescriptor(null, format);
+	}
+
+	private static FixedWidthColumnDescriptor parseNumberPattern(String formatSpec, Locale locale) {
+		if (!formatSpec.startsWith("N"))
+			throw new SyntaxError("Illegal number pattern", formatSpec);
+		String pattern = formatSpec.substring(1);
+		Format format = new DecimalFormat(pattern, DecimalFormatSymbols.getInstance(locale));
+		return new FixedWidthColumnDescriptor(null, format);
+	}
+
+	private static FixedWidthColumnDescriptor parseWidthFormat(String formatSpec) throws ParseException {
+        ParsePosition pos = new ParsePosition(0);
+        
+        // parse width
+        int width = (int) ParseUtil.parseNonNegativeInteger(formatSpec, pos);
+        
+        // parse fractionDigits
+        NumberFormat format = null;
+        int minFractionDigits = 0;
+        int maxFractionDigits = 2;
+        if (pos.getIndex() < formatSpec.length() && formatSpec.charAt(pos.getIndex()) == '.') {
+            pos.setIndex(pos.getIndex() + 1);
+            minFractionDigits = (int) ParseUtil.parseNonNegativeInteger(formatSpec, pos);
+            maxFractionDigits = minFractionDigits;
+            format = DecimalFormat.getInstance(Locale.US);
+            format.setMinimumFractionDigits(minFractionDigits);
+            format.setMaximumFractionDigits(maxFractionDigits);
+        }
+        
+        // parse alignment
+        Alignment alignment = Alignment.LEFT;
+        if (pos.getIndex() < formatSpec.length()) {
+            char alignmentCode = formatSpec.charAt(pos.getIndex());
+            switch (alignmentCode) {
+                case 'l' : alignment = Alignment.LEFT; break;
+                case 'r' : alignment = Alignment.RIGHT; break;
+                case 'c' : alignment = Alignment.CENTER; break;
+                default: throw new ConfigurationError("Illegal alignment code '" + alignmentCode + "' in format descriptor '" + formatSpec + "'");
+            }
+            pos.setIndex(pos.getIndex() + 1);
+        }
+        char padChar = ' ';
+        if (pos.getIndex() < formatSpec.length()) {
+            padChar = formatSpec.charAt(pos.getIndex());
+            pos.setIndex(pos.getIndex() + 1);
+        }
+        if (pos.getIndex() != formatSpec.length())
+        	throw new SyntaxError("Illegal column format", formatSpec);
+        return new FixedWidthColumnDescriptor(width, alignment, padChar);
+	}
+	
 }
