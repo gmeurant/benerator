@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -26,6 +26,8 @@
 
 package org.databene.document.fixedwidth;
 
+import java.text.Format;
+
 import org.databene.commons.format.Alignment;
 import org.databene.commons.format.PadFormat;
 
@@ -39,6 +41,9 @@ public class FixedWidthColumnDescriptor {
 
     private String name;
     private PadFormat format;
+    
+    
+    // constructors ----------------------------------------------------------------------------------------------------
 
     public FixedWidthColumnDescriptor(int width, Alignment alignment) {
         this(null, width, alignment, ' ');
@@ -56,11 +61,22 @@ public class FixedWidthColumnDescriptor {
         this.name = name;
         this.format = new PadFormat(width, alignment, padChar);
     }
+    
+    
+    // properties ------------------------------------------------------------------------------------------------------
 
     public String getName() {
         return name;
     }
-
+    
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public Format getFormat() {
+		return format;
+	}
+    
     public int getWidth() {
         return format.getLength();
     }
@@ -72,10 +88,16 @@ public class FixedWidthColumnDescriptor {
     public char getPadChar() {
         return format.getPadChar();
     }
-
-    public PadFormat getFormat() {
-        return format;
+    
+    
+    // functional interface --------------------------------------------------------------------------------------------
+    
+    public String format(Object object) {
+    	return format.format(object);
     }
+    
+    
+    // java.lang.Object overrides --------------------------------------------------------------------------------------
 
 	@Override
 	public int hashCode() {
@@ -110,6 +132,7 @@ public class FixedWidthColumnDescriptor {
     
     @Override
     public String toString() {
-    	return name + '[' + format.getLength() + format.getAlignment().getId() + format.getPadChar() + ']';
+    	return name + '[' + format + ']';
     }
+
 }
