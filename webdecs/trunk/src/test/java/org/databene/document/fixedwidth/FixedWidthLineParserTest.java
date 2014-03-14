@@ -55,7 +55,7 @@ public class FixedWidthLineParserTest {
         check("Dieter-01", "Dieter", "-1");
     }
 
-	private void check(String line, String expectedName, String expectedAge) throws ParseException {
+	private static void check(String line, String expectedName, String expectedAge) throws ParseException {
 		assertTrue(Arrays.equals(new String[] { expectedName, expectedAge }, 
 				PARSER.parse(line)));
     }

@@ -71,7 +71,7 @@ public class FixedWidthLineIteratorTest {
     
     // helper ----------------------------------------------------------------------------------------------------------
 
-    private FixedWidthLineIterator createIterator(boolean ignoreEmptyLines) {
+    private static FixedWidthLineIterator createIterator(boolean ignoreEmptyLines) {
         PadFormat[] formats = new PadFormat[] {
                 new PadFormat(6, Alignment.LEFT, ' '),
                 new PadFormat(3, Alignment.RIGHT, '0'),
