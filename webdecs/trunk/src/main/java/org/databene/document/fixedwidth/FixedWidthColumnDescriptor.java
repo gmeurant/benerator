@@ -46,7 +46,7 @@ public class FixedWidthColumnDescriptor {
     // constructors ----------------------------------------------------------------------------------------------------
 
     public FixedWidthColumnDescriptor(int width, Alignment alignment) {
-        this(null, width, alignment, ' ');
+        this((String) null, width, alignment, ' ');
     }
 
     public FixedWidthColumnDescriptor(String name, int width, Alignment alignment) {
@@ -54,16 +54,24 @@ public class FixedWidthColumnDescriptor {
     }
 
     public FixedWidthColumnDescriptor(int width, Alignment alignment, char padChar) {
-        this(null, width, alignment, padChar);
+        this((String) null, width, alignment, padChar);
     }
 
     public FixedWidthColumnDescriptor(String name, int width, Alignment alignment, char padChar) {
-        this(name, new PadFormat(width, alignment, padChar));
+        this(name, null, width, alignment, padChar);
+    }
+    
+    public FixedWidthColumnDescriptor(Format format, int width, Alignment alignment, char padChar) {
+        this(null, format, width, alignment, padChar);
     }
     
     public FixedWidthColumnDescriptor(String name, Format format) {
+        this(name, format, 0, Alignment.LEFT, ' ');
+    }
+    
+    public FixedWidthColumnDescriptor(String name, Format format, int width, Alignment alignment, char padChar) {
         this.name = name;
-        this.format = format;
+        this.format = new PadFormat(format, width, alignment, padChar);
     }
     
     

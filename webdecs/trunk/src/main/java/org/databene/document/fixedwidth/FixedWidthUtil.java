@@ -123,6 +123,7 @@ public class FixedWidthUtil {
             format = DecimalFormat.getInstance(Locale.US);
             format.setMinimumFractionDigits(minFractionDigits);
             format.setMaximumFractionDigits(maxFractionDigits);
+            format.setGroupingUsed(false);
         }
         
         // parse alignment
@@ -144,7 +145,7 @@ public class FixedWidthUtil {
         }
         if (pos.getIndex() != formatSpec.length())
         	throw new SyntaxError("Illegal column format", formatSpec);
-        return new FixedWidthColumnDescriptor(width, alignment, padChar);
+        return new FixedWidthColumnDescriptor(format, width, alignment, padChar);
 	}
 	
 }
