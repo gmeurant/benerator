@@ -22,15 +22,15 @@
 package org.databene.html.model;
 
 /**
- * Provides common HTML features in utility methods.<br/><br/>
+ * Creates common HTML elements in utility methods.<br/><br/>
  * Created: 06.01.2014 08:11:27
  * @since 0.7.1
  * @author Volker Bergmann
  */
 
-public class HtmlUtil {
+public class HtmlFactory {
 	
-	private HtmlUtil() { }
+	private HtmlFactory() { }
 	
 	public static Bold bold(String content) {
 		return new Bold(content);
