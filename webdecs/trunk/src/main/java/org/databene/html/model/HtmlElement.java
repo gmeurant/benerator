@@ -72,7 +72,7 @@ public class HtmlElement<E extends HtmlElement<?>> extends HtmlComponent {
 	}
 	
 	public E addBreak() {
-		return addComponent(HtmlUtil.br());
+		return addComponent(HtmlFactory.br());
 	}
 	
 	public E withTextContent(String text) {
