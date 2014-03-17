@@ -7,6 +7,7 @@ Enhancements
   - MultiTypeArrayFixedWidthWriter
   - MultiTypeBeanFixedWidthWriter
 - Supporting fixed-width columns using SimpleDateFormat and DecimalFormat patterns
+- New method HTMLUtil.New method hexColorCode(Color)
 
 
 Changes
