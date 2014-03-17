@@ -30,6 +30,7 @@ import org.databene.commons.CollectionUtil;
 import org.databene.commons.SystemInfo;
 import org.databene.html.HtmlEntity;
 
+import java.awt.Color;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.HashMap;
@@ -167,5 +168,10 @@ public class HTMLUtil {
 	public static String aNewWindow(String href, String text) {
 	    return "<a href='" + href + "' target='_blank'>" + text + "</a>";
     }
-
+	
+	public static String hexColorCode(Color color) {
+		String colorCode = Integer.toHexString(color.getRGB() & 0xffffff);
+		return "000000".substring(colorCode.length()) + colorCode; // pad left to six characters
+	}
+	
 }
