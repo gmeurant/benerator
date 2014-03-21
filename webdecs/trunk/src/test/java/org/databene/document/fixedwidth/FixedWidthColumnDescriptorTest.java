@@ -26,6 +26,10 @@
 
 package org.databene.document.fixedwidth;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import org.databene.commons.TimeUtil;
 import org.databene.commons.format.Alignment;
 import org.databene.document.fixedwidth.FixedWidthColumnDescriptor;
 
@@ -51,6 +55,12 @@ public class FixedWidthColumnDescriptorTest {
 		assertFalse(d1.equals(new FixedWidthColumnDescriptor("name3", 9, Alignment.LEFT, ' ')));
 		assertFalse(d1.equals(new FixedWidthColumnDescriptor("name4", 8, Alignment.RIGHT, ' ')));
 		assertFalse(d1.equals(new FixedWidthColumnDescriptor("name5", 8, Alignment.LEFT, '_')));
+	}
+	
+	@Test
+	public void testParseDate() throws ParseException {
+		FixedWidthColumnDescriptor d1 = new FixedWidthColumnDescriptor("date", new SimpleDateFormat("yyyyMMdd"));
+		assertEquals(TimeUtil.date(1987, 4, 3), d1.parse("19870503"));
 	}
 	
 }
