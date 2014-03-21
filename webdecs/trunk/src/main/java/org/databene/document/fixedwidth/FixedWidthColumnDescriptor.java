@@ -26,7 +26,11 @@
 
 package org.databene.document.fixedwidth;
 
+import java.text.DateFormat;
 import java.text.Format;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Date;
 
 import org.databene.commons.format.Alignment;
 import org.databene.commons.format.PadFormat;
@@ -40,7 +44,8 @@ import org.databene.commons.format.PadFormat;
 public class FixedWidthColumnDescriptor {
 
     private String name;
-    private Format format;
+    private int width;
+    private PadFormat format;
     
     
     // constructors ----------------------------------------------------------------------------------------------------
@@ -66,11 +71,12 @@ public class FixedWidthColumnDescriptor {
     }
     
     public FixedWidthColumnDescriptor(String name, Format format) {
-        this(name, format, 0, Alignment.LEFT, ' ');
+        this(name, format, formatWidth(format), Alignment.LEFT, ' ');
     }
     
-    public FixedWidthColumnDescriptor(String name, Format format, int width, Alignment alignment, char padChar) {
+	public FixedWidthColumnDescriptor(String name, Format format, int width, Alignment alignment, char padChar) {
         this.name = name;
+        this.width = width;
         this.format = new PadFormat(format, width, alignment, padChar);
     }
     
@@ -85,6 +91,10 @@ public class FixedWidthColumnDescriptor {
 		this.name = name;
 	}
 	
+	public int getWidth() {
+		return width;
+	}
+	
 	public Format getFormat() {
 		return format;
 	}
@@ -95,6 +105,21 @@ public class FixedWidthColumnDescriptor {
     public String format(Object object) {
     	return format.format(object);
     }
+    
+    public Object parse(String text) throws ParseException {
+    	return format.parseObject(text);
+    }
+    
+    // private helpers -------------------------------------------------------------------------------------------------
+    
+    private static int formatWidth(Format format) {
+    	if (format instanceof DateFormat)
+    		return format.format(new Date()).length();
+    	else if (format instanceof NumberFormat)
+    		return format.format((Integer) 0).length();
+    	else
+    		return 0;
+	}
     
     
     // java.lang.Object overrides --------------------------------------------------------------------------------------
