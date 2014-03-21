@@ -32,9 +32,9 @@ import org.databene.commons.ReaderLineIterator;
 import org.junit.Test;
 
 /**
- * TODO Document class.<br/><br/>
+ * Tests the {@link MultiTypeBeanFixedWidthWriter}.<br/><br/>
  * Created: 14.03.2014 16:26:52
- * @since TODO version
+ * @since 0.7.2
  * @author Volker Bergmann
  */
 

@@ -22,9 +22,9 @@
 package org.databene.document.fixedwidth;
 
 /**
- * TODO Document class.<br/><br/>
+ * Helper class for testing.<br/><br/>
  * Created: 14.03.2014 16:32:45
- * @since TODO version
+ * @since 0.7.2
  * @author Volker Bergmann
  */
 
