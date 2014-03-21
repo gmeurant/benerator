@@ -29,12 +29,12 @@ import java.util.Map;
 
 import org.databene.commons.Assert;
 import org.databene.commons.SystemInfo;
-import org.databene.commons.bean.PropertyGraphAccessor;
+import org.databene.commons.accessor.GraphAccessor;
 
 /**
- * TODO Document class.<br/><br/>
+ * Writes JavaBean properties (graphs) to a file with fixed-width columns.<br/><br/>
  * Created: 14.03.2014 16:09:37
- * @since TODO version
+ * @since 0.7.2
  * @author Volker Bergmann
  */
 
@@ -56,8 +56,12 @@ public class MultiTypeBeanFixedWidthWriter implements Closeable {
 				addRowFormat(entry.getKey(), entry.getValue());
 	}
 	
-	public void addRowFormat(String rowType, FixedWidthColumnDescriptor[] cellFormats) {
-		this.rowFormats.put(rowType, cellFormats);
+	public void addRowFormat(String simpleClassName, FixedWidthColumnDescriptor[] cellFormats) {
+		this.rowFormats.put(simpleClassName, cellFormats);
+	}
+	
+	public FixedWidthColumnDescriptor[] getRowFormat(String simpleClassName) {
+		return this.rowFormats.get(simpleClassName);
 	}
 	
 	public void write(Object bean) throws IOException {
@@ -68,8 +72,8 @@ public class MultiTypeBeanFixedWidthWriter implements Closeable {
 			throw new IllegalArgumentException("Bean class not configured: " + bean.getClass().getSimpleName());
 		// format array
 		for (int i = 0; i < cellFormats.length; i++) {
-			String propertyGraph = cellFormats[i].getName();
-			Object value = PropertyGraphAccessor.getPropertyGraph(bean, propertyGraph);
+			String path = cellFormats[i].getName();
+			Object value = GraphAccessor.getValue(path, bean);
 			out.write(cellFormats[i].format(value));
 		}
 		out.write(SystemInfo.getLineSeparator());
