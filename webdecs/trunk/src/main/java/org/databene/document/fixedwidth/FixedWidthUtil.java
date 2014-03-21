@@ -49,7 +49,7 @@ import java.util.Locale;
  * @author Volker Bergmann
  */
 public class FixedWidthUtil {
-
+	
     public static FixedWidthColumnDescriptor[] parseBeanColumnsSpec(String properties, Locale locale) throws ParseException {
         if (properties == null)
             return null;
@@ -71,7 +71,7 @@ public class FixedWidthUtil {
         }
         return descriptors;
     }
-
+    
     public static FixedWidthColumnDescriptor[] parseArrayColumnsSpec(String columns, Locale locale) throws ParseException {
         if (columns == null)
             return null;
@@ -81,15 +81,18 @@ public class FixedWidthUtil {
             descriptors[i] = parseColumnFormat(columnFormats[i], locale);
         return descriptors;
     }
-
-	private static FixedWidthColumnDescriptor parseColumnFormat(String formatSpec, Locale locale) throws ParseException {
+    
+	public static FixedWidthColumnDescriptor parseColumnFormat(String formatSpec, Locale locale) throws ParseException {
 		switch (formatSpec.charAt(0)) {
 			case 'D': return parseDatePattern(formatSpec, locale);
 			case 'N': return parseNumberPattern(formatSpec, locale);
 			default : return parseWidthFormat(formatSpec);
 		}
 	}
-
+	
+	
+	// private helpers -------------------------------------------------------------------------------------------------
+	
 	private static FixedWidthColumnDescriptor parseDatePattern(String formatSpec, Locale locale) {
 		if (!formatSpec.startsWith("D"))
 			throw new SyntaxError("Illegal date/time pattern", formatSpec);
@@ -97,7 +100,7 @@ public class FixedWidthUtil {
 		Format format = new SimpleDateFormat(pattern, DateFormatSymbols.getInstance(locale));
 		return new FixedWidthColumnDescriptor(null, format);
 	}
-
+	
 	private static FixedWidthColumnDescriptor parseNumberPattern(String formatSpec, Locale locale) {
 		if (!formatSpec.startsWith("N"))
 			throw new SyntaxError("Illegal number pattern", formatSpec);
@@ -105,7 +108,7 @@ public class FixedWidthUtil {
 		Format format = new DecimalFormat(pattern, DecimalFormatSymbols.getInstance(locale));
 		return new FixedWidthColumnDescriptor(null, format);
 	}
-
+	
 	private static FixedWidthColumnDescriptor parseWidthFormat(String formatSpec) throws ParseException {
         ParsePosition pos = new ParsePosition(0);
         
