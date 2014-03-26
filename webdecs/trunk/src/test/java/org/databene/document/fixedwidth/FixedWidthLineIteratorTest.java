@@ -73,8 +73,8 @@ public class FixedWidthLineIteratorTest {
 
     private static FixedWidthLineIterator createIterator(boolean ignoreEmptyLines) {
         PadFormat[] formats = new PadFormat[] {
-                new PadFormat(6, Alignment.LEFT, ' '),
-                new PadFormat(3, Alignment.RIGHT, '0'),
+                new PadFormat("", 6, Alignment.LEFT, ' '),
+                new PadFormat("", 3, Alignment.RIGHT, '0'),
         };
         StringReader reader = new StringReader(
                 "Alice 023" + SEP +

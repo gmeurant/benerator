@@ -47,9 +47,9 @@ public class MultiTypeArrayFixedWidthWriterTest {
 		String fileName = "target" + File.separator + getClass().getSimpleName() + ".fcw";
 		FileWriter out = new FileWriter(fileName);
 		MultiTypeArrayFixedWidthWriter writer = new MultiTypeArrayFixedWidthWriter(out);
-		FixedWidthColumnDescriptor[] f1 = FixedWidthUtil.parseArrayColumnsSpec("8,3r0,10,5", Locale.US);
+		FixedWidthColumnDescriptor[] f1 = FixedWidthUtil.parseArrayColumnsSpec("8,3r0,10,5", "", Locale.US);
 		writer.addRowFormat("t1", f1);
-		FixedWidthColumnDescriptor[] f2 = FixedWidthUtil.parseArrayColumnsSpec("6,5r0,15", Locale.US);
+		FixedWidthColumnDescriptor[] f2 = FixedWidthUtil.parseArrayColumnsSpec("6,5r0,15", "", Locale.US);
 		writer.addRowFormat("t2", f2);
 		writer.write("t1", "Alice", 23, TimeUtil.date(2014, Calendar.JANUARY, 1), 1.23);
 		writer.write("t2", "Bob", 34, TimeUtil.date(2014, Calendar.FEBRUARY, 28));

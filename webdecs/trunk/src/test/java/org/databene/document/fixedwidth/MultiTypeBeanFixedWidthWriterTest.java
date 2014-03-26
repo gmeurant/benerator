@@ -45,8 +45,8 @@ public class MultiTypeBeanFixedWidthWriterTest {
 		String fileName = "target" + File.separator + getClass().getSimpleName() + ".fcw";
 		FileWriter out = new FileWriter(fileName);
 		MultiTypeBeanFixedWidthWriter writer = new MultiTypeBeanFixedWidthWriter(out);
-		writer.addRowFormat("FWPerson", FixedWidthUtil.parseBeanColumnsSpec("name[8],age[3r0],pet.name[7]", Locale.US));
-		writer.addRowFormat("FWCity", FixedWidthUtil.parseBeanColumnsSpec("name[18]", Locale.US));
+		writer.addRowFormat("FWPerson", FixedWidthUtil.parseBeanColumnsSpec("name[8],age[3r0],pet.name[7]", "", Locale.US));
+		writer.addRowFormat("FWCity", FixedWidthUtil.parseBeanColumnsSpec("name[18]", "", Locale.US));
 		writer.write(new FWPerson("Alice", 23, new FWPet("Miez")));
 		writer.write(new FWCity("New York"));
 		writer.close();

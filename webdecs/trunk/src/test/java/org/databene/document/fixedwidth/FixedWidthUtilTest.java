@@ -90,20 +90,23 @@ public class FixedWidthUtilTest {
 	
 	@Test
 	public void testDateFormat() throws Exception {
-		FixedWidthColumnDescriptor d = new FixedWidthColumnDescriptor("date", new SimpleDateFormat("yyyyMMdd", DateFormatSymbols.getInstance(Locale.US)));
+		FixedWidthColumnDescriptor d = new FixedWidthColumnDescriptor("date", new SimpleDateFormat("yyyyMMdd", DateFormatSymbols.getInstance(Locale.US)), "");
 		FixedWidthColumnDescriptor[] array = new FixedWidthColumnDescriptor[] { d };
 		assertArrayEquals(array, parse("date[DyyyyMMdd]"));
 	}
 	
 	@Test
 	public void testNumberFormat() throws Exception {
-		FixedWidthColumnDescriptor n = new FixedWidthColumnDescriptor("num", new DecimalFormat("00.00", DecimalFormatSymbols.getInstance(Locale.US)));
+		FixedWidthColumnDescriptor n = new FixedWidthColumnDescriptor("num", new DecimalFormat("00.00", DecimalFormatSymbols.getInstance(Locale.US)), "");
 		FixedWidthColumnDescriptor[] array = new FixedWidthColumnDescriptor[] { n };
 		assertArrayEquals(array, parse("num[N00.00]"));
 	}
 	
+	
+	// private helper method -------------------------------------------------------------------------------------------
+	
 	private static FixedWidthColumnDescriptor[] parse(String pattern) throws ParseException {
-		return FixedWidthUtil.parseBeanColumnsSpec(pattern, Locale.US);
+		return FixedWidthUtil.parseBeanColumnsSpec(pattern, "", Locale.US);
 	}
 	
 }

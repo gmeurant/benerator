@@ -40,8 +40,8 @@ import org.junit.Test;
 public class FixedWidthLineParserTest {
 
 	private static final PadFormat[] FORMATS = new PadFormat[] {
-            new PadFormat(6, Alignment.LEFT, ' '),
-            new PadFormat(3, Alignment.RIGHT, '0'),
+            new PadFormat("", 6, Alignment.LEFT, ' '),
+            new PadFormat("", 3, Alignment.RIGHT, '0'),
     };
     
     private static final FixedWidthLineParser PARSER = new FixedWidthLineParser(FORMATS);
