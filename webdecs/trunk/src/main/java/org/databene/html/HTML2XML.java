@@ -29,11 +29,13 @@ package org.databene.html;
 import org.databene.commons.CollectionUtil;
 import org.databene.commons.IOUtil;
 import org.databene.commons.SystemInfo;
+import org.databene.commons.xml.XMLUtil;
 import org.databene.html.parser.DefaultHTMLTokenizer;
 import org.databene.html.parser.HTMLTokenizer;
 import org.databene.html.util.HTMLUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
 
 import java.io.*;
 import java.text.ParseException;
@@ -79,6 +81,14 @@ public class HTML2XML {
             IOUtil.close(writer);
         }
     }
+    
+    public static Document parseHtmlFileAsXml(String uri) throws ParseException, IOException {
+    	String html = IOUtil.getContentOfURI(uri);
+    	String xml = convert(html);
+    	return XMLUtil.parseString(xml);
+    }
+    
+    // private helpers -------------------------------------------------------------------------------------------------
 
     private static void convert(ConversionContext context) throws IOException, ParseException {
     	// TODO v0.6.x use XML serializer
