@@ -44,10 +44,15 @@ public class FixedWidthBeanIterator<E> extends DataIteratorAdapter<String[], E> 
 	
 	public FixedWidthBeanIterator(String uri, String encoding, Class<E> beanClass, String columnFormats) 
 			throws IOException, ParseException {
+		this(uri, encoding, beanClass, columnFormats, "");
+	}
+
+	public FixedWidthBeanIterator(String uri, String encoding, Class<E> beanClass, String columnFormats, String nullString) 
+			throws IOException, ParseException {
 		super(null);
 		this.locale = Locale.US;
 		this.beanClass = beanClass;
-		this.columnDescriptors = FixedWidthUtil.parseBeanColumnsSpec(columnFormats, locale);
+		this.columnDescriptors = FixedWidthUtil.parseBeanColumnsSpec(columnFormats, nullString, locale);
 		PadFormat[] formats = BeanUtil.extractProperties(this.columnDescriptors, "format", PadFormat.class);
 		source = new FixedWidthLineIterator(uri, formats);
 	}
