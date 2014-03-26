@@ -63,21 +63,21 @@ public class FixedWidthColumnDescriptor {
     }
 
     public FixedWidthColumnDescriptor(String name, int width, Alignment alignment, char padChar) {
-        this(name, null, width, alignment, padChar);
+        this(name, null, "", width, alignment, padChar);
     }
     
     public FixedWidthColumnDescriptor(Format format, int width, Alignment alignment, char padChar) {
-        this(null, format, width, alignment, padChar);
+        this(null, format, "", width, alignment, padChar);
     }
     
-    public FixedWidthColumnDescriptor(String name, Format format) {
-        this(name, format, formatWidth(format), Alignment.LEFT, ' ');
+    public FixedWidthColumnDescriptor(String name, Format format, String nullString) {
+        this(name, format, nullString, formatWidth(format), Alignment.LEFT, ' ');
     }
     
-	public FixedWidthColumnDescriptor(String name, Format format, int width, Alignment alignment, char padChar) {
+	public FixedWidthColumnDescriptor(String name, Format format, String nullString, int width, Alignment alignment, char padChar) {
         this.name = name;
         this.width = width;
-        this.format = new PadFormat(format, width, alignment, padChar);
+        this.format = new PadFormat(format, nullString, width, alignment, padChar);
     }
     
     
