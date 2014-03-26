@@ -26,8 +26,11 @@
 
 package org.databene.document.fixedwidth;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import org.databene.commons.TimeUtil;
 import org.databene.commons.format.Alignment;
@@ -58,8 +61,24 @@ public class FixedWidthColumnDescriptorTest {
 	}
 	
 	@Test
+	public void testFormatNumber() throws ParseException {
+		DecimalFormat format = new DecimalFormat("00.00", DecimalFormatSymbols.getInstance(Locale.US));
+		FixedWidthColumnDescriptor d1 = new FixedWidthColumnDescriptor("num", format, "");
+		assertEquals("00.00", d1.format(0.));
+		assertEquals("01.50", d1.format(1.5));
+		assertEquals("     ", d1.format(null));
+	}
+	
+	@Test
+	public void testFormatDate() throws ParseException {
+		FixedWidthColumnDescriptor d1 = new FixedWidthColumnDescriptor("date", new SimpleDateFormat("yyyyMMdd"), "");
+		assertEquals("19870503", d1.format(TimeUtil.date(1987, 4, 3)));
+		assertEquals("        ", d1.format(null));
+	}
+	
+	@Test
 	public void testParseDate() throws ParseException {
-		FixedWidthColumnDescriptor d1 = new FixedWidthColumnDescriptor("date", new SimpleDateFormat("yyyyMMdd"));
+		FixedWidthColumnDescriptor d1 = new FixedWidthColumnDescriptor("date", new SimpleDateFormat("yyyyMMdd"), "");
 		assertEquals(TimeUtil.date(1987, 4, 3), d1.parse("19870503"));
 	}
 	
