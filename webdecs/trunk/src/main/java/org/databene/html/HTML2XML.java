@@ -27,6 +27,7 @@
 package org.databene.html;
 
 import org.databene.commons.CollectionUtil;
+import org.databene.commons.Encodings;
 import org.databene.commons.IOUtil;
 import org.databene.commons.SystemInfo;
 import org.databene.commons.xml.XMLUtil;
@@ -82,12 +83,13 @@ public class HTML2XML {
         }
     }
     
-    public static Document parseHtmlFileAsXml(String uri) throws ParseException, IOException {
-    	String html = IOUtil.getContentOfURI(uri);
-    	String xml = convert(html);
-    	return XMLUtil.parseString(xml);
-    }
-    
+	public static Document parseHtmlAsXml(String url, boolean namespaceAware) 
+			throws IOException, ParseException, UnsupportedEncodingException {
+		String html = IOUtil.getContentOfURI(url);
+		String xml = convert(html);
+		return XMLUtil.parse(new ByteArrayInputStream(xml.getBytes(Encodings.UTF_8)), namespaceAware, null, null, null, null);
+	}
+
     // private helpers -------------------------------------------------------------------------------------------------
 
     private static void convert(ConversionContext context) throws IOException, ParseException {
