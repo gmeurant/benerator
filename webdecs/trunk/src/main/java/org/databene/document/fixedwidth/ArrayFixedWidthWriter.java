@@ -33,11 +33,7 @@ import org.databene.script.ScriptUtil;
 import org.databene.script.ScriptedDocumentWriter;
 import org.databene.commons.Context;
 import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
 import org.databene.commons.SystemInfo;
-import org.databene.commons.converter.ConverterChain;
-import org.databene.commons.converter.FormatFormatConverter;
-import org.databene.commons.converter.ToStringConverter;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -50,21 +46,21 @@ import java.io.Writer;
  */
 public class ArrayFixedWidthWriter<E> extends ScriptedDocumentWriter<E[]> {
 
-    public ArrayFixedWidthWriter(Writer out, FixedWidthColumnDescriptor ... descriptors) {
-        this(out, (Script) null, (Script) null, descriptors);
+    public ArrayFixedWidthWriter(Writer out, FixedWidthRowTypeDescriptor descriptor) {
+        this(out, (Script) null, (Script) null, descriptor);
     }
 
-    public ArrayFixedWidthWriter(Writer out, String headerScriptUrl, String footerScriptUrl, FixedWidthColumnDescriptor ... descriptors)
+    public ArrayFixedWidthWriter(Writer out, String headerScriptUrl, String footerScriptUrl, FixedWidthRowTypeDescriptor descriptor)
             throws IOException {
         this(
             out,
             (headerScriptUrl != null ? ScriptUtil.readFile(headerScriptUrl) : null),
             (footerScriptUrl != null ? ScriptUtil.readFile(footerScriptUrl) : null),
-            descriptors
+            descriptor
         );
     }
 
-    public ArrayFixedWidthWriter(Writer out, Script headerScript, Script footerScript, FixedWidthColumnDescriptor ... descriptors) {
+    public ArrayFixedWidthWriter(Writer out, Script headerScript, Script footerScript, FixedWidthRowTypeDescriptor descriptors) {
         super(
             out,
             headerScript,
@@ -77,29 +73,17 @@ public class ArrayFixedWidthWriter<E> extends ScriptedDocumentWriter<E[]> {
 
     private static class ArrayFixedWidthScript extends AbstractScript {
 
-        private Converter<Object, String>[] converters;
+        private FixedWidthRowTypeDescriptor descriptor;
 
-        @SuppressWarnings({ "unchecked", "rawtypes" })
-        public ArrayFixedWidthScript(FixedWidthColumnDescriptor[] descriptors) {
-            this.converters = new Converter[descriptors.length];
-            for (int i = 0; i < descriptors.length; i++) {
-                FixedWidthColumnDescriptor descriptor = descriptors[i];
-                this.converters[i] = new ConverterChain(
-                        new ToStringConverter(),
-                        new FormatFormatConverter(String.class, 
-                                descriptor.getFormat(),
-                                true
-                                )
-                );
-            }
+        public ArrayFixedWidthScript(FixedWidthRowTypeDescriptor descriptor) {
+            this.descriptor = descriptor;
         }
 
         @Override
         public void execute(Context context, Writer out) throws IOException, ScriptException {
             try {
                 Object[] cellsOfCurrentRow = (Object[]) context.get("part");
-                for (int i = 0; i < cellsOfCurrentRow.length; i++)
-                    out.write(converters[i].convert(cellsOfCurrentRow[i]));
+                out.write(descriptor.formatArray(cellsOfCurrentRow));
                 out.write(SystemInfo.getLineSeparator());
             } catch (ConversionException e) {
                 throw new ScriptException(e);

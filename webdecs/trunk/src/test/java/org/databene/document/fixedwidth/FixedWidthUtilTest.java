@@ -106,7 +106,7 @@ public class FixedWidthUtilTest {
 	// private helper method -------------------------------------------------------------------------------------------
 	
 	private static FixedWidthColumnDescriptor[] parse(String pattern) throws ParseException {
-		return FixedWidthUtil.parseBeanColumnsSpec(pattern, "", Locale.US);
+		return FixedWidthUtil.parseBeanColumnsSpec(pattern, "test", "", Locale.US).getColumnDescriptors();
 	}
 	
 }

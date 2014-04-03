@@ -50,11 +50,11 @@ import java.util.Locale;
  */
 public class FixedWidthUtil {
 	
-    public static FixedWidthColumnDescriptor[] parseBeanColumnsSpec(String properties, String nullString, Locale locale) throws ParseException {
+    public static FixedWidthRowTypeDescriptor parseBeanColumnsSpec(String properties, String rowTypeName, String nullString, Locale locale) throws ParseException {
         if (properties == null)
             return null;
         String[] propertyFormats = StringUtil.tokenize(properties, ',');
-        FixedWidthColumnDescriptor[] descriptors = new FixedWidthColumnDescriptor[propertyFormats.length];
+        FixedWidthColumnDescriptor[] columns = new FixedWidthColumnDescriptor[propertyFormats.length];
         for (int i = 0; i < propertyFormats.length; i++) {
             String propertyFormat = propertyFormats[i];
             int lbIndex = propertyFormat.indexOf('[');
@@ -67,19 +67,19 @@ public class FixedWidthUtil {
             String formatSpec = propertyFormat.substring(lbIndex + 1, rbIndex);
             FixedWidthColumnDescriptor descriptor = parseColumnFormat(formatSpec, nullString, locale);
             descriptor.setName(propertyName);
-			descriptors[i] = descriptor;
+			columns[i] = descriptor;
         }
-        return descriptors;
+        return new FixedWidthRowTypeDescriptor(rowTypeName, columns);
     }
     
-    public static FixedWidthColumnDescriptor[] parseArrayColumnsSpec(String columns, String nullString, Locale locale) throws ParseException {
-        if (columns == null)
+    public static FixedWidthRowTypeDescriptor parseArrayColumnsSpec(String columnsSpec, String rowTypeName, String nullString, Locale locale) throws ParseException {
+        if (columnsSpec == null)
             return null;
-        String[] columnFormats = StringUtil.tokenize(columns, ',');
-        FixedWidthColumnDescriptor[] descriptors = new FixedWidthColumnDescriptor[columnFormats.length];
+        String[] columnFormats = StringUtil.tokenize(columnsSpec, ',');
+        FixedWidthColumnDescriptor[] columns = new FixedWidthColumnDescriptor[columnFormats.length];
         for (int i = 0; i < columnFormats.length; i++)
-            descriptors[i] = parseColumnFormat(columnFormats[i], nullString, locale);
-        return descriptors;
+            columns[i] = parseColumnFormat(columnFormats[i], nullString, locale);
+        return new FixedWidthRowTypeDescriptor(rowTypeName, columns);
     }
     
 	public static FixedWidthColumnDescriptor parseColumnFormat(String formatSpec, String nullString, Locale locale) throws ParseException {

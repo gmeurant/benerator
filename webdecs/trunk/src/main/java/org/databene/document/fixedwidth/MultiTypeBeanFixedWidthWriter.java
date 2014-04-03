@@ -25,11 +25,11 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.databene.commons.Assert;
 import org.databene.commons.SystemInfo;
-import org.databene.commons.accessor.GraphAccessor;
 
 /**
  * Writes JavaBean properties (graphs) to a file with fixed-width columns.<br/><br/>
@@ -41,41 +41,37 @@ import org.databene.commons.accessor.GraphAccessor;
 public class MultiTypeBeanFixedWidthWriter implements Closeable {
 	
 	private final Writer out;
-	private Map<String, FixedWidthColumnDescriptor[]> rowFormats;
+	private Map<String, FixedWidthRowTypeDescriptor> rowDescriptors;
 	
 	public MultiTypeBeanFixedWidthWriter(Writer out) {
 		this(out, null);
 	}
 	
-	public MultiTypeBeanFixedWidthWriter(Writer out, Map<String, FixedWidthColumnDescriptor[]> rowFormats) {
+	public MultiTypeBeanFixedWidthWriter(Writer out, List<FixedWidthRowTypeDescriptor> rowDescriptors) {
 		Assert.notNull(out, "Writer");
 		this.out = out;
-		this.rowFormats = new HashMap<String, FixedWidthColumnDescriptor[]>();
-		if (rowFormats != null)
-			for (Map.Entry<String, FixedWidthColumnDescriptor[]> entry : rowFormats.entrySet())
-				addRowFormat(entry.getKey(), entry.getValue());
+		this.rowDescriptors = new HashMap<String, FixedWidthRowTypeDescriptor>();
+		if (rowDescriptors != null)
+			for (FixedWidthRowTypeDescriptor rowDescriptor : rowDescriptors)
+				addRowFormat(rowDescriptor.getName(), rowDescriptor);
 	}
 	
-	public void addRowFormat(String simpleClassName, FixedWidthColumnDescriptor[] cellFormats) {
-		this.rowFormats.put(simpleClassName, cellFormats);
+	public void addRowFormat(String simpleClassName, FixedWidthRowTypeDescriptor rowDescriptor) {
+		this.rowDescriptors.put(simpleClassName, rowDescriptor);
 	}
 	
-	public FixedWidthColumnDescriptor[] getRowFormat(String simpleClassName) {
-		return this.rowFormats.get(simpleClassName);
+	public FixedWidthRowTypeDescriptor getRowFormat(String simpleClassName) {
+		return this.rowDescriptors.get(simpleClassName);
 	}
 	
 	public void write(Object bean) throws IOException {
 		// Check preconditions
 		Assert.notNull(bean, "bean");
-		FixedWidthColumnDescriptor[] cellFormats = rowFormats.get(bean.getClass().getSimpleName());
+		FixedWidthRowTypeDescriptor cellFormats = rowDescriptors.get(bean.getClass().getSimpleName());
 		if (cellFormats == null)
 			throw new IllegalArgumentException("Bean class not configured: " + bean.getClass().getSimpleName());
-		// format array
-		for (int i = 0; i < cellFormats.length; i++) {
-			String path = cellFormats[i].getName();
-			Object value = GraphAccessor.getValue(path, bean);
-			out.write(cellFormats[i].format(value));
-		}
+		// format row
+		out.write(cellFormats.formatBean(bean));
 		out.write(SystemInfo.getLineSeparator());
 	}
 

@@ -25,6 +25,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.databene.commons.Assert;
@@ -40,37 +41,33 @@ import org.databene.commons.SystemInfo;
 public class MultiTypeArrayFixedWidthWriter implements Closeable {
 	
 	private final Writer out;
-	private Map<String, FixedWidthColumnDescriptor[]> rowFormats;
+	private Map<String, FixedWidthRowTypeDescriptor> rowDescriptors;
 	
 	public MultiTypeArrayFixedWidthWriter(Writer out) {
 		this(out, null);
 	}
 	
-	public MultiTypeArrayFixedWidthWriter(Writer out, Map<String, FixedWidthColumnDescriptor[]> rowFormats) {
+	public MultiTypeArrayFixedWidthWriter(Writer out, List<FixedWidthRowTypeDescriptor> rowDescriptors) {
 		Assert.notNull(out, "Writer");
 		this.out = out;
-		this.rowFormats = new HashMap<String, FixedWidthColumnDescriptor[]>();
-		if (rowFormats != null)
-			for (Map.Entry<String, FixedWidthColumnDescriptor[]> entry : rowFormats.entrySet())
-				addRowFormat(entry.getKey(), entry.getValue());
+		this.rowDescriptors = new HashMap<String, FixedWidthRowTypeDescriptor>();
+		if (rowDescriptors != null)
+			for (FixedWidthRowTypeDescriptor rowDescriptor : rowDescriptors)
+				addRowFormat(rowDescriptor);
 	}
 	
-	public void addRowFormat(String rowType, FixedWidthColumnDescriptor[] cellFormats) {
-		this.rowFormats.put(rowType, cellFormats);
+	public void addRowFormat(FixedWidthRowTypeDescriptor rowDescriptor) {
+		this.rowDescriptors.put(rowDescriptor.getName(), rowDescriptor);
 	}
 	
-	public void write(String rowType, Object... values) throws IOException {
+	public void write(String rowTypeName, Object... values) throws IOException {
 		// Check preconditions
 		Assert.notNull(values, "array");
-		FixedWidthColumnDescriptor[] cellFormats = rowFormats.get(rowType);
-		if (cellFormats == null)
-			throw new IllegalArgumentException("Illegal row type: " + rowType);
-		if (values.length != cellFormats.length)
-			throw new IllegalArgumentException("Expected " + cellFormats + " array elements " +
-					"for row type '" + rowType + "' but found: " + values.length);
+		FixedWidthRowTypeDescriptor rowType = rowDescriptors.get(rowTypeName);
+		if (rowType == null)
+			throw new IllegalArgumentException("Illegal row type: " + rowTypeName);
 		// format array
-		for (int i = 0; i < cellFormats.length; i++)
-			out.write(cellFormats[i].format(values[i]));
+		out.write(rowType.formatArray(values));
 		out.write(SystemInfo.getLineSeparator());
 	}
 

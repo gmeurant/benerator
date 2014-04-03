@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -56,11 +56,11 @@ public class ArrayFixedWidthWriterTest {
         StringWriter out = new StringWriter();
         ArrayFixedWidthWriter<Integer> writer = new ArrayFixedWidthWriter<Integer>(
                 out, new ConstantScript("header" + SEP), new ConstantScript("footer"),
-                new FixedWidthColumnDescriptor[] {
+                new FixedWidthRowTypeDescriptor("default", new FixedWidthColumnDescriptor[] {
                         new FixedWidthColumnDescriptor(2, Alignment.LEFT),
                         new FixedWidthColumnDescriptor(3, Alignment.RIGHT),
                         new FixedWidthColumnDescriptor(1, Alignment.LEFT)
-                }
+                })
         );
         writer.writeElement(new Integer[] {  1,  2, 3 });
         writer.writeElement(new Integer[] { 14, 15, 6 });

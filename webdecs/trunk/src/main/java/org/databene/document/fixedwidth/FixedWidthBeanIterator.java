@@ -52,7 +52,8 @@ public class FixedWidthBeanIterator<E> extends DataIteratorAdapter<String[], E> 
 		super(null);
 		this.locale = Locale.US;
 		this.beanClass = beanClass;
-		this.columnDescriptors = FixedWidthUtil.parseBeanColumnsSpec(columnFormats, nullString, locale);
+		FixedWidthRowTypeDescriptor rowDescriptor = FixedWidthUtil.parseBeanColumnsSpec(columnFormats, beanClass.getSimpleName(), nullString, locale);
+		this.columnDescriptors = rowDescriptor.getColumnDescriptors();
 		PadFormat[] formats = BeanUtil.extractProperties(this.columnDescriptors, "format", PadFormat.class);
 		source = new FixedWidthLineIterator(uri, formats);
 	}
