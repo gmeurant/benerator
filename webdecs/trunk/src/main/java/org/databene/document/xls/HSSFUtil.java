@@ -32,6 +32,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.databene.commons.ConfigurationError;
@@ -125,11 +126,29 @@ public class HSSFUtil {
 				sheet.autoSizeColumn(colnum);
 		}
 	}
-
+	
+	public static boolean isEmpty(Row row) {
+		if (row == null)
+			return true;
+		for (int i = 0; i < row.getLastCellNum(); i++)
+			if (!isEmpty(row.getCell(i)))
+				return false;
+		return true;
+	}
+	
+	public static boolean isEmpty(Cell cell) {
+		if (cell == null)
+			return true;
+		if (cell.getCellType() == HSSFCell.CELL_TYPE_BLANK)
+			return true;
+		if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING)
+			return cell.getStringCellValue().isEmpty();
+		return false;
+	}
 	
 	
 	// private helpers -------------------------------------------------------------------------------------------------
-
+	
 	private static FormulaEvaluator createFormulaEvaluator(Cell cell) {
 		return cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
 	}
