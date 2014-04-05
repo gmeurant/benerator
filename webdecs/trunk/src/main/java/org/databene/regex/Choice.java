@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -30,40 +30,69 @@ import java.util.List;
 import java.util.Arrays;
 
 /**
- * Represents an alternative expression part of a regular expression, e.g. '(yes|no)'.<r/>
+ * Represents an alternative expression part of a regular expression, e.g. '(yes|no)'.<br/>
  * <br/>
  * Created: 17.09.2006 16:14:14
  */
-public class Choice {
-
+public class Choice implements RegexPart {
+	
     /** The alternatives */
-    private Object[] alternatives;
-
+    private RegexPart[] alternatives;
+    
+    
     // constructors ----------------------------------------------------------------------------------------------------
-
+    
     /** Constructor that takes a list of alternative patterns */
-    public Choice(List<Object> alternatives) {
-    	Object[] ra = new Object[alternatives.size()];
+    public Choice(List<RegexPart> alternatives) {
+    	RegexPart[] ra = new RegexPart[alternatives.size()];
         this.alternatives = alternatives.toArray(ra);
     }
-
+    
     /** Constructor that takes an array of alternative patterns */
-    public Choice(Object ... alternatives) {
+    public Choice(RegexPart... alternatives) {
         this.alternatives = alternatives;
     }
-
+    
+    
     // properties ------------------------------------------------------------------------------------------------------
-
+    
     /** Returns the alternative patterns */
-    public Object[] getAlternatives() {
+    public RegexPart[] getAlternatives() {
         return alternatives;
     }
+    
+    
+    // RegexPart interface implementation ------------------------------------------------------------------------------
+    
+	@Override
+	public int minLength() {
+		if (this.alternatives.length == 0)
+			return 0;
+		int min = alternatives[0].minLength();
+		for (int i = alternatives.length - 1; i >= 1; i--)
+			min = Math.min(min, alternatives[i].minLength());
+		return min;
+	}
 
+	@Override
+	public Integer maxLength() {
+		if (this.alternatives.length == 0)
+			return 0;
+		int max = 0;
+		for (RegexPart candidate : alternatives) {
+			Integer partMaxLength = candidate.maxLength();
+			if (partMaxLength == null)
+				return null; // if any option is unlimited, then the whole choice is unlimited
+			if (partMaxLength > max)
+				max = partMaxLength;
+		}
+		return max;
+	}
+	
+	
     // java.lang.Object overrides --------------------------------------------------------------------------------------
-
-    /**
-     * @see java.lang.Object#equals(Object)
-     */
+    
+    /** @see java.lang.Object#equals(Object) */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,18 +100,14 @@ public class Choice {
             return false;
         return Arrays.equals(alternatives, ((Choice)o).alternatives);
     }
-
-    /**
-     * @see java.lang.Object#hashCode()
-     */
+    
+    /** @see java.lang.Object#hashCode() */
     @Override
     public int hashCode() {
         return Arrays.hashCode(alternatives);
     }
-
-    /**
-     * @see java.lang.Object#toString()
-     */
+    
+    /** @see java.lang.Object#toString() */
     @Override
     public String toString() {
         StringBuilder buffer = new StringBuilder("(");
@@ -94,5 +119,5 @@ public class Choice {
         buffer.append(')');
         return buffer.toString();
     }
-
+    
 }

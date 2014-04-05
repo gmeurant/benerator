@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -31,43 +31,55 @@ package org.databene.regex;
  * <br/>
  * Created: 18.08.2006 19:11:31
  */
-public class Factor {
-
+public class Factor implements RegexPart {
+	
     /** The sub pattern */
-    private Object atom;
-
+    private RegexPart atom;
+    
     /** The quantifier */
     private Quantifier quantifier;
-
+    
     // constructors ----------------------------------------------------------------------------------------------------
-
-    public Factor(Object pattern) {
+    
+    public Factor(RegexPart pattern) {
         this(pattern, 1, 1);
     }
-
-    public Factor(Object atom, int minQuantity, Integer maxQuantity) {
+    
+    public Factor(RegexPart atom, int minQuantity, Integer maxQuantity) {
         this(atom, new Quantifier(minQuantity, maxQuantity));
     }
-
-    public Factor(Object atom, Quantifier quantifier) {
+    
+    public Factor(RegexPart atom, Quantifier quantifier) {
         this.atom = atom;
         this.quantifier = quantifier;
     }
-
+    
     // properties ------------------------------------------------------------------------------------------------------
-
+    
     /** Returns the atom */
-    public Object getAtom() {
+    public RegexPart getAtom() {
         return atom;
     }
-
+    
     /** Returns the represented quantifier */
     public Quantifier getQuantifier() {
         return quantifier;
     }
-
+    
+	@Override
+	public int minLength() {
+		return atom.minLength() * quantifier.getMin();
+	}
+	
+	@Override
+	public Integer maxLength() {
+		Integer maxAtomLength = atom.maxLength();
+		Integer maxQuantifier = quantifier.getMax();
+		return (maxAtomLength != null && maxQuantifier != null ? maxAtomLength * maxQuantifier : null);
+	}
+    
     // java.lang.Object overrides --------------------------------------------------------------------------------------
-
+	
     /**
      * @see java.lang.Object#equals(Object)
      */
@@ -77,12 +89,11 @@ public class Factor {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        final Factor regexPart = (Factor) o;
-        if (!atom.equals(regexPart.atom))
-            return false;
-        return quantifier.equals(regexPart.quantifier);
+        final Factor that = (Factor) o;
+        return (this.atom.equals(that.atom) && 
+        		that.quantifier.equals(that.quantifier));
     }
-
+    
     /**
      * @see java.lang.Object#equals(Object)
      */
@@ -90,7 +101,7 @@ public class Factor {
     public int hashCode() {
         return 29 * atom.hashCode() + quantifier.hashCode();
     }
-
+    
     /**
      * @see java.lang.Object#equals(Object)
      */

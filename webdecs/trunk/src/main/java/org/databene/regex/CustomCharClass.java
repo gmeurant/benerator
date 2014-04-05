@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -27,7 +27,6 @@
 package org.databene.regex;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import org.databene.commons.CharSet;
@@ -40,105 +39,91 @@ import org.databene.commons.CharSet;
  * @author Volker Bergmann
  */
 
-public class CustomCharClass {
-
-	private List<?> included;
-	private List<?> excluded;
+public class CustomCharClass extends RegexCharClass {
+	
+	private List<RegexCharClass> inclusions;
+	private List<RegexCharClass> exclusions;
 	
 	// constructors ----------------------------------------------------------------------------------------------------
-
+	
 	public CustomCharClass() {
-		this(new ArrayList<Object>());
+		this(null);
 	}
 	
-    public CustomCharClass(List<?> included) {
-	    this(included, new ArrayList<Object>());
-    }
-
-    public CustomCharClass(List<?> included, List<?> excluded) {
-	    this.included = included;
-	    this.excluded = excluded;
+    public CustomCharClass(List<? extends RegexCharClass> includedSets) {
+	    this(includedSets, null);
     }
     
-    // properties ------------------------------------------------------------------------------------------------------
-
-	@SuppressWarnings("unchecked")
-    public List<Object> getIncluded() {
-    	return (List<Object>) included;
+    public CustomCharClass(List<? extends RegexCharClass> includedSets, List<? extends RegexCharClass> excludedSets) {
+	    this.inclusions = new ArrayList<RegexCharClass>();
+	    if (includedSets != null)
+	    	this.inclusions.addAll(includedSets);
+	    this.exclusions = new ArrayList<RegexCharClass>();
+	    if (excludedSets != null)
+	    	this.exclusions.addAll(excludedSets);
     }
-
-	public void setIncluded(List<Object> included) {
-    	this.included = included;
-    }
-
-	@SuppressWarnings("unchecked")
-    public List<Object> getExcluded() {
-    	return (List<Object>) excluded;
-    }
-
-	public void setExcluded(List<Object> excluded) {
-    	this.excluded = excluded;
-    }
-	
+    
+    
+    // interface -------------------------------------------------------------------------------------------------------
+    
+	@Override
 	public CharSet getCharSet() {
-		CharSet result = new CharSet(this.toString(), new HashSet<Character>());
-		for (Object incl : included)
-			result.addAll(RegexParser.toSet(incl));
-		for (Object excl : excluded)
-			result.removeAll(RegexParser.toSet(excl));
-		return result;
+		CharSet set = new CharSet();
+		for (RegexCharClass inclusion : inclusions)
+			set.addAll(inclusion.getCharSet().getSet());
+		for (RegexCharClass exclusion : exclusions)
+			set.removeAll(exclusion.getCharSet().getSet());
+		return set;
 	}
 	
+	public void addInclusion(RegexCharClass set) {
+		this.inclusions.add(set);
+	}
+	
+	public void addExclusions(RegexCharClass set) {
+		this.exclusions.add(set);
+	}
+	
+	public boolean hasInclusions() {
+		return !inclusions.isEmpty();
+	}
+	
+	
+	// private helpers -------------------------------------------------------------------------------------------------
+	
+    private static void appendToString(List<?> objects, StringBuilder builder) {
+	    for (Object object : objects)
+	    	builder.append(object);
+    }
+    
+    
 	// java.lang.Object overrides --------------------------------------------------------------------------------------
-
-    @Override
-    public int hashCode() {
-	    final int prime = 31;
-	    int result = 1;
-	    result = prime * result + ((excluded == null) ? 0 : excluded.hashCode());
-	    result = prime * result + ((included == null) ? 0 : included.hashCode());
-	    return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-	    if (this == obj)
-		    return true;
-	    if (obj == null)
-		    return false;
-	    if (getClass() != obj.getClass())
-		    return false;
-	    CustomCharClass other = (CustomCharClass) obj;
-	    if (excluded == null) {
-		    if (other.excluded != null)
-			    return false;
-	    } else if (!excluded.equals(other.excluded))
-		    return false;
-	    if (included == null) {
-		    if (other.included != null)
-			    return false;
-	    } else if (!included.equals(other.included))
-		    return false;
-	    return true;
-    }
-
-	/** @see java.lang.Object#toString() */
+	
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder("[");
-		appendToString(included, result);
-		if (!excluded.isEmpty()) {
+		appendToString(inclusions, result);
+		if (!exclusions.isEmpty()) {
 			result.append('^');
-			appendToString(excluded, result);
+			appendToString(exclusions, result);
 		}
 		return result.append(']').toString();
 	}
 	
-	// private helpers -------------------------------------------------------------------------------------------------
-
-    private void appendToString(List<?> objects, StringBuilder builder) {
-	    for (Object object : objects)
-	    	builder.append(object);
-    }
+	@Override
+	public int hashCode() {
+		return 31 * exclusions.hashCode() + inclusions.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
+		CustomCharClass that = (CustomCharClass) obj;
+		return (this.inclusions.equals(that.inclusions) && 
+				this.exclusions.equals(that.exclusions));
+	}
 
 }

@@ -44,65 +44,60 @@ import org.slf4j.LoggerFactory;
  */
 public class RegexParserTest {
 
-	private static final CharSet CS_DIGIT = new CharSet("\\d", '0', '9');
-    private static final CharSet CS_POS_DIGIT = new CharSet("1-9", '1', '9');
-
-    private static final CustomCharClass CC_DIGIT = new CustomCharClass(CollectionUtil.toList(CS_DIGIT));
-    private static final CustomCharClass CC_POS_DIGIT = new CustomCharClass(CollectionUtil.toList(CS_POS_DIGIT));
-
 	private static Logger logger = LoggerFactory.getLogger(RegexParserTest.class);
     
 	@Test
     public void testEmpty() throws Exception {
-        check(null, null);
-        check("", "");
+        check(null, null, 0, 0);
+        check("", new RegexString(""), 0, 0);
     }
 
 	@Test
     public void testSpecialCharacters() throws Exception {
-        check("\\+", '+');
-        check("\\-", '-');
-        check("\\*", '*');
-        check("\\?", '?');
-        check("\\\\", '\\');
-        check("\\.", '.');
-        check("\\,", ',');
-        check("\\?", '?');
-        check("\\&", '&');
-        check("\\^", '^');
-        check("\\$", '$');
-        check("\\t", '\t');
-        check("\\n", '\n');
-        check("\\r", '\r');
-        check("\\f", '\u000C');
-        check("\\a", '\u0007');
-        check("\\e", '\u001B');
+        checkChar("\\+", '+');
+        checkChar("\\-", '-');
+        checkChar("\\*", '*');
+        checkChar("\\?", '?');
+        checkChar("\\\\", '\\');
+        checkChar("\\.", '.');
+        checkChar("\\,", ',');
+        checkChar("\\?", '?');
+        checkChar("\\&", '&');
+        checkChar("\\^", '^');
+        checkChar("\\$", '$');
+        checkChar("\\t", '\t');
+        checkChar("\\n", '\n');
+        checkChar("\\r", '\r');
+        checkChar("\\f", '\u000C');
+        checkChar("\\a", '\u0007');
+        checkChar("\\e", '\u001B');
     }
 
 	@Test
     public void testHexCharacter() throws Exception {
-        check("\\xfe",   (char) 0xfe);
-        check("\\ufedc", (char) 0xfedc);
+        checkChar("\\xfe",   (char) 0xfe);
+        checkChar("\\ufedc", (char) 0xfedc);
     }
 
 	@Test
     public void testOctalCharacter() throws Exception {
-        check("\\0123",  (char) 0123);
+        checkChar("\\0123",  (char) 0123);
     }
 
 	@Test
     public void testCodedCharacter() throws Exception {
-        check("\\cB",    (char) 1);
+        checkChar("\\cB",    (char) 1);
     }
 
 	@Test
     public void testCustomClasses() throws Exception {
-        check("[a-c]", new CustomCharClass(CollectionUtil.toList(new CharSet('a', 'c'))));
-        check("[a-cA-C]", new CustomCharClass(CollectionUtil.toList(new CharSet('a', 'c'), new CharSet('A', 'C'))));
+        check("[a-c]", new CustomCharClass(CollectionUtil.toList(new CharRange("a-c", 'a', 'c'))), 1, 1);
+        check("[a-cA-C]", new CustomCharClass(
+        		CollectionUtil.toList(new CharRange("a-c", 'a', 'c'), new CharRange("A-C", 'A', 'C'))), 1, 1);
         check("[^\\w]", new CustomCharClass(
-        		CollectionUtil.toList(new CharSet().addAnyCharacters()),
-        		CollectionUtil.toList(new CharSet().addWordChars())
-        	));
+        		CollectionUtil.toList(new SimpleCharSet(".", new CharSet().addAnyCharacters().getSet())),
+        		CollectionUtil.toList(new SimpleCharSet("\\w", new CharSet().addWordChars().getSet()))
+        	), 1, 1);
     }
 
 	@Test(expected = SyntaxError.class)
@@ -112,10 +107,10 @@ public class RegexParserTest {
 
 	@Test
     public void testPredefClasses() throws Exception {
-        check(".", new CharSet().addAnyCharacters());
-        check("\\d", new CharSet().addDigits());
-        check("\\s", new CharSet().addWhitespaces());
-        check("\\w", new CharSet().addWordChars());
+        check(".", new SimpleCharSet(".", new CharSet().addAnyCharacters().getSet()), 1, 1);
+        check("\\d", new SimpleCharSet("\\d", new CharSet().addDigits().getSet()), 1, 1);
+        check("\\s", new SimpleCharSet("\\s", new CharSet().addWhitespaces().getSet()), 1, 1);
+        check("\\w", new SimpleCharSet("\\w", new CharSet().addWordChars().getSet()), 1, 1);
     }
 
 	@Test(expected = SyntaxError.class)
@@ -125,14 +120,14 @@ public class RegexParserTest {
 
 	@Test
     public void testQuantifiers() throws Exception {
-        check("a",      'a');
-        check("a?",     new Factor('a', 0, 1));
-        check("a*",     new Factor('a', 0, null));
-        check("a+",     new Factor('a', 1, null));
+        check("a",      new RegexChar('a'),                      1, 1);
+        check("a?",     new Factor(new RegexChar('a'), 0, 1),    0, 1);
+        check("a*",     new Factor(new RegexChar('a'), 0, null), 0, null);
+        check("a+",     new Factor(new RegexChar('a'), 1, null), 1, null);
 
-        check("a{3}",   new Factor('a', 3,  3));
-        check("a{3,}",  new Factor('a', 3, null));
-        check("a{3,5}", new Factor('a', 3,  5));
+        check("a{3}",   new Factor(new RegexChar('a'), 3,  3),   3, 3);
+        check("a{3,}",  new Factor(new RegexChar('a'), 3, null), 3, null);
+        check("a{3,5}", new Factor(new RegexChar('a'), 3,  5),   3, 5);
     }
     
 	@Test(expected = SyntaxError.class)
@@ -143,88 +138,104 @@ public class RegexParserTest {
 	@Test
     public void testClassAndQuantifierSequences() throws Exception {
         check("\\w+\\d+", new Sequence(
-                new Factor(new CharSet().addWordChars(), 1, null),
-                new Factor(new CharSet().addDigits(), 1, null)
-        	));
+                new Factor(new SimpleCharSet("\\w", new CharSet().addWordChars().getSet()), 1, null),
+                new Factor(new SimpleCharSet("\\d", new CharSet().addDigits().getSet()), 1, null)
+        	), 2, null);
         check("[a-c][A-C]", new Sequence(
-                new CustomCharClass(CollectionUtil.toList(new CharSet().addRange('a', 'c'))),
-                new CustomCharClass(CollectionUtil.toList(new CharSet().addRange('A', 'C')))
-    	));
+                new CustomCharClass(CollectionUtil.toList(new CharRange("a-c", 'a', 'c'))),
+                new CustomCharClass(CollectionUtil.toList(new CharRange("A-C", 'A', 'C')))
+    	), 2, 2);
+		
+		RegexCharClass CS_DIGIT = new SimpleCharSet("\\d", new CharSet().addDigits().getSet());
+		CharRange CS_0_9 = new CharRange("0-9", '0', '9');
+	    CustomCharClass CC_0_9 = new CustomCharClass(CollectionUtil.toList(CS_0_9));
+
+	    RegexCharClass CS_POS_DIGIT = new CharRange("1-9", '1', '9');
+	    CustomCharClass CC_POS_DIGIT = new CustomCharClass(CollectionUtil.toList(CS_POS_DIGIT));
 
         check("\\+[1-9]\\d{1,2}/\\d+/\\d+", new Sequence(
-                '+',
+                new RegexChar('+'),
                 CC_POS_DIGIT,
                 new Factor(CS_DIGIT, 1, 2),
-                '/',
+                new RegexChar('/'),
                 new Factor(CS_DIGIT, 1, null),
-                '/',
+                new RegexChar('/'),
                 new Factor(CS_DIGIT, 1, null)
-    	));
+    	), 7, null);
 
         check("[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}", new Sequence(
-                new Factor(CC_DIGIT, 1, 3),
-                '.',
-                new Factor(CC_DIGIT, 1, 3),
-                '.',
-                new Factor(CC_DIGIT, 1, 3),
-                '.',
-                new Factor(CC_DIGIT, 1, 3)
-    	));
+                new Factor(CC_0_9, 1, 3),
+                new RegexChar('.'),
+                new Factor(CC_0_9, 1, 3),
+                new RegexChar('.'),
+                new Factor(CC_0_9, 1, 3),
+                new RegexChar('.'),
+                new Factor(CC_0_9, 1, 3)
+    	), 7, 15);
     }
 
 	@Test
     public void testGroups() throws Exception {
-        check("(a)", new Group('a'));
+        check("(a)", new Group(new RegexChar('a')), 1, 1);
 
-        check("(ab)", new Group(new Sequence('a', 'b')));
+        check("(ab)", new Group(new Sequence(new RegexChar('a'), new RegexChar('b'))), 2, 2);
 
-        check("(a)*", new Factor(new Group('a'), 0, null));
+        check("(a)*", new Factor(new Group(new RegexChar('a')), 0, null), 0, null);
 
         check("(a?b+)*",
         	new Factor(new Group(new Sequence(
-                new Factor('a', 0, 1),
-                new Factor('b', 1, null)
+                new Factor(new RegexChar('a'), 0, 1),
+                new Factor(new RegexChar('b'), 1, null)
         	)), 
-        	0, null));
+        	0, null), 0, null);
 
         check("(a{1}b{2,3}){4,5}", 
         	new Factor(new Group(
 	        	new Sequence(
-	                new Factor('a', 1, 1),
-	                new Factor('b', 2, 3)
+	                new Factor(new RegexChar('a'), 1, 1),
+	                new Factor(new RegexChar('b'), 2, 3)
 	        	)), 
 	        	4, 5
-        	)
+        	), 12, 20
         );
     }
 
 	@Test
     public void testChoices() throws Exception {
-        check("(a|b)", new Group(new Choice('a', 'b')));
+        check("(a|b)", new Group(new Choice(new RegexChar('a'), new RegexChar('b'))), 1, 1);
         check("(a?|b+)*", 
         	new Factor(
         		new Group(new Choice(
-        				new Factor('a', 0, 1),
-        				new Factor('b', 1, null)
+        				new Factor(new RegexChar('a'), 0, 1),
+        				new Factor(new RegexChar('b'), 1, null)
         		)), 
         		0, null
-        	));
+        	), 0, null);
+        check("(a{1,2}|b)", 
+            new Group(new Choice(
+                new Factor(new RegexChar('a'), 1, 2),
+                new RegexChar('b'))
+            ), 1, 2);
     }
-
+	
 	@Test
     public void testRecursion() throws Exception {
         check("(a{1,2}|b){1,3}", 
         	new Factor(
 	            new Group(new Choice(
-	                new Factor('a', 1, 2),
-	                'b')), 
+	                new Factor(new RegexChar('a'), 1, 2),
+	                new RegexChar('b'))), 
 	            1, 3
-	        ));
+	        ), 1, 6);
     }
 
-    private void check(String pattern, Object expectedPart) throws Exception {
+    private static void checkChar(String pattern, char expectedChar) throws Exception {
+    	check(pattern, new RegexChar(expectedChar), 1, 1);
+    }
+
+    private static void check(String pattern, Object expectedPart, int expMinLength, Integer expMaxLength) throws Exception {
         logger.debug("checking " + pattern);
-        Object result = new RegexParser().parseRegex(pattern);
+        RegexPart result = new RegexParser().parseRegex(pattern);
         logger.debug("parsed as: " + StringUtil.normalize(String.valueOf(result)));
         if (pattern == null)
             assertEquals(expectedPart, result);
@@ -232,6 +243,10 @@ public class RegexParserTest {
             assertNull(expectedPart);
         else
             assertEquals(expectedPart, result);
+        if (pattern != null) {
+	        assertEquals("Wrong minLength.", expMinLength, result.minLength());
+	        assertEquals("Wrong maxLength.", expMaxLength, result.maxLength());
+        }
     }
 
 }

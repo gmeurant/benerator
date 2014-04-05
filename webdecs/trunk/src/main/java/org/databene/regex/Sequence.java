@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -33,46 +33,64 @@ import java.util.Arrays;
  * <br/>
  * @see Factor 
  */
-public class Sequence {
-
+public class Sequence implements RegexPart {
+	
     /** The represented sequence of regular expression factors */
-    private Object[] factors;
-
+    private RegexPart[] factors;
+    
     // constructors ----------------------------------------------------------------------------------------------------
-
-    public Sequence(Object ... factors) {
+    
+    public Sequence(RegexPart ... factors) {
         this.factors = factors;
     }
-
-    public Object[] getFactors() {
+    
+    public RegexPart[] getFactors() {
         return factors;
     }
-
+    
+    
+    // RegexPart interface implementation ------------------------------------------------------------------------------
+    
+	@Override
+	public int minLength() {
+		int min = 0;
+		for (RegexPart part : factors)
+			min += part.minLength();
+		return min;
+	}
+	
+	@Override
+	public Integer maxLength() {
+		int max = 0;
+		for (RegexPart part : factors) {
+			Integer partMaxLength = part.maxLength();
+			if (partMaxLength == null) // if one sequence component is unlimited, then the whole sequence is unlimited
+				return null;
+			max += partMaxLength;
+		}
+		return max;
+	}
+    
     // java.lang.Object overrides --------------------------------------------------------------------------------------
-
-    /**
-     * @see java.lang.Object#equals(Object)
-     */
+	
+    /** @see java.lang.Object#equals(Object) */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o)
+        	return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        final Sequence regex = (Sequence) o;
-        return Arrays.equals(factors, regex.factors);
+        final Sequence that = (Sequence) o;
+        return Arrays.equals(this.factors, that.factors);
     }
 
-    /**
-     * @see java.lang.Object#equals(Object)
-     */
+    /** @see java.lang.Object#equals(Object) */
     @Override
     public int hashCode() {
         return Arrays.hashCode(factors);
     }
 
-    /**
-     * @see java.lang.Object#equals(Object)
-     */
+    /** @see java.lang.Object#equals(Object) */
     @Override
     public String toString() {
         StringBuilder buffer = new StringBuilder();
@@ -80,5 +98,5 @@ public class Sequence {
             buffer.append(factor);
         return buffer.toString();
     }
-    
+
 }

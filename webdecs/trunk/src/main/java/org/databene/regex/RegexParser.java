@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -31,7 +31,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import org.antlr.runtime.ANTLRReaderStream;
 import org.antlr.runtime.CommonToken;
@@ -73,19 +72,19 @@ public class RegexParser {
     }
 
     // interface -------------------------------------------------------------------------------------------------------
-
+    /* TODO
     public static Set<Character> charsOfPattern(String pattern, Locale locale) {
         if (pattern == null) 
         	throw new IllegalArgumentException("pattern is null");
-        Object regex = new RegexParser(locale).parseSingleChar(pattern);
+        RegexPart regex = new RegexParser(locale).parseSingleChar(pattern);
         return RegexParser.toSet(regex);
     }
-    
-    public Object parseRegex(String pattern) throws SyntaxError {
+    */
+    public RegexPart parseRegex(String pattern) throws SyntaxError {
         if (pattern == null)
             return null;
         if (pattern.length() == 0)
-            return "";
+            return new RegexString("");
         try {
 	        RegexLexer lex = new RegexLexer(new ANTLRReaderStream(new StringReader(pattern)));
 	        CommonTokenStream tokens = new CommonTokenStream(lex);
@@ -95,7 +94,7 @@ public class RegexParser {
 	        if (r != null) {
 	        	CommonTree tree = (CommonTree) r.getTree();
         		LOGGER.debug("parsed {} to {}", pattern, tree.toStringTree());
-	            return convertNode(tree);
+	            return convertRegexPart(tree);
 	        } else
 	        	return null;
         } catch (RuntimeException e) {
@@ -110,11 +109,11 @@ public class RegexParser {
         }
     }
 
-    public Object parseSingleChar(String pattern) throws SyntaxError {
+    public RegexCharClass parseSingleChar(String pattern) throws SyntaxError {
         if (pattern == null)
             return null;
         if (pattern.length() == 0)
-            return "";
+            throw new IllegalArgumentException("Not a character class pattern: '" + pattern + "'");
         try {
 	        RegexLexer lex = new RegexLexer(new ANTLRReaderStream(new StringReader(pattern)));
 	        CommonTokenStream tokens = new CommonTokenStream(lex);
@@ -125,7 +124,10 @@ public class RegexParser {
 	        if (r != null) {
 	        	CommonTree tree = (CommonTree) r.getTree();
         		LOGGER.debug("parsed {} to {}", pattern, tree.toStringTree());
-	            return convertNode(tree);
+	            RegexPart regex = convertRegexPart(tree);
+	            if (!(regex instanceof RegexCharClass))
+	                throw new IllegalArgumentException("Not a character class pattern: '" + pattern + "'");
+				return (RegexCharClass) regex;
 	        } else
 	        	return null;
         } catch (RuntimeException e) {
@@ -140,7 +142,8 @@ public class RegexParser {
         }
     }
 
-	public static CharSet toCharSet(Object o) {
+    /*
+	public static CharSet toCharSet(RegexCharSet o) {
 		if (o instanceof CharSet)
 			return (CharSet) o;
 		else if (o instanceof Character)
@@ -151,70 +154,71 @@ public class RegexParser {
 			throw new IllegalArgumentException("Not a supported character regex type: " + o.getClass());
 	}
 
-    public static Set<Character> toSet(Object regex) {
+    public static Set<Character> toSet(RegexCharSet regex) {
 	    return toCharSet(regex).getSet();
     }
+     */
 	
-    private SyntaxError mapToSyntaxError(RecognitionException e, String parsedText) {
+    private static SyntaxError mapToSyntaxError(RecognitionException e, String parsedText) {
     	return new SyntaxError("Error parsing regular expression: " + e.getMessage(), parsedText, e.charPositionInLine, e.line);
     }
 
-	private Object convertNode(CommonTree node) throws SyntaxError {
+	private RegexPart convertRegexPart(CommonTree node) throws SyntaxError {
     	if (node == null)
     		return null;
     	if (node.getToken() == null)
-    		return "";
+    		return new RegexString("");
     	switch (node.getType()) {
 			case RegexLexer.CHOICE: return convertChoice(node);
 			case RegexLexer.GROUP: return convertGroup(node);
 			case RegexLexer.SEQUENCE: return convertSequence(node);
 			case RegexLexer.FACTOR: return convertFactor(node);
-			case RegexLexer.SIMPLEQUANTIFIER: return convertSimpleQuantifier(node);
+			case RegexLexer.PREDEFINEDCLASS: return convertPredefClass(node);
 			case RegexLexer.CLASS: return convertClass(node);
 			case RegexLexer.RANGE: return convertRange(node);
-			case RegexLexer.ALPHANUM: return convertAlphanum(node);
 			case RegexLexer.SPECIALCHARACTER: return convertAlphanum(node);
 			case RegexLexer.ESCAPEDCHARACTER: return convertEscaped(node);
 			case RegexLexer.NONTYPEABLECHARACTER: return convertNonTypeable(node);
 			case RegexLexer.OCTALCHAR: return convertOctal(node);
 			case RegexLexer.HEXCHAR: return convertHexChar(node);
 			case RegexLexer.CODEDCHAR: return convertCodedChar(node);
-			case RegexLexer.PREDEFINEDCLASS: return convertPredefClass(node);
-			default: throw new SyntaxError("Unknown token type: " + node.getToken(), node.toString(), node.getCharPositionInLine(), node.getLine());
+			case RegexLexer.ALPHANUM: return convertAlphanum(node);
+			default: throw new SyntaxError("Not a supported token type: " + node.getToken(), node.toString(), node.getCharPositionInLine(), node.getLine());
     	}
     }
 
+	
 	@SuppressWarnings("unchecked")
     private Group convertGroup(CommonTree node) throws SyntaxError {
     	List<CommonTree> childNodes = node.getChildren();
     	Assert.equals(1, childNodes.size(), "Group is expected to have exactly one child node");
-    	return new Group(convertNode(childNodes.get(0)));
+    	return new Group(convertRegexPart(childNodes.get(0)));
     }
 
 	@SuppressWarnings("unchecked")
     private Choice convertChoice(CommonTree node) throws SyntaxError {
     	List<CommonTree> childNodes = node.getChildren();
-    	List<Object> childPatterns = new ArrayList<Object>();
+    	List<RegexPart> childPatterns = new ArrayList<RegexPart>();
     	if (childNodes != null)
 	    	for (CommonTree childNode : childNodes)
-	    		childPatterns.add(convertNode(childNode));
-    	return new Choice(childPatterns.toArray());
+	    		childPatterns.add(convertRegexPart(childNode));
+    	return new Choice(CollectionUtil.toArray(childPatterns, RegexPart.class));
     }
 
     @SuppressWarnings("unchecked")
     private Sequence convertSequence(CommonTree tree) throws SyntaxError {
     	List<CommonTree> childNodes = tree.getChildren();
-    	List<Object> children = new ArrayList<Object>();
+    	List<RegexPart> children = new ArrayList<RegexPart>();
     	if (childNodes != null)
-	    	for (Object child : childNodes)
-	    		children.add(convertNode((CommonTree) child));
-    	return new Sequence(children.toArray());
+	    	for (CommonTree child : childNodes)
+	    		children.add(convertRegexPart((CommonTree) child));
+    	return new Sequence(CollectionUtil.toArray(children, RegexPart.class));
     }
 
     @SuppressWarnings("unchecked")
     private Factor convertFactor(CommonTree tree) throws SyntaxError {
     	List<CommonTree> children = tree.getChildren();
-    	Object subPattern = convertNode(children.get(0));
+    	RegexPart subPattern = convertRegexPart(children.get(0));
     	Quantifier quantifier = null;
     	if (children.size() > 1)
     		quantifier = convertQuantifier(children.get(1));
@@ -233,79 +237,79 @@ public class RegexParser {
 	    	    	List<CommonTree> gdChildren = child.getChildren();
 	    	    	if (gdChildren != null)
 	    	    		for (CommonTree gdChild : gdChildren)
-	    	    			result.getIncluded().add(convertNode(gdChild));
+	    	    			result.addInclusion((RegexCharClass) convertRegexPart(gdChild));
 	    		} else {
 	    	    	List<CommonTree> gdChildren = child.getChildren();
 	    	    	if (gdChildren != null)
 	    	    		for (CommonTree gdChild : gdChildren)
-	    	    			result.getExcluded().add(convertNode(gdChild));
+	    	    			result.addExclusions((RegexCharClass) convertRegexPart(gdChild));
 	    		}
 	    	}
-    	if (result.getIncluded().isEmpty())
-    		result.getIncluded().add(new CharSet().addAnyCharacters()); // for e.g. [^\d]
+    	if (!result.hasInclusions())
+    		result.addInclusion(new SimpleCharSet(".", new CharSet().addAnyCharacters())); // for e.g. [^\d]
     	return result;
     }
 
-    private char convertAlphanum(CommonTree node) {
-    	return node.getText().charAt(0);
+    private static RegexChar convertAlphanum(CommonTree node) {
+    	return new RegexChar(node.getText().charAt(0));
     }
 
-    private char convertNonTypeable(CommonTree node) throws SyntaxError {
+    private static RegexChar convertNonTypeable(CommonTree node) throws SyntaxError {
     	switch (node.getText().charAt(1)) {
-	    	case 'r' : return '\r'; // the carriage-return character
-	    	case 'n' : return '\n'; // the newline (line feed) character
-	    	case 't' : return '\t'; // the tab character
-	    	case 'f' : return '\f'; // the form-feed character
-	    	case 'a' : return '\u0007'; // the alert (bell) character
-	    	case 'e' : return '\u001B'; // the escape character
+	    	case 'r' : return new RegexChar('\r'); // the carriage-return character
+	    	case 'n' : return new RegexChar('\n'); // the newline (line feed) character
+	    	case 't' : return new RegexChar('\t'); // the tab character
+	    	case 'f' : return new RegexChar('\f'); // the form-feed character
+	    	case 'a' : return new RegexChar('\u0007'); // the alert (bell) character
+	    	case 'e' : return new RegexChar('\u001B'); // the escape character
 			default: throw new SyntaxError("invalid non-typeable char", node.getText(), node.getCharPositionInLine(), node.getLine());
     	}
     }
 
-    private char convertOctal(CommonTree node) {
-	    return (char) Integer.parseInt(node.getText().substring(2), 8);
+    private static RegexChar convertOctal(CommonTree node) {
+	    return new RegexChar((char) Integer.parseInt(node.getText().substring(2), 8));
     }
 
-    private char convertHexChar(CommonTree node) {
-	    return (char) Integer.parseInt(node.getText().substring(2), 16);
+    private static RegexChar convertHexChar(CommonTree node) {
+	    return new RegexChar((char) Integer.parseInt(node.getText().substring(2), 16));
     }
 
-    private char convertCodedChar(CommonTree node) {
-	    return (char) (Character.toUpperCase(node.getText().charAt(2)) - 'A');
+    private static RegexChar convertCodedChar(CommonTree node) {
+	    return new RegexChar((char) (Character.toUpperCase(node.getText().charAt(2)) - 'A'));
     }
 
-    private CharSet convertPredefClass(CommonTree node) throws SyntaxError {
+    private RegexCharClass convertPredefClass(CommonTree node) throws SyntaxError {
     	String text = node.getText();
     	if (".".equals(text))
-    		return new CharSet(".", CharSet.getAnyCharacters());
+    		return new SimpleCharSet(".", CharSet.getAnyCharacters());
 		char charClass = text.charAt(1);
         switch (charClass) {
-	        case 'd' : return new CharSet("\\d", CharSet.getDigits());
-	        case 'D' : return new CharSet("\\D", CharSet.getNonDigits());
-	        case 's' : return new CharSet("\\s", CharSet.getWhitespaces());
-	        case 'S' : return new CharSet("\\S", CharSet.getNonWhitespaces());
-	        case 'w' : return new CharSet("\\w", CharSet.getWordChars(locale));
-	        case 'W' : return new CharSet("\\W", CharSet.getNonWordChars());
+	        case 'd' : return new SimpleCharSet("\\d", CharSet.getDigits());
+	        case 'D' : return new SimpleCharSet("\\D", CharSet.getNonDigits());
+	        case 's' : return new SimpleCharSet("\\s", CharSet.getWhitespaces());
+	        case 'S' : return new SimpleCharSet("\\S", CharSet.getNonWhitespaces());
+	        case 'w' : return new SimpleCharSet("\\w", CharSet.getWordChars(locale));
+	        case 'W' : return new SimpleCharSet("\\W", CharSet.getNonWordChars());
 	        default: throw new SyntaxError("Unsupported character class", text, node.getCharPositionInLine(), node.getLine());
 	    }
     }
 
-    private Character convertEscaped(CommonTree node) {
+    private static RegexChar convertEscaped(CommonTree node) {
     	String text = node.getText();
-		return text.charAt(1);
+		return new RegexChar(text.charAt(1));
     }
 
     @SuppressWarnings("unchecked")
-    private Object convertRange(CommonTree node) throws SyntaxError {
+    private RegexCharClass convertRange(CommonTree node) throws SyntaxError {
     	List<CommonTree> children = node.getChildren();
     	CommonTree fromNode = children.get(0);
-		char from = (Character) convertNode(fromNode);
+		char from = ((RegexChar) convertRegexPart(fromNode)).getChar();
     	CommonTree toNode = children.get(1);
-		char to = (Character) convertNode(toNode);
-	    return new CharSet(fromNode.getText() + "-" + toNode.getText(), from, to);
+		char to = ((RegexChar) convertRegexPart(toNode)).getChar();
+	    return new CharRange(fromNode.getText() + "-" + toNode.getText(), from, to);
     }
 
-    private Quantifier convertQuantifier(CommonTree node) throws SyntaxError {
+	private static Quantifier convertQuantifier(CommonTree node) throws SyntaxError {
     	switch (node.getType()) {
 	    	case RegexLexer.SIMPLEQUANTIFIER : return convertSimpleQuantifier(node);
 	    	case RegexLexer.QUANT : return convertExplicitQuantifier(node);
@@ -314,7 +318,7 @@ public class RegexParser {
     }
     
     @SuppressWarnings("unchecked")
-    private Quantifier convertExplicitQuantifier(CommonTree tree) {
+    private static Quantifier convertExplicitQuantifier(CommonTree tree) {
     	int min = 0;
     	Integer max = null;
     	List<CommonTree> children = tree.getChildren();
@@ -325,12 +329,12 @@ public class RegexParser {
     	return result;
     }
 
-    private Integer convertInt(CommonTree node) {
+    private static Integer convertInt(CommonTree node) {
 	    Assert.equals(RegexLexer.INT, node.getType(), "node is not an integer");
 	    return Integer.parseInt(node.getText());
     }
 
-	private Quantifier convertSimpleQuantifier(CommonTree node) throws SyntaxError {
+	private static Quantifier convertSimpleQuantifier(CommonTree node) throws SyntaxError {
 	    Assert.equals(RegexLexer.SIMPLEQUANTIFIER, node.getType(), "node is not an simple quantifier");
 	    char letter = node.getText().charAt(0);
 	    switch (letter) {

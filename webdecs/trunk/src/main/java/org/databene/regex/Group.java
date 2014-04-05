@@ -30,26 +30,38 @@ package org.databene.regex;
  * Represents a group in a regular expression, e.g. '(abc)'.<br/>
  * <br/>
  */
-public class Group {
-
+public class Group implements RegexPart {
+	
     /** The regular sub expression */
-    private Object regex;
-
+    private RegexPart regex;
+    
     /** Constructor that takes a sub expression */
-    public Group(Object regex) {
+    public Group(RegexPart regex) {
         this.regex = regex;
     }
-
+    
     /** returns the sub expression */
-    public Object getRegex() {
+    public RegexPart getRegex() {
         return regex;
     }
+    
+    
+    // RegexPart interface implementation ------------------------------------------------------------------------------
+    
+	@Override
+	public int minLength() {
+		return regex.minLength();
+	}
 
+	@Override
+	public Integer maxLength() {
+		return regex.maxLength();
+	}
+	
+	
     // java.lang.Object overrides --------------------------------------------------------------------------------------
-
-    /**
-     * @see java.lang.Object#equals(Object)
-     */
+    
+    /** @see java.lang.Object#equals(Object) */
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -58,21 +70,17 @@ public class Group {
             return false;
         return regex.equals(((Group)o).regex);
     }
-
-    /**
-     * @see java.lang.Object#equals(Object)
-     */
+    
+    /** @see java.lang.Object#equals(Object) */
     @Override
     public int hashCode() {
         return regex.hashCode();
     }
-
-    /**
-     * @see java.lang.Object#equals(Object)
-     */
+    
+    /** @see java.lang.Object#equals(Object) */
     @Override
     public String toString() {
-        return "(" + regex + ')';
+        return "(" + regex + ")";
     }
 
 }
