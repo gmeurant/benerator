@@ -1,0 +1,17 @@
+release notes databene webdecs 0.8.0
+------------------------------------
+
+Enhancements
+------------
+- Improved regex parser
+- FixedWidthColumnDescriptor: Improved error messaging
+
+
+Changes
+-------
+- 
+
+
+Bug Fixes
+---------
+- 
