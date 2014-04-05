@@ -32,6 +32,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Date;
 
+import org.databene.commons.StringUtil;
 import org.databene.commons.format.Alignment;
 import org.databene.commons.format.PadFormat;
 
@@ -103,12 +104,29 @@ public class FixedWidthColumnDescriptor {
     // functional interface --------------------------------------------------------------------------------------------
     
     public String format(Object object) {
-    	return format.format(object);
+    	try {
+			return format.format(object);
+		} catch (IllegalArgumentException e) {
+			// enrich error message from PadFormat with the name of the column - if available
+			if (StringUtil.isEmpty(this.name))
+				throw new IllegalArgumentException("Error parsing column '" + this.name + "'. ", e);
+			else 
+				throw e;
+		}
     }
     
     public Object parse(String text) throws ParseException {
-    	return format.parseObject(text);
+    	try {
+			return format.parseObject(text);
+		} catch (IllegalArgumentException e) {
+			// enrich error message from PadFormat with the name of the column - if available
+			if (StringUtil.isEmpty(this.name))
+				throw new IllegalArgumentException("Error parsing column '" + this.name + "'. ", e);
+			else 
+				throw e;
+		}
     }
+    
     
     // private helpers -------------------------------------------------------------------------------------------------
     
