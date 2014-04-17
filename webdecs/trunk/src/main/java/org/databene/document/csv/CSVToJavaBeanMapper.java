@@ -58,7 +58,7 @@ public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
     }
 
     public CSVToJavaBeanMapper(Reader reader, Class<E> type, char separator, String emptyValue) throws IOException {
-        this.iterator = new CSVLineIterator(reader, separator);
+        this.iterator = new CSVLineIterator(reader, separator, true);
         this.type = type;
         this.emptyValue = emptyValue;
         String[] attributeNames = this.iterator.next(dataContainer.get()).getData();
