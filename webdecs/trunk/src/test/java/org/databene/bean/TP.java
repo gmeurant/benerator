@@ -47,6 +47,7 @@ public final class TP {
         return name;
     }
 
-    public static int getAge() { return 48; }
+    @SuppressWarnings("static-method")
+	public int getAge() { return 48; }
     
 }
