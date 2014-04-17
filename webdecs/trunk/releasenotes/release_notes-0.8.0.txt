@@ -5,6 +5,7 @@ Enhancements
 ------------
 - Improved regex parser
 - FixedWidthColumnDescriptor: Improved error messaging
+- CSVToJavaBeanMapper: Ignoring empty lines
 
 
 Changes
