@@ -72,14 +72,7 @@ public class RegexParser {
     }
 
     // interface -------------------------------------------------------------------------------------------------------
-    /* TODO
-    public static Set<Character> charsOfPattern(String pattern, Locale locale) {
-        if (pattern == null) 
-        	throw new IllegalArgumentException("pattern is null");
-        RegexPart regex = new RegexParser(locale).parseSingleChar(pattern);
-        return RegexParser.toSet(regex);
-    }
-    */
+    
     public RegexPart parseRegex(String pattern) throws SyntaxError {
         if (pattern == null)
             return null;

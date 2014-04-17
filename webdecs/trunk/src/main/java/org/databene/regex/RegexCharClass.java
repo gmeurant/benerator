@@ -24,7 +24,7 @@ package org.databene.regex;
 import org.databene.commons.CharSet;
 
 /**
- * TODO Document class.<br/><br/>
+ * Parent class for classes that represent a single character in a regular expression.<br/><br/>
  * Created: 04.04.2014 16:24:52
  * @since 0.8.0
  * @author Volker Bergmann

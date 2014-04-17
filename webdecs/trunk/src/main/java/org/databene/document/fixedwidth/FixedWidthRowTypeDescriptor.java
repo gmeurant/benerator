@@ -31,9 +31,10 @@ import org.databene.commons.accessor.GraphAccessor;
 import org.databene.commons.mutator.AnyMutator;
 
 /**
- * TODO Document class.<br/><br/>
+ * Row type support for fixed-width files: formatting, parsing and verification 
+ * for array- and bean-type data.<br/><br/>
  * Created: 28.03.2014 15:18:23
- * @since TODO version
+ * @since 0.7.3
  * @author Volker Bergmann
  */
 

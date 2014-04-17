@@ -24,7 +24,7 @@ package org.databene.regex;
 import org.databene.commons.Assert;
 
 /**
- * TODO Document class.<br/><br/>
+ * Represents a constant string which is part of a regular expression.<br/><br/>
  * Created: 04.04.2014 16:09:47
  * @since 0.8.0
  * @author Volker Bergmann

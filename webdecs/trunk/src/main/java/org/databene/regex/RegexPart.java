@@ -22,7 +22,7 @@
 package org.databene.regex;
 
 /**
- * TODO Document class.<br/><br/>
+ * Parent interface for all classes that represent parts of a regular expression.<br/><br/>
  * Created: 04.04.2014 15:47:50
  * @since 0.8.0
  * @author Volker Bergmann
