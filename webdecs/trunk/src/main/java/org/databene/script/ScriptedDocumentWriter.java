@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -92,11 +92,13 @@ public class ScriptedDocumentWriter<E> implements DocumentWriter<E> {
 
     // Script interface implementation ---------------------------------------------------------------------------------
 
+	@Override
 	public void setVariable(String name, Object value) {
         vars.put(name, value);
     }
 
-    public void writeElement(E part) throws IOException {
+    @Override
+	public void writeElement(E part) throws IOException {
         if (writeHeader) {
             writeHeader();
             writeHeader = false;
@@ -109,7 +111,8 @@ public class ScriptedDocumentWriter<E> implements DocumentWriter<E> {
         }
     }
 
-    public void close() throws IOException {
+    @Override
+	public void close() throws IOException {
         writeFooter();
         out.close();
     }

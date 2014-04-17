@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2011-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -36,10 +36,12 @@ public class DataIteratorProxy<E> extends DataIteratorAdapter<E, E> {
 		super(source);
 	}
 
+	@Override
 	public Class<E> getType() {
 		return source.getType();
 	}
 
+	@Override
 	public DataContainer<E> next(DataContainer<E> wrapper) {
 		return source.next(wrapper);
 	}

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -45,7 +45,8 @@ public class SplitStringConverter extends ThreadSafeConverter<String, String[]> 
         this.separator = separator;
     }
 
-    public String[] convert(String sourceValue) throws ConversionException {
+    @Override
+	public String[] convert(String sourceValue) throws ConversionException {
         return StringUtil.tokenize(sourceValue, separator);
     }
 }

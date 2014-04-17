@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2011-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -44,10 +44,12 @@ public class ConvertingDataIterator<S, T> extends DataIteratorAdapter<S, T> {
         this.converter = converter;
     }
     
-    public Class<T> getType() {
+    @Override
+	public Class<T> getType() {
     	return converter.getTargetType();
     }
 
+	@Override
 	public DataContainer<T> next(DataContainer<T> container) {
         DataContainer<S> sourceValue = source.next(sourceContainer.get());
         if (sourceValue == null)

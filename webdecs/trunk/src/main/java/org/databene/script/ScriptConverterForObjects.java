@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008-2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -45,15 +45,18 @@ public class ScriptConverterForObjects extends ConverterWrapper<String, Object>
     	super(new ScriptConverterForStrings(context));
     }
 
+	@Override
 	public Class<Object> getSourceType() {
 		return Object.class;
 	}
 
+	@Override
 	public Class<Object> getTargetType() {
 		return Object.class;
 	}
 
-    public Object convert(Object sourceValue) throws ConversionException {
+    @Override
+	public Object convert(Object sourceValue) throws ConversionException {
     	// I might iterate through mixed sets of strings and numbers (e.g. from an XLS file)...
     	if (sourceValue instanceof String) //...so I only apply script evaluation on strings
     		return realConverter.convert((String) sourceValue);

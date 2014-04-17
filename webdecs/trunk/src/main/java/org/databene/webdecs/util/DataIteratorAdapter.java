@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2011-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -41,7 +41,8 @@ public abstract class DataIteratorAdapter<S, T> implements DataIterator<T> {
         this.sourceContainerProvider = new ThreadLocalDataContainer<S>();
     }
     
-    public void close() {
+    @Override
+	public void close() {
         IOUtil.close(source);
     }
     

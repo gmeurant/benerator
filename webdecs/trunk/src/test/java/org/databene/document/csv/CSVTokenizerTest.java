@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -207,16 +207,16 @@ public class CSVTokenizerTest {
 
     // helpers ---------------------------------------------------------------------------------------------------------
 
-	private CSVTokenizer createTokenizer(String content) {
+	private static CSVTokenizer createTokenizer(String content) {
 		return createTokenizer(content, ',');
 	}
 
-	private CSVTokenizer createTokenizer(String content, char separator) {
+	private static CSVTokenizer createTokenizer(String content, char separator) {
 		StringReader reader = new StringReader(content);
 		return new CSVTokenizer(reader, separator);
 	}
 
-    private void assertNextToken(CSVTokenizer tokenizer, CSVTokenType tokenType, String cell) throws IOException {
+    private static void assertNextToken(CSVTokenizer tokenizer, CSVTokenType tokenType, String cell) throws IOException {
         CSVTokenType found = tokenizer.next();
         assertEquals(tokenType, found);
         assertEquals(tokenType, tokenizer.ttype);

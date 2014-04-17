@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -82,7 +82,8 @@ public class CSVFilterDemo {
     }
 
     static final class RowFilter implements Filter<String[]> {
-        public boolean accept(String[] candidate) {
+        @Override
+		public boolean accept(String[] candidate) {
             return candidate.length > 2 && "3023293310905".equals(candidate[1]);
         }
     }

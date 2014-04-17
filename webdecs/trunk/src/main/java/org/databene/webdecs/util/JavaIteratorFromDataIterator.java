@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2011-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -46,6 +46,7 @@ public class JavaIteratorFromDataIterator<E> implements HeavyweightIterator<E> {
 		this.initialized = false;
 	}
 
+	@Override
 	public boolean hasNext() {
 		if (!initialized) {
 			next = source.next(next);
@@ -54,6 +55,7 @@ public class JavaIteratorFromDataIterator<E> implements HeavyweightIterator<E> {
 		return (next != null);
 	}
 
+	@Override
 	public E next() {
 		if (!hasNext())
 			throw new IllegalStateException("Not available. Check hasNext() before calling next()");
@@ -64,10 +66,12 @@ public class JavaIteratorFromDataIterator<E> implements HeavyweightIterator<E> {
 		return result;
 	}
 
+	@Override
 	public void remove() {
 		throw new UnsupportedOperationException("Iterator<E>.remove() is not supported");
 	}
 
+	@Override
 	public void close() {
 		IOUtil.close(source);
 		source = null;

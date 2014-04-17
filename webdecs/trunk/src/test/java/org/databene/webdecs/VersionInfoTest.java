@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2011-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -59,12 +59,12 @@ public class VersionInfoTest {
 		System.out.println("using commons " + commonsVersion);
 	}
 	
-	private void checkVersionNumber(String versionNumber) {
+	private static void checkVersionNumber(String versionNumber) {
 		assertFalse("version number is empty", versionNumber == null || versionNumber.length() == 0);
 		assertFalse("version number was not substituted", versionNumber.startsWith("${"));
 	}
 	
-	private VersionInfo getVersion() {
+	private static VersionInfo getVersion() {
 		VersionInfo version = VersionInfo.getInfo("webdecs");
 		return version;
 	}

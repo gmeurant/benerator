@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2011-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -48,16 +48,19 @@ public class ListDataIterator<E> implements DataIterator<E> {
 		this.cursor = 0;
 	}
 
+	@Override
 	public Class<E> getType() {
 		return type;
 	}
 
+	@Override
 	public DataContainer<E> next(DataContainer<E> container) {
 		if (cursor >= data.size())
 			return null;
 		return container.setData(data.get(cursor++));
 	}
 
+	@Override
 	public void close() {
 		// nothing to do
 	}

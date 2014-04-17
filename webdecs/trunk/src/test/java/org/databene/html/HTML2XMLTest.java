@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -125,12 +125,12 @@ public class HTML2XMLTest {
     
     // helpers ---------------------------------------------------------------------------------------------------------
 
-	private void check(String source, String result) throws Exception {
+	private static void check(String source, String result) throws Exception {
 		checkStrings(source, result);
 		checkStreams(source, result);
 	}
 
-	private void checkStreams(String source, String result) throws IOException,
+	private static void checkStreams(String source, String result) throws IOException,
 			ParseException {
 		StringReader in = new StringReader(source);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -140,7 +140,7 @@ public class HTML2XMLTest {
 		assertEquals(result, out.toString());
 	}
 	
-	private void checkStrings(String source, String result) 
+	private static void checkStrings(String source, String result) 
 			throws IOException, ParseException {
 		assertEquals(result, HTML2XML.convert(source));
 	}

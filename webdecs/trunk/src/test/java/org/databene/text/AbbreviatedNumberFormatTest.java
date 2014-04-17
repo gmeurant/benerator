@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2005-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2005-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -84,18 +84,18 @@ public class AbbreviatedNumberFormatTest {
         checkFormatFixed(1234560000, "1.234,56 Mio", 1000000, Locale.GERMANY);
     }
 
-    private void checkParse(String source, double target, Locale locale) throws ParseException {
+    private static void checkParse(String source, double target, Locale locale) throws ParseException {
         AbbreviatedNumberFormat format = new AbbreviatedNumberFormat(locale);
         assertEquals(target, format.parse(source).doubleValue(), DELTA);
     }
 
-    private void checkFormat(double source, String target, Locale locale) {
+    private static void checkFormat(double source, String target, Locale locale) {
         AbbreviatedNumberFormat format = new AbbreviatedNumberFormat(locale);
         String result = format.format(source);
         assertEquals(target, result);
     }
 
-    private void checkFormatFixed(double source, String target, double defaultScale, Locale locale) {
+    private static void checkFormatFixed(double source, String target, double defaultScale, Locale locale) {
         AbbreviatedNumberFormat format = new AbbreviatedNumberFormat(defaultScale, locale);
         String result = format.formatFixed(source, new StringBuffer(), new FieldPosition(0)).toString();
         assertEquals(target, result);

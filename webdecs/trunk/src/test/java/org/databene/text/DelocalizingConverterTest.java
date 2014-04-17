@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -50,7 +50,7 @@ public class DelocalizingConverterTest {
         checkConversion("úùûu", "uuuu");
     }
 
-    private void checkConversion(String source, String expectedResult) throws IOException {
+    private static void checkConversion(String source, String expectedResult) throws IOException {
         DelocalizingConverter converter = new DelocalizingConverter();
         String result = converter.convert(source);
         assertEquals("Delocalization failed. ", expectedResult, result);

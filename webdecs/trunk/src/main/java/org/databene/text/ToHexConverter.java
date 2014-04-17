@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -60,6 +60,7 @@ public class ToHexConverter extends ThreadSafeConverter<Object, String> {
 	    this.length = length;
     }
 
+	@Override
 	public String convert(Object sourceValue) throws ConversionException {
 		if (sourceValue == null)
 			return null;

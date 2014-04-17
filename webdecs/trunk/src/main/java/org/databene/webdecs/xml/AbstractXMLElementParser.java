@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2010-2012 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -62,6 +62,7 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 		this.supportedParentTypes = CollectionUtil.toSet(supportedParentTypes);
 	}
 
+	@Override
 	public boolean supports(Element element, E[] parentPath) {
 		if (!this.elementName.equals(element.getNodeName()))
 			return false;
@@ -69,6 +70,7 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 			this.supportedParentTypes.contains(ArrayUtil.lastElementOf(parentPath).getClass());
 	}
 	
+	@Override
 	public final E parse(Element element, E[] parentPath, org.databene.webdecs.xml.ParseContext<E> context) {
 		checkAttributeSupport(element);
 		return doParse(element, parentPath, context);

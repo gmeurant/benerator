@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2011-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -43,10 +43,12 @@ public class OrthogonalArrayIterator<E> implements DataIterator<E[]> {
 		this.source = source;
 	}
 
+	@Override
 	public Class<E[]> getType() {
 		return source.getType();
 	}
 
+	@Override
 	public DataContainer<E[]> next(DataContainer<E[]> container) {
 		beInitialized(container);
 		if (rows.size() == 0 || columnIndex >= rows.get(0).length)
@@ -61,6 +63,7 @@ public class OrthogonalArrayIterator<E> implements DataIterator<E[]> {
 		return container.setData(column);
 	}
 
+	@Override
 	public void close() {
 		// nothing to do
 	}

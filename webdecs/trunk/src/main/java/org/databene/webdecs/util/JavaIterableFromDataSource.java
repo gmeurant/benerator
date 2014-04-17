@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2012 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2012-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -39,6 +39,7 @@ public class JavaIterableFromDataSource<E> implements HeavyweightIterable<E> {
 		this.source = source;
 	}
 
+	@Override
 	public HeavyweightIterator<E> iterator() {
 		return new JavaIteratorFromDataIterator<E>(source.iterator());
 	}

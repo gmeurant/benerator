@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -47,5 +47,6 @@ public final class TP {
         return name;
     }
 
-    public int getAge() { return 48; }
+    public static int getAge() { return 48; }
+    
 }

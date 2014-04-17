@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -70,7 +70,8 @@ public class DelocalizingConverter extends ThreadSafeConverter<String, String> {
      * Implementation of the Converter interface.
      * @see Converter
      */
-    public String convert(String source) {
+    @Override
+	public String convert(String source) {
         String product = source;
         for (Map.Entry<Character, String> entry : replacements.entrySet())
             product = product.replace(String.valueOf(entry.getKey()), entry.getValue());

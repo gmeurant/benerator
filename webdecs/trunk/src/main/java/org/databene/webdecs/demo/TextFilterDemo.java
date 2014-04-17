@@ -77,7 +77,8 @@ public class TextFilterDemo {
     }
 
     static final class LineFilter implements Filter<String> {
-        public boolean accept(String candidate) {
+        @Override
+		public boolean accept(String candidate) {
             return candidate.contains("|3023293310905|");
             //return true;
         }

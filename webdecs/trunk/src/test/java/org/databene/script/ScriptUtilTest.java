@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -73,11 +73,14 @@ public class ScriptUtilTest {
 	}
 	
     public class XyzScriptFactory implements ScriptFactory {
-	    public Script parseText(String text) throws ParseException { return null; }
-	    public Script readFile(String uri) throws ParseException { return null; }
+		@Override
+		public Script parseText(String text) throws ParseException { return null; }
+		
+	    @Override
+		public Script readFile(String uri) throws ParseException { return null; }
     }
 
-	private void checkDescriptor(ScriptDescriptor scriptDescriptor, 
+	private static void checkDescriptor(ScriptDescriptor scriptDescriptor, 
 			String scriptEngine, String text, ScriptLevel level) {
 		assertEquals(scriptEngine, scriptDescriptor.scriptEngine);
 		assertEquals(text, scriptDescriptor.text);

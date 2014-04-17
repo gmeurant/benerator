@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2011-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -40,6 +40,7 @@ public class ScriptConverterForStrings extends ThreadSafeConverter<String, Objec
         this.context = context;
     }
 
+	@Override
 	public Object convert(String sourceValue) throws ConversionException {
 		if (sourceValue != null)
 			return ScriptUtil.evaluate((String) sourceValue, context);

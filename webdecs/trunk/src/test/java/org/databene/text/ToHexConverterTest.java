@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2009-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -103,19 +103,19 @@ public class ToHexConverterTest {
 	    assertEquals("0x00FF", new ToHexConverter(true, "0x{0}", 4).convert(0xff));
 	}
 
-	private void check(String expected, Object in) {
+	private static void check(String expected, Object in) {
 	    assertEquals(expected, new ToHexConverter().convert(in));
     }
 
-	private void checkLength(String expected, Object in, int length) {
+	private static void checkLength(String expected, Object in, int length) {
 	    assertEquals(expected, new ToHexConverter(false, null, length).convert(in));
     }
 
-	private void checkUpperCase(String expected, Object in) {
+	private static void checkUpperCase(String expected, Object in) {
 	    assertEquals(expected, new ToHexConverter(true).convert(in));
     }
 
-	private void checkPattern(String expected, Object in, String pattern) {
+	private static void checkPattern(String expected, Object in, String pattern) {
 	    assertEquals(expected, new ToHexConverter(false, pattern).convert(in));
     }
 
