@@ -1,0 +1,17 @@
+release notes databene webdecs 0.7.1
+------------------------------------
+
+Enhancements
+------------
+- Added HTML generation classes
+- Improved FreeMarkerScriptFactory.readFile() to locate files in class path too
+
+
+Changes
+-------
+- Moved classes for HTML parsing to sub package
+
+
+Bug Fixes
+---------
+- Bug fix in AbstractDataIterator.getType()
