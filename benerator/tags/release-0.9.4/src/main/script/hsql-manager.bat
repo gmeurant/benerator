@@ -1,1 +1,0 @@
-java -cp %BENERATOR_HOME%\lib\* org.hsqldb.util.DatabaseManager --driver org.hsqldb.jdbcDriver --url jdbc:hsqldb:hsql://localhost:9001 --user sa --password ""

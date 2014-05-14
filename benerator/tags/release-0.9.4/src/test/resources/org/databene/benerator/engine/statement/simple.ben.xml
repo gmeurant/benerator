@@ -1,5 +1,0 @@
-<setup>
-	<generate type='Person' count='3'>
-		<attribute name='name' constant='Alice'/>
-	</generate>
-</setup>
