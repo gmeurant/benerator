@@ -119,7 +119,9 @@ public class DotWriter {
 		out.print("\t" + model.getNodeId(sourceNode) + " " + (model.isDirected() ? "->" : "--") + " " + model.getNodeId(target));
 		new AttributesWriter()
 			.add("arrowhead", model.getEdgeArrowHead(edge))
+			.add("headlabel", model.getEdgeHeadLabel(edge))
 			.add("arrowtail", model.getEdgeArrowTail(edge))
+			.add("taillabel", model.getEdgeTailLabel(edge))
 			.add("style", model.getEdgeStyle(edge))
 			.write(out);
 	}
