@@ -29,10 +29,22 @@ package org.databene.html.model;
  */
 
 public class Html extends HtmlElement<Html> {
-
-	public Html(HtmlComponent component) {
+	
+	public Html(HtmlComponent... components) {
 		super("html", false);
-		setComponents(component);
+		setComponents(components);
+	}
+	
+	public Head createHead() {
+		Head head = new Head();
+		addComponent(head);
+		return head;
 	}
 
+	public Body createBody() {
+		Body body = new Body();
+		addComponent(body);
+		return body;
+	}
+	
 }

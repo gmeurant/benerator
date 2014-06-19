@@ -22,25 +22,17 @@
 package org.databene.html.model;
 
 /**
- * Represents an HTML table cell.<br/><br/>
- * Created: 06.01.2014 09:20:56
- * @since 0.7.1
+ * Represents an HTML &lt;h1&gt;.<br/><br/>
+ * Created: 15.06.2014 08:45:11
+ * @since 0.8.3
  * @author Volker Bergmann
  */
 
-public class TableCell extends HtmlElement<TableCell>{
+public class H1 extends HtmlElement<H1> {
 	
-	public TableCell(String text) {
-		this(new TextComponent(text));
-	}
-	
-	public TableCell(HtmlComponent... components) {
-		super("td", false);
-		withComponents(components);
-	}
-	
-	public TableCell withColspan(int colspan) {
-		return this.withAttribute("colspan", String.valueOf(colspan));
+	public H1(String text) {
+		super("h1", true);
+		addComponent(text);
 	}
 	
 }

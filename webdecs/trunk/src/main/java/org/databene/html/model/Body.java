@@ -29,10 +29,10 @@ package org.databene.html.model;
  */
 
 public class Body extends HtmlElement<Body> {
-
-	public Body(HtmlComponent component) {
+	
+	public Body(HtmlComponent... components) {
 		super("body", false);
-		setComponents(component);
+		setComponents(components);
 	}
-
+	
 }
