@@ -1,0 +1,12 @@
+release notes databene webdecs 0.6.17
+-------------------------------------
+
+
+Summary
+------------
+
+
+Bug Fixes
+---------
+- CSVLineIterator ignores heading empty cells
+- Supporting XLSX files

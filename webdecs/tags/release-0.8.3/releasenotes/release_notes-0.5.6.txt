@@ -1,0 +1,6 @@
+release notes databene webdecs 0.5.6
+------------------------------------
+
+Bug Fixes
+---------
+- 3172811: '#' not supported in regular expressions

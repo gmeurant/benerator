@@ -1,0 +1,21 @@
+release notes databene webdecs 0.7.3
+------------------------------------
+
+Enhancements
+------------
+- Extended flat file column formats for date (e.g. DyyyyMMdd) and number (e.g. N00.00) patterns
+- Added FixedWidthColumnDescriptor.parse()
+- HSSFUtil: new methods
+  - isEmpty(Cell)
+  - isEmpty(Row)
+- HTML2XML: new method parseHtmlAsXml(url)
+
+
+Changes
+-------
+- 
+
+
+Bug Fixes
+---------
+- 

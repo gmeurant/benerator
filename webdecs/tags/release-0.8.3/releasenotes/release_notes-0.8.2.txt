@@ -1,0 +1,17 @@
+release notes databene webdecs 0.8.2
+------------------------------------
+
+Enhancements
+------------
+- Defined XML schema parser
+- Defined Dot file creation functionality
+
+
+Changes
+-------
+- 
+
+
+Bug Fixes
+---------
+- 
