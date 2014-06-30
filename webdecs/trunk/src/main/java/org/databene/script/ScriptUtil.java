@@ -119,7 +119,7 @@ public class ScriptUtil {
         Script script = scriptsByName.get(uri);
         if (script == null) {
             String engineId = FileUtil.suffix(uri);
-            ScriptFactory factory = getFactory(engineId);
+            ScriptFactory factory = getFactory(engineId, true);
             script = factory.readFile(uri);
             scriptsByName.put(uri, script);
         }
@@ -150,7 +150,7 @@ public class ScriptUtil {
         	text = text.substring(1, text.length() - 1);
         String[] tokens = StringUtil.splitOnFirstSeparator(text, ':');
         String engineId = tokens[0];
-        if (getFactory(engineId) != null) {
+        if (getFactory(engineId, false) != null) {
             String scriptText = tokens[1];
             return parseScriptText(scriptText, engineId);
         } else
@@ -160,7 +160,7 @@ public class ScriptUtil {
     public static Script parseScriptText(String text, String engineId) {
         if (engineId == null)
             throw new IllegalArgumentException("engineId is null");
-        ScriptFactory factory = getFactory(engineId);
+        ScriptFactory factory = getFactory(engineId, false);
         if (factory != null)
             return factory.parseText(text);
         else
@@ -222,8 +222,11 @@ public class ScriptUtil {
 	    return descriptors;
     }
 
-	static ScriptFactory getFactory(String engineId) {
-		return factories.get(engineId);
+	static ScriptFactory getFactory(String engineId, boolean required) {
+		ScriptFactory factory = factories.get(engineId);
+		if (factory == null && required)
+			throw new ConfigurationError("Not a supported script engine: " + engineId);
+		return factory;
 	}
     
     private static void parseConfigFile() {

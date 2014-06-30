@@ -39,7 +39,7 @@ public class ScriptDescriptor {
 		if (text != null && text.startsWith("{") && text.endsWith("}")) {
 			text = text.substring(1, text.length() - 1);
 	        String[] tokens = StringUtil.splitOnFirstSeparator(text, ':');
-	        if (tokens.length > 1 && ScriptUtil.getFactory(tokens[0]) != null) {
+	        if (tokens.length > 1 && ScriptUtil.getFactory(tokens[0], false) != null) {
 	            this.scriptEngine = tokens[0];
 	            this.text = tokens[1];
 	        } else {
