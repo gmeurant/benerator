@@ -104,6 +104,7 @@ public class DotWriter {
 			label = '"' + label + '"';
 		new AttributesWriter()
 			.add("label", label)
+			.add("fillcolor", DotUtil.normalizeColor(model.getNodeFillColor(node)))
 			.write(out);
 	}
 	
