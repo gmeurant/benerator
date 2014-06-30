@@ -1,0 +1,16 @@
+release notes databene webdecs 0.8.4
+------------------------------------
+
+Enhancements
+------------
+- Improved handling of missing ScriptFactory configurations
+
+
+Changes
+-------
+- 
+
+
+Bug Fixes
+---------
+- Supporting node fillcolor in DotWriter
