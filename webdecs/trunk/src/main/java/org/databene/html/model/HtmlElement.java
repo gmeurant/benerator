@@ -136,7 +136,10 @@ public class HtmlElement<E extends HtmlElement<?>> extends HtmlComponent {
 	}
 	
 	protected String formatEndTag() {
-		StringBuilder builder = new StringBuilder().append("</").append(tagName).append('>');
+		StringBuilder builder = new StringBuilder();
+		if (!inline)
+			builder.append(SystemInfo.getLineSeparator());
+		builder.append("</").append(tagName).append('>');
 		if (!inline)
 			builder.append(SystemInfo.getLineSeparator());
 		return builder.toString();

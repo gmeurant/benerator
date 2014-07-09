@@ -22,44 +22,26 @@
 package org.databene.html.model;
 
 /**
- * Represents an HTML table.<br/><br/>
- * Created: 06.01.2014 09:17:54
- * @since 0.7.1
+ * Represents an HTML table head (&lt;tfoot&gt;).<br/><br/>
+ * Created: 09.07.2014 14:29:06
+ * @since 0.8.4
  * @author Volker Bergmann
  */
 
-public class Table extends HtmlElement<Table> {
+public class TableFoot extends HtmlElement<TableFoot> {
 
-	public Table() {
-		super("table", false);
-	}
-	
-	public TableHead newTableHead() {
-		TableHead head = new TableHead();
-		addComponent(head);
-		return head;
-	}
-	
-	public TableBody newTableBody() {
-		TableBody body = new TableBody();
-		addComponent(body);
-		return body;
-	}
-
-	public TableFoot newTableFoot() {
-		TableFoot foot = new TableFoot();
-		addComponent(foot);
-		return foot;
-	}
-
-	public Table addRow(TableRow row) {
-		return addComponent(row);
+	public TableFoot() {
+		super("tfoot", false);
 	}
 
 	public TableRow newRow() {
 		TableRow row = new TableRow();
 		addRow(row);
 		return row;
+	}
+
+	public TableFoot addRow(TableRow row) {
+		return addComponent(row);
 	}
 
 }

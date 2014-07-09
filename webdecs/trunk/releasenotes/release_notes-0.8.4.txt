@@ -4,6 +4,12 @@ release notes databene webdecs 0.8.4
 Enhancements
 ------------
 - Improved handling of missing ScriptFactory configurations
+- Supporting further HTML elements:
+  - OrderedList
+  - UnorderedList
+  - TableHead
+  - TableBody
+  - TableFoot
 
 
 Changes

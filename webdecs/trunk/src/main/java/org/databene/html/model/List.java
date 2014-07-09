@@ -22,44 +22,24 @@
 package org.databene.html.model;
 
 /**
- * Represents an HTML table.<br/><br/>
- * Created: 06.01.2014 09:17:54
- * @since 0.7.1
+ * Parent class for HTML lists.<br/><br/>
+ * Created: 09.07.2014 13:51:04
+ * @since 0.8.4
  * @author Volker Bergmann
  */
 
-public class Table extends HtmlElement<Table> {
+public abstract class List extends HtmlElement<List> {
 
-	public Table() {
-		super("table", false);
-	}
-	
-	public TableHead newTableHead() {
-		TableHead head = new TableHead();
-		addComponent(head);
-		return head;
-	}
-	
-	public TableBody newTableBody() {
-		TableBody body = new TableBody();
-		addComponent(body);
-		return body;
+	public List(String tagName) {
+		super(tagName, false);
 	}
 
-	public TableFoot newTableFoot() {
-		TableFoot foot = new TableFoot();
-		addComponent(foot);
-		return foot;
+	public void addAsListItem(String text) {
+		addAsListItem(new TextComponent(text));
 	}
 
-	public Table addRow(TableRow row) {
-		return addComponent(row);
-	}
-
-	public TableRow newRow() {
-		TableRow row = new TableRow();
-		addRow(row);
-		return row;
+	public void addAsListItem(HtmlComponent component) {
+		addComponent(new ListItem(component));
 	}
 
 }
