@@ -10,6 +10,7 @@ Enhancements
   - TableHead
   - TableBody
   - TableFoot
+  - CssStyle
 
 
 Changes

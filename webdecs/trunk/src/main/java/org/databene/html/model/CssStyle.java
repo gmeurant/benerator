@@ -21,40 +21,18 @@
 
 package org.databene.html.model;
 
-import java.io.IOException;
-
-import org.databene.commons.IOUtil;
-
 /**
- * Represents an HTML &lt;head&gt;.<br/><br/>
- * Created: 16.06.2014 11:06:23
- * @since 0.8.3
+ * Represents an inline CSS stylesheet.<br/><br/>
+ * Created: 10.07.2014 13:43:42
+ * @since 0.8.4
  * @author Volker Bergmann
  */
 
-public class Head extends HtmlElement<Head> {
-	
-	public Head() {
-		super("head", false);
-	}
-	
-	public Head withTitle(String title) {
-		return this.withAttribute("title", title);
+public class CssStyle extends HtmlElement<CssStyle> {
+
+	public CssStyle() {
+		super("style", false);
+		withAttribute("type", "text/css");
 	}
 
-	public Head withCssStyleSheet(String cssPath) {
-		Link link = new Link().withRel("stylesheet").withType("text/css").withHref(cssPath);
-		return this.addComponent(link);
-	}
-	
-	public Head withInlineCssStyleSheet(String cssFilePath) {
-		try {
-			String content = IOUtil.getContentOfURI(cssFilePath);
-			CssStyle style = new CssStyle().withTextContent(content);
-			return this.addComponent(style);
-		} catch (IOException e) {
-			throw new RuntimeException("Error inlining css file: " + cssFilePath, e);
-		}
-	}
-	
 }
