@@ -75,8 +75,12 @@ public class HtmlElement<E extends HtmlElement<?>> extends HtmlComponent {
 		return addComponent(HtmlFactory.br());
 	}
 	
-	public E withTextContent(String text) {
-		return this.withComponents(new TextComponent(text));
+	public E withRawTextContent(String text) {
+		return withTextContent(text, false, false);
+	}
+
+	public E withTextContent(String text, boolean escape, boolean convertLinefeeds) {
+		return this.withComponents(new TextComponent(text, escape, convertLinefeeds));
 	}
 
 	@SuppressWarnings("unchecked")

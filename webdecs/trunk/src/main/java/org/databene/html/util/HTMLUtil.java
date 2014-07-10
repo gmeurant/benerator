@@ -27,6 +27,7 @@
 package org.databene.html.util;
 
 import org.databene.commons.CollectionUtil;
+import org.databene.commons.StringUtil;
 import org.databene.commons.SystemInfo;
 import org.databene.html.HtmlEntity;
 
@@ -34,6 +35,7 @@ import java.awt.Color;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -44,7 +46,8 @@ import java.util.Set;
  * @author Volker Bergmann
  */
 public class HTMLUtil {
-
+	
+	private static final String LF = SystemInfo.getLineSeparator();
     private static final Set<String> EMPTY_TAGS = CollectionUtil.toSet("br", "img", "meta", "link");
 	public static final String DOCTYPE_401 = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">";
 
@@ -172,6 +175,17 @@ public class HTMLUtil {
 	public static String hexColorCode(Color color) {
 		String colorCode = Integer.toHexString(color.getRGB() & 0xffffff);
 		return "000000".substring(colorCode.length()) + colorCode; // pad left to six characters
+	}
+
+	public static String convertLineFeeds(String text) {
+		List<String> lines = StringUtil.splitLines(text);
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < lines.size(); i++) {
+			if (i > 0)
+				builder.append("<br/>").append(LF);
+			builder.append(lines.get(i));
+		}
+		return builder.toString();
 	}
 	
 }

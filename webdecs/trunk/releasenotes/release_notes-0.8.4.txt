@@ -11,11 +11,12 @@ Enhancements
   - TableBody
   - TableFoot
   - CssStyle
+- Supporting HTML escaping and linfeed-to-<br> conversion and raw text
 
 
 Changes
 -------
-- 
+- Escaping HTML texts by default
 
 
 Bug Fixes

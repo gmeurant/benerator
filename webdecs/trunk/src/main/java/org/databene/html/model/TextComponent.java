@@ -21,6 +21,8 @@
 
 package org.databene.html.model;
 
+import org.databene.html.util.HTMLUtil;
+
 /**
  * Represents an HTML text component.<br/><br/>
  * Created: 06.01.2014 08:25:00
@@ -33,7 +35,16 @@ public class TextComponent extends HtmlComponent {
 	private String text;
 	
 	public TextComponent(String text) {
-		this.text = text;
+		this(text, true, false);
+	}
+	
+	public TextComponent(String text, boolean escape, boolean convertLinefeeds) {
+		String tmp = text;
+		if (escape)
+			tmp = HTMLUtil.escape(tmp);
+		if (convertLinefeeds)
+			tmp = HTMLUtil.convertLineFeeds(tmp);
+		this.text = tmp;
 	}
 	
 	public String getText() {

@@ -50,7 +50,7 @@ public class Head extends HtmlElement<Head> {
 	public Head withInlineCssStyleSheet(String cssFilePath) {
 		try {
 			String content = IOUtil.getContentOfURI(cssFilePath);
-			CssStyle style = new CssStyle().withTextContent(content);
+			CssStyle style = new CssStyle().withRawTextContent(content);
 			return this.addComponent(style);
 		} catch (IOException e) {
 			throw new RuntimeException("Error inlining css file: " + cssFilePath, e);
