@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2013 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -29,7 +29,7 @@ package org.databene.document.csv;
 import org.databene.commons.BeanUtil;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.IOUtil;
-import org.databene.commons.bean.PropertyMutatorFactory;
+import org.databene.commons.mutator.AnyMutator;
 import org.databene.commons.mutator.NamedMutator;
 import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.DataIterator;
@@ -53,27 +53,26 @@ public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
     private int classIndex;
     private ThreadLocalDataContainer<String[]> dataContainer = new ThreadLocalDataContainer<String[]>();
 
+
+    // constructors ----------------------------------------------------------------------------------------------------
+
     public CSVToJavaBeanMapper(Reader reader, Class<E> type) throws IOException {
         this(reader, type, ',', null);
     }
 
     public CSVToJavaBeanMapper(Reader reader, Class<E> type, char separator, String emptyValue) throws IOException {
-        this.iterator = new CSVLineIterator(reader, separator, true);
-        this.type = type;
-        this.emptyValue = emptyValue;
+    	CSVLineIterator iterator = new CSVLineIterator(reader, separator, true);
         String[] attributeNames = this.iterator.next(dataContainer.get()).getData();
-        this.mutators = new NamedMutator[attributeNames.length];
-        this.classIndex = -1;
-        for (int i = 0; i < attributeNames.length; i++) {
-            String attributeName = attributeNames[i];
-            if ("class".equals(attributeName)) {
-            	mutators[i] = null;
-            	this.classIndex = i;
-            } else {
-            	mutators[i] = PropertyMutatorFactory.getPropertyMutator(null, attributeName, false, true);
-            }
-        }
+        init(iterator, type, emptyValue, attributeNames);
     }
+
+    public CSVToJavaBeanMapper(Reader reader, Class<E> type, char separator, String emptyValue, String[] attributeNames) throws IOException {
+    	CSVLineIterator iterator = new CSVLineIterator(reader, separator, true);
+        init(iterator, type, emptyValue, attributeNames);
+    }
+
+
+    // DataIterator interface implementation ---------------------------------------------------------------------------
 
     @Override
 	public Class<E> getType() {
@@ -114,5 +113,32 @@ public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
 	public void close() {
     	IOUtil.close(iterator);
     }
+
+
+    // further public methods ------------------------------------------------------------------------------------------
+
+    public void skip() {
+    	iterator.next(dataContainer.get());
+    }
+
+
+    // private helpers -------------------------------------------------------------------------------------------------
+
+    private void init(CSVLineIterator iterator, Class<E> type, String emptyValue, String[] attributeNames) {
+		this.iterator = iterator;
+        this.type = type;
+        this.emptyValue = emptyValue;
+        this.mutators = new NamedMutator[attributeNames.length];
+        this.classIndex = -1;
+        for (int i = 0; i < attributeNames.length; i++) {
+            String attributeName = attributeNames[i];
+            if ("class".equals(attributeName)) {
+            	mutators[i] = null;
+            	this.classIndex = i;
+            } else {
+            	mutators[i] = new AnyMutator(attributeName, false, true);
+            }
+        }
+	}
 
 }
