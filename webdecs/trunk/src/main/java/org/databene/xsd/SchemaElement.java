@@ -22,6 +22,7 @@
 package org.databene.xsd;
 
 import org.databene.commons.StringUtil;
+import org.databene.commons.Visitor;
 
 /**
  * Parent class of all components that are part of an XML schema.<br/><br/>
@@ -45,5 +46,9 @@ public class SchemaElement {
 	protected String renderShortDocumentation() {
 		return (documentation != null ? " (" + StringUtil.normalizeSpace(documentation) + ")" : "");
 	}
-	
+
+	public void accept(Visitor<SchemaElement> visitor) {
+		visitor.visit(this);
+	}
+
 }

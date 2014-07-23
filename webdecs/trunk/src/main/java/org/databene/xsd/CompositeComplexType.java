@@ -24,6 +24,7 @@ package org.databene.xsd;
 import java.util.Collection;
 import java.util.Map;
 
+import org.databene.commons.Visitor;
 import org.databene.commons.collection.OrderedNameMap;
 
 /**
@@ -59,5 +60,12 @@ public class CompositeComplexType extends ComplexType {
 		for (ComplexMember member : members.values())
 			member.printContent(indent);
 	}
-	
+
+	@Override
+	public void accept(Visitor<SchemaElement> visitor) {
+		super.accept(visitor);
+		for (ComplexMember type : members.values())
+			type.accept(visitor);
+	}
+
 }

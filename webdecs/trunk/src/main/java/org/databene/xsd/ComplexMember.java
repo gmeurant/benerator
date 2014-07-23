@@ -21,6 +21,8 @@
 
 package org.databene.xsd;
 
+import org.databene.commons.Visitor;
+
 /**
  * Represents a member of a {@link ComplexType}, having a name, 
  * a type and a permitted cardinality range.<br/><br/>
@@ -68,5 +70,11 @@ public class ComplexMember extends NamedSchemaElement {
 		System.out.println(indent + name + renderShortDocumentation() + ":");
 		type.printContent(indent + "  ");
 	}
-	
+
+	@Override
+	public void accept(Visitor<SchemaElement> visitor) {
+		super.accept(visitor);
+		type.accept(visitor);
+	}
+
 }

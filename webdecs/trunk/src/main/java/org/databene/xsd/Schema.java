@@ -24,6 +24,7 @@ package org.databene.xsd;
 import java.util.Map;
 
 import org.databene.commons.Named;
+import org.databene.commons.Visitor;
 import org.databene.commons.collection.OrderedNameMap;
 
 /**
@@ -76,6 +77,16 @@ public class Schema extends SchemaElement implements Named {
 		for (ComplexType complexType : complexTypes.values())
 			complexType.printContent("  ");
 		member.printContent("  ");
+	}
+	
+	@Override
+	public void accept(Visitor<SchemaElement> visitor) {
+		super.accept(visitor);
+		for (SimpleType type : simpleTypes.values())
+			type.accept(visitor);
+		for (ComplexType type : complexTypes.values())
+			type.accept(visitor);
+		member.accept(visitor);
 	}
 	
 }
