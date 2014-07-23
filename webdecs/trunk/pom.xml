@@ -4,7 +4,7 @@
 
     <groupId>org.databene</groupId>
     <artifactId>databene-webdecs</artifactId>
-    <version>0.8.4-EA7</version>
+    <version>0.8.4-EA8</version>
 
     <properties>
     	<commons_version>0.5.33-EA7</commons_version>
