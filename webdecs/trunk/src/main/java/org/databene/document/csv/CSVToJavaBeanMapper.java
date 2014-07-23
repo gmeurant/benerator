@@ -62,7 +62,7 @@ public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
 
     public CSVToJavaBeanMapper(Reader reader, Class<E> type, char separator, String emptyValue) throws IOException {
     	CSVLineIterator iterator = new CSVLineIterator(reader, separator, true);
-        String[] attributeNames = this.iterator.next(dataContainer.get()).getData();
+        String[] attributeNames = iterator.next(dataContainer.get()).getData();
         init(iterator, type, emptyValue, attributeNames);
     }
 
@@ -85,7 +85,7 @@ public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
         int i = 0;
         String value = null;
         try {
-            DataContainer<String[]> tmp = iterator.next(dataContainer.get());
+            DataContainer<String[]> tmp = nextRaw(dataContainer.get());
             if (tmp == null)
             	return null;
 			String[] line = tmp.getData();
@@ -107,6 +107,10 @@ public class CSVToJavaBeanMapper<E> implements DataIterator<E> {
             throw new ConfigurationError("Failed to set property '" + 
                     mutators[i].getName() + "' to '" + value + "' on class " + type, e);
         }
+    }
+
+    public DataContainer<String[]> nextRaw(DataContainer<String[]> wrapper) {
+    	return iterator.next(wrapper);
     }
 
     @Override
