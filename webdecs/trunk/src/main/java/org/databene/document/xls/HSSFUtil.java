@@ -122,8 +122,12 @@ public class HSSFUtil {
 		int sheetCount = workbook.getNumberOfSheets();
 		for (int i = 0; i < sheetCount; i++) {
 			Sheet sheet = workbook.getSheetAt(i);
-			for (int colnum = 0; colnum <= sheet.getLastRowNum(); colnum++)
-				sheet.autoSizeColumn(colnum);
+			int firstRowNum = sheet.getFirstRowNum();
+			if (firstRowNum >= 0) {
+				Row firstRow = sheet.getRow(firstRowNum);
+				for (int cellnum = firstRow.getFirstCellNum(); cellnum < firstRow.getLastCellNum(); cellnum++)
+					sheet.autoSizeColumn(cellnum);
+			}
 		}
 	}
 	

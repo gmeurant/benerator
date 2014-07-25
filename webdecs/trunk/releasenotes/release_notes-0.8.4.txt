@@ -21,4 +21,5 @@ Changes
 
 Bug Fixes
 ---------
-- Supporting node fillcolor in DotWriter
+- node's fillcolor is ignored in DotWriter
+- HSSFUtil.autoSizeColumns() does not auto-size all columns
