@@ -26,6 +26,8 @@
 
 package org.databene.document.xls;
 
+import java.util.Iterator;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.Cell;
@@ -90,7 +92,7 @@ public class HSSFUtil {
 	}
 	
 	/** Resolves a formula or a normal cell and formats the result as it would be displayed in Excel */
-	public static Object resolveCellValueAsString(Cell cell) {
+	public static String resolveCellValueAsString(Cell cell) {
 		return resolveCellValueAsString(cell, "'", null, null);
 	}
 	
@@ -182,5 +184,13 @@ public class HSSFUtil {
     	}
     	return (stringPreprocessor != null ? ((Converter) stringPreprocessor).convert(content) : content);
     }
+
+	public static int getColumnCount(Sheet sheet) {
+		int columnCount = 0;
+		Iterator<Row> rowIterator = sheet.rowIterator();
+		while (rowIterator.hasNext())
+			columnCount = Math.max(columnCount, rowIterator.next().getLastCellNum());
+		return columnCount;
+	}
 
 }
