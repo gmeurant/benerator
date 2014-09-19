@@ -37,7 +37,6 @@ import org.databene.webdecs.DataIterator;
 public class ConvertingDataIterator<S, T> extends DataIteratorAdapter<S, T> {
 
     protected Converter<S, T> converter;
-    protected ThreadLocalDataContainer<S> sourceContainer = new ThreadLocalDataContainer<S>();
 
     public ConvertingDataIterator(DataIterator<S> source, Converter<S, T> converter) {
     	super(source);
@@ -51,10 +50,10 @@ public class ConvertingDataIterator<S, T> extends DataIteratorAdapter<S, T> {
 
 	@Override
 	public DataContainer<T> next(DataContainer<T> container) {
-        DataContainer<S> sourceValue = source.next(sourceContainer.get());
-        if (sourceValue == null)
+        DataContainer<S> sourceWrapper = nextOfSource();
+        if (sourceWrapper == null)
         	return null;
-        return container.setData(converter.convert(sourceValue.getData()));
+        return container.setData(converter.convert(sourceWrapper.getData()));
     }
 
 	@Override

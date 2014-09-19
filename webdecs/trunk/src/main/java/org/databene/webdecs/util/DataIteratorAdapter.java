@@ -46,7 +46,12 @@ public abstract class DataIteratorAdapter<S, T> implements DataIterator<T> {
         IOUtil.close(source);
     }
     
+    protected DataContainer<S> nextOfSource() {
+    	return source.next(getSourceContainer());
+    }
+
     protected DataContainer<S> getSourceContainer() {
     	return sourceContainerProvider.get();
     }
+
 }

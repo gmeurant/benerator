@@ -65,7 +65,7 @@ public class FixedWidthBeanIterator<E> extends DataIteratorAdapter<String[], E> 
 
 	@Override
 	public DataContainer<E> next(DataContainer<E> container) {
-		DataContainer<String[]> wrapper = source.next(getSourceContainer());
+		DataContainer<String[]> wrapper = nextOfSource();
 		if (wrapper == null)
 			return null;
 		String[] cells = wrapper.getData();
