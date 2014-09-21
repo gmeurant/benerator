@@ -19,11 +19,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.document.csv;
+package org.databene.formats.csv;
 
 import static org.junit.Assert.*;
 
 import org.databene.commons.Encodings;
+import org.databene.formats.csv.CSVSingleColumIterator;
 import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.util.DataIteratorTestCase;
 import org.junit.Test;
@@ -36,7 +37,7 @@ import org.junit.Test;
  */
 public class CSVSingleColumnIteratorTest extends DataIteratorTestCase {
 
-	private static final String FILENAME = "file://org/databene/csv/persons.csv";
+	private static final String FILENAME = "file://org/databene/formats/csv/persons.csv";
 
 	@Test
 	public void testValidColumns() throws Exception {

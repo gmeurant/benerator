@@ -24,9 +24,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.document.csv;
+package org.databene.formats.csv;
 
-import static org.databene.document.csv.CSVTokenType.*;
+import static org.databene.formats.csv.CSVTokenType.*;
 
 import org.databene.commons.IOUtil;
 import org.databene.commons.SystemInfo;

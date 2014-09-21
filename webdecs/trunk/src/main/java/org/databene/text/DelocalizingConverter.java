@@ -26,7 +26,7 @@
 
 package org.databene.text;
 
-import org.databene.document.csv.CSVLineIterator;
+import org.databene.formats.csv.CSVLineIterator;
 import org.databene.webdecs.DataContainer;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.Converter;

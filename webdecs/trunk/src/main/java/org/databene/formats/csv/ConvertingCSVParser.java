@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.document.csv;
+package org.databene.formats.csv;
 
 import java.io.IOException;
 import java.util.ArrayList;

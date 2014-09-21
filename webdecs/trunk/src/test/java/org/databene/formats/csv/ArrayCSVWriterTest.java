@@ -24,43 +24,41 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.document.csv;
+package org.databene.formats.csv;
 
 import org.junit.Test;
 import static junit.framework.Assert.*;
 
-import java.io.IOException;
 import java.io.StringWriter;
+import java.io.IOException;
 
 import org.databene.script.ConstantScript;
-import org.databene.bean.TP;
-import org.databene.commons.DocumentWriter;
+import org.databene.formats.csv.ArrayCSVWriter;
 import org.databene.commons.SystemInfo;
 
 /**
- * Tests the {@link BeanCSVWriter}.<br/><br/>
+ * Tests the {@link ArrayCSVWriter}.<br/>
+ * <br/>
  * Created: 16.06.2007 06:07:52
  * @since 0.1
  * @author Volker Bergmann
  */
-public class BeanCSVWriterTest {
+public class ArrayCSVWriterTest {
 
     private static final String SEP = SystemInfo.getLineSeparator();
 
     private static String RESULT =
-            "header" + SEP + "Carl;48" + SEP + "Carl;48" + SEP + "footer";
+            "header" + SEP + "1;2;3" + SEP + "4;5;6" + SEP + "footer";
 
     @Test
     public void test() throws IOException {
         StringWriter out = new StringWriter();
-        DocumentWriter<TP> writer = new BeanCSVWriter<TP>(out, ';',
-                new ConstantScript("header" + SEP), new ConstantScript("footer"),
-                new String[] { "name", "age" });
-        TP person = new TP();
-        writer.writeElement(person);
-        writer.writeElement(person);
+        ArrayCSVWriter writer = new ArrayCSVWriter(out, ';',
+                new ConstantScript("header" + SEP), new ConstantScript("footer"));
+        writer.writeElement(new Integer[] { 1, 2, 3 });
+        writer.writeElement(new Integer[] { 4, 5, 6 });
         writer.close();
         assertEquals(RESULT, out.toString());
     }
-
+    
 }

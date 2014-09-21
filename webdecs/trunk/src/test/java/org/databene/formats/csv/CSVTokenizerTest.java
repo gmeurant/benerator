@@ -24,14 +24,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.document.csv;
+package org.databene.formats.csv;
 
+import org.databene.formats.csv.CSVTokenType;
+import org.databene.formats.csv.CSVTokenizer;
 import org.junit.Test;
 import static junit.framework.Assert.*;
 
 import java.io.StringReader;
 import java.io.IOException;
-import static org.databene.document.csv.CSVTokenType.*;
+
+import static org.databene.formats.csv.CSVTokenType.*;
 
 /**
  * Tests the {@link CSVTokenizer}.<br/><br/>
@@ -173,7 +176,7 @@ public class CSVTokenizerTest {
 
 	@Test
     public void testFile() throws IOException {
-        CSVTokenizer tokenizer = new CSVTokenizer("file://org/databene/csv/names.csv", ',');
+        CSVTokenizer tokenizer = new CSVTokenizer("file://org/databene/formats/csv/names.csv", ',');
         assertNextToken(tokenizer, CELL, "Alice");
         assertNextToken(tokenizer, CELL, "Bob");
         assertNextToken(tokenizer, EOL, null);

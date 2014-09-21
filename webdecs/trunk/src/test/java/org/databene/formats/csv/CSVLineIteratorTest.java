@@ -24,8 +24,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.document.csv;
+package org.databene.formats.csv;
 
+import org.databene.formats.csv.CSVLineIterator;
 import org.databene.webdecs.DataContainer;
 import org.junit.Test;
 import static junit.framework.Assert.*;
@@ -43,7 +44,7 @@ public class CSVLineIteratorTest {
 
 	@Test
     public void testIgnoringEmptyLines() throws IOException {
-        CSVLineIterator iterator = new CSVLineIterator("file://org/databene/csv/names.csv", ',', true);
+        CSVLineIterator iterator = new CSVLineIterator("file://org/databene/formats/csv/names.csv", ',', true);
         DataContainer<String[]> container = new DataContainer<String[]>();
         assertTrue(Arrays.equals(new String[] { "Alice", "Bob" },               iterator.next(container).getData()));
         assertTrue(Arrays.equals(new String[] { "Charly" },                     iterator.next(container).getData()));
@@ -54,7 +55,7 @@ public class CSVLineIteratorTest {
 
 	@Test
     public void testIncludingEmptyLines() throws IOException {
-        CSVLineIterator iterator = new CSVLineIterator("file://org/databene/csv/names.csv");
+        CSVLineIterator iterator = new CSVLineIterator("file://org/databene/formats/csv/names.csv");
         DataContainer<String[]> container = new DataContainer<String[]>();
         assertTrue(Arrays.equals(new String[] { "Alice", "Bob" },               iterator.next(container).getData()));
         assertTrue(Arrays.equals(new String[] { "Charly" },                     iterator.next(container).getData()));

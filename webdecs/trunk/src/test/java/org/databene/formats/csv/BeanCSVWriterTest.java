@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2006 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,13 +24,44 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.document.csv;
+package org.databene.formats.csv;
+
+import org.junit.Test;
+import static junit.framework.Assert.*;
+
+import java.io.IOException;
+import java.io.StringWriter;
+
+import org.databene.script.ConstantScript;
+import org.databene.bean.TP;
+import org.databene.commons.DocumentWriter;
+import org.databene.commons.SystemInfo;
+import org.databene.formats.csv.BeanCSVWriter;
 
 /**
- * Callback interface for CSV parsing.<br/>
- * <br/>
- * Created: 26.10.2007 12:53:01
+ * Tests the {@link BeanCSVWriter}.<br/><br/>
+ * Created: 16.06.2007 06:07:52
+ * @since 0.1
+ * @author Volker Bergmann
  */
-public interface CSVLineHandler {
-    void handle(String[] cells);
+public class BeanCSVWriterTest {
+
+    private static final String SEP = SystemInfo.getLineSeparator();
+
+    private static String RESULT =
+            "header" + SEP + "Carl;48" + SEP + "Carl;48" + SEP + "footer";
+
+    @Test
+    public void test() throws IOException {
+        StringWriter out = new StringWriter();
+        DocumentWriter<TP> writer = new BeanCSVWriter<TP>(out, ';',
+                new ConstantScript("header" + SEP), new ConstantScript("footer"),
+                new String[] { "name", "age" });
+        TP person = new TP();
+        writer.writeElement(person);
+        writer.writeElement(person);
+        writer.close();
+        assertEquals(RESULT, out.toString());
+    }
+
 }

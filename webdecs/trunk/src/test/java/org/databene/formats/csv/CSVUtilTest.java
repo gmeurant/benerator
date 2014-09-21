@@ -19,13 +19,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.document.csv;
+package org.databene.formats.csv;
 
 import static org.junit.Assert.*;
 
 import java.io.StringWriter;
 
 import org.databene.commons.SystemInfo;
+import org.databene.formats.csv.CSVUtil;
 import org.junit.Test;
 
 /**

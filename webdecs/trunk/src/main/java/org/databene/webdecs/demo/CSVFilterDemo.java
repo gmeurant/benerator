@@ -28,8 +28,8 @@ package org.databene.webdecs.demo;
 
 import org.databene.commons.DocumentWriter;
 import org.databene.commons.Filter;
-import org.databene.document.csv.ArrayCSVWriter;
-import org.databene.document.csv.CSVLineIterator;
+import org.databene.formats.csv.ArrayCSVWriter;
+import org.databene.formats.csv.CSVLineIterator;
 import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.util.FilteringDataIterator;
 
