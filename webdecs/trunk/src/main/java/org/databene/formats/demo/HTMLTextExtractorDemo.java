@@ -28,7 +28,7 @@ package org.databene.formats.demo;
 
 import org.databene.formats.html.HTML2XML;
 import org.databene.formats.text.SplitStringConverter;
-import org.databene.xslt.XSLTTransformer;
+import org.databene.formats.xslt.XSLTTransformer;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 import org.databene.commons.IOUtil;

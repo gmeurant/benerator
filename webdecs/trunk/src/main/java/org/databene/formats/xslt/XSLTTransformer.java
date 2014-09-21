@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.xslt;
+package org.databene.formats.xslt;
 
 import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamSource;
