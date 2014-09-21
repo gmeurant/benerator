@@ -19,7 +19,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.text;
+package org.databene.formats.text;
 
 import static org.junit.Assert.*;
 

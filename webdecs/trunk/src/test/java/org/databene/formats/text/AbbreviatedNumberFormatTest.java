@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.text;
+package org.databene.formats.text;
 
 import java.util.Locale;
 import java.text.ParseException;
