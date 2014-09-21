@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.text;
+package org.databene.formats.text;
 
 import org.databene.commons.StringUtil;
 import org.databene.commons.ParseUtil;

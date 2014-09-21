@@ -30,7 +30,7 @@ import java.util.Locale;
 import java.text.ParseException;
 import java.text.FieldPosition;
 
-import org.databene.text.AbbreviatedNumberFormat;
+import org.databene.formats.text.AbbreviatedNumberFormat;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

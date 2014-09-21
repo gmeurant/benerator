@@ -28,6 +28,7 @@ package org.databene.text;
 
 import java.io.IOException;
 
+import org.databene.formats.text.DelocalizingConverter;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

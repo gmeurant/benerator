@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.text;
+package org.databene.formats.text;
 
 import org.databene.formats.DataContainer;
 import org.databene.formats.csv.CSVLineIterator;
@@ -49,7 +49,7 @@ import java.util.HashMap;
 public class DelocalizingConverter extends ThreadSafeConverter<String, String> {
 
     /** File that contains the character mapping */
-    private static final String CONFIG_FILENAME = "org/databene/text/DelocalizingConverter.csv";
+    private static final String CONFIG_FILENAME = "org/databene/formats/text/DelocalizingConverter.csv";
 
 	/** The logger */
     private static Logger logger = LoggerFactory.getLogger(DelocalizingConverter.class);

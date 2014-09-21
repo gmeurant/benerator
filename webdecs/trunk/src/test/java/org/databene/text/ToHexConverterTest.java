@@ -23,6 +23,7 @@ package org.databene.text;
 
 import static org.junit.Assert.*;
 
+import org.databene.formats.text.ToHexConverter;
 import org.junit.Test;
 
 /**

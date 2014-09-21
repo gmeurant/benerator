@@ -28,6 +28,7 @@ package org.databene.text;
 
 import static org.junit.Assert.*;
 
+import org.databene.formats.text.NameNormalizer;
 import org.junit.Test;
 
 /**

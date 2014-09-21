@@ -25,6 +25,7 @@ import static org.junit.Assert.*;
 
 import java.util.Locale;
 
+import org.databene.formats.text.KiloFormatter;
 import org.junit.Test;
 
 /**

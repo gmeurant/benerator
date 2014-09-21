@@ -1,14 +1,9 @@
 /*
- * (c) Copyright 2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
- * GNU General Public License.
- *
- * For redistributing this software or a derivative work under a license other
- * than the GPL-compatible Free Software License as defined by the Free
- * Software Foundation or approved by OSI, you must first obtain a commercial
- * license to this software product from Volker Bergmann.
+ * GNU General Public License (GPL).
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * WITHOUT A WARRANTY OF ANY KIND. ALL EXPRESS OR IMPLIED CONDITIONS,
@@ -24,25 +19,46 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.text;
+package org.databene.formats.text;
 
 import org.databene.commons.StringUtil;
 
 /**
- * Normalizes names in capitalization and spacing. 
- * This includes trimming left and right, internal 
- * space normalization and starting each single word 
- * with a capital letter.<br/>
- * <br/>
- * Created at 20.11.2008 19:39:20
- * @since 0.4.6
+ * Behaves like a {@link StringBuilder}, but normalizes all inserted line separators to a default.<br/><br/>
+ * Created: 05.04.2010 08:54:42
+ * @since 0.5.0
  * @author Volker Bergmann
  */
+public class LFNormalizingStringBuilder {
 
-public class NameNormalizer extends NormalizeSpaceConverter {
+	private final StringBuilder builder;
+	private final String lineSeparator;
 	
-    @Override
-	public String convert(String sourceValue) {
-        return StringUtil.normalizeName(StringUtil.normalizeSpace(sourceValue));
+	public LFNormalizingStringBuilder(String lineSeparator) {
+	    this.lineSeparator = lineSeparator;
+	    builder = new StringBuilder();
     }
+
+    public String getLineSeparator() {
+	    return lineSeparator;
+    }
+    
+	public LFNormalizingStringBuilder append(String text) {
+		builder.append(StringUtil.normalizeLineSeparators(text, lineSeparator));
+		return this;
+	}
+	
+	public LFNormalizingStringBuilder append(char c) {
+		if (c != '\r' && c != '\n')
+			builder.append(c);
+		else
+			builder.append(lineSeparator);
+		return this;
+	}
+	
+	@Override
+	public String toString() {
+	    return builder.toString();
+	}
+	
 }

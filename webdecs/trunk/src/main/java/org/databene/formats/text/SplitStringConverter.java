@@ -24,26 +24,29 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.text;
+package org.databene.formats.text;
 
 import org.databene.commons.ConversionException;
 import org.databene.commons.StringUtil;
 import org.databene.commons.converter.ThreadSafeConverter;
 
 /**
- * Converter that normalizes white space on strings.<br/>
+ * Splits a String by a separator character<br/>
  * <br/>
- * Created: 19.06.2007 07:36:32
+ * Created: 19.06.2007 07:33:03
+ * @author Volker Bergmann
  */
-public class NormalizeSpaceConverter extends ThreadSafeConverter<String, String> {
+public class SplitStringConverter extends ThreadSafeConverter<String, String[]> {
 
-	public NormalizeSpaceConverter() {
-		super(String.class, String.class);
-	}
+    private char separator;
 
-	@Override
-	public String convert(String sourceValue) throws ConversionException {
-        return StringUtil.normalizeSpace(sourceValue);
+    public SplitStringConverter(char separator) {
+    	super(String.class, String[].class);
+        this.separator = separator;
     }
-	
+
+    @Override
+	public String[] convert(String sourceValue) throws ConversionException {
+        return StringUtil.tokenize(sourceValue, separator);
+    }
 }
