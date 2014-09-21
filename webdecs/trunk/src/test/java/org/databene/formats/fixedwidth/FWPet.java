@@ -19,7 +19,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.document.fixedwidth;
+package org.databene.formats.fixedwidth;
 
 /**
  * Helper class for testing.<br/><br/>

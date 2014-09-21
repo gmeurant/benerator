@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.document.fixedwidth;
+package org.databene.formats.fixedwidth;
 
 import org.junit.Test;
 import static junit.framework.Assert.*;
@@ -35,7 +35,6 @@ import java.util.Arrays;
 import org.databene.commons.SystemInfo;
 import org.databene.commons.format.Alignment;
 import org.databene.commons.format.PadFormat;
-import org.databene.document.fixedwidth.FixedWidthLineIterator;
 import org.databene.webdecs.DataContainer;
 
 /**

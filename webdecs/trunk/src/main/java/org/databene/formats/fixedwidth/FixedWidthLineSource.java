@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.document.fixedwidth;
+package org.databene.formats.fixedwidth;
 
 import org.databene.commons.format.PadFormat;
 import org.databene.webdecs.DataIterator;

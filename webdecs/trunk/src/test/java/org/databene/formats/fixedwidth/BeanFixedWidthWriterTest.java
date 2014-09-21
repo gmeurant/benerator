@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,48 +24,45 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.document.fixedwidth;
+package org.databene.formats.fixedwidth;
 
-import org.junit.Test;
-import static junit.framework.Assert.*;
-
-import java.io.StringWriter;
-import java.io.IOException;
-
+import junit.framework.TestCase;
 import org.databene.script.ConstantScript;
+import org.databene.bean.TP;
+import org.databene.commons.DocumentWriter;
 import org.databene.commons.SystemInfo;
 import org.databene.commons.format.Alignment;
-import org.databene.document.fixedwidth.ArrayFixedWidthWriter;
-import org.databene.document.fixedwidth.FixedWidthColumnDescriptor;
+
+import java.io.IOException;
+import java.io.StringWriter;
 
 /**
- * Tests the {@link ArrayFixedWidthWriter}.<br/><br/>
+ * Tests the BeanFileWriter.<br/><br/>
  * Created: 16.06.2007 06:07:52
  * @since 0.1
  * @author Volker Bergmann
  */
-public class ArrayFixedWidthWriterTest {
+public class BeanFixedWidthWriterTest extends TestCase {
 
     private static final String SEP = SystemInfo.getLineSeparator();
 
     private static String RESULT =
-            "header" + SEP + "1   23" + SEP + "14 156" + SEP + "footer";
+            "header" + SEP + "Carl   48" + SEP + "Carl   48" + SEP + "footer";
 
-    @Test
     public void test() throws IOException {
         StringWriter out = new StringWriter();
-        ArrayFixedWidthWriter<Integer> writer = new ArrayFixedWidthWriter<Integer>(
-                out, new ConstantScript("header" + SEP), new ConstantScript("footer"),
-                new FixedWidthRowTypeDescriptor("default", new FixedWidthColumnDescriptor[] {
-                        new FixedWidthColumnDescriptor(2, Alignment.LEFT),
-                        new FixedWidthColumnDescriptor(3, Alignment.RIGHT),
-                        new FixedWidthColumnDescriptor(1, Alignment.LEFT)
-                })
+        DocumentWriter<TP> writer = new BeanFixedWidthWriter<TP>(out,
+                new ConstantScript("header" + SEP), new ConstantScript("footer"),
+                new FixedWidthColumnDescriptor[] {
+                        new FixedWidthColumnDescriptor("name", 6, Alignment.LEFT),
+                        new FixedWidthColumnDescriptor("age", 3, Alignment.RIGHT)
+                }
         );
-        writer.writeElement(new Integer[] {  1,  2, 3 });
-        writer.writeElement(new Integer[] { 14, 15, 6 });
+        TP person = new TP();
+        writer.writeElement(person);
+        writer.writeElement(person);
         writer.close();
         assertEquals(RESULT, out.toString());
     }
-
+    
 }

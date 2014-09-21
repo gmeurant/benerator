@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.document.fixedwidth;
+package org.databene.formats.fixedwidth;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -34,7 +34,6 @@ import java.util.Locale;
 
 import org.databene.commons.TimeUtil;
 import org.databene.commons.format.Alignment;
-import org.databene.document.fixedwidth.FixedWidthColumnDescriptor;
 
 import org.junit.Test;
 import static junit.framework.Assert.*;

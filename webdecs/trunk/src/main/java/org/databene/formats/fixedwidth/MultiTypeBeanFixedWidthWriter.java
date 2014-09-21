@@ -19,7 +19,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.document.fixedwidth;
+package org.databene.formats.fixedwidth;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -32,42 +32,46 @@ import org.databene.commons.Assert;
 import org.databene.commons.SystemInfo;
 
 /**
- * Writes data arrays to fixed-width files supporting different row types and formats.<br/><br/>
- * Created: 13.03.2014 12:37:54
+ * Writes JavaBean properties (graphs) to a file with fixed-width columns.<br/><br/>
+ * Created: 14.03.2014 16:09:37
  * @since 0.7.2
  * @author Volker Bergmann
  */
 
-public class MultiTypeArrayFixedWidthWriter implements Closeable {
+public class MultiTypeBeanFixedWidthWriter implements Closeable {
 	
 	private final Writer out;
 	private Map<String, FixedWidthRowTypeDescriptor> rowDescriptors;
 	
-	public MultiTypeArrayFixedWidthWriter(Writer out) {
+	public MultiTypeBeanFixedWidthWriter(Writer out) {
 		this(out, null);
 	}
 	
-	public MultiTypeArrayFixedWidthWriter(Writer out, List<FixedWidthRowTypeDescriptor> rowDescriptors) {
+	public MultiTypeBeanFixedWidthWriter(Writer out, List<FixedWidthRowTypeDescriptor> rowDescriptors) {
 		Assert.notNull(out, "Writer");
 		this.out = out;
 		this.rowDescriptors = new HashMap<String, FixedWidthRowTypeDescriptor>();
 		if (rowDescriptors != null)
 			for (FixedWidthRowTypeDescriptor rowDescriptor : rowDescriptors)
-				addRowFormat(rowDescriptor);
+				addRowFormat(rowDescriptor.getName(), rowDescriptor);
 	}
 	
-	public void addRowFormat(FixedWidthRowTypeDescriptor rowDescriptor) {
-		this.rowDescriptors.put(rowDescriptor.getName(), rowDescriptor);
+	public void addRowFormat(String simpleClassName, FixedWidthRowTypeDescriptor rowDescriptor) {
+		this.rowDescriptors.put(simpleClassName, rowDescriptor);
 	}
 	
-	public void write(String rowTypeName, Object... values) throws IOException {
+	public FixedWidthRowTypeDescriptor getRowFormat(String simpleClassName) {
+		return this.rowDescriptors.get(simpleClassName);
+	}
+	
+	public void write(Object bean) throws IOException {
 		// Check preconditions
-		Assert.notNull(values, "array");
-		FixedWidthRowTypeDescriptor rowType = rowDescriptors.get(rowTypeName);
-		if (rowType == null)
-			throw new IllegalArgumentException("Illegal row type: " + rowTypeName);
-		// format array
-		out.write(rowType.formatArray(values));
+		Assert.notNull(bean, "bean");
+		FixedWidthRowTypeDescriptor cellFormats = rowDescriptors.get(bean.getClass().getSimpleName());
+		if (cellFormats == null)
+			throw new IllegalArgumentException("Bean class not configured: " + bean.getClass().getSimpleName());
+		// format row
+		out.write(cellFormats.formatBean(bean));
 		out.write(SystemInfo.getLineSeparator());
 	}
 

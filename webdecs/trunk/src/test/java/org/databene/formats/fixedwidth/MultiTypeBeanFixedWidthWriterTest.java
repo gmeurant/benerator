@@ -19,46 +19,42 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.document.fixedwidth;
+package org.databene.formats.fixedwidth;
 
 import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.Calendar;
 import java.util.Locale;
 
 import org.databene.commons.ReaderLineIterator;
-import org.databene.commons.TimeUtil;
 import org.junit.Test;
 
 /**
- * Tests the {@link MultiTypeArrayFixedWidthWriter}.<br/><br/>
- * Created: 13.03.2014 13:10:27
+ * Tests the {@link MultiTypeBeanFixedWidthWriter}.<br/><br/>
+ * Created: 14.03.2014 16:26:52
  * @since 0.7.2
  * @author Volker Bergmann
  */
 
-public class MultiTypeArrayFixedWidthWriterTest {
-	
+public class MultiTypeBeanFixedWidthWriterTest {
+
 	@Test
 	public void testDefaultFormats() throws Exception {
 		String fileName = "target" + File.separator + getClass().getSimpleName() + ".fcw";
 		FileWriter out = new FileWriter(fileName);
-		MultiTypeArrayFixedWidthWriter writer = new MultiTypeArrayFixedWidthWriter(out);
-		FixedWidthRowTypeDescriptor f1 = FixedWidthUtil.parseArrayColumnsSpec("8,3r0,10,5", "t1", "", Locale.US);
-		writer.addRowFormat(f1);
-		FixedWidthRowTypeDescriptor f2 = FixedWidthUtil.parseArrayColumnsSpec("6,5r0,15", "t2", "", Locale.US);
-		writer.addRowFormat(f2);
-		writer.write("t1", "Alice", 23, TimeUtil.date(2014, Calendar.JANUARY, 1), 1.23);
-		writer.write("t2", "Bob", 34, TimeUtil.date(2014, Calendar.FEBRUARY, 28));
+		MultiTypeBeanFixedWidthWriter writer = new MultiTypeBeanFixedWidthWriter(out);
+		writer.addRowFormat("FWPerson", FixedWidthUtil.parseBeanColumnsSpec("name[8],age[3r0],pet.name[7]", "FWPerson", "", Locale.US));
+		writer.addRowFormat("FWCity", FixedWidthUtil.parseBeanColumnsSpec("name[18]", "FWCity", "", Locale.US));
+		writer.write(new FWPerson("Alice", 23, new FWPet("Miez")));
+		writer.write(new FWCity("New York"));
 		writer.close();
 		ReaderLineIterator iterator = new ReaderLineIterator(new FileReader(fileName));
 		assertTrue(iterator.hasNext());
-		assertEquals("Alice   0232014-01-011.23 ", iterator.next());
+		assertEquals("Alice   023Miez   ", iterator.next());
 		assertTrue(iterator.hasNext());
-		assertEquals("Bob   000342014-02-28     ", iterator.next());
+		assertEquals("New York          ", iterator.next());
 		assertFalse(iterator.hasNext());
 		iterator.close();
 	}

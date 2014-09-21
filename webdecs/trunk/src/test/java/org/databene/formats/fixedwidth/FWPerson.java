@@ -19,21 +19,25 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.document.fixedwidth;
+package org.databene.formats.fixedwidth;
 
 /**
  * Helper class for testing.<br/><br/>
- * Created: 14.03.2014 16:32:45
+ * Created: 14.03.2014 16:30:40
  * @since 0.7.2
  * @author Volker Bergmann
  */
 
-public class FWCity {
+public class FWPerson {
 	
 	private String name;
-
-	public FWCity(String name) {
+	private int age;
+	private FWPet pet;
+	
+	public FWPerson(String name, int age, FWPet pet) {
 		this.name = name;
+		this.age = age;
+		this.pet = pet;
 	}
 
 	public String getName() {
@@ -42,6 +46,22 @@ public class FWCity {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public FWPet getPet() {
+		return pet;
+	}
+
+	public void setPet(FWPet pet) {
+		this.pet = pet;
 	}
 	
 }
