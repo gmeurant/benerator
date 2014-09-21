@@ -32,9 +32,9 @@ import static junit.framework.Assert.*;
 import java.io.StringWriter;
 import java.io.IOException;
 
-import org.databene.script.ConstantScript;
 import org.databene.commons.SystemInfo;
 import org.databene.commons.format.Alignment;
+import org.databene.formats.script.ConstantScript;
 
 /**
  * Tests the {@link ArrayFixedWidthWriter}.<br/><br/>

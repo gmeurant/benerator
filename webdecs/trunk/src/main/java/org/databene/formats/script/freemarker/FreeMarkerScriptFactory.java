@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.script.freemarker;
+package org.databene.formats.script.freemarker;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,8 +33,8 @@ import java.nio.charset.Charset;
 import java.util.Locale;
 
 import org.databene.commons.IOUtil;
-import org.databene.script.Script;
-import org.databene.script.ScriptFactory;
+import org.databene.formats.script.Script;
+import org.databene.formats.script.ScriptFactory;
 
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;

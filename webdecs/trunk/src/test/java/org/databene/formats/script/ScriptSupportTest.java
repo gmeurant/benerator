@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008-2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,18 +24,29 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.script;
+package org.databene.formats.script;
 
-import java.io.IOException;
-
-import org.databene.commons.ParseException;
+import org.databene.commons.Context;
+import org.databene.commons.context.DefaultContext;
+import org.databene.formats.script.ScriptUtil;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
- * Factory class for {@link Script} objects.<br/><br/>
- * @since 0.3.0
+ * Test the ScriptSupport class.<br/><br/>
+ * Created: 27.01.2008 17:38:51
  * @author Volker Bergmann
  */
-public interface ScriptFactory {
-    Script readFile(String uri) throws ParseException, IOException;
-    Script parseText(String text) throws ParseException;
+public class ScriptSupportTest {
+
+	@Test
+    public void testRender() {
+        assertEquals("xyz", ScriptUtil.evaluate("xyz", null));
+        assertEquals("xyz${var}xyz", ScriptUtil.evaluate("xyz${var}xyz", null));
+        Context context = new DefaultContext();
+        context.set("var", "!!!");
+        assertEquals("xyz!!!xyz", ScriptUtil.evaluate("{xyz${var}xyz}", context));
+        assertEquals("xyz!!!xyz", ScriptUtil.evaluate("{ftl:xyz${var}xyz}", context));
+    }
+	
 }

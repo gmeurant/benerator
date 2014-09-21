@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,33 +24,44 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.script;
-
-import java.io.Writer;
-import java.io.IOException;
+package org.databene.formats.script;
 
 import org.databene.commons.Context;
+import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
+import org.databene.commons.converter.ConverterWrapper;
 
 /**
- * Script implementation that evaluates to a String constant.<br/>
- * <br/>
- * Created: 16.06.2007 06:15:32
+ * {@link Converter} can recognize and resolve script expressions in {@link String} values,
+ * forwarding values of other Java type 'as is'.<br/><br/>
+ * Created: 07.08.2011 08:27:27
+ * @since 0.5.9
  * @author Volker Bergmann
  */
-public class ConstantScript extends AbstractScript {
-
-    private String text;
-
-    public ConstantScript(String text) {
-        this.text = text;
+public class ScriptConverterForObjects extends ConverterWrapper<String, Object> 
+		implements Converter<Object, Object>{
+    
+    public ScriptConverterForObjects(Context context) {
+    	super(new ScriptConverterForStrings(context));
     }
 
-    public void setVariable(String variableName, Object variableValue) {
-        // nothing to do
-    }
+	@Override
+	public Class<Object> getSourceType() {
+		return Object.class;
+	}
+
+	@Override
+	public Class<Object> getTargetType() {
+		return Object.class;
+	}
 
     @Override
-    public void execute(Context context, Writer out) throws IOException, ScriptException {
-        out.write(text);
+	public Object convert(Object sourceValue) throws ConversionException {
+    	// I might iterate through mixed sets of strings and numbers (e.g. from an XLS file)...
+    	if (sourceValue instanceof String) //...so I only apply script evaluation on strings
+    		return realConverter.convert((String) sourceValue);
+    	else
+    		return sourceValue;
     }
+
 }

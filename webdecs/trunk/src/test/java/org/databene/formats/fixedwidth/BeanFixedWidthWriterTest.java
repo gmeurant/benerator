@@ -27,11 +27,11 @@
 package org.databene.formats.fixedwidth;
 
 import junit.framework.TestCase;
-import org.databene.script.ConstantScript;
 import org.databene.bean.TP;
 import org.databene.commons.DocumentWriter;
 import org.databene.commons.SystemInfo;
 import org.databene.commons.format.Alignment;
+import org.databene.formats.script.ConstantScript;
 
 import java.io.IOException;
 import java.io.StringWriter;

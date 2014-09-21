@@ -24,40 +24,59 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.script;
+package org.databene.formats.script.jsr223;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Map;
 
+import javax.script.ScriptEngine;
+
+import org.databene.commons.Assert;
 import org.databene.commons.Context;
-import org.databene.commons.converter.ToStringConverter;
+import org.databene.formats.script.Script;
+import org.databene.formats.script.ScriptException;
 
 /**
- * Abstract implementation of the Script interface. 
- * When inheriting from it, you must overwrite at least one of the methods 
- * <code>evaluate()</code> and <code>execute()</code>.<br/>
+ * Provides {@link Script} functionality based on JSR 227: Scripting for the Java platform.<br/>
  * <br/>
- * Created at 23.12.2008 07:15:39
+ * Created at 23.12.2008 07:19:54
  * @since 0.4.7
  * @author Volker Bergmann
  */
 
-public abstract class AbstractScript implements Script {
+public class Jsr223Script implements Script {
+	
+	private ScriptEngine engine;
+
+	private String text;
+
+	public Jsr223Script(String text, ScriptEngine engine) {
+		Assert.notEmpty(text, "text");
+		Assert.notNull(engine, "engine");
+		this.text = text;
+		this.engine = engine;
+	}
 
 	@Override
 	public Object evaluate(Context context) throws ScriptException {
 		try {
-			StringWriter writer = new StringWriter();
-			execute(context, writer);
-			return writer.toString();
-		} catch (IOException e) {
-			throw new ScriptException(e);
+			engine.put("benerator", context);
+			for (Map.Entry<String, Object> entry : context.entrySet())
+				engine.put(entry.getKey(), entry.getValue());
+			return engine.eval(text);
+		} catch (javax.script.ScriptException e) {
+			throw new ScriptException("Error in evaluating script", e);
 		}
 	}
 
 	@Override
 	public void execute(Context context, Writer out) throws ScriptException, IOException {
-		out.write(ToStringConverter.convert(evaluate(context), ""));
+		out.write(String.valueOf(evaluate(context)));
+	}
+
+	@Override
+	public String toString() {
+		return text;
 	}
 }

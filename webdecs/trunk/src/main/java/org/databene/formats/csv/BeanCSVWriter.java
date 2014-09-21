@@ -36,6 +36,11 @@ import org.databene.commons.bean.BeanToFeatureArrayConverter;
 import org.databene.commons.converter.ArrayConverter;
 import org.databene.commons.converter.ConverterChain;
 import org.databene.commons.converter.ToStringConverter;
+import org.databene.formats.script.AbstractScript;
+import org.databene.formats.script.ConstantScript;
+import org.databene.formats.script.Script;
+import org.databene.formats.script.ScriptException;
+import org.databene.formats.script.ScriptedDocumentWriter;
 
 import java.beans.PropertyDescriptor;
 import java.io.Writer;

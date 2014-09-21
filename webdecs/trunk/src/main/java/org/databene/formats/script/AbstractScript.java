@@ -24,54 +24,40 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.script.jsr223;
+package org.databene.formats.script;
 
 import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-
-import org.databene.commons.FileUtil;
-import org.databene.commons.IOUtil;
-import org.databene.script.Script;
-import org.databene.script.ScriptFactory;
+import org.databene.commons.Context;
+import org.databene.commons.converter.ToStringConverter;
 
 /**
- * Creates {@link Jsr223Script}s.<br/>
+ * Abstract implementation of the Script interface. 
+ * When inheriting from it, you must overwrite at least one of the methods 
+ * <code>evaluate()</code> and <code>execute()</code>.<br/>
  * <br/>
- * Created at 23.12.2008 07:35:08
+ * Created at 23.12.2008 07:15:39
  * @since 0.4.7
  * @author Volker Bergmann
  */
 
-public class Jsr223ScriptFactory implements ScriptFactory {
+public abstract class AbstractScript implements Script {
 
-	private static ScriptEngineManager factory = new ScriptEngineManager();
-	
-	private ScriptEngine engine;
-	
-	public Jsr223ScriptFactory(ScriptEngine engine) {
-		this.engine = engine;
+	@Override
+	public Object evaluate(Context context) throws ScriptException {
+		try {
+			StringWriter writer = new StringWriter();
+			execute(context, writer);
+			return writer.toString();
+		} catch (IOException e) {
+			throw new ScriptException(e);
+		}
 	}
 
 	@Override
-	public Script parseText(String text) {
-		return parseText(text, engine);
+	public void execute(Context context, Writer out) throws ScriptException, IOException {
+		out.write(ToStringConverter.convert(evaluate(context), ""));
 	}
-
-	@Override
-	public Script readFile(String uri) throws IOException {
-		String text = IOUtil.getContentOfURI(uri);
-		String type = FileUtil.suffix(uri);
-		return parseText(text, type);
-	}
-	
-	public static Script parseText(String text, String engineId) {
-		return new Jsr223Script(text, factory.getEngineByName(engineId));
-	}
-
-	private static Script parseText(String text, ScriptEngine engine) {
-		return new Jsr223Script(text, engine);
-	}
-
 }

@@ -24,59 +24,54 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.script.jsr223;
+package org.databene.formats.script.jsr223;
 
 import java.io.IOException;
-import java.io.Writer;
-import java.util.Map;
 
 import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 
-import org.databene.commons.Assert;
-import org.databene.commons.Context;
-import org.databene.script.Script;
-import org.databene.script.ScriptException;
+import org.databene.commons.FileUtil;
+import org.databene.commons.IOUtil;
+import org.databene.formats.script.Script;
+import org.databene.formats.script.ScriptFactory;
 
 /**
- * Provides {@link Script} functionality based on JSR 227: Scripting for the Java platform.<br/>
+ * Creates {@link Jsr223Script}s.<br/>
  * <br/>
- * Created at 23.12.2008 07:19:54
+ * Created at 23.12.2008 07:35:08
  * @since 0.4.7
  * @author Volker Bergmann
  */
 
-public class Jsr223Script implements Script {
+public class Jsr223ScriptFactory implements ScriptFactory {
+
+	private static ScriptEngineManager factory = new ScriptEngineManager();
 	
 	private ScriptEngine engine;
-
-	private String text;
-
-	public Jsr223Script(String text, ScriptEngine engine) {
-		Assert.notEmpty(text, "text");
-		Assert.notNull(engine, "engine");
-		this.text = text;
+	
+	public Jsr223ScriptFactory(ScriptEngine engine) {
 		this.engine = engine;
 	}
 
 	@Override
-	public Object evaluate(Context context) throws ScriptException {
-		try {
-			engine.put("benerator", context);
-			for (Map.Entry<String, Object> entry : context.entrySet())
-				engine.put(entry.getKey(), entry.getValue());
-			return engine.eval(text);
-		} catch (javax.script.ScriptException e) {
-			throw new ScriptException("Error in evaluating script", e);
-		}
+	public Script parseText(String text) {
+		return parseText(text, engine);
 	}
 
 	@Override
-	public void execute(Context context, Writer out) throws ScriptException, IOException {
-		out.write(String.valueOf(evaluate(context)));
+	public Script readFile(String uri) throws IOException {
+		String text = IOUtil.getContentOfURI(uri);
+		String type = FileUtil.suffix(uri);
+		return parseText(text, type);
+	}
+	
+	public static Script parseText(String text, String engineId) {
+		return new Jsr223Script(text, factory.getEngineByName(engineId));
 	}
 
-	@Override
-	public String toString() {
-		return text;
+	private static Script parseText(String text, ScriptEngine engine) {
+		return new Jsr223Script(text, engine);
 	}
+
 }

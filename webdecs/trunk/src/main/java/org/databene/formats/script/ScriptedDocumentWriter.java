@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.script;
+package org.databene.formats.script;
 
 import org.databene.commons.Context;
 import org.databene.commons.DocumentWriter;

@@ -24,29 +24,30 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.script;
+package org.databene.formats.script;
 
 /**
- * Name-value-pair that represents a variable in a Script.<br/>
+ * Indicates the failure of a {@link Script} execution.<br/>
  * <br/>
- * Created: 07.06.2007 11:43:01
+ * Created: 03.02.2007 12:19:00
  * @author Volker Bergmann
  */
-public class ScriptVariable {
+public class ScriptException extends RuntimeException {
+    
+	private static final long serialVersionUID = 837802417051369136L;
 
-    private String name;
-    private Object value;
-
-    public ScriptVariable(String name, Object value) {
-        this.name = name;
-        this.value = value;
+	public ScriptException() {
     }
 
-    public String getName() {
-        return name;
+    public ScriptException(String message) {
+        super(message);
     }
 
-    public Object getValue() {
-        return value;
+    public ScriptException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public ScriptException(Throwable cause) {
+        super(cause);
     }
 }

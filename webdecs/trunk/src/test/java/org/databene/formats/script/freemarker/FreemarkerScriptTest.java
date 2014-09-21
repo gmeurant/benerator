@@ -24,15 +24,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.script.freemarker;
+package org.databene.formats.script.freemarker;
 
 import java.io.StringWriter;
 import java.io.IOException;
 
 import org.databene.commons.Context;
 import org.databene.commons.context.DefaultContext;
-import org.databene.script.ScriptException;
-import org.databene.script.Script;
+import org.databene.formats.script.Script;
+import org.databene.formats.script.ScriptException;
+import org.databene.formats.script.freemarker.FreeMarkerScript;
 import org.junit.Test;
 
 import freemarker.template.Configuration;
@@ -48,7 +49,7 @@ public class FreemarkerScriptTest {
 
 	@Test
     public void testScriptGetInstance() throws IOException, ScriptException {
-        Script script = new FreeMarkerScript("src/test/resources/org/databene/script/freemarker/test.ftl", new Configuration());
+        Script script = new FreeMarkerScript("src/test/resources/org/databene/formats/script/freemarker/test.ftl", new Configuration());
         Context context = new DefaultContext();
         context.set("var_dings", "XYZ");
         StringWriter writer = new StringWriter();

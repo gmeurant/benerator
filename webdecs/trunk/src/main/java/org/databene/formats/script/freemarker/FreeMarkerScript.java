@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.script.freemarker;
+package org.databene.formats.script.freemarker;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -34,9 +34,9 @@ import java.io.Writer;
 import java.io.IOException;
 
 import org.databene.commons.Context;
-import org.databene.script.AbstractScript;
-import org.databene.script.Script;
-import org.databene.script.ScriptException;
+import org.databene.formats.script.AbstractScript;
+import org.databene.formats.script.Script;
+import org.databene.formats.script.ScriptException;
 
 /**
  * {@link Script} implementation that uses the FreeMarker engine.<br/>

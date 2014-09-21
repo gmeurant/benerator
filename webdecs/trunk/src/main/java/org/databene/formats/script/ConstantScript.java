@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2008 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,39 +24,33 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.script;
+package org.databene.formats.script;
 
-import org.junit.Test;
-import static junit.framework.Assert.*;
-import org.databene.commons.SystemInfo;
-
+import java.io.Writer;
 import java.io.IOException;
-import java.io.StringWriter;
+
+import org.databene.commons.Context;
 
 /**
- * Tests the {@link ScriptedDocumentWriter}.<br/><br/>
- * Created: 16.06.2007 06:07:52
- * @since 0.1
+ * Script implementation that evaluates to a String constant.<br/>
+ * <br/>
+ * Created: 16.06.2007 06:15:32
  * @author Volker Bergmann
  */
-public class ScriptedDocumentWriterTest {
+public class ConstantScript extends AbstractScript {
 
-    private static final String SEP = SystemInfo.getLineSeparator();
+    private String text;
 
-    private static String RESULT =
-            "header" + SEP + "row" + SEP + "footer";
-
-    @Test
-    public void test() throws IOException {
-        StringWriter out = new StringWriter();
-        ScriptedDocumentWriter<String> writer = new ScriptedDocumentWriter<String>(
-                out,
-                new ConstantScript("header" + SEP),
-                new ConstantScript("row" + SEP),
-                new ConstantScript("footer"));
-        writer.writeElement(null);
-        writer.close();
-        assertEquals(RESULT, out.toString());
+    public ConstantScript(String text) {
+        this.text = text;
     }
-    
+
+    public void setVariable(String variableName, Object variableValue) {
+        // nothing to do
+    }
+
+    @Override
+    public void execute(Context context, Writer out) throws IOException, ScriptException {
+        out.write(text);
+    }
 }

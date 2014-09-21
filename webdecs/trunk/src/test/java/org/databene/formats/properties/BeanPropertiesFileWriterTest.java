@@ -32,10 +32,10 @@ import static junit.framework.Assert.*;
 import java.io.IOException;
 import java.io.StringWriter;
 
-import org.databene.script.ConstantScript;
 import org.databene.bean.TP;
 import org.databene.commons.DocumentWriter;
 import org.databene.commons.SystemInfo;
+import org.databene.formats.script.ConstantScript;
 
 /**
  * Tests the BeanPropertiesFileWriter.<br/>

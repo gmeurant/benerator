@@ -26,17 +26,17 @@
 
 package org.databene.formats.csv;
 
-import org.databene.script.AbstractScript;
-import org.databene.script.Script;
-import org.databene.script.ScriptException;
-import org.databene.script.ScriptUtil;
-import org.databene.script.ScriptedDocumentWriter;
-import org.databene.script.ConstantScript;
 import org.databene.commons.Context;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
 import org.databene.commons.SystemInfo;
 import org.databene.commons.converter.ToStringConverter;
+import org.databene.formats.script.AbstractScript;
+import org.databene.formats.script.ConstantScript;
+import org.databene.formats.script.Script;
+import org.databene.formats.script.ScriptException;
+import org.databene.formats.script.ScriptUtil;
+import org.databene.formats.script.ScriptedDocumentWriter;
 
 import java.io.Writer;
 import java.io.IOException;

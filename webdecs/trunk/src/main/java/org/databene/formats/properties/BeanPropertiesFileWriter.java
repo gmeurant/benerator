@@ -26,11 +26,6 @@
 
 package org.databene.formats.properties;
 
-import org.databene.script.AbstractScript;
-import org.databene.script.Script;
-import org.databene.script.ScriptException;
-import org.databene.script.ScriptUtil;
-import org.databene.script.ScriptedDocumentWriter;
 import org.databene.commons.Context;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;
@@ -41,6 +36,11 @@ import org.databene.commons.bean.BeanToPropertyArrayConverter;
 import org.databene.commons.converter.ArrayConverter;
 import org.databene.commons.converter.ConverterChain;
 import org.databene.commons.converter.ToStringConverter;
+import org.databene.formats.script.AbstractScript;
+import org.databene.formats.script.Script;
+import org.databene.formats.script.ScriptException;
+import org.databene.formats.script.ScriptUtil;
+import org.databene.formats.script.ScriptedDocumentWriter;
 
 import java.io.IOException;
 import java.io.Writer;

@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.script;
+package org.databene.formats.script;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -43,7 +43,7 @@ import org.databene.commons.FileUtil;
 import org.databene.commons.IOUtil;
 import org.databene.commons.LogCategories;
 import org.databene.commons.StringUtil;
-import org.databene.script.jsr223.Jsr223ScriptFactory;
+import org.databene.formats.script.jsr223.Jsr223ScriptFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,7 +63,7 @@ public class ScriptUtil {
 
 	private static Map<String, ScriptFactory> factories;
 
-    private static final String SETUP_FILE_NAME = "org/databene/script/script.properties";
+    private static final String SETUP_FILE_NAME = "org/databene/formats/script/script.properties";
 
     static {
         parseConfigFile();

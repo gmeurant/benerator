@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2011-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -19,14 +19,33 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.script;
+package org.databene.formats.script;
+
+import org.databene.commons.Context;
+import org.databene.commons.ConversionException;
+import org.databene.commons.Converter;
+import org.databene.commons.converter.ThreadSafeConverter;
 
 /**
- * Describes if a text is a script text or plain text.<br/><br/>
- * Created: 09.08.2010 16:42:33
- * @since 0.5.4
+ * {@link Converter} can recognize and resolve script expressions in strings.<br/><br/>
+ * @since 0.3.0
  * @author Volker Bergmann
  */
-public enum ScriptLevel {
-	NONE, SCRIPT
+public class ScriptConverterForStrings extends ThreadSafeConverter<String, Object> {
+
+    private Context context;
+    
+    public ScriptConverterForStrings(Context context) {
+    	super(String.class, Object.class);
+        this.context = context;
+    }
+
+	@Override
+	public Object convert(String sourceValue) throws ConversionException {
+		if (sourceValue != null)
+			return ScriptUtil.evaluate((String) sourceValue, context);
+		else
+			return null;
+	}
+
 }

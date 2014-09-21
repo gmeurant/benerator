@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,28 +24,21 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.script;
+package org.databene.formats.script;
 
 import org.databene.commons.Context;
-import org.databene.commons.context.DefaultContext;
-import org.junit.Test;
-import static junit.framework.Assert.*;
+
+import java.io.IOException;
+import java.io.Writer;
 
 /**
- * Test the ScriptSupport class.<br/><br/>
- * Created: 27.01.2008 17:38:51
+ * Abstraction of a Script.<br/>
+ * <br/>
+ * Created: 03.02.2007 11:50:27
  * @author Volker Bergmann
  */
-public class ScriptSupportTest {
-
-	@Test
-    public void testRender() {
-        assertEquals("xyz", ScriptUtil.evaluate("xyz", null));
-        assertEquals("xyz${var}xyz", ScriptUtil.evaluate("xyz${var}xyz", null));
-        Context context = new DefaultContext();
-        context.set("var", "!!!");
-        assertEquals("xyz!!!xyz", ScriptUtil.evaluate("{xyz${var}xyz}", context));
-        assertEquals("xyz!!!xyz", ScriptUtil.evaluate("{ftl:xyz${var}xyz}", context));
-    }
-	
+public interface Script { // TODO extends Expression ?
+    void execute(Context context, Writer out) throws ScriptException, IOException;
+    Object evaluate(Context context) throws ScriptException;
+    // TODO add isConstant() ?
 }

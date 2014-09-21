@@ -19,11 +19,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.script;
+package org.databene.formats.script;
 
 import static org.junit.Assert.*;
 
 import org.databene.commons.ParseException;
+import org.databene.formats.script.Script;
+import org.databene.formats.script.ScriptDescriptor;
+import org.databene.formats.script.ScriptFactory;
+import org.databene.formats.script.ScriptLevel;
+import org.databene.formats.script.ScriptUtil;
 import org.junit.Test;
 
 /**

@@ -19,39 +19,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.script;
-
-import org.databene.commons.StringUtil;
+package org.databene.formats.script;
 
 /**
- * Describes a script.<br/><br/>
- * Created: 09.08.2010 16:40:50
+ * Describes if a text is a script text or plain text.<br/><br/>
+ * Created: 09.08.2010 16:42:33
  * @since 0.5.4
  * @author Volker Bergmann
  */
-public class ScriptDescriptor {
-	
-	public final String scriptEngine;
-	public final ScriptLevel level;
-	public final String text;
-
-	public ScriptDescriptor(String text) {
-		if (text != null && text.startsWith("{") && text.endsWith("}")) {
-			text = text.substring(1, text.length() - 1);
-	        String[] tokens = StringUtil.splitOnFirstSeparator(text, ':');
-	        if (tokens.length > 1 && ScriptUtil.getFactory(tokens[0], false) != null) {
-	            this.scriptEngine = tokens[0];
-	            this.text = tokens[1];
-	        } else {
-	        	this.scriptEngine = ScriptUtil.getDefaultScriptEngine();
-	        	this.text = text;
-	        }
-			this.level = ScriptLevel.SCRIPT;
-		} else {
-			this.scriptEngine = null;
-			this.level = ScriptLevel.NONE;
-			this.text = text;
-		}
-    }
-	
+public enum ScriptLevel {
+	NONE, SCRIPT
 }

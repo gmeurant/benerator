@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2011-2014 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2010 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -19,33 +19,39 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.script;
+package org.databene.formats.script;
 
-import org.databene.commons.Context;
-import org.databene.commons.ConversionException;
-import org.databene.commons.Converter;
-import org.databene.commons.converter.ThreadSafeConverter;
+import org.databene.commons.StringUtil;
 
 /**
- * {@link Converter} can recognize and resolve script expressions in strings.<br/><br/>
- * @since 0.3.0
+ * Describes a script.<br/><br/>
+ * Created: 09.08.2010 16:40:50
+ * @since 0.5.4
  * @author Volker Bergmann
  */
-public class ScriptConverterForStrings extends ThreadSafeConverter<String, Object> {
+public class ScriptDescriptor {
+	
+	public final String scriptEngine;
+	public final ScriptLevel level;
+	public final String text;
 
-    private Context context;
-    
-    public ScriptConverterForStrings(Context context) {
-    	super(String.class, Object.class);
-        this.context = context;
+	public ScriptDescriptor(String text) {
+		if (text != null && text.startsWith("{") && text.endsWith("}")) {
+			text = text.substring(1, text.length() - 1);
+	        String[] tokens = StringUtil.splitOnFirstSeparator(text, ':');
+	        if (tokens.length > 1 && ScriptUtil.getFactory(tokens[0], false) != null) {
+	            this.scriptEngine = tokens[0];
+	            this.text = tokens[1];
+	        } else {
+	        	this.scriptEngine = ScriptUtil.getDefaultScriptEngine();
+	        	this.text = text;
+	        }
+			this.level = ScriptLevel.SCRIPT;
+		} else {
+			this.scriptEngine = null;
+			this.level = ScriptLevel.NONE;
+			this.text = text;
+		}
     }
-
-	@Override
-	public Object convert(String sourceValue) throws ConversionException {
-		if (sourceValue != null)
-			return ScriptUtil.evaluate((String) sourceValue, context);
-		else
-			return null;
-	}
-
+	
 }
