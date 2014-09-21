@@ -19,7 +19,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.webdecs.xml;
+package org.databene.formats.xml;
 
 import org.w3c.dom.Element;
 

@@ -19,7 +19,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.webdecs.xml;
+package org.databene.formats.xml;
 
 import java.util.Collections;
 import java.util.Map;
@@ -71,7 +71,7 @@ public abstract class AbstractXMLElementParser<E> implements XMLElementParser<E>
 	}
 	
 	@Override
-	public final E parse(Element element, E[] parentPath, org.databene.webdecs.xml.ParseContext<E> context) {
+	public final E parse(Element element, E[] parentPath, org.databene.formats.xml.ParseContext<E> context) {
 		checkAttributeSupport(element);
 		return doParse(element, parentPath, context);
 	}

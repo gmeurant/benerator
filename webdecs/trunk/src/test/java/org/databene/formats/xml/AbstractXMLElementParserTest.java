@@ -19,11 +19,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.webdecs.xml;
+package org.databene.formats.xml;
 
 import static org.junit.Assert.*;
 
 import org.databene.commons.CollectionUtil;
+import org.databene.formats.xml.AbstractXMLElementParser;
+import org.databene.formats.xml.ParseContext;
 import org.junit.Test;
 import org.w3c.dom.Element;
 
