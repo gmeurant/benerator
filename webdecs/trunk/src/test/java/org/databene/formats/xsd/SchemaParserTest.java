@@ -39,7 +39,7 @@ public class SchemaParserTest {
 	
 	@Test
 	public void test() throws Exception {
-		Schema schema = new SchemaParser().parse(XMLUtil.parse("D03A_IFTDGN.xsd"));
+		Schema schema = new SchemaParser().parse(XMLUtil.parse("org/databene/formats/xsd/D03A_IFTDGN.xsd"));
 		schema.printContent();
 		assertEquals("\nCreated: Exported from EDISIM 6.12.1 10/16/2013 15:43:17.713\nType: UN\nVRI: D 03A\nDesc: UN/EDIFACT Draft Messages and Directories Version D.03A - publ. Jun. 2003\n", schema.getDocumentation());
 	}
