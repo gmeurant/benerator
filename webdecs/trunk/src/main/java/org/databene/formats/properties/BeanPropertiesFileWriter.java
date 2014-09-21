@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.document.properties;
+package org.databene.formats.properties;
 
 import org.databene.script.AbstractScript;
 import org.databene.script.Script;

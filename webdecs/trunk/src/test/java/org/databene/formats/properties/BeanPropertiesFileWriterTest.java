@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.document.properties;
+package org.databene.formats.properties;
 
 import org.junit.Test;
 import static junit.framework.Assert.*;
