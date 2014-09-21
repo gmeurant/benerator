@@ -19,19 +19,18 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.webdecs.dot;
+package org.databene.formats.dot;
 
 /**
- * Enumerates Dot node shapes.<br/><br/>
- * Created: 24.05.2014 06:51:37
+ * Arrow type for dot graphs.<br/><br/>
+ * Created: 24.05.2014 12:18:19
  * @since 0.8.2
  * @author Volker Bergmann
  */
 
-public enum NodeShape {
-	ellipse, record, box, rect,
-	circle, polygon,
-	point, egg, triangle, plaintext, diamond, trapezium, parallelogram, house, pentagon, hexagon, septagon, octagon,
-	doublecircle, doubleoctagon, tripleoctagon, invtriangle, invtrapezium, invhouse, Mdiamond, Msquare, Mcircle,
-	note, tab, folder, box3d, component;
+public enum ArrowShape {
+	none, normal, empty, dot, odot, 
+	diamond, ediamond, box, open, vee, 
+	inv, invdot, invodot, tee, invempty, 
+	odiamond, crow, obox, halfopen
 }

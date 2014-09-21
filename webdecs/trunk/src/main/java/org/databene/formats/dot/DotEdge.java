@@ -19,7 +19,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.webdecs.dot;
+package org.databene.formats.dot;
 
 /**
  * Represents an edge in a Dot graph.<br/><br/>

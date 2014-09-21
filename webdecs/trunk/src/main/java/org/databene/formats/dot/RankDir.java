@@ -19,15 +19,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.webdecs.dot;
+package org.databene.formats.dot;
 
 /**
- * Represents a Dot node style.<br/><br/>
- * Created: 27.05.2014 07:45:29
+ * Enumerates Dot rankdirs.<br/><br/>
+ * Created: 24.05.2014 15:05:06
  * @since 0.8.2
  * @author Volker Bergmann
  */
 
-public enum NodeStyle {
-	solid, dashed, dotted, bold, rounded, diagonals, filled, striped, wedged
+public enum RankDir {
+	TB, BT, LR, RL
 }

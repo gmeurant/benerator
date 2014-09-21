@@ -19,18 +19,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.webdecs.dot;
+package org.databene.formats.dot;
 
 /**
- * Arrow type for dot graphs.<br/><br/>
- * Created: 24.05.2014 12:18:19
+ * Represents a Dot node style.<br/><br/>
+ * Created: 27.05.2014 07:45:29
  * @since 0.8.2
  * @author Volker Bergmann
  */
 
-public enum ArrowShape {
-	none, normal, empty, dot, odot, 
-	diamond, ediamond, box, open, vee, 
-	inv, invdot, invodot, tee, invempty, 
-	odiamond, crow, obox, halfopen
+public enum NodeStyle {
+	solid, dashed, dotted, bold, rounded, diagonals, filled, striped, wedged
 }

@@ -19,15 +19,19 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.webdecs.dot;
+package org.databene.formats.dot;
 
 /**
- * Represents a Dot edge style.<br/><br/>
- * Created: 27.05.2014 08:04:34
+ * Enumerates Dot node shapes.<br/><br/>
+ * Created: 24.05.2014 06:51:37
  * @since 0.8.2
  * @author Volker Bergmann
  */
 
-public enum EdgeStyle {
-	solid, dashed, dotted, bold
+public enum NodeShape {
+	ellipse, record, box, rect,
+	circle, polygon,
+	point, egg, triangle, plaintext, diamond, trapezium, parallelogram, house, pentagon, hexagon, septagon, octagon,
+	doublecircle, doubleoctagon, tripleoctagon, invtriangle, invtrapezium, invhouse, Mdiamond, Msquare, Mcircle,
+	note, tab, folder, box3d, component;
 }

@@ -19,7 +19,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.webdecs.dot;
+package org.databene.formats.dot;
 
 import static org.junit.Assert.*;
 
@@ -27,6 +27,15 @@ import java.io.FileOutputStream;
 
 import org.databene.commons.Encodings;
 import org.databene.commons.IOUtil;
+import org.databene.formats.dot.ArrowShape;
+import org.databene.formats.dot.DefaultDotGraphModel;
+import org.databene.formats.dot.DotGraph;
+import org.databene.formats.dot.DotNode;
+import org.databene.formats.dot.DotWriter;
+import org.databene.formats.dot.EdgeStyle;
+import org.databene.formats.dot.NodeShape;
+import org.databene.formats.dot.NodeStyle;
+import org.databene.formats.dot.RankDir;
 import org.junit.Test;
 
 /**
@@ -50,7 +59,7 @@ public class DotWriterTest {
 		DefaultDotGraphModel model = new DefaultDotGraphModel(graph);
 		DotWriter.persist(model, new FileOutputStream("target/geo.dot"), Encodings.UTF_8);
 		String actual = IOUtil.getContentOfURI("target/geo.dot");
-		String expected = IOUtil.getContentOfURI("org/databene/webdecs/dot/geo.dot");
+		String expected = IOUtil.getContentOfURI("org/databene/formats/dot/geo.dot");
 		assertEquals(expected, actual);
 	}
 	
