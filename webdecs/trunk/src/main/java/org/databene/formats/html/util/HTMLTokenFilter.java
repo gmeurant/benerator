@@ -24,36 +24,39 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.webdecs.demo;
+package org.databene.formats.html.util;
 
-import org.databene.formats.html.parser.DefaultHTMLTokenizer;
-import org.databene.formats.html.parser.FilteringHTMLTokenizer;
+import org.databene.commons.Filter;
 import org.databene.formats.html.parser.HTMLTokenizer;
-import org.databene.formats.html.util.HTMLTokenFilter;
-import org.databene.commons.IOUtil;
-
-import java.io.IOException;
-import java.io.Reader;
-import java.text.ParseException;
 
 /**
- * This class demonstrates how to use the HTMLTokenizer for extracting all link targets of a web page.<br/>
+ * {@link Filter} that accepts HTML tokens by type and name.<br/>
  * <br/>
- * Created: 16.06.2007 10:07:54
+ * Created: 16.06.2007 05:54:38
  * @author Volker Bergmann
  */
-public class HTMLLinkExtractorDemo {
+public class HTMLTokenFilter implements Filter<HTMLTokenizer> {
 
-    public static void main(String[] args) throws IOException, ParseException {
-        // Fetch the web page as stream
-        Reader reader = IOUtil.getReaderForURI("http://www.yahoo.com");
-        // build the filtering iterator structure
-        HTMLTokenizer tokenizer = new DefaultHTMLTokenizer(reader);
-        tokenizer = new FilteringHTMLTokenizer(tokenizer, new HTMLTokenFilter(HTMLTokenizer.START_TAG, "a"));
-        // simply iterate the filter to retrieve all references of the page
-        while (tokenizer.nextToken() != HTMLTokenizer.END)
-            System.out.println(tokenizer.attributes().get("href"));
-        // free resources
-        reader.close();
+    private int tokenType;
+    private String name;
+
+    public HTMLTokenFilter(int tokenType, String name) {
+        this.tokenType = tokenType;
+        this.name = name;
+    }
+
+    @Override
+	public boolean accept(HTMLTokenizer candidate) {
+        if (this.tokenType != candidate.tokenType())
+            return false;
+        return (this.name != null && this.name.equalsIgnoreCase(candidate.name()));
+    }
+
+    public int getTokenType() {
+        return tokenType;
+    }
+
+    public String getName() {
+        return name;
     }
 }

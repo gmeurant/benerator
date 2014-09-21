@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,36 +24,33 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.webdecs.demo;
+package org.databene.formats.html.parser;
 
-import org.databene.formats.html.parser.DefaultHTMLTokenizer;
-import org.databene.formats.html.parser.FilteringHTMLTokenizer;
-import org.databene.formats.html.parser.HTMLTokenizer;
-import org.databene.formats.html.util.HTMLTokenFilter;
-import org.databene.commons.IOUtil;
-
+import java.util.Map;
 import java.io.IOException;
-import java.io.Reader;
 import java.text.ParseException;
 
 /**
- * This class demonstrates how to use the HTMLTokenizer for extracting all link targets of a web page.<br/>
+ * Abstraction of an HTML tokenizer.<br/>
  * <br/>
- * Created: 16.06.2007 10:07:54
+ * Created: 15.06.2007 05:53:19
  * @author Volker Bergmann
  */
-public class HTMLLinkExtractorDemo {
+public interface HTMLTokenizer {
 
-    public static void main(String[] args) throws IOException, ParseException {
-        // Fetch the web page as stream
-        Reader reader = IOUtil.getReaderForURI("http://www.yahoo.com");
-        // build the filtering iterator structure
-        HTMLTokenizer tokenizer = new DefaultHTMLTokenizer(reader);
-        tokenizer = new FilteringHTMLTokenizer(tokenizer, new HTMLTokenFilter(HTMLTokenizer.START_TAG, "a"));
-        // simply iterate the filter to retrieve all references of the page
-        while (tokenizer.nextToken() != HTMLTokenizer.END)
-            System.out.println(tokenizer.attributes().get("href"));
-        // free resources
-        reader.close();
-    }
+    int END                    = -1;
+    int DOCUMENT_TYPE          =  0;
+    int TEXT                   =  1;
+    int START_TAG              =  2;
+    int END_TAG                =  3;
+    int CLOSED_TAG             =  4;
+    int COMMENT                =  5;
+    int PROCESSING_INSTRUCTION =  6;
+    int SCRIPT                 =  7;
+
+    int nextToken() throws IOException, ParseException;
+    int tokenType();
+    String name();
+    String text();
+    Map<String, String> attributes();
 }

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2008-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,36 +24,31 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.webdecs.demo;
+package org.databene.formats.html;
 
-import org.databene.formats.html.parser.DefaultHTMLTokenizer;
-import org.databene.formats.html.parser.FilteringHTMLTokenizer;
-import org.databene.formats.html.parser.HTMLTokenizer;
-import org.databene.formats.html.util.HTMLTokenFilter;
-import org.databene.commons.IOUtil;
+import org.databene.formats.html.HtmlEntity;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.text.ParseException;
+import junit.framework.TestCase;
 
 /**
- * This class demonstrates how to use the HTMLTokenizer for extracting all link targets of a web page.<br/>
- * <br/>
- * Created: 16.06.2007 10:07:54
+ * Tests the {@link HTMLEntityTest}.<br/><br/>
+ * Created at 02.05.2008 17:28:04
+ * @since 0.4.3
  * @author Volker Bergmann
  */
-public class HTMLLinkExtractorDemo {
+public class HTMLEntityTest extends TestCase {
+	
+	public void testXmlCode() {
+		assertEquals(38, HtmlEntity.getEntity("_&amp;_", 1).xmlCode);
+	}
 
-    public static void main(String[] args) throws IOException, ParseException {
-        // Fetch the web page as stream
-        Reader reader = IOUtil.getReaderForURI("http://www.yahoo.com");
-        // build the filtering iterator structure
-        HTMLTokenizer tokenizer = new DefaultHTMLTokenizer(reader);
-        tokenizer = new FilteringHTMLTokenizer(tokenizer, new HTMLTokenFilter(HTMLTokenizer.START_TAG, "a"));
-        // simply iterate the filter to retrieve all references of the page
-        while (tokenizer.nextToken() != HTMLTokenizer.END)
-            System.out.println(tokenizer.attributes().get("href"));
-        // free resources
-        reader.close();
-    }
+	public void testCharacter() {
+		assertEquals('Ö', HtmlEntity.getEntity("&Ouml;", 0).xmlCode);
+		assertEquals('ì', HtmlEntity.getEntity("&igrave;", 0).xmlCode);
+	}
+
+	public void testNumberCode() {
+		assertEquals('Ö', HtmlEntity.getEntity("&#214;", 0).xmlCode);
+	}
+
 }

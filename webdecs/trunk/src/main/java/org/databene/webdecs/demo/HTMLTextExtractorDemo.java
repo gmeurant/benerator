@@ -26,7 +26,7 @@
 
 package org.databene.webdecs.demo;
 
-import org.databene.html.HTML2XML;
+import org.databene.formats.html.HTML2XML;
 import org.databene.xslt.XSLTTransformer;
 import org.databene.commons.ConversionException;
 import org.databene.commons.Converter;

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,36 +24,49 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.webdecs.demo;
+package org.databene.formats.html;
 
 import org.databene.formats.html.parser.DefaultHTMLTokenizer;
 import org.databene.formats.html.parser.FilteringHTMLTokenizer;
 import org.databene.formats.html.parser.HTMLTokenizer;
 import org.databene.formats.html.util.HTMLTokenFilter;
-import org.databene.commons.IOUtil;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
+import java.io.StringReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.text.ParseException;
 
 /**
- * This class demonstrates how to use the HTMLTokenizer for extracting all link targets of a web page.<br/>
- * <br/>
- * Created: 16.06.2007 10:07:54
+ * Tests the {@link FilteringHTMLTokenizer}.<br/><br/>
+ * Created: 16.06.2007 05:53:50
+ * @since 0.1
  * @author Volker Bergmann
  */
-public class HTMLLinkExtractorDemo {
+public class FilteringHTMLTokenizerTest {
 
-    public static void main(String[] args) throws IOException, ParseException {
-        // Fetch the web page as stream
-        Reader reader = IOUtil.getReaderForURI("http://www.yahoo.com");
-        // build the filtering iterator structure
-        HTMLTokenizer tokenizer = new DefaultHTMLTokenizer(reader);
-        tokenizer = new FilteringHTMLTokenizer(tokenizer, new HTMLTokenFilter(HTMLTokenizer.START_TAG, "a"));
-        // simply iterate the filter to retrieve all references of the page
-        while (tokenizer.nextToken() != HTMLTokenizer.END)
-            System.out.println(tokenizer.attributes().get("href"));
-        // free resources
-        reader.close();
+    private static final String HTML = "<html><body>Links<ul>" +
+            "<li><a href='http://databene.org'>Great Tools</a></li>" +
+            "<li><a href='http://bergmann-it.de'>Volker Bergmann</a></li>" +
+            "</ul></body></html>";
+
+    @Test
+    public void testLinkIteration() throws IOException, ParseException {
+        HTMLTokenizer source = new DefaultHTMLTokenizer(new StringReader(HTML));
+        HTMLTokenFilter filter = new HTMLTokenFilter(HTMLTokenizer.START_TAG, "a");
+        HTMLTokenizer tokenizer = new FilteringHTMLTokenizer(source, filter);
+
+        tokenizer.nextToken();
+        assertEquals(HTMLTokenizer.START_TAG, tokenizer.tokenType());
+        assertEquals("a", tokenizer.name());
+        assertEquals("http://databene.org", tokenizer.attributes().get("href"));
+
+        tokenizer.nextToken();
+        assertEquals(HTMLTokenizer.START_TAG, tokenizer.tokenType());
+        assertEquals("a", tokenizer.name());
+        assertEquals("http://bergmann-it.de", tokenizer.attributes().get("href"));
+
+        assertEquals(HTMLTokenizer.END, tokenizer.nextToken());
     }
+
 }

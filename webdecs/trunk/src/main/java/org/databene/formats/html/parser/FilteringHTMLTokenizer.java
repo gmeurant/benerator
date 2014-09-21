@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,36 +24,57 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.webdecs.demo;
+package org.databene.formats.html.parser;
 
-import org.databene.formats.html.parser.DefaultHTMLTokenizer;
-import org.databene.formats.html.parser.FilteringHTMLTokenizer;
-import org.databene.formats.html.parser.HTMLTokenizer;
-import org.databene.formats.html.util.HTMLTokenFilter;
-import org.databene.commons.IOUtil;
+import org.databene.commons.Filter;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.text.ParseException;
+import java.util.Map;
 
 /**
- * This class demonstrates how to use the HTMLTokenizer for extracting all link targets of a web page.<br/>
+ * {@link HTMLTokenizer} proxy that returns only the tokens that match a {@link Filter}.<br/>
  * <br/>
- * Created: 16.06.2007 10:07:54
+ * Created: 16.06.2007 05:50:50
  * @author Volker Bergmann
  */
-public class HTMLLinkExtractorDemo {
+public class FilteringHTMLTokenizer implements HTMLTokenizer{
 
-    public static void main(String[] args) throws IOException, ParseException {
-        // Fetch the web page as stream
-        Reader reader = IOUtil.getReaderForURI("http://www.yahoo.com");
-        // build the filtering iterator structure
-        HTMLTokenizer tokenizer = new DefaultHTMLTokenizer(reader);
-        tokenizer = new FilteringHTMLTokenizer(tokenizer, new HTMLTokenFilter(HTMLTokenizer.START_TAG, "a"));
-        // simply iterate the filter to retrieve all references of the page
-        while (tokenizer.nextToken() != HTMLTokenizer.END)
-            System.out.println(tokenizer.attributes().get("href"));
-        // free resources
-        reader.close();
+    private HTMLTokenizer source;
+    private Filter<HTMLTokenizer> filter;
+
+    public FilteringHTMLTokenizer(HTMLTokenizer source, Filter<HTMLTokenizer> filter) {
+        this.source = source;
+        this.filter = filter;
     }
+
+    @Override
+	public int nextToken() throws IOException, ParseException {
+        int token;
+        do {
+            token = source.nextToken();
+        } while (token != -1 && !filter.accept(source));
+        return token;
+    }
+
+    @Override
+	public int tokenType() {
+        return source.tokenType();
+    }
+
+    @Override
+	public String name() {
+        return source.name();
+    }
+
+    @Override
+	public String text() {
+        return source.text();
+    }
+
+    @Override
+	public Map<String, String> attributes() {
+        return source.attributes();
+    }
+    
 }
