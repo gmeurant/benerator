@@ -19,13 +19,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.webdecs.xls;
+package org.databene.formats.xls;
 
 import java.util.Iterator;
 
+import org.databene.formats.xls.XLSLineIterator;
 import org.databene.webdecs.DataIterator;
 import org.databene.webdecs.util.AbstractDataSource;
-import org.databene.webdecs.xls.XLSLineIterator;
 
 /**
  * {@link Iterable} implementation which creates {@link Iterator}s 

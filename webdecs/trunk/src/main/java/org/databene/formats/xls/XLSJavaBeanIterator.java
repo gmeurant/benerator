@@ -19,7 +19,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.webdecs.xls;
+package org.databene.formats.xls;
 
 import java.beans.PropertyDescriptor;
 import java.io.IOException;

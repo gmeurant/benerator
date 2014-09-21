@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.webdecs.xls;
+package org.databene.formats.xls;
 
 import java.util.Iterator;
 
@@ -50,9 +50,9 @@ import org.databene.commons.converter.ToStringConverter;
  * @author Volker Bergmann
  */
 
-public class HSSFUtil {
+public class XLSUtil {
 
-	private HSSFUtil() { }
+	private XLSUtil() { }
 	
 	public static Object resolveCellValue(Cell cell) {
 		return resolveCellValue(cell, "'", null, null);

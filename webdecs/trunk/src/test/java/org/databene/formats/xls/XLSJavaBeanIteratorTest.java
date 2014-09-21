@@ -19,7 +19,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.webdecs.xls;
+package org.databene.formats.xls;
 
 import static org.junit.Assert.*;
 
@@ -43,7 +43,7 @@ public class XLSJavaBeanIteratorTest {
 
 	@Test
 	public void testOneToOneAssociation() throws InvalidFormatException, IOException {
-		XLSJavaBeanIterator iterator = new XLSJavaBeanIterator("org/databene/webdecs/xls/persons_with_address.xls", "persons", true, PersonWithAddress.class);
+		XLSJavaBeanIterator iterator = new XLSJavaBeanIterator("org/databene/formats/xls/persons_with_address.xls", "persons", true, PersonWithAddress.class);
 		DataContainer<Object> wrapper = new DataContainer<Object>();
 		assertNotNull(iterator.next(wrapper));
 		assertContent("Alice", 23, "London", wrapper);
@@ -54,7 +54,7 @@ public class XLSJavaBeanIteratorTest {
 
 	@Test
 	public void testOneToManyAssociation() throws InvalidFormatException, IOException {
-		XLSJavaBeanIterator iterator = new XLSJavaBeanIterator("org/databene/webdecs/xls/persons_with_addresses.xls", "persons", true, PersonWithAddress.class);
+		XLSJavaBeanIterator iterator = new XLSJavaBeanIterator("org/databene/formats/xls/persons_with_addresses.xls", "persons", true, PersonWithAddress.class);
 		DataContainer<Object> wrapper = new DataContainer<Object>();
 		assertNotNull(iterator.next(wrapper));
 		assertContent("Alice", 23, "London", "Dover", wrapper);

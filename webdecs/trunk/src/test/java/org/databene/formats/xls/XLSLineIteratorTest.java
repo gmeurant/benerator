@@ -24,13 +24,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.webdecs.xls;
+package org.databene.formats.xls;
 
 import org.databene.commons.ArrayUtil;
 import org.databene.commons.TimeUtil;
 import org.databene.webdecs.DataContainer;
 import org.databene.webdecs.util.DataIteratorTestCase;
-import org.databene.webdecs.xls.XLSLineIterator;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -44,9 +43,9 @@ import static org.junit.Assert.*;
 
 public class XLSLineIteratorTest extends DataIteratorTestCase {
 
-	private static final String PERSON_FILENAME = "org/databene/webdecs/xls/person_lines.xls";
-	private static final String VALUES_FILENAME = "org/databene/webdecs/xls/types_and_values.xls";
-	private static final String EMPTY_FILENAME = "org/databene/webdecs/xls/empty.xls";
+	private static final String PERSON_FILENAME = "org/databene/formats/xls/person_lines.xls";
+	private static final String VALUES_FILENAME = "org/databene/formats/xls/types_and_values.xls";
+	private static final String EMPTY_FILENAME = "org/databene/formats/xls/empty.xls";
 
     @Test
 	public void testDefaultSheetWithFormula() throws Exception {

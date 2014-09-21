@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.webdecs.xls;
+package org.databene.formats.xls;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -151,9 +151,9 @@ public class XLSLineIterator implements DataIterator<Object[]> {
 		Object[] result = new Object[cellCount];
 		for (int cellnum = 0; cellnum < cellCount; cellnum++) {
 			if (formatted)
-				result[cellnum] = HSSFUtil.resolveCellValueAsString(row.getCell(cellnum), emptyMarker, nullMarker, stringPreprocessor);
+				result[cellnum] = XLSUtil.resolveCellValueAsString(row.getCell(cellnum), emptyMarker, nullMarker, stringPreprocessor);
 			else
-				result[cellnum] = HSSFUtil.resolveCellValue(row.getCell(cellnum), emptyMarker, nullMarker, stringPreprocessor);
+				result[cellnum] = XLSUtil.resolveCellValue(row.getCell(cellnum), emptyMarker, nullMarker, stringPreprocessor);
 		}
 		return wrapper.setData(result);
 	}
