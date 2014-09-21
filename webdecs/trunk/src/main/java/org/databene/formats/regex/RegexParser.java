@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.regex;
+package org.databene.formats.regex;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -44,7 +44,7 @@ import org.databene.commons.CollectionUtil;
 import org.databene.commons.LocaleUtil;
 import org.databene.commons.StringUtil;
 import org.databene.commons.SyntaxError;
-import org.databene.regex.antlr.RegexLexer;
+import org.databene.formats.regex.antlr.RegexLexer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,8 +81,8 @@ public class RegexParser {
         try {
 	        RegexLexer lex = new RegexLexer(new ANTLRReaderStream(new StringReader(pattern)));
 	        CommonTokenStream tokens = new CommonTokenStream(lex);
-	        org.databene.regex.antlr.RegexParser parser = new org.databene.regex.antlr.RegexParser(tokens);
-	        org.databene.regex.antlr.RegexParser.expression_return r = parser.expression();
+	        org.databene.formats.regex.antlr.RegexParser parser = new org.databene.formats.regex.antlr.RegexParser(tokens);
+	        org.databene.formats.regex.antlr.RegexParser.expression_return r = parser.expression();
 	        checkForSyntaxErrors(pattern, "regex", parser, r);
 	        if (r != null) {
 	        	CommonTree tree = (CommonTree) r.getTree();
@@ -110,8 +110,8 @@ public class RegexParser {
         try {
 	        RegexLexer lex = new RegexLexer(new ANTLRReaderStream(new StringReader(pattern)));
 	        CommonTokenStream tokens = new CommonTokenStream(lex);
-	        org.databene.regex.antlr.RegexParser parser = new org.databene.regex.antlr.RegexParser(tokens);
-	        org.databene.regex.antlr.RegexParser.singlechar_return r = parser.singlechar();
+	        org.databene.formats.regex.antlr.RegexParser parser = new org.databene.formats.regex.antlr.RegexParser(tokens);
+	        org.databene.formats.regex.antlr.RegexParser.singlechar_return r = parser.singlechar();
 	        if (parser.getNumberOfSyntaxErrors() > 0)
 	        	throw new SyntaxError("Illegal regex", pattern);
 	        if (r != null) {
@@ -339,7 +339,7 @@ public class RegexParser {
     }
 
 	private static void checkForSyntaxErrors(String text, String type,
-			org.databene.regex.antlr.RegexParser parser, ParserRuleReturnScope r) {
+			org.databene.formats.regex.antlr.RegexParser parser, ParserRuleReturnScope r) {
 		if (parser.getNumberOfSyntaxErrors() > 0)
 			throw new SyntaxError("Illegal " + type, text, -1, -1);
 		CommonToken stop = (CommonToken) r.stop;

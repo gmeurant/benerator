@@ -19,21 +19,64 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.regex;
+package org.databene.formats.regex;
+
+import org.databene.commons.CharSet;
 
 /**
- * Parent interface for all classes that represent parts of a regular expression.<br/><br/>
- * Created: 04.04.2014 15:47:50
+ * Represents a constant character as part of a regular expression.<br/><br/>
+ * Created: 04.04.2014 18:22:39
  * @since 0.8.0
  * @author Volker Bergmann
  */
 
-public interface RegexPart {
+public class RegexChar extends RegexCharClass {
 	
-	/** @return the minimum length of the regex part */
-	int minLength();
+	private char c;
+	private CharSet charSet;
+
+	public RegexChar(char c) {
+		this.c = c;
+		this.charSet = new CharSet().add(c);
+	}
+
+	public char getChar() {
+		return c;
+	}
+
+	@Override
+	public CharSet getCharSet() {
+		return charSet;
+	}
 	
-	/** @return the maximum length of the regex part, or null if the length is not limited */
-	Integer maxLength();
+	@Override
+	public int hashCode() {
+		return c;
+	}
+
+	@Override
+	public int minLength() {
+		return 1;
+	}
+
+	@Override
+	public Integer maxLength() {
+		return 1;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
+		RegexChar that = (RegexChar) obj;
+		return (this.c == that.c);
+	}
 	
+	@Override
+	public String toString() {
+		return String.valueOf(c);
+	}
+
 }

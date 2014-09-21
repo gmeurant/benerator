@@ -1,6 +1,6 @@
 // $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/volker/Documents/databene/webdecs/src/main/resources/org/databene/regex/antlr/Regex.g 2011-02-06 17:18:16
 
-	package org.databene.regex.antlr;
+	package org.databene.formats.regex.antlr;
 
 
 import org.antlr.runtime.*;

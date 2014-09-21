@@ -19,58 +19,52 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.regex;
+package org.databene.formats.regex;
 
-import org.databene.commons.Assert;
+import org.databene.commons.CharSet;
 
 /**
- * Represents a constant string which is part of a regular expression.<br/><br/>
- * Created: 04.04.2014 16:09:47
+ * Represents a character within a range from {@link #first} to {@link #last}.<br/><br/>
+ * Created: 04.04.2014 17:05:57
  * @since 0.8.0
  * @author Volker Bergmann
  */
 
-public class RegexString implements RegexPart {
+public class CharRange extends RegexCharClass {
 	
-	private String string;
+	private String name;
+	private char first;
+	private char last;
 	
-	public RegexString(String string) {
-		Assert.notNull(string, "string");
-		this.string = string;
-	}
-	
-	public String getString() {
-		return string;
-	}
-	
-	@Override
-	public int minLength() {
-		return string.length();
+	public CharRange(String name, char first, char last) {
+		this.name = name;
+		this.first = first;
+		this.last = last;
 	}
 	
 	@Override
-	public Integer maxLength() {
-		return string.length();
+	public CharSet getCharSet() {
+		return new CharSet(name, first, last);
 	}
 	
+	@Override
+	public String toString() {
+		return name;
+	}
+
 	@Override
 	public int hashCode() {
-		return string.hashCode();
+		return 31 * first + last;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null || getClass() != obj.getClass())
 			return false;
-		RegexString that = (RegexString) obj;
-		return (this.string.equals(that.string));
+		CharRange that = (CharRange) obj;
+		return (this.first == that.first && this.last == that.last);
 	}
 	
-	@Override
-	public String toString() {
-		return string;
-	}
-
 }

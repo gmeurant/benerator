@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.regex;
+package org.databene.formats.regex;
 
 /**
  * Represents a regular expression part composed of a SubPattern and a Quantifier.<br/>

@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2009 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,25 +24,28 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.regex;
+package org.databene.formats.regex;
+
+import java.util.Arrays;
 
 /**
- * Represents a group in a regular expression, e.g. '(abc)'.<br/>
+ * Represents a sequence of regular expression factors.
  * <br/>
+ * @see Factor 
  */
-public class Group implements RegexPart {
+public class Sequence implements RegexPart {
 	
-    /** The regular sub expression */
-    private RegexPart regex;
+    /** The represented sequence of regular expression factors */
+    private RegexPart[] factors;
     
-    /** Constructor that takes a sub expression */
-    public Group(RegexPart regex) {
-        this.regex = regex;
+    // constructors ----------------------------------------------------------------------------------------------------
+    
+    public Sequence(RegexPart ... factors) {
+        this.factors = factors;
     }
     
-    /** returns the sub expression */
-    public RegexPart getRegex() {
-        return regex;
+    public RegexPart[] getFactors() {
+        return factors;
     }
     
     
@@ -50,37 +53,50 @@ public class Group implements RegexPart {
     
 	@Override
 	public int minLength() {
-		return regex.minLength();
+		int min = 0;
+		for (RegexPart part : factors)
+			min += part.minLength();
+		return min;
 	}
-
+	
 	@Override
 	public Integer maxLength() {
-		return regex.maxLength();
+		int max = 0;
+		for (RegexPart part : factors) {
+			Integer partMaxLength = part.maxLength();
+			if (partMaxLength == null) // if one sequence component is unlimited, then the whole sequence is unlimited
+				return null;
+			max += partMaxLength;
+		}
+		return max;
 	}
-	
-	
-    // java.lang.Object overrides --------------------------------------------------------------------------------------
     
+    // java.lang.Object overrides --------------------------------------------------------------------------------------
+	
     /** @see java.lang.Object#equals(Object) */
     @Override
     public boolean equals(Object o) {
         if (this == o)
-            return true;
+        	return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        return regex.equals(((Group)o).regex);
+        final Sequence that = (Sequence) o;
+        return Arrays.equals(this.factors, that.factors);
     }
-    
+
     /** @see java.lang.Object#equals(Object) */
     @Override
     public int hashCode() {
-        return regex.hashCode();
+        return Arrays.hashCode(factors);
     }
-    
+
     /** @see java.lang.Object#equals(Object) */
     @Override
     public String toString() {
-        return "(" + regex + ")";
+        StringBuilder buffer = new StringBuilder();
+        for (Object factor : factors)
+            buffer.append(factor);
+        return buffer.toString();
     }
 
 }

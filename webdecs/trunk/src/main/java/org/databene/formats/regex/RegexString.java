@@ -19,29 +19,58 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.regex;
+package org.databene.formats.regex;
 
-import org.databene.commons.CharSet;
+import org.databene.commons.Assert;
 
 /**
- * Parent class for classes that represent a single character in a regular expression.<br/><br/>
- * Created: 04.04.2014 16:24:52
+ * Represents a constant string which is part of a regular expression.<br/><br/>
+ * Created: 04.04.2014 16:09:47
  * @since 0.8.0
  * @author Volker Bergmann
  */
 
-public abstract class RegexCharClass implements RegexPart {
-
+public class RegexString implements RegexPart {
+	
+	private String string;
+	
+	public RegexString(String string) {
+		Assert.notNull(string, "string");
+		this.string = string;
+	}
+	
+	public String getString() {
+		return string;
+	}
+	
 	@Override
 	public int minLength() {
-		return 1;
+		return string.length();
 	}
-
+	
 	@Override
 	public Integer maxLength() {
-		return 1;
+		return string.length();
 	}
 	
-	public abstract CharSet getCharSet();
+	@Override
+	public int hashCode() {
+		return string.hashCode();
+	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
+		RegexString that = (RegexString) obj;
+		return (this.string.equals(that.string));
+	}
+	
+	@Override
+	public String toString() {
+		return string;
+	}
+
 }

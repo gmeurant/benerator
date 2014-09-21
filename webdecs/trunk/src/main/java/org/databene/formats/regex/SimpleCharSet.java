@@ -19,49 +19,46 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.regex;
+package org.databene.formats.regex;
+
+import java.util.Set;
 
 import org.databene.commons.CharSet;
 
 /**
- * Represents a constant character as part of a regular expression.<br/><br/>
- * Created: 04.04.2014 18:22:39
+ * Represents a character from a simple character set.<br/><br/>
+ * Created: 04.04.2014 17:59:13
  * @since 0.8.0
  * @author Volker Bergmann
  */
 
-public class RegexChar extends RegexCharClass {
+public class SimpleCharSet extends RegexCharClass {
 	
-	private char c;
-	private CharSet charSet;
-
-	public RegexChar(char c) {
-		this.c = c;
-		this.charSet = new CharSet().add(c);
+	private String name;
+	private CharSet chars;
+	
+	public SimpleCharSet(String name, Set<Character> chars) {
+		this(name, new CharSet(chars));
 	}
-
-	public char getChar() {
-		return c;
+	
+	public SimpleCharSet(String name, CharSet chars) {
+		this.name = name;
+		this.chars = chars;
 	}
-
+	
 	@Override
 	public CharSet getCharSet() {
-		return charSet;
+		return chars;
 	}
 	
 	@Override
+	public String toString() {
+		return name;
+	}
+
+	@Override
 	public int hashCode() {
-		return c;
-	}
-
-	@Override
-	public int minLength() {
-		return 1;
-	}
-
-	@Override
-	public Integer maxLength() {
-		return 1;
+		return chars.hashCode();
 	}
 
 	@Override
@@ -70,13 +67,8 @@ public class RegexChar extends RegexCharClass {
 			return true;
 		if (obj == null || getClass() != obj.getClass())
 			return false;
-		RegexChar that = (RegexChar) obj;
-		return (this.c == that.c);
-	}
-	
-	@Override
-	public String toString() {
-		return String.valueOf(c);
+		SimpleCharSet that = (SimpleCharSet) obj;
+		return (this.chars.equals(that.chars));
 	}
 
 }

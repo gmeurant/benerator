@@ -24,28 +24,41 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.regex;
+package org.databene.formats.regex;
 
+import java.util.List;
 import java.util.Arrays;
 
 /**
- * Represents a sequence of regular expression factors.
+ * Represents an alternative expression part of a regular expression, e.g. '(yes|no)'.<br/>
  * <br/>
- * @see Factor 
+ * Created: 17.09.2006 16:14:14
  */
-public class Sequence implements RegexPart {
+public class Choice implements RegexPart {
 	
-    /** The represented sequence of regular expression factors */
-    private RegexPart[] factors;
+    /** The alternatives */
+    private RegexPart[] alternatives;
+    
     
     // constructors ----------------------------------------------------------------------------------------------------
     
-    public Sequence(RegexPart ... factors) {
-        this.factors = factors;
+    /** Constructor that takes a list of alternative patterns */
+    public Choice(List<RegexPart> alternatives) {
+    	RegexPart[] ra = new RegexPart[alternatives.size()];
+        this.alternatives = alternatives.toArray(ra);
     }
     
-    public RegexPart[] getFactors() {
-        return factors;
+    /** Constructor that takes an array of alternative patterns */
+    public Choice(RegexPart... alternatives) {
+        this.alternatives = alternatives;
+    }
+    
+    
+    // properties ------------------------------------------------------------------------------------------------------
+    
+    /** Returns the alternative patterns */
+    public RegexPart[] getAlternatives() {
+        return alternatives;
     }
     
     
@@ -53,50 +66,58 @@ public class Sequence implements RegexPart {
     
 	@Override
 	public int minLength() {
-		int min = 0;
-		for (RegexPart part : factors)
-			min += part.minLength();
+		if (this.alternatives.length == 0)
+			return 0;
+		int min = alternatives[0].minLength();
+		for (int i = alternatives.length - 1; i >= 1; i--)
+			min = Math.min(min, alternatives[i].minLength());
 		return min;
 	}
-	
+
 	@Override
 	public Integer maxLength() {
+		if (this.alternatives.length == 0)
+			return 0;
 		int max = 0;
-		for (RegexPart part : factors) {
-			Integer partMaxLength = part.maxLength();
-			if (partMaxLength == null) // if one sequence component is unlimited, then the whole sequence is unlimited
-				return null;
-			max += partMaxLength;
+		for (RegexPart candidate : alternatives) {
+			Integer partMaxLength = candidate.maxLength();
+			if (partMaxLength == null)
+				return null; // if any option is unlimited, then the whole choice is unlimited
+			if (partMaxLength > max)
+				max = partMaxLength;
 		}
 		return max;
 	}
-    
-    // java.lang.Object overrides --------------------------------------------------------------------------------------
 	
+	
+    // java.lang.Object overrides --------------------------------------------------------------------------------------
+    
     /** @see java.lang.Object#equals(Object) */
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-        	return true;
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        final Sequence that = (Sequence) o;
-        return Arrays.equals(this.factors, that.factors);
+        return Arrays.equals(alternatives, ((Choice)o).alternatives);
     }
-
-    /** @see java.lang.Object#equals(Object) */
+    
+    /** @see java.lang.Object#hashCode() */
     @Override
     public int hashCode() {
-        return Arrays.hashCode(factors);
+        return Arrays.hashCode(alternatives);
     }
-
-    /** @see java.lang.Object#equals(Object) */
+    
+    /** @see java.lang.Object#toString() */
     @Override
     public String toString() {
-        StringBuilder buffer = new StringBuilder();
-        for (Object factor : factors)
-            buffer.append(factor);
+        StringBuilder buffer = new StringBuilder("(");
+        for (int i = 0; i < alternatives.length; i++) {
+            if (i > 0)
+                buffer.append('|');
+            buffer.append(alternatives[i]);
+        }
+        buffer.append(')');
         return buffer.toString();
     }
-
+    
 }

@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.regex;
+package org.databene.formats.regex;
 
 /**
  * Represents a quantifier of a regular expression, e.g. '{1,3}'.<br/>

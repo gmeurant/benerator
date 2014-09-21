@@ -19,56 +19,21 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.regex;
-
-import java.util.Set;
-
-import org.databene.commons.CharSet;
+package org.databene.formats.regex;
 
 /**
- * Represents a character from a simple character set.<br/><br/>
- * Created: 04.04.2014 17:59:13
+ * Parent interface for all classes that represent parts of a regular expression.<br/><br/>
+ * Created: 04.04.2014 15:47:50
  * @since 0.8.0
  * @author Volker Bergmann
  */
 
-public class SimpleCharSet extends RegexCharClass {
+public interface RegexPart {
 	
-	private String name;
-	private CharSet chars;
+	/** @return the minimum length of the regex part */
+	int minLength();
 	
-	public SimpleCharSet(String name, Set<Character> chars) {
-		this(name, new CharSet(chars));
-	}
+	/** @return the maximum length of the regex part, or null if the length is not limited */
+	Integer maxLength();
 	
-	public SimpleCharSet(String name, CharSet chars) {
-		this.name = name;
-		this.chars = chars;
-	}
-	
-	@Override
-	public CharSet getCharSet() {
-		return chars;
-	}
-	
-	@Override
-	public String toString() {
-		return name;
-	}
-
-	@Override
-	public int hashCode() {
-		return chars.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null || getClass() != obj.getClass())
-			return false;
-		SimpleCharSet that = (SimpleCharSet) obj;
-		return (this.chars.equals(that.chars));
-	}
-
 }

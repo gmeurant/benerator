@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.regex;
+package org.databene.formats.regex;
 
 import org.junit.Test;
 import static junit.framework.Assert.*;
@@ -33,6 +33,18 @@ import org.databene.commons.CharSet;
 import org.databene.commons.CollectionUtil;
 import org.databene.commons.StringUtil;
 import org.databene.commons.SyntaxError;
+import org.databene.formats.regex.CharRange;
+import org.databene.formats.regex.Choice;
+import org.databene.formats.regex.CustomCharClass;
+import org.databene.formats.regex.Factor;
+import org.databene.formats.regex.Group;
+import org.databene.formats.regex.RegexChar;
+import org.databene.formats.regex.RegexCharClass;
+import org.databene.formats.regex.RegexParser;
+import org.databene.formats.regex.RegexPart;
+import org.databene.formats.regex.RegexString;
+import org.databene.formats.regex.Sequence;
+import org.databene.formats.regex.SimpleCharSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

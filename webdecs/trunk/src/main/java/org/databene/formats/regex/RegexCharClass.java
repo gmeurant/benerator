@@ -19,52 +19,29 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.regex;
+package org.databene.formats.regex;
 
 import org.databene.commons.CharSet;
 
 /**
- * Represents a character within a range from {@link #first} to {@link #last}.<br/><br/>
- * Created: 04.04.2014 17:05:57
+ * Parent class for classes that represent a single character in a regular expression.<br/><br/>
+ * Created: 04.04.2014 16:24:52
  * @since 0.8.0
  * @author Volker Bergmann
  */
 
-public class CharRange extends RegexCharClass {
-	
-	private String name;
-	private char first;
-	private char last;
-	
-	public CharRange(String name, char first, char last) {
-		this.name = name;
-		this.first = first;
-		this.last = last;
-	}
-	
+public abstract class RegexCharClass implements RegexPart {
+
 	@Override
-	public CharSet getCharSet() {
-		return new CharSet(name, first, last);
-	}
-	
-	@Override
-	public String toString() {
-		return name;
+	public int minLength() {
+		return 1;
 	}
 
 	@Override
-	public int hashCode() {
-		return 31 * first + last;
+	public Integer maxLength() {
+		return 1;
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null || getClass() != obj.getClass())
-			return false;
-		CharRange that = (CharRange) obj;
-		return (this.first == that.first && this.last == that.last);
-	}
+	
+	public abstract CharSet getCharSet();
 	
 }
