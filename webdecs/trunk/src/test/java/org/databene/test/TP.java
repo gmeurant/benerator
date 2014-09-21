@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.bean;
+package org.databene.test;
 
 /**
  * JavaBean for testing.<br/><br/>

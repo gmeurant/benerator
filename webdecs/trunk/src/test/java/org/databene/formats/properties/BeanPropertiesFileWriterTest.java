@@ -32,10 +32,10 @@ import static junit.framework.Assert.*;
 import java.io.IOException;
 import java.io.StringWriter;
 
-import org.databene.bean.TP;
 import org.databene.commons.DocumentWriter;
 import org.databene.commons.SystemInfo;
 import org.databene.formats.script.ConstantScript;
+import org.databene.test.TP;
 
 /**
  * Tests the BeanPropertiesFileWriter.<br/>
@@ -49,12 +49,12 @@ public class BeanPropertiesFileWriterTest {
     private static final String SEP = SystemInfo.getLineSeparator();
 
     private static String UNPREFIXED_RESULT =
-            "# header" + SEP + "class=org.databene.bean.TP" + SEP + "name=Carl" + SEP + "age=48" + SEP + "# footer";
+            "# header" + SEP + "class=org.databene.test.TP" + SEP + "name=Carl" + SEP + "age=48" + SEP + "# footer";
 
     private static String PREFIXED_RESULT =
             "# header" + SEP +
-            "person1.class=org.databene.bean.TP" + SEP + "person1.name=Carl" + SEP + "person1.age=48" + SEP +
-            "person2.class=org.databene.bean.TP" + SEP + "person2.name=Carl" + SEP + "person2.age=48" + SEP +
+            "person1.class=org.databene.test.TP" + SEP + "person1.name=Carl" + SEP + "person1.age=48" + SEP +
+            "person2.class=org.databene.test.TP" + SEP + "person2.name=Carl" + SEP + "person2.age=48" + SEP +
             "# footer";
 
     @Test
@@ -66,7 +66,7 @@ public class BeanPropertiesFileWriterTest {
         TP person = new TP("Al\\f");
         writer.writeElement(person);
         writer.close();
-        assertEquals("class=org.databene.bean.TP" + SEP + "name=Al\\\\f" + SEP + "age=48" + SEP, out.toString());
+        assertEquals("class=org.databene.test.TP" + SEP + "name=Al\\\\f" + SEP + "age=48" + SEP, out.toString());
     }
 
     @Test
