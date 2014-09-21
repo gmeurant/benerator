@@ -19,37 +19,23 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.xsd;
-
-import java.util.Collection;
-import java.util.Map;
-
-import org.databene.commons.collection.OrderedNameMap;
+package org.databene.formats.xsd;
 
 /**
- * Parent class for schema elements that represent complex types.<br/><br/>
- * Created: 16.05.2014 19:21:44
+ * Represents a simple type in an XML schema.<br/><br/>
+ * Created: 16.05.2014 19:03:00
  * @since 0.8.2
  * @author Volker Bergmann
  */
 
-public abstract class ComplexType extends NamedSchemaElement {
+public class SimpleType extends NamedSchemaElement {
 	
-	protected Map<String, Attribute> attributes;
-	
-	public ComplexType(String name) {
+	public SimpleType(String name) {
 		super(name);
-		this.attributes = new OrderedNameMap<Attribute>();
 	}
 	
-	public void addAttribute(Attribute attribute) {
-		this.attributes.put(attribute.getName(), attribute);
+	public void printContent(String indent) {
+		System.out.println(indent + super.toString());
 	}
-	
-	public Collection<Attribute> getAttributes() {
-		return attributes.values();
-	}
-	
-	public abstract void printContent(String string);
 	
 }

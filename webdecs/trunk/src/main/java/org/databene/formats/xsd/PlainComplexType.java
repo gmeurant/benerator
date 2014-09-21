@@ -19,7 +19,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.xsd;
+package org.databene.formats.xsd;
 
 /**
  * Represents a plain {@link ComplexType} of an XML schema.<br/><br/>

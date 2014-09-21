@@ -19,27 +19,36 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.xsd;
+package org.databene.formats.xsd;
 
-import static org.junit.Assert.*;
-
-import org.databene.commons.xml.XMLUtil;
-import org.junit.Test;
+import org.databene.commons.StringUtil;
+import org.databene.commons.Visitor;
 
 /**
- * Tests the {@link SchemaParser}.<br/><br/>
- * Created: 16.05.2014 18:39:35
+ * Parent class of all components that are part of an XML schema.<br/><br/>
+ * Created: 16.05.2014 18:31:43
  * @since 0.8.2
  * @author Volker Bergmann
  */
 
-public class SchemaParserTest {
+public class SchemaElement {
 	
-	@Test
-	public void test() throws Exception {
-		Schema schema = new SchemaParser().parse(XMLUtil.parse("D03A_IFTDGN.xsd"));
-		schema.printContent();
-		assertEquals("\nCreated: Exported from EDISIM 6.12.1 10/16/2013 15:43:17.713\nType: UN\nVRI: D 03A\nDesc: UN/EDIFACT Draft Messages and Directories Version D.03A - publ. Jun. 2003\n", schema.getDocumentation());
+	protected String documentation;
+	
+	public String getDocumentation() {
+		return documentation;
 	}
 	
+	public void setDocumentation(String documentation) {
+		this.documentation = documentation;
+	}
+	
+	protected String renderShortDocumentation() {
+		return (documentation != null ? " (" + StringUtil.normalizeSpace(documentation) + ")" : "");
+	}
+
+	public void accept(Visitor<SchemaElement> visitor) {
+		visitor.visit(this);
+	}
+
 }

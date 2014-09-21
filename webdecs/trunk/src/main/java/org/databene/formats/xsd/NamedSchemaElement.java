@@ -19,23 +19,34 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.xsd;
+package org.databene.formats.xsd;
 
 /**
- * Represents an attribute definition of an XML schema.<br/><br/>
- * Created: 16.05.2014 19:46:32
+ * Parent class for {@link SchemaElement}s that carry a name (attribute).<br/><br/>
+ * Created: 16.05.2014 19:30:31
  * @since 0.8.2
  * @author Volker Bergmann
  */
 
-public class Attribute extends NamedSchemaElement { // TODO add (simple) schema type
+public class NamedSchemaElement extends SchemaElement {
+
+	protected String name;
 	
-	public Attribute(String name) {
-		super(name);
+	public NamedSchemaElement(String name) {
+		this.name = name;
 	}
 	
-	public void printContent(String indent) {
-		System.out.println(indent + name);
+	public String getName() {
+		return name;
+	}
+	
+	@Override
+	public String toString() {
+		return renderNamePrefix() + getClass().getSimpleName() + renderShortDocumentation();
+	}
+	
+	protected String renderNamePrefix() {
+		return (name != null ? name + ": " : "");
 	}
 	
 }

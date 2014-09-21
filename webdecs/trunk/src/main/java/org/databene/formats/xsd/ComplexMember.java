@@ -19,36 +19,62 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.xsd;
+package org.databene.formats.xsd;
 
-import org.databene.commons.StringUtil;
 import org.databene.commons.Visitor;
 
 /**
- * Parent class of all components that are part of an XML schema.<br/><br/>
- * Created: 16.05.2014 18:31:43
+ * Represents a member of a {@link ComplexType}, having a name, 
+ * a type and a permitted cardinality range.<br/><br/>
+ * Created: 16.05.2014 20:15:57
  * @since 0.8.2
  * @author Volker Bergmann
  */
 
-public class SchemaElement {
+public class ComplexMember extends NamedSchemaElement {
 	
-	protected String documentation;
+	private ComplexType type;
+	private Integer minCardinality;
+	private Integer maxCardinality;
 	
-	public String getDocumentation() {
-		return documentation;
+	public ComplexMember(String name, ComplexType complexType) {
+		super(name);
+		this.type = complexType;
 	}
 	
-	public void setDocumentation(String documentation) {
-		this.documentation = documentation;
+	public ComplexType getType() {
+		return type;
 	}
 	
-	protected String renderShortDocumentation() {
-		return (documentation != null ? " (" + StringUtil.normalizeSpace(documentation) + ")" : "");
+	public void setType(ComplexType complexType) {
+		this.type = complexType;
+	}
+	
+	public Integer getMinCardinality() {
+		return minCardinality;
 	}
 
+	public void setMinCardinality(Integer minCardinality) {
+		this.minCardinality = minCardinality;
+	}
+
+	public Integer getMaxCardinality() {
+		return maxCardinality;
+	}
+
+	public void setMaxCardinality(Integer maxCardinality) {
+		this.maxCardinality = maxCardinality;
+	}
+
+	public void printContent(String indent) {
+		System.out.println(indent + name + renderShortDocumentation() + ":");
+		type.printContent(indent + "  ");
+	}
+
+	@Override
 	public void accept(Visitor<SchemaElement> visitor) {
-		visitor.visit(this);
+		super.accept(visitor);
+		type.accept(visitor);
 	}
 
 }

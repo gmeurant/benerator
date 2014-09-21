@@ -19,7 +19,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.xsd;
+package org.databene.formats.xsd;
 
 import org.databene.commons.StringUtil;
 import org.databene.commons.xml.XMLUtil;

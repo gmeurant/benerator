@@ -19,53 +19,29 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.xsd;
+package org.databene.formats.xsd;
 
-import java.util.Collection;
-import java.util.Map;
+import static org.junit.Assert.*;
 
-import org.databene.commons.Visitor;
-import org.databene.commons.collection.OrderedNameMap;
+import org.databene.commons.xml.XMLUtil;
+import org.databene.formats.xsd.Schema;
+import org.databene.formats.xsd.SchemaParser;
+import org.junit.Test;
 
 /**
- * Represents a {@link ComplexType} which composes other ComplexTypes.<br/><br/>
- * Created: 16.05.2014 19:59:51
+ * Tests the {@link SchemaParser}.<br/><br/>
+ * Created: 16.05.2014 18:39:35
  * @since 0.8.2
  * @author Volker Bergmann
  */
 
-public class CompositeComplexType extends ComplexType {
+public class SchemaParserTest {
 	
-	private Map<String, ComplexMember> members;
-	
-	public CompositeComplexType(String name) {
-		super(name);
-		this.members = new OrderedNameMap<ComplexMember>();
+	@Test
+	public void test() throws Exception {
+		Schema schema = new SchemaParser().parse(XMLUtil.parse("D03A_IFTDGN.xsd"));
+		schema.printContent();
+		assertEquals("\nCreated: Exported from EDISIM 6.12.1 10/16/2013 15:43:17.713\nType: UN\nVRI: D 03A\nDesc: UN/EDIFACT Draft Messages and Directories Version D.03A - publ. Jun. 2003\n", schema.getDocumentation());
 	}
 	
-	public void addMember(ComplexMember member) {
-		this.members.put(member.getName(), member);
-	}
-	
-	public Collection<ComplexMember> getMembers() {
-		return members.values();
-	}
-	
-	@Override
-	public void printContent(String indent) {
-		System.out.println(indent + super.toString());
-		indent += "  ";
-		for (Attribute attribute : attributes.values())
-			attribute.printContent(indent);
-		for (ComplexMember member : members.values())
-			member.printContent(indent);
-	}
-
-	@Override
-	public void accept(Visitor<SchemaElement> visitor) {
-		super.accept(visitor);
-		for (ComplexMember type : members.values())
-			type.accept(visitor);
-	}
-
 }

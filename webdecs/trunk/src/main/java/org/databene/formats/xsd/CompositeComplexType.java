@@ -19,62 +19,53 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.xsd;
+package org.databene.formats.xsd;
+
+import java.util.Collection;
+import java.util.Map;
 
 import org.databene.commons.Visitor;
+import org.databene.commons.collection.OrderedNameMap;
 
 /**
- * Represents a member of a {@link ComplexType}, having a name, 
- * a type and a permitted cardinality range.<br/><br/>
- * Created: 16.05.2014 20:15:57
+ * Represents a {@link ComplexType} which composes other ComplexTypes.<br/><br/>
+ * Created: 16.05.2014 19:59:51
  * @since 0.8.2
  * @author Volker Bergmann
  */
 
-public class ComplexMember extends NamedSchemaElement {
+public class CompositeComplexType extends ComplexType {
 	
-	private ComplexType type;
-	private Integer minCardinality;
-	private Integer maxCardinality;
+	private Map<String, ComplexMember> members;
 	
-	public ComplexMember(String name, ComplexType complexType) {
+	public CompositeComplexType(String name) {
 		super(name);
-		this.type = complexType;
+		this.members = new OrderedNameMap<ComplexMember>();
 	}
 	
-	public ComplexType getType() {
-		return type;
+	public void addMember(ComplexMember member) {
+		this.members.put(member.getName(), member);
 	}
 	
-	public void setType(ComplexType complexType) {
-		this.type = complexType;
+	public Collection<ComplexMember> getMembers() {
+		return members.values();
 	}
 	
-	public Integer getMinCardinality() {
-		return minCardinality;
-	}
-
-	public void setMinCardinality(Integer minCardinality) {
-		this.minCardinality = minCardinality;
-	}
-
-	public Integer getMaxCardinality() {
-		return maxCardinality;
-	}
-
-	public void setMaxCardinality(Integer maxCardinality) {
-		this.maxCardinality = maxCardinality;
-	}
-
+	@Override
 	public void printContent(String indent) {
-		System.out.println(indent + name + renderShortDocumentation() + ":");
-		type.printContent(indent + "  ");
+		System.out.println(indent + super.toString());
+		indent += "  ";
+		for (Attribute attribute : attributes.values())
+			attribute.printContent(indent);
+		for (ComplexMember member : members.values())
+			member.printContent(indent);
 	}
 
 	@Override
 	public void accept(Visitor<SchemaElement> visitor) {
 		super.accept(visitor);
-		type.accept(visitor);
+		for (ComplexMember type : members.values())
+			type.accept(visitor);
 	}
 
 }
