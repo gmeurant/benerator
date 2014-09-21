@@ -27,9 +27,9 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.databene.webdecs.Address;
-import org.databene.webdecs.DataContainer;
-import org.databene.webdecs.PersonWithAddress;
+import org.databene.formats.Address;
+import org.databene.formats.DataContainer;
+import org.databene.formats.PersonWithAddress;
 import org.junit.Test;
 
 /**

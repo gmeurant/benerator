@@ -28,8 +28,8 @@ package org.databene.formats.xls;
 
 import org.databene.commons.ArrayUtil;
 import org.databene.commons.TimeUtil;
-import org.databene.webdecs.DataContainer;
-import org.databene.webdecs.util.DataIteratorTestCase;
+import org.databene.formats.DataContainer;
+import org.databene.formats.util.DataIteratorTestCase;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

@@ -19,45 +19,39 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.formats.xls;
+package org.databene.formats.util;
 
-import java.util.Iterator;
-
+import org.databene.commons.IOUtil;
+import org.databene.formats.DataContainer;
 import org.databene.formats.DataIterator;
-import org.databene.formats.util.AbstractDataSource;
-import org.databene.formats.xls.XLSLineIterator;
 
 /**
- * {@link Iterable} implementation which creates {@link Iterator}s 
- * that provide lines of XLS files as array objects.<br/><br/>
- * Created: 19.07.2011 08:36:18
- * @since 0.6.5
+ * Adapter for a {@link DataIterator}.<br/><br/>
+ * Created: 24.07.2011 09:53:49
+ * @since 0.6.0
  * @author Volker Bergmann
  */
-public class XLSLineSource extends AbstractDataSource<Object[]> {
-	
-	private String uri;
-	private String sheetName;
-	private boolean formatted;
+public abstract class DataIteratorAdapter<S, T> implements DataIterator<T> {
 
-	public XLSLineSource(String uri) {
-		this(uri, null, false);
-	}
+    protected DataIterator<S> source;
+    private ThreadLocalDataContainer<S> sourceContainerProvider;
 
-	public XLSLineSource(String uri, String sheetName, boolean formatted) {
-		super(Object[].class);
-		this.uri = uri;
-		this.sheetName = sheetName;
-		this.formatted = formatted;
-	}
+    public DataIteratorAdapter(DataIterator<S> source) {
+        this.source = source;
+        this.sourceContainerProvider = new ThreadLocalDataContainer<S>();
+    }
+    
+    @Override
+	public void close() {
+        IOUtil.close(source);
+    }
+    
+    protected DataContainer<S> nextOfSource() {
+    	return source.next(getSourceContainer());
+    }
 
-	@Override
-	public DataIterator<Object[]> iterator() {
-		try {
-			return new XLSLineIterator(uri, sheetName, false, formatted, null);
-		} catch (Exception e) {
-			throw new RuntimeException("Unable to create iterator for URI " + uri, e);
-		}
-	}
+    protected DataContainer<S> getSourceContainer() {
+    	return sourceContainerProvider.get();
+    }
 
 }

@@ -27,8 +27,8 @@
 package org.databene.formats.csv;
 
 import org.databene.commons.ConversionException;
-import org.databene.webdecs.DataContainer;
-import org.databene.webdecs.DataIterator;
+import org.databene.formats.DataContainer;
+import org.databene.formats.DataIterator;
 
 import java.io.IOException;
 

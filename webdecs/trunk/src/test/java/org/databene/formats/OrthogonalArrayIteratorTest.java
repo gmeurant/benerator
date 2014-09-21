@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2011-2014 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2011 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -19,45 +19,32 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.formats.xls;
+package org.databene.formats;
 
-import java.util.Iterator;
+import static org.junit.Assert.*;
 
-import org.databene.formats.DataIterator;
-import org.databene.formats.util.AbstractDataSource;
-import org.databene.formats.xls.XLSLineIterator;
+import org.databene.formats.util.ListDataIterator;
+import org.databene.formats.util.OrthogonalArrayIterator;
+import org.junit.Test;
 
 /**
- * {@link Iterable} implementation which creates {@link Iterator}s 
- * that provide lines of XLS files as array objects.<br/><br/>
- * Created: 19.07.2011 08:36:18
+ * Tests the {@link OrthogonalArrayIterator}.<br/><br/>
+ * Created: 08.12.2011 14:33:30
  * @since 0.6.5
  * @author Volker Bergmann
  */
-public class XLSLineSource extends AbstractDataSource<Object[]> {
+public class OrthogonalArrayIteratorTest {
+
+	@Test
+	public void test() {
+		DataIterator<Integer[]> source = new ListDataIterator<Integer[]>(Integer[].class, 
+				new Integer[] { 1, 2 }, 
+				new Integer[] { 3 });
+		DataIterator<Integer[]> iterator = new OrthogonalArrayIterator<Integer>(source);
+		DataContainer<Integer[]> container = new DataContainer<Integer[]>();
+		assertArrayEquals(new Integer[] { 1,    3 }, iterator.next(container).getData());
+		assertArrayEquals(new Integer[] { 2, null }, iterator.next(container).getData());
+		assertNull(iterator.next(container));
+	}
 	
-	private String uri;
-	private String sheetName;
-	private boolean formatted;
-
-	public XLSLineSource(String uri) {
-		this(uri, null, false);
-	}
-
-	public XLSLineSource(String uri, String sheetName, boolean formatted) {
-		super(Object[].class);
-		this.uri = uri;
-		this.sheetName = sheetName;
-		this.formatted = formatted;
-	}
-
-	@Override
-	public DataIterator<Object[]> iterator() {
-		try {
-			return new XLSLineIterator(uri, sheetName, false, formatted, null);
-		} catch (Exception e) {
-			throw new RuntimeException("Unable to create iterator for URI " + uri, e);
-		}
-	}
-
 }

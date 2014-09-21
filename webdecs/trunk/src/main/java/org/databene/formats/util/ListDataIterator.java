@@ -19,45 +19,52 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.formats.xls;
+package org.databene.formats.util;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.databene.commons.CollectionUtil;
+import org.databene.formats.DataContainer;
 import org.databene.formats.DataIterator;
-import org.databene.formats.util.AbstractDataSource;
-import org.databene.formats.xls.XLSLineIterator;
 
 /**
- * {@link Iterable} implementation which creates {@link Iterator}s 
- * that provide lines of XLS files as array objects.<br/><br/>
- * Created: 19.07.2011 08:36:18
+ * {@link List}-based implementation of the {@link DataIterator} interface.<br/><br/>
+ * Created: 08.12.2011 14:36:08
  * @since 0.6.5
  * @author Volker Bergmann
  */
-public class XLSLineSource extends AbstractDataSource<Object[]> {
+public class ListDataIterator<E> implements DataIterator<E> {
 	
-	private String uri;
-	private String sheetName;
-	private boolean formatted;
+	private Class<E> type;
+	private List<E> data;
+	private int cursor;
 
-	public XLSLineSource(String uri) {
-		this(uri, null, false);
+	public ListDataIterator(Class<E> type, E... data) {
+		this(type, CollectionUtil.toList(data));
 	}
 
-	public XLSLineSource(String uri, String sheetName, boolean formatted) {
-		super(Object[].class);
-		this.uri = uri;
-		this.sheetName = sheetName;
-		this.formatted = formatted;
+	public ListDataIterator(Class<E> type, List<E> data) {
+		this.type = type;
+		this.data = (data != null ? data : new ArrayList<E>());
+		this.cursor = 0;
 	}
 
 	@Override
-	public DataIterator<Object[]> iterator() {
-		try {
-			return new XLSLineIterator(uri, sheetName, false, formatted, null);
-		} catch (Exception e) {
-			throw new RuntimeException("Unable to create iterator for URI " + uri, e);
-		}
+	public Class<E> getType() {
+		return type;
+	}
+
+	@Override
+	public DataContainer<E> next(DataContainer<E> container) {
+		if (cursor >= data.size())
+			return null;
+		return container.setData(data.get(cursor++));
+	}
+
+	@Override
+	public void close() {
+		// nothing to do
 	}
 
 }

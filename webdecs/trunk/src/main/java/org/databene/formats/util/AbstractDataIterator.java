@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2011-2014 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2012-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -19,45 +19,33 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.formats.xls;
-
-import java.util.Iterator;
+package org.databene.formats.util;
 
 import org.databene.formats.DataIterator;
-import org.databene.formats.util.AbstractDataSource;
-import org.databene.formats.xls.XLSLineIterator;
 
 /**
- * {@link Iterable} implementation which creates {@link Iterator}s 
- * that provide lines of XLS files as array objects.<br/><br/>
- * Created: 19.07.2011 08:36:18
- * @since 0.6.5
+ * Abstract implementation of the {@link DataIterator} interface. 
+ * It holds type info and provides an empty implementation of the close() method.<br/><br/>
+ * Created: 06.03.2012 21:55:57
+ * @since 0.6.7
  * @author Volker Bergmann
  */
-public class XLSLineSource extends AbstractDataSource<Object[]> {
+public abstract class AbstractDataIterator<E> implements DataIterator<E> {
 	
-	private String uri;
-	private String sheetName;
-	private boolean formatted;
-
-	public XLSLineSource(String uri) {
-		this(uri, null, false);
-	}
-
-	public XLSLineSource(String uri, String sheetName, boolean formatted) {
-		super(Object[].class);
-		this.uri = uri;
-		this.sheetName = sheetName;
-		this.formatted = formatted;
+	protected Class<E> type;
+	
+	public AbstractDataIterator(Class<E> type) {
+		this.type = type;
 	}
 
 	@Override
-	public DataIterator<Object[]> iterator() {
-		try {
-			return new XLSLineIterator(uri, sheetName, false, formatted, null);
-		} catch (Exception e) {
-			throw new RuntimeException("Unable to create iterator for URI " + uri, e);
-		}
+	public Class<E> getType() {
+		return type;
+	}
+
+	@Override
+	public void close() {
+		// empty default implementation
 	}
 
 }

@@ -31,8 +31,8 @@ import org.databene.commons.ArrayFormat;
 import org.databene.commons.ConfigurationError;
 import org.databene.commons.IOUtil;
 import org.databene.commons.SystemInfo;
-import org.databene.webdecs.DataContainer;
-import org.databene.webdecs.DataIterator;
+import org.databene.formats.DataContainer;
+import org.databene.formats.DataIterator;
 
 import java.io.IOException;
 import java.io.StringReader;

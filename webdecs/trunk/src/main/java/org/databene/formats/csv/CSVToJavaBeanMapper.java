@@ -31,9 +31,9 @@ import org.databene.commons.ConfigurationError;
 import org.databene.commons.IOUtil;
 import org.databene.commons.mutator.AnyMutator;
 import org.databene.commons.mutator.NamedMutator;
-import org.databene.webdecs.DataContainer;
-import org.databene.webdecs.DataIterator;
-import org.databene.webdecs.util.ThreadLocalDataContainer;
+import org.databene.formats.DataContainer;
+import org.databene.formats.DataIterator;
+import org.databene.formats.util.ThreadLocalDataContainer;
 
 import java.io.*;
 

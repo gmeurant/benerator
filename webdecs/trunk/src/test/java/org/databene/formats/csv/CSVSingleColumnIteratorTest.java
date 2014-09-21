@@ -24,9 +24,9 @@ package org.databene.formats.csv;
 import static org.junit.Assert.*;
 
 import org.databene.commons.Encodings;
+import org.databene.formats.DataContainer;
 import org.databene.formats.csv.CSVSingleColumIterator;
-import org.databene.webdecs.DataContainer;
-import org.databene.webdecs.util.DataIteratorTestCase;
+import org.databene.formats.util.DataIteratorTestCase;
 import org.junit.Test;
 
 /**

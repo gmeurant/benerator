@@ -23,9 +23,9 @@ package org.databene.formats.csv;
 
 import java.io.IOException;
 
-import org.databene.webdecs.DataIterator;
-import org.databene.webdecs.DataSource;
-import org.databene.webdecs.OrthogonalArrayIterator;
+import org.databene.formats.DataIterator;
+import org.databene.formats.DataSource;
+import org.databene.formats.util.OrthogonalArrayIterator;
 
 /**
  * {@link DataSource} implementation that provides for 

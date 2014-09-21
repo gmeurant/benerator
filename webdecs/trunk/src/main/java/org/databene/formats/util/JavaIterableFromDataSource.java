@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2011-2014 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2012-2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -19,45 +19,29 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.formats.xls;
+package org.databene.formats.util;
 
-import java.util.Iterator;
-
-import org.databene.formats.DataIterator;
-import org.databene.formats.util.AbstractDataSource;
-import org.databene.formats.xls.XLSLineIterator;
+import org.databene.commons.HeavyweightIterable;
+import org.databene.commons.HeavyweightIterator;
+import org.databene.formats.DataSource;
 
 /**
- * {@link Iterable} implementation which creates {@link Iterator}s 
- * that provide lines of XLS files as array objects.<br/><br/>
- * Created: 19.07.2011 08:36:18
- * @since 0.6.5
+ * Wraps a {@link DataSource} with a Java {@link Iterable}.<br/><br/>
+ * Created: 25.01.2012 15:20:26
+ * @since 0.6.6
  * @author Volker Bergmann
  */
-public class XLSLineSource extends AbstractDataSource<Object[]> {
+public class JavaIterableFromDataSource<E> implements HeavyweightIterable<E> {
 	
-	private String uri;
-	private String sheetName;
-	private boolean formatted;
+	protected DataSource<E> source;
 
-	public XLSLineSource(String uri) {
-		this(uri, null, false);
-	}
-
-	public XLSLineSource(String uri, String sheetName, boolean formatted) {
-		super(Object[].class);
-		this.uri = uri;
-		this.sheetName = sheetName;
-		this.formatted = formatted;
+	public JavaIterableFromDataSource(DataSource<E> source) {
+		this.source = source;
 	}
 
 	@Override
-	public DataIterator<Object[]> iterator() {
-		try {
-			return new XLSLineIterator(uri, sheetName, false, formatted, null);
-		} catch (Exception e) {
-			throw new RuntimeException("Unable to create iterator for URI " + uri, e);
-		}
+	public HeavyweightIterator<E> iterator() {
+		return new JavaIteratorFromDataIterator<E>(source.iterator());
 	}
 
 }

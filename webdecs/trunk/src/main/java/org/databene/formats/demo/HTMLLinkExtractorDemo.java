@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2007-2013 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2007 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -24,55 +24,36 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.formats.csv;
+package org.databene.formats.demo;
 
-import org.databene.commons.ConfigurationError;
-import org.databene.commons.SystemInfo;
-import org.databene.formats.DataIterator;
-import org.databene.formats.util.AbstractDataSource;
+import org.databene.formats.html.parser.DefaultHTMLTokenizer;
+import org.databene.formats.html.parser.FilteringHTMLTokenizer;
+import org.databene.formats.html.parser.HTMLTokenizer;
+import org.databene.formats.html.util.HTMLTokenFilter;
+import org.databene.commons.IOUtil;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.text.ParseException;
 
 /**
- * Creates Iterators that iterate through the cells of a CSV file.<br/>
+ * This class demonstrates how to use the HTMLTokenizer for extracting all link targets of a web page.<br/>
  * <br/>
- * Created: 01.09.2007 11:40:30
+ * Created: 16.06.2007 10:07:54
  * @author Volker Bergmann
  */
-public class CSVCellSource extends AbstractDataSource<String> {
+public class HTMLLinkExtractorDemo {
 
-    private String uri;
-    private char separator;
-    private String encoding;
-
-    public CSVCellSource() {
-        this(null, ',');
-    }
-
-    public CSVCellSource(String uri, char separator) {
-        this(uri, separator, SystemInfo.getFileEncoding());
-    }
-    
-    public CSVCellSource(String uri, char separator, String encoding) {
-    	super(String.class);
-        this.uri = uri;
-        this.separator = separator;
-        this.encoding = encoding;
-    }
-    
-    public void setUri(String uri) {
-		this.uri = uri;
-	}
-
-    @Override
-	public DataIterator<String> iterator() {
-        try {
-            return new CSVCellIterator(uri, separator, encoding);
-        } catch (Exception e) {
-            throw new ConfigurationError(e);
-        }
-    }
-    
-    @Override
-    public String toString() {
-    	return getClass().getSimpleName() + '[' + uri + ", '" + separator + "']";
+    public static void main(String[] args) throws IOException, ParseException {
+        // Fetch the web page as stream
+        Reader reader = IOUtil.getReaderForURI("http://www.yahoo.com");
+        // build the filtering iterator structure
+        HTMLTokenizer tokenizer = new DefaultHTMLTokenizer(reader);
+        tokenizer = new FilteringHTMLTokenizer(tokenizer, new HTMLTokenFilter(HTMLTokenizer.START_TAG, "a"));
+        // simply iterate the filter to retrieve all references of the page
+        while (tokenizer.nextToken() != HTMLTokenizer.END)
+            System.out.println(tokenizer.attributes().get("href"));
+        // free resources
+        reader.close();
     }
 }

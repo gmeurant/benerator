@@ -35,7 +35,7 @@ import java.util.Arrays;
 import org.databene.commons.SystemInfo;
 import org.databene.commons.format.Alignment;
 import org.databene.commons.format.PadFormat;
-import org.databene.webdecs.DataContainer;
+import org.databene.formats.DataContainer;
 
 /**
  * Tests the {@link FixedWidthLineIterator}.<br/>

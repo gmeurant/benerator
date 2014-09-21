@@ -27,8 +27,8 @@
 package org.databene.formats.fixedwidth;
 
 import org.databene.commons.format.PadFormat;
-import org.databene.webdecs.DataIterator;
-import org.databene.webdecs.util.AbstractDataSource;
+import org.databene.formats.DataIterator;
+import org.databene.formats.util.AbstractDataSource;
 
 import java.io.IOException;
 

@@ -27,8 +27,8 @@ import java.util.Locale;
 
 import org.databene.commons.BeanUtil;
 import org.databene.commons.format.PadFormat;
-import org.databene.webdecs.DataContainer;
-import org.databene.webdecs.util.DataIteratorAdapter;
+import org.databene.formats.DataContainer;
+import org.databene.formats.util.DataIteratorAdapter;
 
 /**
  * Iterates fixed-width column files.<br/><br/>

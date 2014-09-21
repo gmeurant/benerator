@@ -41,9 +41,9 @@ import org.databene.commons.converter.PropertyArray2JavaBeanConverter;
 import org.databene.commons.converter.util.ClassProvider;
 import org.databene.commons.converter.util.ConstantClassProvider;
 import org.databene.commons.converter.util.ReferenceResolver;
+import org.databene.formats.DataContainer;
+import org.databene.formats.util.ConvertingDataIterator;
 import org.databene.script.ScriptConverterForStrings;
-import org.databene.webdecs.DataContainer;
-import org.databene.webdecs.util.ConvertingDataIterator;
 
 /**
  * Iterates XLS sheets and provides each row as JavaBean instance.<br/><br/>

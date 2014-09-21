@@ -19,45 +19,50 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.formats.xls;
+package org.databene.formats.util;
 
-import java.util.Iterator;
+import java.io.Closeable;
 
+import org.databene.commons.Converter;
+import org.databene.commons.IOUtil;
 import org.databene.formats.DataIterator;
-import org.databene.formats.util.AbstractDataSource;
-import org.databene.formats.xls.XLSLineIterator;
+import org.databene.formats.DataSource;
 
 /**
- * {@link Iterable} implementation which creates {@link Iterator}s 
- * that provide lines of XLS files as array objects.<br/><br/>
- * Created: 19.07.2011 08:36:18
- * @since 0.6.5
+ * {@link DataSource} proxy which applies a {@link Converter} to the source's data.<br/><br/>
+ * Created: 24.07.2011 10:06:31
+ * @since 0.6.0
  * @author Volker Bergmann
  */
-public class XLSLineSource extends AbstractDataSource<Object[]> {
+public class ConvertingDataSource<S, T> extends DataSourceAdapter<S, T> {
+
+	protected Converter<S, T> converter;
 	
-	private String uri;
-	private String sheetName;
-	private boolean formatted;
-
-	public XLSLineSource(String uri) {
-		this(uri, null, false);
-	}
-
-	public XLSLineSource(String uri, String sheetName, boolean formatted) {
-		super(Object[].class);
-		this.uri = uri;
-		this.sheetName = sheetName;
-		this.formatted = formatted;
+	public ConvertingDataSource(DataSource<S> source, Converter<S, T> converter) {
+		super(source, converter.getTargetType());
+		this.converter = converter;
 	}
 
 	@Override
-	public DataIterator<Object[]> iterator() {
-		try {
-			return new XLSLineIterator(uri, sheetName, false, formatted, null);
-		} catch (Exception e) {
-			throw new RuntimeException("Unable to create iterator for URI " + uri, e);
-		}
+	public Class<T> getType() {
+		return converter.getTargetType();
+	}
+
+	@Override
+	public DataIterator<T> iterator() {
+		return new ConvertingDataIterator<S, T>(source.iterator(), converter);
+	}
+	
+	@Override
+	public void close() {
+		if (converter instanceof Closeable)
+			IOUtil.close((Closeable) converter);
+		super.close();
+	}
+	
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + '[' + source + " -> " + converter + ']';
 	}
 
 }

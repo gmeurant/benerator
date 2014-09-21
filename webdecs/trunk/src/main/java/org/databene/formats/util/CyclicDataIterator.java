@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2011-2014 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2012 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -19,45 +19,50 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.formats.xls;
+package org.databene.formats.util;
 
-import java.util.Iterator;
+import java.io.IOException;
 
+import org.databene.commons.IOUtil;
+import org.databene.formats.DataContainer;
 import org.databene.formats.DataIterator;
-import org.databene.formats.util.AbstractDataSource;
-import org.databene.formats.xls.XLSLineIterator;
 
 /**
- * {@link Iterable} implementation which creates {@link Iterator}s 
- * that provide lines of XLS files as array objects.<br/><br/>
- * Created: 19.07.2011 08:36:18
- * @since 0.6.5
+ * Allows repeated iteration through a {@link DataIterator}.<br/><br/>
+ * Created: 22.05.2012 08:58:16
+ * @since 0.6.9
  * @author Volker Bergmann
  */
-public class XLSLineSource extends AbstractDataSource<Object[]> {
+public class CyclicDataIterator<E> extends DataIteratorProxy<E> {
 	
-	private String uri;
-	private String sheetName;
-	private boolean formatted;
+	protected Creator<E> creator;
 
-	public XLSLineSource(String uri) {
-		this(uri, null, false);
+	public CyclicDataIterator(Creator<E> creator) throws IOException {
+		super(creator.create());
+		this.creator = creator;
 	}
-
-	public XLSLineSource(String uri, String sheetName, boolean formatted) {
-		super(Object[].class);
-		this.uri = uri;
-		this.sheetName = sheetName;
-		this.formatted = formatted;
-	}
-
+	
 	@Override
-	public DataIterator<Object[]> iterator() {
+	public synchronized DataContainer<E> next(DataContainer<E> wrapper) {
+		DataContainer<E> result = super.next(wrapper);
+		if (result == null) {
+			reset();
+			result = super.next(wrapper);
+		}
+		return result;
+	}
+
+	public synchronized void reset() {
+		IOUtil.close(source);
 		try {
-			return new XLSLineIterator(uri, sheetName, false, formatted, null);
-		} catch (Exception e) {
-			throw new RuntimeException("Unable to create iterator for URI " + uri, e);
+			source = creator.create();
+		} catch (IOException e) {
+			throw new RuntimeException("Error creating DataIterator", e);
 		}
 	}
-
+	
+	public interface Creator<E> {
+		DataIterator<E> create() throws IOException;
+	}
+	
 }

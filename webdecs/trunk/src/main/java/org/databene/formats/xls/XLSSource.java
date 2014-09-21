@@ -21,9 +21,9 @@
 
 package org.databene.formats.xls;
 
-import org.databene.webdecs.DataIterator;
-import org.databene.webdecs.DataSource;
-import org.databene.webdecs.OrthogonalArrayIterator;
+import org.databene.formats.DataIterator;
+import org.databene.formats.DataSource;
+import org.databene.formats.util.OrthogonalArrayIterator;
 
 /**
  * Defined XLSSource as abstraction for XLS row or column data sources.<br/><br/>

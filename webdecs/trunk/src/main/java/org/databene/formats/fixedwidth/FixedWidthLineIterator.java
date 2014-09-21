@@ -31,8 +31,8 @@ import org.databene.commons.ReaderLineIterator;
 import org.databene.commons.StringUtil;
 import org.databene.commons.SystemInfo;
 import org.databene.commons.format.PadFormat;
-import org.databene.webdecs.DataContainer;
-import org.databene.webdecs.DataIterator;
+import org.databene.formats.DataContainer;
+import org.databene.formats.DataIterator;
 
 import java.io.IOException;
 import java.io.Reader;

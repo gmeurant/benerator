@@ -38,8 +38,8 @@ import org.databene.commons.Converter;
 import org.databene.commons.IOUtil;
 import org.databene.commons.converter.ArrayTypeConverter;
 import org.databene.commons.converter.NoOpConverter;
-import org.databene.webdecs.DataContainer;
-import org.databene.webdecs.DataIterator;
+import org.databene.formats.DataContainer;
+import org.databene.formats.DataIterator;
 
 /**
  * Iterates the lines of a sheet in an Excel document.<br/>

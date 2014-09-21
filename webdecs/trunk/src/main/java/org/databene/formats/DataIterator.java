@@ -19,45 +19,26 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.formats.xls;
+package org.databene.formats;
 
-import java.util.Iterator;
-
-import org.databene.formats.DataIterator;
-import org.databene.formats.util.AbstractDataSource;
-import org.databene.formats.xls.XLSLineIterator;
+import java.io.Closeable;
 
 /**
- * {@link Iterable} implementation which creates {@link Iterator}s 
- * that provide lines of XLS files as array objects.<br/><br/>
- * Created: 19.07.2011 08:36:18
- * @since 0.6.5
+ * Iterates through data. Implementors are expected to be thread-safe.<br/><br/>
+ * Created: 24.07.2011 08:49:16
+ * @since 0.6.0
  * @author Volker Bergmann
  */
-public class XLSLineSource extends AbstractDataSource<Object[]> {
+public interface DataIterator<E> extends Closeable {
 	
-	private String uri;
-	private String sheetName;
-	private boolean formatted;
-
-	public XLSLineSource(String uri) {
-		this(uri, null, false);
-	}
-
-	public XLSLineSource(String uri, String sheetName, boolean formatted) {
-		super(Object[].class);
-		this.uri = uri;
-		this.sheetName = sheetName;
-		this.formatted = formatted;
-	}
-
+	/** Returns the type of the iterated elements. */
+	Class<E> getType();
+	
+	/** Returns the container with the next data element if available, otherwise null. */
+	DataContainer<E> next(DataContainer<E> container);
+	
+	/** Closes the iterator. */
 	@Override
-	public DataIterator<Object[]> iterator() {
-		try {
-			return new XLSLineIterator(uri, sheetName, false, formatted, null);
-		} catch (Exception e) {
-			throw new RuntimeException("Unable to create iterator for URI " + uri, e);
-		}
-	}
-
+	void close();
+	
 }

@@ -26,8 +26,8 @@
 
 package org.databene.formats.csv;
 
+import org.databene.formats.DataContainer;
 import org.databene.formats.csv.CSVLineIterator;
-import org.databene.webdecs.DataContainer;
 import org.junit.Test;
 import static junit.framework.Assert.*;
 

@@ -26,9 +26,9 @@ import java.io.IOException;
 import org.databene.commons.Encodings;
 import org.databene.commons.HeavyweightIterator;
 import org.databene.commons.StringUtil;
-import org.databene.webdecs.DataContainer;
-import org.databene.webdecs.util.DataIteratorAdapter;
-import org.databene.webdecs.util.ThreadLocalDataContainer;
+import org.databene.formats.DataContainer;
+import org.databene.formats.util.DataIteratorAdapter;
+import org.databene.formats.util.ThreadLocalDataContainer;
 
 /**
  * {@link HeavyweightIterator} that iterates through all cells of a single CSV column.<br/><br/>

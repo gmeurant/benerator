@@ -1,5 +1,5 @@
 /*
- * (c) Copyright 2009-2011 by Volker Bergmann. All rights reserved.
+ * (c) Copyright 2014 by Volker Bergmann. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, is permitted under the terms of the
@@ -19,35 +19,25 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.databene.formats.csv;
-
-import java.io.IOException;
-
-import org.databene.formats.DataIterator;
+package org.databene.formats;
 
 /**
- * Factory for all kinds of CSV iterators.<br/><br/>
- * Created: 14.10.2009 11:40:31
- * @since 0.5.0
+ * Address JavaBean for testing.<br/><br/>
+ * Created: 18.09.2014 19:03:30
+ * @since 1.0.0
  * @author Volker Bergmann
  */
-public class CSVIteratorFactory {
 
-	private CSVIteratorFactory() { }
-	
-	public static DataIterator<String> createCSVCellIterator(
-			String uri, char separator, String encoding) throws IOException { 
-		return new CSVCellIterator(uri, separator, encoding);
-	} 
+public class Address {
 
-	public static DataIterator<String> createCSVVellIteratorForColumn(
-			String uri, int column, char separator, boolean ignoreEmptyLines, String encoding) throws IOException { 
-		return new CSVSingleColumIterator(uri, column, separator, ignoreEmptyLines, encoding);
-	} 
+	String city;
 
-	public static DataIterator<String[]> createCSVLineIterator(
-			String uri, char separator, boolean ignoreEmptyLines, String encoding) throws IOException { 
-		return new CSVLineIterator(uri, separator, ignoreEmptyLines, encoding);
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 }
