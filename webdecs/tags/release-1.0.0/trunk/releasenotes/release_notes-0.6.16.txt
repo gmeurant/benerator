@@ -1,7 +1,0 @@
-release notes databene webdecs 0.6.16
--------------------------------------
-
-
-Summary
-------------
-This version is released to benfit from bug fixes in the underlying libraries

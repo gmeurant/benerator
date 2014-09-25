@@ -1,6 +1,0 @@
-release notes databene webdecs 0.7.0
-------------------------------------
-
-Enhancements
-------------
-- Improved configurability of FreeMarker
