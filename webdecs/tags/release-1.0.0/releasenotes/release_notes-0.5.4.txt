@@ -1,0 +1,19 @@
+release notes databene webdecs 0.5.4
+------------------------------------
+
+Summary
+-------
+
+
+
+Enhancements
+------------
+- Supporting hexadecimal entity codes
+- Supporting arbitrary encoding in HTML2XML
+- XLSLineIterator supports XLS file without header when property usingHeaders=false
+- New class SimpleXMLWriter with simpler interface than the JAXP Transformer class
+- Defined XML element parser features (XMLElementParser and ParsingContext)
+
+
+Changes
+-------

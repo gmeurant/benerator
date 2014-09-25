@@ -1,0 +1,28 @@
+release notes databene webdecs 0.5.0
+------------------------------------
+
+Summary
+-------
+The new version mainly features a completely redesigned regular expression parsers and several smaller improvements.
+
+
+Enhancements
+------------
+- Redesigned the regular expression parser based on ANTLR3
+- The DelocalizingConverter now supports all diacritic characters I could find
+- Improvements in XLS file parsing
+- Code cleanup
+- Extended and new utility classes
+- ScriptUtil: Bug fixes and support for programmatic addition of engines
+- New CSV iteration features:
+  - CSVIteratorFactory as single point for CSV iterator construction
+  - added CSVCellIterator from Benerator which iterates through all the cells of a CSV files
+  - added CSVCellIterable from Benerator which creates CSVCellIterators
+  - new SingleColumnCSVIterator which iterates through the cells of a single CSV column
+- ToHexConverter
+- FlatLineParser
+
+
+Changes
+-------
+- Removed QuickScript
